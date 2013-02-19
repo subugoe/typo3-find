@@ -48,9 +48,9 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 		$configuration = array(
 			'endpoint' => array(
 			'localhost' => array(
-				'host' => '127.0.0.1',
-				'port' => 8180,
-				'path' => '/solr/core_de/',
+				'host' => '10.0.4.9',
+				'port' => 8080,
+				'path' => '/solr/edfu/',
 			)
 		));
 
@@ -68,11 +68,12 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 			$this->search = $search;
 			$query->setQuery($search->getQ());
 		} else {
-			$query->setQuery('*');
+			$query->setQuery($this->search->setQ('*'));
 		}
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
-		$facetSet->createFacetField('Type')->setField('type');
+		$facetSet->createFacetField('typ')->setField('typ');
+
 		$resultset = $this->solr->select($query);
 
 		$this->view

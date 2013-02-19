@@ -1,11 +1,13 @@
 <f:render partial="SearchForm" arguments="{_all}" />
-<h3>Found {results.numfound} results for {search.q}</h3>
+<h3>Found {results.numfound} results for <em>{search.q}</em></h3>
 
 <f:for each="{results.documents}" as="document">
 <article>
-	<h1>{document.fields.title}</h1>
-	{document.fields.teaser -> f:format.raw()}
+	<h1 style="font-family: 'Transliteration Font Italic'">{document.fields.transliteration}</h1>
+	{document.fields.anmerkung -> f:format.raw()}
 </article>
 </f:for>
+
+<f:render partial="Pagination" arguments="{_all}" />
 
 <f:render partial="Facets" arguments="{_all}" />
