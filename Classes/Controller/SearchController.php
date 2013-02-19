@@ -43,18 +43,41 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	 */
 	protected $search;
 
+	/**
+	 * @var int
+	 */
+	protected $offset = 0;
+
+	/**
+	 * @var int
+	 */
+	protected $resultsPerPage = 20;
+
+	/**
+	 * @var string
+	 */
+	public $prefixId = 'tx_sublar_sublar';
+
+	/**
+	 * Initializes some defaults
+	 */
 	public function initializeAction() {
 
 		$configuration = array(
 			'endpoint' => array(
 			'localhost' => array(
-				'host' => '10.0.4.9',
-				'port' => 8080,
-				'path' => '/solr/edfu/',
+				'host' => $this->settings['connection']['host'],
+				'port' => intval($this->settings['connection']['port']),
+				'path' => $this->settings['connection']['path'],
 			)
 		));
 
 		$this->solr = new Solarium\Client($configuration);
+
+		if ($this->request->hasArgument('offset')) {
+			$this->offset = $this->request->getArgument('offset') * $this->resultsPerPage;
+		}
+
 	}
 
 	/**
@@ -64,9 +87,14 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 
 		$query = $this->solr->createSelect();
 
+		// offset for pagination
+		$query->setStart($this->offset)->setRows($this->resultsPerPage);
+
 		if ($search) {
 			$this->search = $search;
 			$query->setQuery($search->getQ());
+		} elseif ($this->request->hasArgument('q')) {
+			$query->setQuery($this->request->getArgument('q'));
 		} else {
 			$query->setQuery($this->search->setQ('*'));
 		}
@@ -74,10 +102,10 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 		$facetSet = $query->getFacetSet();
 		$facetSet->createFacetField('typ')->setField('typ');
 
-		$resultset = $this->solr->select($query);
+		$resultSet = $this->solr->select($query);
 
 		$this->view
-				->assign('results', $resultset)
+				->assign('results', $resultSet)
 				->assign('search', $this->search);
 	}
 

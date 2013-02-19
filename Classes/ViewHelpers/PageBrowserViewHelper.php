@@ -26,26 +26,29 @@
  * ************************************************************* */
 
 /**
- * Model for searches
+ * Description 
  */
-class Tx_Sublar_Domain_Model_Search extends Tx_Extbase_DomainObject_AbstractValueObject{
+class Tx_Sublar_ViewHelpers_PageBrowserViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
 	/**
-	 * @var string
-	 */
-	protected $q;
-
-	/**
-	 * @param string $q
-	 */
-	public function setQ($q) {
-		$this->q = $q;
-	}
-
-	/**
+	 * @param int $numberOfPages
+	 * @param string $prefixId
+	 * @param string $pageParameterName
+	 * @param string $searchTerm
 	 * @return string
 	 */
-	public function getQ() {
-		return $this->q;
+	public function render($numberOfPages, $prefixId, $pageParameterName = 'page', $searchTerm) {
+		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_pagebrowse_pi1.'];
+		// Modify this configuration
+		$conf['pageParameterName'] = $prefixId . '|' . $pageParameterName;
+		$conf['numberOfPages'] = $numberOfPages;
+		$conf['extraQueryString'] = '&' . $prefixId . '[q]=' . $searchTerm;
+
+		// Get page browser
+		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		/* @var $cObj tslib_cObj */
+		$cObj->start(array(), '');
+		return $cObj->cObjGetSingle('USER', $conf);
 	}
+
 }

@@ -12,4 +12,6 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 	'Solr Search' // A title shown in the backend dropdown field
 );
 
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Sublar');
+
 ?>

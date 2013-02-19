@@ -1,0 +1,9 @@
+plugin.tx_sublar {
+	settings {
+		connection {
+			host = {$plugin.tx_sublar.settings.connection.host}
+			port = {$plugin.tx_sublar.settings.connection.port}
+			path = {$plugin.tx_sublar.settings.connection.path}
+		}
+	}
+}
