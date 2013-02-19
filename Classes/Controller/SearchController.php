@@ -92,20 +92,24 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 
 		if ($search) {
 			$this->search = $search;
-			$query->setQuery($search->getQ());
+			$searchTerm = $search->getQ();
 		} elseif ($this->request->hasArgument('q')) {
-			$query->setQuery($this->request->getArgument('q'));
+			$searchTerm = $this->request->getArgument('q');
 		} else {
-			$query->setQuery($this->search->setQ('*'));
+			$searchTerm = '*';
 		}
+
+		$query->setQuery($searchTerm);
+
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
-		$facetSet->createFacetField('typ')->setField('typ');
+		$facetSet->createFacetField('Typ')->setField('typ');
 
 		$resultSet = $this->solr->select($query);
 
 		$this->view
 				->assign('results', $resultSet)
+				->assign('searchTerm', $searchTerm)
 				->assign('search', $this->search);
 	}
 
