@@ -51,7 +51,7 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	/**
 	 * @var int
 	 */
-	protected $resultsPerPage = 20;
+	protected $resultsPerPage;
 
 	/**
 	 * @var string
@@ -74,6 +74,8 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 
 		$this->solr = new Solarium\Client($configuration);
 
+		$this->resultsPerPage = intval($this->settings['results']['numberOfResultsPerPage']);
+
 		if ($this->request->hasArgument('offset')) {
 			$this->offset = $this->request->getArgument('offset') * $this->resultsPerPage;
 		}
@@ -90,6 +92,7 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 		// offset for pagination
 		$query->setStart($this->offset)->setRows($this->resultsPerPage);
 
+		// determin searchterm
 		if ($search) {
 			$this->search = $search;
 			$searchTerm = $search->getQ();
@@ -107,9 +110,13 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 
 		$resultSet = $this->solr->select($query);
 
+		// determin number of pages for pagebrowser
+		$numberOfPages = ceil($resultSet->getNumFound() / $this->resultsPerPage);
+
 		$this->view
 				->assign('results', $resultSet)
 				->assign('searchTerm', $searchTerm)
+				->assign('numberOfPages', $numberOfPages)
 				->assign('search', $this->search);
 	}
 

@@ -5,5 +5,8 @@ plugin.tx_sublar {
 			port = 8080
 			path = /solr/
 		}
+		results {
+			numberOfResultsPerPage = 20
+		}
 	}
 }

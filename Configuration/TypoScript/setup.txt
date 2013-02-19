@@ -5,5 +5,8 @@ plugin.tx_sublar {
 			port = {$plugin.tx_sublar.settings.connection.port}
 			path = {$plugin.tx_sublar.settings.connection.path}
 		}
+		results {
+			numberOfResultsPerPage = {$plugin.tx_sublar.settings.results.numberOfResultsPerPage}
+		}
 	}
 }
