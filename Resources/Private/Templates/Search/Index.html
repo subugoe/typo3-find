@@ -1,0 +1,12 @@
+<f:render partial="SearchForm" />
+
+<h3>Found {results.numfound} results</h3>
+
+<f:for each="{results.documents}" as="document">
+<article>
+	<h1>{document.fields.title}</h1>
+	{document.fields.teaser -> f:format.raw()}
+</article>
+</f:for>
+
+<f:render partial="Facets" arguments="{_all}" />

@@ -44,16 +44,29 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 			'localhost' => array(
 				'host' => '127.0.0.1',
 				'port' => 8180,
-				'path' => '/solr/',
+				'path' => '/solr/core_de/',
 			)
 		));
 
 		$this->solr = new Solarium\Client($configuration);
 	}
 
-	public function indexAction() {
-		Tx_Extbase_Utility_Debugger::var_dump($this->solr);
+	/**
+	 * @param String $q
+	 */
+	public function indexAction($q) {
 
+		$query = $this->solr->createSelect();
+
+		$query->setQuery('*');
+
+		// get the facetset component
+		$facetSet = $query->getFacetSet();
+		$facetSet->createFacetField('Type')->setField('type');
+		$resultset = $this->solr->select($query);
+
+		$this->view
+				->assign('results', $resultset);
 	}
 
 }
