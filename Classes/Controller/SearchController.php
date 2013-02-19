@@ -110,6 +110,7 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 		foreach($this->settings['facets'] as $title => $field) {
 			$facetSet->createFacetField($title)->setField($field);
 		}
+
 		// fire the query
 		$resultSet = $this->solr->select($query);
 

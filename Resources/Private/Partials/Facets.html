@@ -5,7 +5,7 @@
 		<ol>
 			<f:for each="{facets.values}" as="values" key="key">
 				<f:if condition="{values} != 0">
-					<li>{key} ({values})</li>
+					<li><f:link.action addQueryString="TRUE" arguments="{facet: label, selected: key}">{key}</f:link.action> ({values})</li>
 				</f:if>
 			</f:for>
 		</ol>

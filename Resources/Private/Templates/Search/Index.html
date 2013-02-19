@@ -6,7 +6,8 @@
 <f:for each="{results.documents}" as="document">
 <article>
 	<h1 style="font-family: 'Transliteration Font Italic'">{document.fields.transliteration}</h1>
-	{document.fields.anmerkung -> f:format.raw()}
+	<p>{document.fields.uebersetzung -> f:format.raw()}</p>
+	<p>{document.fields.anmerkung -> f:format.raw()}</p>
 </article>
 </f:for>
 

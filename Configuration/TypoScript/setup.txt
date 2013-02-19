@@ -9,7 +9,7 @@ plugin.tx_sublar {
 			numberOfResultsPerPage = {$plugin.tx_sublar.settings.results.numberOfResultsPerPage}
 		}
 		facets {
-
+			# identifier = field
 		}
 	}
 }
