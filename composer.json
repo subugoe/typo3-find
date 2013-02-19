@@ -1,0 +1,13 @@
+{
+    "name": "subugoe/sublar",
+    "description": "Solr Extension for TYPO3",
+    "require": {
+        "solarium/solarium": "3.1.0-RC1"
+    },
+    "authors": [
+        {
+            "name": "Ingo Pfennigstorf",
+            "email": "i.pfennigstorf@gmail.com"
+        }
+    ]
+}

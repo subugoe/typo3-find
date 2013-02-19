@@ -1,0 +1,26 @@
+{
+    "name": "solarium/solarium",
+    "type": "library",
+    "description": "PHP Solr client",
+    "keywords": ["solr", "search", "php"],
+    "homepage": "http://www.solarium-project.org",
+    "license": "NewBSD",
+    "authors": [
+        {
+            "name": "See GitHub contributors",
+            "homepage": "https://github.com/basdenooijer/solarium/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/event-dispatcher": ">=2.1.0,<2.3-dev"
+    },
+    "autoload": {
+        "psr-0": { "Solarium": "library/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "3.0-dev"
+        }
+    }
+}
