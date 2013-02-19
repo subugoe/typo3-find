@@ -8,5 +8,8 @@ plugin.tx_sublar {
 		results {
 			numberOfResultsPerPage = {$plugin.tx_sublar.settings.results.numberOfResultsPerPage}
 		}
+		facets {
+
+		}
 	}
 }

@@ -79,7 +79,6 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 		if ($this->request->hasArgument('offset')) {
 			$this->offset = $this->request->getArgument('offset') * $this->resultsPerPage;
 		}
-
 	}
 
 	/**
@@ -106,8 +105,12 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
-		$facetSet->createFacetField('Typ')->setField('typ');
 
+		// define facets
+		foreach($this->settings['facets'] as $title => $field) {
+			$facetSet->createFacetField($title)->setField($field);
+		}
+		// fire the query
 		$resultSet = $this->solr->select($query);
 
 		// determin number of pages for pagebrowser
