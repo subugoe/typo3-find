@@ -26,86 +26,28 @@
  * ************************************************************* */
 
 /**
- * Description 
+ * Model for searches
  */
-class Tx_Sublar_Domain_Model_Solr {
+class Tx_Sublar_Domain_Model_Search extends Tx_Extbase_DomainObject_AbstractValueObject{
 
 	/**
 	 * @var string
 	 */
-	protected $hostname;
+	protected $q;
 
 	/**
-	 * @var int
+	 * @param string $q
 	 */
-	protected $port;
-
-	/**
-	 * @var string
-	 */
-	protected $scheme;
-
-	/**
-	 * @var string
-	 */
-	protected $path;
-
-	/**
-	 * @param string $hostname
-	 */
-	public function setHostname($hostname) {
-		$this->hostname = $hostname;
+	public function setQ($q) {
+		$this->q = $q;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getHostname() {
-		return $this->hostname;
+	public function getQ() {
+		return $this->q;
 	}
-
-	/**
-	 * @param string $path
-	 */
-	public function setPath($path) {
-		$this->path = $path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPath() {
-		return $this->path;
-	}
-
-	/**
-	 * @param int $port
-	 */
-	public function setPort($port) {
-		$this->port = $port;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPort() {
-		return $this->port;
-	}
-
-	/**
-	 * @param string $scheme
-	 */
-	public function setScheme($scheme) {
-		$this->scheme = $scheme;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getScheme() {
-		return $this->scheme;
-	}
-
 
 
 }

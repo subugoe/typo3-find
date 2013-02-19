@@ -1,6 +1,5 @@
-<f:render partial="SearchForm" />
-
-<h3>Found {results.numfound} results</h3>
+<f:render partial="SearchForm" arguments="{_all}" />
+<h3>Found {results.numfound} results for {search.q}</h3>
 
 <f:for each="{results.documents}" as="document">
 <article>

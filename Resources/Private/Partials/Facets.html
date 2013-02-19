@@ -4,7 +4,9 @@
 		<h1>{label}</h1>
 		<ol>
 			<f:for each="{facets.values}" as="values" key="key">
-				<li>{key} ({values})</li>
+				<f:if condition="{values} != 0">
+					<li>{key} ({values})</li>
+				</f:if>
 			</f:for>
 		</ol>
 	</article>

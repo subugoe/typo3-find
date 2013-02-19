@@ -37,6 +37,12 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	 */
 	protected $solr;
 
+	/**
+	 * @var Tx_Sublar_Domain_Model_Search
+	 * @inject
+	 */
+	protected $search;
+
 	public function initializeAction() {
 
 		$configuration = array(
@@ -52,21 +58,26 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	}
 
 	/**
-	 * @param String $q
+	 * @param Tx_Sublar_Domain_Model_Search $search
 	 */
-	public function indexAction($q) {
+	public function indexAction(Tx_Sublar_Domain_Model_Search $search = NULL) {
 
 		$query = $this->solr->createSelect();
 
-		$query->setQuery('*');
-
+		if ($search) {
+			$this->search = $search;
+			$query->setQuery($search->getQ());
+		} else {
+			$query->setQuery('*');
+		}
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
 		$facetSet->createFacetField('Type')->setField('type');
 		$resultset = $this->solr->select($query);
 
 		$this->view
-				->assign('results', $resultset);
+				->assign('results', $resultset)
+				->assign('search', $this->search);
 	}
 
 }
