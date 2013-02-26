@@ -6,14 +6,14 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="facet.1">Type</label>
+			<label index="facet.type">Type</label>
 		</languageKey>
 		<languageKey index="en" type="array">
-			<label index="facet.1">Type</label>
+			<label index="facet.type">Type</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
-			<label index="facet.1">Typ</label>
+			<label index="facet.type">Typ</label>
 		</languageKey>
 	</data>
 </T3locallang>

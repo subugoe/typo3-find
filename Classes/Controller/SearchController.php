@@ -107,9 +107,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$facetSet = $query->getFacetSet();
 
 		if (!empty($this->settings['facets'])) {
+			// @todo sort array
 			// define facets
 			foreach($this->settings['facets'] as $title => $field) {
-				$facetSet->createFacetField($title . '')->setField($field);
+				$facetSet->createFacetField($field . '')->setField($field);
 			}
 		}
 		// fire the query
