@@ -12,6 +12,9 @@ plugin.tx_solrfrontend {
 			# 1 = fieldName
 			# 2 = anotherFieldName
 		}
+		extraParameters {
+			# df = hrdr
+		}
 		CSSPath = {$plugin.tx_solrfrontend.settings.CSSPath}
 	}
 	view {

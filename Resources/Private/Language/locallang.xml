@@ -11,7 +11,6 @@
 		<languageKey index="en" type="array">
 			<label index="facet.1">Type</label>
 		</languageKey>
-
 		<languageKey index="de" type="array">
 			<label index="facet.1">Typ</label>
 		</languageKey>
