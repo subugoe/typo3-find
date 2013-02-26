@@ -9,7 +9,8 @@ plugin.tx_solrfrontend {
 			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
 		}
 		facets {
-			# identifier = field
+			# 1 = fieldName
+			# 2 = anotherFieldName
 		}
 	}
 	view {

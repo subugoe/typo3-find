@@ -1,7 +1,7 @@
 <h3>Facets</h3>
 <f:for each="{results.components.facetset.facets}" as="facets" key="label" iteration="facetIterator">
 	<article>
-		<h1>{label}</h1>
+		<h1><f:translate key="facet.{label}" /></h1>
 		<ol>
 			<f:for each="{facets.values}" as="values" key="key">
 				<f:if condition="{values} != 0">

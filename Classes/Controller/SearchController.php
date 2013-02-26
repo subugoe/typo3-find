@@ -109,13 +109,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if (!empty($this->settings['facets'])) {
 			// define facets
 			foreach($this->settings['facets'] as $title => $field) {
-				$facetSet->createFacetField($title)->setField($field);
+				$facetSet->createFacetField($title . '')->setField($field);
 			}
 		}
 		// fire the query
 		$resultSet = $this->solr->select($query);
 
-		// determin number of pages for pagebrowser
+		// determine number of pages for pagebrowser
 		$numberOfPages = ceil($resultSet->getNumFound() / $this->resultsPerPage);
 
 		$this->view
