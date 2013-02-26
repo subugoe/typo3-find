@@ -12,4 +12,10 @@ plugin.tx_solrfrontend {
 			# identifier = field
 		}
 	}
+	view {
+		templateRootPath = {$plugin.tx_solrfrontend.view.templateRootPath}
+		partialRootPath = {$plugin.tx_solrfrontend.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_solrfrontend.view.layoutRootPath}
+		defaultPid = auto
+	}
 }
