@@ -3,7 +3,30 @@
 .tx_solr_frontend {
 }
 
-.tx_solr_frontend.facets {
-	width: 200px;
+.tx_solr_frontend .resultList {
+	float: left;
+	margin-right: 220px;
+}
+
+.tx_solr_frontend .facets {
 	float: right;
+	width: 200px;
+}
+
+.tx_solr_frontend .facets ol {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.tx_solr_frontend .facets a {
+	display: block;
+}
+
+.tx_solr_frontend .facetCount {
+	color: #666;
+	font-size: 80%;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 {
+	clear: both;
 }

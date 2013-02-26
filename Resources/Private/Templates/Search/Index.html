@@ -1,17 +1,23 @@
-<f:render partial="SearchForm" arguments="{_all}" />
-<h3>Found {results.numfound} results for <em>{searchTerm}</em></h3>
+<f:layout name="Default"/>
+<f:section name="main">
+	<f:render partial="SearchForm" arguments="{_all}" />
+	
+	<div class="results">
+		<h3>Found {results.numfound} results for <em>{searchTerm}</em></h3>
 
-<f:render partial="Pagination" arguments="{_all}" />
+		<f:render partial="Pagination" arguments="{_all}"/>
 
-<f:for each="{results.documents}" as="document">
-<article>
-	<h1>{document.fields.title}</h1>
-	<p>{document.fields.teaser -> f:format.raw()}</p>
-</article>
-</f:for>
+		<!-- TODO: start attribute -->
+		<ol class="resultList">
+			<f:for each="{results.documents}" as="document">
+				<f:render partial="Result" arguments="{document: document}"/>
+			</f:for>
+		</ol>
+		<f:debug>{_all}</f:debug>
+		
+		<f:render partial="Facets" arguments="{_all}"/>
 
-<f:render partial="Pagination" arguments="{_all}" />
-
-<f:if condition="{results.components.facetset.facets}">
-	<f:render partial="Facets" arguments="{_all}" />
-</f:if>
+		<f:render partial="Pagination" arguments="{_all}"/>
+	</div>
+	
+</f:section>

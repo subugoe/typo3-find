@@ -1,13 +1,22 @@
-<h3>Facets</h3>
-<f:for each="{results.components.facetset.facets}" as="facets" key="label" iteration="facetIterator">
-	<article>
-		<h1><f:translate key="facet.{label}" /></h1>
-		<ol>
-			<f:for each="{facets.values}" as="values" key="key">
-				<f:if condition="{values} != 0">
-					<li><f:link.action addQueryString="TRUE" arguments="{facet: label, selected: key}">{key}</f:link.action> ({values})</li>
-				</f:if>
-			</f:for>
-		</ol>
-	</article>
-</f:for>
+<f:if condition="{results.components.facetset.facets}">
+	<div class="facets">
+		<h3>Facets</h3>
+		<f:for each="{results.components.facetset.facets}" as="facet" key="label">
+			<article>
+				<h1><f:translate key="facet.{label}" default="{label}"/></h1>
+				<ol>
+					<f:for each="{facet.values}" as="value" key="key">
+						<f:if condition="{value} != 0">
+							<li>
+								<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key}">
+									<span class="facetName">{key}</span>
+									<span class="facetCount">{value}</span>
+								</f:link.action>
+							</li>
+						</f:if>
+					</f:for>
+				</ol>
+			</article>
+		</f:for>
+	</div>
+</f:if>
