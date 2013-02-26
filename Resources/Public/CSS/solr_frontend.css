@@ -1,0 +1,9 @@
+/* Default CSS for solr_frontend. */
+
+.tx_solr_frontend {
+}
+
+.tx_solr_frontend.facets {
+	width: 200px;
+	float: right;
+}

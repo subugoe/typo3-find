@@ -139,15 +139,24 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Creates and inserts tags inside <head>.
 	 */
 	protected function addResourcesToHead () {
-		// Add default CSS to head.
-		$cssTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
-		$cssTag->addAttribute('rel', 'stylesheet');
-		$cssTag->addAttribute('type', 'text/css');
-		$fileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['CSSPath']);
-		if ($fileName) {
-			$cssTag->addAttribute('href', $fileName);
-			$cssTag->addAttribute('media', 'all');
+		// Add CSS to head: Custom file if configured, included default file otherwise.
+		$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['CSSPath']);
+		if ($CSSFileName) {
+			$cssTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
+			$cssTag->addAttribute('rel', 'stylesheet');
+			$cssTag->addAttribute('type', 'text/css');
+			$cssTag->addAttribute('href', $CSSFileName);
 			$this->response->addAdditionalHeaderData( $cssTag->render() );
+		}
+		
+		// Add JavaScript to head: Custom file if configured, included default file otherwise.
+		$scriptFileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['JSPath']);
+		if ($scriptFileName) {
+			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
+			$scriptTag->addAttribute('type', 'text/javascript');
+			$scriptTag->addAttribute('src', $scriptFileName);
+			$scriptTag->forceClosingTag(true);
+			$this->response->addAdditionalHeaderData( $scriptTag->render() );
 		}
 	}
 

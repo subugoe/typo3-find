@@ -9,13 +9,14 @@ plugin.tx_solrfrontend {
 			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
 		}
 		facets {
-			# 1 = fieldName
+			1 = type
 			# 2 = anotherFieldName
 		}
 		extraParameters {
 			# df = hrdr
 		}
 		CSSPath = {$plugin.tx_solrfrontend.settings.CSSPath}
+		JSPath = {$plugin.tx_solrfrontend.settings.JSPath}
 	}
 	view {
 		templateRootPath = {$plugin.tx_solrfrontend.view.templateRootPath}

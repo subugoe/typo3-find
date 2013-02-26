@@ -1,0 +1,1 @@
+// Default JavaScript for solr_frontend

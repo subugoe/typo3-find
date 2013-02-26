@@ -9,7 +9,9 @@ plugin.tx_solrfrontend {
 			numberOfResultsPerPage = 20
 		}
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to CSS file (FE)
-		CSSPath = EXT:solr_frontend/Resources/Public/CSS/solr-frontend.css
+		CSSPath = EXT:solr_frontend/Resources/Public/CSS/solr_frontend.css
+		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to JavaScript file (FE)
+		JSPath = EXT:solr_frontend/Resources/Public/JavaScript/solr_frontend.js
 	}
 	view {
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template root (FE)
