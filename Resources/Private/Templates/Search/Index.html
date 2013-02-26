@@ -13,4 +13,6 @@
 
 <f:render partial="Pagination" arguments="{_all}" />
 
-<f:render partial="Facets" arguments="{_all}" />
+<f:if condition="{results.components.facetset.facets}">
+	<f:render partial="Facets" arguments="{_all}" />
+</f:if>

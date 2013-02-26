@@ -91,7 +91,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// offset for pagination
 		$query->setStart($this->offset)->setRows($this->resultsPerPage);
 
-		// determin searchterm
+		// determine searchterm
 		if ($search) {
 			$this->search = $search;
 			$searchTerm = $search->getQ();
@@ -106,11 +106,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
 
-		// define facets
-		foreach($this->settings['facets'] as $title => $field) {
-			$facetSet->createFacetField($title)->setField($field);
+		if (!empty($this->settings['facets'])) {
+			// define facets
+			foreach($this->settings['facets'] as $title => $field) {
+				$facetSet->createFacetField($title)->setField($field);
+			}
 		}
-
 		// fire the query
 		$resultSet = $this->solr->select($query);
 
