@@ -8,13 +8,15 @@ plugin.tx_solrfrontend {
 		results {
 			numberOfResultsPerPage = 20
 		}
+		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to CSS file (FE)
+		CSSPath = EXT:solr_frontend/Resources/Public/CSS/solr-frontend.css
 	}
 	view {
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template root (FE)
-		templateRootPath = EXT:tx_solrfrontend/Resources/Private/Templates/
+		templateRootPath = EXT:solr_frontend/Resources/Private/Templates/
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template partials (FE)
-		partialRootPath = EXT:tx_solrfrontend/Resources/Private/Partials/
+		partialRootPath = EXT:solr_frontend/Resources/Private/Partials/
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template layouts (FE)
-		layoutRootPath = EXT:tx_solrfrontend/Resources/Private/Layouts/
+		layoutRootPath = EXT:solr_frontend/Resources/Private/Layouts/
 	}
 }

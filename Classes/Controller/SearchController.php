@@ -62,7 +62,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Initializes some defaults
 	 */
 	public function initializeAction() {
-
+		$this->addResourcesToHead();
+		
 		$configuration = array(
 			'endpoint' => array(
 			'localhost' => array(
@@ -85,7 +86,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @param Tx_SolrFrontend_Domain_Model_Search $search
 	 */
 	public function indexAction(Tx_SolrFrontend_Domain_Model_Search $search = NULL) {
-
 		$query = $this->solr->createSelect();
 
 		// offset for pagination
@@ -123,6 +123,23 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('searchTerm', $searchTerm)
 				->assign('numberOfPages', $numberOfPages)
 				->assign('search', $this->search);
+	}
+
+
+	/**
+	 * Creates and inserts tags inside <head>.
+	 */
+	protected function addResourcesToHead () {
+		// Add default CSS to head.
+		$cssTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
+		$cssTag->addAttribute('rel', 'stylesheet');
+		$cssTag->addAttribute('type', 'text/css');
+		$fileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['CSSPath']);
+		if ($fileName) {
+			$cssTag->addAttribute('href', $fileName);
+			$cssTag->addAttribute('media', 'all');
+			$this->response->addAdditionalHeaderData( $cssTag->render() );
+		}
 	}
 
 }
