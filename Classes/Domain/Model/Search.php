@@ -28,7 +28,7 @@
 /**
  * Model for searches
  */
-class Tx_Sublar_Domain_Model_Search extends Tx_Extbase_DomainObject_AbstractValueObject{
+class Tx_SolrFrontend_Domain_Model_Search extends Tx_Extbase_DomainObject_AbstractValueObject{
 
 	/**
 	 * @var string

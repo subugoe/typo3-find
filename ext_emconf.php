@@ -11,7 +11,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Sublar',
+	'title' => 'SolrFrontend',
 	'description' => 'Solr Extension',
 	'category' => 'frontend',
 	'shy' => 0,

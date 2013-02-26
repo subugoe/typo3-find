@@ -25,12 +25,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once(t3lib_extMgm::extPath('sublar') . 'vendor/autoload.php');
+require_once(t3lib_extMgm::extPath('solr_frontend') . 'vendor/autoload.php');
 
 /**
  * Description
  */
-class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
 	 * @var \Solarium\Client
@@ -38,7 +38,7 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	protected $solr;
 
 	/**
-	 * @var Tx_Sublar_Domain_Model_Search
+	 * @var Tx_SolrFrontend_Domain_Model_Search
 	 * @inject
 	 */
 	protected $search;
@@ -56,7 +56,7 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	/**
 	 * @var string
 	 */
-	public $prefixId = 'tx_sublar_sublar';
+	public $prefixId = 'tx_solr_frontend';
 
 	/**
 	 * Initializes some defaults
@@ -82,9 +82,9 @@ class Tx_Sublar_Controller_SearchController extends Tx_Extbase_MVC_Controller_Ac
 	}
 
 	/**
-	 * @param Tx_Sublar_Domain_Model_Search $search
+	 * @param Tx_SolrFrontend_Domain_Model_Search $search
 	 */
-	public function indexAction(Tx_Sublar_Domain_Model_Search $search = NULL) {
+	public function indexAction(Tx_SolrFrontend_Domain_Model_Search $search = NULL) {
 
 		$query = $this->solr->createSelect();
 

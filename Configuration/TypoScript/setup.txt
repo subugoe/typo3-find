@@ -1,12 +1,12 @@
-plugin.tx_sublar {
+plugin.tx_solrfrontend {
 	settings {
 		connection {
-			host = {$plugin.tx_sublar.settings.connection.host}
-			port = {$plugin.tx_sublar.settings.connection.port}
-			path = {$plugin.tx_sublar.settings.connection.path}
+			host = {$plugin.tx_solrfrontend.settings.connection.host}
+			port = {$plugin.tx_solrfrontend.settings.connection.port}
+			path = {$plugin.tx_solrfrontend.settings.connection.path}
 		}
 		results {
-			numberOfResultsPerPage = {$plugin.tx_sublar.settings.results.numberOfResultsPerPage}
+			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
 		}
 		facets {
 			# identifier = field

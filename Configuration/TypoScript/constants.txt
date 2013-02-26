@@ -1,4 +1,4 @@
-plugin.tx_sublar {
+plugin.tx_solrfrontend {
 	settings {
 		connection {
 			host = 127.0.0.1
