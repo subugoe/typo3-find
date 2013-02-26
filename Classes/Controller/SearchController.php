@@ -101,6 +101,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$searchTerm = '*';
 		}
 
+		// extra parameters a.k.a filter query
+		if (!empty($this->settings['extraParameters'])) {
+			// define filters
+			foreach($this->settings['extraParameters'] as $title => $field) {
+				$query->createFilterQuery($title)->setQuery($title . ':' . $field);
+			}
+		}
+
 		$query->setQuery($searchTerm);
 
 		// get the facetset component
