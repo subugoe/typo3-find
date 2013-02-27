@@ -56,7 +56,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * @var string
 	 */
-	public $prefixId = 'tx_solr_frontend';
+	public $prefixId = 'tx_solrfrontend_solrfrontend';
 
 	/**
 	 * Initializes some defaults
@@ -131,7 +131,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('results', $resultSet)
 				->assign('searchTerm', $searchTerm)
 				->assign('numberOfPages', $numberOfPages)
-				->assign('search', $this->search);
+				->assign('search', $this->search)
+				->assign('prefixId', $this->prefixId);
 	}
 
 
