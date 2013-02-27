@@ -8,7 +8,7 @@
 					<f:for each="{facet.values}" as="value" key="key">
 						<f:if condition="{value} != 0">
 							<li>
-								<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key}">
+								<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q: results.query.options.query}">
 									<span class="facetName">{key}</span>
 									<span class="facetCount">{value}</span>
 								</f:link.action>
