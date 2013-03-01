@@ -1,22 +1,27 @@
 <f:if condition="{results.components.facetset.facets}">
 	<div class="facets">
-		<h3>Facets</h3>
+		<h3 class="invisible">
+			<f:translate key="Facets"/>
+			<a href="#c{uid}-resultList">
+				<f:translate key="Jump to results"/>
+			</a>
+		</h3>
 		<f:for each="{results.components.facetset.facets}" as="facet" key="label">
-			<article>
-				<h1><f:translate key="facet.{label}" default="{label}"/></h1>
-				<ol>
-					<f:for each="{facet.values}" as="value" key="key">
-						<f:if condition="{value} != 0">
-							<li>
-								<f:link.action addQueryString="TRUE" arguments="{facet: {facetCounter: facetCounter, key: key, value: value }, q: results.query.options.query}">
-									<span class="facetName">{key}</span>
-									<span class="facetCount">{value}</span>
-								</f:link.action>
-							</li>
-						</f:if>
-					</f:for>
-				</ol>
-			</article>
+			<h4>
+				<f:translate key="facet.{label}" default="{label}"/>
+			</h4>
+			<ol>
+				<f:for each="{facet.values}" as="value" key="key">
+					<f:if condition="{value} != 0">
+						<li>
+							<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q: results.query.options.query}">
+								<span class="facetName">{key}</span>
+								<span class="facetCount">{value}</span>
+							</f:link.action>
+						</li>
+					</f:if>
+				</f:for>
+			</ol>
 		</f:for>
 	</div>
 </f:if>

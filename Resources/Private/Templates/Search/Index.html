@@ -7,13 +7,14 @@
 
 		<f:render partial="Pagination" arguments="{_all}"/>
 
+		<f:render partial="Facets" arguments="{_all}"/>
+
 		<!-- TODO: start attribute -->
-		<ol class="resultList">
+		<ol id="c{uid}-resultList" class="resultList" start="{results.data.response.start}">
 			<f:for each="{results.documents}" as="document">
 				<f:render partial="Result" arguments="{document: document}"/>
 			</f:for>
 		</ol>
-		<f:render partial="Facets" arguments="{_all}"/>
 
 		<f:render partial="Pagination" arguments="{_all}"/>
 	</div>

@@ -4,8 +4,8 @@
 }
 
 .tx_solr_frontend .resultList {
-	float: left;
 	margin-right: 220px;
+	padding-left: 3em;
 }
 
 .tx_solr_frontend .facets {
@@ -29,4 +29,5 @@
 
 .tx_solr_frontend .tx-pagebrowse-pi1 {
 	clear: both;
+	margin-right: 220px;
 }
