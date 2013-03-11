@@ -37,10 +37,7 @@ class Tx_SolrFrontend_Hooks_PageBrowse {
 	 * @param $object
 	 */
 	public function addAdditionalMarkers(&$params, $object) {
-
 		$params['markers']['###LAST_PAGE###'] = $params['numberOfPages'];
-
-		$parameter = $params;
 	}
 
 }
