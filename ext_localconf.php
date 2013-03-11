@@ -13,3 +13,5 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Search' => 'index', // The first controller and its first action will be the default
 	)
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pagebrowse']['additionalMarkers'][] = 'Tx_SolrFrontend_Hooks_PageBrowse->addAdditionalMarkers';

@@ -54,6 +54,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected $resultsPerPage;
 
 	/**
+	 * Counting current facets
+	 *
+	 * @var int
+	 */
+	protected $facetCounter = 0;
+
+	/**
 	 * @var string
 	 */
 	public $prefixId = 'tx_solrfrontend_solrfrontend';
@@ -140,6 +147,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('searchTerm', $searchTerm)
 				->assign('numberOfPages', $numberOfPages)
 				->assign('search', $this->search)
+				->assign('facetCounter', $this->facetCounter)
 				->assign('prefixId', $this->prefixId);
 	}
 
