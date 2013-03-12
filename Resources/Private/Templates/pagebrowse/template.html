@@ -1,72 +1,58 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Page browser template</title>
-<!-- ###HEADER_ADDITIONS### begin -->
-<link rel="stylesheet" type="text/css" href="###SITE_REL_PATH###res/styles_min.css" />
-<!-- ###HEADER_ADDITIONS### end -->
 </head>
 <body>
-
 <h1>Page browser</h1>
 <!-- ###PAGE_BROWSER### begin -->
-<!--TYPO3SEARCH_end-->
-<ul class="tx-pagebrowse">
-	<!-- ###ACTIVE_FIRST### begin -->
-	<li class="tx-pagebrowse-first"><a href="###FIRST_LINK###">###TEXT_FIRST###</a></li>
-	<!-- ###ACTIVE_FIRST### end -->
-
-	<!-- ###INACTIVE_FIRST### begin -->
-	<li class="tx-pagebrowse-first">###TEXT_FIRST###</li>
-	<!-- ###INACTIVE_FIRST### end -->
-
+<div class="tx-pagebrowse page-count-###LAST_PAGE###">
 	<!-- ###ACTIVE_PREV### begin -->
-	<li class="tx-pagebrowse-prev"><a href="###PREV_LINK###">###TEXT_PREV###</a></li>
+	<span class="tx-pagebrowse-prev"><a href="###PREV_LINK###">«</a></span>
 	<!-- ###ACTIVE_PREV### end -->
 
 	<!-- ###INACTIVE_PREV### begin -->
-	<li class="tx-pagebrowse-prev">###TEXT_PREV###</li>
+	<span class="tx-pagebrowse-prev"><a>«</a></span>
 	<!-- ###INACTIVE_PREV### end -->
 
 	<!-- ###PAGES### begin -->
-	<li class="tx-pagebrowse-pages">
-		<ol>
-			<!--  ###LESS_PAGES### begin -->
-			<li>...</li>
-			<!--  ###LESS_PAGES### end -->
-			<!-- ###PAGE### begin -->
-			<li class="tx-pagebrowse-page"><a href="###LINK###">###NUMBER_DISPLAY###</a></li>
-			<!-- ###PAGE### end -->
-			<!-- ###CURRENT### begin -->
-			<li class="tx-pagebrowse-current">###NUMBER_DISPLAY###</li>
-			<!-- ###CURRENT### end -->
-			<!--  ###MORE_PAGES### begin -->
-			<li>...</li>
-			<!--  ###MORE_PAGES### end -->
-		</ol>
-	</li>
+	<ol class="tx-pagebrowse-pages">
+		<!-- ###ACTIVE_FIRST### begin -->
+		<li class="tx-pagebrowse-first"><a href="###FIRST_LINK###">1</a></li>
+		<!-- ###ACTIVE_FIRST### end -->
+
+		<!--  ###LESS_PAGES### begin -->
+		<li class="tx-pagebrowse-gap">...</li>
+		<!--  ###LESS_PAGES### end -->
+		
+		<!-- ###PAGE### begin -->
+		<li class="tx-pagebrowse-page"><a href="###LINK###">###NUMBER_DISPLAY###</a></li>
+		<!-- ###PAGE### end -->
+
+		<!-- ###CURRENT### begin -->
+		<li class="tx-pagebrowse-current">###NUMBER_DISPLAY###</li>
+		<!-- ###CURRENT### end -->
+
+		<!--  ###MORE_PAGES### begin -->
+		<li class="tx-pagebrowse-gap">...</li>
+		<!--  ###MORE_PAGES### end -->
+
+		<!-- ###ACTIVE_LAST### begin -->
+		<li class="tx-pagebrowse-last"><a href="###LAST_LINK###">###LAST_PAGE###</a></li>
+		<!-- ###ACTIVE_LAST### end -->
+	</ol>
 	<!-- ###PAGES### end -->
 
 	<!-- ###ACTIVE_NEXT### begin -->
-	<li class="tx-pagebrowse-next"><a href="###NEXT_LINK###">###TEXT_NEXT###</a></li>
+	<span class="tx-pagebrowse-next"><a href="###NEXT_LINK###">»</a></span>
 	<!-- ###ACTIVE_NEXT### end -->
 
 	<!-- ###INACTIVE_NEXT### begin -->
-	<li class="tx-pagebrowse-next">###TEXT_NEXT###</li>
+	<span class="tx-pagebrowse-next">»</span>
 	<!-- ###INACTIVE_NEXT### end -->
 
-	<!-- ###ACTIVE_LAST### begin -->
-	<li class="tx-pagebrowse-last"><a href="###LAST_LINK###">###TEXT_LAST###</a></li>
-	<!-- ###ACTIVE_LAST### end -->
-
-	<!-- ###INACTIVE_LAST### begin -->
-	<li class="tx-pagebrowse-last">###TEXT_LAST###</li>
-	<!-- ###INACTIVE_LAST### end -->
-
-</ul>
-<!--TYPO3SEARCH_begin-->
+</div>
 <!-- ###PAGE_BROWSER### end -->
-
 </body>
 </html>

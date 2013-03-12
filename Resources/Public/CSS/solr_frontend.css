@@ -27,7 +27,31 @@
 	font-size: 80%;
 }
 
+
+
+/* page browser */
+
 .tx_solr_frontend .tx-pagebrowse-pi1 {
 	clear: both;
 	margin-right: 220px;
+	text-align: center;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 * {
+	margin: 0;
+	padding: 0;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 ol {
+	display: inline;
+	list-style-type: none;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 ol li {
+	display: inline;
+	margin: 0.3em;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 .tx-pagebrowse-current {
+	font-weight: bold;
 }
