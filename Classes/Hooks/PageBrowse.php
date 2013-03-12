@@ -33,7 +33,8 @@ class Tx_SolrFrontend_Hooks_PageBrowse {
 
 	/**
 	 * Add extra marker for the last page.
-	 * Suppress less/more ellipses when just next to the first/last page.
+	 * Add subpart to show/hide the first/last page number when it is part of the current group.
+	 * Add subpart to show/hide ellipses when just next to the first/last page.
 	 *
 	 * Note: $this->currentPage is the page number - 1
 	 *
