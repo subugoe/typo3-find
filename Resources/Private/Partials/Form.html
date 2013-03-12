@@ -1,0 +1,13 @@
+<f:form action="index" object="{search}" name="search">
+	<f:form.textfield type="search" name="q" property="q" value="{searchTerm}"/>
+
+	<f:if condition="settings.extendedSearch">
+		<div class="extraFields">
+			<f:for each="{settings.extendedSearch}" as="fieldInfo">
+				<f:render partial="FormField" arguments="{_all}"/>
+			</f:for>
+		</div>
+	</f:if>
+
+	<f:form.submit value="Search"/>
+</f:form>

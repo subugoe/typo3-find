@@ -5,6 +5,41 @@ plugin.tx_solrfrontend {
 			port = {$plugin.tx_solrfrontend.settings.connection.port}
 			path = {$plugin.tx_solrfrontend.settings.connection.path}
 		}
+		extendedSearch {
+			10 {
+				id = person
+				field = person
+				type = text
+			}
+			20 {
+				id = done
+				field = done
+				type = checkbox
+				default = 0
+			}
+			30 {
+				id = country
+				field = country
+				type = select
+				options {
+					blank = 
+					key = value
+					key2 = value2
+				}
+				default = key
+			}
+			40 {
+				id = version
+				field = version
+				type = radio
+				options {
+					1 = Steak
+					2 = Chicken
+					3 = Pancake
+				}
+				default = 1
+			}
+		}
 		results {
 			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
 		}
@@ -22,6 +57,8 @@ plugin.tx_solrfrontend {
 		templateRootPath = {$plugin.tx_solrfrontend.view.templateRootPath}
 		partialRootPath = {$plugin.tx_solrfrontend.view.partialRootPath}
 		layoutRootPath = {$plugin.tx_solrfrontend.view.layoutRootPath}
+
+
 		defaultPid = auto
 	}
 }
