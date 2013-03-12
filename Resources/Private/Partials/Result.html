@@ -1,6 +1,18 @@
 <li>
 	<article>
-		<h1>{document.fields.title}</h1>
-		<p>{document.fields.teaser -> f:format.raw()}</p>
+		<h1>
+			<f:for each="{document.fields}" as="value" key="key">
+				<f:if condition="{0:key}=={0:settings.standardFields.title}">
+					{value}
+				</f:if>
+			</f:for>
+		</h1>
+		<p>
+			<f:for each="{document.fields}" as="value" key="key">
+				<f:if condition="{0:key}=={0:settings.standardFields.snippet}">
+					{value}
+				</f:if>
+			</f:for>
+		</p>
 	</article>
 </li>
