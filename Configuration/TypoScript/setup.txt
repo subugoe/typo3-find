@@ -25,3 +25,6 @@ plugin.tx_solrfrontend {
 		defaultPid = auto
 	}
 }
+
+
+plugin.tx_pagebrowse_pi1.templateFile = EXT:solr_frontend/Resources/Private/Templates/pagebrowse/template.html
