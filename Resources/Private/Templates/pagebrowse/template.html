@@ -9,47 +9,51 @@
 <!-- ###PAGE_BROWSER### begin -->
 <div class="tx-pagebrowse page-count-###LAST_PAGE###">
 	<!-- ###ACTIVE_PREV### begin -->
-	<span class="tx-pagebrowse-prev"><a href="###PREV_LINK###">«</a></span>
+		<span class="tx-pagebrowse-prev"><a href="###PREV_LINK###">«</a></span>
 	<!-- ###ACTIVE_PREV### end -->
 
 	<!-- ###INACTIVE_PREV### begin -->
-	<span class="tx-pagebrowse-prev"><a>«</a></span>
+		<span class="tx-pagebrowse-prev"><a>«</a></span>
 	<!-- ###INACTIVE_PREV### end -->
 
 	<!-- ###PAGES### begin -->
-	<ol class="tx-pagebrowse-pages">
-		<!-- ###ACTIVE_FIRST### begin -->
-		<li class="tx-pagebrowse-first"><a href="###FIRST_LINK###">1</a></li>
-		<!-- ###ACTIVE_FIRST### end -->
+		<ol class="tx-pagebrowse-pages">
+			<!-- ###MAIN_GROUP_NOT_FIRST### begin -->
+				<!-- ###ACTIVE_FIRST### begin -->
+					<li class="tx-pagebrowse-first"><a href="###FIRST_LINK###">1</a></li>
+				<!-- ###ACTIVE_FIRST### end -->
 
-		<!--  ###LESS_PAGES### begin -->
-		<li class="tx-pagebrowse-gap">...</li>
-		<!--  ###LESS_PAGES### end -->
-		
-		<!-- ###PAGE### begin -->
-		<li class="tx-pagebrowse-page"><a href="###LINK###">###NUMBER_DISPLAY###</a></li>
-		<!-- ###PAGE### end -->
+				<!-- ###LESS_PAGES### begin -->
+					<li class="tx-pagebrowse-gap">…</li>
+				<!-- ###LESS_PAGES### end -->
+			<!-- ###MAIN_GROUP_NOT_FIRST### end -->
 
-		<!-- ###CURRENT### begin -->
-		<li class="tx-pagebrowse-current">###NUMBER_DISPLAY###</li>
-		<!-- ###CURRENT### end -->
+			<!-- ###PAGE### begin -->
+				<li class="tx-pagebrowse-page"><a href="###LINK###">###NUMBER_DISPLAY###</a></li>
+			<!-- ###PAGE### end -->
 
-		<!--  ###MORE_PAGES### begin -->
-		<li class="tx-pagebrowse-gap">...</li>
-		<!--  ###MORE_PAGES### end -->
+			<!-- ###CURRENT### begin -->
+				<li class="tx-pagebrowse-current">###NUMBER_DISPLAY###</li>
+			<!-- ###CURRENT### end -->
 
-		<!-- ###ACTIVE_LAST### begin -->
-		<li class="tx-pagebrowse-last"><a href="###LAST_LINK###">###LAST_PAGE###</a></li>
-		<!-- ###ACTIVE_LAST### end -->
-	</ol>
+			<!-- ###MAIN_GROUP_NOT_LAST### begin -->
+				<!-- ###MORE_PAGES### begin -->
+					<li class="tx-pagebrowse-gap">…</li>
+				<!-- ###MORE_PAGES### end -->
+
+				<!-- ###ACTIVE_LAST### begin -->
+				<li class="tx-pagebrowse-last"><a href="###LAST_LINK###">###LAST_PAGE###</a></li>
+				<!-- ###ACTIVE_LAST### end -->
+			<!-- ###MAIN_GROUP_NOT_LAST### end -->
+		</ol>
 	<!-- ###PAGES### end -->
 
 	<!-- ###ACTIVE_NEXT### begin -->
-	<span class="tx-pagebrowse-next"><a href="###NEXT_LINK###">»</a></span>
+		<span class="tx-pagebrowse-next"><a href="###NEXT_LINK###">»</a></span>
 	<!-- ###ACTIVE_NEXT### end -->
 
 	<!-- ###INACTIVE_NEXT### begin -->
-	<span class="tx-pagebrowse-next">»</span>
+		<span class="tx-pagebrowse-next">»</span>
 	<!-- ###INACTIVE_NEXT### end -->
 
 </div>
