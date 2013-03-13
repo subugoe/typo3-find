@@ -8,18 +8,20 @@ plugin.tx_solrfrontend {
 		extendedSearch {
 			10 {
 				id = person
-				field = person
+				type = text
+			}
+			15 {
+				id = notperson
+				query = NOT person:###term###
 				type = text
 			}
 			20 {
 				id = done
-				field = done
 				type = checkbox
 				default = 0
 			}
 			30 {
 				id = country
-				field = country
 				type = select
 				options {
 					blank = 
@@ -30,7 +32,6 @@ plugin.tx_solrfrontend {
 			}
 			40 {
 				id = version
-				field = version
 				type = radio
 				options {
 					1 = Steak
