@@ -163,7 +163,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @param String $id
 	 * @todo
 	 */
-	public function detailAction($id) {}
+	public function detailAction($id = NULL) {
+		// Tx_Extbase_Utility_Debugger::var_dump($this->request->getArguments());
+		$this->view->assign('id', $id);
+	}
 
 	/**
 	 * @return array
