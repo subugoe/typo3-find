@@ -90,19 +90,16 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 	/**
-	 * @param Tx_SolrFrontend_Domain_Model_Search $search
+	 *
 	 */
-	public function indexAction(Tx_SolrFrontend_Domain_Model_Search $search = NULL) {
+	public function indexAction() {
 		$query = $this->solr->createSelect();
 
 		// offset for pagination
 		$query->setStart($this->offset)->setRows($this->resultsPerPage);
 
 		// determine searchterm
-		if ($search) {
-			$this->search = $search;
-			$searchTerm = $search->getQ();
-		} elseif ($this->request->hasArgument('q')) {
+		if ($this->request->hasArgument('q')) {
 			$searchTerm = $this->request->getArgument('q');
 		} else {
 			$searchTerm = '*';
@@ -126,9 +123,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		// get extende search parameters
 		$extendedSearch = $this->getExtendedSearchParameters();
-
-		// @todo necessary?
-		$this->search->setExtendedSearch($this->settings['extendedSearch']);
 
 		$query->setQuery($searchTerm);
 
@@ -171,6 +165,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$extendedSearch = array();
 
 		foreach ($this->settings['extendedSearch'] as $extraField) {
+			// set arguments to the request @todo
+			$this->request->setArgument($extraField['id'], array($extraField));
+			$this->search->__set($extraField['id'], array($extraField));
 
 			switch($extraField['type']) {
 				case 'text':

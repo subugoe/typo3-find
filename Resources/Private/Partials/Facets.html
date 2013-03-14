@@ -1,3 +1,4 @@
+{namespace s=Tx_SolrFrontend_ViewHelpers}
 <f:if condition="{results.components.facetset.facets}">
 	<div class="facets">
 		<h3 class="invisible">
@@ -14,7 +15,7 @@
 				<f:for each="{facet.values}" as="value" key="key">
 					<f:if condition="{value} != 0">
 						<li>
-							<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q: results.query.options.query}">
+							<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q: results.query.options.query}" additionalParams="{tx_solrfrontend_solrfrontend: '{s:arrayKeyValue(key: label, value: key)}'}">
 								<span class="facetName">{key}</span>
 								<span class="facetCount">{value}</span>
 							</f:link.action>

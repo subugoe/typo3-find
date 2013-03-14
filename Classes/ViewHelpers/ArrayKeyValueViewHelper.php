@@ -26,45 +26,17 @@
  * ************************************************************* */
 
 /**
- * Model for searches
+ * Returns an array out of two values
  */
-class Tx_SolrFrontend_Domain_Model_Search extends Tx_Extbase_DomainObject_AbstractValueObject {
+class Tx_SolrFrontend_ViewHelpers_ArrayKeyValueViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
 	/**
-	 * @var string
+	 * @param string $key
+	 * @param string $value
+	 * @return array
 	 */
-	protected $q;
-
-	/**
-	 * dynamic properties assigned by the controller
-	 *
-	 * @var array
-	 */
-	protected $properties;
-
-	public function __construct() {
-	}
-
-	public function __set($prop, $value) {
-		$this->properties[$prop] = $value;
-	}
-
-	public function __get($prop) {
-		return $this->properties[$prop];
-	}
-
-	/**
-	 * @param string $q
-	 */
-	public function setQ($q) {
-		$this->q = $q;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getQ() {
-		return $this->q;
+	public function render($key, $value) {
+		return array(array($key => $value));
 	}
 
 }
