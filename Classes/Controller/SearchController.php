@@ -151,9 +151,19 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('search', $this->search)
 				->assign('facetCounter', $this->facetCounter)
 				->assign('uid', $cObjectData['uid'])
+				->assign('counterStart', $this->counterStart($this->offset))
 				->assign('prefixId', $this->prefixId);
 		}
 
+	/**
+	 * Calculates the starting point for the ordered list
+	 *
+	 * @param int $offSet
+	 * @return int
+	 */
+	protected function counterStart($offSet) {
+		return $offSet + 1 ;
+	}
 
 	/**
 	 * Creates and inserts tags inside <head>.
