@@ -151,18 +151,27 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('search', $this->search)
 				->assign('facetCounter', $this->facetCounter)
 				->assign('uid', $cObjectData['uid'])
-				->assign('counterStart', $this->counterStart($this->offset))
+				->assign('counterStart', $this->counterStart())
+				->assign('counterEnd', $this->counterEnd())
 				->assign('prefixId', $this->prefixId);
 		}
 
 	/**
 	 * Calculates the starting point for the ordered list
 	 *
-	 * @param int $offSet
 	 * @return int
 	 */
-	protected function counterStart($offSet) {
-		return $offSet + 1 ;
+	protected function counterStart() {
+		return $this->offset + 1 ;
+	}
+
+	/**
+	 * Calculates the number of the last result on a page
+	 *
+	 * @return int
+	 */
+	protected function counterEnd() {
+		return $this->offset + $this->resultsPerPage;
 	}
 
 	/**
