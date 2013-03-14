@@ -36,6 +36,14 @@ class Tx_SolrFrontend_Domain_Model_Search extends Tx_Extbase_DomainObject_Abstra
 	protected $q;
 
 	/**
+	 * @var array
+	 */
+	protected $extendedSearch = NULL;
+
+	public function __construct(){
+	}
+
+	/**
 	 * @param string $q
 	 */
 	public function setQ($q) {
@@ -48,4 +56,19 @@ class Tx_SolrFrontend_Domain_Model_Search extends Tx_Extbase_DomainObject_Abstra
 	public function getQ() {
 		return $this->q;
 	}
+
+	/**
+	 * @param array $extendedSearch
+	 */
+	public function setExtendedSearch($extendedSearch) {
+		$this->extendedSearch = $extendedSearch;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getExtendedSearch() {
+		return $this->extendedSearch;
+	}
+
 }

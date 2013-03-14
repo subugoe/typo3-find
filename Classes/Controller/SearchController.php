@@ -124,6 +124,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					->setQuery($facetTitle . ':' . $this->request->getArgument('selected'));
 		}
 
+		// get extende search parameters
+		$extendedSearch = $this->getExtendedSearchParameters();
+
+		// @todo necessary?
+		$this->search->setExtendedSearch($this->settings['extendedSearch']);
+
 		$query->setQuery($searchTerm);
 
 		// get the facetset component
@@ -153,8 +159,81 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('uid', $cObjectData['uid'])
 				->assign('counterStart', $this->counterStart())
 				->assign('counterEnd', $this->counterEnd())
+				->assign('extendedSearch', $extendedSearch)
 				->assign('prefixId', $this->prefixId);
 		}
+
+	/**
+	 * @return array
+	 */
+	protected function getExtendedSearchParameters() {
+
+		$extendedSearch = array();
+
+		foreach ($this->settings['extendedSearch'] as $extraField) {
+
+			switch($extraField['type']) {
+				case 'text':
+				case 'checkbox':
+					array_push($extendedSearch, $this->buildTag($extraField));
+					break;
+				case 'radio':
+					for ($i = 0; $i < sizeof($extraField['options']); $i++) {
+						array_push($extendedSearch, $this->buildTag($extraField, $i));
+					}
+					break;
+			}
+		}
+
+		return $extendedSearch;
+	}
+
+	/**
+	 * build tags for extended search parameters
+	 * @param array $extraField
+	 * @return String
+	 */
+	protected function buildTag($extraField, $index = NULL) {
+
+		/** @var Tx_Fluid_Core_ViewHelper_TagBuilder $tagBuilder */
+		$tagBuilder = $this->objectManager->get('Tx_Fluid_Core_ViewHelper_TagBuilder');
+
+		if ($extraField['type'] === 'radio') {
+			// rebase array to a default index and don't trust typoscript's manual indexing
+			$options = array_values($extraField['options']);
+			$tagId = $this->prefixId . '-' . $extraField['id'] . '-' . $options[$index];
+		} else {
+			$tagId = $this->prefixId . '-' . $extraField['id'];
+		}
+
+		// build the tag
+		$tagBuilder->setTagName('input');
+		$tagBuilder->addAttribute('type', $extraField['type']);
+		$tagBuilder->addAttribute('name', $extraField['id']);
+		$tagBuilder->addAttribute('id', $tagId);
+		$tagBuilder->addAttribute('placeholder', $extraField['id']);
+
+		if (is_array($options)) {
+			$tagBuilder->addAttribute('value', $options[$index]);
+		}
+
+		/** @var Tx_Fluid_Core_ViewHelper_TagBuilder $tagBuilder */
+		$labelBuilder = $this->objectManager->get('Tx_Fluid_Core_ViewHelper_TagBuilder');
+
+		// build a label for the tags
+		$labelBuilder->setTagName('label');
+		$labelBuilder->addAttribute('for', $tagId);
+
+		if (is_array($options)) {
+			$labelBuilder->setContent($options[$index]);
+		} else {
+			$labelBuilder->setContent($extraField['id']);
+		}
+
+		return $tagBuilder->render() . $labelBuilder->render();
+	}
+
+	protected function buildLabel() {}
 
 	/**
 	 * Calculates the starting point for the ordered list
