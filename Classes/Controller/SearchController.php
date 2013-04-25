@@ -158,6 +158,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 	/**
+	 * Single view
+	 *
+	 * @param String $id
+	 * @todo
+	 */
+	public function detailAction($id) {}
+
+	/**
 	 * @return array
 	 */
 	protected function getExtendedSearchParameters() {

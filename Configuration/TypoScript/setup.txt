@@ -67,7 +67,6 @@ plugin.tx_solrfrontend {
 	}
 }
 
-
 plugin.tx_pagebrowse_pi1 {
 	templateFile = EXT:solr_frontend/Resources/Private/Templates/pagebrowse/template.html
 	enableMorePages = 1
