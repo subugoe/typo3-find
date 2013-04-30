@@ -1,8 +1,7 @@
 <li>
 	<article>
 		<h1>
-			<!-- TODO: Link auf Einzeltrefferanzeige -->
-			<f:link.action>
+			<f:link.action action="detail" arguments="{id: document.id}">
 				<f:for each="{document.fields}" as="value" key="key">
 					<f:if condition="{0:key}=={0:settings.standardFields.title}">
 						{value}
@@ -16,8 +15,7 @@
 					{value}
 				</f:if>
 			</f:for>
-			<!-- TODO: Link auf Einzeltrefferanzeige -->
-			<f:link.action class="recordLink">
+			<f:link.action action="detail" arguments="{id: document.id}">
 				<f:translate key="Show Detail Page"/>
 			</f:link.action>
 		</p>

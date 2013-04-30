@@ -165,7 +165,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	public function detailAction($id = NULL) {
 		// Tx_Extbase_Utility_Debugger::var_dump($this->request->getArguments());
-		$this->view->assign('id', $id);
+		$query = $this->solr->createSelect();
+		$query->setQuery('id:' . $id);
+		$resultSet = $this->solr->select($query)->getDocuments();
+
+		$this->view->assign('document', $resultSet[0]);
 	}
 
 	/**

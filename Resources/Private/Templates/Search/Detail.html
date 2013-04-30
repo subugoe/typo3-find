@@ -1,1 +1,15 @@
-{id}
+<h3>
+	<f:for each="{document.fields}" as="value" key="key">
+		<f:if condition="{0:key}=={0:settings.standardFields.title}">
+			{value}
+		</f:if>
+	</f:for>
+</h3>
+
+<p>
+	<f:for each="{document.fields}" as="value" key="key">
+		<f:if condition="{0:key}=={0:settings.standardFields.snippet}">
+			{value}
+		</f:if>
+	</f:for>
+</p>
