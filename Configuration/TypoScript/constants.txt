@@ -20,5 +20,7 @@ plugin.tx_solrfrontend {
 		partialRootPath = EXT:solr_frontend/Resources/Private/Partials/
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template layouts (FE)
 		layoutRootPath = EXT:solr_frontend/Resources/Private/Layouts/
+		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template localisation files (FE)
+		languageRootPath = EXT:solr_frontend/Resources/Private/Language/
 	}
 }

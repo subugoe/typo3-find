@@ -63,6 +63,7 @@ plugin.tx_solrfrontend {
 		templateRootPath = {$plugin.tx_solrfrontend.view.templateRootPath}
 		partialRootPath = {$plugin.tx_solrfrontend.view.partialRootPath}
 		layoutRootPath = {$plugin.tx_solrfrontend.view.layoutRootPath}
+		languageRootPath = {$plugin.tx_solrfrontend.view.languageRootPath}
 		defaultPid = auto
 	}
 }

@@ -1,0 +1,17 @@
+<article>
+	<h1>
+		<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}" default="{label}"/>
+	</h1>
+	<ol>
+		<f:for each="{facet.values}" as="value" key="key">
+			<li class="count-{value}">
+				<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q:results.query.options.query}">
+					<span class="facetName">
+						<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
+					</span>
+					<span class="facetCount">{value}</span>
+				</f:link.action>
+			</li>
+		</f:for>
+	</ol>
+</article>

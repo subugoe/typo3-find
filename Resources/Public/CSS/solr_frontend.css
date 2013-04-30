@@ -97,6 +97,10 @@
 	padding-left: 0;
 }
 
+.tx_solr_frontend .facets li.count-0 {
+	display: none;
+}
+
 .tx_solr_frontend .facets a {
 	display: block;
 }
