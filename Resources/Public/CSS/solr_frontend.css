@@ -3,10 +3,89 @@
 .tx_solr_frontend {
 }
 
+
+/* search form */
+
+.tx_solr_frontend form {
+	line-height: 150%;
+}
+
+.tx_solr_frontend form .fieldContainer {
+	float: left;
+	clear: left;
+}
+
+.tx_solr_frontend .field-default label {
+	display: none;
+}
+
+.tx_solr_frontend .field-default input {
+	display: block;
+	float: left;
+	width: 400px;
+	height: 30px;
+	margin: 0px 6px 2px 0px;
+	padding: 4px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
+	color: #333333;
+	background: #f3f5f9;
+	font-size: 175%;
+}
+
+.tx_solr_frontend .fieldType-search input:-moz-placeholder {
+	color: #999;
+}
+
+.tx_solr_frontend .submit {
+	display: block;
+	float: left;
+	height: 30px;
+	background: url(../button_shade_large.png) repeat-x scroll 0 100% #f3f6fb;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #d4d4d4 #b4b4b4 #b4b4b4 #d4d4d4;
+	border-radius: 3px 3px 3px 3px;
+	border-right: 1px solid #b4b4b4;
+	color: #555555;
+	font-weight: bold;
+	line-height: 100%;
+	padding: 3px 12px;
+	margin-top: -1px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+	text-transform: uppercase;
+}
+
+.tx_solr_frontend .submit:active {
+	background-image: url(../button_shade_large_click.png);
+	background-color: #e7e9ed;
+}
+
+.tx_solr_frontend .extendedSearch {
+	 display: block;
+	 float: left;
+	 margin-left: 1em;
+	 line-height: 30px;
+}
+
+
+/* results */
+.tx_solr_frontend .results {
+	clear: left;
+	padding-top: 2em;
+}
+
 .tx_solr_frontend .resultList {
 	margin-right: 220px;
 	padding-left: 3em;
 }
+
+
+
+/* facets */
 
 .tx_solr_frontend .facets {
 	float: right;
@@ -32,7 +111,6 @@
 /* page browser */
 
 .tx_solr_frontend .tx-pagebrowse-pi1 {
-	clear: both;
 	margin-right: 220px;
 	text-align: center;
 }
@@ -54,4 +132,19 @@
 
 .tx_solr_frontend .tx-pagebrowse-pi1 .tx-pagebrowse-current {
 	font-weight: bold;
+}
+
+
+
+/* page count */
+.tx_solr_frontend .tx-pagebrowse-pi1,
+.tx_solr_frontend .resultCount {
+	margin-bottom: 2em;
+}
+
+
+.tx_solr_frontend .resultCount {
+	float: right;
+	width: 200px;
+	text-align: right;
 }

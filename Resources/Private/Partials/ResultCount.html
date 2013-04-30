@@ -1,0 +1,26 @@
+<div class="resultCount">
+	<f:if condition="{results.numfound}==0">
+		<f:then>
+			<f:translate key="no results"/>
+		</f:then>
+		<f:else>
+			<f:if condition="{results.numfound}==1">
+				<f:then>
+					<f:translate key="1 result"/>
+				</f:then>
+				<f:else>
+					<f:if condition="{results.numfound}<{settings.results.numberOfResultsPerPage}">
+						<f:then>
+							{results.numfound} <f:translate key="results"/>
+						</f:then>
+						<f:else>
+							{counterStart}-{counterEnd}
+							<f:translate key="of"/>
+							{results.numfound}
+						</f:else>
+					</f:if>
+				</f:else>
+			</f:if>
+		</f:else>
+	</f:if>
+</div>

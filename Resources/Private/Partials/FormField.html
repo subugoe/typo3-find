@@ -1,15 +1,22 @@
-<div class="fieldContainer fieldType-{fieldInfo.type}">
+<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id}">
+	<f:if condition="{0:fieldInfo.type} == {0:'search'}">
+		<label for="c{uid}-field-{fieldInfo.id}">
+			<f:translate key="fieldLabel.{fieldInfo.id}"/>
+		</label>
+		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"
+					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/> <!-- TODO: need variable in template -->
+	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'text'}">
 		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.name}" default="{fieldInfo.id}"/>
+			<f:translate key="fieldLabel.{fieldInfo.id}"/>
 		</label>
-		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="q{fieldInfo.id}" value="{}"
+		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"
 					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/> <!-- TODO: need variable in template -->
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
-		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="q{fieldInfo.id}" value="{fieldInfo.id}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
+		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{fieldInfo.id}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
 		<label for="c{uid}-field-{fieldInfo.id}">
 			<f:translate key="fieldLabel.{fieldInfo.id}" default="{fieldInfo.id}"/>
 		</label>
@@ -17,9 +24,9 @@
 
 	<f:if condition="{0:fieldInfo.type} == {0:'select'}">
 		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.id}" default="{fieldInfo.id}"/>
+			<f:translate key="fieldLabel.{fieldInfo.id}"/>
 		</label>
-		<f:form.select id="c{uid}-field-{fieldInfo.id}" name="q{fieldInfo.id}" options="{fieldInfo.options}" value="{}"/> <!-- TODO: localise option names? Default selection? -->
+		<f:form.select id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" options="{fieldInfo.options}" value="{}"/> <!-- TODO: localise option names? Default selection? -->
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'radio'}">
@@ -28,7 +35,7 @@
 				<f:translate key="fieldLabel.{fieldInfo.id}" default=""/>
 			</span>
 			<f:for each="{fieldInfo.options}" as="value" key="key">
-				<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="q{fieldInfo.id}" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/> <!-- TODO set with previous value -->
+				<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="{fieldInfo.id}" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/> <!-- TODO set with previous value -->
 				<label for="c{uid}-field-{fieldInfo.id}-{key}">
 					<f:translate key="fieldLabel.{fieldInfo.id}-{key}" default="{fieldInfo.id}-{key}"/>
 				</label>

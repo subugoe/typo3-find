@@ -2,11 +2,14 @@
 
 <f:layout name="Default"/>
 <f:section name="main">
+<!-- <f:debug>{_all}</f:debug> -->
 	<f:render partial="Form" arguments="{_all}" />
 	<div class="results">
-		<h3>Found {results.numfound} results for <em>{searchTerm}</em></h3>
 
-		<f:render partial="Pagination" arguments="{_all}"/>
+		<div class="navigation top"/>
+			<f:render partial="ResultCount" arguments="{_all}"/>
+			<f:render partial="Pagination" arguments="{_all}"/>
+		</div>
 
 		<f:render partial="Facets" arguments="{_all}"/>
 
@@ -16,7 +19,9 @@
 			</f:for>
 		</ol>
 
-		<f:render partial="Pagination" arguments="{_all}"/>
+		<div class="navigation bottom"/>
+			<f:render partial="Pagination" arguments="{_all}"/>
+		</div>
 	</div>
 
 </f:section>

@@ -1,6 +1,7 @@
 <li>
 	<article>
 		<h1>
+			<!-- TODO: Link auf Einzeltrefferanzeige -->
 			<f:for each="{document.fields}" as="value" key="key">
 				<f:if condition="{0:key}=={0:settings.standardFields.title}">
 					<f:link.action pluginName="SolrFontendDetail" additionalParams="{tx_solrfrontend_solrfontenddetail: {id: document.fields.id}}">{value}</f:link.action>
