@@ -47,6 +47,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 
 /**
  * Buffered add plugin
@@ -79,6 +80,13 @@ class BufferedAdd extends Plugin
      * @var DocumentInterface[]
      */
     protected $buffer = array();
+    
+    /**
+     * End point to execute updates against.
+     * 
+     * @var string
+     */
+    protected $endpoint;
 
     /**
      * Plugin init function
@@ -91,6 +99,29 @@ class BufferedAdd extends Plugin
     protected function initPluginType()
     {
         $this->updateQuery = $this->client->createUpdate();
+    }
+    
+    /**
+     * Set the endpoint for the documents
+     * 
+     * @param string $endpoint The endpoint to set
+     * 
+     * @return self
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+    
+    /**
+     * Return the endpoint
+     * 
+     * @return string
+     */
+    public function getEndPoint()
+    {
+        return $this->endpoint;
     }
 
     /**
@@ -138,6 +169,10 @@ class BufferedAdd extends Plugin
     public function addDocument($document)
     {
         $this->buffer[] = $document;
+
+        $event = new AddDocumentEvent($document);
+        $this->client->getEventDispatcher()->dispatch(Events::ADD_DOCUMENT, $event);
+
         if (count($this->buffer) == $this->options['buffersize']) {
             $this->flush();
         }
@@ -203,10 +238,10 @@ class BufferedAdd extends Plugin
         $this->client->getEventDispatcher()->dispatch(Events::PRE_FLUSH, $event);
 
         $this->updateQuery->addDocuments($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
-        $result = $this->client->update($this->updateQuery);
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
-        $event = new PostFlushEvent($this->buffer);
+        $event = new PostFlushEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_FLUSH, $event);
 
         return $result;
@@ -230,10 +265,10 @@ class BufferedAdd extends Plugin
 
         $this->updateQuery->addDocuments($this->buffer, $event->getOverwrite());
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
-        $result = $this->client->update($this->updateQuery);
+        $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
-        $event = new PostCommitEvent($this->buffer);
+        $event = new PostCommitEvent($result);
         $this->client->getEventDispatcher()->dispatch(Events::POST_COMMIT, $event);
 
         return $result;

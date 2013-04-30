@@ -1,13 +1,20 @@
 {
-    "name": "subugoe/solr_frontend",
-    "description": "Solr Extension for TYPO3",
-    "require": {
-        "solarium/solarium": "3.1.0-RC1"
-    },
-    "authors": [
-        {
-            "name": "Ingo Pfennigstorf",
-            "email": "i.pfennigstorf@gmail.com"
-        }
-    ]
+	"name": "subugoe/solr_frontend",
+	"description": "Solr Extension for TYPO3",
+	"require": {
+		"solarium/solarium": "dev-develop"
+	},
+	"repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/ipf/SolrQueryComponent.git",
+			"packagist": false
+		}
+	],
+	"authors": [
+		{
+			"name": "Ingo Pfennigstorf",
+			"email": "i.pfennigstorf@gmail.com"
+		}
+	]
 }
