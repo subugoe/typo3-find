@@ -3,7 +3,7 @@
 		<h1>
 			<f:for each="{document.fields}" as="value" key="key">
 				<f:if condition="{0:key}=={0:settings.standardFields.title}">
-					<f:link.action action="detail" pluginName="SolrFontendDetail" additionalParams="{tx_solrfrontend_solrfontenddetail: {id: document.fields.id}}">{value}</f:link.action>
+					<f:link.action pluginName="SolrFontendDetail" additionalParams="{tx_solrfrontend_solrfontenddetail: {id: document.fields.id}}">{value}</f:link.action>
 				</f:if>
 			</f:for>
 		</h1>
