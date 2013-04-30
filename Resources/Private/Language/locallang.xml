@@ -11,14 +11,15 @@
 			<label index="basic Search">basic Search</label>
 			<label index="Search">Search</label>
 
-			<label index="facet.type">Type</label>
-			<label index="Facets">Facets</label>
-
 			<label index="jump to results">jump to results</label>
 			<label index="no results">no results</label>
 			<label index="1 result">1 result</label>
 			<label index="results">results</label>
 			<label index="of">of</label>
+
+			<label index="Facets">Facets</label>
+
+			<label index="Show Detail Page">Details »</label>
 		</languageKey>
 		<languageKey index="en" type="array">
 			<label index="fieldLabel.default">All Fields:</label>
@@ -26,29 +27,31 @@
 			<label index="basic Search">basic Search</label>
 			<label index="Search">Search</label>
 
-			<label index="facet.type">Type</label>
+			<label index="jump to results">jump to results</label>
+			<label index="no results">no results</label>
+			<label index="1 result">1 result</label>
+			<label index="results">results</label>
+			<label index="of">of</label>
+
 			<label index="Facets">Facets</label>
+
+			<label index="Show Detail Page">Details »</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="fieldLabel.default">All Fields:</label>
+			<label index="extended Search">extended Search</label>
+			<label index="basic Search">basic Search</label>
+			<label index="Search">Search</label>
 
 			<label index="jump to results">jump to results</label>
 			<label index="no results">no results</label>
 			<label index="1 result">1 result</label>
 			<label index="results">results</label>
 			<label index="of">of</label>
-		</languageKey>
-		<languageKey index="de" type="array">
-			<label index="fieldLabel.default">All Fields:</label>
-			<label index="extended Search">erweiterte Suche</label>
-			<label index="basic Search">einfache Suche</label>
-			<label index="Search">Suchen</label>
 
-			<label index="facet.type">Typ</label>
-			<label index="Facets">Facetten</label>
+			<label index="Facets">Facets</label>
 
-			<label index="jump to results">zu den Ergebnissen springen</label>
-			<label index="no results">keine Treffer</label>
-			<label index="1 result">1 Treffer</label>
-			<label index="results">results</label>
-			<label index="of">von</label>
+			<label index="Show Detail Page">Details »</label>
 		</languageKey>
 	</data>
 </T3locallang>

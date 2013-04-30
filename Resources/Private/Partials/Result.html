@@ -2,11 +2,13 @@
 	<article>
 		<h1>
 			<!-- TODO: Link auf Einzeltrefferanzeige -->
-			<f:for each="{document.fields}" as="value" key="key">
-				<f:if condition="{0:key}=={0:settings.standardFields.title}">
-					<f:link.action pluginName="SolrFontendDetail" additionalParams="{tx_solrfrontend_solrfontenddetail: {id: document.fields.id}}">{value}</f:link.action>
-				</f:if>
-			</f:for>
+			<f:link.action>
+				<f:for each="{document.fields}" as="value" key="key">
+					<f:if condition="{0:key}=={0:settings.standardFields.title}">
+						{value}
+					</f:if>
+				</f:for>
+			</f:link.action>
 		</h1>
 		<p>
 			<f:for each="{document.fields}" as="value" key="key">
@@ -14,6 +16,10 @@
 					{value}
 				</f:if>
 			</f:for>
+			<!-- TODO: Link auf Einzeltrefferanzeige -->
+			<f:link.action class="recordLink">
+				<f:translate key="Show Detail Page"/>
+			</f:link.action>
 		</p>
 	</article>
 </li>

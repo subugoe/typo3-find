@@ -83,6 +83,12 @@
 	padding-left: 3em;
 }
 
+.tx_solr_frontend .resultList h1 {
+	margin: 0;
+	font-size: 133%;
+	line-height: 133%;
+}
+
 
 
 /* facets */
