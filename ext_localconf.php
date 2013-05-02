@@ -14,5 +14,8 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	)
 );
 
-
+// call hook for pagebrowse
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pagebrowse']['additionalMarkers'][] = 'Tx_SolrFrontend_Hooks_PageBrowse->addAdditionalMarkers';
+
+// RealURL autoconfiguration
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['solr_frontend'] = 'EXT:solr_frontend/Classes/Hooks/RealUrl.php:Tx_SolrFrontend_Hooks_RealUrl->addRealUrlConfiguration';
