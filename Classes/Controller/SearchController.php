@@ -161,10 +161,15 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Single view
 	 *
 	 * @param String $id
-	 * @todo
 	 */
 	public function detailAction($id = NULL) {
-		// Tx_Extbase_Utility_Debugger::var_dump($this->request->getArguments());
+
+		// if no id is provided
+		if (empty($id)) {
+			$this->flashMessageContainer->add('Please provide a valid document id', t3lib_FlashMessage::ERROR);
+			$this->redirect('index');
+		}
+
 		$query = $this->solr->createSelect();
 		$query->setQuery('id:' . $id);
 		$resultSet = $this->solr->select($query)->getDocuments();
