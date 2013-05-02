@@ -52,7 +52,7 @@ plugin.tx_solrfrontend {
 			1 = type
 			# 2 = anotherFieldName
 		}
-		extraParameters {
+		additionalFilters {
 			# df = hrdr
 		}
 		CSSPath = {$plugin.tx_solrfrontend.settings.CSSPath}

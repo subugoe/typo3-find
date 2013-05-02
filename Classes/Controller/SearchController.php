@@ -106,9 +106,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		// extra parameters a.k.a filter query
-		if (!empty($this->settings['extraParameters'])) {
+		if (!empty($this->settings['additionalFilters'])) {
 			// define filters
-			foreach($this->settings['extraParameters'] as $title => $field) {
+			foreach($this->settings['additionalFilters'] as $title => $field) {
 				$query->createFilterQuery($title)
 						->setQuery($title . ':' . $field);
 			}
