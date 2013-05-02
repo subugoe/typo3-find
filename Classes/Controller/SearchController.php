@@ -121,7 +121,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					->setQuery($facetTitle . ':' . $this->request->getArgument('selected'));
 		}
 
-		// get extende search parameters
+		// get extended search parameters
 		$extendedSearch = $this->getExtendedSearchParameters();
 
 		$query->setQuery($searchTerm);
