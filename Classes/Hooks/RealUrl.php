@@ -57,6 +57,11 @@ class Tx_SolrFrontend_Hooks_RealUrl {
 								'GETvar' => 'tx_solrfrontend_solrfrontend[id]',
 							),
 						),
+						'q' => array(
+							array(
+								'GETvar' => 'tx_solrfrontend_solrfrontend[q]',
+							),
+						),
 					)
 				)
 			)
