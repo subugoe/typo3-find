@@ -133,7 +133,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			// @todo sort array
 			// define facets
 			foreach($this->settings['facets'] as $title => $field) {
-				$facetSet->createFacetField($field . '')->setField($field);
+				$facetSet->createFacetField($field . '')
+						 ->setField($field)
+						 ->setMinCount(1);
 			}
 		}
 		// fire the query
