@@ -36,7 +36,11 @@ class Tx_SolrFrontend_ViewHelpers_ArrayKeyValueViewHelper extends Tx_Fluid_Core_
 	 * @return array
 	 */
 	public function render($key, $value) {
-		return array(array($key => $value));
+		return array(
+			'facet' => array(
+				$key => $value
+			)
+		);
 	}
 
 }
