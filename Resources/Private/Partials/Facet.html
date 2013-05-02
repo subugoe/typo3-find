@@ -1,3 +1,4 @@
+{namespace s=Tx_SolrFrontend_ViewHelpers}
 <f:if condition="{f:count(subject:facet.values)} > 0">
 	<article>
 		<h1>
@@ -6,7 +7,7 @@
 		<ol>
 			<f:for each="{facet.values}" as="value" key="key">
 				<li class="count-{value}">
-					<f:link.action addQueryString="TRUE" arguments="{facet:label, selected:key, q:results.query.options.query}">
+					<f:link.action addQueryString="TRUE" additionalParams="{tx_solrfrontend_solrfrontend: '{s:arrayKeyValue(key: facetCounter, value: key)}'}">
 						<span class="facetName">
 							<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
 						</span>

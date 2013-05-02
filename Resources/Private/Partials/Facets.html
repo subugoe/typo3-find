@@ -7,7 +7,7 @@
 			</a>
 		</h3>
 		<f:for each="{results.components.facetset.facets}" as="facet" key="label">
-			<f:render partial="Facet" arguments="{facet:facet, label:label}"/>
+			<f:render partial="Facet" arguments="{facet:facet, label:label, facetCounter: facetCounter}"/>
 		</f:for>
 	</div>
 </f:if>
