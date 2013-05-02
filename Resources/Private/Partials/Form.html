@@ -1,6 +1,5 @@
 <f:form action="index" object="{search}" name="search">
-	<f:render partial="FormField"
-			  arguments="{uid:uid, fieldInfo:{type:'search', id:'default'}}"/>
+	<f:render partial="FormField" arguments="{uid:uid, fieldInfo:{type:'search', id:'default'}}"/>
 
 	<f:if condition="{settings.extendedSearch}">
 		<f:if condition="{extendedSearch}">
