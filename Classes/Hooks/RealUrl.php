@@ -45,11 +45,16 @@ class Tx_SolrFrontend_Hooks_RealUrl {
 						'a' => array(
 							array(
 								'GETvar' => 'tx_solrfrontend_solrfrontend[action]',
+								'valueMap' => array(
+									'record' => 'detail'
+								),
+								'noMatch' => 'bypass',
 							),
 						),
 						'c' => array(
 							array(
 								'GETvar' => 'tx_solrfrontend_solrfrontend[controller]',
+								'noMatch' => 'bypass',
 							),
 						),
 						'docid' => array(
@@ -60,6 +65,11 @@ class Tx_SolrFrontend_Hooks_RealUrl {
 						'q' => array(
 							array(
 								'GETvar' => 'tx_solrfrontend_solrfrontend[q]',
+							),
+						),
+						'f' => array(
+							array(
+								'GETvar' => 'tx_solrfrontend_solrfrontend[facet]',
 							),
 						),
 					)
