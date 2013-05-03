@@ -117,8 +117,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// filter based on facet selection
 		if ($this->request->hasArgument('facet')) {
 			$facets = $this->request->getArgument('facet');
+			$activeFacets = array();
+
 			foreach ($facets as $key => $facet) {
 				$this->facetCounter++;
+				// add to stack of active facets
+				$activeFacets[$key] = $facet;
+
+				// add the filter
 				$query->createFilterQuery($key . '' . $facet)
 						->setQuery($facet);
 			}
@@ -155,6 +161,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('numberOfPages', $numberOfPages)
 				->assign('search', $this->search)
 				->assign('facetCounter', $this->facetCounter)
+				->assign('activeFacets', $activeFacets)
 				->assign('uid', $cObjectData['uid'])
 				->assign('counterStart', $this->counterStart())
 				->assign('counterEnd', $this->counterEnd())
