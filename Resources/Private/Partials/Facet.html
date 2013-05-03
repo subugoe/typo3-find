@@ -7,7 +7,7 @@
 		<ol>
 			<f:for each="{facet.values}" as="value" key="key">
 				<li class="count-{value}">
-					<f:link.action addQueryString="TRUE" additionalParams="{tx_solrfrontend_solrfrontend: '{s:arrayKeyValue(key: facetCounter, value: key)}'}">
+					<f:link.action addQueryString="TRUE" additionalParams="{tx_solrfrontend_solrfrontend: '{s:arrayKeyValue(counter: facetCounter, key: key, value: label)}'}">
 						<span class="facetName">
 							<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
 						</span>

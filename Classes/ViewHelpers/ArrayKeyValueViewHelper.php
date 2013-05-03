@@ -31,14 +31,15 @@
 class Tx_SolrFrontend_ViewHelpers_ArrayKeyValueViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
 	/**
+	 * @param int $counter
 	 * @param string $key
 	 * @param string $value
 	 * @return array
 	 */
-	public function render($key, $value) {
+	public function render($counter, $key, $value) {
 		return array(
 			'facet' => array(
-				$key => $value
+				$counter => $key . ':' . $value
 			)
 		);
 	}
