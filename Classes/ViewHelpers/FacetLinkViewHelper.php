@@ -41,13 +41,12 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkViewHelper extends Tx_Fluid_Core_View
 
 		$facet = $label . ':' . $value;
 
-
 		// active facet mode
 		if (is_array($activeFacets)) {
 
 			foreach ($activeFacets as $activeFacet) {
 				if ($activeFacet === $facet) {
-					return NULL;
+					return array();
 				}
 			}
 		}
@@ -58,5 +57,4 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkViewHelper extends Tx_Fluid_Core_View
 			)
 		);
 	}
-
 }
