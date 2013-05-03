@@ -34,12 +34,27 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkViewHelper extends Tx_Fluid_Core_View
 	 * @param int $counter
 	 * @param string $label
 	 * @param string $value
+	 * @param array $activeFacets
 	 * @return array
 	 */
-	public function render($counter, $label, $value) {
+	public function render($counter, $label, $value, $activeFacets = NULL) {
+
+		$facet = $label . ':' . $value;
+
+
+		// active facet mode
+		if (is_array($activeFacets)) {
+
+			foreach ($activeFacets as $activeFacet) {
+				if ($activeFacet === $facet) {
+					return NULL;
+				}
+			}
+		}
+
 		return array(
 			'facet' => array(
-				$counter => $label . ':' . $value
+				$counter => $facet
 			)
 		);
 	}

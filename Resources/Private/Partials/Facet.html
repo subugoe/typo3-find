@@ -8,16 +8,18 @@
 				<li class="count-{value}">
 
 					<f:if condition="{s:activeFacet(label: label, value: key, activeFacets: activeFacets)}">
+
 						<f:then>
 							<span class="facetName">
 								<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
 							</span>
 							<f:link.action
 									addQueryString="TRUE"
-									additionalParams="{tx_solrfrontend_solrfrontend: '{s:facetLink(counter: facetCounter, label: label, value: key)}'}">
+									additionalParams="{tx_solrfrontend_solrfrontend: '{s:facetLink(counter: facetCounter, label: label, value: key, activeFacets: activeFacets)}'}">
 								X
 							</f:link.action>
 						</f:then>
+
 						<f:else>
 							<f:link.action addQueryString="TRUE" additionalParams="{tx_solrfrontend_solrfrontend: '{s:facetLink(counter: facetCounter, label: label, value: key)}'}">
 								<span class="facetName">
@@ -26,6 +28,7 @@
 								<span class="facetCount">{value}</span>
 							</f:link.action>
 						</f:else>
+
 					</f:if>
 
 				</li>
