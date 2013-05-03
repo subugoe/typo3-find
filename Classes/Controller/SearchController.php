@@ -114,10 +114,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// filter based on facet selection @todo multiple facets
+		// filter based on facet selection
 		if ($this->request->hasArgument('facet')) {
 			$facets = $this->request->getArgument('facet');
 			foreach ($facets as $key => $facet) {
+				$this->facetCounter++;
 				$query->createFilterQuery($key . '' . $facet)
 						->setQuery($facet);
 			}
