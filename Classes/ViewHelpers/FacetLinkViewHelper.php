@@ -26,9 +26,9 @@
  * ************************************************************* */
 
 /**
- * Returns an array out of two values
+ * Returns an array out of two values in a facet array
  */
-class Tx_SolrFrontend_ViewHelpers_ArrayKeyValueViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
+class Tx_SolrFrontend_ViewHelpers_FacetLinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
 	/**
 	 * @param int $counter
