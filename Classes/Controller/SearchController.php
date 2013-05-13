@@ -153,7 +153,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// determine number of pages for pagebrowser
 		$numberOfPages = ceil($resultSet->getNumFound() / $this->resultsPerPage);
 
-		$cObjectData = $this->request->getContentObjectData();
+		$contentObject = $this->configurationManager->getContentObject();
+		$uid = $contentObject->data['uid'];
 
 		$this->view
 				->assign('results', $resultSet)
@@ -162,7 +163,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				->assign('search', $this->search)
 				->assign('facetCounter', $this->facetCounter)
 				->assign('activeFacets', $activeFacets)
-				->assign('uid', $cObjectData['uid'])
+				->assign('uid', $uid)
 				->assign('counterStart', $this->counterStart())
 				->assign('counterEnd', $this->counterEnd())
 				->assign('extendedSearch', $extendedSearch)
