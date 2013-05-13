@@ -53,7 +53,7 @@ plugin.tx_solrfrontend {
 			# 2 = anotherFieldName
 		}
 		additionalFilters {
-			# df = hrdr
+			# 1 = type:kloster
 		}
 		CSSPath = {$plugin.tx_solrfrontend.settings.CSSPath}
 		JSPath = {$plugin.tx_solrfrontend.settings.JSPath}
