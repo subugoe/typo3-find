@@ -95,6 +95,7 @@
 
 .tx_solr_frontend .facets {
 	float: right;
+	clear: right;
 	width: 200px;
 }
 
