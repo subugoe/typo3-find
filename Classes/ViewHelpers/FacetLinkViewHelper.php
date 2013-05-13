@@ -39,7 +39,7 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkViewHelper extends Tx_Fluid_Core_View
 	 */
 	public function render($counter, $label, $value, $activeFacets = NULL) {
 
-		$facet = $label . ':' . $value;
+		$facet = $label . ':"' . $value . '"';
 
 		// active facet mode
 		if (is_array($activeFacets)) {

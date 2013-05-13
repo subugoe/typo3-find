@@ -38,7 +38,7 @@ class Tx_SolrFrontend_ViewHelpers_ActiveFacetViewHelper extends Tx_Fluid_Core_Vi
 	 */
 	public function render($label, $value, $activeFacets) {
 
-		$currentFacet = $label . ':' . $value;
+		$currentFacet = $label . ':"' . $value . '"';
 		foreach ($activeFacets as $activeFacet) {
 			if ($activeFacet === $currentFacet) {
 				return TRUE;
