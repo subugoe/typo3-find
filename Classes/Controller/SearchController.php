@@ -141,9 +141,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if (!empty($this->settings['facets'])) {
 			// @todo sort array
 			// define facets
-			foreach($this->settings['facets'] as $title => $field) {
-				$facetSet->createFacetField($field . '')
-						 ->setField($field)
+			foreach($this->settings['facets'] as $index => $facetName) {
+				$facetSet->createFacetField($facetName)
+						 ->setField($facetName)
 						 ->setMinCount(1);
 			}
 		}

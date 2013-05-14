@@ -1,13 +1,23 @@
 <f:if condition="{results.components.facetset.facets}">
 	<div class="facets">
+		<script type="text/javascript">
+			var showAllFacetsOfType = function (myEvent) {
+				var containingList = jQuery(myEvent.toElement).parents('ol')[0];
+				// Fade in the hidden elemens and hide the Show All link.
+				jQuery('.hidden', containingList).slideDown(300);
+				jQuery('.facetItems-show', containingList).fadeOut(200);
+				return false;
+			};
+		</script>
+
 		<h3 class="invisible">
 			<f:translate key="Facets"/>
 			<a href="#c{uid}-resultList">
 				<f:translate key="Jump to results"/>
 			</a>
 		</h3>
-		<f:for each="{results.components.facetset.facets}" as="facet" key="label">
-			<f:render partial="Facet" arguments="{facet:facet, label:label, facetCounter: facetCounter, activeFacets: activeFacets}"/>
+		<f:for each="{results.components.facetset.facets}" as="facetInfo" key="facetName">
+			<f:render partial="Facet" arguments="{facetInfo:facetInfo, facetName:facetName, facetCounter:facetCounter, activeFacets:activeFacets}"/>
 		</f:for>
 	</div>
 </f:if>

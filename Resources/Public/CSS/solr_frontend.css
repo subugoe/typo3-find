@@ -3,6 +3,10 @@
 .tx_solr_frontend {
 }
 
+.tx_solr_frontend .hidden {
+	display: none;
+}
+
 
 /* search form */
 
@@ -113,14 +117,10 @@
 	line-height: 150%;
 }
 
-.tx_solr_frontend .facets li {
+.tx_solr_frontend .facetList li {
 	margin: 0;
 	padding-left: 1em;
 	text-indent: -1em;
-}
-
-.tx_solr_frontend .facets li.count-0 {
-	display: none;
 }
 
 .tx_solr_frontend .facets a {

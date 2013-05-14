@@ -1,43 +1,30 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-<f:if condition="{f:count(subject:facet.values)} > 0">
+
+<f:if condition="{f:count(subject:facetInfo.values)} > 0">
 	<article>
 		<h1>
-			<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}" default="{label}"/>
+			<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}" default="{facetName}"/>
 		</h1>
-		<ol>
-			<f:for each="{facet.values}" as="value" key="key">
-				<li class="count-{value}">
-
-					<f:if condition="{s:activeFacet(label: label, value: key, activeFacets: activeFacets)}">
-
-						<f:then>
-							<span class="facetName">
-								<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
-							</span>
-							<f:link.action
-									addQueryString="TRUE"
-									arguments="{s:facetLink(counter: facetCounter, label: label, value: key, activeFacets: activeFacets)}"
-									>
-								X
-							</f:link.action>
-						</f:then>
-
-						<f:else>
-							<f:link.action
-									addQueryString="TRUE"
-									arguments="{s:facetLink(counter: facetCounter, label: label, value: key, activeFacets: activeFacets)}"
-									>
-								<span class="facetName">
-									<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{label}.{key}" default="{key}"/>
-								</span>
-								<span class="facetCount">{value}</span>
-							</f:link.action>
-						</f:else>
-
-					</f:if>
-
-				</li>
+		<ol class="facetList">
+			<f:for each="{facetInfo.values}" as="facetItemCount" key="facetItemName" iteration="facetItemIterator">
+				<f:render partial="FacetItem" arguments="{_all}"/>
 			</f:for>
+			<f:if condition='{f:count(subject:facetInfo.values)} > {s:valueForKey(array:settings.facetDisplayCount, key:facetName)}'>
+				<f:then>
+					<li class="facetItems-show">
+						<a href="#" onclick="return showAllFacetsOfType(event)">alle zeigen</a>
+					</li>
+				</f:then>
+				<f:else>
+					<f:if condition="{f:count(subject:facetInfo.values)} > {settings.facetDisplayCount.DEFAULT}">
+						<f:then>
+							<li class="facetItems-show">
+								<a href="#" onclick="return showAllFacetsOfType(event)" class="facetItems-show">alle zeigen</a>
+							</li>
+						</f:then>
+					</f:if>
+				</f:else>
+			</f:if>
 		</ol>
 	</article>
 </f:if>

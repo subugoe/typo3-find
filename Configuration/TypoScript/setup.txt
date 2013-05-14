@@ -49,8 +49,11 @@ plugin.tx_solrfrontend {
 			snippet = snippet
 		}
 		facets {
-			1 = type
-			# 2 = anotherFieldName
+			10 = type
+		}
+		facetDisplayCount {
+			DEFAULT = 6
+			# fieldName = 10
 		}
 		additionalFilters {
 			# 1 = type:kloster
