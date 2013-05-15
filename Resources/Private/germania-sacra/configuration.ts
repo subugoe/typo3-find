@@ -11,16 +11,12 @@ plugin.tx_solrfrontend {
       snippet = uebersetzung
     }
     facets {
-      10 = bistum
-      20 = land
-      30 = orden
-      40 = band_nummer
-      50 = standort_jahr50
-      60 = orden_jahr50
+      10 = orden
+      20 = orden_jahr50
+      30 = bistum
+      40 = land
     }
     facetDisplayCount {
-      land = 10
-      standort_jahr50 = 20000
       orden_jahr50 = 20000
     }
     additionalFilters {
