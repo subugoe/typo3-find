@@ -22,13 +22,13 @@
 			</span>
 			<f:link.action
 					addQueryString="TRUE"
-					arguments="{s:facetLink(counter:facetCounter, label:facetName, value:facetItemName, activeFacets:activeFacets)}"
+					argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets, mode:'remove')}"
 					>X</f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
 					addQueryString="TRUE"
-					arguments="{s:facetLink(counter:facetCounter, label:facetName, value:facetItemName, activeFacets:activeFacets)}"
+					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}"
 					>
 				<span class="facetName">
 					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}" default="{facetItemName}"/>
@@ -38,3 +38,5 @@
 		</f:else>
 	</f:if>
 </li>
+
+
