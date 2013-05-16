@@ -72,7 +72,7 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 		}
 		else {
 			$position = 0;
-			while (array_key_exists($position, $activeFacets) && $position < 10) {
+			while ($activeFacets && array_key_exists($position, $activeFacets) && $position < 10) {
 				$position++;
 			}
 			$result['facet'] = array(
