@@ -47,18 +47,18 @@
 		</languageKey>
 
 		<languageKey index="de" type="array">
-			<label index="fieldLabel.default">All Fields:</label>
-			<label index="extended Search">extended Search</label>
-			<label index="basic Search">basic Search</label>
-			<label index="Search">Search</label>
+			<label index="fieldLabel.default">Alle Felder:</label>
+			<label index="extended Search">erweiterte Suche</label>
+			<label index="basic Search">einfache Suche</label>
+			<label index="Search">Suchen</label>
 
-			<label index="jump to results">jump to results</label>
-			<label index="no results">no results</label>
-			<label index="1 result">1 result</label>
-			<label index="results">results</label>
-			<label index="of">of</label>
+			<label index="jump to results">zu den Suchergebnissen springen</label>
+			<label index="no results">keine Treffer</label>
+			<label index="1 result">1 Treffer</label>
+			<label index="results">Treffer</label>
+			<label index="of">von</label>
 
-			<label index="Facets">Facets</label>
+			<label index="Facets">Facetten</label>
 			<label index="remove filter">Filter aufheben</label>
 			<label index="show all">alle zeigen</label>
 
