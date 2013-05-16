@@ -245,23 +245,33 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	protected function addResourcesToHead () {
 		// Add CSS to head: Custom file if configured, included default file otherwise.
-		$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['CSSPath']);
-		if ($CSSFileName) {
-			$cssTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
-			$cssTag->addAttribute('rel', 'stylesheet');
-			$cssTag->addAttribute('type', 'text/css');
-			$cssTag->addAttribute('href', $CSSFileName);
-			$this->response->addAdditionalHeaderData( $cssTag->render() );
+		$CSSFileNames = $this->settings['CSSPaths'];
+		if ($CSSFileNames) {
+			foreach ($CSSFileNames as $CSSFileName) {
+				$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($CSSFileName);
+				if ($CSSFileName) {
+					$CSSTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
+					$CSSTag->addAttribute('rel', 'stylesheet');
+					$CSSTag->addAttribute('type', 'text/css');
+					$CSSTag->addAttribute('href', $CSSFileName);
+					$this->response->addAdditionalHeaderData($CSSTag->render());
+				}
+			}
 		}
-		
+
 		// Add JavaScript to head: Custom file if configured, included default file otherwise.
-		$scriptFileName = $GLOBALS['TSFE']->tmpl->getFileName($this->settings['JSPath']);
-		if ($scriptFileName) {
-			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
-			$scriptTag->addAttribute('type', 'text/javascript');
-			$scriptTag->addAttribute('src', $scriptFileName);
-			$scriptTag->forceClosingTag(true);
-			$this->response->addAdditionalHeaderData( $scriptTag->render() );
+		$JSFileNames = $this->settings['JSPaths'];
+		if ($JSFileNames) {
+			foreach ($JSFileNames as $JSFileName) {
+				$JSFileName = $GLOBALS['TSFE']->tmpl->getFileName($JSFileName);
+				if ($JSFileName) {
+					$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
+					$scriptTag->addAttribute('type', 'text/javascript');
+					$scriptTag->addAttribute('src', $JSFileName);
+					$scriptTag->forceClosingTag(true);
+					$this->response->addAdditionalHeaderData($scriptTag->render());
+				}
+			}
 		}
 	}
 
