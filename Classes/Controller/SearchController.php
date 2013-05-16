@@ -73,12 +73,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		
 		$configuration = array(
 			'endpoint' => array(
-			'localhost' => array(
-				'host' => $this->settings['connection']['host'],
-				'port' => intval($this->settings['connection']['port']),
-				'path' => $this->settings['connection']['path'],
+				'localhost' => array(
+					'host' => $this->settings['connection']['host'],
+					'port' => intval($this->settings['connection']['port']),
+					'path' => $this->settings['connection']['path'],
+				)
 			)
-		));
+		);
 
 		$this->solr = new Solarium\Client($configuration);
 
@@ -89,7 +90,15 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 	}
 
-	
+
+	/**
+	 * Takes the array of search query parameters and builds an array of Solr
+	 * search strings from it, using the »queryFields« configuration from TypoScript.
+	 * These search strings need to be ANDed together for the complete query.
+	 *
+	 * @param array $queryParameters
+	 * @return array
+	 */
 	private function queryComponentsForQueryParameters ($queryParameters) {
 		$queryComponents = array();
 		$queryFields = $this->settings['queryFields'];
@@ -210,80 +219,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->view->assign('document', $resultSet[0]);
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function getExtendedSearchParameters() {
-
-		$extendedSearch = array();
-
-		foreach ($this->settings['extendedSearch'] as $extraField) {
-			// set arguments to the request @todo
-			$this->request->setArgument($extraField['id'], array($extraField));
-			$this->search->__set($extraField['id'], array($extraField));
-
-			switch($extraField['type']) {
-				case 'text':
-				case 'checkbox':
-					array_push($extendedSearch, $this->buildTag($extraField));
-					break;
-				case 'radio':
-					for ($i = 0; $i < sizeof($extraField['options']); $i++) {
-						array_push($extendedSearch, $this->buildTag($extraField, $i));
-					}
-					break;
-			}
-		}
-
-		return $extendedSearch;
-	}
-
-	/**
-	 * build tags for extended search parameters
-	 * @param array $extraField
-	 * @return String
-	 */
-	protected function buildTag($extraField, $index = NULL) {
-
-		/** @var Tx_Fluid_Core_ViewHelper_TagBuilder $tagBuilder */
-		$tagBuilder = $this->objectManager->get('Tx_Fluid_Core_ViewHelper_TagBuilder');
-
-		if ($extraField['type'] === 'radio') {
-			// rebase array to a default index and don't trust typoscript's manual indexing
-			$options = array_values($extraField['options']);
-			$tagId = $this->prefixId . '-' . $extraField['id'] . '-' . $options[$index];
-		} else {
-			$tagId = $this->prefixId . '-' . $extraField['id'];
-		}
-
-		// build the tag
-		$tagBuilder->setTagName('input');
-		$tagBuilder->addAttribute('type', $extraField['type']);
-		$tagBuilder->addAttribute('name', $extraField['id']);
-		$tagBuilder->addAttribute('id', $tagId);
-		$tagBuilder->addAttribute('placeholder', $extraField['id']);
-
-		if (is_array($options)) {
-			$tagBuilder->addAttribute('value', $options[$index]);
-		}
-
-		/** @var Tx_Fluid_Core_ViewHelper_TagBuilder $tagBuilder */
-		$labelBuilder = $this->objectManager->get('Tx_Fluid_Core_ViewHelper_TagBuilder');
-
-		// build a label for the tags
-		$labelBuilder->setTagName('label');
-		$labelBuilder->addAttribute('for', $tagId);
-
-		if (is_array($options)) {
-			$labelBuilder->setContent($options[$index]);
-		} else {
-			$labelBuilder->setContent($extraField['id']);
-		}
-
-		return $tagBuilder->render() . $labelBuilder->render();
-	}
-
-	protected function buildLabel() {}
 
 	/**
 	 * Calculates the starting point for the ordered list
