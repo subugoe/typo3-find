@@ -1,0 +1,51 @@
+.field-mode-extended {
+	display: none;
+}
+
+
+aside {
+	float: right;
+	width: 350px;
+	margin-left: 2em;
+}
+
+.map {
+	height: 350px;
+	background: #fff;
+}
+
+article section {
+	margin-bottom: 1em;
+}
+
+article section>* {
+	line-height: 1.5;
+	margin: 0 0 0 10em;
+	padding: 0;
+}
+
+article section h2 {
+	float: left;
+	clear: left;
+	width: 9em;
+	margin-left: 0;
+	font-size: 100%;
+}
+
+.lage ol,
+.orden ol,
+.literatur ul {
+	padding: 0;
+	list-style-type: none;
+}
+
+.zeitraum,
+.ort,
+.orden,
+.band-nummer {
+	font-weight: bold;
+}
+
+li p {
+	margin-bottom: 0.5em;
+}

@@ -1,13 +1,10 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-<style type="text/css">
-	aside { float: right; width: 250px; background: #fff;}
-	.map { height: 250px; }
-</style>
 
 <article>
 	<h1>{document.kloster}</h1>
 
 	<aside>
+		<h2>Karte</h2>
 		<div id="c-{document.id}-map" class="map"></div>
 		<script type="text/javascript">
 			function mapsReady () {
@@ -20,6 +17,7 @@
 				var containingBounds = new google.maps.LatLngBounds();
 				var point;
 				var title;
+				var institutionengenau = false;
 				<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 				point = new google.maps.LatLng({koordinaten});
 				title = {s:valueForKey(array:document.ort, key:index, format:"json")};
@@ -29,12 +27,13 @@
 					'title': title
 				});
 				containingBounds.extend(point);
+				institutionengenau |= {s:valueForKey(array:document.koordinaten_institutionengenau, key:index, format:"json")};
 				</f:for>
 				var NE = containingBounds.getNorthEast();
 				var SW = containingBounds.getSouthWest();
 				var center = containingBounds.getCenter();
 				var width = Math.abs(NE.lng() - SW.lng());
-				var minimumWidth = 0.01;
+				var minimumWidth = 0.01 * (institutionengenau ? 1 : 10);
 				if (width < minimumWidth) {
 					containingBounds = new google.maps.LatLngBounds(
 						new google.maps.LatLng(SW.lat(), center.lng() - minimumWidth/2),
@@ -57,110 +56,110 @@
 
 	</aside>
 
-	<p class="patrozinium">
-		Patrozinium: {document.patrozinium}
-	</p>
-
-	<f:if condition="{document.band_nummer}">
-		<p class="germania-sacra">
-			Germania Sacra
-			<f:if condition="{document.band_url}">
-				<f:then>
-					<f:link.external uri="{document.band_url.0}">
-					{document.band_nummer.0}: {document.band_titel.0}
-					</f:link.external>
-				</f:then>
-				<f:else>
-					{document.band_nummer.0}: {document.band_titel.0}
-				</f:else>
-			</f:if>
+	<section class="patrozinium">
+		<h2>Patrozinium</h2>
+		<p>
+			{document.patrozinium}
 		</p>
-	</f:if>
+	</section>
 
-	<section class="standorte">
-		<h2>Standorte</h2>
-		<f:for each="{document.ort}" as="ort" key="index">
-			<h3>
-				{ort}
-			</h3>
-			
-			<p class="zeitraum">
-				<s:valueForKey array="{document.standort_von_verbal}" key="{index}"/>
-				-
-				<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
-			</p>
+	<section class="lage">
+		<h2>Lage</h2>
+		<ol>
+			<f:for each="{document.ort}" as="ort" key="index">
+				<li>
+					<p>
+						<span class="zeitraum">
+							<s:valueForKey array="{document.standort_von_verbal}" key="{index}"/>
+							–
+							<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
+						</span>
+						<span class="ort">{ort}</span>,
+						<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
+							<span class="bemerkung">
+								<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>,
+							</span>
+						</f:if>
+						<f:if condition="{s:valueForKey(array:document.wuestung, key:index)}">
+							<span class="wuestung">Wüstung</span>,
+						</f:if>
+						<span class="land">
+							<s:valueForKey array="{document.land}" key="{index}"/>
+						</span>
+					</p>
+				</li>
+			</f:for>
+		</ol>
+		<f:if condition="{f:count(subject:document.bistum) > 0}">
 			<p class="bistum">
-				<f:if condition="{s:valueForKey(array:document.kirchenprovinz, key:index)}">
-					Kirchenprovinz
-					<s:valueForKey array="{document.kirchenprovinz}" key="{index}"/>,
+				<f:if condition="{document.ist_erzbistum.0}">
+					<f:then>Erzistum</f:then>
+					<f:else>Bistum</f:else>
 				</f:if>
-				<f:if condition="{s:valueForKey(array:document.bistum, key:index)}">
-					<f:if condition="{s:valueForKey(array:document.ist_erzbistum, key:index)}">
+				{document.bistum.0}
+				
+				<f:for each="{document.ort}" as="ort" key="index">
+					<f:if condition="{0: ort} != {0: s:valueForKey(array:'{document.ort}', key:'{index}')}">
 						<f:then>
-							Erzistum
+							<f:if condition="{key} > 0">
+								<f:then>
+									auch: {s:valueForKey(array:document.ort, key:index)}
+								</f:then>
+							</f:if>				
 						</f:then>
-						<f:else>
-							Bistum
-						</f:else>
 					</f:if>
-					<s:valueForKey array="{document.bistum}" key="{index}"/>
-				</f:if>
+				</f:for>
 			</p>
-			<f:if condition="{s:valueForKey(array:document.gruender, key:index)}">
-				<p>
-					Gründer:
-					<s:valueForKey array="{document.gruender}" key="{index}"/>
-				</p>
-			</f:if>
-			<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
-				<p class="bemerkung">
-					<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>
-				</p>
-			</f:if>
-			<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
-				<p class="bemerkung">
-					<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>
-				</p>
-			</f:if>
-		</f:for>
+		</f:if>
 	</section>
 
 
 	<section class="orden">
-		<h2>Ordenszugehörigkeit</h2>
-		<f:for each="{document.orden}" as="orden" key="index">
-			<h3>
-				{orden}
-				<span class="extra-info">
-					<s:valueForKey array="{document.ordenstyp}" key="{index}"/>
-					<f:if condition="{s:valueForKey(array:document.ordo, key:index)}">
-						/
-						<s:valueForKey array="{document.ordo}" key="{index}"/>
-					</f:if>
-					<f:if condition="{s:valueForKey(array:document.symbol, key:index)}">
-						/
-						<s:valueForKey array="{document.symbol}" key="{index}"/>
-					</f:if>
-				</span>
-			</h3>
-
-			<p class="zeitraum">
-				<s:valueForKey array="{document.orden_von_verbal}" key="{index}"/>
-				-
-				<s:valueForKey array="{document.orden_bis_verbal}" key="{index}"/>
-			</p>
-			<f:if condition="{s:valueForKey(array:document.bemerkung_orden, key:index)}">
-				<p class="bemerkung">
-					<s:valueForKey array="{document.bemerkung_orden}" key="{index}"/>
-				</p>
-			</f:if>
-			<f:if condition="{s:valueForKey(array:document.status, key:index)}">
-				<p class="bemerkung">
-					<s:valueForKey array="{document.status}" key="{index}"/>
-				</p>
-			</f:if>
-		</f:for>
+		<h2>Orden</h2>
+		<ol>
+			<f:for each="{document.orden}" as="orden" key="index">
+				<li>
+					<p>
+						<span class="orden">{orden}</span>
+						<span class="zeitraum">
+							<s:valueForKey array="{document.orden_von_verbal}" key="{index}"/>
+							–
+							<s:valueForKey array="{document.orden_bis_verbal}" key="{index}"/>
+						</span>
+					</p>
+				</li>
+			</f:for>
+		</ol>
 	</section>
+	<f:debug>{_all}</f:debug>
+
+	<f:if condition="{document.bemerkung_kloster.0}">
+		<section class="bemerkungen">
+			<h2>Bemerkung<h2>
+			<p>{document.bemerkung_kloster.0}</p>
+		</section>
+	</f:if>
+
+	<f:if condition="{document.band_nummer}">
+		<section class="germania-sacra">
+			<h2>Germania Sacra</h2>
+			<p>
+				<f:if condition="{document.band_url}">
+					<f:then>
+						<f:link.external uri="{document.band_url.0}">
+							<span class="band-nummer">{document.band_nummer.0}</span>
+							<span class="band-titel">{document.band_titel.0}</span>
+						</f:link.external>
+					</f:then>
+					<f:else>
+						<span class="band-nummer">{document.band_nummer.0}</span>
+						<span class="band-titel">{document.band_titel.0}</span>
+					</f:else>
+				</f:if>
+			</p>
+		</section>
+	</f:if>
+
 
 	<f:if condition="{document.literatur}">
 		<section class="literatur">
@@ -174,6 +173,26 @@
 			</ul>
 		</section>
 	</f:if>
+
+	<section class="links">
+		<h2>Permalink</h2>
+		<p>
+			<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
+				http://kloester.germania-sacra.de/gsn/{document.sql_uid}
+			</f:link.external>
+		</p>
+
+		<f:if condition="document.gnd">
+			<h2>Links</h2>
+			<ul>
+				<f:for each="{document.gnd}" as="gnd">
+					<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
+					http://kloester.germania-sacra.de/gsn/{document.sql_uid}
+			</f:link.external>
+				</f:for>
+			</ul>
+		</f:if>
+	</section>
 
 </article>
 
