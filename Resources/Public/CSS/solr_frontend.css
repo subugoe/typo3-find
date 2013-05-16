@@ -132,6 +132,24 @@
 	font-size: 80%;
 }
 
+.tx_solr_frontend .facetActive {
+	font-weight: bold;
+}
+
+.tx_solr_frontend .facetRemove {
+	margin-left: 1em;
+	color: #f00;
+}
+
+.tx_solr_frontend .facetShowAll a {
+	font-style: italic;
+	color: #666;
+}
+
+.tx_solr_frontend .facetShowAll:hover a {
+	color: #000;
+}
+
 
 
 /* page browser */

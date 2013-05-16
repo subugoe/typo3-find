@@ -11,15 +11,17 @@
 			</f:for>
 			<f:if condition='{f:count(subject:facetInfo.values)} > {s:valueForKey(array:settings.facetDisplayCount, key:facetName)}'>
 				<f:then>
-					<li class="facetItems-show">
+					<li class="facetShowAll">
 						<a href="#" onclick="return showAllFacetsOfType(event)">alle zeigen</a>
 					</li>
 				</f:then>
 				<f:else>
 					<f:if condition="{f:count(subject:facetInfo.values)} > {settings.facetDisplayCount.DEFAULT}">
 						<f:then>
-							<li class="facetItems-show">
-								<a href="#" onclick="return showAllFacetsOfType(event)" class="facetItems-show">alle zeigen</a>
+							<li class="facetShowAll">
+								<a href="#" onclick="return showAllFacetsOfType(event)">
+									<f:translate key="show all"/>
+								</a>
 							</li>
 						</f:then>
 					</f:if>

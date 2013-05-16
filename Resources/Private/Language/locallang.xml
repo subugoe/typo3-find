@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
+
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for plugin &quot;tx_solr_frontend&quot;</description>
+		<description>Language labels for the solr_frontend extension</description>
 	</meta>
+
 	<data type="array">
+		
 		<languageKey index="default" type="array">
 			<label index="fieldLabel.default">All Fields:</label>
 			<label index="extended Search">extended Search</label>
@@ -18,9 +21,12 @@
 			<label index="of">of</label>
 
 			<label index="Facets">Facets</label>
+			<label index="remove filter">remove filter</label>
+			<label index="show all">show all</label>
 
 			<label index="Show Detail Page">Details »</label>
 		</languageKey>
+
 		<languageKey index="en" type="array">
 			<label index="fieldLabel.default">All Fields:</label>
 			<label index="extended Search">extended Search</label>
@@ -34,9 +40,12 @@
 			<label index="of">of</label>
 
 			<label index="Facets">Facets</label>
+			<label index="remove filter">remove filter</label>
+			<label index="show all">show all</label>
 
 			<label index="Show Detail Page">Details »</label>
 		</languageKey>
+
 		<languageKey index="de" type="array">
 			<label index="fieldLabel.default">All Fields:</label>
 			<label index="extended Search">extended Search</label>
@@ -50,8 +59,11 @@
 			<label index="of">of</label>
 
 			<label index="Facets">Facets</label>
+			<label index="remove filter">Filter aufheben</label>
+			<label index="show all">alle zeigen</label>
 
 			<label index="Show Detail Page">Details »</label>
 		</languageKey>
+
 	</data>
 </T3locallang>

@@ -17,21 +17,24 @@
 
 <f:if condition="{s:activeFacet(label:facetName, value:facetItemName, activeFacets:activeFacets)}">
 		<f:then>
-			<span class="facetName">
-				<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}" default="{facetItemName}"/>
+			<span class="facetName facetActive">
+				<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
+							 default="{facetItemName}"/>
+				<f:link.action
+						addQueryString="TRUE"
+						argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets, mode:'remove')}"
+						class="facetRemove">
+					<f:translate key="remove filter"/>
+				</f:link.action>
 			</span>
-			<f:link.action
-					addQueryString="TRUE"
-					argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets, mode:'remove')}"
-					>X</f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
 					addQueryString="TRUE"
-					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}"
-					>
+					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}">
 				<span class="facetName">
-					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}" default="{facetItemName}"/>
+					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
+								 default="{facetItemName}"/>
 				</span>
 				<span class="facetCount">{facetItemCount}</span>
 			</f:link.action>
