@@ -128,12 +128,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$query = $this->solr->createSelect();
 
 		// search query
-		$queryParameters = $this->request->getArgument('q');
-		$queryComponents = Array();
-		if ($queryParameters) {
-			$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
-			$queryString = implode(' AND ', $queryComponents);
-			$query->setQuery($queryString);
+		if ($this->request->hasArgument('q')) {
+			$queryParameters = $this->request->getArgument('q');
+			$queryComponents = Array();
+			if ($queryParameters) {
+				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
+				$queryString = implode(' AND ', $queryComponents);
+				$query->setQuery($queryString);
+			}
 		}
 	
 		// add filter queries for facets
