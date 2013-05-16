@@ -5,7 +5,13 @@ plugin.tx_solrfrontend {
 			port = {$plugin.tx_solrfrontend.settings.connection.port}
 			path = {$plugin.tx_solrfrontend.settings.connection.path}
 		}
-		extendedSearch {
+		queryFields {
+			0 {
+				simple = 1
+				id = default
+				query = ###term###
+				type = text
+			}
 			10 {
 				id = person
 				type = text

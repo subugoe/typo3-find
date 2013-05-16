@@ -1,22 +1,16 @@
-<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id}">
-	<f:if condition="{0:fieldInfo.type} == {0:'search'}">
-		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.id}"/>
-		</label>
-		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="q" value="{}"
-					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/> <!-- TODO: need variable in template -->
-	</f:if>
+{namespace s=Tx_SolrFrontend_ViewHelpers}
+<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.simple}', then:'default', else:'extended')}">
 
 	<f:if condition="{0:fieldInfo.type} == {0:'text'}">
 		<label for="c{uid}-field-{fieldInfo.id}">
 			<f:translate key="fieldLabel.{fieldInfo.id}"/>
 		</label>
-		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"
-					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/> <!-- TODO: need variable in template -->
+		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{s:valueForKey(array:query, key:fieldInfo.id)}"
+					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/>
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
-		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{fieldInfo.id}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
+		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
 		<label for="c{uid}-field-{fieldInfo.id}">
 			<f:translate key="fieldLabel.{fieldInfo.id}" default="{fieldInfo.id}"/>
 		</label>

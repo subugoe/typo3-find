@@ -89,32 +89,45 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 	}
 
+	
+	private function queryComponentsForQueryParameters ($queryParameters) {
+		$queryComponents = array();
+		$queryFields = $this->settings['queryFields'];
+		foreach ($queryFields as $fieldInfo) {
+			$fieldID = $fieldInfo['id'];
+			if ($fieldID && $queryParameters[$fieldID]) {
+				$queryPart = '';
+				if ($fieldInfo['query']) {
+					$queryPart = str_replace('###term###', $queryParameters[$fieldID], $fieldInfo['query']);
+				}
+				else {
+					$queryPart = $fieldID . ':' . $queryParameters[$fieldID];
+				}
+				if ($queryPart) {
+					$queryComponents[$fieldID] = $queryPart;
+				}
+			}
+		}
+		return $queryComponents;
+	}
+	
+	
 	/**
 	 *
 	 */
 	public function indexAction() {
 		$query = $this->solr->createSelect();
 
-		// offset for pagination
-		$query->setStart($this->offset)->setRows($this->resultsPerPage);
-
-		// determine searchterm
-		if ($this->request->hasArgument('q')) {
-			$searchTerm = $this->request->getArgument('q');
-		} else {
-			$searchTerm = '*';
+		// search query
+		$queryParameters = $this->request->getArgument('q');
+		$queryComponents = Array();
+		if ($queryParameters) {
+			$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
+			$queryString = implode(' AND ', $queryComponents);
+			$query->setQuery($queryString);
 		}
-
-		// extra parameters a.k.a filter query
-		if (!empty($this->settings['additionalFilters'])) {
-			// define filters
-			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
-				$query->createFilterQuery('additionalFilter-' . $key)
-						->setQuery($filterQuery);
-			}
-		}
-
-		// filter based on facet selection
+	
+		// add filter queries for facets
 		if ($this->request->hasArgument('facet')) {
 			$facets = $this->request->getArgument('facet');
 			$activeFacets = array();
@@ -125,15 +138,19 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				$activeFacets[$key] = $facet;
 
 				// add the filter
-				$query->createFilterQuery($key . '' . $facet)
+				$query->createFilterQuery('facet-' . $key)
 						->setQuery($facet);
 			}
 		}
 
-		// get extended search parameters
-		$extendedSearch = $this->getExtendedSearchParameters();
-
-		$query->setQuery($searchTerm);
+		// add filter queries configured in TypoScript
+		if (!empty($this->settings['additionalFilters'])) {
+			// define filters
+			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
+				$query->createFilterQuery('additionalFilter-' . $key)
+						->setQuery($filterQuery);
+			}
+		}
 
 		// get the facetset component
 		$facetSet = $query->getFacetSet();
@@ -147,6 +164,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						 ->setMinCount(1);
 			}
 		}
+
+		// offset for pagination
+		$query->setStart($this->offset)->setRows($this->resultsPerPage);
+
 		// fire the query
 		$resultSet = $this->solr->select($query);
 
@@ -157,18 +178,17 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$uid = $contentObject->data['uid'];
 
 		$this->view
-				->assign('results', $resultSet)
-				->assign('searchTerm', $searchTerm)
-				->assign('numberOfPages', $numberOfPages)
+				->assign('query', $queryParameters)
 				->assign('search', $this->search)
+				->assign('results', $resultSet)
+				->assign('numberOfPages', $numberOfPages)
 				->assign('facetCounter', $this->facetCounter)
 				->assign('activeFacets', $activeFacets)
 				->assign('uid', $uid)
 				->assign('counterStart', $this->counterStart())
 				->assign('counterEnd', $this->counterEnd())
-				->assign('extendedSearch', $extendedSearch)
 				->assign('prefixId', $this->prefixId);
-		}
+	}
 
 	/**
 	 * Single view

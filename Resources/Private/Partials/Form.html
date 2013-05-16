@@ -1,9 +1,7 @@
-<f:form action="index" object="{search}" name="search">
+<f:form name="c{uid}-form" method="get" fieldNamePrefix="tx_solrfrontend_solrfrontend[q]">
 
-	<f:form.textfield type="search" name="q" value="{searchTerm}" id="c{uid}-field-{fieldInfo.id}"/>
-
-	<f:for each="{extendedSearch}" as="fieldInfo">
-		{fieldInfo -> f:format.raw()}
+	<f:for each="{settings.queryFields}" as="fieldInfo">
+		<f:render partial="FormField" arguments="{uid:uid, query:query, fieldInfo:fieldInfo}"/>
 	</f:for>
 
 	<f:form.submit value="{f:translate(key:'Search')}" class="submit"/>
