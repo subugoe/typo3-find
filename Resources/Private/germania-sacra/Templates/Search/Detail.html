@@ -57,149 +57,148 @@
 	</aside>
 
 	<div class="main">
-	<section class="patrozinium">
-		<h2>Patrozinium</h2>
-		<p>
-			{document.patrozinium}
-		</p>
-	</section>
-
-	<section class="lage">
-		<h2>Lage</h2>
-		<ol>
-			<f:for each="{document.ort}" as="ort" key="index">
-				<li>
-					<p>
-						<span class="zeitraum">
-							<s:valueForKey array="{document.standort_von_verbal}" key="{index}"/>
-							–
-							<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
-						</span>
-						<span class="ort">{ort}</span><f:if condition="{s:valueForKey(array:document.wuestung, key:index)}"><span class="wuestung"> (Wüstung)</span></f:if>,
-						<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
-							<span class="bemerkung">
-								<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>,
-							</span>
-						</f:if>
-						
-						<span class="land">
-							<s:valueForKey array="{document.land}" key="{index}"/>
-						</span>
-					</p>
-				</li>
-			</f:for>
-		</ol>
-		<f:if condition="{f:count(subject:document.bistum) > 0}">
-			<p class="bistum">
-				<f:if condition="{document.ist_erzbistum.0}">
-					<f:then>Erzistum</f:then>
-					<f:else>Bistum</f:else>
-				</f:if>
-				{document.bistum.0}
-				
-				<f:for each="{document.ort}" as="ort" key="index">
-					<f:if condition="{0: ort} != {0: s:valueForKey(array:'{document.ort}', key:'{index}')}">
-						<f:if condition="{key} > 0">
-							auch: {s:valueForKey(array:document.ort, key:index)}
-						</f:if>				
-					</f:if>
-				</f:for>
-			</p>
-		</f:if>
-	</section>
-
-
-	<section class="orden">
-		<h2>Orden</h2>
-		<ol>
-			<f:for each="{document.orden}" as="orden" key="index">
-				<li>
-					<p>
-						<span class="orden">{orden}</span>
-						<span class="zeitraum">
-							<s:valueForKey array="{document.orden_von_verbal}" key="{index}"/>
-							–
-							<s:valueForKey array="{document.orden_bis_verbal}" key="{index}"/>
-						</span>
-					</p>
-				</li>
-			</f:for>
-		</ol>
-	</section>
-	<f:debug>{_all}</f:debug>
-
-	<f:if condition="{document.bemerkung_kloster.0}">
-		<section class="bemerkung">
-			<h2>Bemerkung</h2>
-			<p>{document.bemerkung_kloster.0}</p>
-		</section>
-	</f:if>
-
-	<f:if condition="{document.band_nummer}">
-		<section class="germania-sacra">
-			<h2>Germania Sacra</h2>
+		<section class="patrozinium">
+			<h2>Patrozinium</h2>
 			<p>
-				<f:if condition="{document.band_url}">
-					<f:then>
-						<f:link.external uri="{document.band_url.0}">
-							<span class="band-nummer">{document.band_nummer.0}</span>
-							<span class="band-titel">{document.band_titel.0}</span>
-						</f:link.external>
-					</f:then>
-					<f:else>
-						<span class="band-nummer">{document.band_nummer.0}</span>
-						<span class="band-titel">{document.band_titel.0}</span>
-					</f:else>
-				</f:if>
+				{document.patrozinium}
 			</p>
 		</section>
-	</f:if>
 
-
-	<f:if condition="{document.literatur}">
-		<section class="literatur">
-			<h2>Literatur</h2>
-			<ul>
-				<f:for each="{document.literatur}" as="literatur" key="index">
+		<section class="lage">
+			<h2>Lage</h2>
+			<ol>
+				<f:for each="{document.ort}" as="ort" key="index">
 					<li>
-						{literatur}
+						<p>
+							<span class="zeitraum">
+								<s:valueForKey array="{document.standort_von_verbal}" key="{index}"/>
+								–
+								<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
+							</span>
+							<span class="ort">{ort}</span><f:if condition="{s:valueForKey(array:document.wuestung, key:index)}"><span class="wuestung"> (Wüstung)</span></f:if>,
+							<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
+								<span class="bemerkung">
+									<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>,
+								</span>
+							</f:if>
+
+							<span class="land">
+								<s:valueForKey array="{document.land}" key="{index}"/>
+							</span>
+						</p>
 					</li>
 				</f:for>
-			</ul>
-		</section>
-	</f:if>
-
-	<section class="permalink">
-		<h2>Permalink</h2>
-		<p>
-			<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
-				http://kloester.germania-sacra.de/gsn/{document.sql_uid}
-			</f:link.external>
-		</p>
-	</section>
-	
-	<section class="link">
-		<f:if condition="{document.url}">
-			<f:if condition="{f:count(subject:document.url)} > {f:count(subject:document.band_url)}">
-			<h2>Links</h2>
-			<ul>
-				<f:for each="{document.url}" as="url" key="index">
-					<f:if condition="{0:'{s:valueForKey(array:document.url_art, key:index)}'} != {0:'Dokument'}">
-						<li>
-							<f:link.external uri="{url}">
-								<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
-								<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
-									— {s:valueForKey(array:document.url_bemerkung, key:index)}
-								</f:if>
-							</f:link.external>
-						</li>
+			</ol>
+			<f:if condition="{f:count(subject:document.bistum) > 0}">
+				<p class="bistum">
+					<f:if condition="{document.ist_erzbistum.0}">
+						<f:then>Erzistum</f:then>
+						<f:else>Bistum</f:else>
 					</f:if>
-				</f:for>
-			</ul>
+					{document.bistum.0}
+
+					<f:for each="{document.ort}" as="ort" key="index">
+						<f:if condition="{0: ort} != {0: s:valueForKey(array:'{document.ort}', key:'{index}')}">
+							<f:if condition="{key} > 0">
+								auch: {s:valueForKey(array:document.ort, key:index)}
+							</f:if>
+						</f:if>
+					</f:for>
+				</p>
 			</f:if>
+		</section>
+
+
+		<section class="orden">
+			<h2>Orden</h2>
+			<ol>
+				<f:for each="{document.orden}" as="orden" key="index">
+					<li>
+						<p>
+							<span class="orden">{orden}</span>
+							<span class="zeitraum">
+								<s:valueForKey array="{document.orden_von_verbal}" key="{index}"/>
+								–
+								<s:valueForKey array="{document.orden_bis_verbal}" key="{index}"/>
+							</span>
+						</p>
+					</li>
+				</f:for>
+			</ol>
+		</section>
+		<f:debug>{_all}</f:debug>
+
+		<f:if condition="{document.bemerkung_kloster.0}">
+			<section class="bemerkung">
+				<h2>Bemerkung</h2>
+				<p>{document.bemerkung_kloster.0}</p>
+			</section>
 		</f:if>
-	</section>
+
+		<f:if condition="{document.band_nummer}">
+			<section class="germania-sacra">
+				<h2>Germania Sacra</h2>
+				<p>
+					<f:if condition="{document.band_url}">
+						<f:then>
+							<f:link.external uri="{document.band_url.0}">
+								<span class="band-nummer">{document.band_nummer.0}</span>
+								<span class="band-titel">{document.band_titel.0}</span>
+							</f:link.external>
+						</f:then>
+						<f:else>
+							<span class="band-nummer">{document.band_nummer.0}</span>
+							<span class="band-titel">{document.band_titel.0}</span>
+						</f:else>
+					</f:if>
+				</p>
+			</section>
+		</f:if>
+
+
+		<f:if condition="{document.literatur}">
+			<section class="literatur">
+				<h2>Literatur</h2>
+				<ul>
+					<f:for each="{document.literatur}" as="literatur" key="index">
+						<li>
+							{literatur}
+						</li>
+					</f:for>
+				</ul>
+			</section>
+		</f:if>
+
+		<section class="permalink">
+			<h2>Permalink</h2>
+			<p>
+				<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
+					http://kloester.germania-sacra.de/gsn/{document.sql_uid}
+				</f:link.external>
+			</p>
+		</section>
+
+		<section class="link">
+			<f:if condition="{document.url}">
+				<f:if condition="{f:count(subject:document.url)} > {f:count(subject:document.band_url)}">
+				<h2>Links</h2>
+				<ul>
+					<f:for each="{document.url}" as="url" key="index">
+						<f:if condition="{0:'{s:valueForKey(array:document.url_art, key:index)}'} != {0:'Dokument'}">
+							<li>
+								<f:link.external uri="{url}">
+									<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
+									<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
+										— {s:valueForKey(array:document.url_bemerkung, key:index)}
+									</f:if>
+								</f:link.external>
+							</li>
+						</f:if>
+					</f:for>
+				</ul>
+				</f:if>
+			</f:if>
+		</section>
 	</div>
 
 </article>
-
