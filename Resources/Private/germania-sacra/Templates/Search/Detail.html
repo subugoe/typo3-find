@@ -56,6 +56,7 @@
 
 	</aside>
 
+	<div class="main">
 	<section class="patrozinium">
 		<h2>Patrozinium</h2>
 		<p>
@@ -74,15 +75,13 @@
 							–
 							<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
 						</span>
-						<span class="ort">{ort}</span>,
+						<span class="ort">{ort}</span><f:if condition="{s:valueForKey(array:document.wuestung, key:index)}"><span class="wuestung"> (Wüstung)</span></f:if>,
 						<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
 							<span class="bemerkung">
 								<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>,
 							</span>
 						</f:if>
-						<f:if condition="{s:valueForKey(array:document.wuestung, key:index)}">
-							<span class="wuestung">Wüstung</span>,
-						</f:if>
+						
 						<span class="land">
 							<s:valueForKey array="{document.land}" key="{index}"/>
 						</span>
@@ -100,13 +99,9 @@
 				
 				<f:for each="{document.ort}" as="ort" key="index">
 					<f:if condition="{0: ort} != {0: s:valueForKey(array:'{document.ort}', key:'{index}')}">
-						<f:then>
-							<f:if condition="{key} > 0">
-								<f:then>
-									auch: {s:valueForKey(array:document.ort, key:index)}
-								</f:then>
-							</f:if>				
-						</f:then>
+						<f:if condition="{key} > 0">
+							auch: {s:valueForKey(array:document.ort, key:index)}
+						</f:if>				
 					</f:if>
 				</f:for>
 			</p>
@@ -134,8 +129,8 @@
 	<f:debug>{_all}</f:debug>
 
 	<f:if condition="{document.bemerkung_kloster.0}">
-		<section class="bemerkungen">
-			<h2>Bemerkung<h2>
+		<section class="bemerkung">
+			<h2>Bemerkung</h2>
 			<p>{document.bemerkung_kloster.0}</p>
 		</section>
 	</f:if>
@@ -166,7 +161,7 @@
 			<h2>Literatur</h2>
 			<ul>
 				<f:for each="{document.literatur}" as="literatur" key="index">
-					<li id="literatur-{s:valueForKey(array:document.literatur-id, key:index)}">
+					<li>
 						{literatur}
 					</li>
 				</f:for>
@@ -174,25 +169,37 @@
 		</section>
 	</f:if>
 
-	<section class="links">
+	<section class="permalink">
 		<h2>Permalink</h2>
 		<p>
 			<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
 				http://kloester.germania-sacra.de/gsn/{document.sql_uid}
 			</f:link.external>
 		</p>
-
-		<f:if condition="document.gnd">
+	</section>
+	
+	<section class="link">
+		<f:if condition="{document.url}">
+			<f:if condition="{f:count(subject:document.url)} > {f:count(subject:document.band_url)}">
 			<h2>Links</h2>
 			<ul>
-				<f:for each="{document.gnd}" as="gnd">
-					<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
-					http://kloester.germania-sacra.de/gsn/{document.sql_uid}
-			</f:link.external>
+				<f:for each="{document.url}" as="url" key="index">
+					<f:if condition="{0:'{s:valueForKey(array:document.url_art, key:index)}'} != {0:'Dokument'}">
+						<li>
+							<f:link.external uri="{url}">
+								<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
+								<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
+									— {s:valueForKey(array:document.url_bemerkung, key:index)}
+								</f:if>
+							</f:link.external>
+						</li>
+					</f:if>
 				</f:for>
 			</ul>
+			</f:if>
 		</f:if>
 	</section>
+	</div>
 
 </article>
 

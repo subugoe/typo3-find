@@ -2,15 +2,21 @@
 	display: none;
 }
 
+div.main {
+	margin-right: 325px;
+}
 
 aside {
 	float: right;
-	width: 350px;
-	margin-left: 2em;
+	width: 300px;
+}
+
+aside h2 {
+	display: none;
 }
 
 .map {
-	height: 350px;
+	height: 300px;
 	background: #fff;
 }
 
@@ -34,9 +40,14 @@ article section h2 {
 
 .lage ol,
 .orden ol,
-.literatur ul {
+.literatur ul,
+.link ul {
 	padding: 0;
 	list-style-type: none;
+}
+
+.literatur {
+	word-wrap: break-word;
 }
 
 .zeitraum,
