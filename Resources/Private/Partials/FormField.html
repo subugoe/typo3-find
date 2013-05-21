@@ -9,7 +9,9 @@
 		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{s:valueForKey(array:query, key:fieldInfo.id)}"
 					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/>
 	</f:if>
-
+	<f:if condition="{fieldInfo.simple} == 1">
+		<f:link.action section="extended-search" addQueryString="TRUE"><f:translate key="extended Search" /></f:link.action>
+	</f:if>
 	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
 		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
 		<label for="c{uid}-field-{fieldInfo.id}">
