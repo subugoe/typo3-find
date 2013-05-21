@@ -1,3 +1,5 @@
+{namespace s=Tx_SolrFrontend_ViewHelpers}
+
 <f:if condition="{results.components.facetset.facets}">
 	<div class="facets">
 		<script type="text/javascript">
@@ -17,8 +19,24 @@
 				<f:translate key="Jump to results"/>
 			</a>
 		</h3>
-		<f:for each="{results.components.facetset.facets}" as="facetInfo" key="facetName">
-			<f:render partial="Facet" arguments="{facetInfo:facetInfo, facetName:facetName, facetCounter:facetCounter, activeFacets:activeFacets}"/>
+		<f:for each="{settings.facets}" as="facetInfo" key="facetKey">
+			<f:alias map="{facetData: '{s:valueForKey(array:results.components.facetset.facets key:facetInfo.field)}', facetName: facetInfo.field}">
+				<f:if condition="{f:count(subject:facetData)} > 0">
+					<article class="facet {facetInfo.type}">
+						<h1>
+							<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}" default="{facetName}"/>
+						</h1>
+						<f:if condition="{1:facetInfo.type} == {1:'histogram'}">
+							<f:then>
+								<f:render partial="FacetHistogram" arguments="{_all}"/>
+							</f:then>
+							<f:else>
+								<f:render partial="Facet" arguments="{_all}"/>
+							</f:else>
+						</f:if>
+					</article>
+				</f:if>
+			</f:alias>
 		</f:for>
 	</div>
 </f:if>

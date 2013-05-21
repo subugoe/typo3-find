@@ -30,11 +30,12 @@
  *
  * Arguments:
  *	- type: the facet (i.e. typically the Solr field)’s name
- *	- itemName: the value of the facet’s item in question
+ *	- itemName: the value of the facet’s item in question if needed
  *  - activeFacets: the array of active facets
- *  - mode:
- *		- add: to return an array for f.link.action’s »arguments«
- *		- remove: to return an array for f.link.action’s »argumentsToBeExcludedFromQueryString«
+ *  - mode: return an array for
+ *		- add: f.link.action’s »arguments«, adding a facet selection
+ * 		- remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
+ *					leaving out the itemName parameter removes all selected items for the facet facetName
  */
 class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
@@ -45,7 +46,7 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('facetName', 'string', 'The name of the facet to create the link for', TRUE);
-		$this->registerArgument('itemName', 'string', 'The name of the facet item to create the link for', TRUE);
+		$this->registerArgument('itemName', 'string', 'The name of the facet item to create the link for', FALSE, '');
 		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
 		$this->registerArgument('mode', 'string', 'One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«', FALSE, 'add');
 	}
@@ -65,12 +66,23 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 		$facetQuery = $this->arguments['facetName'] . ':"' . $this->arguments['itemName'] . '"';
 
 		if ($this->arguments['mode'] === 'remove' && $activeFacets) {
-			$thisFacetsIndex = array_search($facetQuery, $activeFacets, TRUE);
-			if ($thisFacetsIndex !== FALSE) {
-				$result[] = 'tx_solrfrontend_solrfrontend[facet][' . $thisFacetsIndex . ']';
+			if ($this->arguments['itemName']) {
+				// Remove this specific facet.
+				$thisFacetsIndex = array_search($facetQuery, $activeFacets, TRUE);
+				if ($thisFacetsIndex !== FALSE) {
+					$result[] = 'tx_solrfrontend_solrfrontend[facet][' . $thisFacetsIndex . ']';
+				}
+			}
+			else {
+				// Remove all facets of this type.
+				foreach ($activeFacets as $activeFacetIndex => $activeFacet) {
+					if (strpos($activeFacet, $this->arguments['facetName'] . ':') === 0) {
+						$result[] = 'tx_solrfrontend_solrfrontend[facet][' . $activeFacetIndex . ']';
+					}
+				}
 			}
 		}
-		else {
+		else if ($this->arguments['mode'] === 'add') {
 			$position = 0;
 			while ($activeFacets && array_key_exists($position, $activeFacets) && $position < 10) {
 				$position++;

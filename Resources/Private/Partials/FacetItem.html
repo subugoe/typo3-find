@@ -1,21 +1,20 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
 
-<li class='count-{facetItemCount} index-{facetItemIterator.cycle}
-	<f:if condition="{s:valueForKey(array:settings.facetDisplayCount, key:facetName)}">
+<li class='index-{facetItemIterator.cycle} count-{facetItemCount}
+	<f:if condition="{facetInfo.displayDefault}">
 		<f:then>
-			<f:if condition="{facetItemIterator.cycle} > {s:valueForKey(array:settings.facetDisplayCount, key:facetName)}">
+			<f:if condition="{facetItemIterator.cycle} > {facetInfo.displayDefault}">
 				<f:then>hidden</f:then>
 			</f:if>
 		</f:then>
 		<f:else>
-			<f:if condition="{facetItemIterator.cycle} > {settings.facetDisplayCount.DEFAULT}">
+			<f:if condition="{facetItemIterator.cycle} > {settings.facetDefaults.displayDefault}">
 				<f:then>hidden</f:then>
 			</f:if>
 		</f:else>
 	</f:if>
 '>
-
-<f:if condition="{s:activeFacet(label:facetName, value:facetItemName, activeFacets:activeFacets)}">
+	<f:if condition="{s:activeFacet(label:facetName, value:facetItemName, activeFacets:activeFacets)}">
 		<f:then>
 			<span class="facetName facetActive">
 				<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"

@@ -103,6 +103,10 @@
 	width: 200px;
 }
 
+.tx_solr_frontend .facets article {
+	margin-bottom: 2em;
+}
+
 .tx_solr_frontend .facets h1 {
 	margin: 0;
 	font-size: 100%;
@@ -112,7 +116,7 @@
 
 .tx_solr_frontend .facets ol {
 	list-style-type: none;
-	margin: 1em 0 2em 0;
+	margin: 1em 0 0 0;
 	padding-left: 0;
 	line-height: 150%;
 }

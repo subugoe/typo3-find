@@ -54,13 +54,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected $resultsPerPage;
 
 	/**
-	 * Counting current facets
-	 *
-	 * @var int
-	 */
-	protected $facetCounter = 0;
-
-	/**
 	 * @var string
 	 */
 	public $prefixId = 'tx_solrfrontend_solrfrontend';
@@ -148,7 +141,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$activeFacets = array();
 
 			foreach ($facets as $key => $facet) {
-				$this->facetCounter++;
 				// add to stack of active facets
 				$activeFacets[$key] = $facet;
 
@@ -168,15 +160,21 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		// get the facetset component
-		$facetSet = $query->getFacetSet();
 
 		if (!empty($this->settings['facets'])) {
 			// @todo sort array
 			// define facets
-			foreach($this->settings['facets'] as $index => $facetName) {
-				$facetSet->createFacetField($facetName)
-						 ->setField($facetName)
-						 ->setMinCount(1);
+			$facetSet = $query->getFacetSet();
+			foreach($this->settings['facets'] as $key => $facet) {
+				$minimum = array_key_exists('fetchMinimum', $facet) ? $facet['fetchMinimum'] : $this->settings['facetDefaults']['fetchMinimum'];
+				$maximum = array_key_exists('fetchMaximum', $facet) ? $facet['fetchMaximum'] : $this->settings['facetDefaults']['fetchMaximum'];
+				$sortOrder = array_key_exists('sortOrder', $facet) ? $facet['sortOrder'] : $this->settings['facetDefaults']['sortOrder'];
+
+				$facetSet->createFacetField($facet['field'])
+						 ->setField($facet['field'])
+						 ->setMinCount($minimum)
+						 ->setLimit($maximum)
+						 ->setSort($sortOrder);
 			}
 		}
 
@@ -194,10 +192,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$this->view
 				->assign('query', $queryParameters)
-				->assign('search', $this->search)
+				->assign('solarium', $query)
 				->assign('results', $resultSet)
 				->assign('numberOfPages', $numberOfPages)
-				->assign('facetCounter', $this->facetCounter)
 				->assign('activeFacets', $activeFacets)
 				->assign('uid', $uid)
 				->assign('counterStart', $this->counterStart())

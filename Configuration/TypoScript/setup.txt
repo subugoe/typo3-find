@@ -56,11 +56,19 @@ plugin.tx_solrfrontend {
 		}
 		showExtendedSearchByDefault = 1
 		facets {
-			10 = type
+			10.field = type
+			20 {
+				field = year
+				fetchMaximum = 1000
+				displayDefault = 1000
+				sortOrder = index
+			}
 		}
-		facetDisplayCount {
-			DEFAULT = 6
-			# fieldName = 10
+		facetDefaults {
+			fetchMinimum = 1
+			fetchMaximum = 100
+			displayDefault = 6
+			sortOrder = count
 		}
 		additionalFilters {
 			# 1 = type:kloster
