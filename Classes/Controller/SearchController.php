@@ -119,8 +119,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 		return $queryComponents;
 	}
-	
-	
+
 	/**
 	 *
 	 */
@@ -130,6 +129,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// search query
 		if ($this->request->hasArgument('q')) {
 			$queryParameters = $this->request->getArgument('q');
+
+			// remove not needed parameters from request
+			unset($queryParameters['__hmac']);
+			unset($queryParameters['__referrer']);
+
 			$queryComponents = Array();
 			if ($queryParameters) {
 				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
@@ -137,7 +141,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				$query->setQuery($queryString);
 			}
 		}
-	
+
 		// add filter queries for facets
 		if ($this->request->hasArgument('facet')) {
 			$facets = $this->request->getArgument('facet');
