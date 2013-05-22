@@ -167,22 +167,28 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// get the facetset component
-
-		if (!empty($this->settings['facets'])) {
-			// @todo sort array
-			// define facets
+		// Configure facets.
+		// Copy the facet configuration to a separate array $facetConfiguration
+		// and enrich it with the defaults settings where they are missing
+		// (to avoid having to check settings in two places with Fluid templating’s
+		// weak logical abilities). Pass this array to the template as well.
+		// (Less redundant approaches like writing the information to $this->settings
+		// or trying to use $this->configurationManager->setConfiguration() to
+		// write it back did not work.)
+		$facetConfiguration = $this->settings['facets'];
+		if ($facetConfiguration) {
 			$facetSet = $query->getFacetSet();
-			foreach($this->settings['facets'] as $key => $facet) {
-				$minimum = array_key_exists('fetchMinimum', $facet) ? $facet['fetchMinimum'] : $this->settings['facetDefaults']['fetchMinimum'];
-				$maximum = array_key_exists('fetchMaximum', $facet) ? $facet['fetchMaximum'] : $this->settings['facetDefaults']['fetchMaximum'];
-				$sortOrder = array_key_exists('sortOrder', $facet) ? $facet['sortOrder'] : $this->settings['facetDefaults']['sortOrder'];
+			foreach($facetConfiguration as $key => $facet) {
+				// start with defaults and overwrite with specific facet configuration
+				$facet = array_merge($this->settings['facetDefaults'], $facet);
+				$facetConfiguration[$key] = $facet;
 
 				$facetSet->createFacetField($facet['field'])
 						 ->setField($facet['field'])
-						 ->setMinCount($minimum)
-						 ->setLimit($maximum)
-						 ->setSort($sortOrder);
+						 ->setMinCount($facet['fetchMinimum'])
+						 ->setLimit($facet['fetchMaximum'])
+						 ->setSort($facet['sortOrder']);
+
 			}
 		}
 
@@ -198,6 +204,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$uid = $this->contentObject->data['uid'];
 
 		$this->view
+				->assign('facets', $facetConfiguration)
 				->assign('query', $queryParameters)
 				->assign('solarium', $query)
 				->assign('results', $resultSet)

@@ -4,22 +4,11 @@
 	<f:for each="{facetData.values}" as="facetItemCount" key="facetItemName" iteration="facetItemIterator">
 		<f:render partial="FacetItem" arguments="{_all}"/>
 	</f:for>
-	<f:if condition='{f:count(subject:facetData.values)} > facetData.displayDefault'>
-		<f:then>
-			<li class="facetShowAll">
-				<a href="#" onclick="return showAllFacetsOfType(event)">alle zeigen</a>
-			</li>
-		</f:then>
-		<f:else>
-			<f:if condition="{f:count(subject:facetData.values)} > {settings.facetDefaults.displayDefault}">
-				<f:then>
-					<li class="facetShowAll">
-						<a href="#" onclick="return showAllFacetsOfType(event)">
-							<f:translate key="show all"/>
-						</a>
-					</li>
-				</f:then>
-			</f:if>
-		</f:else>
+	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
+		<li class="facetShowAll">
+			<a href="#" onclick="return showAllFacetsOfType(event)">
+				<f:translate key="show all"/>
+			</a>
+		</li>
 	</f:if>
 </ol>

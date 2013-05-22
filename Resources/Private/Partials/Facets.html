@@ -19,7 +19,7 @@
 				<f:translate key="Jump to results"/>
 			</a>
 		</h3>
-		<f:for each="{settings.facets}" as="facetInfo" key="facetKey">
+		<f:for each="{facets}" as="facetInfo" key="facetKey">
 			<f:alias map="{facetData: '{s:valueForKey(array:results.components.facetset.facets key:facetInfo.field)}', facetName: facetInfo.field}">
 				<f:if condition="{f:count(subject:facetData)} > 0">
 					<article class="facet {facetInfo.type}">
