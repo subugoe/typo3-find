@@ -37,8 +37,7 @@
  * 		- remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
  *					leaving out the itemName parameter removes all selected items for the facet facetName
  */
-class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
-
+class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -50,8 +49,6 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
 		$this->registerArgument('mode', 'string', 'One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«', FALSE, 'add');
 	}
-
-
 
 	/**
 	 * Create the return array required to add/remove the URL parameters by
