@@ -2,24 +2,10 @@
 
 <div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.simple}', then:'default', else:'extended')}">
 
-	<f:if condition="{0:fieldInfo.type} == {0:'text'}">
-		<f:render partial="FormFields/Text" arguments="{_all}" />
-	</f:if>
+	<f:render partial="FormFields/{fieldInfo.type}" arguments="{_all}"/>
 
 	<f:if condition="{fieldInfo.simple} == 1">
 		<f:link.action arguments="{extendedSearch: 1}" addQueryString="TRUE"><f:translate key="extended Search" /></f:link.action>
-	</f:if>
-
-	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
-		<f:render partial="FormFields/Checkbox" arguments="{_all}" />
-	</f:if>
-
-	<f:if condition="{0:fieldInfo.type} == {0:'select'}">
-		<f:render partial="FormFields/Select" arguments="{_all}" />
-	</f:if>
-
-	<f:if condition="{0:fieldInfo.type} == {0:'radio'}">
-		<f:render partial="FormFields/Radio" arguments="{_all}" />
 	</f:if>
 
 </div>
