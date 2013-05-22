@@ -36,9 +36,9 @@ class Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper extends Tx_Fluid_Core_Vi
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('array', 'array', 'The array to extract the value from', True);
-		$this->registerArgument('key', 'string', 'The key to extract the value for', True);
-		$this->registerArgument('format', 'string', 'The format to return the value in ("text", "json")', False, 'text');
+		$this->registerArgument('array', 'array', 'The array to extract the value from', TRUE);
+		$this->registerArgument('key', 'string', 'The key to extract the value for', TRUE);
+		$this->registerArgument('format', 'string', 'The format to return the value in ("text", "json")', FALSE, 'text');
 	}
 
 
