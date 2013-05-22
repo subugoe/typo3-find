@@ -59,6 +59,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected $contentObject;
 
 	/**
+	 * @var boolean
+	 */
+	protected $extendedSearchActivated = FALSE;
+
+	/**
 	 * @var string
 	 */
 	public $prefixId = 'tx_solrfrontend_solrfrontend';
@@ -88,6 +93,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		$this->contentObject = $this->configurationManager->getContentObject();
+
+		if (!empty($this->settings['showExtendedSearchByDefault']) || $this->request->hasArgument('extendedSearch')) {
+			$this->extendedSearchActivated = TRUE;
+		}
 
 	}
 
@@ -122,7 +131,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 	/**
-	 *
+	 * Index Action
 	 */
 	public function indexAction() {
 		$query = $this->solr->createSelect();
