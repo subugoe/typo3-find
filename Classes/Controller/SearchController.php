@@ -54,6 +54,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected $resultsPerPage;
 
 	/**
+	 * @var tslib_cObj
+	 */
+	protected $contentObject;
+
+	/**
 	 * @var string
 	 */
 	public $prefixId = 'tx_solrfrontend_solrfrontend';
@@ -81,6 +86,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if ($this->request->hasArgument('offset')) {
 			$this->offset = $this->request->getArgument('offset') * $this->resultsPerPage;
 		}
+
+		$this->contentObject = $this->configurationManager->getContentObject();
+
 	}
 
 
@@ -187,8 +195,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// determine number of pages for pagebrowser
 		$numberOfPages = ceil($resultSet->getNumFound() / $this->resultsPerPage);
 
-		$contentObject = $this->configurationManager->getContentObject();
-		$uid = $contentObject->data['uid'];
+		$uid = $this->contentObject->data['uid'];
 
 		$this->view
 				->assign('query', $queryParameters)
