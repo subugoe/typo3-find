@@ -41,20 +41,6 @@ class Tx_SolrFrontend_Tests_Unit_ViewHelpers_FacetLinkArgumentsViewHelperTest ex
 	/**
 	 * @test
 	 */
-	public function filterIsCorrectlyBuiltOnTextQueries() {
-		$this->fixture->setArguments(array(
-			'facetName' => 'title',
-			'itemName' => 'hrdr'
-		));
-
-		$result = $this->fixture->render();
-
-		$this->assertEquals('title:"hrdr"', $result['facet'][0]);
-	}
-
-	/**
-	 * @test
-	 */
 	public function filterIsCorrectlyRemovedOnTextQueries() {
 		$this->fixture->setArguments(array(
 			'facetName' => 'title',
