@@ -212,17 +212,21 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$uid = $this->contentObject->data['uid'];
 
-		$this->view
-				->assign('facets', $facetConfiguration)
-				->assign('query', $queryParameters)
-				->assign('solarium', $query)
-				->assign('results', $resultSet)
-				->assign('numberOfPages', $numberOfPages)
-				->assign('activeFacets', $activeFacets)
-				->assign('uid', $uid)
-				->assign('counterStart', $this->counterStart())
-				->assign('counterEnd', $this->counterEnd())
-				->assign('prefixId', $this->prefixId);
+		$assignments = array(
+			'facets' => $facetConfiguration,
+			'query' => $queryParameters,
+			'solarium' => $query,
+			'results' => $resultSet,
+			'numberOfPages' => $numberOfPages,
+			'activeFacets' => $activeFacets,
+			'uid' => $uid,
+			'counterStart' => $this->counterStart(),
+			'counterEnd' => $this->counterEnd(),
+			'prefixId' => $this->prefixId
+		);
+
+		$this->view->assignMultiple($assignments);
+
 	}
 
 	/**
