@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'category' => 'frontend',
 	'shy' => 0,
 	'version' => '1.0.0',
-	'dependencies' => 'extbase,fluid,pagebrowse',
+	'dependencies' => 'extbase,fluid,pagebrowse,t3jquery',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
@@ -39,6 +39,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'extbase' => '4.7.0-0.0.0',
 			'fluid' => '4.7.0-0.0.0',
 			'pagebrowse' => '1.3.2-0.0.0',
+			't3jquery' => '2.3.3-0.0.0',
 		),
 		'conflicts' => array(
 		),
