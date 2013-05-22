@@ -141,10 +141,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$queryParameters = $this->request->getArgument('q');
 
 			// remove not needed parameters from request
-			unset($queryParameters['__hmac']);
-			unset($queryParameters['__referrer']);
+			if (array_key_exists('__hmac', $queryParameters)) {
+				unset($queryParameters['__hmac']);
+			}
+			if (array_key_exists('__referrer', $queryParameters)) {
+				unset($queryParameters['__referrer']);
+			}
 
-			$queryComponents = Array();
+			$queryComponents = array();
 			if ($queryParameters) {
 				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
 				$queryString = implode(' AND ', $queryComponents);
