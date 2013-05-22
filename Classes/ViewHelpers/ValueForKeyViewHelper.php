@@ -46,7 +46,10 @@ class Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper extends Tx_Fluid_Core_Vi
 	 * @return string
 	 */
 	public function render() {
-		$result = $this->arguments['array'][$this->arguments['key']];
+		$result = NULL;
+		if (array_key_exists($this->arguments['key'], $this->arguments['array'])) {
+			$result = $this->arguments['array'][$this->arguments['key']];
+		}
 
 		if ($this->arguments['format'] === 'json') {
 			$result = json_encode($result);

@@ -135,8 +135,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	public function indexAction() {
 		$query = $this->solr->createSelect();
-
 		// search query
+		$queryParameters = array();
 		if ($this->request->hasArgument('q')) {
 			$queryParameters = $this->request->getArgument('q');
 
@@ -153,9 +153,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		// add filter queries for facets
+		$activeFacets = array();
 		if ($this->request->hasArgument('facet')) {
 			$facets = $this->request->getArgument('facet');
-			$activeFacets = array();
 
 			foreach ($facets as $key => $facet) {
 				// add to stack of active facets
