@@ -222,7 +222,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'uid' => $uid,
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
-			'prefixId' => $this->prefixId
+			'prefixId' => $this->prefixId,
+			'extendedSearchActivated' => $this->extendedSearchActivated
 		);
 
 		$this->view->assignMultiple($assignments);
