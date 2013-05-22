@@ -37,8 +37,6 @@ plugin.tx_solrfrontend {
 			1 = typ:kloster
 		}
 		CSSPaths.20 = EXT:solr_frontend/Resources/Private/germania-sacra/germania-sacra.css
-		JSPaths.20 = EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.js
-		JSPaths.21 = EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.selection.js
 	}
 	view {
 		templateRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Templates/
