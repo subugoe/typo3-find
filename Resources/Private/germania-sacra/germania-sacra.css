@@ -26,16 +26,17 @@ article section {
 
 article section>* {
 	line-height: 1.5;
-	margin: 0 0 0 10em;
+	margin: 0 0 0 12em;
 	padding: 0;
 }
 
 article section h2 {
 	float: left;
 	clear: left;
-	width: 9em;
+	width: 11em;
 	margin-left: 0;
 	font-size: 100%;
+	text-align: right;
 }
 
 .lage ol,
@@ -50,7 +51,6 @@ article section h2 {
 	word-wrap: break-word;
 }
 
-.zeitraum,
 .ort,
 .orden,
 .band-nummer {
@@ -59,4 +59,15 @@ article section h2 {
 
 li p {
 	margin-bottom: 0.5em;
+}
+
+.band-link .band-titel:after,
+.band-titel:after {
+	content: ', ';
+}
+
+.band-link:last-child .band-titel:after,
+p>.band-titel:last-of-type:after {
+	content: '';
+	background: red;
 }

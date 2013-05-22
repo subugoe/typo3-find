@@ -7,12 +7,8 @@ plugin.tx_solrfrontend {
 			path = /solr/germania-sacra
 		}
 		queryFields {
-			10.id = bistum
-			15 {
-				id = notbistum
-				query = NOT bistum:###term###
-				type = text
-			}
+			10 >
+			15 >
 			20 >
 			30 >
 			40 >

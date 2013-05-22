@@ -10,6 +10,7 @@
 			function mapsReady () {
 				var mapOptions = {
 					'mapTypeId': google.maps.MapTypeId.ROADMAP,
+					'streetViewControl': false
 				};
 
 				var mapContainer = document.getElementById('c-{document.id}-map');
@@ -57,72 +58,76 @@
 	</aside>
 
 	<div class="main">
-		<section class="patrozinium">
-			<h2>Patrozinium</h2>
-			<p>
-				{document.patrozinium}
-			</p>
-		</section>
+		<f:if condition="{document.patrozinium}">
+			<section class="patrozinium">
+				<h2>Patrozinium</h2>
+				<p>
+					{document.patrozinium}
+				</p>
+			</section>
+		</f:if>
 
 		<section class="lage">
 			<h2>Lage</h2>
 			<ol>
 				<f:for each="{document.ort}" as="ort" key="index">
-					<li>
-						<p>
-							<span class="zeitraum">
-								<s:valueForKey array="{document.standort_von_verbal}" key="{index}"/>
-								–
-								<s:valueForKey array="{document.standort_bis_verbal}" key="{index}"/>
-							</span>
-							<span class="ort">{ort}</span><f:if condition="{s:valueForKey(array:document.wuestung, key:index)}"><span class="wuestung"> (Wüstung)</span></f:if>,
-							<f:if condition="{s:valueForKey(array:document.bemerkung_standort, key:index)}">
-								<span class="bemerkung">
-									<s:valueForKey array="{document.bemerkung_standort}" key="{index}"/>,
-								</span>
-							</f:if>
+					<f:alias map="{ bistum: '{s:valueForKey(array:document.bistum, key:index)}',
+							 		ist_erzbistum: '{s:valueForKey(array:document.ist_erzbistum, key:index)}',
+									wuestung: '{s:valueForKey(array:document.wuestung, key:index)}',
+									land: '{s:valueForKey(array:document.land, key:index)}',
+									standort_von_verbal: '{s:valueForKey(array:document.standort_von_verbal, key:index)}',
+									standort_bis_verbal: '{s:valueForKey(array:document.standort_bis_verbal, key:index)}',
+									bemerkung_standort: '{s:valueForKey(array:document.bemerkung_standort, key:index)}' }">
+						<li>
+							<p>
+								<f:if condition="{0:standort_von_verbal, 1:standort_bis_verbal} != {0:'', 1:''}">
+									<span class="zeitraum">{standort_von_verbal} – {standort_bis_verbal}:</span>
+								</f:if>
+								<span class="ort">
+									<f:link.action arguments="{q: '{default: \'ort:\"{ort}\"\'}'}">{ort}</f:link.action></span>{f:if(condition:wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+								<f:if condition="{bemerkung_standort}">
+									<span class="bemerkung">{bemerkung_standort},</span>
+								</f:if>
 
-							<span class="land">
-								<s:valueForKey array="{document.land}" key="{index}"/>
-							</span>
-						</p>
-					</li>
+								<span class="land">{land}</span>
+
+								<f:if condition="bistum">
+									<p class="bistum">
+										<f:link.action arguments="{q: '{default: \'bistum:\"{bistum}\"\'}'}">
+											<f:if condition="{ist_erzbistum}">
+												<f:then>Erzistum</f:then>
+												<f:else>Bistum</f:else>
+											</f:if>
+											{bistum}
+										</f:link.action>
+									</p>
+								</f:if>
+							</p>
+						</li>
+					</f:alias>
 				</f:for>
 			</ol>
-			<f:if condition="{f:count(subject:document.bistum) > 0}">
-				<p class="bistum">
-					<f:if condition="{document.ist_erzbistum.0}">
-						<f:then>Erzistum</f:then>
-						<f:else>Bistum</f:else>
-					</f:if>
-					{document.bistum.0}
-
-					<f:for each="{document.ort}" as="ort" key="index">
-						<f:if condition="{0: ort} != {0: s:valueForKey(array:'{document.ort}', key:'{index}')}">
-							<f:if condition="{key} > 0">
-								auch: {s:valueForKey(array:document.ort, key:index)}
-							</f:if>
-						</f:if>
-					</f:for>
-				</p>
-			</f:if>
 		</section>
-
 
 		<section class="orden">
 			<h2>Orden</h2>
 			<ol>
 				<f:for each="{document.orden}" as="orden" key="index">
-					<li>
-						<p>
-							<span class="orden">{orden}</span>
-							<span class="zeitraum">
-								<s:valueForKey array="{document.orden_von_verbal}" key="{index}"/>
-								–
-								<s:valueForKey array="{document.orden_bis_verbal}" key="{index}"/>
-							</span>
-						</p>
-					</li>
+					<f:alias map="{ orden_von_verbal: '{s:valueForKey(array:document.orden_von_verbal, key:index)}',
+									orden_bis_verbal: '{s:valueForKey(array:document.orden_bis_verbal, key:index)}' }">
+						<li>
+							<p>
+								<f:if condition="{0:orden_von_verbal, 1:orden_bis_verbal} != {0:'', 1:''}">
+									<span class="zeitraum">{orden_von_verbal} – {orden_bis_verbal}:</span>
+								</f:if>
+								<span class="orden">
+									<f:link.action arguments="{q: '{default: \'orden:\"{orden}\"\'}'}">
+										{orden}
+									</f:link.action>
+								</span>
+							</p>
+						</li>
+					</f:alias>
 				</f:for>
 			</ol>
 		</section>
@@ -137,19 +142,22 @@
 
 		<f:if condition="{document.band_nummer}">
 			<section class="germania-sacra">
-				<h2>Germania Sacra</h2>
+				<h2>Germania-Sacra-Band</h2>
 				<p>
 					<f:if condition="{document.band_url}">
 						<f:then>
-							<f:link.external uri="{document.band_url.0}">
-								<span class="band-nummer">{document.band_nummer.0}</span>
+							<f:link.external class="band-link" uri="{document.band_url.0}">
+								<span class="band-nummer">{document.band_nummer.0}</span>:
 								<span class="band-titel">{document.band_titel.0}</span>
 							</f:link.external>
 						</f:then>
 						<f:else>
-							<span class="band-nummer">{document.band_nummer.0}</span>
+							<span class="band-nummer">{document.band_nummer.0}</span>:
 							<span class="band-titel">{document.band_titel.0}</span>
 						</f:else>
+					</f:if>
+					<f:if condition="{document.band_seite.0}">
+						<span class="seite">S. {document.band_seite.0}</span>
 					</f:if>
 				</p>
 			</section>
@@ -189,7 +197,7 @@
 								<f:link.external uri="{url}">
 									<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
 									<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
-										— {s:valueForKey(array:document.url_bemerkung, key:index)}
+										– {s:valueForKey(array:document.url_bemerkung, key:index)}
 									</f:if>
 								</f:link.external>
 							</li>
