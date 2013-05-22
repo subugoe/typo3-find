@@ -28,19 +28,29 @@
 /**
  * Determines whether a facet is selected or not
  */
-class Tx_SolrFrontend_ViewHelpers_ActiveFacetViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
+class Tx_SolrFrontend_ViewHelpers_FacetIsActiveViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
+
 
 	/**
-	 * @param string $label
-	 * @param string $value
-	 * @param array $activeFacets
+	 * Register arguments.
+	 */
+	public function initializeArguments() {
+		parent::initializeArguments();
+		$this->registerArgument('facetName', 'string', 'The name of the facet to determine the selection status of', TRUE);
+		$this->registerArgument('itemName', 'string', 'The name of the facet item to determine the selection status of', TRUE);
+		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
+	}
+
+
+	/**
 	 * @return array
 	 */
-	public function render($label, $value, $activeFacets) {
+	public function render() {
+		$activeFacets = $this->arguments['activeFacets'];
+		$facetQuery = $this->arguments['facetName'] . ':"' . $this->arguments['itemName'] . '"';
 
-		$currentFacet = $label . ':"' . $value . '"';
 		foreach ($activeFacets as $activeFacet) {
-			if ($activeFacet === $currentFacet) {
+			if ($activeFacet === $facetQuery) {
 				return TRUE;
 			}
 		}

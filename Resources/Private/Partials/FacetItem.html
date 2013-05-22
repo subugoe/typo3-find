@@ -14,7 +14,7 @@
 		</f:else>
 	</f:if>
 '>
-	<f:if condition="{s:activeFacet(label:facetName, value:facetItemName, activeFacets:activeFacets)}">
+	<f:if condition="{s:facetIsActive(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}">
 		<f:then>
 			<span class="facetName facetActive">
 				<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
