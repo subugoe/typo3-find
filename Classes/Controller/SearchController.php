@@ -239,6 +239,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		return $this->offset + 1 ;
 	}
 
+
 	/**
 	 * Calculates the number of the last result on a page
 	 *
@@ -248,12 +249,35 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		return $this->offset + $this->resultsPerPage;
 	}
 
+
 	/**
-	 * Creates and inserts tags inside <head>.
+	 * Returns whether or not the jQuery flot library is needed
+	 * by the histogram facet.
+	 *
+	 * @return Boolean
+	 */
+	protected function requiresFlot() {
+		$result = FALSE;
+		foreach ($this->settings['facets'] as $facetInfo) {
+			if ($facetInfo['type'] === 'histogram') {
+				$result = TRUE;
+				break;
+			}
+		}
+		return $result;
+	}
+
+
+	/**
+	 * Creates and inserts <style> and <script> tags inside <head>.
+	 * Add files configured in TypoScript.
+	 * Also add jQuery flot library if we are using histograms.
 	 */
 	protected function addResourcesToHead () {
-		// Add CSS to head: Custom file if configured, included default file otherwise.
-		$CSSFileNames = $this->settings['CSSPaths'];
+		$CSSFileNames = array();
+		if ($this->settings['CSSPaths']) {
+			$CSSFileNames = $this->settings['CSSPaths'];
+		}
 		if ($CSSFileNames) {
 			foreach ($CSSFileNames as $CSSFileName) {
 				$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($CSSFileName);
@@ -267,8 +291,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// Add JavaScript to head: Custom file if configured, included default file otherwise.
-		$JSFileNames = $this->settings['JSPaths'];
+		$JSFileNames = array();
+		if ($this->settings['JSPaths']) {
+			$JSFileNames = $this->settings['JSPaths'];
+		}
+		if ($this->requiresFlot()) {
+			$JSFileNames[] = 'EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.js';
+			$JSFileNames[] = 'EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.selection.js';
+		}
 		if ($JSFileNames) {
 			foreach ($JSFileNames as $JSFileName) {
 				$JSFileName = $GLOBALS['TSFE']->tmpl->getFileName($JSFileName);
