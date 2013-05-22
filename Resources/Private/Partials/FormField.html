@@ -11,15 +11,15 @@
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
-		<f:render partial="FormFields/Checkbox" arguments="_all" />
+		<f:render partial="FormFields/Checkbox" arguments="{_all}" />
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'select'}">
-		<f:render partial="FormFields/Select" arguments="_all" />
+		<f:render partial="FormFields/Select" arguments="{_all}" />
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'radio'}">
-		<f:render partial="FormFields/Radio" arguments="_all" />
+		<f:render partial="FormFields/Radio" arguments="{_all}" />
 	</f:if>
 
 </div>
