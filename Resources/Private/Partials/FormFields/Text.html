@@ -1,0 +1,7 @@
+{namespace s=Tx_SolrFrontend_ViewHelpers}
+
+<label for="c{uid}-field-{fieldInfo.id}">
+	<f:translate key="fieldLabel.{fieldInfo.id}"/>
+</label>
+<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{s:valueForKey(array:query, key:fieldInfo.id)}"
+			  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/>

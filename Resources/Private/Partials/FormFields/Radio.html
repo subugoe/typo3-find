@@ -1,0 +1,11 @@
+<span class="radioGroup">
+	<span class="radioGroupLabel">
+		<f:translate key="fieldLabel.{fieldInfo.id}" default=""/>
+	</span>
+	<f:for each="{fieldInfo.options}" as="value" key="key">
+		<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="{fieldInfo.id}" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/> <!-- TODO set with previous value -->
+		<label for="c{uid}-field-{fieldInfo.id}-{key}">
+			<f:translate key="fieldLabel.{fieldInfo.id}-{key}" default="{fieldInfo.id}-{key}"/>
+		</label>
+	</f:for>
+</span>

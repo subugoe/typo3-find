@@ -3,41 +3,23 @@
 <div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.simple}', then:'default', else:'extended')}">
 
 	<f:if condition="{0:fieldInfo.type} == {0:'text'}">
-		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.id}"/>
-		</label>
-		<f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{s:valueForKey(array:query, key:fieldInfo.id)}"
-					  placeholder="{f:translate(key:'fieldPlaceholder.{fieldInfo.id}')}"/>
+		<f:render partial="FormFields/Text" arguments="{_all}" />
 	</f:if>
+
 	<f:if condition="{fieldInfo.simple} == 1">
-		<f:link.action section="extended-search" addQueryString="TRUE"><f:translate key="extended Search" /></f:link.action>
+		<f:link.action section="extended-search" additionalParams="{extended-search: 1}" addQueryString="TRUE"><f:translate key="extended Search" /></f:link.action>
 	</f:if>
+
 	<f:if condition="{0:fieldInfo.type} == {0:'checkbox'}">
-		<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
-		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.id}" default="{fieldInfo.id}"/>
-		</label>
+		<f:render partial="FormFields/Checkbox" arguments="_all" />
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'select'}">
-		<label for="c{uid}-field-{fieldInfo.id}">
-			<f:translate key="fieldLabel.{fieldInfo.id}"/>
-		</label>
-		<f:form.select id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" options="{fieldInfo.options}" value="{}"/> <!-- TODO: localise option names? Default selection? -->
+		<f:render partial="FormFields/Select" arguments="_all" />
 	</f:if>
 
 	<f:if condition="{0:fieldInfo.type} == {0:'radio'}">
-		<span class="radioGroup">
-			<span class="radioGroupLabel">
-				<f:translate key="fieldLabel.{fieldInfo.id}" default=""/>
-			</span>
-			<f:for each="{fieldInfo.options}" as="value" key="key">
-				<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="{fieldInfo.id}" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/> <!-- TODO set with previous value -->
-				<label for="c{uid}-field-{fieldInfo.id}-{key}">
-					<f:translate key="fieldLabel.{fieldInfo.id}-{key}" default="{fieldInfo.id}-{key}"/>
-				</label>
-			</f:for>
-		</span>
+		<f:render partial="FormFields/Radio" arguments="_all" />
 	</f:if>
 
 </div>
