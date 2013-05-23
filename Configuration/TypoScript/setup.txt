@@ -89,6 +89,15 @@ plugin.tx_solrfrontend {
 	}
 }
 
+tx_solrfrontend_page = PAGE
+tx_solrfrontend_page {
+	typeNum = 1369315139
+	10 < tt_content.list.20.solrfrontend_autocomplete
+	config {
+		disableAllHeaderCode = 1
+	}
+}
+
 plugin.tx_pagebrowse_pi1 {
 	templateFile = EXT:solr_frontend/Resources/Private/Templates/pagebrowse/template.html
 	enableMorePages = 1

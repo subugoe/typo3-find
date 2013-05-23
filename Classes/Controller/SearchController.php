@@ -262,6 +262,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+	public function autoCompleteAction($searchTerm = "hrdr") {
+		$this->view->assign('results', $searchTerm);
+	}
+
 	/**
 	 * Calculates the starting point for the ordered list
 	 *
