@@ -268,9 +268,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->view->assign('document', $resultSet[0]);
 	}
 
-
-	public function autoCompleteAction($searchTerm = "hrdr") {
-		$this->view->assign('results', $searchTerm);
+	/**
+	 * Action for autocompletion
+	 */
+	public function autoCompleteAction() {
+		$searchTerm = filter_var($_GET['term'], FILTER_SANITIZE_STRING);
+		$this->view->assign('searchTerm', $searchTerm);
 	}
 
 	/**

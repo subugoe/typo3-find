@@ -2,6 +2,13 @@ var localise = function (term) {
 	return term;
 }
 
+var currentUrl = function() {
+	return window.location.href;
+}
+
+// autocomplete
+jQuery('.tx_solr_frontend .field-default input').autocomplete({source: currentUrl() + "&type=1369315139"});
+
 var createHistogram = function (terms) {
 	var jGraphDiv = jQuery('div.histogram'); // TODO: more precise selection to allow multiple histograms
 	var graphWidth = jQuery('div.facets').width(); // TODO: use parent() in selection
