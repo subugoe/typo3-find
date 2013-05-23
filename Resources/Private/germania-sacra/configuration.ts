@@ -13,6 +13,12 @@ plugin.tx_solrfrontend {
 			30 >
 			40 >
 		}
+		sort {
+			1 {
+				field = ort_sort
+				ascending = 1
+			}
+		}
 		standardFields {
 			title = kloster
 			snippet = uebersetzung
