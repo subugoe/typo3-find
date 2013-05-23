@@ -24,14 +24,14 @@
 				<f:if condition="{f:count(subject:facetData)} > 0">
 					<article class="facet {facetInfo.type}">
 						<h1>
-							<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}" default="{facetName}"/>
+							<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}" default="{facetName}*"/>
 						</h1>
 						<f:if condition="{1:facetInfo.type} == {1:'histogram'}">
 							<f:then>
 								<f:render partial="FacetHistogram" arguments="{_all}"/>
 							</f:then>
 							<f:else>
-								<f:render partial="Facet" arguments="{_all}"/>
+								<f:render partial="FacetList" arguments="{_all}"/>
 							</f:else>
 						</f:if>
 					</article>
