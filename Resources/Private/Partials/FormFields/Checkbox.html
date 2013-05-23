@@ -1,4 +1,5 @@
-<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"/> <!-- TODO: need variable in template; need to pre-set value with default field -->
+<f:form.checkbox id="c{uid}-field-{fieldInfo.id}" name="{fieldInfo.id}" value="{}"/>
+<!-- TODO: need to pre-set value with default field -->
 <label for="c{uid}-field-{fieldInfo.id}">
-	<f:translate key="fieldLabel.{fieldInfo.id}" default="{fieldInfo.id}"/>
+	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>
 </label>

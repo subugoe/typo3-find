@@ -59,11 +59,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected $contentObject;
 
 	/**
-	 * @var boolean
-	 */
-	protected $extendedSearchActivated = FALSE;
-
-	/**
 	 * @var string
 	 */
 	public $prefixId = 'tx_solrfrontend_solrfrontend';
@@ -93,14 +88,25 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		$this->contentObject = $this->configurationManager->getContentObject();
-
-		if (!empty($this->settings['showExtendedSearchByDefault']) || $this->request->hasArgument('extendedSearch')) {
-			$this->extendedSearchActivated = TRUE;
-		}
-
 	}
 
 
+	/**
+	 * Returns whether extended search should be used or not.
+	 * 
+	 * @return Boolean
+	 */
+	private function isExtendedSearch () {
+		$result = FALSE;
+
+		if ($this->request->hasArgument('extendedSearch')) {
+			$result = ($this->request->getArgument('extendedSearch') == TRUE);
+		}
+		
+		return $result;
+	}
+
+	
 	/**
 	 * Takes the array of search query parameters and builds an array of Solr
 	 * search strings from it, using the »queryFields« configuration from TypoScript.
@@ -203,7 +209,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						 ->setMinCount($facet['fetchMinimum'])
 						 ->setLimit($facet['fetchMaximum'])
 						 ->setSort($facet['sortOrder']);
-
 			}
 		}
 
@@ -229,7 +234,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
 			'prefixId' => $this->prefixId,
-			'extendedSearchActivated' => $this->extendedSearchActivated
+			'extendedSearch' => $this->isExtendedSearch()
 		);
 
 		$this->view->assignMultiple($assignments);

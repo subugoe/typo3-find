@@ -3,6 +3,15 @@
 .tx_solr_frontend {
 }
 
+.tx_solr_frontend .clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
 .tx_solr_frontend .hidden {
 	display: none;
 }
@@ -11,7 +20,12 @@
 /* search form */
 
 .tx_solr_frontend form {
+	position: relative;
 	line-height: 150%;
+}
+
+.tx_solr_frontend .formFields {
+	float: left;
 }
 
 .tx_solr_frontend form .fieldContainer {
@@ -21,6 +35,11 @@
 
 .tx_solr_frontend .field-default label {
 	display: none;
+}
+
+.tx_solr_frontend .fieldContainer input {
+	display: block;
+	margin-left: 125px;
 }
 
 .tx_solr_frontend .field-default input {
@@ -36,6 +55,18 @@
 	color: #333333;
 	background: #f3f5f9;
 	font-size: 175%;
+}
+
+.tx_solr_frontend label {
+	display: block;
+	float: left;
+	width: 110px;
+	text-align: right;
+}
+
+.tx_solr_frontend .controls {
+	float: left;
+	bottom: 0px;
 }
 
 .tx_solr_frontend .fieldType-search input:-moz-placeholder {
@@ -68,13 +99,18 @@
 	background-color: #e7e9ed;
 }
 
-.tx_solr_frontend .extendedSearch {
-	 display: block;
-	 float: left;
-	 margin-left: 1em;
-	 line-height: 30px;
+.tx_solr_frontend a.extendedSearch {
+	line-height: 30px;
+	margin-left: 0.5em;
 }
 
+.tx_solr_frontend .field-mode-extended {
+	 display: none;
+}
+
+.tx_solr_frontend .search-extended .field-mode-extended {
+	display: block;
+}
 
 /* results */
 .tx_solr_frontend .results {

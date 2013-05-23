@@ -1,24 +1,30 @@
 <f:form name="c{uid}-form" method="get" fieldNamePrefix="tx_solrfrontend_solrfrontend[q]"
 		class="searchForm {f:if(condition:extendedSearch, then:'search-extended', else:'search-simple')}">
-	<f:for each="{settings.queryFields}" as="fieldInfo">
-		<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'field-extended', else:'field-simple')}">
-			<f:render partial="FormFields/{fieldInfo.type}" arguments="{_all}"/>
-		</div>
-	</f:for>
 
-	<f:groupedFor each="{settings.queryFields}" as="fieldsByType" groupBy="extended" groupKey="extended">
-		<f:if condition="{0:extended} == {0:1}">
-			<f:if condition="{extendedSearch}">
-				<f:then>
-					<f:link.action arguments="{extendedSearch: 0}" addQueryString="TRUE"><f:translate key="basic Search"/></f:link.action>
-				</f:then>
-				<f:else>
-					<f:link.action arguments="{extendedSearch: 1}" addQueryString="TRUE"><f:translate key="extended Search"/></f:link.action>
-				</f:else>
+	<div class="formFields">
+		<f:for each="{settings.queryFields}" as="fieldInfo">
+			<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
+				<f:render partial="FormFields/{fieldInfo.type}" arguments="{_all}"/>
+			</div>
+		</f:for>
+	</div>
+
+	<div class="controls">
+		<f:form.submit value="{f:translate(key:'Search')}" class="submit"/>
+
+		<f:groupedFor each="{settings.queryFields}" as="fieldsByType" groupBy="extended" groupKey="extended">
+			<f:if condition="{0:extended} == {0:1}">
+				<f:if condition="{extendedSearch}">
+					<f:then>
+						<f:link.action argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[extendedSearch]'}" addQueryString="TRUE" class="extendedSearch"><f:translate key="basic Search"/></f:link.action>
+					</f:then>
+					<f:else>
+						<f:link.action arguments="{extendedSearch: 1}" addQueryString="TRUE" class="extendedSearch"><f:translate key="extended Search"/></f:link.action>
+					</f:else>
+				</f:if>
 			</f:if>
-		</f:if>
-	</f:groupedFor>
-
-	<f:form.submit value="{f:translate(key:'Search')}" class="submit"/>
-
+		</f:groupedFor>
+	</div>
+	
+	<div class="clear"></div>
 </f:form>

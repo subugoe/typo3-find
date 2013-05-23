@@ -58,7 +58,6 @@ plugin.tx_solrfrontend {
 			title = title
 			snippet = snippet
 		}
-		showExtendedSearchByDefault = 1
 		facets {
 			10.field = type
 			20 {
