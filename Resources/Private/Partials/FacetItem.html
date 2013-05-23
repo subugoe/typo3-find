@@ -31,7 +31,8 @@
 			<f:link.action
 					addQueryString="TRUE"
 					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}"
-					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[offset]'}">
+					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[offset]'}"
+					class="facetAdd">
 				<span class="facetName">
 					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
 								 default="{facetItemName}"/>
