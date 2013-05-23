@@ -30,7 +30,8 @@
 		<f:else>
 			<f:link.action
 					addQueryString="TRUE"
-					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}">
+					arguments="{s:facetLinkArguments(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}"
+					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[offset]'}">
 				<span class="facetName">
 					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
 								 default="{facetItemName}"/>
@@ -40,5 +41,3 @@
 		</f:else>
 	</f:if>
 </li>
-
-

@@ -78,6 +78,9 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 					}
 				}
 			}
+
+			// Go back to page 1.
+			$result[] = 'tx_solrfrontend_solrfrontend[offset]';
 		}
 		else if ($this->arguments['mode'] === 'add') {
 			$position = 0;

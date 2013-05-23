@@ -31,18 +31,24 @@
 class Tx_SolrFrontend_ViewHelpers_PageBrowserViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper{
 
 	/**
-	 * @param int $numberOfPages
-	 * @param string $prefixId
-	 * @param string $pageParameterName
-	 * @param string $searchTerm
+	 * Register arguments.
+	 */
+	public function initializeArguments() {
+		parent::initializeArguments();
+		$this->registerArgument('numberOfPages', 'int', 'The total number of pages to create a pager for', TRUE);
+		$this->registerArgument('prefixId', 'string', 'The string to prefix the URL parameter with', TRUE);
+		$this->registerArgument('pageParameterName', 'page', 'The URL parameter name', FALSE, 'page');
+	}
+
+
+	/**
 	 * @return string
 	 */
-	public function render($numberOfPages, $prefixId, $pageParameterName = 'page', $searchTerm) {
+	public function render() {
 		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_pagebrowse_pi1.'];
 		// Modify this configuration
-		$conf['pageParameterName'] = $prefixId . '|' . $pageParameterName;
-		$conf['numberOfPages'] = $numberOfPages;
-		$conf['extraQueryString'] = '&' . $prefixId . '[q]=' . $searchTerm;
+		$conf['pageParameterName'] = $this->arguments['prefixId'] . '|' . $this->arguments['pageParameterName'];
+		$conf['numberOfPages'] = $this->arguments['numberOfPages'];
 
 		// Get page browser
 		$cObj = t3lib_div::makeInstance('tslib_cObj');
