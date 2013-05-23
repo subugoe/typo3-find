@@ -5,7 +5,7 @@
 		<description>
 			Language labels for facet content.
 			The file »locallang-facets.xml« will be loaded from the path set as
-			»view.languageRootPath« in TypoScript.
+			»settings.languageRootPath« in TypoScript.
 
 			Localisation keys / label indexes follow the convention:
 				* facet name for index FOO: facet.FOO
