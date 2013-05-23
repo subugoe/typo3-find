@@ -88,8 +88,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$this->resultsPerPage = intval($this->settings['results']['numberOfResultsPerPage']);
 
-		if ($this->request->hasArgument('offset')) {
-			$this->offset = $this->request->getArgument('offset') * $this->resultsPerPage;
+		if ($this->request->hasArgument('page')) {
+			$this->offset = $this->request->getArgument('page') * $this->resultsPerPage;
 		}
 
 		$this->contentObject = $this->configurationManager->getContentObject();
