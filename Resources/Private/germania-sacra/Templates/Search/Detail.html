@@ -84,7 +84,7 @@
 									<span class="zeitraum">{standort_von_verbal} – {standort_bis_verbal}:</span>
 								</f:if>
 								<span class="ort">
-									<f:link.action arguments="{q: '{default: \'ort:\"{ort}\"\'}'}">{ort}</f:link.action></span>{f:if(condition:wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+									<f:link.action arguments="{q: '{default: \'ort:\"{ort}\"\'}'}" title="Alle Klöster in {ort} zeigen.">{ort}</f:link.action></span>{f:if(condition:wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 								<f:if condition="{bemerkung_standort}">
 									<span class="bemerkung">{bemerkung_standort},</span>
 								</f:if>
@@ -93,11 +93,8 @@
 
 								<f:if condition="bistum">
 									<p class="bistum">
-										<f:link.action arguments="{q: '{default: \'bistum:\"{bistum}\"\'}'}">
-											<f:if condition="{ist_erzbistum}">
-												<f:then>Erzistum</f:then>
-												<f:else>Bistum</f:else>
-											</f:if>
+										<f:link.action arguments="{q: '{default: \'bistum:\"{bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')} {bistum} zeigen.">
+											{f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')}
 											{bistum}
 										</f:link.action>
 									</p>
@@ -121,7 +118,7 @@
 									<span class="zeitraum">{orden_von_verbal} – {orden_bis_verbal}:</span>
 								</f:if>
 								<span class="orden">
-									<f:link.action arguments="{q: '{default: \'orden:\"{orden}\"\'}'}">
+									<f:link.action arguments="{q: '{default: \'orden:\"{orden}\"\'}'}" title="Alle Klöster der {orden} zeigen.">
 										{orden}
 									</f:link.action>
 								</span>
@@ -188,7 +185,6 @@
 
 		<section class="link">
 			<f:if condition="{document.url}">
-				<f:if condition="{f:count(subject:document.url)} > {f:count(subject:document.band_url)}">
 				<h2>Links</h2>
 				<ul>
 					<f:for each="{document.url}" as="url" key="index">
@@ -204,7 +200,6 @@
 						</f:if>
 					</f:for>
 				</ul>
-				</f:if>
 			</f:if>
 		</section>
 	</div>
