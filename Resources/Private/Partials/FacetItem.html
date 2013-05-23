@@ -17,7 +17,7 @@
 	<f:if condition="{s:facetIsActive(facetName:facetName, itemName:facetItemName, activeFacets:activeFacets)}">
 		<f:then>
 			<span class="facetName facetActive">
-				<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
+				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
 							 default="{facetItemName}"/>
 				<f:link.action
 						addQueryString="TRUE"
@@ -34,7 +34,7 @@
 					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[offset]'}"
 					class="facetAdd">
 				<span class="facetName">
-					<f:translate key="LLL:{settings.view.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
+					<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetName}.{facetItemName}"
 								 default="{facetItemName}"/>
 				</span>
 				<span class="facetCount">{facetItemCount}</span>
