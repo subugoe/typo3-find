@@ -179,12 +179,19 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// add filter queries configured in TypoScript
+		// Add filter queries configured in TypoScript.
 		if (!empty($this->settings['additionalFilters'])) {
-			// define filters
 			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
 				$query->createFilterQuery('additionalFilter-' . $key)
 						->setQuery($filterQuery);
+			}
+		}
+
+		// Set up the sort order.
+		if (!empty($this->settings['sort'])) {
+			foreach ($this->settings['sort'] as $sortConfiguration) {
+				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
+				$query->addSort($sortConfiguration['field'], $sortOrder);
 			}
 		}
 

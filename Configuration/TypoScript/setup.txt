@@ -51,6 +51,12 @@ plugin.tx_solrfrontend {
 				default = 1
 			}
 		}
+		sort {
+			# 1 {
+			#	field = name
+			#	ascending = 1
+			# }
+		}
 		results {
 			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
 		}
