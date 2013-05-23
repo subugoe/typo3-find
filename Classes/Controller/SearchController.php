@@ -117,7 +117,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			if ($fieldID && $queryParameters[$fieldID]) {
 				$queryPart = '';
 				if ($fieldInfo['query']) {
-					$queryPart = str_replace('###term###', $queryParameters[$fieldID], $fieldInfo['query']);
+					$queryPart = trim(str_replace('###term###', $queryParameters[$fieldID], $fieldInfo['query']));
 				}
 				else {
 					$queryPart = $fieldID . ':' . $queryParameters[$fieldID];
@@ -151,8 +151,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$queryComponents = array();
 			if ($queryParameters) {
 				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
-				$queryString = implode(' AND ', $queryComponents);
-				$query->setQuery($queryString);
+				if ($queryComponents) {
+					$queryString = implode(' AND ', $queryComponents);
+					$query->setQuery($queryString);
+				}
 			}
 		}
 
