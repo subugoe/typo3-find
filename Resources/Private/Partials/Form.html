@@ -1,16 +1,9 @@
-<f:form name="c{uid}-form" method="get" fieldNamePrefix="tx_solrfrontend_solrfrontend[q]">
+<f:form name="c{uid}-form" method="get" fieldNamePrefix="tx_solrfrontend_solrfrontend[q]"
+		class="searchForm {f:if(condition:extendedSearch, then:'extended', else:'simple')}">
 	<f:for each="{settings.queryFields}" as="fieldInfo">
-		<f:if condition="{extendedSearchActivated} == FALSE">
-			<f:then>
-				<f:if condition="{fieldInfo.simple} == 1">
-					<f:render partial="FormField" arguments="{uid:uid, query:query, fieldInfo:fieldInfo}"/>
-				</f:if>
-			</f:then>
-			<f:else>
-				<f:render partial="FormField" arguments="{uid:uid, query:query, fieldInfo:fieldInfo}"/>
-			</f:else>
-		</f:if>
-
+		<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.simple}', then:'simple', else:'extended')}">
+			<f:render partial="FormFields/{fieldInfo.type}" arguments="{_all}"/>
+		</div>
 	</f:for>
 
 	<f:form.submit value="{f:translate(key:'Search')}" class="submit"/>
