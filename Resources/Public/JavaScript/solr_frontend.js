@@ -1,6 +1,20 @@
 jQuery(document).ready(function() {
 	// autocomplete
-	jQuery('.tx_solr_frontend .field-default input').autocomplete({source: currentUrl() + "&type=1369315139"});
+	jQuery('.tx_solr_frontend .field-default input').autocomplete(
+		{
+			source: function(request, add) {
+				$.getJSON(currentUrl() + "&type=1369315139&term=" + request.term,
+					function (data) {
+						var suggestions = [];
+						$.each(data.response.docs, function(k, v) {
+							suggestions.push(v.uebersetzung);
+							console.log(v.uebersetzung + " " +k);
+						})
+						add(suggestions);
+					}
+				);
+		}}
+	);
 });
 
 
