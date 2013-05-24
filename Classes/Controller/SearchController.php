@@ -164,19 +164,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// add filter queries for facets
-		$activeFacets = array();
-		if ($this->request->hasArgument('facet')) {
-			$facets = $this->request->getArgument('facet');
-
-			foreach ($facets as $key => $facet) {
-				// add to stack of active facets
-				$activeFacets[$key] = $facet;
-
-				// add the filter
-				$query->createFilterQuery('facet-' . $key)
-						->setQuery($facet);
-			}
+		// active facets
+		$activeFacets = $this->getActiveFacets();
+		foreach ($activeFacets as $key => $value) {
+			$query->createFilterQuery('facet-' . $key)
+					->setQuery($value);
 		}
 
 		// Add filter queries configured in TypoScript.
@@ -277,9 +269,35 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$query = $this->solr->createSuggester();
 
 		$query->setQuery($searchTerm);
+		$activeFacets = $this->getActiveFacets();
+
+		// respect active facets
+		foreach ($activeFacets as $key => $value) {
+			$query->createFilterQuery('facet-' . $key)
+					->setQuery($value);
+		}
 
 		$results = $this->solr->suggester($query)->getResponse()->getBody();
 		$this->view->assign('results', $results);
+	}
+
+	/**
+	 * Get active facets
+	 */
+	protected function getActiveFacets() {
+
+		$activeFacets = array();
+		if ($this->request->hasArgument('facet')) {
+			$facets = $this->request->getArgument('facet');
+
+			foreach ($facets as $key => $facet) {
+				// add to stack of active facets
+				$activeFacets[$key] = $facet;
+			}
+		}
+
+		return $activeFacets;
+
 	}
 
 	/**
