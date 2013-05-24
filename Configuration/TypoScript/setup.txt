@@ -101,6 +101,7 @@ tx_solrfrontend_page {
 	10 < tt_content.list.20.solrfrontend_autocomplete
 	config {
 		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:application/json;charset=utf-8
 	}
 }
 
