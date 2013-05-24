@@ -7,10 +7,8 @@ jQuery(document).ready(function() {
 				var autocompleteUrl = updateQueryStringParameter(autocompleteUrl, "term", request.term);
 
 				jQuery.getJSON(autocompleteUrl, function (data) {
-					var suggestions = data.spellcheck.suggestions[1].suggestion;
-						add(suggestions);
-					}
-				);
+					add(data.spellcheck.suggestions[1].suggestion);
+				});
 			}
 		}
 	);
