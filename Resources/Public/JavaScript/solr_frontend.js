@@ -6,14 +6,17 @@ jQuery(document).ready(function() {
 				$.getJSON(currentUrl() + "&type=1369315139&term=" + request.term,
 					function (data) {
 						var suggestions = [];
-						$.each(data.response.docs, function(k, v) {
-							suggestions.push(v.uebersetzung);
-							console.log(v.uebersetzung + " " +k);
-						})
+						$.each(
+							data.response.docs,
+							function(k, v) {
+								suggestions.push(v.uebersetzung);
+							}
+						);
 						add(suggestions);
 					}
 				);
-		}}
+			}
+		}
 	);
 });
 
