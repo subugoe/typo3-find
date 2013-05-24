@@ -3,14 +3,13 @@ jQuery(document).ready(function() {
 	jQuery('.tx_solr_frontend .field-default input').autocomplete(
 		{
 			source: function(request, add) {
-				jQuery.getJSON(currentUrl() + "&type=1369315139&term=" + request.term,
-					function (data) {
-						var suggestions = [];
-						jQuery.each(
-							data.response.docs,
-							function(k, v) {
-								suggestions.push(v.uebersetzung);
-							}
+				jQuery.getJSON(currentUrl() + "&type=1369315139&term=" + request.term, function (data) {
+					var suggestions = [];
+					jQuery.each(
+						data.response.docs,
+						function(k, v) {
+							suggestions.push(v.uebersetzung);
+						}
 						);
 						add(suggestions);
 					}
