@@ -3,10 +3,10 @@ jQuery(document).ready(function() {
 	jQuery('.tx_solr_frontend .field-default input').autocomplete(
 		{
 			source: function(request, add) {
-				$.getJSON(currentUrl() + "&type=1369315139&term=" + request.term,
+				jQuery.getJSON(currentUrl() + "&type=1369315139&term=" + request.term,
 					function (data) {
 						var suggestions = [];
-						$.each(
+						jQuery.each(
 							data.response.docs,
 							function(k, v) {
 								suggestions.push(v.uebersetzung);
@@ -28,7 +28,6 @@ var localise = function (term) {
 var currentUrl = function() {
 	return window.location.href;
 }
-
 
 var createHistogram = function (terms) {
 	var jGraphDiv = jQuery('div.histogram'); // TODO: more precise selection to allow multiple histograms

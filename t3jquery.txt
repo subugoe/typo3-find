@@ -1,2 +1,2 @@
 script=Resources/Public/JavaScript/solr_frontend.js
-components=jQuery,Autocomplete,Menu
+components=jQuery,Autocomplete,Menu,Position
