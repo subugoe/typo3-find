@@ -3,7 +3,10 @@ jQuery(document).ready(function() {
 	jQuery('.tx_solr_frontend .field-default input').autocomplete(
 		{
 			source: function(request, add) {
-				jQuery.getJSON(currentUrl() + "&type=1369315139&term=" + request.term, function (data) {
+				var autocompleteUrl = updateQueryStringParameter(currentUrl(), "type", 1369315139);
+				var autocompleteUrl = updateQueryStringParameter(autocompleteUrl, "term", request.term);
+
+				jQuery.getJSON(autocompleteUrl, function (data) {
 					var suggestions = [];
 					jQuery.each(
 						data.response.docs,
@@ -19,6 +22,17 @@ jQuery(document).ready(function() {
 	);
 });
 
+// add parameters correctly to an url
+var updateQueryStringParameter = function(uri, key, value) {
+	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+	separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	}
+	else {
+		return uri + separator + key + "=" + value;
+	}
+}
 
 var localise = function (term) {
 	return term;
