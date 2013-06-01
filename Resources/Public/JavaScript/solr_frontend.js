@@ -27,15 +27,15 @@ var updateQueryStringParameter = function(uri, key, value) {
 	else {
 		return uri + separator + key + "=" + value;
 	}
-}
+};
 
 var localise = function (term) {
 	return term;
-}
+};
 
 var currentUrl = function() {
 	return window.location.href;
-}
+};
 
 var createHistogram = function (terms) {
 	var jGraphDiv = jQuery('div.histogram'); // TODO: more precise selection to allow multiple histograms
@@ -94,7 +94,7 @@ var createHistogram = function (terms) {
 			'labelWidth': 30
 		},
 		'grid': {
-			'borderWidth': 0,
+			'borderWidth': 0
 		},
 		'selection': {
 			'mode': 'x',
@@ -110,7 +110,7 @@ var createHistogram = function (terms) {
 		if (activeFacet.length === 2 && activeFacet[0] === myFacetField) {
 			var range = activeFacet[1].replace(/[\[\]]/g, '').split(' TO ');
 			if (range.length === 2) {
-				var selection = {}
+				var selection = {};
 				selection.from = parseInt(range[0]);
 				selection.to = parseInt(range[1]);
 				plot.setSelection({'xaxis': selection});
@@ -174,4 +174,4 @@ var createHistogram = function (terms) {
 
 	jGraphDiv.mouseout(removeTooltip);
 
-}
+};
