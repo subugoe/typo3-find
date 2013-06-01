@@ -136,6 +136,41 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		return $queryComponents;
 	}
 
+
+	// Add filter queries for active facets.
+	private function addFacetFilters ($query) {
+		$activeFacets = $this->getActiveFacets();
+		foreach ($activeFacets as $key => $value) {
+			$query->createFilterQuery('facet-' . $key)
+					->setQuery($value);
+		}
+
+		$this->view->assign('activeFacets', $activeFacets);
+	}
+
+
+	// Add filter queries configured in TypoScript.
+	private function addTypoScriptFilters ($query) {
+		if (!empty($this->settings['additionalFilters'])) {
+			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
+				$query->createFilterQuery('additionalFilter-' . $key)
+						->setQuery($filterQuery);
+			}
+		}
+	}
+
+
+	// Set up the sort order.
+	private function addSortOrder ($query) {
+		if (!empty($this->settings['sort'])) {
+			foreach ($this->settings['sort'] as $sortConfiguration) {
+				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
+				$query->addSort($sortConfiguration['field'], $sortOrder);
+			}
+		}
+	}
+
+
 	/**
 	 * Index Action
 	 */
@@ -164,28 +199,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 
-		// active facets
-		$activeFacets = $this->getActiveFacets();
-		foreach ($activeFacets as $key => $value) {
-			$query->createFilterQuery('facet-' . $key)
-					->setQuery($value);
-		}
-
-		// Add filter queries configured in TypoScript.
-		if (!empty($this->settings['additionalFilters'])) {
-			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
-				$query->createFilterQuery('additionalFilter-' . $key)
-						->setQuery($filterQuery);
-			}
-		}
-
-		// Set up the sort order.
-		if (!empty($this->settings['sort'])) {
-			foreach ($this->settings['sort'] as $sortConfiguration) {
-				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
-				$query->addSort($sortConfiguration['field'], $sortOrder);
-			}
-		}
+		$this->addFacetFilters($query);
+		$this->addTypoScriptFilters($query);
+		$this->addSortOrder($query);
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
@@ -228,7 +244,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'solarium' => $query,
 			'results' => $resultSet,
 			'numberOfPages' => $numberOfPages,
-			'activeFacets' => $activeFacets,
 			'uid' => $uid,
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
