@@ -1,207 +1,212 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
+<f:layout name="Default"/>
 
-<article>
-	<h1>{document.kloster}</h1>
+<f:section name="main">
+	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
-	<aside>
-		<h2>Karte</h2>
-		<div id="c-{document.id}-map" class="map"></div>
-		<script type="text/javascript">
-			function mapsReady () {
-				var mapOptions = {
-					'mapTypeId': google.maps.MapTypeId.ROADMAP,
-					'streetViewControl': false
-				};
+	<article>
+		<h1>{document.kloster}</h1>
 
-				var mapContainer = document.getElementById('c-{document.id}-map');
-				var map = new google.maps.Map(mapContainer, mapOptions);
-				var containingBounds = new google.maps.LatLngBounds();
-				var point;
-				var title;
-				var institutionengenau = false;
-				<f:for each="{document.koordinaten}" as="koordinaten" key="index">
-				point = new google.maps.LatLng({koordinaten});
-				title = {s:valueForKey(array:document.ort, key:index, format:"json")};
-				new google.maps.Marker({
-					'map': map,
-					'position': point,
-					'title': title
-				});
-				containingBounds.extend(point);
-				institutionengenau |= {s:valueForKey(array:document.koordinaten_institutionengenau, key:index, format:"json")};
-				</f:for>
-				var NE = containingBounds.getNorthEast();
-				var SW = containingBounds.getSouthWest();
-				var center = containingBounds.getCenter();
-				var width = Math.abs(NE.lng() - SW.lng());
-				var minimumWidth = 0.01 * (institutionengenau ? 1 : 10);
-				if (width < minimumWidth) {
-					containingBounds = new google.maps.LatLngBounds(
-						new google.maps.LatLng(SW.lat(), center.lng() - minimumWidth/2),
-						new google.maps.LatLng(NE.lat(), center.lng() + minimumWidth/2)
-					);
+		<aside>
+			<h2>Karte</h2>
+			<div id="c-{document.id}-map" class="map"></div>
+			<script type="text/javascript">
+				function mapsReady () {
+					var mapOptions = {
+						'mapTypeId': google.maps.MapTypeId.ROADMAP,
+						'streetViewControl': false
+					};
+
+					var mapContainer = document.getElementById('c-{document.id}-map');
+					var map = new google.maps.Map(mapContainer, mapOptions);
+					var containingBounds = new google.maps.LatLngBounds();
+					var point;
+					var title;
+					var institutionengenau = false;
+					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
+					point = new google.maps.LatLng({koordinaten});
+					title = {s:valueForKey(array:document.ort, key:index, format:"json")};
+					new google.maps.Marker({
+						'map': map,
+						'position': point,
+						'title': title
+					});
+					containingBounds.extend(point);
+					institutionengenau |= {s:valueForKey(array:document.koordinaten_institutionengenau, key:index, format:"json")};
+					</f:for>
+					var NE = containingBounds.getNorthEast();
+					var SW = containingBounds.getSouthWest();
+					var center = containingBounds.getCenter();
+					var width = Math.abs(NE.lng() - SW.lng());
+					var minimumWidth = 0.01 * (institutionengenau ? 1 : 10);
+					if (width < minimumWidth) {
+						containingBounds = new google.maps.LatLngBounds(
+							new google.maps.LatLng(SW.lat(), center.lng() - minimumWidth/2),
+							new google.maps.LatLng(NE.lat(), center.lng() + minimumWidth/2)
+						);
+					}
+					map.fitBounds(containingBounds);
+					console.log(map.getZoom());
 				}
-				map.fitBounds(containingBounds);
-				console.log(map.getZoom());
-			}
 
-			var loadScript = function () {
-				var script = document.createElement('script');
-				script.type = 'text/javascript';
-				script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=mapsReady';
-				document.body.appendChild(script);
-			}
+				var loadScript = function () {
+					var script = document.createElement('script');
+					script.type = 'text/javascript';
+					script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=mapsReady';
+					document.body.appendChild(script);
+				}
 
-			jQuery(loadScript);
-		</script>
+				jQuery(loadScript);
+			</script>
 
-	</aside>
+		</aside>
 
-	<div class="main">
-		<f:if condition="{document.patrozinium}">
-			<section class="patrozinium">
-				<h2>Patrozinium</h2>
-				<p>
-					{document.patrozinium}
-				</p>
+		<div class="main">
+			<f:if condition="{document.patrozinium}">
+				<section class="patrozinium">
+					<h2>Patrozinium</h2>
+					<p>
+						{document.patrozinium}
+					</p>
+				</section>
+			</f:if>
+
+			<section class="lage">
+				<h2>Lage</h2>
+				<ol>
+					<f:for each="{document.ort}" as="ort" key="index">
+						<f:alias map="{ bistum: '{s:valueForKey(array:document.bistum, key:index)}',
+										ist_erzbistum: '{s:valueForKey(array:document.ist_erzbistum, key:index)}',
+										wuestung: '{s:valueForKey(array:document.wuestung, key:index)}',
+										land: '{s:valueForKey(array:document.land, key:index)}',
+										standort_von_verbal: '{s:valueForKey(array:document.standort_von_verbal, key:index)}',
+										standort_bis_verbal: '{s:valueForKey(array:document.standort_bis_verbal, key:index)}',
+										bemerkung_standort: '{s:valueForKey(array:document.bemerkung_standort, key:index)}' }">
+							<li>
+								<p>
+									<f:if condition="{0:standort_von_verbal, 1:standort_bis_verbal} != {0:'', 1:''}">
+										<span class="zeitraum">{standort_von_verbal} – {standort_bis_verbal}:</span>
+									</f:if>
+									<span class="ort">
+										<f:link.action arguments="{q: '{default: \'ort:\"{ort}\"\'}'}" title="Alle Klöster in {ort} zeigen.">{ort}</f:link.action></span>{f:if(condition:wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+									<f:if condition="{bemerkung_standort}">
+										<span class="bemerkung">{bemerkung_standort},</span>
+									</f:if>
+
+									<span class="land">{land}</span>
+
+									<f:if condition="bistum">
+										<p class="bistum">
+											<f:link.action arguments="{q: '{default: \'bistum:\"{bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')} {bistum} zeigen.">
+												{f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')}
+												{bistum}
+											</f:link.action>
+										</p>
+									</f:if>
+								</p>
+							</li>
+						</f:alias>
+					</f:for>
+				</ol>
 			</section>
-		</f:if>
 
-		<section class="lage">
-			<h2>Lage</h2>
-			<ol>
-				<f:for each="{document.ort}" as="ort" key="index">
-					<f:alias map="{ bistum: '{s:valueForKey(array:document.bistum, key:index)}',
-							 		ist_erzbistum: '{s:valueForKey(array:document.ist_erzbistum, key:index)}',
-									wuestung: '{s:valueForKey(array:document.wuestung, key:index)}',
-									land: '{s:valueForKey(array:document.land, key:index)}',
-									standort_von_verbal: '{s:valueForKey(array:document.standort_von_verbal, key:index)}',
-									standort_bis_verbal: '{s:valueForKey(array:document.standort_bis_verbal, key:index)}',
-									bemerkung_standort: '{s:valueForKey(array:document.bemerkung_standort, key:index)}' }">
-						<li>
-							<p>
-								<f:if condition="{0:standort_von_verbal, 1:standort_bis_verbal} != {0:'', 1:''}">
-									<span class="zeitraum">{standort_von_verbal} – {standort_bis_verbal}:</span>
-								</f:if>
-								<span class="ort">
-									<f:link.action arguments="{q: '{default: \'ort:\"{ort}\"\'}'}" title="Alle Klöster in {ort} zeigen.">{ort}</f:link.action></span>{f:if(condition:wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
-								<f:if condition="{bemerkung_standort}">
-									<span class="bemerkung">{bemerkung_standort},</span>
-								</f:if>
-
-								<span class="land">{land}</span>
-
-								<f:if condition="bistum">
-									<p class="bistum">
-										<f:link.action arguments="{q: '{default: \'bistum:\"{bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')} {bistum} zeigen.">
-											{f:if(condition:ist_erzbistum, then:'Erzbistum', else:'Bistum')}
-											{bistum}
+			<section class="orden">
+				<h2>Orden</h2>
+				<ol>
+					<f:for each="{document.orden}" as="orden" key="index">
+						<f:alias map="{ orden_von_verbal: '{s:valueForKey(array:document.orden_von_verbal, key:index)}',
+										orden_bis_verbal: '{s:valueForKey(array:document.orden_bis_verbal, key:index)}' }">
+							<li>
+								<p>
+									<f:if condition="{0:orden_von_verbal, 1:orden_bis_verbal} != {0:'', 1:''}">
+										<span class="zeitraum">{orden_von_verbal} – {orden_bis_verbal}:</span>
+									</f:if>
+									<span class="orden">
+										<f:link.action arguments="{q: '{default: \'orden:\"{orden}\"\'}'}" title="Alle Klöster der {orden} zeigen.">
+											{orden}
 										</f:link.action>
-									</p>
-								</f:if>
-							</p>
-						</li>
-					</f:alias>
-				</f:for>
-			</ol>
-		</section>
-
-		<section class="orden">
-			<h2>Orden</h2>
-			<ol>
-				<f:for each="{document.orden}" as="orden" key="index">
-					<f:alias map="{ orden_von_verbal: '{s:valueForKey(array:document.orden_von_verbal, key:index)}',
-									orden_bis_verbal: '{s:valueForKey(array:document.orden_bis_verbal, key:index)}' }">
-						<li>
-							<p>
-								<f:if condition="{0:orden_von_verbal, 1:orden_bis_verbal} != {0:'', 1:''}">
-									<span class="zeitraum">{orden_von_verbal} – {orden_bis_verbal}:</span>
-								</f:if>
-								<span class="orden">
-									<f:link.action arguments="{q: '{default: \'orden:\"{orden}\"\'}'}" title="Alle Klöster der {orden} zeigen.">
-										{orden}
-									</f:link.action>
-								</span>
-							</p>
-						</li>
-					</f:alias>
-				</f:for>
-			</ol>
-		</section>
-		<f:debug>{_all}</f:debug>
-
-		<f:if condition="{document.bemerkung_kloster.0}">
-			<section class="bemerkung">
-				<h2>Bemerkung</h2>
-				<p>{document.bemerkung_kloster.0}</p>
+									</span>
+								</p>
+							</li>
+						</f:alias>
+					</f:for>
+				</ol>
 			</section>
-		</f:if>
+			<f:debug>{_all}</f:debug>
 
-		<f:if condition="{document.band_nummer}">
-			<section class="germania-sacra">
-				<h2>Germania-Sacra-Band</h2>
-				<p>
-					<f:if condition="{document.band_url}">
-						<f:then>
-							<f:link.external class="band-link" uri="{document.band_url.0}">
+			<f:if condition="{document.bemerkung_kloster.0}">
+				<section class="bemerkung">
+					<h2>Bemerkung</h2>
+					<p>{document.bemerkung_kloster.0}</p>
+				</section>
+			</f:if>
+
+			<f:if condition="{document.band_nummer}">
+				<section class="germania-sacra">
+					<h2>Germania-Sacra-Band</h2>
+					<p>
+						<f:if condition="{document.band_url}">
+							<f:then>
+								<f:link.external class="band-link" uri="{document.band_url.0}">
+									<span class="band-nummer">{document.band_nummer.0}</span>:
+									<span class="band-titel">{document.band_titel.0}</span>
+								</f:link.external>
+							</f:then>
+							<f:else>
 								<span class="band-nummer">{document.band_nummer.0}</span>:
 								<span class="band-titel">{document.band_titel.0}</span>
-							</f:link.external>
-						</f:then>
-						<f:else>
-							<span class="band-nummer">{document.band_nummer.0}</span>:
-							<span class="band-titel">{document.band_titel.0}</span>
-						</f:else>
-					</f:if>
-					<f:if condition="{document.band_seite.0}">
-						<span class="seite">S. {document.band_seite.0}</span>
-					</f:if>
+							</f:else>
+						</f:if>
+						<f:if condition="{document.band_seite.0}">
+							<span class="seite">S. {document.band_seite.0}</span>
+						</f:if>
+					</p>
+				</section>
+			</f:if>
+
+
+			<f:if condition="{document.literatur}">
+				<section class="literatur">
+					<h2>Literatur</h2>
+					<ul>
+						<f:for each="{document.literatur}" as="literatur" key="index">
+							<li>
+								{literatur}
+							</li>
+						</f:for>
+					</ul>
+				</section>
+			</f:if>
+
+			<section class="permalink">
+				<h2>Permalink</h2>
+				<p>
+					<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
+						http://kloester.germania-sacra.de/gsn/{document.sql_uid}
+					</f:link.external>
 				</p>
 			</section>
-		</f:if>
 
-
-		<f:if condition="{document.literatur}">
-			<section class="literatur">
-				<h2>Literatur</h2>
-				<ul>
-					<f:for each="{document.literatur}" as="literatur" key="index">
-						<li>
-							{literatur}
-						</li>
-					</f:for>
-				</ul>
+			<section class="link">
+				<f:if condition="{document.url}">
+					<h2>Links</h2>
+					<ul>
+						<f:for each="{document.url}" as="url" key="index">
+							<f:if condition="{0:'{s:valueForKey(array:document.url_art, key:index)}'} != {0:'Dokument'}">
+								<li>
+									<f:link.external uri="{url}">
+										<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
+										<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
+											– {s:valueForKey(array:document.url_bemerkung, key:index)}
+										</f:if>
+									</f:link.external>
+								</li>
+							</f:if>
+						</f:for>
+					</ul>
+				</f:if>
 			</section>
-		</f:if>
+		</div>
 
-		<section class="permalink">
-			<h2>Permalink</h2>
-			<p>
-				<f:link.external uri="http://kloester.germania-sacra.de/gsn/{document.sql_uid}">
-					http://kloester.germania-sacra.de/gsn/{document.sql_uid}
-				</f:link.external>
-			</p>
-		</section>
-
-		<section class="link">
-			<f:if condition="{document.url}">
-				<h2>Links</h2>
-				<ul>
-					<f:for each="{document.url}" as="url" key="index">
-						<f:if condition="{0:'{s:valueForKey(array:document.url_art, key:index)}'} != {0:'Dokument'}">
-							<li>
-								<f:link.external uri="{url}">
-									<f:translate key="label-url_type-{s:valueForKey(array:document.url_art, key:index)}" default="{s:valueForKey(array:document.url_art, key:index)}"/>
-									<f:if condition="{s:valueForKey(array:document.url_bemerkung, key:index)}">
-										– {s:valueForKey(array:document.url_bemerkung, key:index)}
-									</f:if>
-								</f:link.external>
-							</li>
-						</f:if>
-					</f:for>
-				</ul>
-			</f:if>
-		</section>
-	</div>
-
-</article>
+	</article>
+</f:section>
