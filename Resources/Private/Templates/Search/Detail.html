@@ -1,15 +1,19 @@
-<h3>
-	<f:for each="{document.fields}" as="value" key="key">
-		<f:if condition="{0:key}=={0:settings.standardFields.title}">
-			{value}
-		</f:if>
-	</f:for>
-</h3>
+{namespace s=Tx_SolrFrontend_ViewHelpers}
+<f:layout name="Default"/>
 
-<p>
-	<f:for each="{document.fields}" as="value" key="key">
-		<f:if condition="{0:key}=={0:settings.standardFields.snippet}">
-			{value}
-		</f:if>
-	</f:for>
-</p>
+<f:section name="main">
+	<f:render partial="DetailResultPager" arguments="{_all}"/>
+
+	<article>
+		<h1>
+			<s:valueForKey array="document.fields" key="settings.standardFields.title">
+		</h1>
+
+		<dl>
+			<f:for each="{document.fields}" as="value" key="key">
+				<dt>{key}</dt>
+				<dd>{value}</dd>
+			</f:for>
+		</dl>
+	</article>
+</f:section>

@@ -1,0 +1,41 @@
+<f:if condition="{settings.resultPaging}">
+	<p class="queryAndPager">
+		<f:if condition="{arguments.underlyingQuery.query}">
+			<span class="underlyingQuery">
+				<span class="query">
+					<f:translate key="Query"/>
+					»{arguments.underlyingQuery.query}«:
+				</span>
+				<span class="position">
+					<f:translate key="result"/>
+					{arguments.underlyingQuery.position}
+					<f:translate key="of"/>
+					{results.numfound}
+				</span>
+			</span>
+		</f:if>
+
+		<span class="resultPager">
+			<f:if condition="{document-previous}">
+				<f:then>
+					<f:link.action action="detail" arguments="{id: document-previous.id}" class="previous" onclick="return detailViewWithPaging(event, {document-previous-index});">
+						<f:translate key="previous"/>
+					</f:link.action>
+				</f:then>
+				<f:else>
+
+				</f:else>
+			</f:if>
+			<f:if condition="{document-next}">
+				<f:then>
+					<f:link.action action="detail" arguments="{id: document-next.id}" class="next" onclick="return detailViewWithPaging(event, {document-next-index});">
+						<f:translate key="next"/>
+					</f:link.action>
+				</f:then>
+				<f:else>
+
+				</f:else>
+			</f:if>
+		</span>
+	</p>
+</f:if>

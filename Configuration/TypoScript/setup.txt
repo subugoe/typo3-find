@@ -82,6 +82,8 @@ plugin.tx_solrfrontend {
 		additionalFilters {
 			# 1 = type:kloster
 		}
+		resultPaging = 1
+
 		CSSPaths.10 = {$plugin.tx_solrfrontend.settings.CSSPath}
 		JSPaths.10 = {$plugin.tx_solrfrontend.settings.JSPath}
 

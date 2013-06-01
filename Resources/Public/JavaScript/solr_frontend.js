@@ -175,3 +175,31 @@ var createHistogram = function (terms) {
 	jGraphDiv.mouseout(removeTooltip);
 
 };
+
+var detailViewWithPaging = function (event, position) {
+	var inputWithNameAndValue = function (name, value) {
+		var input = document.createElement('input');
+		input.name = 'tx_solrfrontend_solrfrontend[underlyingQuery][' + name + ']';
+		input.type = 'hidden';
+		input.value = value;
+		return input;
+	};
+
+	if (underlyingQuery) {
+		var form = document.createElement('form');
+		var linkURL = event.target.getAttribute('href');
+		form.action = linkURL;
+		form.method = 'POST';
+		form.appendChild(inputWithNameAndValue('query', underlyingQuery.query));
+		var jLI = jQuery(event.target).parents('li');
+		var jOL = jLI.parents('ol');
+		if (!position) {
+			position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
+		}
+		form.appendChild(inputWithNameAndValue('position', position));
+		result = form.submit();
+		return false;
+	}
+
+	return true;
+};

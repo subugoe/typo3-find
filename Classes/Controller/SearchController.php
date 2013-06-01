@@ -248,11 +248,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
 			'prefixId' => $this->prefixId,
-			'extendedSearch' => $this->isExtendedSearch()
+			'extendedSearch' => $this->isExtendedSearch(),
+			'arguments' => $this->request->getArguments()
 		);
-
 		$this->view->assignMultiple($assignments);
 
+		$this->addQueryInformationAsJavaScript($query->getQuery());
 	}
 
 	/**
@@ -261,18 +262,62 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @param String $id
 	 */
 	public function detailAction($id = NULL) {
-
 		// if no id is provided
 		if (empty($id)) {
 			$this->flashMessageContainer->add('Please provide a valid document id', t3lib_FlashMessage::ERROR);
 			$this->redirect('index');
 		}
-
+		
 		$query = $this->solr->createSelect();
-		$query->setQuery('id:' . $id);
-		$resultSet = $this->solr->select($query)->getDocuments();
+		$this->addFacetFilters($query);
+		$this->addTypoScriptFilters($query);
+		$this->addSortOrder($query);
 
-		$this->view->assign('document', $resultSet[0]);
+		$assignments = array(
+			'arguments' => $this->request->getArguments(),
+			'solarium' => $query
+		);
+
+		if ($this->settings['resultPaging']) {
+			$underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+			// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
+			$position = $underlyingQueryInfo['position'] - 1;
+			$previous = max(array($position - 1, 0));
+			$next = $position + 1;
+
+			$this->addQueryInformationAsJavaScript($underlyingQueryInfo['query'], $position);
+
+			$query->setQuery($underlyingQueryInfo['query']);
+			$query->setStart($previous)->setRows($next - $previous + 1);
+			$selectResults = $this->solr->select($query);
+			$assignments['results'] = $selectResults;
+			$resultSet = $selectResults->getDocuments();
+
+			// the actual result is at position 0 (for the first document) or 1 (otherwise).
+			$resultIndexOffset = ($position === 0) ? 0 : 1;
+			$document = $resultSet[$resultIndexOffset];
+			if ($document['id'] === $id) {
+				$assignments['document'] = $document;
+				if ($resultIndexOffset !== 0) {
+					$assignments['document-previous'] = $resultSet[0];
+					$assignments['document-previous-index'] = $previous + 1;
+				}
+				if (count($resultSet) > 2) {
+					$assignments['document-next'] = $resultSet[2];
+					$assignments['document-next-index'] = $next + 1;
+				}
+			}
+			else {
+				// ERROR
+			}
+		}
+		else {
+			$query->setQuery('id:' . $id);
+			$resultSet = $this->solr->select($query)->getDocuments();
+			$assignments['document'] = $resultSet[0];
+		}
+
+		$this->view->assignMultiple($assignments);
 	}
 
 	/**
@@ -312,7 +357,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		return $activeFacets;
-
 	}
 
 	/**
@@ -397,6 +441,20 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$this->response->addAdditionalHeaderData($scriptTag->render());
 				}
 			}
+		}
+	}
+
+
+	protected function addQueryInformationAsJavaScript ($query, $position = NULL) {
+		if ($this->settings['resultPaging']) {
+			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
+			$scriptTag->addAttribute('type', 'text/javascript');
+			$underlyingQuery= array('query' => $query);
+			if ($position !== NULL) {
+				$underlyingQuery['position'] = $position;
+			}
+			$scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
+			$this->response->addAdditionalHeaderData($scriptTag->render());
 		}
 	}
 
