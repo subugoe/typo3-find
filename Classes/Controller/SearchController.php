@@ -278,7 +278,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'solarium' => $query
 		);
 
-		if ($this->settings['resultPaging']) {
+		if ($this->settings['resultPaging'] && $this->request->hasArgument('underlyingQuery')) {
 			$underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
 			// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
 			$position = $underlyingQueryInfo['position'] - 1;
