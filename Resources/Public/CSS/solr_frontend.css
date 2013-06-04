@@ -16,7 +16,7 @@
 	display: none;
 }
 
-.tx_solr_frontend article {
+.tx_solr_frontend article.detail {
 	clear: both;
 }
 
