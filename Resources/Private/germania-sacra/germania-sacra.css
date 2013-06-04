@@ -35,10 +35,8 @@ article section h2 {
 	text-align: right;
 }
 
-.lage ol,
-.orden ol,
-.literatur ul,
-.link ul {
+.main section ol,
+.main section ul {
 	padding: 0;
 	list-style-type: none;
 }
@@ -49,8 +47,21 @@ article section h2 {
 
 .ort,
 .orden,
-.band-nummer {
+.band-nummer,
+section.person .name {
 	font-weight: bold;
+}
+
+.zeitraum:after {
+	content: ':'
+}
+
+.namensalternativen:before {
+	content: '(';
+}
+
+.namensalternativen:after {
+	content: ')';
 }
 
 li p {
@@ -66,4 +77,8 @@ li p {
 p>.band-titel:last-of-type:after {
 	content: '';
 	background: red;
+}
+
+section.person .bemerkung {
+	font-style: italic;
 }
