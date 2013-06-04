@@ -176,7 +176,7 @@
 						<f:for each="{document.person_name}" as="name" key="index">
 							<f:alias map="{ person_von_verbal: '{s:valueForKey(array:document.person_von_verbal, key:index)}',
 											person_bis_verbal: '{s:valueForKey(array:document.person_bis_verbal, key:index)}',
-											person_namensalternativen: '{s:valueForKey(array:document.person_namensalternativen, key:index)}',
+											person_namensalternativen_xml: '{s:valueForKey(array:document.person_namensalternativen_xml, key:index)}',
 											person_bezeichnung: '{s:valueForKey(array:document.person_bezeichnung, key:index)}',
 											person_gnd: '{s:valueForKey(array:document.person_gnd, key:index)}',
 											person_anmerkung: '{s:valueForKey(array:document.person_anmerkung, key:index)}',
@@ -194,8 +194,8 @@
 											<span class="name">{name}</span>
 										</f:if>
 									</f:link.external>
-									<f:if condition="{person_namensalternativen}">
-										<span class="namensalternativen">{person_namensalternativen}</span>
+									<f:if condition="{person_namensalternativen_xml}">
+										{person_namensalternativen_xml->f:format.raw()}
 									</f:if>
 									<f:if condition="{person_anmerkung}">
 										<span class="bemerkung">{person_anmerkung}</span>
