@@ -38,7 +38,7 @@ plugin.tx_solrfrontend {
 		additionalFilters {
 			1 = typ:kloster
 		}
-		CSSPaths.20 = EXT:solr_frontend/Resources/Private/germania-sacra/germania-sacra.css
+		CSSPaths.50 = EXT:solr_frontend/Resources/Private/germania-sacra/germania-sacra.css
 
 		languageRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Language/
 	}
