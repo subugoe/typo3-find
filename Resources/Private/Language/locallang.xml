@@ -28,7 +28,7 @@
 			<label index="remove filter">remove filter</label>
 			<label index="show all">show all</label>
 
-			<label index="Show Detail Page">Details »</label>
+			<label index="Show Detail Page">Details</label>
 		</languageKey>
 
 		<languageKey index="en" type="array">
@@ -51,7 +51,7 @@
 			<label index="remove filter">remove filter</label>
 			<label index="show all">show all</label>
 
-			<label index="Show Detail Page">Details »</label>
+			<label index="Show Detail Page">Details</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -74,7 +74,7 @@
 			<label index="remove filter">Filter aufheben</label>
 			<label index="show all">alle zeigen</label>
 
-			<label index="Show Detail Page">Details »</label>
+			<label index="Show Detail Page">Details</label>
 		</languageKey>
 
 	</data>

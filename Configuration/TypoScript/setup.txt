@@ -85,6 +85,7 @@ plugin.tx_solrfrontend {
 		resultPaging = 1
 
 		CSSPaths.10 = {$plugin.tx_solrfrontend.settings.CSSPath}
+		CSSPaths.20 = EXT:solr_frontend/Resources/Public/CSS/fontello/css/fontello.css
 		JSPaths.10 = {$plugin.tx_solrfrontend.settings.JSPath}
 
 		languageRootPath = {$plugin.tx_solrfrontend.settings.languageRootPath}

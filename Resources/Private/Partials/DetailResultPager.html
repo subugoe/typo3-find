@@ -18,8 +18,7 @@
 		<span class="resultPager">
 			<f:if condition="{document-previous}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-previous.id}" class="previous" onclick="return detailViewWithPaging(event, {document-previous-index});">
-						<f:translate key="previous"/>
+					<f:link.action action="detail" arguments="{id: document-previous.id}" class="previous icon-left-dir" onclick="return detailViewWithPaging(event, {document-previous-index});" title="{f:translate(key:'previous')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
@@ -28,8 +27,7 @@
 			</f:if>
 			<f:if condition="{document-next}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-next.id}" class="next" onclick="return detailViewWithPaging(event, {document-next-index});">
-						<f:translate key="next"/>
+					<f:link.action action="detail" arguments="{id: document-next.id}" class="next icon-right-dir" onclick="return detailViewWithPaging(event, {document-next-index});" title="{f:translate(key:'next')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
