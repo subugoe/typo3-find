@@ -176,7 +176,7 @@ var createHistogram = function (terms) {
 
 };
 
-var detailViewWithPaging = function (event, position) {
+var detailViewWithPaging = function (element, position) {
 	var inputWithNameAndValue = function (name, value) {
 		var input = document.createElement('input');
 		input.name = 'tx_solrfrontend_solrfrontend[underlyingQuery][' + name + ']';
@@ -187,11 +187,11 @@ var detailViewWithPaging = function (event, position) {
 
 	if (underlyingQuery) {
 		var form = document.createElement('form');
-		var linkURL = event.target.getAttribute('href');
+		var linkURL = element.getAttribute('href');
 		form.action = linkURL;
 		form.method = 'POST';
 		form.appendChild(inputWithNameAndValue('query', underlyingQuery.query));
-		var jLI = jQuery(event.target).parents('li');
+		var jLI = jQuery(element).parents('li');
 		var jOL = jLI.parents('ol');
 		if (!position) {
 			position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
