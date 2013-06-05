@@ -219,6 +219,7 @@
 
 .tx_solr_frontend [class^="icon-"]:before,
 .tx_solr_frontend [class*=" icon-"]:before {
+	position: relative;
 	margin: 0;
 	padding: 0;
 	width: 1em;
