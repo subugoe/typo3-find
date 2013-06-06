@@ -45,7 +45,6 @@ var createHistogram = function (terms) {
 
 	var startSearchWithNewFacet = function (range) {
 		var facetQueryString = '[' + range.from + '%20TO%20' + range.to + ']';
-		console.log(facetQueryString);
 		var facetLink = facetLinkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
 		window.location.href = document.baseURI + facetLink;
 	};
@@ -177,26 +176,51 @@ var createHistogram = function (terms) {
 };
 
 var detailViewWithPaging = function (element, position) {
+	var inputsWithPrefixForObject = function (prefix, object) {
+		var inputs = [];
+		for (var key in object) {
+			var prefixWithKey = prefix + '[' + key + ']';
+			var value = object[key];
+			if (typeof(value) === 'object') {
+				inputs = inputs.concat(inputsWithPrefixForObject(prefixWithKey, value));
+			}
+			else {
+				inputs.push(inputWithNameAndValue(prefixWithKey, value));
+			}
+		}
+		return inputs;
+	};
+
+
 	var inputWithNameAndValue = function (name, value) {
 		var input = document.createElement('input');
-		input.name = 'tx_solrfrontend_solrfrontend[underlyingQuery][' + name + ']';
-		input.type = 'hidden';
+		input.name = name;
 		input.value = value;
+		input.type = 'hidden';
 		return input;
 	};
 
 	if (underlyingQuery) {
+		// Try to determine position if it is not set explicitly.
+		var jLI = jQuery(element).parents('li');
+		var jOL = jLI.parents('ol');
+		if (position) {
+			underlyingQuery.position = position;
+		}
+		else if (jOL) {
+			underlyingQuery.position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
+		}
+
 		var form = document.createElement('form');
 		var linkURL = element.getAttribute('href');
 		form.action = linkURL;
 		form.method = 'POST';
-		form.appendChild(inputWithNameAndValue('query', underlyingQuery.query));
-		var jLI = jQuery(element).parents('li');
-		var jOL = jLI.parents('ol');
-		if (!position) {
-			position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
-		}
-		form.appendChild(inputWithNameAndValue('position', position));
+
+		var inputs = inputsWithPrefixForObject('tx_solrfrontend_solrfrontend[underlyingQuery]', underlyingQuery);
+		for (var inputIndex in inputs) {
+			form.appendChild(inputs[inputIndex]);
+		};
+
 		result = form.submit();
 		return false;
 	}

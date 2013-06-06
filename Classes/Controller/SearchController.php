@@ -63,6 +63,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->solr = new Solarium\Client($configuration);
 
 		$this->requestArguments = $this->request->getArguments();
+		$this->cleanArgumentsArray($this->requestArguments);
 	}
 
 	
@@ -90,7 +91,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		);
 		$this->view->assignMultiple($assignments);
 
-		$this->addQueryInformationAsJavaScript($query->getQuery());
+		$this->addQueryInformationAsJavaScript($this->requestArguments['q']);
 		$this->addStandardAssignments();
 	}
 
@@ -107,23 +108,27 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$this->redirect('index');
 		}
 		else {
-			$query = $this->createQueryForArguments();
 			$assignments = array();
 
 			if ($this->settings['resultPaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
 				$underlyingQueryInfo = $this->requestArguments['underlyingQuery'];
+
 				// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
-				$position = $underlyingQueryInfo['position'] - 1;
-				$previous = max(array($position - 1, 0));
-				$next = $position + 1;
-				$resultIndexOffset = ($position === 0) ? 0 : 1;
+				$positionIndex = $underlyingQueryInfo['position'] - 1;
+				$previousIndex = max(array($positionIndex - 1, 0));
+				$nextIndex = $positionIndex + 1;
+				$resultIndexOffset = ($positionIndex === 0) ? 0 : 1;
 
-				$this->addQueryInformationAsJavaScript($underlyingQueryInfo['query'], $position);
+				$arguments = $this->requestArguments;
+				foreach ($arguments['underlyingQuery'] as $key => $value) {
+					$arguments[$key] = $value;
+				}
 
-				$query->setQuery($underlyingQueryInfo['query']);
+				$this->addQueryInformationAsJavaScript($underlyingQueryInfo['q'], (int)$underlyingQueryInfo['position'], $arguments);
 
-				$query->setStart($previous);
-				$query->setRows($next - $previous + 1);
+				$query = $this->createQueryForArguments($arguments);
+				$query->setStart($previousIndex);
+				$query->setRows($nextIndex - $previousIndex + 1);
 
 				$selectResults = $this->solr->select($query);
 				$assignments['results'] = $selectResults;
@@ -135,12 +140,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$assignments['document'] = $document;
 					if ($resultIndexOffset !== 0) {
 						$assignments['document-previous'] = $resultSet[0];
-						$assignments['document-previous-index'] = $previous + 1;
+						$assignments['document-previous-number'] = $previousIndex + 1;
 					}
 					$nextResultIndex = 1 + $resultIndexOffset;
 					if (count($resultSet) > $nextResultIndex) {
 						$assignments['document-next'] = $resultSet[$nextResultIndex];
-						$assignments['document-next-index'] = $next + 1;
+						$assignments['document-next-number'] = $nextIndex + 1;
 					}
 				}
 				else {
@@ -148,6 +153,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				}
 			}
 			else {
+				$query = $this->createQuery();
 				$query->setQuery('id:' . $id);
 				$resultSet = $this->solr->select($query)->getDocuments();
 				$assignments['document'] = $resultSet[0];
@@ -244,6 +250,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				}
 			}
 		}
+
 		return $queryComponents;
 	}
 
@@ -264,6 +271,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Creates a query configured with all parameters set in the request’s arguments.
 	 *
+	 * @param array $arguments overrides $this->requestArguments if set
 	 * @return \Solarium\QueryType\Select\Query\Query
 	 */
 	private function createQueryForArguments ($arguments = NULL) {
@@ -277,7 +285,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if (array_key_exists('q', $arguments)) {
 			$queryParameters = $arguments['q'];
 
-			// remove not needed parameters from request
+			// Remove unneeded parameters from request.
 			if (array_key_exists('__hmac', $queryParameters)) {
 				unset($queryParameters['__hmac']);
 			}
@@ -297,7 +305,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$this->view->assign('query', $queryParameters);
 		}
 
-		$this->addFacetFilters($query);
+		$this->addFacetFilters($query, $arguments);
 		$this->addTypoScriptFilters($query);
 		$this->addSortOrder($query);
 
@@ -338,9 +346,10 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Adds filter queries for active facets to $query.
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param array $arguments overrides $this->requestArguments if set
 	 */
-	private function addFacetFilters ($query) {
-		$activeFacets = $this->getActiveFacets();
+	private function addFacetFilters ($query, $arguments = NULL) {
+		$activeFacets = $this->getActiveFacets($arguments);
 		foreach ($activeFacets as $key => $value) {
 			$query->createFilterQuery('facet-' . $key)
 					->setQuery($value);
@@ -382,13 +391,17 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 	/**
 	 * Get active facets
+	 *
+	 * @param array $arguments overrides $this->requestArguments if set
 	 */
-	protected function getActiveFacets() {
-
+	private function getActiveFacets($arguments = NULL) {
 		$activeFacets = array();
-		if (array_key_exists('facet', $this->requestArguments)) {
-			$facets = $this->requestArguments['facet'];
 
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
+		}
+		if (array_key_exists('facet', $arguments)) {
+			$facets = $arguments['facet'];
 			foreach ($facets as $key => $facet) {
 				// add to stack of active facets
 				$activeFacets[$key] = $facet;
@@ -524,19 +537,47 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Stores information about the active query in the »underlyingQuery« JavaScript variable.
 	 *
-	 * @param \Solarium\QueryType\Select\Query\Query $query
-	 * @param int|NULL $position
+	 * @param array $query
+	 * @param int|NULL $position of the record in the result list
+	 * @param array $arguments overrides $this->requestArguments if set
 	 */
-	protected function addQueryInformationAsJavaScript ($query, $position = NULL) {
+	private function addQueryInformationAsJavaScript ($query, $position = NULL, $arguments = NULL) {
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
+		}
+
 		if ($this->settings['resultPaging']) {
 			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
 			$scriptTag->addAttribute('type', 'text/javascript');
-			$underlyingQuery= array('query' => $query);
+			$underlyingQuery = array('q' => $query);
+			$underlyingQuery['facet'] = $this->getActiveFacets($arguments);
 			if ($position !== NULL) {
 				$underlyingQuery['position'] = $position;
 			}
 			$scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
 			$this->response->addAdditionalHeaderData($scriptTag->render());
+		}
+	}
+
+
+	/**
+	 * Removes all values from $array whose
+	 * * keys begin with __
+	 * * values are an empty string
+	 *
+	 * Specifically aimed at the __hmac and __referrer keys introduced by Fluid
+	 * forms as well as the text submitted by empty search form fields.
+	 * 
+	 * @param type $array
+	 */
+	private function cleanArgumentsArray (&$array) {
+		foreach ($array as $key => &$value) {
+			if (strpos($key, '__') === 0 || $value === '') {
+				unset($array[$key]);
+			}
+			else if (is_array($value)) {
+				$this->cleanArgumentsArray($value);
+			}
 		}
 	}
 

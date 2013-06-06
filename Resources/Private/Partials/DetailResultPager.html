@@ -1,10 +1,12 @@
 <f:if condition="{settings.resultPaging}">
 	<p class="queryAndPager">
-		<f:if condition="{arguments.underlyingQuery.query}">
+		<f:if condition="{arguments.underlyingQuery.q}">
 			<span class="underlyingQuery">
 				<span class="query">
 					<f:translate key="Query"/>
-					»{arguments.underlyingQuery.query}«:
+					<f:for each="{arguments.underlyingQuery.q}" as="value" key="key" iteration="iteration">
+						»<f:if condition="{0:key} != {0:'default'}">{key}: </f:if>{value}<f:if condition="{iteration.isLast} == 0"> AND </f:if>«
+					</f:for>
 				</span>
 				<span class="position">
 					<f:translate key="result"/>
@@ -18,7 +20,7 @@
 		<span class="resultPager pager">
 			<f:if condition="{document-previous}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" class="previous icon-left-dir" onclick="return detailViewWithPaging(this, {document-previous-index});" title="{f:translate(key:'previous')}">
+					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" class="previous icon-left-dir" onclick="return detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
@@ -27,7 +29,7 @@
 			</f:if>
 			<f:if condition="{document-next}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-next.fields.id}" class="next icon-right-dir" onclick="return detailViewWithPaging(this, {document-next-index});" title="{f:translate(key:'next')}">
+					<f:link.action action="detail" arguments="{id: document-next.fields.id}" class="next icon-right-dir" onclick="return detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
