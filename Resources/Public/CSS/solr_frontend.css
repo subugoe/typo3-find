@@ -209,20 +209,18 @@
 	display: none;
 }
 
-.tx_solr_frontend .resultPager {
-	font-size: 120%;
+.tx_solr_frontend .pager .icon-right-dir:before,
+.tx_solr_frontend .pager .icon-left-dir:before {
+	position:relative;
+	top: 1px;
+	width: auto;
+	padding: 0 4px;
+	font-size: 133%;
 }
 
-.tx_solr_frontend .resultPager a:hover {
+.tx_solr_frontend [class^="icon-"]:hover,
+.tx_solr_frontend [class*=" icon-"]:hover {
 	text-decoration: none;
-}
-
-.tx_solr_frontend [class^="icon-"]:before,
-.tx_solr_frontend [class*=" icon-"]:before {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 1em;
 }
 
 
@@ -245,7 +243,10 @@
 
 .tx_solr_frontend .tx-pagebrowse-pi1 ol li {
 	display: inline;
-	margin: 0.3em;
+}
+
+.tx_solr_frontend .tx-pagebrowse-pi1 ol li a {
+	padding: 0.4em;
 }
 
 .tx_solr_frontend .tx-pagebrowse-pi1 .tx-pagebrowse-current {
