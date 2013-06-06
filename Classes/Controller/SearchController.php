@@ -256,12 +256,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
-	 * Creates a blank query and adds it to the view.
+	 * Creates a blank query, sets up TypoScript filters and adds it to the view.
 	 *
 	 * @return \Solarium\QueryType\Select\Query\Query
 	 */
 	private function createQuery () {
 		$query = $this->solr->createSelect();
+		$this->addTypoScriptFilters($query);
+
 		$this->view->assign('solarium', $query);
 
 		return $query;
@@ -306,7 +308,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		$this->addFacetFilters($query, $arguments);
-		$this->addTypoScriptFilters($query);
 		$this->addSortOrder($query);
 
 		// Configure facets.
