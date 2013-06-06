@@ -37,34 +37,15 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	protected $solr;
 
-	/**
-	 * @var Tx_SolrFrontend_Domain_Model_Search
-	 * @inject
-	 */
-	protected $search;
 
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $offset = 0;
+	protected $requestArguments;
+
 
 	/**
-	 * @var int
-	 */
-	protected $resultsPerPage;
-
-	/**
-	 * @var tslib_cObj
-	 */
-	protected $contentObject;
-
-	/**
-	 * @var string
-	 */
-	public $prefixId = 'tx_solrfrontend_solrfrontend';
-
-	/**
-	 * Initializes some defaults
+	 * Initialisation and setup.
 	 */
 	public function initializeAction() {
 		$this->addResourcesToHead();
@@ -81,13 +62,142 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$this->solr = new Solarium\Client($configuration);
 
-		$this->resultsPerPage = intval($this->settings['results']['numberOfResultsPerPage']);
+		$this->requestArguments = $this->request->getArguments();
+	}
 
-		if ($this->request->hasArgument('page')) {
-			$this->offset = $this->request->getArgument('page') * $this->resultsPerPage;
+	
+	/**
+	 * Index Action.
+	 */
+	public function indexAction() {
+		$query = $this->createQueryForArguments();
+
+		// Run the query.
+		$resultSet = $this->solr->select($query);
+
+		// Determine number of pages for pagebrowser.
+		$numberOfPages = 0;
+		if ($this->getCount() > 0) {
+			$numberOfPages = ceil($resultSet->getNumFound() / $this->getCount());
 		}
 
-		$this->contentObject = $this->configurationManager->getContentObject();
+		$assignments = array(
+			'results' => $resultSet,
+			'numberOfPages' => $numberOfPages,
+			'counterStart' => $this->counterStart(),
+			'counterEnd' => $this->counterEnd(),
+			'extendedSearch' => $this->isExtendedSearch(),
+		);
+		$this->view->assignMultiple($assignments);
+
+		$this->addQueryInformationAsJavaScript($query->getQuery());
+		$this->addStandardAssignments();
+	}
+
+
+	/**
+	 * Action for single item view.
+	 *
+	 * @param String $id
+	 */
+	public function detailAction($id = NULL) {
+		if (empty($id)) {
+			// Bail out if no id is provided.
+			$this->flashMessageContainer->add('Please provide a valid document id', t3lib_FlashMessage::ERROR);
+			$this->redirect('index');
+		}
+		else {
+			$query = $this->createQueryForArguments();
+			$assignments = array();
+
+			if ($this->settings['resultPaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
+				$underlyingQueryInfo = $this->requestArguments['underlyingQuery'];
+				// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
+				$position = $underlyingQueryInfo['position'] - 1;
+				$previous = max(array($position - 1, 0));
+				$next = $position + 1;
+
+				$this->addQueryInformationAsJavaScript($underlyingQueryInfo['query'], $position);
+
+				$query->setQuery($underlyingQueryInfo['query']);
+
+				$query->setStart($previous);
+				$query->setRows($next - $previous + 1);
+
+				$selectResults = $this->solr->select($query);
+				$assignments['results'] = $selectResults;
+				$resultSet = $selectResults->getDocuments();
+
+				// the actual result is at position 0 (for the first document) or 1 (otherwise).
+				$resultIndexOffset = ($position === 0) ? 0 : 1;
+				$document = $resultSet[$resultIndexOffset];
+				if ($document['id'] === $id) {
+					$assignments['document'] = $document;
+					if ($resultIndexOffset !== 0) {
+						$assignments['document-previous'] = $resultSet[0];
+						$assignments['document-previous-index'] = $previous + 1;
+					}
+					if (count($resultSet) > 2) {
+						$assignments['document-next'] = $resultSet[2];
+						$assignments['document-next-index'] = $next + 1;
+					}
+				}
+				else {
+					// ERROR
+				}
+			}
+			else {
+				$query->setQuery('id:' . $id);
+				$resultSet = $this->solr->select($query)->getDocuments();
+				$assignments['document'] = $resultSet[0];
+			}
+
+			$this->view->assignMultiple($assignments);
+			$this->addStandardAssignments();
+		}
+	}
+
+
+	/**
+	 * Action for query autocomplete.
+	 */
+	public function autoCompleteAction() {
+		$searchTerm = filter_var($_GET['term'], FILTER_SANITIZE_STRING);
+
+		$query = $this->solr->createSuggester();
+
+		$query->setQuery($searchTerm);
+		$activeFacets = $this->getActiveFacets();
+
+		// respect active facets
+		foreach ($activeFacets as $key => $value) {
+			$query->createFilterQuery('facet-' . $key)
+					->setQuery($value);
+		}
+
+		$results = $this->solr->suggester($query)->getResponse()->getBody();
+		$this->view->assign('results', $results);
+	}
+
+
+	/**
+	 *
+	 */
+	public function jsonAction() {
+
+	}
+
+
+	/**
+	 * Assigns standard variables to the view.
+	 */
+	private function addStandardAssignments () {
+		$this->view->assign('prefixId', 'tx_solrfrontend_solrfrontend');
+		$this->view->assign('arguments', $this->requestArguments);
+
+		$contentObject = $this->configurationManager->getContentObject();
+		$uid = $contentObject->data['uid'];
+		$this->view->assign('uid', $uid);
 	}
 
 
@@ -99,8 +209,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function isExtendedSearch () {
 		$result = FALSE;
 
-		if ($this->request->hasArgument('extendedSearch')) {
-			$result = ($this->request->getArgument('extendedSearch') == TRUE);
+		if (array_key_exists('extendedSearch', $this->requestArguments)) {
+			$result = ($this->requestArguments['extendedSearch'] == TRUE);
 		}
 		
 		return $result;
@@ -137,49 +247,34 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
-	// Add filter queries for active facets.
-	private function addFacetFilters ($query) {
-		$activeFacets = $this->getActiveFacets();
-		foreach ($activeFacets as $key => $value) {
-			$query->createFilterQuery('facet-' . $key)
-					->setQuery($value);
-		}
+	/**
+	 * Creates a blank query and adds it to the view.
+	 *
+	 * @return \Solarium\QueryType\Select\Query\Query
+	 */
+	private function createQuery () {
+		$query = $this->solr->createSelect();
+		$this->view->assign('solarium', $query);
 
-		$this->view->assign('activeFacets', $activeFacets);
-	}
-
-
-	// Add filter queries configured in TypoScript.
-	private function addTypoScriptFilters ($query) {
-		if (!empty($this->settings['additionalFilters'])) {
-			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
-				$query->createFilterQuery('additionalFilter-' . $key)
-						->setQuery($filterQuery);
-			}
-		}
-	}
-
-
-	// Set up the sort order.
-	private function addSortOrder ($query) {
-		if (!empty($this->settings['sort'])) {
-			foreach ($this->settings['sort'] as $sortConfiguration) {
-				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
-				$query->addSort($sortConfiguration['field'], $sortOrder);
-			}
-		}
+		return $query;
 	}
 
 
 	/**
-	 * Index Action
+	 * Creates a query configured with all parameters set in the request’s arguments.
+	 *
+	 * @return \Solarium\QueryType\Select\Query\Query
 	 */
-	public function indexAction() {
-		$query = $this->solr->createSelect();
-		// search query
-		$queryParameters = array();
-		if ($this->request->hasArgument('q')) {
-			$queryParameters = $this->request->getArgument('q');
+	private function createQueryForArguments ($arguments = NULL) {
+		$query = $this->createQuery();
+
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
+		}
+
+		// Add search terms.
+		if (array_key_exists('q', $arguments)) {
+			$queryParameters = $arguments['q'];
 
 			// remove not needed parameters from request
 			if (array_key_exists('__hmac', $queryParameters)) {
@@ -197,6 +292,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$query->setQuery($queryString);
 				}
 			}
+			
+			$this->view->assign('query', $queryParameters);
 		}
 
 		$this->addFacetFilters($query);
@@ -226,120 +323,61 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						 ->setSort($facet['sortOrder']);
 			}
 		}
-
-		// offset for pagination
-		$query->setStart($this->offset)->setRows($this->resultsPerPage);
-
-		// fire the query
-		$resultSet = $this->solr->select($query);
-
-		// determine number of pages for pagebrowser
-		$numberOfPages = ceil($resultSet->getNumFound() / $this->resultsPerPage);
-
-		$uid = $this->contentObject->data['uid'];
-
-		$assignments = array(
-			'facets' => $facetConfiguration,
-			'query' => $queryParameters,
-			'solarium' => $query,
-			'results' => $resultSet,
-			'numberOfPages' => $numberOfPages,
-			'uid' => $uid,
-			'counterStart' => $this->counterStart(),
-			'counterEnd' => $this->counterEnd(),
-			'prefixId' => $this->prefixId,
-			'extendedSearch' => $this->isExtendedSearch(),
-			'arguments' => $this->request->getArguments()
-		);
-		$this->view->assignMultiple($assignments);
-
-		$this->addQueryInformationAsJavaScript($query->getQuery());
-	}
-
-	/**
-	 * Single view
-	 *
-	 * @param String $id
-	 */
-	public function detailAction($id = NULL) {
-		// if no id is provided
-		if (empty($id)) {
-			$this->flashMessageContainer->add('Please provide a valid document id', t3lib_FlashMessage::ERROR);
-			$this->redirect('index');
-		}
+		$this->view->assign('facets', $facetConfiguration);
 		
-		$query = $this->solr->createSelect();
-		$this->addFacetFilters($query);
-		$this->addTypoScriptFilters($query);
-		$this->addSortOrder($query);
+		// Set the rows to retrieve.
+		$query->setStart($this->getOffset());
+		$query->setRows($this->getCount());
 
-		$assignments = array(
-			'arguments' => $this->request->getArguments(),
-			'solarium' => $query
-		);
-
-		if ($this->settings['resultPaging'] && $this->request->hasArgument('underlyingQuery')) {
-			$underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-			// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
-			$position = $underlyingQueryInfo['position'] - 1;
-			$previous = max(array($position - 1, 0));
-			$next = $position + 1;
-
-			$this->addQueryInformationAsJavaScript($underlyingQueryInfo['query'], $position);
-
-			$query->setQuery($underlyingQueryInfo['query']);
-			$query->setStart($previous)->setRows($next - $previous + 1);
-			$selectResults = $this->solr->select($query);
-			$assignments['results'] = $selectResults;
-			$resultSet = $selectResults->getDocuments();
-
-			// the actual result is at position 0 (for the first document) or 1 (otherwise).
-			$resultIndexOffset = ($position === 0) ? 0 : 1;
-			$document = $resultSet[$resultIndexOffset];
-			if ($document['id'] === $id) {
-				$assignments['document'] = $document;
-				if ($resultIndexOffset !== 0) {
-					$assignments['document-previous'] = $resultSet[0];
-					$assignments['document-previous-index'] = $previous + 1;
-				}
-				if (count($resultSet) > 2) {
-					$assignments['document-next'] = $resultSet[2];
-					$assignments['document-next-index'] = $next + 1;
-				}
-			}
-			else {
-				// ERROR
-			}
-		}
-		else {
-			$query->setQuery('id:' . $id);
-			$resultSet = $this->solr->select($query)->getDocuments();
-			$assignments['document'] = $resultSet[0];
-		}
-
-		$this->view->assignMultiple($assignments);
+		return $query;
 	}
 
+
 	/**
-	 * Action for autocompletion
+	 * Adds filter queries for active facets to $query.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
 	 */
-	public function autoCompleteAction() {
-		$searchTerm = filter_var($_GET['term'], FILTER_SANITIZE_STRING);
-
-		$query = $this->solr->createSuggester();
-
-		$query->setQuery($searchTerm);
+	private function addFacetFilters ($query) {
 		$activeFacets = $this->getActiveFacets();
-
-		// respect active facets
 		foreach ($activeFacets as $key => $value) {
 			$query->createFilterQuery('facet-' . $key)
 					->setQuery($value);
 		}
 
-		$results = $this->solr->suggester($query)->getResponse()->getBody();
-		$this->view->assign('results', $results);
+		$this->view->assign('activeFacets', $activeFacets);
 	}
+
+
+	/**
+	 * Adds filter queries configured in TypoScript to $query.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 */
+	private function addTypoScriptFilters ($query) {
+		if (!empty($this->settings['additionalFilters'])) {
+			foreach($this->settings['additionalFilters'] as $key => $filterQuery) {
+				$query->createFilterQuery('additionalFilter-' . $key)
+						->setQuery($filterQuery);
+			}
+		}
+	}
+
+
+	/**
+	 * Sets up $query’s sort order from TypoScript settings.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 */
+	private function addSortOrder ($query) {
+		if (!empty($this->settings['sort'])) {
+			foreach ($this->settings['sort'] as $sortConfiguration) {
+				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
+				$query->addSort($sortConfiguration['field'], $sortOrder);
+			}
+		}
+	}
+
 
 	/**
 	 * Get active facets
@@ -347,8 +385,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	protected function getActiveFacets() {
 
 		$activeFacets = array();
-		if ($this->request->hasArgument('facet')) {
-			$facets = $this->request->getArgument('facet');
+		if (array_key_exists('facet', $this->requestArguments)) {
+			$facets = $this->requestArguments['facet'];
 
 			foreach ($facets as $key => $facet) {
 				// add to stack of active facets
@@ -359,23 +397,60 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		return $activeFacets;
 	}
 
+
 	/**
-	 * Calculates the starting point for the ordered list
+	 * Returns the number of the first result on the page.
 	 *
 	 * @return int
 	 */
 	protected function counterStart() {
-		return $this->offset + 1 ;
+		return $this->getOffset() + 1 ;
 	}
 
 
 	/**
-	 * Calculates the number of the last result on a page
+	 * Returns the number of the last result on the page.
 	 *
 	 * @return int
 	 */
 	protected function counterEnd() {
-		return $this->offset + $this->resultsPerPage;
+		return $this->getOffset() + $this->getCount();
+	}
+
+
+	/**
+	 * Returns the index of the first row to return.
+	 * 
+	 * @return int
+	 */
+	protected function getOffset () {
+		if (array_key_exists('start', $this->requestArguments)) {
+			return intval($this->requestArguments['start']);
+		}
+		else {
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of results per page using the first of:
+	 * * query parameter »count«
+	 * * setting »count«
+	 * * default (10)
+	 *
+	 * @return int
+	 */
+	protected function getCount () {
+		if (array_key_exists('count', $this->requestArguments)) {
+			return intval($this->requestArguments['count']);
+		}
+		else if (array_key_exists('count', $this->settings)) {
+			return intval($this->settings['count']);
+		}
+		else {
+			return 10;
+		}
 	}
 
 
@@ -445,6 +520,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+	/**
+	 * Stores information about the active query in the »underlyingQuery« JavaScript variable.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param int|NULL $position
+	 */
 	protected function addQueryInformationAsJavaScript ($query, $position = NULL) {
 		if ($this->settings['resultPaging']) {
 			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');

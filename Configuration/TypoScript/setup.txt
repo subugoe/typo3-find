@@ -57,9 +57,7 @@ plugin.tx_solrfrontend {
 			#	ascending = 1
 			# }
 		}
-		results {
-			numberOfResultsPerPage = {$plugin.tx_solrfrontend.settings.results.numberOfResultsPerPage}
-		}
+		count = {$plugin.tx_solrfrontend.settings.count}
 		standardFields {
 			title = title
 			snippet = snippet

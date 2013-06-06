@@ -5,9 +5,7 @@ plugin.tx_solrfrontend {
 			port = 8080
 			path = /solr/
 		}
-		results {
-			numberOfResultsPerPage = 20
-		}
+		count = 20
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to CSS file (FE)
 		CSSPath = EXT:solr_frontend/Resources/Public/CSS/solr_frontend.css
 		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to JavaScript file (FE)
