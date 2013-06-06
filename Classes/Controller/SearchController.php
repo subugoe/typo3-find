@@ -116,6 +116,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				$position = $underlyingQueryInfo['position'] - 1;
 				$previous = max(array($position - 1, 0));
 				$next = $position + 1;
+				$resultIndexOffset = ($position === 0) ? 0 : 1;
 
 				$this->addQueryInformationAsJavaScript($underlyingQueryInfo['query'], $position);
 
@@ -129,7 +130,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				$resultSet = $selectResults->getDocuments();
 
 				// the actual result is at position 0 (for the first document) or 1 (otherwise).
-				$resultIndexOffset = ($position === 0) ? 0 : 1;
 				$document = $resultSet[$resultIndexOffset];
 				if ($document['id'] === $id) {
 					$assignments['document'] = $document;
@@ -137,8 +137,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						$assignments['document-previous'] = $resultSet[0];
 						$assignments['document-previous-index'] = $previous + 1;
 					}
-					if (count($resultSet) > 2) {
-						$assignments['document-next'] = $resultSet[2];
+					$nextResultIndex = 1 + $resultIndexOffset;
+					if (count($resultSet) > $nextResultIndex) {
+						$assignments['document-next'] = $resultSet[$nextResultIndex];
 						$assignments['document-next-index'] = $next + 1;
 					}
 				}
