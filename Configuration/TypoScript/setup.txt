@@ -99,7 +99,7 @@ plugin.tx_solrfrontend {
 tx_solrfrontend_page = PAGE
 tx_solrfrontend_page {
 	typeNum = 1369315139
-	10 < tt_content.list.20.solrfrontend_autocomplete
+	10 < tt_content.list.20.solrfrontend_solrfrontend
 	config {
 		disableAllHeaderCode = 1
 		additionalHeaders = Content-type:application/json;charset=utf-8
