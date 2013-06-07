@@ -97,6 +97,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
+	 *
+	 */
+	public function jsonAction() {
+		$this->indexAction();
+	}
+
+
+	/**
 	 * Action for single item view.
 	 *
 	 * @param String $id
@@ -188,14 +196,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
-	 *
-	 */
-	public function jsonAction() {
-
-	}
-
-
-	/**
 	 * Assigns standard variables to the view.
 	 */
 	private function addStandardAssignments () {
@@ -235,6 +235,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function queryComponentsForQueryParameters ($queryParameters) {
 		$queryComponents = array();
 		$queryFields = $this->settings['queryFields'];
+		$queryFields[] = array('id' => 'raw', 'query' => '###term###');
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {
