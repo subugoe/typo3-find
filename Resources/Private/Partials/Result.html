@@ -3,7 +3,7 @@
 <li>
 	<article>
 		<h1>
-			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.resultPaging == 1}', then:'return detailViewWithPaging(this);')}">
+			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return detailViewWithPaging(this);')}">
 				<s:valueForKey array="{document.fields}" key="{settings.standardFields.title}"/>
 			</f:link.action>
 		</h1>

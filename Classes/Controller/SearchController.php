@@ -118,7 +118,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		else {
 			$assignments = array();
 
-			if ($this->settings['resultPaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
+			if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
 				$underlyingQueryInfo = $this->requestArguments['underlyingQuery'];
 
 				// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
@@ -548,7 +548,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$arguments = $this->requestArguments;
 		}
 
-		if ($this->settings['resultPaging']) {
+		if ($this->settings['paging']['detailPagePaging']) {
 			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
 			$scriptTag->addAttribute('type', 'text/javascript');
 			$underlyingQuery = array('q' => $query);
