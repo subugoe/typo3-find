@@ -11,6 +11,8 @@
 			<h2>Karte</h2>
 			<div id="c-{document.id}-map" class="map"></div>
 			<script type="text/javascript">
+				var klosterID = '{document.id}';
+
 				function mapsReady () {
 					var mapOptions = {
 						'mapTypeId': google.maps.MapTypeId.ROADMAP,
@@ -18,7 +20,7 @@
 						'scrollwheel': false
 					};
 
-					var mapContainer = document.getElementById('c-{document.id}-map');
+					var mapContainer = document.getElementById('c-' + klosterID + '-map');
 					var map = new google.maps.Map(mapContainer, mapOptions);
 					var containingBounds = new google.maps.LatLngBounds();
 					var point;
@@ -26,14 +28,17 @@
 					var institutionengenau = false;
 					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 					point = new google.maps.LatLng({koordinaten});
-					title = {s:valueForKey(array:document.ort, key:index, format:"json")};
+					title = '{document.kloster}' +  {s:valueForKey(array:document.ort, key:index, format:"json")};
 					new google.maps.Marker({
 						'map': map,
 						'position': point,
-						'title': title
+						'title': title,
+						'zIndex': 100
 					});
 					containingBounds.extend(point);
 					institutionengenau |= {s:valueForKey(array:document.koordinaten_institutionengenau, key:index, format:"json")};
+					var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=75}'}}" action="json" pageType="1369315139"/>';
+					addNearby(map, queryURL);
 					</f:for>
 					var NE = containingBounds.getNorthEast();
 					var SW = containingBounds.getSouthWest();
@@ -47,7 +52,32 @@
 						);
 					}
 					map.fitBounds(containingBounds);
-					console.log(map.getZoom());
+				}
+
+				var addNearby = function (map, queryURL) {
+					jQuery.getJSON(queryURL, function (data) {
+						var results = data.response.docs;
+						for (var docIndex in results) {
+							var result = results[docIndex];
+							if (result.id !== klosterID) {
+								var points = result.koordinaten;
+								for (var pointIndex in points) {
+									var coordinateStrings = points[pointIndex].split(',');
+									var lat = parseFloat(coordinateStrings[0]);
+									var long = parseFloat(coordinateStrings[1]);
+									var point = new google.maps.LatLng(lat,long);
+									var title = result.kloster;
+									var marker = new google.maps.Marker({
+										'map': map,
+										'position': point,
+										'title': title,
+										'icon': 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png',
+										'zIndex': 50
+									});
+								}
+							}
+						}
+					});
 				}
 
 				var loadScript = function () {
