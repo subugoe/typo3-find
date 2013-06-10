@@ -59,3 +59,5 @@ class Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper extends Tx_Fluid_Core_Vi
 	}
 
 }
+
+?>

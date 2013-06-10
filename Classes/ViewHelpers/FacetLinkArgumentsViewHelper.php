@@ -95,3 +95,5 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 		return $result;
 	}
 }
+
+?>

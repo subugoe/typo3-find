@@ -58,3 +58,5 @@ class Tx_SolrFrontend_ViewHelpers_FacetIsActiveViewHelper extends Tx_Fluid_Core_
 	}
 
 }
+
+?>
