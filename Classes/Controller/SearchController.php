@@ -309,7 +309,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 
 		$this->addFacetFilters($query, $arguments);
-		$this->addSortOrder($query);
+		$this->setSortOrder($query);
+		$this->setRange($query, $arguments);
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
@@ -335,10 +336,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 		}
 		$this->view->assign('facets', $facetConfiguration);
-		
-		// Set the rows to retrieve.
-		$query->setStart($this->getOffset());
-		$query->setRows($this->getCount());
 
 		return $query;
 	}
@@ -381,13 +378,25 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
 	 */
-	private function addSortOrder ($query) {
+	private function setSortOrder ($query) {
 		if (!empty($this->settings['sort'])) {
 			foreach ($this->settings['sort'] as $sortConfiguration) {
 				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
 				$query->addSort($sortConfiguration['field'], $sortOrder);
 			}
 		}
+	}
+
+
+	/**
+	 * Sets up the range of documents to be fetches by $query.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param array $arguments overrides $this->requestArguments if set
+	 */
+	private function setRange ($query, $arguments = NULL) {
+		$query->setStart($this->getOffset($arguments));
+		$query->setRows($this->getCount($arguments));
 	}
 
 
@@ -436,37 +445,49 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 	/**
 	 * Returns the index of the first row to return.
-	 * 
+	 *
+	 * @param array $arguments overrides $this->requestArguments if set
 	 * @return int
 	 */
-	protected function getOffset () {
-		if (array_key_exists('start', $this->requestArguments)) {
-			return intval($this->requestArguments['start']);
+	protected function getOffset ($arguments = NULL) {
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
 		}
-		else {
-			return 0;
+
+		$offset = 0;
+
+		if ($arguments && array_key_exists('start', $arguments)) {
+			$offset =  intval($arguments['start']);
 		}
+
+$this->view->assign('offset', $offset);
+		return $offset;
 	}
 
 
 	/**
 	 * Returns the number of results per page using the first of:
 	 * * query parameter »count«
-	 * * setting »count«
-	 * * default (10)
+	 * * TypoScript setting »paging.perPage«
 	 *
+	 * @param array $arguments overrides $this->requestArguments if set
 	 * @return int
 	 */
-	protected function getCount () {
-		if (array_key_exists('count', $this->requestArguments)) {
-			return intval($this->requestArguments['count']);
+	protected function getCount ($arguments = NULL) {
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
 		}
-		else if (array_key_exists('count', $this->settings)) {
-			return intval($this->settings['count']);
+
+		$count = intval($this->settings['paging']['perPage']);
+
+		if (array_key_exists('count', $arguments)) {
+			$count = intval($this->requestArguments['count']);
 		}
-		else {
-			return 10;
-		}
+
+		$maxCount = intval($this->settings['paging']['maximumPerPage']);
+		$count = min(array($count, $maxCount));
+$this->view->assign('count', $count);
+		return $count;
 	}
 
 
