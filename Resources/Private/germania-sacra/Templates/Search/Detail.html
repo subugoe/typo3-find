@@ -28,7 +28,7 @@
 					var institutionengenau = false;
 					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 					point = new google.maps.LatLng({koordinaten});
-					title = '{document.kloster}' +  {s:valueForKey(array:document.ort, key:index, format:"json")};
+					title = '{document.kloster}';
 					new google.maps.Marker({
 						'map': map,
 						'position': point,
