@@ -22,10 +22,15 @@
 </div>
 
 <f:if condition="{s:facetIsActive(facetName:facetName, activeFacets:activeFacets, type:'range')}">
-	<f:link.action
-		addQueryString="TRUE"
-		argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, activeFacets:activeFacets, mode:'remove', type:'range')}"
-		class="facetRemove">
-		<f:translate key="remove filter"/>
-	</f:link.action>
+	<f:for each="{activeFacets}" as="activeFacet">
+		<f:if condition="{0:activeFacet.name} == {0:facetInfo.field}">
+			<f:link.action
+				addQueryString="TRUE"
+				argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, activeFacets:activeFacets, mode:'remove', type:'range')}"
+				class="facetRemove">
+				<s:regexp string="<f:format.printf arguments='{0:activeFacet.value}'><f:translate key='remove filter %s'/></f:format.printf>"
+							match="/\[([0-9]*) TO ([0-9]*)\]/" replace="\1-\2"/>
+			</f:link.action>
+		</f:if>
+	</f:for>
 </f:if>
