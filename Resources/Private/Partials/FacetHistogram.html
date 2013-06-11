@@ -4,29 +4,19 @@
 	<script type="text/javascript">
 		(function () {
 			var histogramConfiguration = {
-				'fieldName': '{facetInfo.field}',
+				'fieldName': <s:json data="{facetInfo.field}"/>,
 				'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-				'linkTemplate': '<f:uri.action addQueryString="TRUE" arguments="{s:facetLinkArguments(facetName:facetName, itemName:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}" argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, mode:\"remove\", activeFacets:activeFacets)}"/>',
+				'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{s:facetLinkArguments(facetName:facetName, itemName:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}" argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetName:facetName, mode:\"remove\", activeFacets:activeFacets)}"/>'/>,
 				'activeFacets': [],
 			}
-
-			<f:debug>{_all}</f:debug>
 			<f:for each="{activeFacets}" as="activeFacet">
 				<f:if condition="{0:activeFacet.name} == {0:facetInfo.field}">
-					histogramConfiguration = activeFacets.push("{activeFacet.value}");
+					histogramConfiguration.activeFacets.push("{activeFacet.value}");
 				</f:if>
 			</f:for>
+			var facetData = <s:json data="{facetData.values}"/>;
 
-			var data = [];
-			var facetItem;
-			<f:for each="{facetData.values}" as="facetItemCount" key="facetItemName">
-				facetItem = {};
-				facetItem['name'] = {facetItemName};
-				facetItem['freq'] = {facetItemCount};
-				data.push(facetItem);
-			</f:for>
-
-			createHistogramForTermsInContainer(data, document.getElementById('c-{uid}-histogram-{facetName}'), histogramConfiguration);
+			createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetName}'), histogramConfiguration);
 		})();
 	</script>
 </div>

@@ -45,15 +45,15 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 
 	var startSearchWithNewFacet = function (range) {
 		var facetQueryString = '[' + range.from + '%20TO%20' + range.to + ']';
-		var facetLink = config.facetLinkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
+		var facetLink = config.linkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
 		window.location.href = document.baseURI + facetLink;
 	};
 
 	var graphData = [];
-	for (var termIndex in terms) {
-		var year = parseInt(terms[termIndex].name, 10);
+	for (var yearName in terms) {
+		var year = parseInt(yearName, 10);
 		if (year) {
-			graphData.push([year, terms[termIndex].freq]);
+			graphData.push([year, terms[yearName]]);
 		}
 	}
 
@@ -105,7 +105,7 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 
 	for (var activeFacetIndex in config.activeFacets) {
 		var activeFacet = config.activeFacets[activeFacetIndex];
-		var range = activeFacet.value.replace(/[\[\]]/g, '').split(' TO ');
+		var range = activeFacet.replace(/[\[\]]/g, '').split(' TO ');
 		if (range.length === 2) {
 			var selection = {};
 			selection.from = parseInt(range[0]);
