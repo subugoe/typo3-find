@@ -36,9 +36,8 @@ class Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper extends Tx_Fluid_Core_Vi
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('array', 'array', 'The array to extract the value from', TRUE, array());
+		$this->registerArgument('array', 'array', 'The array to extract the value from', TRUE);
 		$this->registerArgument('key', 'string', 'The key to extract the value for', TRUE);
-		$this->registerArgument('format', 'string', 'The format to return the value in ("text", "json")', FALSE, 'text');
 	}
 
 
@@ -52,10 +51,6 @@ class Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper extends Tx_Fluid_Core_Vi
 			if (array_key_exists($this->arguments['key'], $this->arguments['array'])) {
 				$result = $this->arguments['array'][$this->arguments['key']];
 			}
-		}
-
-		if ($this->arguments['format'] === 'json') {
-			$result = json_encode($result);
 		}
 
 		return $result;
