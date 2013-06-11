@@ -241,7 +241,7 @@
 								</h3>
 								<ol>
 									<f:for each="{personenMitAmt}" as="person">
-										<li title="">
+										<li>
 											<f:if condition="{person.von_verbal}{person.bis_verbal}">
 												<span class="zeitraum">{person.von_verbal}{f:if(condition:person.bis_verbal, then:'-')}{person.bis_verbal}</span>
 											</f:if>
