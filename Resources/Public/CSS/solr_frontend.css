@@ -198,7 +198,15 @@
 	color: #000;
 }
 
+.tx_solr_frontend .histogram {
+	margin: 0.5em 0;
+	position: relative;
+	left: -13px;
+}
 
+.tx_solr_frontend .flot-x-axis .flot-tick-label:first-child {
+	left: 13px!important;
+}
 
 /* page browser single item view */
 .tx_solr_frontend .queryAndPager {
