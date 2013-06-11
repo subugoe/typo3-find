@@ -215,6 +215,8 @@ var detailViewWithPaging = function (element, position) {
 		var linkURL = element.getAttribute('href');
 		form.action = linkURL;
 		form.method = 'POST';
+		form.style = 'display:none;';
+		document.body.appendChild(form);
 
 		var inputs = inputsWithPrefixForObject('tx_solrfrontend_solrfrontend[underlyingQuery]', underlyingQuery);
 		for (var inputIndex in inputs) {
