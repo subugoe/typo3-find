@@ -3,8 +3,10 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *      Goettingen State Library
+ *  (c) 2013
+ *      Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
+ *      Sven-S. Porst <porst@sub.uni-goettingen.de>
+ *      Göttingen State and University Library
  *  
  *  All rights reserved
  *
@@ -37,8 +39,9 @@ class Tx_SolrFrontend_ViewHelpers_FacetIsActiveViewHelper extends Tx_Fluid_Core_
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('facetName', 'string', 'The name of the facet to determine the selection status of', TRUE);
-		$this->registerArgument('itemName', 'string', 'The name of the facet item to determine the selection status of', TRUE);
+		$this->registerArgument('itemName', 'string', 'The name of the facet item to determine the selection status of; if NULL any facet with the given facetName matches', FALSE, NULL);
 		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
+		$this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
 	}
 
 
@@ -46,14 +49,18 @@ class Tx_SolrFrontend_ViewHelpers_FacetIsActiveViewHelper extends Tx_Fluid_Core_
 	 * @return array
 	 */
 	public function render() {
-		$activeFacets = $this->arguments['activeFacets'];
-		$facetQuery = $this->arguments['facetName'] . ':"' . $this->arguments['itemName'] . '"';
+		$itemName = $this->arguments['itemName'];
+		if ($this->arguments['type'] === 'string') {
+			$itemName = '"' . $itemName . '"';
+		}
 
-		foreach ($activeFacets as $activeFacet) {
-			if ($activeFacet === $facetQuery) {
+		foreach ($this->arguments['activeFacets'] as $activeFacet) {
+			if ($activeFacet['name'] === $this->arguments['facetName'] 
+					&& ($activeFacet['value'] === $itemName || $itemName === NULL)) {
 				return TRUE;
 			}
 		}
+
 		return FALSE;
 	}
 

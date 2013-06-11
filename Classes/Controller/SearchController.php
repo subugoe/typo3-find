@@ -354,7 +354,18 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					->setQuery($value);
 		}
 
-		$this->view->assign('activeFacets', $activeFacets);
+		$activeFacetsForTemplate = array();
+		foreach ($activeFacets as $activeFacet) {
+			$facetQueryComponents = explode(':', $activeFacet, 2);
+			if (count($facetQueryComponents) === 2) {
+				$activeFacetsForTemplate[] = array(
+					'name' => $facetQueryComponents[0],
+					'value' => $facetQueryComponents[1]
+				);
+			}
+		}
+
+		$this->view->assign('activeFacets', $activeFacetsForTemplate);
 	}
 
 

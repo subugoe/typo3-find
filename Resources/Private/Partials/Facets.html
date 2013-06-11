@@ -22,7 +22,7 @@
 		<f:for each="{facets}" as="facetInfo" key="facetKey">
 			<f:alias map="{facetData: '{s:valueForKey(array:results.components.facetset.facets key:facetInfo.field)}', facetName: facetInfo.field}">
 				<f:if condition="{f:count(subject:facetData)} > 0">
-					<article class="facet {facetInfo.type}">
+					<article class="facet facet-{facetName}">
 						<h1>
 							<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetName}" default="{facetName}"/>
 						</h1>

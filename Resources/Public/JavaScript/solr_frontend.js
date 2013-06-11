@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
 // add parameters correctly to an url
 var updateQueryStringParameter = function(uri, key, value) {
 	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
-	separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	var separator = uri.indexOf('?') !== -1 ? "&" : "?";
 	if (uri.match(re)) {
 		return uri.replace(re, '$1' + key + "=" + value + '$2');
 	}
@@ -37,18 +37,17 @@ var currentUrl = function() {
 	return window.location.href;
 };
 
-var createHistogram = function (terms) {
-	var jGraphDiv = jQuery('div.histogram'); // TODO: more precise selection to allow multiple histograms
-	var graphWidth = jQuery('div.facets').width(); // TODO: use parent() in selection
+var createHistogramForTermsInContainer = function (terms, container, config) {
+	var jGraphDiv = jQuery(container);
+	var graphWidth = jGraphDiv.parents('.facets').width();
 	var canvasHeight = 150;
 	jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
 
 	var startSearchWithNewFacet = function (range) {
 		var facetQueryString = '[' + range.from + '%20TO%20' + range.to + ']';
-		var facetLink = facetLinkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
+		var facetLink = config.facetLinkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
 		window.location.href = document.baseURI + facetLink;
 	};
-
 
 	var graphData = [];
 	for (var termIndex in terms) {
@@ -77,7 +76,7 @@ var createHistogram = function (terms) {
 				'show': true,
 				'fill': true,
 				'lineWidth': 0,
-				'barWidth': barWidth,
+				'barWidth': config.barWidth,
 				'fillColor': graphColour
 			}
 		},
@@ -104,16 +103,14 @@ var createHistogram = function (terms) {
 
 	var plot = jQuery.plot(jGraphDiv , [{'data': graphData, 'color': graphColour}], graphOptions);
 
-	for (var activeFacetIndex in activeFacets) {
-		var activeFacet = activeFacets[activeFacetIndex];
-		if (activeFacet.length === 2 && activeFacet[0] === myFacetField) {
-			var range = activeFacet[1].replace(/[\[\]]/g, '').split(' TO ');
-			if (range.length === 2) {
-				var selection = {};
-				selection.from = parseInt(range[0]);
-				selection.to = parseInt(range[1]);
-				plot.setSelection({'xaxis': selection});
-			}
+	for (var activeFacetIndex in config.activeFacets) {
+		var activeFacet = config.activeFacets[activeFacetIndex];
+		var range = activeFacet.value.replace(/[\[\]]/g, '').split(' TO ');
+		if (range.length === 2) {
+			var selection = {};
+			selection.from = parseInt(range[0]);
+			selection.to = parseInt(range[1]);
+			plot.setSelection({'xaxis': selection});
 		}
 	}
 
@@ -123,9 +120,9 @@ var createHistogram = function (terms) {
 
 	var selectRanges = function (ranges) {
 		var from = Math.floor(ranges.xaxis.from);
-		ranges.xaxis.from = from - (from % barWidth);
+		ranges.xaxis.from = from - (from % config.barWidth);
 		var to = Math.ceil(ranges.xaxis.to);
-		ranges.xaxis.to = to - (to % barWidth);
+		ranges.xaxis.to = to - (to % config.barWidth);
 		plot.setSelection(ranges, true);
 		removeTooltip();
 		startSearchWithNewFacet(ranges.xaxis);
@@ -159,13 +156,13 @@ var createHistogram = function (terms) {
 
 		removeTooltip();
 		var year = Math.floor(ranges.x);
-		year = year - (year % barWidth);
+		year = year - (year % configbarWidth);
 		for (termIndex in terms) {
 			var term = terms[termIndex].name;
 			if (term === year) {
 				var hitCount = terms[termIndex].freq;
 				var displayString = year + ': ' + hitCount + ' ' + localise('Treffer');
-				tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
+				var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
 				showTooltip(ranges.pageX, tooltipY, displayString);
 			}
 		}

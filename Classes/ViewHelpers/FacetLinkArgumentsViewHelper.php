@@ -3,8 +3,10 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *      Goettingen State Library
+ *  (c) 2013
+ *      Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
+ *      Sven-S. Porst <porst@sub.uni-goettingen.de>
+ *      Göttingen State and University Library
  *  
  *  All rights reserved
  *
@@ -48,24 +50,32 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 		$this->registerArgument('itemName', 'string', 'The name of the facet item to create the link for', FALSE, '');
 		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
 		$this->registerArgument('mode', 'string', 'One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«', FALSE, 'add');
+		$this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
 	}
+
 
 	/**
 	 * Create the return array required to add/remove the URL parameters by
 	 * passing it to f.link.action’s »arguments«
-	 * or »argumentsToBeExcludedFromQueryString.
+	 * or »argumentsToBeExcludedFromQueryString«.
 	 *
 	 * @return array
 	 */
 	public function render() {
 		$result = array();
 		$activeFacets = $this->arguments['activeFacets'];
-		$facetQuery = $this->arguments['facetName'] . ':"' . $this->arguments['itemName'] . '"';
+		$facetData = array('name' => $this->arguments['facetName']);
+		if ($this->arguments['type'] === 'string') {
+			$facetData['value'] = '"' . $this->arguments['itemName'] . '"';
+		}
+		else {
+			$facetData['value'] = $this->arguments['itemName'];
+		}
 
 		if ($this->arguments['mode'] === 'remove' && $activeFacets) {
-			if ($this->arguments['itemName']) {
+			if ($facetData['value']) {
 				// Remove this specific facet.
-				$thisFacetsIndex = array_search($facetQuery, $activeFacets, TRUE);
+				$thisFacetsIndex = array_search($facetData, $activeFacets, FALSE);
 				if ($thisFacetsIndex !== FALSE) {
 					$result[] = 'tx_solrfrontend_solrfrontend[facet][' . $thisFacetsIndex . ']';
 				}
@@ -73,7 +83,7 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 			else {
 				// Remove all facets of this type.
 				foreach ($activeFacets as $activeFacetIndex => $activeFacet) {
-					if (strpos($activeFacet, $this->arguments['facetName'] . ':') === 0) {
+					if ($activeFacet['name'] === $facetData['name']) {
 						$result[] = 'tx_solrfrontend_solrfrontend[facet][' . $activeFacetIndex . ']';
 					}
 				}
@@ -88,7 +98,7 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 				$position++;
 			}
 			$result['facet'] = array(
-				 $position => $facetQuery
+				 $position => $facetData['name'] . ':' . $facetData['value']
 			);
 		}
 
