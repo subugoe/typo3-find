@@ -46,7 +46,6 @@ class Tx_SolrFrontend_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @return string
 	 */
 	public function render() {
-		debugster($this->arguments);
 		return preg_replace($this->arguments['match'], $this->arguments['replace'], $this->arguments['string']);
 	}
 
