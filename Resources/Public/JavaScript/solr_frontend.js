@@ -92,7 +92,8 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 			'labelWidth': 30
 		},
 		'grid': {
-			'borderWidth': 0
+			'borderWidth': 0,
+			'hoverable': true
 		},
 		'selection': {
 			'mode': 'x',
@@ -151,20 +152,17 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 				'top': y - 20,
 				'left': x + 5,
 				'background': '#fff'
-			}).appendTo('body').fadeIn(200);
+			}).appendTo('body').show();
 		};
 
 		removeTooltip();
 		var year = Math.floor(ranges.x);
-		year = year - (year % configbarWidth);
-		for (termIndex in terms) {
-			var term = terms[termIndex].name;
-			if (term === year) {
-				var hitCount = terms[termIndex].freq;
-				var displayString = year + ': ' + hitCount + ' ' + localise('Treffer');
-				var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
-				showTooltip(ranges.pageX, tooltipY, displayString);
-			}
+		year = year - (year % config.barWidth);
+		if (terms[year]) {
+			var hitCount = terms[year];
+			var displayString = year + ': ' + hitCount + ' ' + localise('Treffer');
+			var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
+			showTooltip(ranges.pageX, tooltipY, displayString);
 		}
 	});
 
