@@ -28,7 +28,7 @@
 					var institutionengenau = false;
 					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 					point = new google.maps.LatLng({koordinaten});
-					title = '{document.kloster}';
+					title = <s:json data="{document.kloster}"/>;
 					new google.maps.Marker({
 						'map': map,
 						'position': point,
@@ -37,7 +37,7 @@
 					});
 					containingBounds.extend(point);
 					institutionengenau |= {s:valueForKey(array:document.koordinaten_institutionengenau, key:index, format:"json")};
-					var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=75}'}}" action="json" pageType="1369315139"/>';
+					var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=75}'}, count:250}" action="json" pageType="1369315139"/>';
 					addNearby(map, queryURL);
 					</f:for>
 					var NE = containingBounds.getNorthEast();

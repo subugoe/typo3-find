@@ -32,6 +32,13 @@ plugin.tx_solrfrontend {
 				type = histogram
 				barWidth = 50
 			}
+			25 {
+				field = standort_jahr50
+				sortOrder = index
+				fetchMaximum = 1000
+				type = histogram
+				barWidth = 50
+			}
 			30.field = bistum_facet
 			40.field = land_facet
 		}
