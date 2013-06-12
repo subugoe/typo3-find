@@ -72,8 +72,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Index Action.
 	 */
-	public function indexAction() {
-		$query = $this->createQueryForArguments();
+	public function indexAction($arguments = NULL) {
+		if ($arguments === NULL) {
+			$arguments = $this->requestArguments;
+		}
+
+		$query = $this->createQueryForArguments($arguments);
 
 		// Run the query.
 		$resultSet = $this->solr->select($query);
@@ -99,10 +103,30 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
-	 *
+	 * JSON output.
 	 */
 	public function jsonAction() {
 		$this->indexAction();
+	}
+
+
+	/**
+	 * Suggest/Autocomplete action.
+	 */
+	public function suggestAction() {
+		$query = $this->solr->createSuggester();
+		$results = array();
+		if (array_key_exists('q', $this->requestArguments)) {
+			$query->setQuery($this->requestArguments['q']);
+
+			$this->addFacetFilters($query, $this->requestArguments);
+			$solrResults = $this->solr->suggester($query)->getResults();
+			foreach ($solrResults as $suggestions)  {
+				$results = array_merge($results, $suggestions->getSuggestions());
+			}
+		}
+
+		$this->view->assign('suggestions', $results);
 	}
 
 
@@ -172,28 +196,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$this->view->assignMultiple($assignments);
 			$this->addStandardAssignments();
 		}
-	}
-
-
-	/**
-	 * Action for query autocomplete.
-	 */
-	public function autoCompleteAction() {
-		$searchTerm = filter_var($_GET['term'], FILTER_SANITIZE_STRING);
-
-		$query = $this->solr->createSuggester();
-
-		$query->setQuery($searchTerm);
-		$activeFacets = $this->getActiveFacets();
-
-		// respect active facets
-		foreach ($activeFacets as $key => $value) {
-			$query->createFilterQuery('facet-' . $key)
-					->setQuery($value);
-		}
-
-		$results = $this->solr->suggester($query)->getResponse()->getBody();
-		$this->view->assign('results', $results);
 	}
 
 
@@ -276,15 +278,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Creates a query configured with all parameters set in the request’s arguments.
 	 *
-	 * @param array $arguments overrides $this->requestArguments if set
+	 * @param array $arguments request arguments
 	 * @return \Solarium\QueryType\Select\Query\Query
 	 */
-	private function createQueryForArguments ($arguments = NULL) {
-		$query = $this->createQuery();
-
-		if ($arguments === NULL) {
-			$arguments = $this->requestArguments;
-		}
+	private function createQueryForArguments ($arguments) {
+		$query = $this->createQuery($arguments);
 
 		// Add search terms.
 		if (array_key_exists('q', $arguments)) {
@@ -455,14 +453,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Get active facets
 	 *
-	 * @param array $arguments overrides $this->requestArguments if set
+	 * @param array $arguments request arguments
 	 */
-	private function getActiveFacets($arguments = NULL) {
+	private function getActiveFacets($arguments) {
 		$activeFacets = array();
 
-		if ($arguments === NULL) {
-			$arguments = $this->requestArguments;
-		}
 		if (array_key_exists('facet', $arguments)) {
 			$facets = $arguments['facet'];
 			foreach ($facets as $key => $facet) {
@@ -512,7 +507,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$offset =  intval($arguments['start']);
 		}
 
-$this->view->assign('offset', $offset);
+		$this->view->assign('offset', $offset);
 		return $offset;
 	}
 
@@ -538,7 +533,8 @@ $this->view->assign('offset', $offset);
 
 		$maxCount = intval($this->settings['paging']['maximumPerPage']);
 		$count = min(array($count, $maxCount));
-$this->view->assign('count', $count);
+
+		$this->view->assign('count', $count);
 		return $count;
 	}
 
