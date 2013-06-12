@@ -112,8 +112,7 @@
 									wuestung: document.wuestung,
 									land: document.land,
 									von_verbal: document.standort_von_verbal,
-									bis_verbal: document.standort_bis_verbal,
-									bemerkung: document.bemerkung_kloster_standort
+									bis_verbal: document.standort_bis_verbal
 						}">
 						<f:for each="{standorte}" as="standort">
 							<li>
@@ -123,9 +122,6 @@
 									</f:if>
 									<span class="ort">
 										<f:link.action arguments="{q: '{default: \'ort:\"{standort.name}\"\'}'}" title="Alle Klöster in {standort.name} zeigen.">{standort.name}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
-									<f:if condition="{standort.bemerkung}">
-										<span class="bemerkung">{standort.bemerkung},</span>
-									</f:if>
 
 									<span class="land">{standort.land}</span>
 
