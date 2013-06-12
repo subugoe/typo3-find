@@ -311,6 +311,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->addFacetFilters($query, $arguments);
 		$this->setSortOrder($query);
 		$this->setRange($query, $arguments);
+		$this->setFields($query, $arguments);
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
@@ -409,6 +410,44 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$query->setStart($this->getOffset($arguments));
 		$query->setRows($this->getCount($arguments));
 	}
+
+
+
+	/**
+	 * Sets up the fields to be fetched by the query.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param array $arguments request arguments
+	 */
+	private function setFields ($query, $arguments) {
+		$fields = array();
+
+		// Use field list from query parameters or from defaults.
+		if (array_key_exists('dataFields', $arguments) && $arguments['dataFields']) {
+			$fields = explode(',', $arguments['dataFields']);
+		}
+		else if ($this->settings['dataFields']['default']) {
+			$fields = array_values($this->settings['dataFields']['default']);
+		}
+
+		// If allowed fields are configured, keep only those.
+		$allowedFields = $this->settings['dataFields']['allow'];
+		if ($allowedFields) {
+			$fields = array_intersect($fields, $allowedFields);
+		}
+
+		// If disallowed fields are configured, remove those.
+		$disallowedFields = $this->settings['dataFields']['disallow'];
+		if ($disallowedFields) {
+			$fields = array_diff($fields, $disallowedFields);
+		}
+
+		// Only set fields of the query if there is a result. Otherwise use the default setting.
+		if ($fields) {
+			$query->setFields($fields);
+		}
+	}
+
 
 
 	/**

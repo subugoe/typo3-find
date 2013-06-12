@@ -51,6 +51,14 @@ plugin.tx_solrfrontend {
 				default = 1
 			}
 		}
+		dataFields {
+			default {
+			}
+			allow {
+			}
+			disallow {
+			}
+		}
 		sort {
 			# 1 {
 			#	field = name
