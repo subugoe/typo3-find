@@ -3,9 +3,11 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
- *      Goettingen State Library
- *  
+ *  (c) 2013
+ *      Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
+ *      Sven-S. Porst <porst@sub.uni-goettingen.de>
+ *      Göttingen State and University Library
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -346,9 +348,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Adds filter queries for active facets to $query.
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
-	 * @param array $arguments overrides $this->requestArguments if set
+	 * @param array $arguments request arguments
 	 */
-	private function addFacetFilters ($query, $arguments = NULL) {
+	private function addFacetFilters ($query, $arguments) {
 		$activeFacets = $this->getActiveFacets($arguments);
 		foreach ($activeFacets as $key => $value) {
 			$query->createFilterQuery('facet-' . $key)
@@ -404,9 +406,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Sets up the range of documents to be fetches by $query.
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
-	 * @param array $arguments overrides $this->requestArguments if set
+	 * @param array $arguments request arguments
 	 */
-	private function setRange ($query, $arguments = NULL) {
+	private function setRange ($query, $arguments) {
 		$query->setStart($this->getOffset($arguments));
 		$query->setRows($this->getCount($arguments));
 	}
