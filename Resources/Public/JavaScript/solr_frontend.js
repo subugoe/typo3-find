@@ -1,17 +1,15 @@
 jQuery(document).ready(function() {
 	// autocomplete
-	jQuery('.tx_solr_frontend .field-default input').autocomplete(
+	jQuery('.tx_solr_frontend .fieldContainer input[autocompleteURL!=""]').autocomplete(
 		{
-			source: function(request, add) {
-				var autocompleteUrl = updateQueryStringParameter(currentUrl(), "type", 1369315139);
-				var autocompleteUrl = updateQueryStringParameter(autocompleteUrl, "term", request.term);
-
-				jQuery.getJSON(autocompleteUrl, function (data) {
-					var suggestions = [];
-					if (data.spellcheck.suggestions.length !== 0) {
-						add(data.spellcheck.suggestions[1].suggestion);
-					}
-				});
+			source: function(request, returnSuggestions) {
+				var autocompleteURL = this.element.attr('autocompleteURL');
+				if (autocompleteURL) {
+					autocompleteURL = autocompleteURL.replace('%25%25%25%25', request.term);
+					jQuery.getJSON(autocompleteURL, function (data) {
+						returnSuggestions(data);
+					});
+				}
 			}
 		}
 	);

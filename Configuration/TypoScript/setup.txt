@@ -10,6 +10,8 @@ plugin.tx_solrfrontend {
 				id = default
 				query = ###term###
 				type = Text
+				autocomplete = 1
+				autocompleteDictionary = 
 			}
 			10 {
 				id = person

@@ -72,7 +72,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	/**
 	 * Index Action.
 	 */
-	public function indexAction($arguments = NULL) {
+	public function indexAction() {
 		if ($arguments === NULL) {
 			$arguments = $this->requestArguments;
 		}
@@ -118,12 +118,18 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$results = array();
 		if (array_key_exists('q', $this->requestArguments)) {
 			$query->setQuery($this->requestArguments['q']);
+			if ($this->requestArguments['dictionary']) {
+				$query->setDictionary($this->requestArguments['dictionary']);
+			}
 
 			$this->addFacetFilters($query, $this->requestArguments);
 			$solrResults = $this->solr->suggester($query)->getResults();
 			foreach ($solrResults as $suggestions)  {
 				$results = array_merge($results, $suggestions->getSuggestions());
 			}
+		}
+		else {
+			// TODO: Error message in JSON?
 		}
 
 		$this->view->assign('suggestions', $results);
