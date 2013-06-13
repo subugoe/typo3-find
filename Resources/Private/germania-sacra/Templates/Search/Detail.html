@@ -12,6 +12,7 @@
 			<div id="c-{document.id}-map" class="map"></div>
 			<script type="text/javascript">
 				var klosterID = '{document.id}';
+				var bistumsGrenzen = {};
 
 				function mapsReady () {
 					var mapOptions = {
@@ -40,6 +41,10 @@
 					var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=75}'}, count:250, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139"/>';
 					addNearby(map, queryURL);
 					</f:for>
+					<f:for each="{document.bistum}" as="bistum">
+					addBistum(map, {s:json(data: bistum)});
+					</f:for>
+
 					var NE = containingBounds.getNorthEast();
 					var SW = containingBounds.getSouthWest();
 					var center = containingBounds.getCenter();
@@ -78,6 +83,19 @@
 							}
 						}
 					});
+				}
+
+
+				var addBistum = function (map, bistum) {
+					if (!bistumsGrenzen[bistum]) {
+						layerURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/' + bistum + '.kml';
+						var kmlLayer = new google.maps.KmlLayer({
+							'map': map,
+							'preserveViewport': true,
+							'url': layerURL
+						});
+						bistumsGrenzen[bistum] = kmlLayer;
+					}
 				}
 
 				var loadScript = function () {
