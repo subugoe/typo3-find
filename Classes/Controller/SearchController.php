@@ -73,11 +73,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Index Action.
 	 */
 	public function indexAction() {
-		if ($arguments === NULL) {
-			$arguments = $this->requestArguments;
-		}
-
-		$query = $this->createQueryForArguments($arguments);
+		$query = $this->createQueryForArguments($this->requestArguments);
 
 		// Run the query.
 		$resultSet = $this->solr->select($query);
@@ -93,7 +89,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			'numberOfPages' => $numberOfPages,
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
-			'extendedSearch' => $this->isExtendedSearch(),
 		);
 		$this->view->assignMultiple($assignments);
 
@@ -211,6 +206,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function addStandardAssignments () {
 		$this->view->assign('prefixId', 'tx_solrfrontend_solrfrontend');
 		$this->view->assign('arguments', $this->requestArguments);
+		$this->view->assign('extendedSearch', $this->isExtendedSearch());
 
 		$contentObject = $this->configurationManager->getContentObject();
 		$uid = $contentObject->data['uid'];

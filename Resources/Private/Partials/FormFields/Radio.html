@@ -3,7 +3,7 @@
 		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>
 	</span>
 	<f:for each="{fieldInfo.options}" as="value" key="key">
-		<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="{fieldInfo.id}" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/>
+		<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="q[{fieldInfo.id}]" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/>
 		<!-- TODO set with previous value -->
 		<label for="c{uid}-field-{fieldInfo.id}-{key}">
 			<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-{key}" default="{key}"/>

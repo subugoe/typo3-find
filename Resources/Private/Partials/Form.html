@@ -1,5 +1,9 @@
-<f:form name="c{uid}-form" method="get" fieldNamePrefix="tx_solrfrontend_solrfrontend[q]"
+<f:form name="c{uid}-form" method="get"
 		class="searchForm {f:if(condition:extendedSearch, then:'search-extended', else:'search-simple')}">
+
+	<f:if condition="{extendedSearch}">
+		<f:form.hidden name="extendedSearch" value="1"/>
+	</f:if>
 
 	<div class="formFields">
 		<f:for each="{settings.queryFields}" as="fieldInfo">
