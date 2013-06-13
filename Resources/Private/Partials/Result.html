@@ -3,13 +3,13 @@
 <li>
 	<article>
 		<h1>
-			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return detailViewWithPaging(this);')}">
+			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return solr_frontend.detailViewWithPaging(this);')}">
 				<s:valueForKey array="{document.fields}" key="{settings.standardFields.title}"/>
 			</f:link.action>
 		</h1>
 		<p>
 			<s:valueForKey array="{document.fields}" key="{settings.standardFields.snippet}"/>
-			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return detailViewWithPaging(this);')}" class="details icon-right-open">
+			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return solr_frontend.detailViewWithPaging(this);')}" class="details icon-right-open">
 				<f:translate key="Show Detail Page"/>
 			</f:link.action>
 		</p>

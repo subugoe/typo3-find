@@ -16,7 +16,7 @@
 			</f:for>
 			var facetData = <s:json data="{facetData.values}"/>;
 
-			createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetName}'), histogramConfiguration);
+			solr_frontend.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetName}'), histogramConfiguration);
 		})();
 	</script>
 </div>

@@ -1,5 +1,7 @@
+var solr_frontend = (function() {
+
 jQuery(document).ready(function() {
-	// autocomplete
+	// Set up jQuery UI Autocomplete for inputs with the autocompleteURL attribute.
 	jQuery('.tx_solr_frontend .fieldContainer input[autocompleteURL!=""]').autocomplete(
 		{
 			source: function(request, returnSuggestions) {
@@ -15,26 +17,23 @@ jQuery(document).ready(function() {
 	);
 });
 
-// add parameters correctly to an url
-var updateQueryStringParameter = function(uri, key, value) {
-	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
-	var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-	if (uri.match(re)) {
-		return uri.replace(re, '$1' + key + "=" + value + '$2');
-	}
-	else {
-		return uri + separator + key + "=" + value;
-	}
-};
 
+
+// Localisation function. Currently not implemented.
 var localise = function (term) {
 	return term;
 };
 
-var currentUrl = function() {
-	return window.location.href;
-};
 
+
+/**
+ *  Uses jQuery.flot to create a histogram for »terms« with configuration »config«
+ *  in »container.
+ *
+ * @param {object} terms (keys: year numbers, values: result counts)
+ * @param {DOMElement} container
+ * @param {object} config
+ */
 var createHistogramForTermsInContainer = function (terms, container, config) {
 	var jGraphDiv = jQuery(container);
 	var graphWidth = jGraphDiv.parents('.facets').width();
@@ -168,7 +167,31 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 
 };
 
+
+
+/**
+ * Called by links to detail view pages for which result paging is required.
+ *	* passes the detail page information in GET parameters (for good URLs)
+ *	* passes the query information in POST parameters
+ *	* the server can then render the details page while still having information
+ *		about the original query for paging
+ *
+ * @param {DOMElement} element receiver of the click event
+ * @param {int} position number of the result to go to [optional]
+ * @returns Boolean false when the POST request was submitted, true otherwise
+ */
 var detailViewWithPaging = function (element, position) {
+
+	/**
+	 * Recursively creates input elements with values for the content of the passed object.
+	 * e.g. use the object { 'top' : {'a': 'b'}, 'second': 2} to create
+	 * <input name="prefix[top][a]" value="b"/>
+	 * <input name="prefix[second]" value="2"/>
+	 *
+	 * @param {string} prefix name attribute prefix
+	 * @param {object} object data to build the <input> elements from
+	 * @returns array of DOMElements
+	 */
 	var inputsWithPrefixForObject = function (prefix, object) {
 		var inputs = [];
 		for (var key in object) {
@@ -185,6 +208,13 @@ var detailViewWithPaging = function (element, position) {
 	};
 
 
+	/**
+	 * Creates an <input> element for the given name and value.
+	 * 
+	 * @param {string} name for name property of the <input> element
+	 * @param {string} value for value property of the <input> element
+	 * @returns DOMElement <input> element
+	 */
 	var inputWithNameAndValue = function (name, value) {
 		var input = document.createElement('input');
 		input.name = name;
@@ -194,7 +224,7 @@ var detailViewWithPaging = function (element, position) {
 	};
 
 	if (underlyingQuery) {
-		// Try to determine position if it is not set explicitly.
+		// Try to determine position if it is not set explicitly (we should be in the main result list).
 		var jLI = jQuery(element).parents('li');
 		var jOL = jLI.parents('ol');
 		if (position) {
@@ -222,3 +252,12 @@ var detailViewWithPaging = function (element, position) {
 
 	return true;
 };
+
+
+
+return {
+	'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
+	'detailViewWithPaging': detailViewWithPaging
+};
+
+})();

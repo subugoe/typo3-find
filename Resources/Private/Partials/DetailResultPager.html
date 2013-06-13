@@ -22,7 +22,7 @@
 		<span class="resultPager pager">
 			<f:if condition="{document-previous}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" class="previous icon-left-dir" onclick="return detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}">
+					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" class="previous icon-left-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
@@ -31,7 +31,7 @@
 			</f:if>
 			<f:if condition="{document-next}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-next.fields.id}" class="next icon-right-dir" onclick="return detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}">
+					<f:link.action action="detail" arguments="{id: document-next.fields.id}" class="next icon-right-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}">
 					</f:link.action>
 				</f:then>
 				<f:else>
