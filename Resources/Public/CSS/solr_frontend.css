@@ -23,6 +23,7 @@
 .tx_solr_frontend em.highlight {
 	font-style: normal;
 	font-weight: bold;
+	color: #f00;
 }
 
 
@@ -282,7 +283,9 @@
 	text-decoration: none;
 }
 
+
 /* field list on single item view */
+
 .tx_solr_frontend dl {
 	margin: 0;
 }
