@@ -123,7 +123,7 @@
 
 
 
-/* results */
+/* result list */
 
 .tx_solr_frontend .results {
 	clear: left;
@@ -212,29 +212,6 @@
 	left: 13px!important;
 }
 
-/* page browser single item view */
-.tx_solr_frontend .queryAndPager {
-	float: right;
-}
-
-.tx_solr_frontend .query {
-	display: none;
-}
-
-.tx_solr_frontend .pager .icon-right-dir:before,
-.tx_solr_frontend .pager .icon-left-dir:before {
-	position:relative;
-	top: 1px;
-	width: auto;
-	padding: 0 4px;
-	font-size: 133%;
-}
-
-.tx_solr_frontend [class^="icon-"]:hover,
-.tx_solr_frontend [class*=" icon-"]:hover {
-	text-decoration: none;
-}
-
 
 /* page browser list view */
 
@@ -266,7 +243,6 @@
 }
 
 
-
 /* page count */
 
 .tx_solr_frontend .tx-pagebrowse-pi1,
@@ -279,4 +255,47 @@
 	float: right;
 	width: 200px;
 	text-align: right;
+}
+
+
+/* page browser single item view */
+
+.tx_solr_frontend .queryAndPager {
+	float: right;
+}
+
+.tx_solr_frontend .query {
+	display: none;
+}
+
+.tx_solr_frontend .pager .icon-right-dir:before,
+.tx_solr_frontend .pager .icon-left-dir:before {
+	position:relative;
+	top: 1px;
+	width: auto;
+	padding: 0 4px;
+	font-size: 133%;
+}
+
+.tx_solr_frontend [class^="icon-"]:hover,
+.tx_solr_frontend [class*=" icon-"]:hover {
+	text-decoration: none;
+}
+
+/* field list on single item view */
+.tx_solr_frontend dl {
+	margin: 0;
+}
+
+.tx_solr_frontend dt {
+	font-weight: bold;
+}
+
+.tx_solr_frontend dd {
+	margin: 0.2em 0 1em 2em;
+
+}
+
+.tx_solr_frontend dd ul {
+	margin: 0;
 }

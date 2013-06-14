@@ -6,14 +6,32 @@
 
 	<article class="detail">
 		<h1>
-			<s:valueForKey array="document.fields" key="settings.standardFields.title">
+			<s:highlightField field="{settings.standardFields.title}" document="{document}" results="{results}"/>
 		</h1>
 
 		<dl>
 			<f:for each="{document.fields}" as="value" key="key">
 				<dt>{key}</dt>
-				<dd>{value}</dd>
+				<dd>
+					<f:if condition="{value.0}">
+						<f:then>
+							<ul>
+								<f:for each="{value}" as="singleValue" key="index">
+									<li>
+										<s:highlightField field="{key}" document="{document}" results="{results}" index="{index}"/>
+									</li>
+								</f:for>
+							</ul>
+						</f:then>
+						<f:else>
+							<s:highlightField field="{key}" document="{document}" results="{results}"/>
+						</f:else>
+					</f:if>
+				</dd>
+				<dd></dd>
 			</f:for>
 		</dl>
 	</article>
+	<f:debug>{document}</f:debug>
+
 </f:section>
