@@ -306,6 +306,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->setSortOrder($query);
 		$this->setRange($query, $arguments);
 		$this->setFields($query, $arguments);
+		$this->addHighlighting($query);
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
@@ -394,6 +395,26 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+
+	/**
+	 * Sets up $query’s highlighting according to TypoScript settings.
+	 * Unicode Private Use Area Codepoints U+EEEE and U+EEEF are used to mark
+	 * the highlight to better deal with field contents that contain markup
+	 * themselves.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 */
+	private function addHighlighting ($query) {
+		if ($this->settings['highlight']) {
+			$highlight = $query->getHighlighting();
+			$highlight->setFields(implode(',', $this->settings[highlight]));
+			$highlight->setSimplePrefix('\ueeee');
+			$highlight->setSimplePostfix('\ueeef');
+		}
+	}
+
+
+	
 	/**
 	 * Sets up the range of documents to be fetches by $query.
 	 *

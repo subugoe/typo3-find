@@ -1,14 +1,13 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-
 <li>
 	<article>
 		<h1>
 			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return solr_frontend.detailViewWithPaging(this);')}">
-				<s:valueForKey array="{document.fields}" key="{settings.standardFields.title}"/>
+				<s:highlightField field="{settings.standardFields.title}" document="{document}" results="{results}"/>
 			</f:link.action>
 		</h1>
 		<p>
-			<s:valueForKey array="{document.fields}" key="{settings.standardFields.snippet}"/>
+			<s:highlightField field="{settings.standardFields.snippet}" document="{document}" results="{results}"/>
 			<f:link.action action="detail" arguments="{id: document.id}" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return solr_frontend.detailViewWithPaging(this);')}" class="details icon-right-open">
 				<f:translate key="Show Detail Page"/>
 			</f:link.action>

@@ -20,6 +20,10 @@
 	clear: both;
 }
 
+.tx_solr_frontend em.highlight {
+	font-style: normal;
+	font-weight: bold;
+}
 
 
 /* search form */

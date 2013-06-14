@@ -13,7 +13,7 @@
 
 		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
 			<f:for each="{results.documents}" as="document">
-				<f:render partial="Result" arguments="{document: document}"/>
+				<f:render partial="Result" arguments="{_all}"/>
 			</f:for>
 		</ol>
 
