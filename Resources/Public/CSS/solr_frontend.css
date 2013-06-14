@@ -241,6 +241,7 @@
 
 .tx_solr_frontend .tx-pagebrowse-pi1 .tx-pagebrowse-current {
 	font-weight: bold;
+	color: #000;
 }
 
 
@@ -281,6 +282,10 @@
 .tx_solr_frontend [class^="icon-"]:hover,
 .tx_solr_frontend [class*=" icon-"]:hover {
 	text-decoration: none;
+}
+
+.tx_solr_frontend .pager {
+	color: #bbb;
 }
 
 
