@@ -5,7 +5,7 @@
 	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
-		<h1>{document.kloster}</h1>
+		<h1><s:highlightField field="kloster" document="{document}" results="{results}"/></h1>
 
 		<aside>
 			<h2>Karte</h2>
@@ -85,7 +85,6 @@
 					});
 				}
 
-
 				var addBistum = function (map, bistum) {
 					if (!bistumsGrenzen[bistum]) {
 						layerURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/' + bistum + '.kml';
@@ -114,9 +113,7 @@
 			<f:if condition="{document.patrozinium}">
 				<section class="patrozinium">
 					<h2>Patrozinium</h2>
-					<p>
-						{document.patrozinium}
-					</p>
+					<p><s:highlightField field="patrozinium" document="{document}" results="{results}"/></p>
 				</section>
 			</f:if>
 
@@ -124,30 +121,31 @@
 				<h2>Lage</h2>
 				<ol>
 					<s:transpose name="standorte" arrays="{
-									name: document.ort,
-									bistum: document.bistum,
+									name: \"{s:highlightField(field:'ort', document:document, results:results)}\",
+									bistum: \"{s:highlightField(field:'bistum', document:document, results:results)}\",
+									bistumOriginal: document.bistum
 									ist_erzbistum: document.ist_erzbistum,
 									wuestung: document.wuestung,
-									land: document.land,
-									von_verbal: document.standort_von_verbal,
-									bis_verbal: document.standort_bis_verbal
+									land: \"{s:highlightField(field:'land', document:document, results:results)}\",
+									von_verbal: \"{s:highlightField(field:'standort_von_verbal', document:document, results:results)}\",
+									bis_verbal: \"{s:highlightField(field:'standort_bis_verbal', document:document, results:results)}\"
 						}">
 						<f:for each="{standorte}" as="standort">
 							<li>
 								<p>
 									<f:if condition="{0:standort.von_verbal, 1:standort.bis_verbal} != {0:'', 1:''}">
-										<span class="zeitraum">{standort.von_verbal} – {standort.bis_verbal}</span>
+										<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
 									</f:if>
 									<span class="ort">
-										<f:link.action arguments="{q: '{default: \'ort:\"{standort.name}\"\'}'}" title="Alle Klöster in {standort.name} zeigen.">{standort.name}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" title="Alle Klöster in {standort.name} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
-									<span class="land">{standort.land}</span>
+									<span class="land">{f:format.raw(value:standort.land)}</span>
 
 									<f:if condition="{standort.bistum}">
 										<p class="bistum">
 											<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
 												{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
-												{standort.bistum}
+												{f:format.raw(value:standort.bistum)}
 											</f:link.action>
 										</p>
 									</f:if>
@@ -162,19 +160,20 @@
 				<h2>Orden</h2>
 				<ol>
 					<s:transpose name="ordens" arrays="{
-									name: document.orden,
-									von_verbal: document.orden_von_verbal,
-									bis_verbal: document.orden_bis_verbal
+									name: \"{s:highlightField(field:'orden', document:document, results:results)}\",
+									nameOriginal: document.orden,
+									von_verbal: \"{s:highlightField(field:'orden_von_verbal', document:document, results:results)}\",
+									bis_verbal: \"{s:highlightField(field:'orden_bis_verbal', document:document, results:results)}\"
 						}">
 						<f:for each="{ordens}" as="orden">
 							<li>
 								<p>
 									<f:if condition="{0:orden.von_verbal, 1:orden.bis_verbal} != {0:'', 1:''}">
-										<span class="zeitraum">{orden.von_verbal} – {orden.bis_verbal}</span>
+										<span class="zeitraum">{f:format.raw(value:orden.von_verbal)} – {f:format.raw(value:orden.bis_verbal)}</span>
 									</f:if>
 									<span class="orden">
-										<f:link.action arguments="{q: '{default: \'orden:\"{orden.name}\"\'}'}" title="Alle Klöster der {orden.name} zeigen.">
-											{orden.name}
+										<f:link.action arguments="{q: '{default: \'orden:\"{orden.nameOriginal}\"\'}'}" title="Alle Klöster der {orden.nameOriginal} zeigen.">
+											{f:format.raw(value:orden.name)}
 										</f:link.action>
 									</span>
 								</p>
@@ -187,7 +186,7 @@
 			<f:if condition="{document.bemerkung_kloster.0}">
 				<section class="bemerkung">
 					<h2>Bemerkung</h2>
-					<p>{document.bemerkung_kloster.0}</p>
+					<p>{s:highlightField(field:'bemerkung_kloster', document:document, results:results, index:0)}</p>
 				</section>
 			</f:if>
 
@@ -198,13 +197,13 @@
 						<f:if condition="{document.band_url}">
 							<f:then>
 								<f:link.external class="band-link" uri="{document.band_url.0}">
-									<span class="band-nummer">{document.band_nummer.0}</span>:
-									<span class="band-titel">{document.band_titel.0}</span>
+									<span class="band-nummer">{s:highlightField(field:'band_nummer', document:document, results:results, index:0)}</span>:
+									<span class="band-titel">{s:highlightField(field:'band_titel', document:document, results:results, index:0)}</span>
 								</f:link.external>
 							</f:then>
 							<f:else>
-								<span class="band-nummer">{document.band_nummer.0}</span>:
-								<span class="band-titel">{document.band_titel.0}</span>
+								<span class="band-nummer">{s:highlightField(field:'band_nummer', document:document, results:results, index:0)}</span>:
+								<span class="band-titel">{s:highlightField(field:'band_titel', document:document, results:results, index:0)}</span>
 							</f:else>
 						</f:if>
 						<f:if condition="{document.band_seite.0}">
@@ -224,19 +223,21 @@
 					</h2>
 
 					<s:transpose name="personen" arrays="{
-									name: document.person_name,
-									namensalternativen_xml: document.person_namensalternativen_xml,
-									bezeichnung: document.person_bezeichnung,
-									von_verbal: document.person_von_verbal,
-									bis_verbal: document.person_bis_verbal,
-									anmerkung: document.person_anmerkung,
-									gso: document.person_gso
+									name: \"{s:highlightField(field:'person_name', document:document, results:results)}\",
+									nameOriginal: document.person_name,
+									namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results)}\",
+									bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
+									bezeichnungOriginal: document.bezeichnung,
+									von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
+									bis_verbal: \"{s:highlightField(field:'person_bis_verbal', document:document, results:results)}\",
+									anmerkung: \"{s:highlightField(field:'person_anmerkung', document:document, results:results)}\",
+									gso: \"{s:highlightField(field:'person_gso', document:document, results:results)}\"
 						}">
 
 						<f:if condition="{f:count(subject:personen)} > 20">
 							<nav>
 								<ol>
-									<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnung" groupKey="amt">
+									<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
 										<li><f:link.page addQueryString="1" section="c-{document.id}-amt-{amt}">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{amt}</f:then><f:else>{amt}s</f:else></f:if></f:link.page></li>
 									</f:groupedFor>
 								</ol>
@@ -248,26 +249,31 @@
 								<h3 id="c-{document.id}-amt-{amt}">
 									{f:count(subject:personenMitAmt)}
 									<f:if condition="{f:count(subject:personenMitAmt)} == 1">
-										<f:then>{amt}</f:then>
-										<f:else>{amt}s</f:else>
+										<f:then>{f:format.raw(value:person.bezeichnung)}</f:then>
+										<f:else>{f:format.raw(value:person.bezeichnung)}s</f:else>
 									</f:if>
 								</h3>
 								<ol>
 									<f:for each="{personenMitAmt}" as="person">
 										<li>
 											<f:if condition="{person.von_verbal}{person.bis_verbal}">
-												<span class="zeitraum">{person.von_verbal}{f:if(condition:person.bis_verbal, then:'-')}{person.bis_verbal}</span>
+												<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-')}{f:format:raw(value:person.bis_verbal)}</span>
 											</f:if>
-											<f:link.external title="{person.bezeichnung} {person.name} in der Personendatenbank anzeigen" uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
+											<f:link.external title="{person.bezeichnungOriginal} {person.nameOriginal} in der Personendatenbank anzeigen" uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
 												<f:if condition="{person.name}">
-													<span class="name">{person.name}</span>
+													<f:then>
+														<span class="name">{f:format.raw(value:person.name)}</span>
+													</f:then>
+													<f:else>
+														unbekannter Name
+													</f:else>
 												</f:if>
 											</f:link.external>
 											<f:if condition="{person.namensalternativen_xml}">
-												{person.namensalternativen_xml->f:format.raw()}
+												<span class="namensalternativen">{f:format.raw(value:person.namensalternativen_xml)}</span>
 											</f:if>
 											<f:if condition="{person.anmerkung}">
-												<span class="bemerkung">{person.anmerkung}</span>
+												<span class="bemerkung">{f:format:raw(value:person.anmerkung)}</span>
 											</f:if>
 										</li>
 									</f:for>
@@ -278,14 +284,13 @@
 				</section>
 			</f:if>
 
-
 			<f:if condition="{document.literatur}">
 				<section class="literatur">
 					<h2>Literatur</h2>
 					<ul>
-						<f:for each="{document.literatur}" as="literatur" key="index">
+						<f:for each="{s:highlightField(field:'literatur', document:document, results:results)}" as="literatur">
 							<li>
-								{literatur}
+								{f:format.raw(value:literatur)}
 							</li>
 						</f:for>
 					</ul>
@@ -321,6 +326,5 @@
 				</f:if>
 			</section>
 		</div>
-
 	</article>
 </f:section>

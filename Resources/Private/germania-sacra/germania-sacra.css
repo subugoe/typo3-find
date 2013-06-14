@@ -103,6 +103,6 @@ p>.band-titel:last-of-type:after {
 	background: red;
 }
 
-.bemerkung {
+span.bemerkung {
 	font-style: italic;
 }

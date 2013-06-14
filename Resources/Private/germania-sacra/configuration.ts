@@ -42,6 +42,9 @@ plugin.tx_solrfrontend {
 			30.field = bistum_facet
 			40.field = land_facet
 		}
+		highlight {
+			1 = *
+		}
 		additionalFilters {
 			1 = typ:kloster
 		}
