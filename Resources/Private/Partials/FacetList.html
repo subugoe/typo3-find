@@ -6,7 +6,7 @@
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
 		<li class="facetShowAll">
-			<a href="#" onclick="return showAllFacetsOfType(event)">
+			<a href="#" onclick="return solr_frontend.showAllFacetsOfType(event)">
 				<f:translate key="show all"/>
 			</a>
 		</li>

@@ -27,6 +27,23 @@ var localise = function (term) {
 
 
 /**
+ * Slides in the hidden items of a facet.
+ *
+ * @param {type} myEvent click event
+ * @returns {Boolean} false
+ */
+var showAllFacetsOfType = function (myEvent) {
+	var jLink = jQuery(myEvent.toElement);
+	var containingList = jLink.parents('ol')[0];
+	// Fade in the hidden elemens and hide the Show All link.
+	jQuery('.hidden', containingList).slideDown(300);
+	jLink.parent().fadeOut(200);
+	return false;
+};
+
+
+
+/**
  *  Uses jQuery.flot to create a histogram for »terms« with configuration »config«
  *  in »container.
  *
@@ -256,6 +273,7 @@ var detailViewWithPaging = function (element, position) {
 
 
 return {
+	'showAllFacetsOfType': showAllFacetsOfType,
 	'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
 	'detailViewWithPaging': detailViewWithPaging
 };
