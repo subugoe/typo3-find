@@ -190,7 +190,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			else {
 				$query = $this->createQuery();
 				$query->setQuery('id:' . $id);
-				$resultSet = $this->solr->select($query)->getDocuments();
+				$selectResults = $this->solr->select($query);
+				$assignments['results'] = $selectResults;
+				$resultSet = $selectResults->getDocuments();
 				$assignments['document'] = $resultSet[0];
 			}
 

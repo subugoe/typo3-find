@@ -137,10 +137,11 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	 */
 	private function getHighlightInfo () {
 		$documentID = $this->arguments['document'][$this->arguments['idKey']];
-		$highlightInfo =  $this->arguments['results']
-								->getHighlighting()
-								->getResult($documentID)
-								->getField($this->arguments['field']);
+		$highlighting =  $this->arguments['results']->getHighlighting();
+		if ($highlighting) {
+			$highlightInfo = $highlighting->getResult($documentID)->getField($this->arguments['field']);
+		}
+
 		return $highlightInfo;
 	}
 
