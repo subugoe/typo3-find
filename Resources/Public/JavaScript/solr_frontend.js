@@ -58,8 +58,8 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 	jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
 
 	var startSearchWithNewFacet = function (range) {
-		var facetQueryString = '[' + range.from + '%20TO%20' + range.to + ']';
-		var facetLink = config.linkTemplate.replace('%22%25%25%25%25%22', facetQueryString);
+		var facetQueryString = 'RANGE ' + range.from + '%20TO%20' + range.to;
+		var facetLink = config.linkTemplate.replace('%25%25%25%25', facetQueryString);
 		window.location.href = document.baseURI + facetLink;
 	};
 
@@ -118,13 +118,13 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 
 	var plot = jQuery.plot(jGraphDiv , [{'data': graphData, 'color': graphColour}], graphOptions);
 
-	for (var activeFacetIndex in config.activeFacets) {
-		var activeFacet = config.activeFacets[activeFacetIndex];
-		var range = activeFacet.replace(/[\[\]]/g, '').split(' TO ');
-		if (range.length === 2) {
+	for (var termIndex in config.activeFacets) {
+		var term = config.activeFacets[termIndex];
+		var matches = term.match(/RANGE (.*) TO (.*)/);
+		if (matches) {
 			var selection = {};
-			selection.from = parseInt(range[0]);
-			selection.to = parseInt(range[1]);
+			selection.from = parseInt(matches[1]);
+			selection.to = parseInt(matches[2]);
 			plot.setSelection({'xaxis': selection});
 		}
 	}

@@ -1,7 +1,7 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
 
 <ol class="facetList">
-	<f:for each="{facetData.values}" as="facetItemCount" key="facetItemName" iteration="facetItemIterator">
+	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
 		<f:render partial="FacetItem" arguments="{_all}"/>
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">

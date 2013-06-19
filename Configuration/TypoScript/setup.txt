@@ -73,12 +73,16 @@ plugin.tx_solrfrontend {
 			snippet = snippet
 		}
 		facets {
-			10.field = type
+			10 {
+				id = type
+			}
 			20 {
-				field = year
+				id = year
+				# field = year_facet
 				fetchMaximum = 1000
 				displayDefault = 1000
 				sortOrder = index
+				# query = year:###term###
 			}
 		}
 		facetDefaults {

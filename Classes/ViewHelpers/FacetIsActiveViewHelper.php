@@ -38,26 +38,24 @@ class Tx_SolrFrontend_ViewHelpers_FacetIsActiveViewHelper extends Tx_Fluid_Core_
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('facetName', 'string', 'The name of the facet to determine the selection status of', TRUE);
-		$this->registerArgument('itemName', 'string', 'The name of the facet item to determine the selection status of; if NULL any facet with the given facetName matches', FALSE, NULL);
+		$this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', TRUE);
+		$this->registerArgument('facetTerm', 'string', 'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches', FALSE, NULL);
 		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
 		$this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
 	}
 
 
+	
 	/**
 	 * @return array
 	 */
 	public function render() {
-		$itemName = $this->arguments['itemName'];
-		if ($this->arguments['type'] === 'string') {
-			$itemName = '"' . $itemName . '"';
-		}
-
-		foreach ($this->arguments['activeFacets'] as $activeFacet) {
-			if ($activeFacet['name'] === $this->arguments['facetName'] 
-					&& ($activeFacet['value'] === $itemName || $itemName === NULL)) {
-				return TRUE;
+		foreach ($this->arguments['activeFacets'] as $facets) {
+			foreach ($facets as $facetInfo) {
+				if ($facetInfo['id'] === $this->arguments['facetID']
+						&& ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === NULL)) {
+					return TRUE;
+				}
 			}
 		}
 

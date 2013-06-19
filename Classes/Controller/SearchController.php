@@ -279,6 +279,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+
 	/**
 	 * Creates a query configured with all parameters set in the request’s arguments.
 	 *
@@ -312,7 +313,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
-		// and enrich it with the defaults settings where they are missing
+		// and enrich it with the default settings where they are missing
 		// (to avoid having to check settings in two places with Fluid templating’s
 		// weak logical abilities). Pass this array to the template as well.
 		// (Less redundant approaches like writing the information to $this->settings
@@ -325,9 +326,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				// start with defaults and overwrite with specific facet configuration
 				$facet = array_merge($this->settings['facetDefaults'], $facet);
 				$facetConfiguration[$key] = $facet;
-
-				$facetSet->createFacetField($facet['field'])
-						 ->setField($facet['field'])
+				$facetSet->createFacetField($facet['id'])
+						 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
 						 ->setMinCount($facet['fetchMinimum'])
 						 ->setLimit($facet['fetchMaximum'])
 						 ->setSort($facet['sortOrder']);
@@ -338,6 +338,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		return $query;
 	}
 
+	
 
 	/**
 	 * Adds filter queries for active facets to $query.
@@ -347,24 +348,88 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	private function addFacetFilters ($query, $arguments) {
 		$activeFacets = $this->getActiveFacets($arguments);
-		foreach ($activeFacets as $key => $value) {
-			$query->createFilterQuery('facet-' . $key)
-					->setQuery($value);
-		}
-
 		$activeFacetsForTemplate = array();
-		foreach ($activeFacets as $activeFacet) {
-			$facetQueryComponents = explode(':', $activeFacet, 2);
-			if (count($facetQueryComponents) === 2) {
-				$activeFacetsForTemplate[] = array(
-					'name' => $facetQueryComponents[0],
-					'value' => $facetQueryComponents[1]
-				);
+		foreach ($activeFacets as $facetID => $facets) {
+			$activeFacetsForTemplate[$facetID] = array();
+			foreach ($facets as $facetIndex => $facetInfo) {
+				$query->createFilterQuery('facet-' . $facetID . '-' . $facetIndex)
+						->setQuery($facetInfo['query']);
+				$activeFacetsForTemplate[$facetID][$facetIndex] = $facetInfo;
 			}
 		}
 
 		$this->view->assign('activeFacets', $activeFacetsForTemplate);
 	}
+
+
+
+	/**
+	 * Returns query for the given facet $ID and $term based on the facet’s
+	 * configuration.
+	 *
+	 * @param string $ID
+	 * @param string $queryTerm
+	 * @return string query
+	 */
+	private function getFacetQuery ($ID, $queryTerm) {
+		foreach ($this->settings['facets'] as $facet) {
+			if (array_key_exists('id', $facet)) {
+				if ($facet['id'] === $ID) {
+					if (array_key_exists('query', $facet)) {
+						$queryPattern = $facet['query'];
+					}
+					else {
+						$queryPattern = '###term###';
+					}
+					break;
+				}
+			}
+			else {
+				// TODO: configuration error
+			}
+		}
+
+		// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
+		// (because PHP loses ] in array keys during URL parsing)
+		$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
+
+		$query = str_replace('###term###', $queryTerm, $queryPattern);
+
+		return $query;
+	}
+
+
+
+	/**
+	 * Returns query strings for active facets.
+	 *
+	 * @param array $arguments request arguments
+	 * @return array of facet query strings
+	 */
+	private function getActiveFacets($arguments) {
+		$activeFacets = array();
+
+		if (array_key_exists('facet', $arguments)) {
+			$facetTypes = $arguments['facet'];
+			foreach ($facetTypes as $facetID => $facets) {
+				$facetQueries = array();
+				foreach ($facets as $facetTerm => $facetStatus) {
+					$facetInfo = array(
+						'id' => $facetID,
+						'term' => $facetTerm,
+						'query' => $this->getFacetQuery($facetID, $facetTerm)
+					);
+					$facetQueries[$facetTerm] = $facetInfo;
+				}
+				if (count($facetQueries) > 0) {
+					$activeFacets[$facetID] = $facetQueries;
+				}
+			}
+		}
+
+		return $activeFacets;
+	}
+
 
 
 	/**
@@ -465,26 +530,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 	}
 
-
-
-	/**
-	 * Get active facets
-	 *
-	 * @param array $arguments request arguments
-	 */
-	private function getActiveFacets($arguments) {
-		$activeFacets = array();
-
-		if (array_key_exists('facet', $arguments)) {
-			$facets = $arguments['facet'];
-			foreach ($facets as $key => $facet) {
-				// add to stack of active facets
-				$activeFacets[$key] = $facet;
-			}
-		}
-
-		return $activeFacets;
-	}
 
 
 	/**
