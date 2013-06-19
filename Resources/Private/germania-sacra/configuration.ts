@@ -64,7 +64,10 @@ plugin.tx_solrfrontend {
 			}
 		}
 		highlight {
-			1 = *
+			fields.1 = *
+			query = ###term###
+			useQueryTerms = 1
+			useFacetTerms = 1
 		}
 		additionalFilters {
 			1 = typ:kloster
