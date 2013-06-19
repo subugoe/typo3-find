@@ -310,7 +310,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$this->setSortOrder($query);
 		$this->setRange($query, $arguments);
 		$this->setFields($query, $arguments);
-		$this->addHighlighting($query);
+		$this->addHighlighting($query, $arguments);
 
 		// Configure facets.
 		// Copy the facet configuration to a separate array $facetConfiguration
@@ -497,11 +497,30 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * themselves.
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param array $arguments request arguments
 	 */
-	private function addHighlighting ($query) {
-		if ($this->settings['highlight']) {
+	private function addHighlighting ($query, $arguments) {
+		if ($this->settings['highlight'] && $this->settings['highlight']['fields']
+				&& count($this->settings['highlight']['fields']) > 0) {
 			$highlight = $query->getHighlighting();
-			$highlight->setFields(implode(',', $this->settings[highlight]));
+			if ($this->settings['highlight']['query']) {
+				$queryWords= array();
+				if ($this->settings['highlight']['useQueryTerms']) {
+					foreach ($arguments['q'] as $queryTerm) {
+						$queryWords[] = $queryTerm;
+					}
+				}
+				if ($this->settings['highlight']['useFacetTerms']) {
+					foreach ($this->getActiveFacets($arguments) as $facets) {
+						foreach ($facets as $facetTerm => $facetInfo) {
+							$queryWords[] = $facetTerm;
+						}
+					}
+				}
+				$queryString = str_replace('###term###', implode(' ', $queryWords), $this->settings['highlight']['query']);
+				$highlight->setQuery($queryString);
+			}
+			$highlight->setFields(implode(',', $this->settings['highlight']['fields']));
 			$highlight->setSimplePrefix('\ueeee');
 			$highlight->setSimplePostfix('\ueeef');
 		}

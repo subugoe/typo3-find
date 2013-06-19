@@ -44,7 +44,7 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	/**
 	 * Registers own arguments.
 	 */
-	public function initializeArguments() {
+	public function initializeArguments () {
 		parent::initializeArguments();
 		$this->registerArgument('results', 'Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
 		$this->registerArgument('document', 'Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
@@ -56,10 +56,11 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	}
 
 
+	
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function render () {
 		$fields = $this->arguments['document']->getFields();
 		$field = $fields[$this->arguments['field']];
 		if ($this->arguments['index'] !== NULL) {
@@ -72,19 +73,20 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 		}
 
 		$highlightedField = $this->highlightField($field);
-		
+
 		return $highlightedField;
 	}
 
 
 
 	/**
+	 * Returns string or array of strings with highlighted areas enclosed
+	 * by \ueeee and \ueeef.
 	 *
 	 * @param array|string $fieldContent content of the field to highlight
-	 * @param type $highlightInfo information provided by the index’ highlighter
 	 * @return array|string
 	 */
-	private function highlightField($fieldContent, $highlightInfo) {
+	private function highlightField ($fieldContent) {
 		$result = $fieldContent;
 		$highlightInfo = $this->getHighlightInfo();
 
@@ -98,19 +100,19 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 			$result = $this->highlightSingleField($fieldContent, $highlightInfo);
 		}
 
-
 		return $result;
 	}
 
 
 
 	/**
-	 * 
+	 * Returns $fieldString with highlighted areas enclosed by \ueeee and \ueeef.
+	 *
 	 * @param string $fieldString the string to highlight
 	 * @param type $highlightInfo information provided by the index’ highlighter
 	 * @return string
 	 */
-	private function highlightSingleField($fieldString, $highlightInfo){
+	private function highlightSingleField ($fieldString, $highlightInfo){
 		$result = $fieldString;
 
 		foreach ($highlightInfo as $highlightItem) {

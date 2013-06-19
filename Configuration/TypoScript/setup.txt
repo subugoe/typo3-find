@@ -94,7 +94,10 @@ plugin.tx_solrfrontend {
 			sortOrder = count
 		}
 		highlight {
-			1 = *
+			fields.1 = *
+			# query = ###term###
+			# useQueryTerms = 1
+			# useFacetTerms = 1
 		}
 		additionalFilters {
 			# 1 = type:kloster
