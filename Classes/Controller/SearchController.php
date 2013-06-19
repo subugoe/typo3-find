@@ -289,7 +289,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function createQueryForArguments ($arguments) {
 		$query = $this->createQuery($arguments);
 
-		// Add search terms.
+		// Build query string.
+		$queryString = '';
 		if (array_key_exists('q', $arguments)) {
 			$queryParameters = $arguments['q'];
 
@@ -297,7 +298,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			if ($queryParameters) {
 				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
 				if ($queryComponents) {
-					$queryString = implode(' AND ', $queryComponents);
+					$queryString = implode(' ' . $query::QUERY_OPERATOR_AND . ' ', $queryComponents);
 					$query->setQuery($queryString);
 				}
 			}
@@ -326,11 +327,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				// start with defaults and overwrite with specific facet configuration
 				$facet = array_merge($this->settings['facetDefaults'], $facet);
 				$facetConfiguration[$key] = $facet;
+
 				$facetSet->createFacetField($facet['id'])
-						 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
-						 ->setMinCount($facet['fetchMinimum'])
-						 ->setLimit($facet['fetchMaximum'])
-						 ->setSort($facet['sortOrder']);
+							 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
+							 ->setMinCount($facet['fetchMinimum'])
+							 ->setLimit($facet['fetchMaximum'])
+							 ->setSort($facet['sortOrder']);
 			}
 		}
 		$this->view->assign('facets', $facetConfiguration);
@@ -350,11 +352,24 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$activeFacets = $this->getActiveFacets($arguments);
 		$activeFacetsForTemplate = array();
 		foreach ($activeFacets as $facetID => $facets) {
-			$activeFacetsForTemplate[$facetID] = array();
-			foreach ($facets as $facetIndex => $facetInfo) {
-				$query->createFilterQuery('facet-' . $facetID . '-' . $facetIndex)
-						->setQuery($facetInfo['query']);
-				$activeFacetsForTemplate[$facetID][$facetIndex] = $facetInfo;
+			foreach ($facets as $facetTerm => $facetInfo) {
+				if ($facetInfo['config']['queryStyle'] === 'and') {
+					// Alternative query style: adding a conjunction to the main query.
+					// Needed when using {!join} to filter on the underlying records
+					// instead of the joined ones.
+					$queryString = $query->getQuery();
+					if ($queryString) {
+						$queryString = $queryString . ' ' . $query::QUERY_OPERATOR_AND . ' ';
+					}
+					$queryString .= $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
+					$query->setQuery($queryString);
+				}
+				else {
+					// Add a filter query by default.
+					$query->createFilterQuery('facet-' . $facetID . '-' . $facetTerm)
+							->setQuery($facetInfo['query']);
+				}
+				$activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
 			}
 		}
 
@@ -367,35 +382,45 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Returns query for the given facet $ID and $term based on the facet’s
 	 * configuration.
 	 *
-	 * @param string $ID
+	 * @param array $facetConfig
 	 * @param string $queryTerm
 	 * @return string query
 	 */
-	private function getFacetQuery ($ID, $queryTerm) {
-		foreach ($this->settings['facets'] as $facet) {
-			if (array_key_exists('id', $facet)) {
-				if ($facet['id'] === $ID) {
-					if (array_key_exists('query', $facet)) {
-						$queryPattern = $facet['query'];
-					}
-					else {
-						$queryPattern = '###term###';
-					}
-					break;
-				}
-			}
-			else {
-				// TODO: configuration error
-			}
+	private function getFacetQuery ($facetConfig, $queryTerm) {
+		$queryPattern = '###term###';
+		if (array_key_exists('query', $facetConfig)) {
+			$queryPattern = $facetConfig['query'];
 		}
 
 		// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
 		// (because PHP loses ] in array keys during URL parsing)
 		$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
-
 		$query = str_replace('###term###', $queryTerm, $queryPattern);
 
 		return $query;
+	}
+
+
+
+	/**
+	 * Returns the facet configuration for the given $ID.
+	 *
+	 * @param string $ID
+	 * @return array
+	 */
+	private function getFacetConfig ($ID) {
+		$config = NULL;
+
+		foreach ($this->settings['facets'] as $facet) {
+			if (array_key_exists('id', $facet)) {
+				if ($facet['id'] === $ID) {
+					$config = $facet;
+					break;
+				}
+			}
+		}
+
+		return $config;
 	}
 
 
@@ -406,18 +431,20 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @param array $arguments request arguments
 	 * @return array of facet query strings
 	 */
-	private function getActiveFacets($arguments) {
+	private function getActiveFacets ($arguments) {
 		$activeFacets = array();
 
 		if (array_key_exists('facet', $arguments)) {
 			$facetTypes = $arguments['facet'];
 			foreach ($facetTypes as $facetID => $facets) {
 				$facetQueries = array();
+				$facetConfig = $this->getFacetConfig($facetID);
 				foreach ($facets as $facetTerm => $facetStatus) {
 					$facetInfo = array(
 						'id' => $facetID,
+						'config' => $facetConfig,
 						'term' => $facetTerm,
-						'query' => $this->getFacetQuery($facetID, $facetTerm)
+						'query' => $this->getFacetQuery($facetConfig, $facetTerm)
 					);
 					$facetQueries[$facetTerm] = $facetInfo;
 				}

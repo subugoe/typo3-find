@@ -86,6 +86,8 @@ plugin.tx_solrfrontend {
 			}
 		}
 		facetDefaults {
+			queryStyle = filter
+			# queryStyle = and
 			fetchMinimum = 1
 			fetchMaximum = 100
 			displayDefault = 6
