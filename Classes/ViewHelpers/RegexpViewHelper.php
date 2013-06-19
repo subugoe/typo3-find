@@ -36,17 +36,24 @@ class Tx_SolrFrontend_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHel
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'The string to work on', TRUE);
+		$this->registerArgument('string', 'string', 'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
 		$this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
 		$this->registerArgument('replace', 'string', 'The regular expression replacement string', TRUE);
 	}
+
 
 
 	/**
 	 * @return string
 	 */
 	public function render() {
-		return preg_replace($this->arguments['match'], $this->arguments['replace'], $this->arguments['string']);
+		$input = $this->arguments['string'];
+		if ($input === NULL) {
+			$input = $this->renderChildren();
+		}
+
+		$result =  preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+		return $result;
 	}
 
 }
