@@ -45,7 +45,8 @@ plugin.tx_solrfrontend {
 			}
 			20 {
 				id = jahr50
-				query = {!join from=kloster_id to=id}(jahr50:###term### AND typ:standort-orden)
+				field = jahr50
+				query = {!join from=kloster_id to=id}(orden_standort_jahr50:###term### AND typ:standort-orden)
 				sortOrder = index
 				fetchMaximum = 1000
 				type = histogram
