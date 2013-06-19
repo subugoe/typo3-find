@@ -611,8 +611,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$offset = 0;
 
-		if ($arguments && array_key_exists('start', $arguments)) {
+		if (array_key_exists('start', $arguments)) {
 			$offset =  intval($arguments['start']);
+		}
+		else if (array_key_exists('page', $arguments)) {
+			$offset = intval($arguments['page']) * $this->settings['paging']['perPage'];
 		}
 
 		$this->view->assign('offset', $offset);
