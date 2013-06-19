@@ -7,8 +7,22 @@ plugin.tx_solrfrontend {
 			path = /solr/germania-sacra
 		}
 		queryFields {
-			10 >
-			15 >
+			0 {
+				query = {!join from=kloster_id to=id}(###term### AND typ:standort-orden)
+			}
+			10 {
+				extended = 1
+				id = bistum
+				type = Text
+				autocomplete = 1
+				autocompleteDictionary = bistum_suggest
+			}
+			15 {
+				id = orden
+				type = Text
+				autocomplete = 1
+				autocompleteDictionary = orden_suggest
+			}
 			20 >
 			30 >
 			40 >
@@ -24,23 +38,29 @@ plugin.tx_solrfrontend {
 			snippet = uebersetzung
 		}
 		facets {
-			10.field = orden_facet
+			10 {
+				id = orden
+				field = orden_facet
+				query = {!join from=kloster_id to=id}(orden_facet:"###term###" AND typ:standort-orden)
+			}
 			20 {
-				field = orden_jahr50
+				id = jahr50
+				query = {!join from=kloster_id to=id}(jahr50:###term### AND typ:standort-orden)
 				sortOrder = index
 				fetchMaximum = 1000
 				type = histogram
 				barWidth = 50
 			}
-			25 {
-				field = standort_jahr50
-				sortOrder = index
-				fetchMaximum = 1000
-				type = histogram
-				barWidth = 50
+			30 {
+				id = bistum
+				field = bistum_facet
+				query = {!join from=kloster_id to=id}(bistum_facet:"###term###" AND typ:standort-orden)
 			}
-			30.field = bistum_facet
-			40.field = land_facet
+			40 {
+				id = land
+				field = land_facet
+				query = {!join from=kloster_id to=id}(land_facet:"###term###" AND typ:standort-orden)
+			}
 		}
 		highlight {
 			1 = *

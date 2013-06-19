@@ -58,6 +58,11 @@ article section nav ol li:last-of-type:after {
 	content: '';
 }
 
+ol p {
+	padding-left: 1em;
+	text-indent: -1em;
+}
+
 article section h3 {
 	font-size: 100%;
 	text-transform: uppercase;

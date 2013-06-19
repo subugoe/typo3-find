@@ -15,6 +15,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="facet.orden_facet">Orden</label>
+			<label index="facet.jahr50">Zeitraum</label>
 			<label index="facet.orden_jahr50">Zeitraum Orden</label>
 			<label index="facet.standort_jahr50">Zeitraum Standort</label>
 			<label index="facet.bistum_facet">Bistum</label>

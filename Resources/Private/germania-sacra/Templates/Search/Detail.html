@@ -139,15 +139,15 @@
 									<span class="ort">
 										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" title="Alle Klöster in {standort.name} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
-									<span class="land">{f:format.raw(value:standort.land)}</span>
+									<span class="land">{f:format.raw(value:standort.land)},</span>
 
 									<f:if condition="{standort.bistum}">
-										<p class="bistum">
+										<span class="bistum">
 											<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
 												{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
 												{f:format.raw(value:standort.bistum)}
 											</f:link.action>
-										</p>
+										</span>
 									</f:if>
 								</p>
 							</li>
@@ -227,7 +227,7 @@
 									nameOriginal: document.person_name,
 									namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results)}\",
 									bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
-									bezeichnungOriginal: document.bezeichnung,
+									bezeichnungOriginal: document.person_bezeichnung,
 									von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
 									bis_verbal: \"{s:highlightField(field:'person_bis_verbal', document:document, results:results)}\",
 									anmerkung: \"{s:highlightField(field:'person_anmerkung', document:document, results:results)}\",
@@ -243,7 +243,7 @@
 								</ol>
 							</nav>
 						</f:if>
-
+						<f:debug>{personen}</f:debug>
 						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnung" groupKey="amt">
 							<section>
 								<h3 id="c-{document.id}-amt-{amt}">
@@ -257,7 +257,7 @@
 									<f:for each="{personenMitAmt}" as="person">
 										<li>
 											<f:if condition="{person.von_verbal}{person.bis_verbal}">
-												<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-')}{f:format:raw(value:person.bis_verbal)}</span>
+												<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-{f:format.raw(value:person.bis_verbal)}')}</span>
 											</f:if>
 											<f:link.external title="{person.bezeichnungOriginal} {person.nameOriginal} in der Personendatenbank anzeigen" uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
 												<f:if condition="{person.name}">
