@@ -14,11 +14,13 @@
 </f:if>
 <div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
 	<script type="text/javascript">
+		<f:alias map="{addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
+						removeArguments:'{s:facetLinkArguments(facetID:facetInfo.id, mode:\"remove\", activeFacets:activeFacets)}'}">
 		(function () {
 			var histogramConfiguration = {
 				'facetID': <s:json data="{facetInfo.id}"/>,
 				'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-				'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}" argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, mode:\"remove\", activeFacets:activeFacets)}"/>'/>,
+				'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}"/>'/>,
 				'activeFacets': [],
 			}
 			<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
@@ -28,5 +30,6 @@
 
 			solr_frontend.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
 		})();
+		</f:alias>
 	</script>
 </div>
