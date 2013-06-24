@@ -4,6 +4,18 @@
   "css_use_suffix": false,
   "glyphs": [
     {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "cancel",
+      "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0f4cae16f34ae243a6144c18a003f2d8",
+      "css": "cancel-circled",
+      "code": 59394,
+      "src": "fontawesome"
+    },
+    {
       "uid": "9dc654095085167524602c9acc0c5570",
       "css": "left-dir",
       "code": 8592,
