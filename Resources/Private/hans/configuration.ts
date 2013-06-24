@@ -38,6 +38,10 @@ plugin.tx_solrfrontend {
 				id = typ
 				field = Satzart
 			}
+			20 {
+				id = lang
+				field = Sprache
+			}
 		}
 		highlight {
 			fields.1 = *
