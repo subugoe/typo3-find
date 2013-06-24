@@ -78,7 +78,7 @@ plugin.tx_solrfrontend {
 	}
 	view {
 		templateRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Templates/
-		partialRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Partials/
+		# partialRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Partials/
 	}
 }
 
