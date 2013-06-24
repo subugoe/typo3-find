@@ -6,32 +6,19 @@
 
 	<article class="detail">
 		<h1>
-			<s:highlightField field="{settings.standardFields.title}" document="{document}" results="{results}"/>
+			<f:render partial="FieldInline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
 		</h1>
 
 		<dl>
-			<f:for each="{document.fields}" as="value" key="key">
-				<dt>{key}</dt>
+			<f:for each="{document.fields}" as="value" key="fieldName">
+				<dt>
+					<f:translate key="LLL:{settings.languageRootPath}locallang-fields.xml:field.{fieldName}"
+								 default="{fieldName}"/>
+				</dt>
 				<dd>
-					<f:if condition="{value.0}">
-						<f:then>
-							<ul>
-								<f:for each="{value}" as="singleValue" key="index">
-									<li>
-										<s:highlightField field="{key}" document="{document}" results="{results}" index="{index}"/>
-									</li>
-								</f:for>
-							</ul>
-						</f:then>
-						<f:else>
-							<s:highlightField field="{key}" document="{document}" results="{results}"/>
-						</f:else>
-					</f:if>
+					<f:render partial="FieldList" arguments="{results:results, document:document, field:fieldName}"/>
 				</dd>
-				<dd></dd>
 			</f:for>
 		</dl>
 	</article>
-	<f:debug>{document}</f:debug>
-
 </f:section>
