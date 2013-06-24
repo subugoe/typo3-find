@@ -1,6 +1,8 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-
-<li class='index-{facetItemIterator.cycle} count-{facetItemCount}
+<li class='index-{iterator.cycle} count-{itemCount}
+	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
+		<f:then>facetActive</f:then>
+	</f:if>
 	<f:if condition="{facetInfo.displayDefault}">
 		<f:then>
 			<f:if condition="{iterator.cycle} > {facetInfo.displayDefault}">
@@ -16,16 +18,11 @@
 '>
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
 		<f:then>
-			<span class="facetName facetActive">
-				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
-							 default="{facetTerm}"/>
-				<f:link.action
-						addQueryString="TRUE"
-						argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets, mode:'remove')}"
-						class="facetRemove">
-					<f:translate key="remove filter"/>
-				</f:link.action>
-			</span>
+			<f:link.action
+					addQueryString="TRUE"
+					argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets, mode:'remove')}"
+					class="icon-cancel facetRemove"
+					title="{f:translate(key:'remove filter %s') -> f:format.printf(arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}" default="{facetTerm}"/></span></f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
@@ -33,10 +30,8 @@
 					arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
 					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[page]'}"
 					class="facetAdd">
-				<span class="facetName">
-					<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
-								 default="{facetTerm}"/>
-				</span>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
+							 default="{facetTerm}"/>
 				<span class="facetCount">{itemCount}</span>
 			</f:link.action>
 		</f:else>

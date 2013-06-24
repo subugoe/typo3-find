@@ -1,35 +1,37 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
+<div class="facetHistogram-container">
+	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, activeFacets:activeFacets)}">
+		<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
+			<f:alias map="{years:\"{s:regexp(match:'/RANGE ([0-9]*) TO ([0-9]*)/', replace:'\1-\2', string:term)}\"}">
+				<span class="facetActive">
+					<f:link.action
+						addQueryString="TRUE"
+						argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
+						class="facetRemove facetActive icon-cancel"
+						title="{f:translate(key:'remove filter %s') -> f:format.printf(arguments:{0:years})}"><span class="facetName">{years}</span></f:link.action>
+				</span>
+			</f:alias>
+		</f:for>
+	</f:if>
+	<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
+		<script type="text/javascript">
+			<f:alias map="{addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
+							removeArguments:'{s:facetLinkArguments(facetID:facetInfo.id, mode:\"remove\", activeFacets:activeFacets)}'}">
+			(function () {
+				var histogramConfiguration = {
+					'facetID': <s:json data="{facetInfo.id}"/>,
+					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
+					'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}"/>'/>,
+					'activeFacets': [],
+				}
+				<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
+					histogramConfiguration.activeFacets.push({s:json(data:term)});
+				</f:for>
+				var facetData = <s:json data="{facetData.values}"/>;
 
-<f:if condition="{s:facetIsActive(facetID:facetInfo.id, activeFacets:activeFacets)}">
-	<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
-		<f:link.action
-			addQueryString="TRUE"
-			argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
-			class="facetRemove facetActive">
-			<f:format.printf arguments="{0:\"{s:regexp(match:'/RANGE ([0-9]*) TO ([0-9]*)/', replace:'\1-\2', string:term)}\"}">
-				<f:translate key="remove filter %s"/>
-			</f:format.printf>
-		</f:link.action>
-	</f:for>
-</f:if>
-<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
-	<script type="text/javascript">
-		<f:alias map="{addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
-						removeArguments:'{s:facetLinkArguments(facetID:facetInfo.id, mode:\"remove\", activeFacets:activeFacets)}'}">
-		(function () {
-			var histogramConfiguration = {
-				'facetID': <s:json data="{facetInfo.id}"/>,
-				'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-				'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}"/>'/>,
-				'activeFacets': [],
-			}
-			<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
-				histogramConfiguration.activeFacets.push({s:json(data:term)});
-			</f:for>
-			var facetData = <s:json data="{facetData.values}"/>;
-
-			solr_frontend.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
-		})();
-		</f:alias>
-	</script>
+				solr_frontend.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
+			})();
+			</f:alias>
+		</script>
+	</div>
 </div>

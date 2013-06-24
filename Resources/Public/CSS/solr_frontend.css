@@ -186,16 +186,32 @@
 }
 
 .tx_solr_frontend .facetActive {
+	display: block;
+	background: #f00;
+	border-radius: 5px;
+	border: 1px solid #b00;
 	font-weight: bold;
+	text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
 
-.tx_solr_frontend .facetRemove {
-	margin-left: 1em;
-	color: #f00;
+.tx_solr_frontend .facetList .facetActive {
+	padding: 0;
+	text-indent: 0;
+	margin-bottom: 0.5em;
 }
 
-.tx_solr_frontend .facet-type-histogram .facetRemove {
-	margin: 1em 0 0 0;
+.tx_solr_frontend .facetHistogram .facetActive {
+	margin-bottom: 0.5em;
+}
+
+.tx_solr_frontend .facetActive a {
+	padding-left: 0.2em;
+	color: #fff;
+}
+
+.tx_solr_frontend .facetActive a:before {
+	margin-right: 0.3em;
+	margin-left: 0.1em;
 }
 
 .tx_solr_frontend .facetShowAll a {
@@ -207,8 +223,11 @@
 	color: #000;
 }
 
-.tx_solr_frontend .histogram {
+.tx_solr_frontend .facetHistogram-container {
 	margin: 0.5em 0;
+}
+
+.tx_solr_frontend .histogram {
 	position: relative;
 	left: -13px;
 }
