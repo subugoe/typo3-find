@@ -505,7 +505,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$highlight = $query->getHighlighting();
 			if ($this->settings['highlight']['query']) {
 				$queryWords= array();
-				if ($this->settings['highlight']['useQueryTerms']) {
+				if ($this->settings['highlight']['useQueryTerms'] && array_key_exists('q', $arguments)) {
 					foreach ($arguments['q'] as $queryTerm) {
 						$queryWords[] = $queryTerm;
 					}
