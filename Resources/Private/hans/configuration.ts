@@ -28,6 +28,11 @@ plugin.tx_solrfrontend {
 			}
 		}
 		sort {
+			1 {
+				field = Titel_sort
+				ascending = 1
+			}
+
 		}
 		standardFields {
 			title = Gesamttitel
@@ -54,6 +59,8 @@ plugin.tx_solrfrontend {
 
 	}
 	view {
+		templateRootPath = EXT:solr_frontend/Resources/Private/hans/Templates/
+		# partialRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Partials/
 	}
 }
 

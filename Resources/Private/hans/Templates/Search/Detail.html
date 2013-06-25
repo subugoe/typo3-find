@@ -1,0 +1,32 @@
+{namespace s=Tx_SolrFrontend_ViewHelpers}
+<f:layout name="Default"/>
+
+<f:section name="main">
+	<f:render partial="DetailResultPager" arguments="{_all}"/>
+
+	<article class="detail">
+		<section class="person">
+			<s:transpose name="personen" arrays="{
+				name: \"{s:highlightField(field:'Person_Name', document:document, results:results)}\",
+				id: document.Person_ID,
+				typ: document.Person_Typ,
+				daten: document.Person_Daten,
+				funktion: document.Person_Funktion
+			}">
+				<f:for each="{personen}" as="person">
+					<li>
+						<f:link.action arguments="{q: '{default: \'Person_ID:\"{person.id}\"\'}'}" title="Alle Treffer für »{person.name}« zeigen.">
+							<span class="name">{person.name -> f:format.raw()}</span>
+						</f:link.action>
+						<f:if condition="{person.daten}">
+							(<span class="date">{person.daten}</span>)
+						</f:if>
+						<f:if condition="{person.funktion}">
+							<span class="role">{person.funktion}</span>
+						</f:if>
+					</li>
+				</f:for>
+			</s:transpose>
+		</section>
+	</article>
+</f:section>
