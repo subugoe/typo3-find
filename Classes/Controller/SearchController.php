@@ -35,6 +35,13 @@ require_once(t3lib_extMgm::extPath('solr_frontend') . 'vendor/autoload.php');
 class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
+	 * Placeholder string used in search query configuration and replaced with
+	 * the query term.
+	 */
+	const placeholder = '###term###';
+
+
+	/**
 	 * @var \Solarium\Client
 	 */
 	protected $solr;
@@ -243,13 +250,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function queryComponentsForQueryParameters ($queryParameters) {
 		$queryComponents = array();
 		$queryFields = $this->settings['queryFields'];
-		$queryFields[] = array('id' => 'raw', 'query' => '###term###');
+		$queryFields[] = array('id' => 'raw', 'query' => self::placeholder);
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {
 				$queryPart = '';
 				if ($fieldInfo['query']) {
-					$queryPart = trim(str_replace('###term###', $queryParameters[$fieldID], $fieldInfo['query']));
+					$queryPart = trim(str_replace(self::placeholder, $queryParameters[$fieldID], $fieldInfo['query']));
 				}
 				else {
 					$queryPart = $fieldID . ':' . $queryParameters[$fieldID];
@@ -387,7 +394,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @return string query
 	 */
 	private function getFacetQuery ($facetConfig, $queryTerm) {
-		$queryPattern = '###term###';
+		$queryPattern = self::placeholder;
 		if (array_key_exists('query', $facetConfig)) {
 			$queryPattern = $facetConfig['query'];
 		}
@@ -395,7 +402,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
 		// (because PHP loses ] in array keys during URL parsing)
 		$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
-		$query = str_replace('###term###', $queryTerm, $queryPattern);
+		$query = str_replace(self::placeholder, $queryTerm, $queryPattern);
 
 		return $query;
 	}
@@ -517,7 +524,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						}
 					}
 				}
-				$queryString = str_replace('###term###', implode(' ', $queryWords), $this->settings['highlight']['query']);
+				$queryString = str_replace(self::placeholder, implode(' ', $queryWords), $this->settings['highlight']['query']);
 				$highlight->setQuery($queryString);
 			}
 			$highlight->setFields(implode(',', $this->settings['highlight']['fields']));
