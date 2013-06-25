@@ -43,7 +43,7 @@ class Tx_SolrFrontend_ViewHelpers_TransposeViewHelper extends Tx_Fluid_Core_View
 	 */
 	public function render() {
 		$arrays = array();
-		$iterationArray;
+		$iterationArray = array();
 		// Strip non-numeric keys in the value arrays.
 		foreach ($this->arguments['arrays'] as $key => $array) {
 			$iterationArray = $array;
