@@ -15,8 +15,14 @@
 	</f:if>
 	<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
 		<script type="text/javascript">
-			<f:alias map="{addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
-							removeArguments:'{s:facetLinkArguments(facetID:facetInfo.id, mode:\"remove\", activeFacets:activeFacets)}'}">
+			<f:alias map="{
+				addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
+				removeArguments:'{f:if(
+					condition:\"{s:valueForKey(array:arguments.facet, key:facetInfo.id)}\",
+					then:\"{s:facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:activeFacets)}\",
+					else:\"{0:\'tx_solrfrontend_solrfrontend[page]\'}\"
+				)}'
+			}">
 			(function () {
 				var histogramConfiguration = {
 					'facetID': <s:json data="{facetInfo.id}"/>,
