@@ -74,9 +74,9 @@ article section h3 {
 	word-wrap: break-word;
 }
 
-.ort,
-.orden,
-.band-nummer,
+span.ort,
+span.orden,
+span.band-nummer,
 section.person .name {
 	font-weight: bold;
 }
