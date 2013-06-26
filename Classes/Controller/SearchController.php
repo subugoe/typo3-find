@@ -139,17 +139,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
-	 * Action for single item view.
-	 *
-	 * @param String $id
+	 * Single Item View action.
 	 */
-	public function detailAction($id = NULL) {
-		if (empty($id)) {
-			// Bail out if no id is provided.
-			$this->flashMessageContainer->add('Please provide a valid document id', t3lib_FlashMessage::ERROR);
-			$this->redirect('index');
-		}
-		else {
+	public function detailAction() {
+		if (array_key_exists('id', $this->requestArguments) && !empty($this->requestArguments['id'])) {
+			$id = $this->requestArguments['id'];
 			$assignments = array();
 
 			if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
@@ -205,6 +199,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 			$this->view->assignMultiple($assignments);
 			$this->addStandardAssignments();
+		}
+		else {
+			// id argument missing or empty
+			$this->flashMessageContainer->add('solr_frontend: Non-empty argument »id« is required for action »detail«.', t3lib_FlashMessage::ERROR);
+			$this->redirect('index');
 		}
 	}
 
