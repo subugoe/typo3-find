@@ -235,7 +235,7 @@
 									gso: \"{s:highlightField(field:'person_gso', document:document, results:results)}\"
 						}">
 
-						<f:if condition="{f:count(subject:personen)} > 20">
+						<f:if condition="{f:count(subject:personen)} > 15">
 							<nav>
 								<ol>
 									<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
@@ -244,14 +244,14 @@
 								</ol>
 							</nav>
 						</f:if>
-						<f:debug>{personen}</f:debug>
-						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnung" groupKey="amt">
+
+						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
 							<section>
 								<h3 id="c-{document.id}-amt-{amt}">
 									{f:count(subject:personenMitAmt)}
 									<f:if condition="{f:count(subject:personenMitAmt)} == 1">
-										<f:then>{f:format.raw(value:person.bezeichnung)}</f:then>
-										<f:else>{f:format.raw(value:person.bezeichnung)}s</f:else>
+										<f:then>{amt}</f:then>
+										<f:else>{amt}s</f:else>
 									</f:if>
 								</h3>
 								<ol>
@@ -271,10 +271,10 @@
 												</f:if>
 											</f:link.external>
 											<f:if condition="{person.namensalternativen_xml}">
-												<span class="namensalternativen">{f:format.raw(value:person.namensalternativen_xml)}</span>
+												{f:format.raw(value:person.namensalternativen_xml)}
 											</f:if>
 											<f:if condition="{person.anmerkung}">
-												<span class="bemerkung">{f:format:raw(value:person.anmerkung)}</span>
+												<span class="bemerkung">{f:format.raw(value:person.anmerkung)}</span>
 											</f:if>
 										</li>
 									</f:for>
