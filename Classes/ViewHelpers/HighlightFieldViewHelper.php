@@ -117,11 +117,15 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 
 		foreach ($highlightInfo as $highlightItem) {
 			$highlightItemStripped = str_replace(array('\ueeee', '\ueeef'), array('', ''), $highlightItem);
-			if ($fieldString === $highlightItemStripped) {
+			if (strpos($fieldString, $highlightItemStripped) !== NULL) {
+				// HTML escape the text here (and use f:format.raw in the template to avoid
+				// double escaping the HTML tags.
 				$escapedContent = htmlspecialchars($highlightItem);
-				$result = str_replace(array('\ueeee', '\ueeef'),
-										array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
-										$escapedContent);
+
+				$highlightItemMarkedUp = str_replace(array('\ueeee', '\ueeef'),
+											array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
+											$escapedContent);
+				$result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
 				break;
 			}
 		}
