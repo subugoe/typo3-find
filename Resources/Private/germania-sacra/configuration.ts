@@ -65,7 +65,7 @@ plugin.tx_solrfrontend {
 		}
 		highlight {
 			fields.1 = *
-			query = ###term###
+			query = ###term###* OR ###term###
 			useQueryTerms = 1
 			useFacetTerms = 1
 		}

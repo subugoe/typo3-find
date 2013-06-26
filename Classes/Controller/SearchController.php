@@ -524,7 +524,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						}
 					}
 				}
-				$queryString = str_replace(self::placeholder, implode(' ', $queryWords), $this->settings['highlight']['query']);
+
+				$queryComponents = array();
+				foreach ($queryWords as $queryWord) {
+					$queryComponents[] = '(' . str_replace(self::placeholder, $queryWord, $this->settings['highlight']['query']) . ')';
+				}
+				$queryString = implode(' OR ', $queryComponents);
+
 				$highlight->setQuery($queryString);
 			}
 			$highlight->setFields(implode(',', $this->settings['highlight']['fields']));
