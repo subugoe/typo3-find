@@ -31,7 +31,7 @@
  * document and the field to work on.
  *
  * Expects to find the document’s id in the field »id« which can be overridden
- * using the »idKey«parameter.
+ * using the »idKey« parameter.
  *
  * Tries to avoid issues with creating invalid markup by assuming the highlighted
  * parts of the string are marked by Unicode Private Use Area characters
@@ -61,20 +61,20 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	 * @return string
 	 */
 	public function render () {
-		$fields = $this->arguments['document']->getFields();
-		$field = $fields[$this->arguments['field']];
-		if ($this->arguments['index'] !== NULL) {
-			if (is_array($field) && count($field) > $this->arguments['index']) {
-				$field = $field[$this->arguments['index']];
+		if ($this->arguments['document']) {
+			$fields = $this->arguments['document']->getFields();
+			$field = $fields[$this->arguments['field']];
+			if ($this->arguments['index'] !== NULL) {
+				if (is_array($field) && count($field) > $this->arguments['index']) {
+					$field = $field[$this->arguments['index']];
+				}
+				else {
+					// TODO: error message
+				}
 			}
-			else {
-				// TODO: error message
-			}
+
+			return $this->highlightField($field);
 		}
-
-		$highlightedField = $this->highlightField($field);
-
-		return $highlightedField;
 	}
 
 
