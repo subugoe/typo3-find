@@ -145,8 +145,8 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if (array_key_exists('id', $this->requestArguments) && !empty($this->requestArguments['id'])) {
 			$id = $this->requestArguments['id'];
 			$assignments = array();
-
 			if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
+				// If underlying query has been sent, fetch more data to enable paging arrows.
 				$underlyingQueryInfo = $this->requestArguments['underlyingQuery'];
 
 				// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
@@ -167,34 +167,48 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				$query->setRows($nextIndex - $previousIndex + 1);
 
 				$selectResults = $this->solr->select($query);
-				$assignments['results'] = $selectResults;
-				$resultSet = $selectResults->getDocuments();
+				if (count($selectResults) > 0) {
+					$assignments['results'] = $selectResults;
+					$resultSet = $selectResults->getDocuments();
 
-				// the actual result is at position 0 (for the first document) or 1 (otherwise).
-				$document = $resultSet[$resultIndexOffset];
-				if ($document['id'] === $id) {
-					$assignments['document'] = $document;
-					if ($resultIndexOffset !== 0) {
-						$assignments['document-previous'] = $resultSet[0];
-						$assignments['document-previous-number'] = $previousIndex + 1;
+					// the actual result is at position 0 (for the first document) or 1 (otherwise).
+					$document = $resultSet[$resultIndexOffset];
+					if ($document['id'] === $id) {
+						$assignments['document'] = $document;
+						if ($resultIndexOffset !== 0) {
+							$assignments['document-previous'] = $resultSet[0];
+							$assignments['document-previous-number'] = $previousIndex + 1;
+						}
+						$nextResultIndex = 1 + $resultIndexOffset;
+						if (count($resultSet) > $nextResultIndex) {
+							$assignments['document-next'] = $resultSet[$nextResultIndex];
+							$assignments['document-next-number'] = $nextIndex + 1;
+						}
 					}
-					$nextResultIndex = 1 + $resultIndexOffset;
-					if (count($resultSet) > $nextResultIndex) {
-						$assignments['document-next'] = $resultSet[$nextResultIndex];
-						$assignments['document-next-number'] = $nextIndex + 1;
+					else {
+						$this->flashMessageContainer->add('solr_frontend: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', t3lib_FlashMessage::ERROR);
+						$this->redirect('index');
 					}
 				}
 				else {
-					// ERROR
+					$this->flashMessageContainer->add('solr_frontend: »detail« action query with underlying query returned no results.', t3lib_FlashMessage::ERROR);
+					$this->redirect('index');
 				}
 			}
 			else {
+				// Without underlying query information, just get the record specified.
 				$query = $this->createQuery();
 				$query->setQuery('id:' . $id);
 				$selectResults = $this->solr->select($query);
-				$assignments['results'] = $selectResults;
-				$resultSet = $selectResults->getDocuments();
-				$assignments['document'] = $resultSet[0];
+				if (count($selectResults) > 0) {
+					$assignments['results'] = $selectResults;
+					$resultSet = $selectResults->getDocuments();
+					$assignments['document'] = $resultSet[0];
+				}
+				else {
+					$this->flashMessageContainer->add('solr_frontend: »detail« action query for id »' . $id . '« returned no results.', t3lib_FlashMessage::ERROR);
+					$this->redirect('index');
+				}
 			}
 
 			$this->view->assignMultiple($assignments);
