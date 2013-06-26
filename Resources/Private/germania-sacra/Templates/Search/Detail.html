@@ -122,6 +122,7 @@
 				<ol>
 					<s:transpose name="standorte" arrays="{
 									name: \"{s:highlightField(field:'ort', document:document, results:results)}\",
+									nameOriginal: document.ort,
 									bistum: \"{s:highlightField(field:'bistum', document:document, results:results)}\",
 									bistumOriginal: document.bistum
 									ist_erzbistum: document.ist_erzbistum,
@@ -137,7 +138,7 @@
 										<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
 									</f:if>
 									<span class="ort">
-										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" title="Alle Klöster in {standort.name} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" title="Alle Klöster in {standort.nameOriginal} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
 									<span class="land">{f:format.raw(value:standort.land)},</span>
 
