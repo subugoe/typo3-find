@@ -1,0 +1,4 @@
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<f:for each="{settings.JSPaths}" as="JSPath">
+	<t3jquery:addJQueryAndScript jsfile="{JSPath}"/>
+</f:for>
