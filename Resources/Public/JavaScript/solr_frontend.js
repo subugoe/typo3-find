@@ -1,21 +1,31 @@
 var solr_frontend = (function() {
 
-jQuery(document).ready(function() {
-	// Set up jQuery UI Autocomplete for inputs with the autocompleteURL attribute.
-	jQuery('.tx_solr_frontend .fieldContainer input[autocompleteURL!=""]').autocomplete(
-		{
-			source: function(request, returnSuggestions) {
-				var autocompleteURL = this.element.attr('autocompleteURL');
-				if (autocompleteURL) {
-					autocompleteURL = autocompleteURL.replace('%25%25%25%25', request.term);
-					jQuery.getJSON(autocompleteURL, function (data) {
-						returnSuggestions(data);
-					});
+var URLParameterPrefix = 'tx_solrfrontend_solrfrontend';
+var container;
+
+
+var initialise = function () {
+	jQuery(document).ready(function() {
+		container = jQuery('.tx_solr_frontend');
+
+		// Set up jQuery UI Autocomplete for inputs with the autocompleteURL attribute.
+		jQuery('.fieldContainer input[autocompleteURL!=""]', container).autocomplete(
+			{
+				source: function(request, returnSuggestions) {
+					var autocompleteURL = this.element.attr('autocompleteURL');
+					if (autocompleteURL) {
+						autocompleteURL = autocompleteURL.replace('%25%25%25%25', request.term);
+						jQuery.getJSON(autocompleteURL, function (data) {
+							returnSuggestions(data);
+						});
+					}
 				}
 			}
-		}
-	);
-});
+		);
+
+		jQuery('.position .resultPosition', container).click(onClickRecordNumber);
+	});
+};
 
 
 
@@ -48,11 +58,11 @@ var showAllFacetsOfType = function (myEvent) {
  *  in »container.
  *
  * @param {object} terms (keys: year numbers, values: result counts)
- * @param {DOMElement} container
+ * @param {DOMElement} histogramContainer
  * @param {object} config
  */
-var createHistogramForTermsInContainer = function (terms, container, config) {
-	var jGraphDiv = jQuery(container);
+var createHistogramForTermsInContainer = function (terms, histogramContainer, config) {
+	var jGraphDiv = jQuery(histogramContainer);
 	var graphWidth = jGraphDiv.parents('.facets').width();
 	var canvasHeight = 150;
 	jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
@@ -81,8 +91,8 @@ var createHistogramForTermsInContainer = function (terms, container, config) {
 	};
 
 	// Use the colour of term list titles for the histogram.
-	var graphColour = jQuery('.tx_solr_frontend .facetAdd').css('color');
-	var selectionColour = jQuery('.tx_solr_frontend .facet h1').css('color');
+	var graphColour = jQuery('.facetAdd', container).css('color');
+	var selectionColour = jQuery('.facet h1', container).css('color');
 
 	var graphOptions = {
 		'series': {
@@ -258,7 +268,7 @@ var detailViewWithPaging = function (element, position) {
 		form.style = 'display:none;';
 		document.body.appendChild(form);
 
-		var inputs = inputsWithPrefixForObject('tx_solrfrontend_solrfrontend[underlyingQuery]', underlyingQuery);
+		var inputs = inputsWithPrefixForObject(URLParameterPrefix + '[underlyingQuery]', underlyingQuery);
 		for (var inputIndex in inputs) {
 			form.appendChild(inputs[inputIndex]);
 		};
@@ -271,6 +281,14 @@ var detailViewWithPaging = function (element, position) {
 };
 
 
+
+var onClickRecordNumber = function (myEvent) {
+	
+};
+
+
+
+initialise();
 
 return {
 	'showAllFacetsOfType': showAllFacetsOfType,
