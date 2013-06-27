@@ -10,6 +10,7 @@
 					<f:link.action
 						addQueryString="TRUE"
 						argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
+						noCacheHash="1"
 						class="icon-cancel facetRemove"
 						title="{f:translate(key:'remove filter %s') -> f:format.printf(arguments:{0:years})}"><span class="facetName">{years}</span></f:link.action>
 				</span>
@@ -30,7 +31,7 @@
 				var histogramConfiguration = {
 					'facetID': <s:json data="{facetInfo.id}"/>,
 					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-					'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}"/>'/>,
+					'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}" noCacheHash="1"/>'/>,
 					'activeFacets': [],
 				}
 				<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">

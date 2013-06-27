@@ -23,7 +23,7 @@
 		<span class="resultPager pager">
 			<f:if condition="{document-previous}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" class="previous icon-left-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}">
+					<f:link.action action="detail" arguments="{id: document-previous.fields.id}" noCacheHash="1" class="previous icon-left-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}">
 					</f:link.action>
 				</f:then>
 				<f:else>
@@ -32,7 +32,7 @@
 			</f:if>
 			<f:if condition="{document-next}">
 				<f:then>
-					<f:link.action action="detail" arguments="{id: document-next.fields.id}" class="next icon-right-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}">
+					<f:link.action action="detail" arguments="{id: document-next.fields.id}" noCacheHash="1" class="next icon-right-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}">
 					</f:link.action>
 				</f:then>
 				<f:else>

@@ -39,7 +39,7 @@
 						});
 						containingBounds.extend(point);
 						institutionengenau |= <s:json data="{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}"/>;
-						var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139"/>';
+						var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139" noCacheHash="1"/>';
 						addNearby(map, queryURL);
 						</f:for>
 						<f:for each="{document.bistum}" as="bistum">
@@ -139,13 +139,13 @@
 										<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
 									</f:if>
 									<span class="ort">
-										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" title="Alle Klöster in {standort.nameOriginal} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+										<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" noCacheHash="1" title="Alle Klöster in {standort.nameOriginal} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
 									<span class="land">{f:format.raw(value:standort.land)},</span>
 
 									<f:if condition="{standort.bistum}">
 										<span class="bistum">
-											<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
+											<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" noCacheHash="1" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
 												{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
 												{f:format.raw(value:standort.bistum)}
 											</f:link.action>
@@ -174,7 +174,7 @@
 										<span class="zeitraum">{f:format.raw(value:orden.von_verbal)} – {f:format.raw(value:orden.bis_verbal)}</span>
 									</f:if>
 									<span class="orden">
-										<f:link.action arguments="{q: '{default: \'orden:\"{orden.nameOriginal}\"\'}'}" title="Alle Klöster der {orden.nameOriginal} zeigen.">
+										<f:link.action arguments="{q:'{default: \'orden:\"{orden.nameOriginal}\"\'}'}" noCacheHash="1" title="Alle Klöster der {orden.nameOriginal} zeigen.">
 											{f:format.raw(value:orden.name)}
 										</f:link.action>
 									</span>
@@ -240,7 +240,7 @@
 							<nav>
 								<ol>
 									<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
-										<li><f:link.page addQueryString="1" section="c-{document.id}-amt-{amt}">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{amt}</f:then><f:else>{amt}s</f:else></f:if></f:link.page></li>
+										<li><f:link.action section="c-{document.id}-amt-{amt}" noCacheHash="1">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{amt}</f:then><f:else>{amt}s</f:else></f:if></f:link.action></li>
 									</f:groupedFor>
 								</ol>
 							</nav>

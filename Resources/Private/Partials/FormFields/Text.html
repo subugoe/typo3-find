@@ -4,5 +4,5 @@
 </label>
 <f:form.textfield id="c{uid}-field-{fieldInfo.id}" name="q[{fieldInfo.id}]" value="{s:valueForKey(array:query, key:fieldInfo.id)}"
 					placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}.placeholder')}"
-					additionalAttributes="<f:if condition='{fieldInfo.autocomplete}==1'><f:then>{autocompleteURL:\"{f:uri.action(arguments:{dictionary:fieldInfo.autocompleteDictionary, q:'%%%%'}, action:'suggest', pageType:'1369315139')}\"}</f:then><f:else>{a:1}</f:else></f:if>"
+					additionalAttributes="<f:if condition='{fieldInfo.autocomplete}==1'><f:then>{autocompleteURL:\"{f:uri.action(arguments:{dictionary:fieldInfo.autocompleteDictionary, q:'%%%%'}, action:'suggest', pageType:'1369315139', noCacheHash:'1')}\"}</f:then><f:else>{a:1}</f:else></f:if>"
 />
