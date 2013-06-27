@@ -2,6 +2,7 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
+<f:debug>{_all}</f:debug>
 	<f:render partial="JavaScript" arguments="{_all}"/>
 	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
@@ -14,7 +15,6 @@
 				<div id="c-{document.id}-map" class="map"></div>
 				<script type="text/javascript">
 					var klosterID = '{document.id}';
-					var bistumsGrenzen = {};
 
 					function mapsReady () {
 						var mapOptions = {
@@ -43,9 +43,7 @@
 						var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139" noCacheHash="1"/>';
 						addNearby(map, queryURL);
 						</f:for>
-						<f:for each="{document.bistum}" as="bistum">
-						addBistum(map, {s:json(data: bistum)});
-						</f:for>
+						addBistumsgrenzen(map);
 
 						var NE = containingBounds.getNorthEast();
 						var SW = containingBounds.getSouthWest();
@@ -87,16 +85,18 @@
 						});
 					}
 
-					var addBistum = function (map, bistum) {
-						if (!bistumsGrenzen[bistum]) {
-							layerURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/' + bistum + '.kml';
-							var kmlLayer = new google.maps.KmlLayer({
-								'map': map,
-								'preserveViewport': true,
-								'url': layerURL
-							});
-							bistumsGrenzen[bistum] = kmlLayer;
-						}
+					var addBistumsgrenzen = function (map) {
+						var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/';
+						new google.maps.KmlLayer({
+							'map': map,
+							'preserveViewport': true,
+							'url': baseURL + 'Bistumsgrenzen.kml'
+						});
+						new google.maps.KmlLayer({
+							'map': map,
+							'preserveViewport': true,
+							'url': baseURL + 'Bistumssitze.kml'
+						});
 					}
 
 					var loadScript = function () {
