@@ -1,5 +1,4 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-
 <f:if condition="{settings.paging.detailPagePaging}">
 	<p class="queryAndPager">
 		<f:if condition="{arguments.underlyingQuery}">
@@ -14,9 +13,9 @@
 				</f:if>
 				<span class="position">
 					<f:translate key="result"/>
-					{arguments.underlyingQuery.position}
+					<span class="resultPosition">{arguments.underlyingQuery.position}</span>
 					<f:translate key="of"/>
-					{results.numfound}
+					<span class="resultTotalCount">{results.numfound}</span>
 				</span>
 			</span>
 		</f:if>
