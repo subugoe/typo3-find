@@ -6,6 +6,9 @@ plugin.tx_solrfrontend {
 			path = /solr/hans
 		}
 		queryFields {
+			0 {
+				query = ###term### AND -Satzart:Stamm*
+			}
 			10 {
 				extended = 1
 				id = title
@@ -35,7 +38,7 @@ plugin.tx_solrfrontend {
 
 		}
 		standardFields {
-			title = Gesamttitel
+			title = Titel_sort
 			snippet = Regest
 		}
 		facets {
@@ -44,8 +47,8 @@ plugin.tx_solrfrontend {
 				field = Satzart
 			}
 			20 {
-				id = lang
-				field = Sprache
+				id = person
+				field = Person_ID
 			}
 		}
 		highlight {
