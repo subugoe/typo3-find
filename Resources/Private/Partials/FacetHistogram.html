@@ -1,4 +1,7 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.js"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.selection.js"/>
 <div class="facetHistogram-container">
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, activeFacets:activeFacets)}">
 		<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">

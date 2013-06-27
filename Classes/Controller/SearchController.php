@@ -695,9 +695,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	/**
-	 * Creates and inserts <style> and <script> tags inside <head>.
-	 * Add files configured in TypoScript.
-	 * Also add jQuery flot library if we are using histograms.
+	 * Creates and inserts <style> tags inside <head>.
+	 * Add CSS files configured in TypoScript.
+	 * (JavaScript files are inserted in templates using the t3jquery View Helper.)
 	 */
 	protected function addResourcesToHead () {
 		$CSSFileNames = array();
@@ -715,27 +715,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$CSSTag->addAttribute('type', 'text/css');
 					$CSSTag->addAttribute('href', $CSSFileName);
 					$this->response->addAdditionalHeaderData($CSSTag->render());
-				}
-			}
-		}
-
-		$JSFileNames = array();
-		if ($this->settings['JSPaths']) {
-			$JSFileNames = $this->settings['JSPaths'];
-		}
-		if ($this->requiresFlot()) {
-			$JSFileNames[] = 'EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.js';
-			$JSFileNames[] = 'EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.selection.js';
-		}
-		if ($JSFileNames) {
-			foreach ($JSFileNames as $JSFileName) {
-				$JSFileName = $GLOBALS['TSFE']->tmpl->getFileName($JSFileName);
-				if ($JSFileName) {
-					$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
-					$scriptTag->addAttribute('type', 'text/javascript');
-					$scriptTag->addAttribute('src', $JSFileName);
-					$scriptTag->forceClosingTag(true);
-					$this->response->addAdditionalHeaderData($scriptTag->render());
 				}
 			}
 		}
