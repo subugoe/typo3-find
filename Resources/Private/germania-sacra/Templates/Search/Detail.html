@@ -2,7 +2,6 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-<f:debug>{_all}</f:debug>
 	<f:render partial="JavaScript" arguments="{_all}"/>
 	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
@@ -17,10 +16,11 @@
 					var klosterID = '{document.id}';
 
 					function mapsReady () {
+						google.maps.visualRefresh = true;
 						var mapOptions = {
 							'mapTypeId': google.maps.MapTypeId.ROADMAP,
 							'streetViewControl': false,
-							'scrollwheel': false
+							'scrollwheel': false,
 						};
 
 						var mapContainer = document.getElementById('c-' + klosterID + '-map');
