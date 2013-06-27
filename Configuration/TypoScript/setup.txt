@@ -79,9 +79,9 @@ plugin.tx_solrfrontend {
 			20 {
 				id = year
 				# field = year_facet
-				fetchMaximum = 1000
-				displayDefault = 1000
-				sortOrder = index
+				# fetchMaximum = 1000
+				# displayDefault = 1000
+				# sortOrder = index
 				# query = year:###term###
 			}
 		}
