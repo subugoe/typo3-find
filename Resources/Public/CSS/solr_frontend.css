@@ -296,11 +296,16 @@
 /* page browser single item view */
 
 .tx_solr_frontend .queryAndPager {
-	float: right;
+	margin: 1em 0 2em 0;
 }
 
 .tx_solr_frontend .query {
 	display: none;
+}
+
+.tx_solr_frontend .resultPager {
+	display: block;
+	float: right;
 }
 
 .tx_solr_frontend .pager .icon-right-dir:before,

@@ -1,4 +1,5 @@
 
+.icon-level-up:before { content: '\e800'; } /* '' */
 .icon-right-dir:before { content: '\2192'; } /* '→' */
 .icon-left-dir:before { content: '\2190'; } /* '←' */
 .icon-cancel:before { content: '\e801'; } /* '' */
