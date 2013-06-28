@@ -30,7 +30,7 @@ plugin.tx_solrfrontend {
 		sort {
 			1 {
 				id = default
-				sortCriteria = ort_sort asc
+				sortCriteria = ort_sort asc,von asc
 			}
 		}
 		standardFields {
