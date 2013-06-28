@@ -20,9 +20,11 @@
 			<label index="of">of</label>
 
 			<label index="Query">Query</label>
+			<label index="restricted to">restricted to</label>
 			<label index="result">result</label>
 			<label index="previous">previous</label>
 			<label index="next">next</label>
+			<label index="Return to results list">Return to results list</label>
 
 			<label index="Facets">Facets</label>
 			<label index="remove filter">remove filter</label>
@@ -44,9 +46,11 @@
 			<label index="of">of</label>
 
 			<label index="Query">Query</label>
+			<label index="restricted to">restricted to</label>
 			<label index="result">result</label>
 			<label index="previous">previous</label>
 			<label index="next">next</label>
+			<label index="Return to results list">Return to results list</label>
 
 			<label index="Facets">Facets</label>
 			<label index="remove filter">remove filter</label>
@@ -68,9 +72,11 @@
 			<label index="of">von</label>
 
 			<label index="Query">Abfrage</label>
+			<label index="restricted to">eingeschränkt auf</label>
 			<label index="result">Treffer</label>
 			<label index="previous">voriger Treffer</label>
 			<label index="next">nächster Treffer</label>
+			<label index="Return to results list">Zurück zur Ergebnisliste</label>
 
 			<label index="Facets">Facetten</label>
 			<label index="remove filter">Filter aufheben</label>
