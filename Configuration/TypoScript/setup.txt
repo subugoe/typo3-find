@@ -62,10 +62,10 @@ plugin.tx_solrfrontend {
 			}
 		}
 		sort {
-			# 1 {
-			#	field = name
-			#	ascending = 1
-			# }
+			#1 {
+			#	id = default
+			#	sort = year decs,name asc
+			#}
 		}
 		count = {$plugin.tx_solrfrontend.settings.count}
 		standardFields {

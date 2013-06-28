@@ -29,8 +29,8 @@ plugin.tx_solrfrontend {
 		}
 		sort {
 			1 {
-				field = ort_sort
-				ascending = 1
+				id = default
+				sortCriteria = ort_sort asc
 			}
 		}
 		standardFields {

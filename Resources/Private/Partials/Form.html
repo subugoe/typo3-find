@@ -29,6 +29,15 @@
 			</f:if>
 		</f:groupedFor>
 	</div>
-	
+
+	<f:if condition="{f:count(subject:sort.menu)} > 1">
+		<div class="sortOrder">
+			<label for="c{uid}-sortSelect">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.sort"/>
+			</label>
+			<f:form.select id="c{uid}-sortSelect" name="sort" options="{sort.menu}" value="{f:if(condition:arguments.sort, then:arguments:sort, else:sort.default)}"/>
+		</div>
+	</f:if>
+
 	<div class="clear"></div>
 </f:form>

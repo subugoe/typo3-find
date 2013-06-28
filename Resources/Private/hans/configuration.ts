@@ -32,10 +32,9 @@ plugin.tx_solrfrontend {
 		}
 		sort {
 			1 {
-				field = Titel_sort
-				ascending = 1
+				id = default
+				sortCriteria = Titel_sort asc
 			}
-
 		}
 		standardFields {
 			title = Titel_sort

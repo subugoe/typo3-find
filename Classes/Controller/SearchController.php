@@ -326,36 +326,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$this->view->assign('query', $queryParameters);
 		}
 
-		$this->addFacetFilters($query, $arguments);
-		$this->setSortOrder($query);
-		$this->setRange($query, $arguments);
 		$this->setFields($query, $arguments);
+		$this->setRange($query, $arguments);
+		$this->setSortOrder($query, $arguments);
+
 		$this->addHighlighting($query, $arguments);
-
-		// Configure facets.
-		// Copy the facet configuration to a separate array $facetConfiguration
-		// and enrich it with the default settings where they are missing
-		// (to avoid having to check settings in two places with Fluid templating’s
-		// weak logical abilities). Pass this array to the template as well.
-		// (Less redundant approaches like writing the information to $this->settings
-		// or trying to use $this->configurationManager->setConfiguration() to
-		// write it back did not work.)
-		$facetConfiguration = $this->settings['facets'];
-		if ($facetConfiguration) {
-			$facetSet = $query->getFacetSet();
-			foreach($facetConfiguration as $key => $facet) {
-				// start with defaults and overwrite with specific facet configuration
-				$facet = array_merge($this->settings['facetDefaults'], $facet);
-				$facetConfiguration[$key] = $facet;
-
-				$facetSet->createFacetField($facet['id'])
-							 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
-							 ->setMinCount($facet['fetchMinimum'])
-							 ->setLimit($facet['fetchMaximum'])
-							 ->setSort($facet['sortOrder']);
-			}
-		}
-		$this->view->assign('facets', $facetConfiguration);
+		$this->addFacetFilters($query, $arguments);
+		$this->addFacetQueries($query);
 
 		return $query;
 	}
@@ -478,6 +455,35 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+	
+	/**
+	 * Adds facet queries to $query from setup in TypoScript.
+	 * Provides the facet setup enriched with the default values when no configuration
+	 * is present in the »facets« template variable.
+	 * 
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 */
+	private function addFacetQueries ($query) {
+		$facetConfiguration = $this->settings['facets'];
+
+		if ($facetConfiguration) {
+			$facetSet = $query->getFacetSet();
+			foreach($facetConfiguration as $key => $facet) {
+				// start with defaults and overwrite with specific facet configuration
+				$facet = array_merge($this->settings['facetDefaults'], $facet);
+				$facetConfiguration[$key] = $facet;
+
+				$facetSet->createFacetField($facet['id'])
+							 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
+							 ->setMinCount($facet['fetchMinimum'])
+							 ->setLimit($facet['fetchMaximum'])
+							 ->setSort($facet['sortOrder']);
+			}
+		}
+		$this->view->assign('facets', $facetConfiguration);
+	}
+
+
 
 	/**
 	 * Adds filter queries configured in TypoScript to $query.
@@ -494,16 +500,99 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
+
 	/**
-	 * Sets up $query’s sort order from TypoScript settings.
+	 * Sets up $query’s sort order from URL arguments or the TypoScript default.
 	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 * @param array $arguments request arguments
 	 */
-	private function setSortOrder ($query) {
-		if (!empty($this->settings['sort'])) {
-			foreach ($this->settings['sort'] as $sortConfiguration) {
-				$sortOrder = $sortConfiguration['ascending'] ? $query::SORT_ASC : $query::SORT_DESC;
-				$query->addSort($sortConfiguration['field'], $sortOrder);
+	private function setSortOrder ($query, $arguments) {
+		$sortString = '';
+		if (!empty($arguments['sort'])) {
+			$sortString = $arguments['sort'];
+		}
+		else if (!empty($this->settings['sort'])) {
+			foreach ($this->settings['sort'] as $sortSetting) {
+				if ($sortSetting['id'] === 'default') {
+					$sortString = $sortSetting['sortCriteria'];
+					break;
+				}
+			}
+		}
+
+		$this->addSortStringForQuery($sortString, $query);
+
+		$this->addSortOrdersToTemplate();
+	}
+
+
+
+	/**
+	 * Provides sorting information in the template variable »sort«.
+	 *
+	 * For the key »menu« it contains an array with keys: sort criteria and
+	 * values: localised labels that is suitable for use in the f:form.select
+	 * View Helper’s options argument.
+	 * For the key »default« it contains the default sort order string.
+	 */
+	private function addSortOrdersToTemplate () {
+		$sortOptions = array('menu' => array());
+
+		if (is_array($this->settings['sort'])) {
+			ksort($this->settings['sort']);
+			foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
+				if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
+					$localisationKey = 'LLL:' . $this->settings['languageRootPath'] . 'locallang-form.xml:input.sort-' . $sortOption['id'];
+					$localisedLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $this->request->getControllerExtensionKey());
+					if (!$localisedLabel) {
+						$localisedLabel = $sortOption['id'];
+					}
+					$sortOptions['menu'][$sortOption['sortCriteria']] = $localisedLabel;
+
+					if ($sortOption['id'] === 'default') {
+						$sortOptions['default'] = $sortOption['sortCriteria'];
+					}
+				}
+				else {
+					$this->flashMessageContainer->add('solr_frontend: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', t3lib_FlashMessage::WARNING);
+				}
+			}
+		}
+
+		$this->view->assign('sort', $sortOptions);
+	}
+
+
+
+	/**
+	 * Checks that $sortString is well-formatted and adds the sort conidition
+	 * defined by it to $query.
+	 * Adds feedback about invalid sort string format to the page.
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $sortString
+	 * @param $query
+	 */
+	private function addSortStringForQuery ($sortString, $query) {
+		if (!empty($sortString)) {
+			$sortCriteria = explode(',', $sortString);
+			foreach ($sortCriteria as $sortCriterion) {
+				$sortCriterionParts = explode(' ', $sortCriterion);
+				if (count($sortCriterionParts) === 2) {
+					$sortDirection = $query::SORT_ASC;
+					if ($sortCriterionParts[1] === 'desc') {
+						$sortDirection = $query::SORT_DESC;
+					}
+					else if ($sortCriterionParts[1] !== 'asc') {
+						$this->flashMessageContainer->add('solr_frontend: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', t3lib_FlashMessage::WARNING);
+						continue;
+					}
+
+					$query->addSort($sortCriterionParts[0], $sortDirection);
+				}
+				else {
+					$this->flashMessageContainer->add('solr_frontend: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', t3lib_FlashMessage::WARNING);
+				}
 			}
 		}
 	}
@@ -740,6 +829,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$underlyingQuery['facet'] = $this->getActiveFacets($arguments);
 			if ($position !== NULL) {
 				$underlyingQuery['position'] = $position;
+			}
+			if ($arguments['sort']) {
+				$underlyingQuery['sort'] = $arguments['sort'];
 			}
 			$scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
 			$this->response->addAdditionalHeaderData($scriptTag->render());

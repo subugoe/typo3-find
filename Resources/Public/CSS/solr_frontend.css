@@ -122,6 +122,16 @@
 	display: block;
 }
 
+.tx_solr_frontend .sortOrder {
+	float: right;
+	margin-top: 5px;
+}
+
+.tx_solr_frontend .sortOrder select {
+	position: relative;
+	top: 2px;
+	margin-left: 3px;
+}
 
 
 /* result list */
