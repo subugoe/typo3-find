@@ -765,24 +765,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	}
 
 
-	/**
-	 * Returns whether or not the jQuery flot library is needed
-	 * by the histogram facet.
-	 *
-	 * @return Boolean
-	 */
-	protected function requiresFlot() {
-		$result = FALSE;
-		foreach ($this->settings['facets'] as $facetInfo) {
-			if ($facetInfo['type'] === 'histogram') {
-				$result = TRUE;
-				break;
-			}
-		}
-		return $result;
-	}
-
-
+	
 	/**
 	 * Creates and inserts <style> tags inside <head>.
 	 * Add CSS files configured in TypoScript.
