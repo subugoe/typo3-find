@@ -808,8 +808,11 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if ($this->settings['paging']['detailPagePaging']) {
 			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
 			$scriptTag->addAttribute('type', 'text/javascript');
+			
 			$underlyingQuery = array('q' => $query);
-			$underlyingQuery['facet'] = $this->getActiveFacets($arguments);
+			if (!empty($arguments['facet'])) {
+				$underlyingQuery['facet'] = $arguments['facet'];
+			}
 			if ($position !== NULL) {
 				$underlyingQuery['position'] = $position;
 			}
