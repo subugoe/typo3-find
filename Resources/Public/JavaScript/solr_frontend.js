@@ -23,6 +23,8 @@ var initialise = function () {
 			}
 		);
 
+		jQuery('a.extendedSearch', container).click(toggleExtendedSearch);
+
 		jQuery('.position .resultPosition', container).click(onClickRecordNumber);
 	});
 };
@@ -282,6 +284,37 @@ var detailViewWithPaging = function (element, position) {
 
 
 
+var toggleExtendedSearch = function () {
+	var jForm = jQuery('.searchForm', container);
+	var jThis = jQuery(this);
+
+	var parameterEscaped = escape(URLParameterPrefix + '[extended]');
+	var newLocation = location.href.replace(parameterEscaped, '').replace(/[&?]=[01]/, '');
+	var makeExtended = !jForm.hasClass('search-extended');
+	if (makeExtended) {
+		jThis.text(this.getAttribute('extendedstring'));
+		jQuery('.field-mode-extended', jForm).slideDown('fast');
+
+		newLocation += (newLocation.match(/\?/) ? '&' : '?') + parameterEscaped + '=1';
+	}
+	else {
+		jThis.text(this.getAttribute('simplestring'));
+		jQuery('.field-mode-extended', jForm).slideUp('fast');
+	}
+	jForm.toggleClass('search-simple').toggleClass('search-extended');
+	changeURL(newLocation);
+
+	return false;
+};
+
+
+var changeURL = function (newURL) {
+	if (history.pushState !== undefined) {
+		history.pushState(null, null, newURL);
+	}
+}
+
+
 var onClickRecordNumber = function (myEvent) {
 	
 };
@@ -293,7 +326,8 @@ initialise();
 return {
 	'showAllFacetsOfType': showAllFacetsOfType,
 	'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
-	'detailViewWithPaging': detailViewWithPaging
+	'detailViewWithPaging': detailViewWithPaging,
+	'toggleExtendedSearch': toggleExtendedSearch
 };
 
 })();

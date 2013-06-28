@@ -20,10 +20,10 @@
 			<f:if condition="{0:extended} == {0:1}">
 				<f:if condition="{extendedSearch}">
 					<f:then>
-						<f:link.action argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[extendedSearch]'}" addQueryString="TRUE" class="extendedSearch"><f:translate key="basic Search"/></f:link.action>
+						<f:link.action argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[extendedSearch]'}" addQueryString="TRUE" class="extendedSearch" additionalAttributes="{simpleString:'{f:translate(key:\"extended Search\")}', extendedString:'{f:translate(key:\"basic Search\")}'}"><f:translate key="basic Search"/></f:link.action>
 					</f:then>
 					<f:else>
-						<f:link.action arguments="{extendedSearch: 1}" addQueryString="TRUE" class="extendedSearch"><f:translate key="extended Search"/></f:link.action>
+						<f:link.action arguments="{extendedSearch: 1}" addQueryString="TRUE" class="extendedSearch" additionalAttributes="{simplestring:'{f:translate(key:\"extended Search\")}', extendedstring:'{f:translate(key:\"basic Search\")}'}"><f:translate key="extended Search"/></f:link.action>
 					</f:else>
 				</f:if>
 			</f:if>
