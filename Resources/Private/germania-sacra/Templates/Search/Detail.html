@@ -21,7 +21,7 @@
 						var mapOptions = {
 							'mapTypeId': google.maps.MapTypeId.ROADMAP,
 							'streetViewControl': false,
-							'scrollwheel': false,
+							'scrollwheel': false
 						};
 
 						var mapContainer = document.getElementById('c-' + klosterID + '-map');
@@ -92,11 +92,6 @@
 							'map': map,
 							'preserveViewport': true,
 							'url': baseURL + 'Bistumsgrenzen.kml'
-						});
-						new google.maps.KmlLayer({
-							'map': map,
-							'preserveViewport': true,
-							'url': baseURL + 'Bistumssitze.kml'
 						});
 					}
 
