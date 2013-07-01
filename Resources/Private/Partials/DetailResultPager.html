@@ -1,14 +1,14 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
 <f:if condition="{settings.paging.detailPagePaging}">
-	<p class="queryAndPager">
-		<span class="underlyingQuery">
-			<span class="backToResultList">
-				<f:link.action action="index" arguments="{q:arguments.underlyingQuery.q, sort:arguments.underlyingQuery.sort, count:arguments.underlyingQuery.count, facet:arguments.underlyingQuery.facet, page:'{s:pageNumberForResultNumber(resultNumber:arguments.underlyingQuery.position, resultsPerPage:settings.paging.perPage)}'}" section="c{uid}-result-{document.fields.id}" noCacheHash="1" class="icon-level-up">
-					<f:translate key="Return to results list"/>
-				</f:link.action>
-			</span>
+	<f:if condition="{arguments.underlyingQuery}">
+		<p class="queryAndPager">
+			<span class="underlyingQuery">
+				<span class="backToResultList">
+					<f:link.action action="index" arguments="{q:arguments.underlyingQuery.q, sort:arguments.underlyingQuery.sort, count:arguments.underlyingQuery.count, facet:arguments.underlyingQuery.facet, page:'{s:pageNumberForResultNumber(resultNumber:arguments.underlyingQuery.position, resultsPerPage:settings.paging.perPage)}'}" section="c{uid}-result-{document.fields.id}" noCacheHash="1" class="icon-level-up">
+						<f:translate key="Return to results list"/>
+					</f:link.action>
+				</span>
 
-			<f:if condition="{arguments.underlyingQuery}">
 				<span class="query">
 					<f:if condition="{arguments.underlyingQuery.q}">
 						<f:translate key="Query"/>
@@ -24,41 +24,37 @@
 						</f:for>
 					</f:if>
 				</span>
-			</f:if>
-		</span>
-
-		<span class="resultPager">
-			<f:if condition="{arguments.underlyingQuery}">
-				<f:if condition="{arguments.underlyingQuery.q}">
-					<span class="position">
-						<f:translate key="result"/>
-						<span class="resultPosition">{arguments.underlyingQuery.position}</span>
-						<f:translate key="of"/>
-						<span class="resultTotalCount">{results.numfound}</span>
-					</span>
-				</f:if>
-			</f:if>
-
-			<span class="pager">
-				<f:if condition="{document-previous}">
-					<f:then>
-						<f:link.action action="detail" arguments="{id: document-previous.fields.id}" noCacheHash="1" class="previous icon-left-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}">
-						</f:link.action>
-					</f:then>
-					<f:else>
-						<a class="icon-left-dir"></a>
-					</f:else>
-				</f:if>
-				<f:if condition="{document-next}">
-					<f:then>
-						<f:link.action action="detail" arguments="{id: document-next.fields.id}" noCacheHash="1" class="next icon-right-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}">
-						</f:link.action>
-					</f:then>
-					<f:else>
-						<a class="icon-right-dir"></a>
-					</f:else>
-				</f:if>
 			</span>
-		</span>
-	</p>
+
+			<span class="resultPager">
+				<span class="position">
+					<f:translate key="result"/>
+					<span class="resultPosition">{arguments.underlyingQuery.position}</span>
+					<f:translate key="of"/>
+					<span class="resultTotalCount">{results.numfound}</span>
+				</span>
+
+				<span class="pager">
+					<f:if condition="{document-previous}">
+						<f:then>
+							<f:link.action action="detail" arguments="{id: document-previous.fields.id}" noCacheHash="1" class="previous icon-left-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}">
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<a class="icon-left-dir"></a>
+						</f:else>
+					</f:if>
+					<f:if condition="{document-next}">
+						<f:then>
+							<f:link.action action="detail" arguments="{id: document-next.fields.id}" noCacheHash="1" class="next icon-right-dir" onclick="return solr_frontend.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}">
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<a class="icon-right-dir"></a>
+						</f:else>
+					</f:if>
+				</span>
+			</span>
+		</p>
+	</f:if>
 </f:if>
