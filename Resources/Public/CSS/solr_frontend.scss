@@ -1,0 +1,360 @@
+/* Default SCSS for solr_frontend. */
+
+.tx_solr_frontend {
+
+	.clear {
+		clear: both;
+		display: block;
+		overflow: hidden;
+		visibility: hidden;
+		width: 0;
+		height: 0;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	article.detail {
+		clear: both;
+	}
+
+	em.highlight {
+		font-style: normal;
+		font-weight: bold;
+		color: #f00;
+	}
+
+
+	/* search form */
+
+	form {
+		position: relative;
+		line-height: 150%;
+
+		.formFields {
+			float: left;
+		}
+
+		.fieldContainer {
+			float: left;
+			clear: left;
+
+
+			input {
+				display: block;
+				margin-left: 125px;
+			}
+		}
+		
+		
+		.field-default {
+			label {
+				display: none;
+			}
+
+			input {
+				display: block;
+				float: left;
+				width: 400px;
+				height: 30px;
+				margin: 0px 6px 2px 0px;
+				padding: 4px;
+				border-style: solid;
+				border-width: 1px;
+				border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
+				color: #333333;
+				background: #f3f5f9;
+				font-size: 175%;
+			}
+		}
+
+		label {
+			display: block;
+			float: left;
+			width: 110px;
+			text-align: right;
+		}
+
+		.controls {
+			float: left;
+			bottom: 0px;
+		}
+
+		.fieldType-search input:-moz-placeholder {
+			color: #999;
+		}
+
+		.submit {
+			display: block;
+			float: left;
+			height: 30px;
+			background: url(../button_shade_large.png) repeat-x scroll 0 100% #f3f6fb;
+			border-style: solid;
+			border-width: 1px;
+			border-color: #d4d4d4 #b4b4b4 #b4b4b4 #d4d4d4;
+			border-radius: 3px 3px 3px 3px;
+			border-right: 1px solid #b4b4b4;
+			color: #555555;
+			font-weight: bold;
+			line-height: 100%;
+			padding: 3px 12px;
+			margin-top: -1px;
+			text-align: center;
+			text-decoration: none;
+			text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+			text-transform: uppercase;
+		}
+
+		.submit:active {
+			background-image: url(../button_shade_large_click.png);
+			background-color: #e7e9ed;
+		}
+
+		a.extendedSearch {
+			line-height: 30px;
+			margin-left: 0.5em;
+		}
+
+		.field-mode-extended {
+			 display: none;
+		}
+
+		.search-extended .field-mode-extended {
+			display: block;
+		}
+
+		.sortOrder {
+			float: right;
+			margin-top: 5px;
+		
+			select {
+				position: relative;
+				top: 2px;
+				margin-left: 3px;
+			}
+		}
+	}
+
+
+	
+	/* result list */
+
+	.results {
+		clear: left;
+		padding-top: 2em;
+		
+		.resultList {
+			margin-right: 220px;
+			padding-left: 3em;
+
+			h1 {
+				margin: 0;
+				font-size: 133%;
+				line-height: 133%;
+			}
+		}
+	}
+
+
+
+	/* facets */
+
+	.facets {
+		float: right;
+		clear: right;
+		width: 200px;
+
+		article {
+			margin-bottom: 2em;
+		}
+
+		h1 {
+			margin: 0;
+			font-size: 100%;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		ol {
+			list-style-type: none;
+			margin: 1em 0 0 0;
+			padding-left: 0;
+			line-height: 150%;
+		}
+
+		.facetList li {
+			margin: 0;
+			padding-left: 1em;
+			text-indent: -1em;
+		}
+
+		a {
+			display: block;
+		}
+
+		.facetCount {
+			color: #666;
+			font-size: 80%;
+		}
+
+		.facetActive {
+			display: block;
+			background: #f00;
+			border-radius: 5px;
+			border: 1px solid #b00;
+			font-weight: bold;
+			text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+		}
+
+		.facetList .facetActive {
+			padding: 0;
+			text-indent: 0;
+			margin-bottom: 0.5em;
+		}
+
+		.facetHistogram .facetActive {
+			margin-bottom: 0.5em;
+		}
+
+		.facetActive {
+			a {
+				padding-left: 0.2em;
+				color: #fff;
+			}
+
+			a:before {
+				margin-right: 0.3em;
+				margin-left: 0.1em;
+			}
+		}
+		
+		.facetShowAll {
+			a {
+				font-style: italic;
+				color: #666;
+			}
+			
+			a:hover {
+				color: #000;
+			}
+		}
+		
+		.facetHistogram-container {
+			margin: 0.5em 0;
+		}
+
+		.histogram {
+			position: relative;
+			left: -13px;
+		}
+
+		.flot-x-axis .flot-tick-label:first-child {
+			left: 13px!important;
+		}
+	}
+
+	
+
+	/* page browser list view */
+
+	.tx-pagebrowse-pi1 {
+		margin-right: 220px;
+		text-align: center;
+
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		ol {
+			display: inline;
+			list-style-type: none;
+			
+			li {
+				display: inline;
+
+				a {
+					padding: 0.4em;
+				}			
+			}
+		}
+	
+		.tx-pagebrowse-current {
+			font-weight: bold;
+			color: #000;
+		}
+		
+		.resultCount {
+			margin-bottom: 2em;
+		}
+	}
+
+	
+	
+	/* result count */
+
+	.resultCount {
+		float: right;
+		width: 200px;
+		text-align: right;
+	}
+
+
+	
+	/* page browser single item view */
+
+	.queryAndPager {
+		margin: 1em 0 2em 0;
+		
+		.query {
+			display: none;
+		}
+
+		.resultPager {
+			display: block;
+			float: right;
+			
+			.pager {
+				color: #bbb;
+				
+				.icon-right-dir:before,
+				.icon-left-dir:before {
+					position:relative;
+					top: 1px;
+					width: auto;
+					padding: 0 4px;
+					font-size: 133%;
+				}
+
+				[class^="icon-"]:hover,
+				[class*=" icon-"]:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+
+	
+
+	/* field list on single item view */
+
+	dl {
+		margin: 0;
+	}
+
+	dt {
+		font-weight: bold;
+	}
+
+	dd {
+		margin: 0.2em 0 1em 2em;
+
+	}
+
+	dd ul {
+		margin: 0;
+	}
+
+}
