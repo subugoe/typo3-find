@@ -30,12 +30,21 @@
 		</f:groupedFor>
 	</div>
 
-	<f:if condition="{f:count(subject:sort.menu)} > 1">
+	<f:if condition="{f:count(subject:sortOptions.menu)} > 1">
 		<div class="sortOrder">
 			<label for="c{uid}-sortSelect">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.sort"/>
 			</label>
-			<f:form.select id="c{uid}-sortSelect" name="sort" options="{sort.menu}" value="{f:if(condition:arguments.sort, then:arguments:sort, else:sort.default)}"/>
+			<f:form.select id="c{uid}-sortSelect" name="sort" options="{sortOptions.menu}" value="{sortOptions.selected}"/>
+		</div>
+	</f:if>
+
+	<f:if condition="{f:count(subject:resultCountOptions.menu)} > 1">
+		<div class="resultCountPicker">
+			<label for="c{uid}-resultCountSelect">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.count"/>
+			</label>
+			<f:form.select id="c{uid}-resultCountSelect" name="count" options="{resultCountOptions.menu}" value="{resultCountOptions.selected}"/>
 		</div>
 	</f:if>
 

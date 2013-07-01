@@ -523,20 +523,23 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 		$this->addSortStringForQuery($sortString, $query);
 
-		$this->addSortOrdersToTemplate();
+		$this->addSortOrdersToTemplate($arguments);
 	}
 
 
 
 	/**
-	 * Provides sorting information in the template variable »sort«.
+	 * Provides sorting information in the template variable »sortOptions«.
 	 *
 	 * For the key »menu« it contains an array with keys: sort criteria and
 	 * values: localised labels that is suitable for use in the f:form.select
 	 * View Helper’s options argument.
 	 * For the key »default« it contains the default sort order string.
+	 * For the key »selected« it contains the selected sort order string.
+	 *
+ 	 * @param \Solarium\QueryType\Select\Query\Query $sortString
 	 */
-	private function addSortOrdersToTemplate () {
+	private function addSortOrdersToTemplate ($arguments) {
 		$sortOptions = array('menu' => array());
 
 		if (is_array($this->settings['sort'])) {
@@ -558,9 +561,16 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$this->flashMessageContainer->add('solr_frontend: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', t3lib_FlashMessage::WARNING);
 				}
 			}
+
+			if ($arguments['sort'] && array_key_exists($arguments['sort'], $sortOptions['menu'])) {
+				$sortOptions['selected'] = $arguments['sort'];
+			}
+			else {
+				$sortOptions['selected'] = $sortOptions['default'];
+			}
 		}
 
-		$this->view->assign('sort', $sortOptions);
+		$this->view->assign('sortOptions', $sortOptions);
 	}
 
 
@@ -595,6 +605,40 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 				}
 			}
 		}
+	}
+
+
+
+	/**
+	 * Provides result count information in the template variable »resultCountOptions«.
+	 *
+	 * For the key »menu« it contains an array with keys and values the result count
+	 * that is suitable for use in the f:form.select View Helper’s options argument.
+	 * For the key »default« it contains the default number of results.
+	 * For the key »selected« it contains the the selected number of results.
+	 *
+ 	 * @param \Solarium\QueryType\Select\Query\Query $sortString
+	 */
+	private function addResultCountOptionsToTemplate ($arguments) {
+		$resultCountOptions = array('menu' => array());
+
+		if (is_array($this->settings['paging']['menu'])) {
+			ksort($this->settings['paging']['menu']);
+			foreach ($this->settings['paging']['menu'] as $resultCount) {
+				$resultCountOptions['menu'][$resultCount] = $resultCount;
+			}
+
+			$resultCountOptions['default'] = $this->settings['paging']['perPage'];
+
+			if ($arguments['count'] && array_key_exists($arguments['count'], $resultCountOptions['menu'])) {
+				$resultCountOptions['selected'] = $arguments['count'];
+			}
+			else {
+				$resultCountOptions['selected'] = $resultCountOptions['default'];
+			}
+		}
+
+		$this->view->assign('resultCountOptions', $resultCountOptions);
 	}
 
 
@@ -652,6 +696,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	private function setRange ($query, $arguments) {
 		$query->setStart($this->getOffset($arguments));
 		$query->setRows($this->getCount($arguments));
+		$this->addResultCountOptionsToTemplate($arguments);
 	}
 
 
@@ -730,7 +775,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			$offset =  intval($arguments['start']);
 		}
 		else if (array_key_exists('page', $arguments)) {
-			$offset = intval($arguments['page']) * $this->settings['paging']['perPage'];
+			$offset = intval($arguments['page']) * $this->getCount();
 		}
 
 		$this->view->assign('offset', $offset);
@@ -742,6 +787,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Returns the number of results per page using the first of:
 	 * * query parameter »count«
 	 * * TypoScript setting »paging.perPage«
+	 * limited by the setting »paging.maximumPerPage«
 	 *
 	 * @param array $arguments overrides $this->requestArguments if set
 	 * @return int
@@ -815,6 +861,9 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 			}
 			if ($position !== NULL) {
 				$underlyingQuery['position'] = $position;
+			}
+			if ($arguments['count']) {
+				$underlyingQuery['count'] = $arguments['count'];
 			}
 			if ($arguments['sort']) {
 				$underlyingQuery['sort'] = $arguments['sort'];

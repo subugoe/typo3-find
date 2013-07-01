@@ -106,11 +106,14 @@
 .tx_solr_frontend form .search-extended .field-mode-extended {
   display: block;
 }
-.tx_solr_frontend form .sortOrder {
+.tx_solr_frontend form .sortOrder, .tx_solr_frontend form .resultCountPicker {
   float: right;
-  margin-top: 5px;
+  margin: 5px 0 0 0.5em;
 }
-.tx_solr_frontend form .sortOrder select {
+.tx_solr_frontend form .sortOrder label, .tx_solr_frontend form .resultCountPicker label {
+  width: auto;
+}
+.tx_solr_frontend form .sortOrder select, .tx_solr_frontend form .resultCountPicker select {
   position: relative;
   top: 2px;
   margin-left: 3px;

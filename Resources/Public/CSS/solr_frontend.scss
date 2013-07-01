@@ -124,10 +124,14 @@
 			display: block;
 		}
 
-		.sortOrder {
+		.sortOrder, .resultCountPicker {
 			float: right;
-			margin-top: 5px;
+			margin: 5px 0 0 0.5em;
 		
+			label {
+				width: auto;
+			}
+			
 			select {
 				position: relative;
 				top: 2px;

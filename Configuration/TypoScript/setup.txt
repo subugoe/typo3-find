@@ -104,6 +104,12 @@ plugin.tx_solrfrontend {
 		}
 		paging {
 			perPage = 20
+			menu {
+			#	1 = 10
+			#	2 = 20
+			#	3 = 50
+			#	4 = 100
+			}
 			maximumPerPage = 1000
 			detailPagePaging = 1
 		}
