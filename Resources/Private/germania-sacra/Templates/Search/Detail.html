@@ -1,4 +1,6 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+
 <f:layout name="Default"/>
 
 <f:section name="main">
@@ -11,96 +13,30 @@
 			<aside>
 				<h2>Karte</h2>
 				<div id="c-{document.id}-map" class="map"></div>
+				<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Private/germania-sacra/germania-sacra.js">
+					var ID = {s:json(data:document.id)};
+					var standorte = [];
+					var koordinaten, titel, queryURL, institutionengenau;
+					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
+						koordinaten = {s:json(data:koordinaten)};
+						titel = {s:json(data:document.kloster)};
+						queryURL = "<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139" noCacheHash="1"/>";
+						institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
+						standorte.push({
+							koordinaten: koordinaten,
+							titel: titel,
+							queryURL: queryURL,
+							institutionengenau: institutionengenau
+						});
+					</f:for>
+
+					germaniaSacra.initialise({
+						ID: ID,
+						standorte: standorte
+					});
+				</t3jquery:addJQueryAndScript>
 				<script type="text/javascript">
-					var klosterID = '{document.id}';
 
-					function mapsReady () {
-						google.maps.visualRefresh = true;
-						var mapOptions = {
-							'mapTypeId': google.maps.MapTypeId.ROADMAP,
-							'streetViewControl': false,
-							'scrollwheel': false
-						};
-
-						var mapContainer = document.getElementById('c-' + klosterID + '-map');
-						var map = new google.maps.Map(mapContainer, mapOptions);
-						var containingBounds = new google.maps.LatLngBounds();
-						var point;
-						var title;
-						var institutionengenau = false;
-						<f:for each="{document.koordinaten}" as="koordinaten" key="index">
-						point = new google.maps.LatLng({koordinaten});
-						title = <s:json data="{document.kloster}"/>;
-						new google.maps.Marker({
-							'map': map,
-							'position': point,
-							'title': title,
-							'zIndex': 100
-						});
-						containingBounds.extend(point);
-						institutionengenau |= <s:json data="{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}"/>;
-						var queryURL = '<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139" noCacheHash="1"/>';
-						addNearby(map, queryURL);
-						</f:for>
-						addBistumsgrenzen(map);
-
-						var NE = containingBounds.getNorthEast();
-						var SW = containingBounds.getSouthWest();
-						var center = containingBounds.getCenter();
-						var width = Math.abs(NE.lng() - SW.lng());
-						var minimumWidth = 0.01 * (institutionengenau ? 1 : 10);
-						if (width < minimumWidth) {
-							containingBounds = new google.maps.LatLngBounds(
-								new google.maps.LatLng(SW.lat(), center.lng() - minimumWidth/2),
-								new google.maps.LatLng(NE.lat(), center.lng() + minimumWidth/2)
-							);
-						}
-						map.fitBounds(containingBounds);
-					}
-
-					var addNearby = function (map, queryURL) {
-						jQuery.getJSON(queryURL, function (data) {
-							var results = data.response.docs;
-							for (var docIndex in results) {
-								var result = results[docIndex];
-								if (result.id !== klosterID) {
-									var points = result.koordinaten;
-									for (var pointIndex in points) {
-										var coordinateStrings = points[pointIndex].split(',');
-										var lat = parseFloat(coordinateStrings[0]);
-										var long = parseFloat(coordinateStrings[1]);
-										var point = new google.maps.LatLng(lat,long);
-										var title = result.kloster;
-										var marker = new google.maps.Marker({
-											'map': map,
-											'position': point,
-											'title': title,
-											'icon': 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png',
-											'zIndex': 50
-										});
-									}
-								}
-							}
-						});
-					}
-
-					var addBistumsgrenzen = function (map) {
-						var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/';
-						new google.maps.KmlLayer({
-							'map': map,
-							'preserveViewport': true,
-							'url': baseURL + 'Bistumsgrenzen.kml'
-						});
-					}
-
-					var loadScript = function () {
-						var script = document.createElement('script');
-						script.type = 'text/javascript';
-						script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=mapsReady';
-						document.body.appendChild(script);
-					}
-
-					jQuery(loadScript);
 				</script>
 			</aside>
 		</f:if>
