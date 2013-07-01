@@ -41,6 +41,7 @@ plugin.tx_solrfrontend {
 			10 {
 				id = orden
 				field = orden_facet
+				autocomplete = 1
 				query = {!join from=kloster_id to=id}(orden_facet:"###term###" AND typ:standort-orden)
 			}
 			20 {
@@ -55,6 +56,7 @@ plugin.tx_solrfrontend {
 			30 {
 				id = bistum
 				field = bistum_facet
+				autocomplete = 1
 				query = {!join from=kloster_id to=id}(bistum_facet:"###term###" AND typ:standort-orden)
 			}
 			40 {
