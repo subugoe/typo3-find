@@ -128,6 +128,11 @@
   font-size: 133%;
   line-height: 133%;
 }
+.tx_solr_frontend .results .resultList li:target {
+  background: #eef;
+  border-radius: 7px;
+  transition: background .5s ease-in-out;
+}
 .tx_solr_frontend .facets {
   float: right;
   clear: right;
