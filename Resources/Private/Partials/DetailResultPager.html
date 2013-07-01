@@ -3,7 +3,7 @@
 	<p class="queryAndPager">
 		<span class="underlyingQuery">
 			<span class="backToResultList">
-				<f:link.action action="index" arguments="{q:arguments.underlyingQuery.q, sort:arguments.underlyingQuery.sort, facet:arguments.underlyingQuery.facet}" noCacheHash="1" class="icon-level-up">
+				<f:link.action action="index" arguments="{q:arguments.underlyingQuery.q, sort:arguments.underlyingQuery.sort, facet:arguments.underlyingQuery.facet, page:'{s:pageNumberForResultNumber(resultNumber:arguments.underlyingQuery.position, resultsPerPage:settings.paging.perPage)}'}" noCacheHash="1" class="icon-level-up">
 					<f:translate key="Return to results list"/>
 				</f:link.action>
 			</span>
