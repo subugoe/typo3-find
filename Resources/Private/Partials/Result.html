@@ -1,5 +1,5 @@
 {namespace s=Tx_SolrFrontend_ViewHelpers}
-<li>
+<li id="c{uid}-result-{document.id}">
 	<article>
 		<h1>
 			<f:link.action action="detail" arguments="{id:document.id}" noCacheHash="1" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return solr_frontend.detailViewWithPaging(this);')}">
