@@ -190,11 +190,19 @@
 			text-transform: uppercase;
 		}
 
+		.facetSearch {
+			margin: 1em 0 0 0;
+		}
+		
 		ol {
 			list-style-type: none;
 			margin: 1em 0 0 0;
 			padding-left: 0;
 			line-height: 150%;
+		}
+		
+		ol.autocomplete {
+			margin: 0.5em 0 0 0;
 		}
 
 		.facetList li {
@@ -265,6 +273,19 @@
 
 		.flot-x-axis .flot-tick-label:first-child {
 			left: 13px!important;
+		}
+		
+		.facetSearch {
+			width: 95%;
+		}
+		
+		.autocompleteContainer {
+			font-size: 75%;
+			
+			li a {
+				padding-left: 1em;
+				text-indent: -1em;
+			}
 		}
 	}
 

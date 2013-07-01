@@ -14,8 +14,7 @@
 				<f:then>hidden</f:then>
 			</f:if>
 		</f:else>
-	</f:if>
-'>
+	</f:if>' value="{facetTerm}" label="{f:translate(key:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}', default:facetTerm)}" count="{itemCount}">
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
 		<f:then>
 			<f:link.action

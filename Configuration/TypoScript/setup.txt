@@ -75,6 +75,7 @@ plugin.tx_solrfrontend {
 		facets {
 			#10 {
 			#	id = type
+			#	autocomplete = 0
 			#}
 			#20 {
 			#	id = year

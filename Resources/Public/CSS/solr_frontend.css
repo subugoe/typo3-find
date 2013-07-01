@@ -153,11 +153,17 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+.tx_solr_frontend .facets .facetSearch {
+  margin: 1em 0 0 0;
+}
 .tx_solr_frontend .facets ol {
   list-style-type: none;
   margin: 1em 0 0 0;
   padding-left: 0;
   line-height: 150%;
+}
+.tx_solr_frontend .facets ol.autocomplete {
+  margin: 0.5em 0 0 0;
 }
 .tx_solr_frontend .facets .facetList li {
   margin: 0;
@@ -211,6 +217,16 @@
 }
 .tx_solr_frontend .facets .flot-x-axis .flot-tick-label:first-child {
   left: 13px!important;
+}
+.tx_solr_frontend .facets .facetSearch {
+  width: 95%;
+}
+.tx_solr_frontend .facets .autocompleteContainer {
+  font-size: 75%;
+}
+.tx_solr_frontend .facets .autocompleteContainer li a {
+  padding-left: 1em;
+  text-indent: -1em;
 }
 .tx_solr_frontend .tx-pagebrowse-pi1 {
   margin-right: 220px;

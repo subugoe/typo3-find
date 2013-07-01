@@ -8,9 +8,9 @@ var initialise = function () {
 	jQuery(document).ready(function() {
 		container = jQuery('.tx_solr_frontend');
 
-		// Set up jQuery UI Autocomplete for inputs with the autocompleteURL attribute.
-		jQuery('.fieldContainer input[autocompleteURL!=""]', container).autocomplete(
-			{
+		if (jQuery.ui && jQuery.ui.autocomplete) {
+			// Set up jQuery UI Autocomplete search fields with the autocompleteURL attribute.
+			jQuery('.fieldContainer input[autocompleteURL!=""]', container).autocomplete({
 				source: function(request, returnSuggestions) {
 					var autocompleteURL = this.element.attr('autocompleteURL');
 					if (autocompleteURL) {
@@ -20,12 +20,32 @@ var initialise = function () {
 						});
 					}
 				}
-			}
-		);
+			});
+
+			// Set up jQuery UI Autocomplete for facet lists with a .facetSearch input.
+			jQuery('input.facetSearch', container).each( function () {
+				var jArticle = jQuery(this).parents('article');
+				var jLIs = jQuery('li', jArticle);
+				var menuItems = [];
+				jLIs.each( function () {
+					menuItems.push({
+						value: this.getAttribute('value'),
+						label: this.getAttribute('label') + ' (' + this.getAttribute('count') + ')'
+					});
+				});
+				var facetAutocomplete = jQuery(this).autocomplete({
+					source: menuItems,
+					appendTo: jQuery('.autocompleteContainer', jArticle),
+					select: facetAutocompleteSelect,
+					delay: 100
+				});
+			});
+		}
 
 		jQuery('a.extendedSearch', container).click(toggleExtendedSearch);
 
 		jQuery('.position .resultPosition', container).click(onClickRecordNumber);
+
 	});
 };
 
@@ -34,6 +54,22 @@ var initialise = function () {
 // Localisation function. Currently not implemented.
 var localise = function (term) {
 	return term;
+};
+
+
+var facetAutocompleteOpen = function (event, ui) {
+	console.log(event);
+};
+
+
+var facetAutocompleteSelect = function (event, ui) {
+	console.log(event);
+	var term = ui.item.value;
+	var jArticle = jQuery(this).parents('article');
+	var jLI = jQuery("li[value='" + term + "']");
+	if (jLI.length === 1) {
+		jQuery('a', jLI)[0].click();
+	}
 };
 
 
@@ -312,7 +348,7 @@ var changeURL = function (newURL) {
 	if (history.pushState !== undefined) {
 		history.pushState(null, null, newURL);
 	}
-}
+};
 
 
 var onClickRecordNumber = function (myEvent) {

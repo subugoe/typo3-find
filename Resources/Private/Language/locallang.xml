@@ -19,6 +19,8 @@
 			<label index="results">results</label>
 			<label index="of">of</label>
 
+			<label index="Filter by %s">Filter by %s</label>
+
 			<label index="Query">Query</label>
 			<label index="restricted to">restricted to</label>
 			<label index="result">result</label>
@@ -45,6 +47,8 @@
 			<label index="results">results</label>
 			<label index="of">of</label>
 
+			<label index="Filter by %s">Filter by %s</label>
+
 			<label index="Query">Query</label>
 			<label index="restricted to">restricted to</label>
 			<label index="result">result</label>
@@ -70,6 +74,8 @@
 			<label index="1 result">1 Treffer</label>
 			<label index="results">Treffer</label>
 			<label index="of">von</label>
+
+			<label index="Filter by %s">Nach %s filtern</label>
 
 			<label index="Query">Abfrage</label>
 			<label index="restricted to">eingeschränkt auf</label>
