@@ -7,8 +7,6 @@
 	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
-		<h1><s:highlightField field="kloster" document="{document}" results="{results}"/></h1>
-
 		<f:if condition="{document.koordinaten}">
 			<aside>
 				<h2>Karte</h2>
@@ -106,6 +104,10 @@
 				</script>
 			</aside>
 		</f:if>
+
+		<h1>
+			<s:highlightField field="kloster" document="{document}" results="{results}"/>
+		</h1>
 
 		<div class="main">
 			<f:if condition="{document.patrozinium}">
