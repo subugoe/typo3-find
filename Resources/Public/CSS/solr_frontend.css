@@ -122,16 +122,19 @@
   clear: left;
   padding-top: 2em;
 }
-.tx_solr_frontend .results .resultList {
-  margin-right: 220px;
+.tx_solr_frontend .results .navigation {
+  margin-bottom: 2em;
+}
+.tx_solr_frontend .results ol.resultList {
+  margin: 0 220px 0 0;
   padding-left: 3em;
 }
-.tx_solr_frontend .results .resultList h1 {
+.tx_solr_frontend .results ol.resultList h1 {
   margin: 0;
   font-size: 133%;
   line-height: 133%;
 }
-.tx_solr_frontend .results .resultList li:target {
+.tx_solr_frontend .results ol.resultList li:target {
   background: #eef;
   border-radius: 7px;
   transition: background .5s ease-in-out;
@@ -263,6 +266,9 @@
 .tx_solr_frontend .queryAndPager .resultPager .pager [class^="icon-"]:hover,
 .tx_solr_frontend .queryAndPager .resultPager .pager [class*=" icon-"]:hover {
   text-decoration: none;
+}
+.tx_solr_frontend .detail h1 {
+  margin-bottom: 1em;
 }
 .tx_solr_frontend dl {
   margin: 0;

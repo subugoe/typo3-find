@@ -148,8 +148,12 @@
 		clear: left;
 		padding-top: 2em;
 		
-		.resultList {
-			margin-right: 220px;
+		.navigation {
+			margin-bottom: 2em;
+		}
+		
+		ol.resultList {
+			margin: 0 220px 0 0;
 			padding-left: 3em;
 
 			h1 {
@@ -350,6 +354,10 @@
 
 	/* field list on single item view */
 
+	.detail h1 {
+		margin-bottom: 1em;
+	}
+	
 	dl {
 		margin: 0;
 	}
