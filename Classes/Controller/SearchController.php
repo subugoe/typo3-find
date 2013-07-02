@@ -260,6 +260,13 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 */
 	private function queryComponentsForQueryParameters ($queryParameters) {
 		$queryComponents = array();
+
+		// Explicitly fill in default query if the user query is blank
+		// so we can apply the query template to this.
+		if (count($queryParameters) === 0) {
+			$queryParameters['default'] = '*:*';
+		}
+
 		$queryFields = $this->settings['queryFields'];
 		$queryFields[] = array('id' => 'raw', 'query' => self::placeholder);
 		foreach ($queryFields as $fieldInfo) {
@@ -308,21 +315,15 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$query = $this->createQuery($arguments);
 
 		// Build query string.
-		$queryString = '';
+		$queryParameters = array();
 		if (array_key_exists('q', $arguments)) {
 			$queryParameters = $arguments['q'];
-
-			$queryComponents = array();
-			if ($queryParameters) {
-				$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
-				if ($queryComponents) {
-					$queryString = implode(' ' . $query::QUERY_OPERATOR_AND . ' ', $queryComponents);
-					$query->setQuery($queryString);
-				}
-			}
-			
-			$this->view->assign('query', $queryParameters);
 		}
+		$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
+		$queryString = implode(' ' . $query::QUERY_OPERATOR_AND . ' ', $queryComponents);
+		$query->setQuery($queryString);
+		$this->view->assign('query', $queryParameters);
+		$this->view->assign('queryString', $queryString);
 
 		$this->setFields($query, $arguments);
 		$this->setRange($query, $arguments);
