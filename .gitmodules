@@ -1,3 +1,6 @@
 [submodule "Resources/Public/JavaScript/flot"]
 	path = Resources/Public/JavaScript/flot
 	url = git://github.com/flot/flot.git
+[submodule "Resources/Public/JavaScript/jquery.chosen"]
+	path = Resources/Public/JavaScript/jquery.chosen
+	url = git@github.com:harvesthq/chosen.git
