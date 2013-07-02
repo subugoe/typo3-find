@@ -22,23 +22,9 @@ var initialise = function () {
 				}
 			});
 
-			// Set up jQuery UI Autocomplete for facet lists with a .facetSearch input.
-			jQuery('input.facetSearch', container).each( function () {
-				var jArticle = jQuery(this).parents('article');
-				var jLIs = jQuery('li', jArticle);
-				var menuItems = [];
-				jLIs.each( function () {
-					menuItems.push({
-						value: this.getAttribute('value'),
-						label: this.getAttribute('label') + ' (' + this.getAttribute('count') + ')'
-					});
-				});
-				var facetAutocomplete = jQuery(this).autocomplete({
-					source: menuItems,
-					appendTo: jQuery('.autocompleteContainer', jArticle),
-					select: facetAutocompleteSelect,
-					delay: 100
-				});
+			// Set up jQuery chosen for facet lists with a .facetSearch input.
+			jQuery('.facetSearch', container).each( function () {
+				jQuery(this).chosen({width: "100%;"}).bind('change', facetChosenSelect);
 			});
 		}
 
@@ -57,14 +43,18 @@ var localise = function (term) {
 };
 
 
-var facetAutocompleteOpen = function (event, ui) {
-	console.log(event);
-};
 
-
-var facetAutocompleteSelect = function (event, ui) {
+/**
+ * Handles selection in jquery.chosen menu for facets:
+ * Get link of the selected facet and follow it.
+ *
+ * @param {Event} event
+ * @param {object} data
+ * @returns {undefined}
+ */
+var facetChosenSelect = function (event, data) {
 	console.log(event);
-	var term = ui.item.value;
+	var term = data.selected;
 	var jArticle = jQuery(this).parents('article');
 	var jLI = jQuery("li[value='" + term + "']");
 	if (jLI.length === 1) {
@@ -77,7 +67,7 @@ var facetAutocompleteSelect = function (event, ui) {
 /**
  * Slides in the hidden items of a facet.
  *
- * @param {type} myEvent click event
+ * @param {Event} myEvent click event
  * @returns {Boolean} false
  */
 var showAllFacetsOfType = function (myEvent) {

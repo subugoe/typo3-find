@@ -182,16 +182,14 @@
   background: #f00;
   border-radius: 5px;
   border: 1px solid #b00;
+  line-height: 150%;
   font-weight: bold;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
 .tx_solr_frontend .facets .facetList .facetActive {
   padding: 0;
   text-indent: 0;
-  margin-bottom: 0.5em;
-}
-.tx_solr_frontend .facets .facetHistogram .facetActive {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.25em;
 }
 .tx_solr_frontend .facets .facetActive a {
   padding-left: 0.2em;
@@ -208,8 +206,8 @@
 .tx_solr_frontend .facets .facetShowAll a:hover {
   color: #000;
 }
-.tx_solr_frontend .facets .facetHistogram-container {
-  margin: 0.5em 0;
+.tx_solr_frontend .facets .facetHistogram-container .facetActive {
+  margin-bottom: 0.5em;
 }
 .tx_solr_frontend .facets .histogram {
   position: relative;
@@ -217,16 +215,6 @@
 }
 .tx_solr_frontend .facets .flot-x-axis .flot-tick-label:first-child {
   left: 13px!important;
-}
-.tx_solr_frontend .facets .facetSearch {
-  width: 95%;
-}
-.tx_solr_frontend .facets .autocompleteContainer {
-  font-size: 75%;
-}
-.tx_solr_frontend .facets .autocompleteContainer li a {
-  padding-left: 1em;
-  text-indent: -1em;
 }
 .tx_solr_frontend .tx-pagebrowse-pi1 {
   margin-right: 220px;

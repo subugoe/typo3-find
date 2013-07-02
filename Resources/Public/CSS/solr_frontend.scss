@@ -225,6 +225,7 @@
 			background: #f00;
 			border-radius: 5px;
 			border: 1px solid #b00;
+			line-height: 150%;
 			font-weight: bold;
 			text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 		}
@@ -232,11 +233,7 @@
 		.facetList .facetActive {
 			padding: 0;
 			text-indent: 0;
-			margin-bottom: 0.5em;
-		}
-
-		.facetHistogram .facetActive {
-			margin-bottom: 0.5em;
+			margin-bottom: 0.25em;
 		}
 
 		.facetActive {
@@ -261,9 +258,9 @@
 				color: #000;
 			}
 		}
-		
-		.facetHistogram-container {
-			margin: 0.5em 0;
+
+		.facetHistogram-container .facetActive {
+			margin-bottom: 0.5em;
 		}
 
 		.histogram {
@@ -273,19 +270,6 @@
 
 		.flot-x-axis .flot-tick-label:first-child {
 			left: 13px!important;
-		}
-		
-		.facetSearch {
-			width: 95%;
-		}
-		
-		.autocompleteContainer {
-			font-size: 75%;
-			
-			li a {
-				padding-left: 1em;
-				text-indent: -1em;
-			}
 		}
 	}
 
