@@ -11,17 +11,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/basdenooijer/solarium.git",
-                "reference": "6dbfced832c763b97c55ccf3012c51df269eb630"
+                "reference": "c3791415b3bfc56f66949ec9432e42547030d774"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/basdenooijer/solarium/zipball/6dbfced832c763b97c55ccf3012c51df269eb630",
-                "reference": "6dbfced832c763b97c55ccf3012c51df269eb630",
+                "url": "https://api.github.com/repos/basdenooijer/solarium/zipball/c3791415b3bfc56f66949ec9432e42547030d774",
+                "reference": "c3791415b3bfc56f66949ec9432e42547030d774",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/event-dispatcher": ">=2.1.0,<2.3-dev"
+                "symfony/event-dispatcher": ">=2.1,<3.0"
             },
             "type": "library",
             "autoload": {
@@ -46,21 +46,21 @@
                 "search",
                 "solr"
             ],
-            "time": "2013-04-22 13:46:10"
+            "time": "2013-06-05 05:38:44"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.2.1",
+            "version": "v2.3.1",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "v2.2.1"
+                "reference": "v2.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.1",
-                "reference": "v2.2.1",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.3.1",
+                "reference": "v2.3.1",
                 "shasum": ""
             },
             "require": {
@@ -70,13 +70,13 @@
                 "symfony/dependency-injection": ">=2.0,<3.0"
             },
             "suggest": {
-                "symfony/dependency-injection": "2.2.*",
-                "symfony/http-kernel": "2.2.*"
+                "symfony/dependency-injection": "",
+                "symfony/http-kernel": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -100,7 +100,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-02-11 11:26:43"
+            "time": "2013-05-13 14:36:40"
         }
     ],
     "packages-dev": [

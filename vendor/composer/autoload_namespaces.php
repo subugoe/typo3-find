@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Symfony\\Component\\EventDispatcher\\' => $vendorDir . '/symfony/event-dispatcher',
-    'Solarium\\' => $vendorDir . '/solarium/solarium/library',
+    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
+    'Solarium\\' => array($vendorDir . '/solarium/solarium/library'),
 );
