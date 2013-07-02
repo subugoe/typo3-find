@@ -37,7 +37,7 @@ plugin.tx_solrfrontend {
 			}
 		}
 		standardFields {
-			title = Titel_sort
+			title = Titel_disp
 			snippet = Regest
 		}
 		facets {

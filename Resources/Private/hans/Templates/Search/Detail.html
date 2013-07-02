@@ -9,6 +9,9 @@
 	<f:render partial="DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
+
+		<h1><s:highlightField field="Titel_disp" document="{document}" results="{results}" index="0"/></h1>
+		
 		<section class="person">
 			<s:transpose name="personen" arrays="{
 				name: \"{s:highlightField(field:'Person_Name', document:document, results:results)}\",
@@ -32,5 +35,49 @@
 				</f:for>
 			</s:transpose>
 		</section>
+
+		<f:if condition="{document.Datum}">
+			<section class="fussnoten">
+				<h2>Datum</h2>
+				<f:render partial="FieldList" arguments="{field:'Datum', document:document, results:results}"/>
+			</section>
+		</f:if>
+		
+		<f:if condition="{document.Ort_und_Datum}">
+			<section class="fussnoten">
+				<h2>Ort und Datum</h2>
+				<f:render partial="FieldList" arguments="{field:'Ort_und_Datum', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Umfang}">
+			<section class="fussnoten">
+				<h2>Umfang</h2>
+				<f:render partial="FieldList" arguments="{field:'Umfang', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Fussnoten}">
+			<section class="fussnoten">
+				<h2>Fußnoten</h2>
+				<f:render partial="FieldList" arguments="{field:'Fussnoten', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Fussnoten}">
+			<section class="fussnoten">
+				<h2>Fußnoten</h2>
+				<f:render partial="FieldList" arguments="{field:'Fussnoten', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Signatur}">
+			<section class="signatur">
+				<h2>Signatur</h2>
+				<f:render partial="FieldList" arguments="{field:'Signatur', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+
 	</article>
 </f:section>
