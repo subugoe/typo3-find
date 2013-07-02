@@ -113,7 +113,7 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	 * @return string
 	 */
 	private function highlightSingleField ($fieldString, $highlightInfo){
-		$result = $fieldString;
+		$result = htmlspecialchars($fieldString);
 
 		foreach ($highlightInfo as $highlightItem) {
 			$highlightItemStripped = str_replace(array('\ueeee', '\ueeef'), array('', ''), $highlightItem);
@@ -121,7 +121,7 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 				// HTML escape the text here (and use f:format.raw in the template to avoid
 				// double escaping the HTML tags.
 				$escapedContent = htmlspecialchars($highlightItem);
-
+				
 				$highlightItemMarkedUp = str_replace(array('\ueeee', '\ueeef'),
 											array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
 											$escapedContent);
