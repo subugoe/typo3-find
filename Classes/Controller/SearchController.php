@@ -822,7 +822,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		if ($this->settings['CSSPaths']) {
 			$CSSFileNames = $this->settings['CSSPaths'];
 		}
-		$CSSFileNames[] = 'EXT:solr_frontend/Resources/Public/CSS/jquery-ui.css';
 
 		if ($CSSFileNames) {
 			foreach ($CSSFileNames as $CSSFileName) {
