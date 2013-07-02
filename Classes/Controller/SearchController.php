@@ -57,8 +57,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Initialisation and setup.
 	 */
 	public function initializeAction() {
-		$this->addResourcesToHead();
-		
 		$configuration = array(
 			'endpoint' => array(
 				'localhost' => array(
@@ -812,32 +810,6 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 
 
 	
-	/**
-	 * Creates and inserts <style> tags inside <head>.
-	 * Add CSS files configured in TypoScript.
-	 * (JavaScript files are inserted in templates using the t3jquery View Helper.)
-	 */
-	protected function addResourcesToHead () {
-		$CSSFileNames = array();
-		if ($this->settings['CSSPaths']) {
-			$CSSFileNames = $this->settings['CSSPaths'];
-		}
-
-		if ($CSSFileNames) {
-			foreach ($CSSFileNames as $CSSFileName) {
-				$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($CSSFileName);
-				if ($CSSFileName) {
-					$CSSTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('link');
-					$CSSTag->addAttribute('rel', 'stylesheet');
-					$CSSTag->addAttribute('type', 'text/css');
-					$CSSTag->addAttribute('href', $CSSFileName);
-					$this->response->addAdditionalHeaderData($CSSTag->render());
-				}
-			}
-		}
-	}
-
-
 	/**
 	 * Stores information about the active query in the »underlyingQuery« JavaScript variable.
 	 *
