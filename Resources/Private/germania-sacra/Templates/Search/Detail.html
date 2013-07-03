@@ -126,13 +126,6 @@
 				</ol>
 			</section>
 
-			<f:if condition="{document.bemerkung_kloster.0}">
-				<section class="bemerkung">
-					<h2>Bemerkung</h2>
-					<p>{s:highlightField(field:'bemerkung_kloster', document:document, results:results, index:0)}</p>
-				</section>
-			</f:if>
-
 			<f:if condition="{document.band_nummer}">
 				<section class="germania-sacra">
 					<h2>Germania-Sacra-Band</h2>
@@ -153,6 +146,13 @@
 							<span class="seite">S. {document.band_seite.0}</span>
 						</f:if>
 					</p>
+				</section>
+			</f:if>
+
+			<f:if condition="{document.bemerkung_kloster.0}">
+				<section class="bemerkung">
+					<h2>Bemerkung</h2>
+					<p>{s:highlightField(field:'bemerkung_kloster', document:document, results:results, index:0)}</p>
 				</section>
 			</f:if>
 
