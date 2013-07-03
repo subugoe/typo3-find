@@ -20,7 +20,7 @@
 					<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 						koordinaten = {s:json(data:koordinaten)};
 						titel = {s:json(data:document.kloster)};
-						queryURL = "<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster'}" action="json" pageType="1369315139" noCacheHash="1"/>";
+						queryURL = "<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster,orden'}" action="json" pageType="1369315139" noCacheHash="1"/>";
 						institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
 						/**
 						 * We need the '' quotes around the first array key in what follows to keep TYPO3 6.0.4 from

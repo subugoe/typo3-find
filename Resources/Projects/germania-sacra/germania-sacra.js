@@ -78,11 +78,21 @@ var germaniaSacra = (function () {
 						var long = parseFloat(coordinateStrings[1]);
 						var point = new google.maps.LatLng(lat,long);
 						var title = result.kloster;
+						var icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png';
+						var orden = result.orden[pointIndex];
+						if (orden === 'Augustinerchorfrauen' || orden === 'Benediktiner' || orden === 'Augustinerinnen') {
+							var iconURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Projects/germania-sacra/Ordenssymbole/' + orden + '.png';
+							var size = new google.maps.Size(64, 97);
+							var origin = new google.maps.Point(0,0);
+							var anchor = new google.maps.Point(32, 0);
+							icon = new google.maps.MarkerImage(iconURL, size, origin, anchor);
+						}
+
 						var marker = new google.maps.Marker({
 							'map': map,
 							'position': point,
 							'title': title,
-							'icon': 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png',
+							'icon': icon,
 							'zIndex': 50
 						});
 					}
