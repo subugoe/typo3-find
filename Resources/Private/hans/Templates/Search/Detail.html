@@ -64,13 +64,6 @@
 			</section>
 		</f:if>
 
-		<f:if condition="{document.Fussnoten}">
-			<section class="fussnoten">
-				<h2>Fußnoten</h2>
-				<f:render partial="FieldList" arguments="{field:'Fussnoten', document:document, results:results}"/>
-			</section>
-		</f:if>
-
 		<f:if condition="{document.Signatur}">
 			<section class="signatur">
 				<h2>Signatur</h2>
