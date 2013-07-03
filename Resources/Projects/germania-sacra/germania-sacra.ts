@@ -11,15 +11,16 @@ plugin.tx_solrfrontend {
 				query = {!join from=kloster_id to=id}(###term### AND typ:standort-orden)
 			}
 			10 {
-				extended = 1
 				id = bistum
 				type = Text
+				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = bistum_suggest
 			}
-			15 {
+			20 {
 				id = orden
 				type = Text
+				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = orden_suggest
 			}
@@ -71,13 +72,13 @@ plugin.tx_solrfrontend {
 		additionalFilters {
 			1 = typ:kloster
 		}
-		CSSPaths.50 = EXT:solr_frontend/Resources/Private/germania-sacra/germania-sacra.css
+		CSSPaths.50 = EXT:solr_frontend/Resources/Projects/germania-sacra/germania-sacra.css
 
-		languageRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Language/
+		languageRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Language/
 	}
 	view {
-		templateRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Templates/
-		# partialRootPath = EXT:solr_frontend/Resources/Private/germania-sacra/Partials/
+		templateRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Templates/
+		# partialRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Partials/
 	}
 }
 

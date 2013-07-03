@@ -93,7 +93,7 @@ var germaniaSacra = (function () {
 
 
 	var addBistumsgrenzen = function (map) {
-		var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Private/germania-sacra/Bistumsgrenzen/';
+		var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Projects/germania-sacra/Bistumsgrenzen/';
 		new google.maps.KmlLayer({
 			'map': map,
 			'preserveViewport': true,

@@ -37,12 +37,12 @@ plugin.tx_solrfrontend {
 			useFacetTerms = 1
 		}
 
-		CSSPaths.50 = EXT:solr_frontend/Resources/Private/edfu/edfu.css
+		CSSPaths.50 = EXT:solr_frontend/Resources/Projects/edfu/edfu.css
 
-		languageRootPath = EXT:solr_frontend/Resources/Private/edfu/Language/
+		languageRootPath = EXT:solr_frontend/Resources/Projects/edfu/Language/
 	}
 	view {
-		templateRootPath = EXT:solr_frontend/Resources/Private/edfu/Templates/
+		templateRootPath = EXT:solr_frontend/Resources/Projects/edfu/Templates/
 	}
 }
 
