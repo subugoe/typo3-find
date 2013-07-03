@@ -82,9 +82,9 @@ var germaniaSacra = (function () {
 						var orden = result.orden[pointIndex];
 						if (orden === 'Augustinerchorfrauen' || orden === 'Benediktiner' || orden === 'Augustinerinnen') {
 							var iconURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/solr_frontend/Resources/Projects/germania-sacra/Ordenssymbole/' + orden + '.png';
-							var size = new google.maps.Size(64, 97);
+							var size = new google.maps.Size(20, 31);
 							var origin = new google.maps.Point(0,0);
-							var anchor = new google.maps.Point(32, 0);
+							var anchor = new google.maps.Point(10, 31);
 							icon = new google.maps.MarkerImage(iconURL, size, origin, anchor);
 						}
 
