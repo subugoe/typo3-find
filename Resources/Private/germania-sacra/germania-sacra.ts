@@ -23,9 +23,6 @@ plugin.tx_solrfrontend {
 				autocomplete = 1
 				autocompleteDictionary = orden_suggest
 			}
-			20 >
-			30 >
-			40 >
 		}
 		sort {
 			1 {

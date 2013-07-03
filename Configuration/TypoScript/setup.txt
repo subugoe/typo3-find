@@ -10,48 +10,48 @@ plugin.tx_solrfrontend {
 				id = default
 				query = ###term###
 				type = Text
-				autocomplete = 1
-				autocompleteDictionary = 
+			#	autocomplete = 1
+			#	autocompleteDictionary =
 			}
-			10 {
-				id = person
-				extended = 1
-				type = Text
-			}
-			15 {
-				id = notperson
-				extended = 1
-				query = NOT person:###term###
-				type = Text
-			}
-			20 {
-				id = done
-				extended = 1
-				type = Checkbox
-				default = 0
-			}
-			30 {
-				id = country
-				extended = 1
-				type = Select
-				options {
-					blank = 
-					key = value
-					key2 = value2
-				}
-				default = key
-			}
-			40 {
-				id = version
-				extended = 1
-				type = Radio
-				options {
-					1 = Steak
-					2 = Chicken
-					3 = Pancake
-				}
-				default = 1
-			}
+			#10 {
+			#	id = person
+			#	extended = 1
+			#	type = Text
+			#}
+			#15 {
+			#	id = notperson
+			#	extended = 1
+			#	query = NOT person:###term###
+			#	type = Text
+			#}
+			#20 {
+			#	id = done
+			#	extended = 1
+			#	type = Checkbox
+			#	default = 0
+			#}
+			#30 {
+			#	id = country
+			#	extended = 1
+			#	type = Select
+			#	options {
+			#		blank =
+			#		key = value
+			#		key2 = value2
+			#	}
+			#	default = key
+			#}
+			#40 {
+			#	id = version
+			#	extended = 1
+			#	type = Radio
+			#	options {
+			#		1 = Steak
+			#		2 = Chicken
+			#		3 = Pancake
+			#	}
+			#	default = 1
+			#}
 		}
 		dataFields {
 			default {
