@@ -13,7 +13,7 @@
 
 <ol class="facetList{f:if(condition:facetInfo.autocomplete, then:' autocomplete')}">
 	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
-		<f:render partial="FacetItem" arguments="{_all}"/>
+		<f:render partial="Facets/Facet/ListItem" arguments="{_all}"/>
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
 		<li class="facetShowAll">

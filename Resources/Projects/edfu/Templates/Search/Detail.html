@@ -2,14 +2,12 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<f:render partial="CSS" arguments="{_all}"/>
-	<f:render partial="JavaScript" arguments="{_all}"/>
-	<f:render partial="Form" arguments="{_all}"/>
-	<f:render partial="DetailResultPager" arguments="{_all}"/>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
 		<h1>
-			<f:render partial="FieldInline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
+			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
 		</h1>
 
 		<dl>
@@ -19,7 +17,7 @@
 								 default="{fieldName}"/>
 				</dt>
 				<dd>
-					<f:render partial="FieldList" arguments="{results:results, document:document, field:fieldName}"/>
+					<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:fieldName}"/>
 				</dd>
 			</f:for>
 		</dl>

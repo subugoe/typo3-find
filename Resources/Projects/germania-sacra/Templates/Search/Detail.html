@@ -5,10 +5,8 @@
 
 <f:section name="main">
 <f:debug>{_all}</f:debug>
-	<f:render partial="CSS" arguments="{_all}"/>
-	<f:render partial="JavaScript" arguments="{_all}"/>
-	<f:render partial="Form" arguments="{_all}"/>
-	<f:render partial="DetailResultPager" arguments="{_all}"/>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
 		<f:if condition="{document.koordinaten}">

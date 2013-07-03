@@ -8,7 +8,7 @@
 	<div class="formFields">
 		<f:for each="{settings.queryFields}" as="fieldInfo">
 			<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
-				<f:render partial="FormFields/{fieldInfo.type}" arguments="{_all}"/>
+				<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
 			</div>
 		</f:for>
 	</div>

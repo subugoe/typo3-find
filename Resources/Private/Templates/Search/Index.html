@@ -2,26 +2,24 @@
 
 <f:section name="main">
 <f:debug>{_all}</f:debug>
-	<f:render partial="CSS" arguments="{_all}"/>
-	<f:render partial="JavaScript" arguments="{_all}"/>
-	<f:render partial="Form" arguments="{_all}"/>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
 
 	<div class="results">
 		<div class="navigation top"/>
-			<f:render partial="ResultCount" arguments="{_all}"/>
-			<f:render partial="Pagination" arguments="{_all}"/>
+			<f:render partial="Components/ResultCount" arguments="{_all}"/>
+			<f:render partial="Components/Pagination" arguments="{_all}"/>
 		</div>
 
-		<f:render partial="Facets" arguments="{_all}"/>
+		<f:render partial="Facets/Facets" arguments="{_all}"/>
 
 		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
 			<f:for each="{results.documents}" as="document">
-				<f:render partial="Result" arguments="{_all}"/>
+				<f:render partial="Display/Result" arguments="{_all}"/>
 			</f:for>
 		</ol>
 
 		<div class="navigation bottom"/>
-			<f:render partial="Pagination" arguments="{_all}"/>
+			<f:render partial="Components/Pagination" arguments="{_all}"/>
 		</div>
 	</div>
 </f:section>

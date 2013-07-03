@@ -3,10 +3,8 @@
 
 <f:section name="main">
 <f:debug>{_all}</f:debug>
-	<f:render partial="CSS" arguments="{_all}"/>
-	<f:render partial="JavaScript" arguments="{_all}"/>
-	<f:render partial="Form" arguments="{_all}"/>
-	<f:render partial="DetailResultPager" arguments="{_all}"/>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
 
@@ -39,35 +37,35 @@
 		<f:if condition="{document.Datum}">
 			<section class="fussnoten">
 				<h2>Datum</h2>
-				<f:render partial="FieldList" arguments="{field:'Datum', document:document, results:results}"/>
+				<f:render partial="Display/Field/List" arguments="{field:'Datum', document:document, results:results}"/>
 			</section>
 		</f:if>
 		
 		<f:if condition="{document.Ort_und_Datum}">
 			<section class="fussnoten">
 				<h2>Ort und Datum</h2>
-				<f:render partial="FieldList" arguments="{field:'Ort_und_Datum', document:document, results:results}"/>
+				<f:render partial="Display/Field/List" arguments="{field:'Ort_und_Datum', document:document, results:results}"/>
 			</section>
 		</f:if>
 
 		<f:if condition="{document.Umfang}">
 			<section class="fussnoten">
 				<h2>Umfang</h2>
-				<f:render partial="FieldList" arguments="{field:'Umfang', document:document, results:results}"/>
+				<f:render partial="Display/Field/List" arguments="{field:'Umfang', document:document, results:results}"/>
 			</section>
 		</f:if>
 
 		<f:if condition="{document.Fussnoten}">
 			<section class="fussnoten">
 				<h2>Fußnoten</h2>
-				<f:render partial="FieldList" arguments="{field:'Fussnoten', document:document, results:results}"/>
+				<f:render partial="Display/Field/List" arguments="{field:'Fussnoten', document:document, results:results}"/>
 			</section>
 		</f:if>
 
 		<f:if condition="{document.Signatur}">
 			<section class="signatur">
 				<h2>Signatur</h2>
-				<f:render partial="FieldList" arguments="{field:'Signatur', document:document, results:results}"/>
+				<f:render partial="Display/Field/List" arguments="{field:'Signatur', document:document, results:results}"/>
 			</section>
 		</f:if>
 
