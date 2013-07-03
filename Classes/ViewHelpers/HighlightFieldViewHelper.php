@@ -53,6 +53,7 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 		$this->registerArgument('idKey', 'string', 'name of the field in document that is its ID', FALSE, 'id');
 		$this->registerArgument('highlightTagOpen', 'string', 'opening tag to insert to begin highlighting', FALSE, '<em class="highlight">');
 		$this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', FALSE, '</em>');
+		$this->registerArgument('raw', 'boolean', 'whether to HTML escape the output or not', FALSE, FALSE);
 	}
 
 
@@ -113,20 +114,33 @@ class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core
 	 * @return string
 	 */
 	private function highlightSingleField ($fieldString, $highlightInfo){
-		$result = htmlspecialchars($fieldString);
+		$result = NULL;
 
 		foreach ($highlightInfo as $highlightItem) {
 			$highlightItemStripped = str_replace(array('\ueeee', '\ueeef'), array('', ''), $highlightItem);
 			if (strpos($fieldString, $highlightItemStripped) !== NULL) {
-				// HTML escape the text here (and use f:format.raw in the template to avoid
-				// double escaping the HTML tags.
-				$escapedContent = htmlspecialchars($highlightItem);
-				
-				$highlightItemMarkedUp = str_replace(array('\ueeee', '\ueeef'),
+				// HTML escape the text here if not explicitly configured to not do so.
+				// Use f:format.raw in the template to avoid double escaping the HTML tags.
+				if (!$this->arguments['raw']) {
+					$highlightItem = htmlspecialchars($highlightItem);
+				}
+
+				$highlightItemMarkedUp = str_replace(
+											array('\ueeee', '\ueeef'),
 											array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
-											$escapedContent);
+											$highlightItem );
 				$result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
 				break;
+			}
+		}
+
+		// If no highlighted string is present, use the original one.
+		if ($result === NULL) {
+			if ($this->arguments['raw']) {
+				$result = $fieldString;
+			}
+			else {
+				$result = htmlspecialchars($fieldString);
 			}
 		}
 

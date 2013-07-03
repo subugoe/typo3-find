@@ -168,7 +168,7 @@
 					<s:transpose name="personen" arrays="{
 									name: \"{s:highlightField(field:'person_name', document:document, results:results)}\",
 									nameOriginal: document.person_name,
-									namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results)}\",
+									namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results, raw:1)}\",
 									bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
 									bezeichnungOriginal: document.person_bezeichnung,
 									von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
