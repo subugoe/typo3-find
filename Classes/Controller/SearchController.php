@@ -349,21 +349,22 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		$activeFacetsForTemplate = array();
 		foreach ($activeFacets as $facetID => $facets) {
 			foreach ($facets as $facetTerm => $facetInfo) {
+				$facetQuery = $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
 				if ($facetInfo['config']['queryStyle'] === 'and') {
 					// Alternative query style: adding a conjunction to the main query.
-					// Needed when using {!join} to filter on the underlying records
-					// instead of the joined ones.
+					// Can be useful when using {!join} to filter on the underlying
+					// records instead of the joined ones.
 					$queryString = $query->getQuery();
 					if ($queryString) {
 						$queryString = $queryString . ' ' . $query::QUERY_OPERATOR_AND . ' ';
 					}
-					$queryString .= $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
+					$queryString .= $facetQuery;
 					$query->setQuery($queryString);
 				}
 				else {
 					// Add a filter query by default.
 					$query->createFilterQuery('facet-' . $facetID . '-' . $facetTerm)
-							->setQuery($facetInfo['query']);
+							->setQuery($facetQuery);
 				}
 				$activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
 			}
@@ -383,9 +384,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * @return string query
 	 */
 	private function getFacetQuery ($facetConfig, $queryTerm) {
-		$queryPattern = self::placeholder;
+		$queryPattern = '';
 		if (array_key_exists('query', $facetConfig)) {
 			$queryPattern = $facetConfig['query'];
+		}
+		else {
+			$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . self::placeholder;
 		}
 
 		// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
