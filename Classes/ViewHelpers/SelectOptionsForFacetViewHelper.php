@@ -29,7 +29,7 @@
  * View Helper to convert an array with facet information into an array suitable
  * for use as options for f:form.select.
  */
-class Tx_SolrFrontend_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 	/**

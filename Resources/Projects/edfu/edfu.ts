@@ -1,4 +1,4 @@
-plugin.tx_solrfrontend {
+plugin.tx_find {
 	settings {
 		connection {
 			host = 127.0.0.1
@@ -37,12 +37,12 @@ plugin.tx_solrfrontend {
 			useFacetTerms = 1
 		}
 
-		CSSPaths.50 = EXT:solr_frontend/Resources/Projects/edfu/edfu.css
+		CSSPaths.50 = EXT:find/Resources/Projects/edfu/edfu.css
 
-		languageRootPath = EXT:solr_frontend/Resources/Projects/edfu/Language/
+		languageRootPath = EXT:find/Resources/Projects/edfu/Language/
 	}
 	view {
-		templateRootPath = EXT:solr_frontend/Resources/Projects/edfu/Templates/
+		templateRootPath = EXT:find/Resources/Projects/edfu/Templates/
 	}
 }
 

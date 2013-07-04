@@ -1,7 +1,7 @@
 <?php
 
 /***************************************************************
- * Extension Manager/Repository config file for ext "sublar".
+ * Extension Manager/Repository config file for ext "find".
  *
  * Auto generated 19-02-2013 14:12
  *
@@ -11,33 +11,33 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'SolrFrontend',
-	'description' => 'Solr Extension',
+	'title' => 'Find',
+	'description' => 'A frontend for Solr indexes',
+	'version' => '1.0.0',
+	'state' => 'alpha',
 	'category' => 'frontend',
 	'shy' => 0,
-	'version' => '1.0.0',
-	'dependencies' => 'extbase,fluid,pagebrowse,t3jquery',
-	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
-	'state' => 'alpha',
 	'uploadfolder' => 0,
 	'createDirs' => '',
 	'modify_tables' => '',
 	'clearcacheonload' => 1,
 	'lockType' => '',
-	'author' => 'Ingo Pfennigstorf',
-	'author_email' => '',
-	'author_company' => '',
+	'author' => 'Sven-S. Porst, Ingo Pfennigstorf',
+	'author_email' => 'porst@sub.uni-goettingen.de',
+	'author_company' => 'SUB Göttingen',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
+	'dependencies' => 'extbase,fluid,pagebrowse,t3jquery',
+	'conflicts' => '',
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.7.0-0.0.0',
-			'extbase' => '4.7.0-0.0.0',
-			'fluid' => '4.7.0-0.0.0',
+			'typo3' => '4.7.11-0.0.0',
+			'extbase' => '4.7.11-0.0.0',
+			'fluid' => '4.7.11-0.0.0',
 			'pagebrowse' => '1.3.2-0.0.0',
 			't3jquery' => '2.3.3-0.0.0',
 		),

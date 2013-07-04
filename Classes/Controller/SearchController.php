@@ -27,12 +27,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once(t3lib_extMgm::extPath('solr_frontend') . 'vendor/autoload.php');
+require_once(t3lib_extMgm::extPath('find') . 'vendor/autoload.php');
 
 /**
  * Description
  */
-class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
 	 * Placeholder string used in search query configuration and replaced with
@@ -184,12 +184,12 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						}
 					}
 					else {
-						$this->flashMessageContainer->add('solr_frontend: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', t3lib_FlashMessage::ERROR);
+						$this->flashMessageContainer->add('find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', t3lib_FlashMessage::ERROR);
 						$this->redirect('index');
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('solr_frontend: »detail« action query with underlying query returned no results.', t3lib_FlashMessage::ERROR);
+					$this->flashMessageContainer->add('find: »detail« action query with underlying query returned no results.', t3lib_FlashMessage::ERROR);
 					$this->redirect('index');
 				}
 			}
@@ -204,7 +204,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					$assignments['document'] = $resultSet[0];
 				}
 				else {
-					$this->flashMessageContainer->add('solr_frontend: »detail« action query for id »' . $id . '« returned no results.', t3lib_FlashMessage::ERROR);
+					$this->flashMessageContainer->add('find: »detail« action query for id »' . $id . '« returned no results.', t3lib_FlashMessage::ERROR);
 					$this->redirect('index');
 				}
 			}
@@ -214,7 +214,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 		}
 		else {
 			// id argument missing or empty
-			$this->flashMessageContainer->add('solr_frontend: Non-empty argument »id« is required for action »detail«.', t3lib_FlashMessage::ERROR);
+			$this->flashMessageContainer->add('find: Non-empty argument »id« is required for action »detail«.', t3lib_FlashMessage::ERROR);
 			$this->redirect('index');
 		}
 	}
@@ -224,7 +224,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 	 * Assigns standard variables to the view.
 	 */
 	private function addStandardAssignments () {
-		$this->view->assign('prefixId', 'tx_solrfrontend_solrfrontend');
+		$this->view->assign('prefixId', 'tx_find_find');
 		$this->view->assign('arguments', $this->requestArguments);
 		$this->view->assign('extendedSearch', $this->isExtendedSearch());
 
@@ -561,7 +561,7 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('solr_frontend: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', t3lib_FlashMessage::WARNING);
+					$this->flashMessageContainer->add('find: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', t3lib_FlashMessage::WARNING);
 				}
 			}
 
@@ -597,14 +597,14 @@ class Tx_SolrFrontend_Controller_SearchController extends Tx_Extbase_MVC_Control
 						$sortDirection = $query::SORT_DESC;
 					}
 					else if ($sortCriterionParts[1] !== 'asc') {
-						$this->flashMessageContainer->add('solr_frontend: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', t3lib_FlashMessage::WARNING);
+						$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', t3lib_FlashMessage::WARNING);
 						continue;
 					}
 
 					$query->addSort($sortCriterionParts[0], $sortDirection);
 				}
 				else {
-					$this->flashMessageContainer->add('solr_frontend: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', t3lib_FlashMessage::WARNING);
+					$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', t3lib_FlashMessage::WARNING);
 				}
 			}
 		}

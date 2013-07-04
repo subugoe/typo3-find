@@ -3,7 +3,7 @@
 
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for the solr_frontend extension</description>
+		<description>Language labels for the »find« extension</description>
 	</meta>
 
 	<data type="array">

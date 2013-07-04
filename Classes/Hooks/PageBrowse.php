@@ -29,7 +29,7 @@
 /**
  * Description 
  */
-class Tx_SolrFrontend_Hooks_PageBrowse {
+class Tx_Find_Hooks_PageBrowse {
 
 	/**
 	 * Add extra marker for the last page.

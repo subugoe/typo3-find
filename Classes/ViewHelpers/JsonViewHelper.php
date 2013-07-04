@@ -28,7 +28,7 @@
 /**
  * View Helper to return the passed array, string or number as JSON.
  */
-class Tx_SolrFrontend_ViewHelpers_JSONViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_JSONViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 	/**

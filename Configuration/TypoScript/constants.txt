@@ -1,4 +1,4 @@
-plugin.tx_solrfrontend {
+plugin.tx_find {
 	settings {
 		connection {
 			host = 127.0.0.1
@@ -6,19 +6,19 @@ plugin.tx_solrfrontend {
 			path = /solr/
 		}
 		count = 20
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to CSS file (FE)
-		CSSPath = EXT:solr_frontend/Resources/Public/CSS/solr_frontend.css
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to JavaScript file (FE)
-		JSPath = EXT:solr_frontend/Resources/Public/JavaScript/solr_frontend.js
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template localisation files (FE)
-		languageRootPath = EXT:solr_frontend/Resources/Private/Language/
+		 # cat=plugin.tx_find/file; type=string; label=Path to CSS file (FE)
+		CSSPath = EXT:find/Resources/Public/CSS/find.css
+		 # cat=plugin.tx_find/file; type=string; label=Path to JavaScript file (FE)
+		JSPath = EXT:find/Resources/Public/JavaScript/find.js
+		 # cat=plugin.tx_find/file; type=string; label=Path to template localisation files (FE)
+		languageRootPath = EXT:find/Resources/Private/Language/
 	}
 	view {
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template root (FE)
-		templateRootPath = EXT:solr_frontend/Resources/Private/Templates/
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template partials (FE)
-		partialRootPath = EXT:solr_frontend/Resources/Private/Partials/
-		 # cat=plugin.tx_solrfrontend/file; type=string; label=Path to template layouts (FE)
-		layoutRootPath = EXT:solr_frontend/Resources/Private/Layouts/
+		 # cat=plugin.tx_find/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:find/Resources/Private/Templates/
+		 # cat=plugin.tx_find/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:find/Resources/Private/Partials/
+		 # cat=plugin.tx_find/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:find/Resources/Private/Layouts/
 	}
 }

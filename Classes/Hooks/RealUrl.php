@@ -29,7 +29,7 @@
 /**
  * RealUrl Hook for automatic URL generation
  */
-class Tx_SolrFrontend_Hooks_RealUrl {
+class Tx_Find_Hooks_RealUrl {
 
 	/**
 	 * Create automatic RealUrl Configuratoin
@@ -44,7 +44,7 @@ class Tx_SolrFrontend_Hooks_RealUrl {
 					'_DEFAULT' => array(
 						'a' => array(
 							array(
-								'GETvar' => 'tx_solrfrontend_solrfrontend[action]',
+								'GETvar' => 'tx_find_find[action]',
 								'valueMap' => array(
 									'record' => 'detail'
 								),
@@ -53,23 +53,23 @@ class Tx_SolrFrontend_Hooks_RealUrl {
 						),
 						'c' => array(
 							array(
-								'GETvar' => 'tx_solrfrontend_solrfrontend[controller]',
+								'GETvar' => 'tx_find_find[controller]',
 								'noMatch' => 'bypass',
 							),
 						),
 						'docid' => array(
 							array(
-								'GETvar' => 'tx_solrfrontend_solrfrontend[id]',
+								'GETvar' => 'tx_find_find[id]',
 							),
 						),
 						'q' => array(
 							array(
-								'GETvar' => 'tx_solrfrontend_solrfrontend[q]',
+								'GETvar' => 'tx_find_find[q]',
 							),
 						),
 						'f' => array(
 							array(
-								'GETvar' => 'tx_solrfrontend_solrfrontend[facet]',
+								'GETvar' => 'tx_find_find[facet]',
 							),
 						),
 					)

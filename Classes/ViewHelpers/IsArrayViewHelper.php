@@ -28,7 +28,7 @@
 /**
  * View Helper to return whether the variable is an array.
  */
-class Tx_SolrFrontend_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 	/**

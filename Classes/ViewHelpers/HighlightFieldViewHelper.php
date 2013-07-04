@@ -39,7 +39,7 @@
  * The highlighting tags can be configured using the highlightTagOpen and
  * highlightTagClose arguments.
  */
-class Tx_SolrFrontend_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.

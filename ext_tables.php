@@ -8,10 +8,10 @@ if (!defined('TYPO3_MODE')) {
  */
 Tx_Extbase_Utility_Extension::registerPlugin(
 	$_EXTKEY, // The extension name (in UpperCamelCase) or the extension key (in lower_underscore)
-	'SolrFrontend', // A unique name of the plugin in UpperCamelCase
-	'Solr Frontend' // A title shown in the backend dropdown field
+	'Find', // A unique name of the plugin in UpperCamelCase
+	'Find' // A title shown in the backend dropdown field
 );
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'SolrFrontend');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Find');
 
 ?>

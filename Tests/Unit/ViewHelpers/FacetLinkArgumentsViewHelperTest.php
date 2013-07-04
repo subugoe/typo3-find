@@ -27,15 +27,15 @@
 /**
  * Test for FacetLinkArguments ViewHelper
  */
-class Tx_SolrFrontend_Tests_Unit_ViewHelpers_FacetLinkArgumentsViewHelperTest extends Tx_Phpunit_TestCase {
+class Tx_FindTests_Unit_ViewHelpers_FacetLinkArgumentsViewHelperTest extends Tx_Phpunit_TestCase {
 
 	/**
-	 * @var Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper
+	 * @var Tx_Find_ViewHelpers_FacetLinkArgumentsViewHelper
 	 */
 	public $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper();
+		$this->fixture = new Tx_Find_ViewHelpers_FacetLinkArgumentsViewHelper();
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Tx_SolrFrontend_Tests_Unit_ViewHelpers_FacetLinkArgumentsViewHelperTest ex
 		));
 
 		$result = $this->fixture->render();
-		$this->assertEquals("tx_solrfrontend_solrfrontend[facet][0]", $result[0]);
+		$this->assertEquals("tx_find_find[facet][0]", $result[0]);
 	}
 
 	/**

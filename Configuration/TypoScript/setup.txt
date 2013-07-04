@@ -1,9 +1,9 @@
-plugin.tx_solrfrontend {
+plugin.tx_find {
 	settings {
 		connection {
-			host = {$plugin.tx_solrfrontend.settings.connection.host}
-			port = {$plugin.tx_solrfrontend.settings.connection.port}
-			path = {$plugin.tx_solrfrontend.settings.connection.path}
+			host = {$plugin.tx_find.settings.connection.host}
+			port = {$plugin.tx_find.settings.connection.port}
+			path = {$plugin.tx_find.settings.connection.path}
 		}
 		queryFields {
 			0 {
@@ -67,7 +67,7 @@ plugin.tx_solrfrontend {
 			#	sort = year decs,name asc
 			#}
 		}
-		count = {$plugin.tx_solrfrontend.settings.count}
+		count = {$plugin.tx_find.settings.count}
 		standardFields {
 			title = title
 			snippet = snippet
@@ -115,24 +115,24 @@ plugin.tx_solrfrontend {
 			detailPagePaging = 1
 		}
 
-		CSSPaths.10 = {$plugin.tx_solrfrontend.settings.CSSPath}
-		CSSPaths.20 = EXT:solr_frontend/Resources/Public/CSS/fontello/css/fontello.css
-		JSPaths.10 = {$plugin.tx_solrfrontend.settings.JSPath}
+		CSSPaths.10 = {$plugin.tx_find.settings.CSSPath}
+		CSSPaths.20 = EXT:find/Resources/Public/CSS/fontello/css/fontello.css
+		JSPaths.10 = {$plugin.tx_find.settings.JSPath}
 
-		languageRootPath = {$plugin.tx_solrfrontend.settings.languageRootPath}
+		languageRootPath = {$plugin.tx_find.settings.languageRootPath}
 	}
 
 	view {
-		templateRootPath = {$plugin.tx_solrfrontend.view.templateRootPath}
-		partialRootPath = {$plugin.tx_solrfrontend.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_solrfrontend.view.layoutRootPath}
+		templateRootPath = {$plugin.tx_find.view.templateRootPath}
+		partialRootPath = {$plugin.tx_find.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_find.view.layoutRootPath}
 	}
 }
 
-tx_solrfrontend_page = PAGE
-tx_solrfrontend_page {
+tx_find_page = PAGE
+tx_find_page {
 	typeNum = 1369315139
-	10 < tt_content.list.20.solrfrontend_solrfrontend
+	10 < tt_content.list.20.find_find
 	config {
 		disableAllHeaderCode = 1
 		additionalHeaders = Content-type:application/json;charset=utf-8
@@ -140,6 +140,6 @@ tx_solrfrontend_page {
 }
 
 plugin.tx_pagebrowse_pi1 {
-	templateFile = EXT:solr_frontend/Resources/Private/Templates/pagebrowse/template.html
+	templateFile = EXT:find/Resources/Private/Templates/pagebrowse/template.html
 	enableMorePages = 1
 }

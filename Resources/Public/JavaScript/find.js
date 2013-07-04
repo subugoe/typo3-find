@@ -1,12 +1,12 @@
-var solr_frontend = (function() {
+var tx_find = (function() {
 
-var URLParameterPrefix = 'tx_solrfrontend_solrfrontend';
+var URLParameterPrefix = 'tx_find_find';
 var container;
 
 
 var initialise = function () {
 	jQuery(document).ready(function() {
-		container = jQuery('.tx_solr_frontend');
+		container = jQuery('.tx_find');
 
 		if (jQuery.ui && jQuery.ui.autocomplete) {
 			// Set up jQuery UI Autocomplete search fields with the autocompleteURL attribute.
@@ -168,7 +168,7 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	}
 
 	var removeTooltip = function () {
-		jQuery("#solr_frontend-histogram-tooltip").remove();
+		jQuery("#tx_find-histogram-tooltip").remove();
 	};
 
 	var selectRanges = function (ranges) {
@@ -196,7 +196,7 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	jGraphDiv.bind('plothover', function(event, ranges, item) {
 		var showTooltip = function(x, y, contents) {
 			var tooltipDiv = document.createElement('div');
-			tooltipDiv.setAttribute('id', 'solr_frontend-histogram-tooltip');
+			tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
 			tooltipDiv.appendChild(document.createTextNode(contents));
 			jQuery(tooltipDiv).css( {
 				'position': 'absolute',

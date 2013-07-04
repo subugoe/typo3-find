@@ -1,7 +1,7 @@
-{namespace s=Tx_SolrFrontend_ViewHelpers}
+{namespace s=Tx_Find_ViewHelpers}
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
-<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.js"/>
-<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Public/JavaScript/flot/jquery.flot.selection.js"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.js"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.selection.js"/>
 <div class="facetHistogram-container">
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, activeFacets:activeFacets)}">
 		<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
@@ -24,7 +24,7 @@
 				removeArguments:'{f:if(
 					condition:\"{s:valueForKey(array:arguments.facet, key:facetInfo.id)}\",
 					then:\"{s:facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:activeFacets)}\",
-					else:\"{0:\'tx_solrfrontend_solrfrontend[page]\'}\"
+					else:\"{0:\'tx_find_find[page]\'}\"
 				)}'
 			}">
 			(function () {
@@ -39,7 +39,7 @@
 				</f:for>
 				var facetData = <s:json data="{facetData.values}"/>;
 
-				solr_frontend.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
+				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
 			})();
 			</f:alias>
 		</script>

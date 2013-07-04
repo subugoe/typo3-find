@@ -1,4 +1,4 @@
-plugin.tx_solrfrontend {
+plugin.tx_find {
 	settings {
 		connection {
 			host = ssgfi1.sub.uni-goettingen.de
@@ -61,8 +61,8 @@ plugin.tx_solrfrontend {
 
 	}
 	view {
-		templateRootPath = EXT:solr_frontend/Resources/Projects/hans/Templates/
-		# partialRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Partials/
+		templateRootPath = EXT:find/Resources/Projects/hans/Templates/
+		# partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
 	}
 }
 

@@ -1,10 +1,10 @@
-{namespace s=Tx_SolrFrontend_ViewHelpers}
+{namespace s=Tx_Find_ViewHelpers}
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
 
 <f:if condition="{facetInfo.autocomplete}">
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
-		<s:linkCSS file="EXT:solr_frontend/Resources/Public/JavaScript/jquery.chosen/public/chosen.min.css"/>
-		<t3jquery:addJQueryAndScript jsfile="EXT:solr_frontend/Resources/Public/JavaScript/jquery.chosen/public/chosen.jquery.min.js"/>
+		<s:linkCSS file="EXT:find/Resources/Public/JavaScript/jquery.chosen/public/chosen.min.css"/>
+		<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/jquery.chosen/public/chosen.jquery.min.js"/>
 		<f:alias map="{translateArguments:'{0:\"{f:translate(key:\'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}\')}\"}'}">
 			<f:form.select options="{s:selectOptionsForFacet(values:facetData.values, leadingBlank:1)}" class="facetSearch" additionalAttributes="{data-placeholder:'{f:translate(key:\"Filter by %s\", arguments:translateArguments)}'}"/>
 		</f:alias>
@@ -17,7 +17,7 @@
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
 		<li class="facetShowAll">
-			<a href="#" onclick="return solr_frontend.showAllFacetsOfType(event)">
+			<a href="#" onclick="return tx_find.showAllFacetsOfType(event)">
 				<f:translate key="show all"/>
 			</a>
 		</li>

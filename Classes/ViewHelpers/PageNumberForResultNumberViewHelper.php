@@ -30,7 +30,7 @@
  * appears on with resultsPerPage items per page, i.e. returns
  * resultNumber mod resultsPerPage.
  */
-class Tx_SolrFrontend_ViewHelpers_PageNumberForResultNumberViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_PageNumberForResultNumberViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 	/**

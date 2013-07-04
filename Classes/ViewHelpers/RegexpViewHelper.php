@@ -28,7 +28,7 @@
 /**
  * Does Search and Replace with a regular expression.
  */
-class Tx_SolrFrontend_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 	/**

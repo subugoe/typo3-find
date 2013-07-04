@@ -27,15 +27,15 @@
 /**
  * Test for ValueForKey ViewHelper
  */
-class Tx_SolrFrontend_Tests_Unit_ViewHelpers_ValueForKeyViewHelperTest extends Tx_Phpunit_TestCase {
+class Tx_FindTests_Unit_ViewHelpers_ValueForKeyViewHelperTest extends Tx_Phpunit_TestCase {
 
 	/**
-	 * @var Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper
+	 * @var Tx_Find_ViewHelpers_ValueForKeyViewHelper
 	 */
 	public $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_SolrFrontend_ViewHelpers_ValueForKeyViewHelper();
+		$this->fixture = new Tx_Find_ViewHelpers_ValueForKeyViewHelper();
 	}
 
 	/**

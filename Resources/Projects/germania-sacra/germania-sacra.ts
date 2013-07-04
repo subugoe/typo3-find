@@ -1,4 +1,4 @@
-plugin.tx_solrfrontend {
+plugin.tx_find {
 	settings {
 		connection {
 			host = 127.0.0.1
@@ -72,13 +72,13 @@ plugin.tx_solrfrontend {
 		additionalFilters {
 			1 = typ:kloster
 		}
-		CSSPaths.50 = EXT:solr_frontend/Resources/Projects/germania-sacra/germania-sacra.css
+		CSSPaths.50 = EXT:find/Resources/Projects/germania-sacra/germania-sacra.css
 
-		languageRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Language/
+		languageRootPath = EXT:find/Resources/Projects/germania-sacra/Language/
 	}
 	view {
-		templateRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Templates/
-		# partialRootPath = EXT:solr_frontend/Resources/Projects/germania-sacra/Partials/
+		templateRootPath = EXT:find/Resources/Projects/germania-sacra/Templates/
+		# partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
 	}
 }
 

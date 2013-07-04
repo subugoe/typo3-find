@@ -39,7 +39,7 @@
  * 		- remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
  *					leaving out the facetTerm parameter removes all selected items for the facet facetID
  */
-class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Find_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -67,14 +67,14 @@ class Tx_SolrFrontend_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_
 
 		if ($this->arguments['mode'] === 'remove' && $activeFacets) {
 			if (array_key_exists($this->arguments['facetID'], $activeFacets)) {
-				$itemToRemove = 'tx_solrfrontend_solrfrontend[facet][' . $this->arguments['facetID'] . ']';
+				$itemToRemove = 'tx_find_find[facet][' . $this->arguments['facetID'] . ']';
 				if (array_key_exists($this->arguments['facetTerm'], $activeFacets[$this->arguments['facetID']])) {
 					$itemToRemove .= '[' . $this->arguments['facetTerm'] . ']';
 				}
 				$result[] = $itemToRemove;
 			}
 			// Go back to page 1.
-			$result[] = 'tx_solrfrontend_solrfrontend[page]';
+			$result[] = 'tx_find_find[page]';
 		}
 		else if ($this->arguments['mode'] === 'add') {
 			$result['facet'] = array(

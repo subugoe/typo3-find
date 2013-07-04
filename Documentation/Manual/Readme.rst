@@ -1,4 +1,4 @@
-SolrFrontend
+Find
 ======
 
-Solr Client for foreign indexes.
+An Interface for Solr Indexes.

@@ -1,4 +1,4 @@
-{namespace s=Tx_SolrFrontend_ViewHelpers}
+{namespace s=Tx_Find_ViewHelpers}
 <li class='index-{iterator.cycle} count-{itemCount}
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
 		<f:then>facetActive</f:then>
@@ -28,7 +28,7 @@
 			<f:link.action
 					addQueryString="TRUE"
 					arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
-					argumentsToBeExcludedFromQueryString="{0:'tx_solrfrontend_solrfrontend[page]'}"
+					argumentsToBeExcludedFromQueryString="{0:'tx_find_find[page]'}"
 					noCacheHash="1"
 					class="facetAdd">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
