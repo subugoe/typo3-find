@@ -98,17 +98,6 @@ li p {
 	margin-bottom: 0.5em;
 }
 
-.band-link .band-titel:after,
-.band-titel:after {
-	content: ', ';
-}
-
-.band-link:last-child .band-titel:after,
-p>.band-titel:last-of-type:after {
-	content: '';
-	background: red;
-}
-
 span.bemerkung {
 	font-style: italic;
 }
