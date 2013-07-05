@@ -1,0 +1,11 @@
+{namespace s=Tx_Find_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<s:linkCSS file="EXT:find/Resources/Public/JavaScript/jquery.chosen/public/chosen.min.css"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/jquery.chosen/public/chosen.jquery.min.js"/>
+<f:alias map="{translateArguments:'{0:\"{f:translate(key:\'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}\')}\"}'}">
+	<form>
+		<f:form.select options="{s:selectOptionsForFacet(values:facetData.values, leadingBlank:1)}"
+					   class="facetSearch"
+					   additionalAttributes="{data-placeholder:'{f:translate(key:\"Filter by %s\", arguments:translateArguments)}'}"/>
+	</form>
+</f:alias>

@@ -45,10 +45,10 @@ plugin.tx_find {
 			20 {
 				id = jahr50
 				field = jahr50
+				type = Histogram
 				query = {!join from=kloster_id to=id}(orden_standort_jahr50:###term### AND typ:standort-orden)
 				sortOrder = index
 				fetchMaximum = 1000
-				type = histogram
 				barWidth = 50
 			}
 			30 {

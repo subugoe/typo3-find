@@ -81,6 +81,7 @@ plugin.tx_find {
 			#20 {
 			#	id = year
 			#	field = year_facet
+			#	type = Histogram
 			#	fetchMaximum = 1000
 			#	displayDefault = 1000
 			#	sortOrder = index

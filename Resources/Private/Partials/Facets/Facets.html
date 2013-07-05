@@ -1,5 +1,4 @@
 {namespace s=Tx_Find_ViewHelpers}
-
 <f:if condition="{results.components.facetset.facets}">
 	<div class="facets">
 		<h3 class="invisible">
@@ -10,23 +9,11 @@
 		</h3>
 		<f:for each="{facets}" as="facetInfo" key="facetKey">
 			<f:if condition="{facetInfo.hidden}!=1">
-				<f:alias map="{facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facetInfo.id)}'}">
-					<f:if condition="{f:count(subject:facetData.values)} > 0">
-						<article class="facet facet-id-{facetInfo.id}{f:if(condition:facetInfo.type, then:' facet-type-{facetInfo.type}')}">
-							<h1>
-								<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}" default="{facetInfo.id}"/>
-							</h1>
-							<f:if condition="{1:facetInfo.type} == {1:'histogram'}">
-								<f:then>
-									<f:render partial="Facets/Facet/Histogram" arguments="{_all}"/>
-								</f:then>
-								<f:else>
-									<f:render partial="Facets/Facet/List" arguments="{_all}"/>
-								</f:else>
-							</f:if>
-						</article>
-					</f:if>
-				</f:alias>
+				<f:render partial="Facets/Facet" arguments="{
+						  facetData:'{s:valueForKey(array:results.components.facetset.facets, key:facetInfo.id)}',
+						  facetInfo:facetInfo,
+						  activeFacets: activeFacets
+				}"/>
 			</f:if>
 		</f:for>
 	</div>
