@@ -1,1 +1,35 @@
-../../EXT-Private/Templates/Search/Index.html
+{namespace s=Tx_Find_ViewHelpers}
+<f:layout name="Default"/>
+
+<f:section name="main">
+<f:debug>{_all}</f:debug>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+
+	<div class="results">
+		<div class="navigation top"/>
+			<f:render partial="Components/ResultCount" arguments="{_all}"/>
+			<f:render partial="Components/Pagination" arguments="{_all}"/>
+		</div>
+
+		<section class="facets-typ">
+			<f:render partial="Facets/Facet"
+					  arguments="{
+						  facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
+						  facetInfo: facets.10,
+						  activeFacets: activeFacets
+			}"/>
+		</section>
+		
+		<f:render partial="Facets/Facets" arguments="{_all}"/>
+
+		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
+			<f:for each="{results.documents}" as="document">
+				<f:render partial="Display/Result" arguments="{_all}"/>
+			</f:for>
+		</ol>
+
+		<div class="navigation bottom"/>
+			<f:render partial="Components/Pagination" arguments="{_all}"/>
+		</div>
+	</div>
+</f:section>

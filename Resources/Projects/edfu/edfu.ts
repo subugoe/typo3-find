@@ -22,6 +22,7 @@ plugin.tx_find {
 			10 {
 				id = typ
 				excludeOwnFilter = 1
+				type = Tabs
 				hidden = 1
 				facetQuery {
 					10 {

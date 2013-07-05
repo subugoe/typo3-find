@@ -18,9 +18,10 @@
 			<label index="facet.typ.formular">Text</label>
 			<label index="facet.typ.gott">God</label>
 			<label index="facet.typ.ort">Location</label>
-			<label index="facet.typ.word">Word</label>
+			<label index="facet.typ.wort">Word</label>
+			<label index="facet.typ.all">Alle</label>
 
-			<label index="facet.band">Volume</label>
+			<label index="facet.band">Chassinat Volume</label>
 			<label index="facet.band.1">I</label>
 			<label index="facet.band.2">II</label>
 			<label index="facet.band.3">III</label>
@@ -34,12 +35,13 @@
 
 		<languageKey index="de" type="array">
 			<label index="facet.typ">Typ</label>
-			<label index="facet.typ.formular">Text</label>
+			<label index="facet.typ.formular">Formular</label>
 			<label index="facet.typ.gott">Gott</label>
 			<label index="facet.typ.ort">Ort</label>
-			<label index="facet.typ.word">Wort</label>
+			<label index="facet.typ.wort">Wort</label>
+			<label index="facet.typ.all">Alle</label>
 
-			<label index="facet.band">Band</label>
+			<label index="facet.band">Chassinat Band</label>
 			<label index="facet.band.1">I</label>
 			<label index="facet.band.2">II</label>
 			<label index="facet.band.3">III</label>
