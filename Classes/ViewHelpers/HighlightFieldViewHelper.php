@@ -49,7 +49,7 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 		$this->registerArgument('results', 'Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
 		$this->registerArgument('document', 'Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
 		$this->registerArgument('field', 'string', 'name of field in document to highlight', TRUE);
-		$this->registerArgument('index', 'int', 'if the field as an array: index of the single element to highlight', FALSE);
+		$this->registerArgument('index', 'int', 'if the field is an array: index of the single element to highlight', FALSE);
 		$this->registerArgument('idKey', 'string', 'name of the field in document that is its ID', FALSE, 'id');
 		$this->registerArgument('highlightTagOpen', 'string', 'opening tag to insert to begin highlighting', FALSE, '<em class="highlight">');
 		$this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', FALSE, '</em>');
