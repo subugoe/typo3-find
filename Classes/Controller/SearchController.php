@@ -351,6 +351,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			foreach ($facets as $facetTerm => $facetInfo) {
 				$facetQuery = $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
 				if ($facetInfo['config']['queryStyle'] === 'and') {
+					// TODO: Do we really use this part of the condition? Can it be removed?
 					// Alternative query style: adding a conjunction to the main query.
 					// Can be useful when using {!join} to filter on the underlying
 					// records instead of the joined ones.
@@ -363,7 +364,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				}
 				else {
 					// Add a filter query by default.
-					$query->createFilterQuery('facet-' . $facetID . '-' . $facetTerm)
+					$query->createFilterQuery(array('tag' => $this->tagForFacet($facetID), 'key' => 'facet-' . $facetID . '-' . $facetTerm))
 							->setQuery($facetQuery);
 				}
 				$activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
@@ -381,23 +382,41 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	 *
 	 * @param array $facetConfig
 	 * @param string $queryTerm
-	 * @return string query
+	 * @return string query string
 	 */
 	private function getFacetQuery ($facetConfig, $queryTerm) {
-		$queryPattern = '';
-		if (array_key_exists('query', $facetConfig)) {
-			$queryPattern = $facetConfig['query'];
+		$queryString = NULL;
+
+		if (array_key_exists('facetQuery', $facetConfig)) {
+			// Facet queries are configured: use one of them.
+			foreach ($facetConfig['facetQuery'] as $facetQueryConfig) {
+				if ($facetQueryConfig['id'] === $queryTerm) {
+					$queryString = $facetQueryConfig['query'];
+					break;
+				}
+			}
+			if ($queryString === NULL) {
+				$this->flashMessageContainer->add('find: Resuls for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', t3lib_FlashMessage::WARNING);
+			}
 		}
 		else {
-			$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . self::placeholder;
+			// No Facet queries configured: build the query.
+			$queryPattern = '';
+
+			if (array_key_exists('query', $facetConfig)) {
+				$queryPattern = $facetConfig['query'];
+			}
+			else {
+				$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . self::placeholder;
+			}
+
+			// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
+			// (because PHP loses ] in array keys during URL parsing)
+			$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
+			$queryString = str_replace(self::placeholder, $queryTerm, $queryPattern);
 		}
 
-		// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
-		// (because PHP loses ] in array keys during URL parsing)
-		$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
-		$query = str_replace(self::placeholder, $queryTerm, $queryPattern);
-
-		return $query;
+		return $queryString;
 	}
 
 
@@ -472,18 +491,55 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		if ($facetConfiguration) {
 			$facetSet = $query->getFacetSet();
 			foreach($facetConfiguration as $key => $facet) {
-				// start with defaults and overwrite with specific facet configuration
-				$facet = array_merge($this->settings['facetDefaults'], $facet);
-				$facetConfiguration[$key] = $facet;
+				if (array_key_exists('id', $facet)) {
+					$facetID = $facet['id'];
 
-				$facetSet->createFacetField($facet['id'])
-							 ->setField($facet['field'] ? $facet['field'] : $facet['id'])
-							 ->setMinCount($facet['fetchMinimum'])
-							 ->setLimit($facet['fetchMaximum'])
-							 ->setSort($facet['sortOrder']);
+					// start with defaults and overwrite with specific facet configuration
+					$facet = array_merge($this->settings['facetDefaults'], $facet);
+					$facetConfiguration[$key] = $facet;
+
+					$queryForFacet = NULL;
+					if (array_key_exists('facetQuery', $facet)) {
+						$queryForFacet = $facetSet->createFacetMultiQuery($facetID);
+						foreach ($facet['facetQuery'] as $facetQueryIndex => $facetQuery) {
+							if (array_key_exists('id', $facetQuery) && array_key_exists('query', $facetQuery)) {
+								$queryForFacet->createQuery($facetQuery['id'], $facetQuery['query']);
+							}
+							else {
+								$this->flashMessageContainer->add('find: TypoScript facet »' . $facetID . '«, facetQuery ' . $facetQueryIndex . ' does not have the required keys »id« and »query«. Ignoring this facetQuery.', t3lib_FlashMessage::WARNING);
+							}
+						}
+					}
+					else {
+						$queryForFacet = $facetSet->createFacetField($facetID);
+						$queryForFacet->setField($facet['field'] ? $facet['field'] : $facetID)
+										->setMinCount($facet['fetchMinimum'])
+										->setLimit($facet['fetchMaximum'])
+										->setSort($facet['sortOrder']);
+					}
+					
+					if ($facet['excludeOwnFilter'] == 1) {
+						$queryForFacet->addExclude($this->tagForFacet($facetID));
+					}
+				}
+				else {
+					$this->flashMessageContainer->add('find: TypoScript facet ' . $key . ' does not have the required key »id«. Ignoring this facet.', t3lib_FlashMessage::WARNING);
+				}
 			}
 		}
 		$this->view->assign('facets', $facetConfiguration);
+	}
+
+
+
+	/**
+	 * Returns the facet/filter key for the given $facetID.
+	 *
+	 * @param string $facetID
+	 * @return string
+	 */
+	private function tagForFacet ($facetID) {
+		return 'facet-' . $facetID;
 	}
 
 

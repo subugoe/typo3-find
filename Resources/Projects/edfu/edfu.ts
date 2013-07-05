@@ -21,7 +21,30 @@ plugin.tx_find {
 		facets {
 			10 {
 				id = typ
-				field = typ
+				excludeOwnFilter = 1
+				hidden = 1
+				facetQuery {
+					10 {
+						id = formular
+						query = typ:formular
+					}
+					20 {
+						id = gott
+						query = typ:gott
+					}
+					30 {
+						id = ort
+						query = typ:ort
+					}
+					40 {
+						id = wort
+						query = typ:wort
+					}
+					50 {
+						id = all
+						query = typ:formular OR typ:gott OR typ:ort OR typ:wort
+					}
+				}
 			}
 			20 {
 				id = band
