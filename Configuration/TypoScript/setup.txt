@@ -76,6 +76,7 @@ plugin.tx_find {
 			#10 {
 			#	id = type
 			#	autocomplete = 0
+			#	hidden = 1
 			#}
 			#20 {
 			#	id = year
