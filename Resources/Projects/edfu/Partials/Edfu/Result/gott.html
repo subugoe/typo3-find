@@ -1,0 +1,16 @@
+{namespace s=Tx_Find_ViewHelpers}
+<h1>
+	<f:link.action action="detail" arguments="{id:document.id}" noCacheHash="1" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return tx_find.detailViewWithPaging(this);')}">
+		<f:if condition="{s:valueForKey(array:document.fields, key:settings.standardFields.title)}">
+			<f:then>
+				<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
+			</f:then>
+			<f:else>
+				ID: {document.id}
+			</f:else>
+		</f:if>
+	</f:link.action>
+</h1>
+<p>
+	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.snippet, separator:', '}"/>
+</p>

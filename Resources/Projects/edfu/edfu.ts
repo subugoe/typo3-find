@@ -12,6 +12,10 @@ plugin.tx_find {
 				type = Text
 			}
 		}
+		additionalFilters {
+			1 = -typ:wb_berlin
+			2 = -typ:stelle
+		}
 		sort {
 		}
 		standardFields {
@@ -61,12 +65,13 @@ plugin.tx_find {
 			useFacetTerms = 1
 		}
 
-		CSSPaths.50 = EXT:find/Resources/Projects/edfu/edfu.css
+		CSSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.css
 
 		languageRootPath = EXT:find/Resources/Projects/edfu/Language/
 	}
 	view {
 		templateRootPath = EXT:find/Resources/Projects/edfu/Templates/
+		partialRootPath = EXT:find/Resources/Projects/edfu/Partials/
 	}
 }
 

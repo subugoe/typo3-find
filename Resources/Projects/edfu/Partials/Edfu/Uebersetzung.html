@@ -1,0 +1,9 @@
+{namespace s=Tx_Find_ViewHelpers}
+<s:regexp match="/%([^%&]+)&/" replace="<em>\\1</em>">
+	<s:highlightField
+		field="{f:if(condition:field, then:field, else:'uebersetzung')}"
+		document="{document}"
+		results="{results}"
+		raw="1"
+	/>
+</s:regexp>

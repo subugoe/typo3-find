@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Transliteration';
+  src: url('Transliteration.woff');
+ /* src: url('../font/fontello.eot?44536117#iefix') format('embedded-opentype'),
+       url('../font/fontello.woff?44536117') format('woff'),
+       url('../font/fontello.ttf?44536117') format('truetype'),
+       url('../font/fontello.svg?44536117#fontello') format('svg');
+*/
+  font-weight: normal;
+  font-style: normal;
+}
+
+.tx_find {
+	
+	.transliteration {
+		font-family: Transliteration;
+	}
+	
+	.textstelle {
+		font-style: italic;
+		color: #666;
+	}
+	
+	h1 .textstelle {
+		float: right;
+		font-size: 75%;
+	}
+	
+}
