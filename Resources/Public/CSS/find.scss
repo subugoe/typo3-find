@@ -1,5 +1,15 @@
 /* Default SCSS for TYPO3 Extension »find« . */
 
+$current: #000;
+$inactive: #bbb;
+$textInverted: #fff;
+$backgroundActive: #eef;
+$highlight: #f00;
+$highlightBorder: #b00;
+$downlight: #666;
+$downlightInverted: #ddd;
+$tabSelected: #263476;
+
 .tx_find {
 
 	.clear {
@@ -22,13 +32,24 @@
 	em.highlight {
 		font-style: normal;
 		font-weight: bold;
-		color: #f00;
+		color: $highlight;
 	}
 
 
 	/* search form */
 
 	form {
+		$borderA1: #b3b3b3;
+		$borderA2: #d2d2d2;
+		$backgroundA: #f3f5f9;
+		$textA: #333;
+		$borderB1: #d4d4d4;
+		$borderB2: #b4b4b4;
+		$backgroundB: #f3f6fb;
+		$backgroundBActive: #e7e9ed;
+		$textB: #555;
+		
+		
 		position: relative;
 		line-height: 150%;
 
@@ -62,9 +83,9 @@
 				padding: 4px;
 				border-style: solid;
 				border-width: 1px;
-				border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
-				color: #333333;
-				background: #f3f5f9;
+				border-color: $borderA1 $borderA2 $borderA2 $borderA1;
+				color: $textA;
+				background: $backgroundA;
 				font-size: 175%;
 			}
 		}
@@ -89,13 +110,13 @@
 			display: block;
 			float: left;
 			height: 30px;
-			background: url(../button_shade_large.png) repeat-x scroll 0 100% #f3f6fb;
+			background: url(../button_shade_large.png) repeat-x scroll 0 100% $backgroundB;
 			border-style: solid;
 			border-width: 1px;
-			border-color: #d4d4d4 #b4b4b4 #b4b4b4 #d4d4d4;
+			border-color:  $borderB1 $borderB2 $borderB2 $borderB1;
 			border-radius: 3px 3px 3px 3px;
-			border-right: 1px solid #b4b4b4;
-			color: #555555;
+			border-right: 1px solid $borderB2;
+			color: $textB;
 			font-weight: bold;
 			line-height: 100%;
 			padding: 3px 12px;
@@ -108,7 +129,7 @@
 
 		.submit:active {
 			background-image: url(../button_shade_large_click.png);
-			background-color: #e7e9ed;
+			background-color: $backgroundBActive;
 		}
 
 		a.extendedSearch {
@@ -163,7 +184,7 @@
 			}
 			
 			li:target {
-				background: #eef;
+				background: $backgroundActive;
 				border-radius: 7px;
 				transition: background .5s ease-in-out;
 			}
@@ -178,10 +199,10 @@
 		float: right;
 		clear: right;
 		width: 200px;
+	}
 
-		article {
-			margin-bottom: 2em;
-		}
+	article.facet {
+		margin-bottom: 2em;
 
 		h1 {
 			margin: 0;
@@ -216,15 +237,15 @@
 		}
 
 		.facetCount {
-			color: #666;
+			color: $downlight;
 			font-size: 80%;
 		}
 
 		.facetActive {
 			display: block;
-			background: #f00;
+			background: $highlight;
 			border-radius: 5px;
-			border: 1px solid #b00;
+			border: 1px solid $highlightBorder;
 			line-height: 150%;
 			font-weight: bold;
 			text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
@@ -239,7 +260,7 @@
 		.facetActive {
 			a {
 				padding-left: 0.2em;
-				color: #fff;
+				color: $textInverted;
 			}
 
 			a:before {
@@ -251,11 +272,11 @@
 		.facetShowAll {
 			a {
 				font-style: italic;
-				color: #666;
+				color: $downlight;
 			}
 			
 			a:hover {
-				color: #000;
+				color: $current;
 			}
 		}
 
@@ -271,6 +292,40 @@
 		.flot-x-axis .flot-tick-label:first-child {
 			left: 13px!important;
 		}
+	}
+	
+	.facet-type-Tabs {
+		@extend article.facet;
+
+		h1 {
+			display: none;
+		}
+
+		ol {
+			border-bottom: 1px solid $inactive;
+
+			li {
+				display: inline-block;
+				margin: 0;
+				border-radius: 10px 10px 0 0;
+				border: 0px none;
+
+				a {
+					padding: 1em 0.5em 0em 0.5em;
+					display: inline-block;
+				}
+			}
+
+			li.facetActive {
+				@extend li;
+				background: $tabSelected;
+				color: $textInverted;
+
+				.facetCount {
+					color: $downlightInverted;
+				}
+			}
+		}	
 	}
 
 	
@@ -302,7 +357,7 @@
 	
 		.tx-pagebrowse-current {
 			font-weight: bold;
-			color: #000;
+			color: $current;
 		}
 		
 		.resultCount {
@@ -336,7 +391,7 @@
 			float: right;
 			
 			.pager {
-				color: #bbb;
+				color: $inactive;
 				
 				.icon-right-dir:before,
 				.icon-left-dir:before {

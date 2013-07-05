@@ -1,0 +1,17 @@
+{namespace s=Tx_Find_ViewHelpers}
+<ol class="facetTabs">
+	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
+		<li class="{f:if(condition:'{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}', then:'facetActive ')}">
+			<f:link.action
+				addQueryString="TRUE"
+				argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
+				arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
+				noCacheHash="1"
+			>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
+							 default="{facetTerm}"/>
+				<span class="facetCount">{itemCount}</span>
+			</f:link.action>
+		</li>
+	</f:for>
+</ol>
