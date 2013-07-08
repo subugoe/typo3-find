@@ -445,35 +445,55 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 
 
 	/**
-	 * Returns query strings for active facets.
+	 * Returns array with information about active facets.
 	 *
 	 * @param array $arguments request arguments
-	 * @return array of facet query strings
+	 * @return array of arrays with information about active facets
 	 */
 	private function getActiveFacets ($arguments) {
 		$activeFacets = array();
 
+		// Add facets activated by default.
+		foreach ($this->settings['facets'] as $facet) {
+			if (!empty($facet['selectedByDefault'])) {
+				$this->setActiveFacetSelectionForID($activeFacets, $facet['id'], $facet['selectedByDefault']);
+			}
+		}
+
+		// Add facets activated by query parameters.
 		if (array_key_exists('facet', $arguments)) {
-			$facetTypes = $arguments['facet'];
-			foreach ($facetTypes as $facetID => $facets) {
-				$facetQueries = array();
-				$facetConfig = $this->getFacetConfig($facetID);
-				foreach ($facets as $facetTerm => $facetStatus) {
-					$facetInfo = array(
-						'id' => $facetID,
-						'config' => $facetConfig,
-						'term' => $facetTerm,
-						'query' => $this->getFacetQuery($facetConfig, $facetTerm)
-					);
-					$facetQueries[$facetTerm] = $facetInfo;
-				}
-				if (count($facetQueries) > 0) {
-					$activeFacets[$facetID] = $facetQueries;
-				}
+			foreach ($arguments['facet'] as $facetID => $facetSelection) {
+				$this->setActiveFacetSelectionForID($activeFacets, $facetID, $facetSelection);
 			}
 		}
 
 		return $activeFacets;
+	}
+
+
+
+	/**
+	 * Adds information about the selected items for a given facet to $activeFacets
+	 *
+	 * @param array $activeFacets
+	 * @param string $facetID ID of the facet to set
+	 * @param array $facetSelection array of selected items for the facet
+	 */
+	private function setActiveFacetSelectionForID (&$activeFacets, $facetID, $facetSelection) {
+		$facetQueries = array();
+		$facetConfig = $this->getFacetConfig($facetID);
+		foreach ($facetSelection as $facetTerm => $facetStatus) {
+			$facetInfo = array(
+				'id' => $facetID,
+				'config' => $facetConfig,
+				'term' => $facetTerm,
+				'query' => $this->getFacetQuery($facetConfig, $facetTerm)
+			);
+			$facetQueries[$facetTerm] = $facetInfo;
+		}
+		if (count($facetQueries) > 0) {
+			$activeFacets[$facetID] = $facetQueries;
+		}
 	}
 
 

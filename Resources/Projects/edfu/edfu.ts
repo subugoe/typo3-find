@@ -28,6 +28,9 @@ plugin.tx_find {
 				excludeOwnFilter = 1
 				type = Tabs
 				hidden = 1
+				selectedByDefault {
+					formular = 1
+				}
 				facetQuery {
 					10 {
 						id = formular
