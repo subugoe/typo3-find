@@ -38,7 +38,7 @@ class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		parent::initializeArguments();
 		$this->registerArgument('string', 'string', 'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
 		$this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
-		$this->registerArgument('replace', 'string', 'The regular expression replacement string', TRUE);
+		$this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
 	}
 
 
@@ -52,7 +52,14 @@ class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 			$input = $this->renderChildren();
 		}
 
-		$result =  preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+		$result = NULL;
+		if ($this->arguments['replace'] === NULL) {
+			$result = preg_match($this->arguments['match'], $input);
+		}
+		else {
+			$result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+		}
+		
 		return $result;
 	}
 
