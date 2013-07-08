@@ -36,7 +36,7 @@ class Tx_Find_ViewHelpers_ArrayFirstViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('array', 'array', 'the arry to return the first element of', TRUE);
+		$this->registerArgument('array', 'array', 'the array to return the first element of', TRUE);
 	}
 
 
