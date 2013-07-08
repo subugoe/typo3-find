@@ -10,14 +10,21 @@
   font-style: normal;
 }
 
-.tx_find .transliteration {
+.tx_find .field-transliteration, .tx_find .field-weiteres {
   font-family: Transliteration;
 }
-.tx_find .textstelle {
-  font-style: italic;
-  color: #666;
+.tx_find .bandseitezeile {
+  color: #333;
 }
-.tx_find h1 .textstelle {
+.tx_find h1 .bandseitezeile {
+  position: relative;
   float: right;
+  margin-left: 1em;
   font-size: 75%;
+}
+.tx_find h1 .bandseitezeile.multiple:after {
+  position: absolute;
+  top: 0;
+  right: -1em;
+  content: '\2026';
 }

@@ -12,18 +12,26 @@
 
 .tx_find {
 	
-	.transliteration {
+	.field-transliteration, .field-weiteres {
 		font-family: Transliteration;
 	}
 	
-	.textstelle {
-		font-style: italic;
-		color: #666;
+	.bandseitezeile {
+		color: #333;
 	}
 	
-	h1 .textstelle {
+	h1 .bandseitezeile {
+		position: relative;
 		float: right;
+		margin-left: 1em;
 		font-size: 75%;
+	}
+	
+	h1 .bandseitezeile.multiple:after {
+		position: absolute;
+		top: 0;
+		right: -1em;
+		content:'\2026';
 	}
 	
 }
