@@ -1,0 +1,46 @@
+{namespace s=Tx_Find_ViewHelpers}
+<section class="general">
+	<div class="technical">
+		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
+		<f:link.action arguments="{q: '{default: \'texttyp:\"{document.texttyp}\"\'}'}" noCacheHash="1" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze vom Texttyp »%s« zeigen.', arguments:'{0:document.texttyp}')}">
+			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', separator:', '}"/>
+		</f:link.action>
+	</div>
+	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
+	<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
+</section>
+<section class="photos">
+	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photos"/></h1>
+	<s:transpose name="collections" arrays="{
+		photos:document.photo_collection_photos,
+		note:document.photo_collection_string,
+		id:document.photo_collection_id
+	}">
+		<ul class="photo-collections">
+			<f:for each="{collections}" as="collection">
+				<li class="photo-collection" id="c{uid}-record-{document.id}-photo-collection-{collection.id}" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bildersammlung %s.', arguments:'{0:collection.note}')}">
+					<ul class="photos">
+						<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
+							<li class="photo" id="c{uid}-record-{document.id}-photo-collection-{collection.id}-photo-{photo}">
+								<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
+									<f:if condition="{s:pathExists(path:path)}">
+										<f:then>
+											<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="30m" height="30m"/>
+										</f:then>
+										<f:else>
+											<span class="imageName" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bild nicht online vorhanden.')}">{photo_name}</span>
+										</f:else>
+									</f:if>
+								</f:alias>
+							</li>
+						</f:for>
+					</ul>
+				</li>
+			</f:for>
+		</ul>
+	</s:transpose>
+</section>
+<section class="literatur">
+	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
+	<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
+</section>

@@ -1,6 +1,7 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'Transliteration';
-  src: url("Transliteration.woff");
+  src: url("TransliterationTimesItalic.woff");
  /* src: url('../font/fontello.eot?44536117#iefix') format('embedded-opentype'),
        url('../font/fontello.woff?44536117') format('woff'),
        url('../font/fontello.ttf?44536117') format('truetype'),
@@ -10,21 +11,61 @@
   font-style: normal;
 }
 
-.tx_find .field-transliteration, .tx_find .field-weiteres {
+/* ‚Äî */
+/* ‚Ä¶ */
+.tx_find .field-transliteration, .tx_find .transliteration, .tx_find .field-weiteres {
   font-family: Transliteration;
 }
-.tx_find .bandseitezeile {
-  color: #333;
-}
-.tx_find h1 .bandseitezeile {
+.tx_find h1 .technical {
   position: relative;
   float: right;
   margin-left: 1em;
   font-size: 75%;
 }
-.tx_find h1 .bandseitezeile.multiple:after {
+.tx_find h1 .technical .bandseitezeile {
+  color: #333;
+}
+.tx_find h1 .technical .bandseitezeile.multiple:after {
   position: absolute;
   top: 0;
   right: -1em;
-  content: '\2026';
+  content: "\2026";
+}
+.tx_find h1 .technical .field-texttyp {
+  color: #999;
+  font-style: italic;
+}
+.tx_find h1 .technical .field-texttyp:after {
+  padding-left: 0.3em;
+  content: "\2014";
+}
+.tx_find .detail {
+  margin-top: 2em;
+}
+.tx_find .detail.formular .bandseitezeile {
+  font-size: 133%;
+}
+.tx_find .detail.formular .field-texttyp {
+  font-style: italic;
+}
+.tx_find .detail.formular .field-texttyp:before {
+  content: "\2014";
+  padding-right: 0.3em;
+}
+.tx_find .detail.formular .field-transliteration {
+  display: block;
+  margin-top: 1em;
+  font-size: 133%;
+}
+.tx_find .detail.formular .field-uebersetzung {
+  display: block;
+  margin-top: 1em;
+}
+.tx_find .klammerung:before {
+  font-family: Transliteration;
+  content: '\00f6';
+}
+.tx_find .klammerung:after {
+  font-family: Transliteration;
+  content: '\00c4';
 }

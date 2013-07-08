@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>
+			Language labels for Edfu interface.
+		</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="Alle Datensätze vom Typ »%s« zeigen.">Show all records of text type »%s«.</label>
+			<label index="Photos">Photos</label>
+			<label index="Bildersammlung %s.">Photo collection %s.</label>
+			<label index="Photo »%s« aus dem Edfu-Projekt.">Photo »%s« of the Edfu-Project.</label>
+			<label index="Photo nicht online vorhanden.">Photo not available online.</label>
+			<label index="Literatur">References</label>
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="Alle Datensätze vom Typ »%s« zeigen.">Alle Datensätze vom Typ »%s« zeigen.</label>
+			<label index="Photos">Photos</label>
+			<label index="Bildersammlung %s.">Bildersammlung %s.</label>
+			<label index="Photo »%s« aus dem Edfu-Projekt.">Photo »%s« aus dem Edfu-Projekt.</label>
+			<label index="Photo nicht online vorhanden.">Photo nicht online vorhanden.</label>
+			<label index="Literatur">Literatur</label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -2,10 +2,14 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
+<f:debug>{_all}</f:debug>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
-	<article class="detail">
+	<article class="detail {document.fields.typ}" id="c{uid}-record-{document.fields.id}">
+		<f:render partial="Edfu/Detail/{document.fields.typ}" arguments="{_all}"/>
+
+		<hr>
 		<h1>
 			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
 		</h1>

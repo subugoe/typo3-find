@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Transliteration';
-  src: url('Transliteration.woff');
+  src: url('TransliterationTimesItalic.woff');
  /* src: url('../font/fontello.eot?44536117#iefix') format('embedded-opentype'),
        url('../font/fontello.woff?44536117') format('woff'),
        url('../font/fontello.ttf?44536117') format('truetype'),
@@ -10,28 +10,87 @@
   font-style: normal;
 }
 
+$dash: '\2014'; /* — */
+$dashspace: 0.3em;
+$more: '\2026'; /* … */
+
 .tx_find {
 	
-	.field-transliteration, .field-weiteres {
+	.field-transliteration, .transliteration, .field-weiteres {
 		font-family: Transliteration;
 	}
 	
-	.bandseitezeile {
-		color: #333;
+	h1 {
+		.technical {
+			position: relative;
+			float: right;
+			margin-left: 1em;
+			font-size: 75%;
+			
+			.bandseitezeile {
+				color: #333;
+			}
+	
+			.bandseitezeile.multiple:after {
+				position: absolute;
+				top: 0;
+				right: -1em;
+				content: $more;
+			}
+
+			.field-texttyp {
+				color: #999;
+				font-style: italic;
+			}
+
+			.field-texttyp:after {
+				padding-left: $dashspace;
+				content: $dash;
+			}
+		}
 	}
 	
-	h1 .bandseitezeile {
-		position: relative;
-		float: right;
-		margin-left: 1em;
-		font-size: 75%;
+	
+	.detail {
+		margin-top: 2em;
 	}
 	
-	h1 .bandseitezeile.multiple:after {
-		position: absolute;
-		top: 0;
-		right: -1em;
-		content:'\2026';
+	.detail.formular {
+		.technical {
+		}
+
+		.bandseitezeile {
+			font-size: 133%;
+		}
+		
+		.field-texttyp {
+			font-style: italic;
+		}
+		
+		.field-texttyp:before {
+			content: $dash;
+			padding-right: $dashspace;
+		}
+		
+		.field-transliteration {
+			display: block;
+			margin-top: 1em;
+			font-size: 133%;
+		}
+		
+		.field-uebersetzung {
+			display: block;
+			margin-top: 1em;
+		}
 	}
 	
+	.klammerung:before {
+		font-family: Transliteration;
+		content: '\00f6';
+	}
+	
+	.klammerung:after {
+		font-family: Transliteration;
+		content: '\00c4';
+	}
 }
