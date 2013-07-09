@@ -626,7 +626,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
 				if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
 					$localisationKey = 'LLL:' . $this->settings['languageRootPath'] . 'locallang-form.xml:input.sort-' . $sortOption['id'];
-					$localisedLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $this->request->getControllerExtensionKey());
+					$localisedLabel = Tx_Extbase_Utility_Localization::translate($localisationKey, $this->request->getControllerExtensionKey());
 					if (!$localisedLabel) {
 						$localisedLabel = $sortOption['id'];
 					}
