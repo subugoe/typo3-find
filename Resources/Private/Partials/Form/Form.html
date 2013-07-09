@@ -7,9 +7,18 @@
 
 	<div class="formFields">
 		<f:for each="{settings.queryFields}" as="fieldInfo">
-			<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
-				<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
+			<f:if condition="{fieldInfo.type}">
+				<f:then>
+					<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
+					<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
+				</f:then>
+				<f:else>
+					<div class="fieldContainer error">
+						<f:translate key="Missing type in configuration for queryField %s." arguments="{0:fieldInfo.id}"/>
+					</div>
+				</f:else>
 			</div>
+			</f:if>
 		</f:for>
 	</div>
 

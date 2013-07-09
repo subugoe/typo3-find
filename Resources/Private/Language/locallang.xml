@@ -9,6 +9,8 @@
 	<data type="array">
 		
 		<languageKey index="default" type="array">
+			<label index="Missing type in configuration for queryField %s.">Error: Missing type in configuration for queryField »%s«.</label>
+
 			<label index="extended Search">extended Search</label>
 			<label index="basic Search">basic Search</label>
 			<label index="Search">Search</label>
@@ -37,6 +39,8 @@
 		</languageKey>
 
 		<languageKey index="en" type="array">
+			<label index="Missing type in configuration for queryField %s.">Error: Missing type in configuration for queryField »%s«.</label>
+
 			<label index="extended Search">extended Search</label>
 			<label index="basic Search">basic Search</label>
 			<label index="Search">Search</label>
@@ -65,6 +69,8 @@
 		</languageKey>
 
 		<languageKey index="de" type="array">
+			<label index="Missing type in configuration for queryField %s.">Fehler: Fehlender type in der Konfiguration für queryField »%s«.</label>
+			
 			<label index="extended Search">erweiterte Suche</label>
 			<label index="basic Search">einfache Suche</label>
 			<label index="Search">Suchen</label>
