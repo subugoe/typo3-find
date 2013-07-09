@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'Transliteration';
-  src: url('TransliterationTimesItalic.woff');
- /* src: url('../font/fontello.eot?44536117#iefix') format('embedded-opentype'),
-       url('../font/fontello.woff?44536117') format('woff'),
-       url('../font/fontello.ttf?44536117') format('truetype'),
-       url('../font/fontello.svg?44536117#fontello') format('svg');
-*/
+  font-family: 'TransliterationFont';
+  src: url('Fonts/TransliterationTimesItalic.woff');
+  src: url('Fonts/TransliterationTimesItalic.eot') format('embedded-opentype'),
+       url('Fonts/TransliterationTimesItalic.woff') format('woff'),
+       url('Fonts/TransliterationTimesItalic.ttf') format('truetype'),
+	   /* TODO: make SVG font work: for some reason Times appears in the browser */
+       url('Fonts/TransliterationTimesItalic.svg#tti') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,7 +17,7 @@ $more: '\2026'; /* … */
 .tx_find {
 	
 	.field-transliteration, .transliteration, .field-weiteres {
-		font-family: Transliteration;
+		font-family: TransliterationFont;
 	}
 	
 	h1 {
