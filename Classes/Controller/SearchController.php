@@ -368,11 +368,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					// Add tag/key when configured to excludeOwnFilter for this facet.
 					// Do not add it otherwise as the additional {!tag ...} prepended to the Solr query
 					// will break usage of {!join …} in the query.
-					$queryTag = NULL;
+					$queryInfo = array('key' => 'facet-' . $facetID . '-' . $facetTerm);
 					if ($facetInfo['config']['excludeOwnFilter']) {
-						$queryTag = array('tag' => $this->tagForFacet($facetID), 'key' => 'facet-' . $facetID . '-' . $facetTerm);
+						$queryInfo['tag'] =  $this->tagForFacet($facetID);
 					}
-					$query->createFilterQuery($queryTag)
+					debugster($queryInfo);
+					$query->createFilterQuery($queryInfo)
 							->setQuery($facetQuery);
 				}
 				$activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
