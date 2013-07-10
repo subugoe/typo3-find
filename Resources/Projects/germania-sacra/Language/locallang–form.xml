@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>
+			Language labels for form labels.
+			The file »locallang-form.xml« will be loaded from the path set as
+			»settings.languageRootPath« in TypoScript.
+
+			Localisation keys / label indexes follow the convention:
+				* label for input FOO: input.FOO
+				* label for child-item BAR in control FOO (e.g. select options): input.FOO-BAR
+				* placeholder for input FOO: input.FOO.placeholder
+		</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="input.default">All Fields:</label>
+			<label index="input.bistum">Bistum:</label>
+			<label index="input.orden">Orden:</label>
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="input.default">Alle Felder:</label>
+			<label index="input.bistum">Bistum:</label>
+			<label index="input.orden">Orden:</label>
+		</languageKey>
+	</data>
+</T3locallang>
