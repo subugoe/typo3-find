@@ -60,6 +60,7 @@ plugin.tx_find {
 			40 {
 				id = land
 				field = land_facet
+				autocomplete = 1
 				query = {!join from=kloster_id to=id}(land_facet:"###term###" AND typ:standort-orden)
 			}
 		}
