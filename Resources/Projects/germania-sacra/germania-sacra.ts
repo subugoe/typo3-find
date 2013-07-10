@@ -73,7 +73,7 @@ plugin.tx_find {
 		additionalFilters {
 			1 = typ:kloster
 		}
-		CSSPaths.50 = EXT:find/Resources/Projects/germania-sacra/germania-sacra.css
+		CSSPaths.50 = EXT:find/Resources/Projects/germania-sacra/Resources/germania-sacra.css
 
 		languageRootPath = EXT:find/Resources/Projects/germania-sacra/Language/
 	}

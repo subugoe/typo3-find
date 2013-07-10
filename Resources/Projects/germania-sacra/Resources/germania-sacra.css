@@ -1,0 +1,85 @@
+aside {
+  float: right;
+  width: 300px;
+  margin: 0 0 1em 1em;
+}
+aside aside h2 {
+  display: none;
+}
+aside .map {
+  height: 300px;
+  background: #fff;
+}
+
+article section {
+  margin-bottom: 1em;
+}
+article section > * {
+  line-height: 1.5;
+  margin: 0 0 0 12em;
+  padding: 0;
+}
+article section h2 {
+  float: left;
+  clear: left;
+  width: 11em;
+  margin-left: 0;
+  font-size: 100%;
+  text-align: right;
+}
+article section h3 {
+  font-size: 100%;
+  text-transform: uppercase;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+article section ol, article section ul {
+  padding: 0;
+  list-style-type: none;
+}
+article section ol p {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+article section li p {
+  margin-bottom: 0.5em;
+}
+article section nav {
+  margin-bottom: 1em;
+}
+article section nav ol li {
+  display: inline;
+  list-style-type: none;
+}
+article section nav ol li :after {
+  content: ', ';
+}
+article section nav ol li :last-of-type:after {
+  content: '';
+}
+article section section {
+  margin: 0;
+}
+article span.bemerkung {
+  font-style: italic;
+}
+article .literatur li {
+  word-wrap: break-word;
+  padding-left: 1em;
+  text-indent: -1em;
+}
+article span.ort,
+article span.orden,
+article span.band-nummer,
+article section.person .name {
+  font-weight: bold;
+}
+article .zeitraum:after {
+  content: ":";
+}
+article .namensalternativen :before {
+  content: '(';
+}
+article .namensalternativen :after {
+  content: ')';
+}
