@@ -10,10 +10,6 @@
 		<f:render partial="Edfu/Detail/{document.fields.typ}" arguments="{_all}"/>
 
 		<hr>
-		<h1>
-			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
-		</h1>
-
 		<dl>
 			<f:for each="{document.fields}" as="value" key="fieldName">
 				<dt>

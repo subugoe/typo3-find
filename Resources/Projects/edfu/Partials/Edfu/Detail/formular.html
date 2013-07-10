@@ -1,4 +1,7 @@
 {namespace s=Tx_Find_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/fotorama.js"/>
+<s:linkCSS file="EXT:find/Resources/Projects/edfu/Resources/fotorama/fotorama.css"/>
 <section class="general">
 	<div class="technical">
 		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
@@ -16,31 +19,30 @@
 		note:document.photo_collection_string,
 		id:document.photo_collection_id
 	}">
-		<ul class="photo-collections">
+		<div style="position:relative;">
+		<div class="photos fotorama" data-width="100%" data-ratio="1.5" data-thumb-width="60" data-thumb-height="60" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
 			<f:for each="{collections}" as="collection">
-				<li class="photo-collection" id="c{uid}-record-{document.id}-photo-collection-{collection.id}" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bildersammlung %s.', arguments:'{0:collection.note}')}">
-					<ul class="photos">
-						<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
-							<li class="photo" id="c{uid}-record-{document.id}-photo-collection-{collection.id}-photo-{photo}">
-								<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
-									<f:if condition="{s:pathExists(path:path)}">
-										<f:then>
-											<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="30m" height="30m"/>
-										</f:then>
-										<f:else>
-											<span class="imageName" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bild nicht online vorhanden.')}">{photo_name}</span>
-										</f:else>
-									</f:if>
-								</f:alias>
-							</li>
-						</f:for>
-					</ul>
-				</li>
+				<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
+					<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
+						<f:if condition="{s:pathExists(path:path)}">
+							<f:then>
+								<a href="{f:uri.image(src:path, maxHeight:2000px, maxWidth:2000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
+									<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="60m" height="60m"additionalAttributes="{data-caption:path}"/>
+								</a>
+							</f:then>
+							<f:else>
+								<div class="imageName">
+									<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« ist nicht online verfügbar." arguments="{0:photo_name}"/></div>
+							</f:else>
+						</f:if>
+					</f:alias>
+				</f:for>
 			</f:for>
-		</ul>
+		</div></div>
 	</s:transpose>
 </section>
 <section class="literatur">
 	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
 	<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
 </section>
+

@@ -50,7 +50,10 @@ $more: '\2026'; /* … */
 		}
 	}
 	
-	
+	section {
+		margin-bottom: 2em;
+	}
+		
 	.detail {
 		margin-top: 2em;
 	}
@@ -84,6 +87,23 @@ $more: '\2026'; /* … */
 		}
 	}
 	
+	ul.photo-collections {
+		padding: 0;
+		
+		li {
+			list-style-type: none;
+		}
+
+		ul.photos {
+			padding: 0;
+			
+			li {
+				display: inline;
+				padding: 0;
+			}
+		}
+	}
+	
 	.klammerung:before {
 		font-family: Transliteration;
 		content: '\00f6';
@@ -92,5 +112,26 @@ $more: '\2026'; /* … */
 	.klammerung:after {
 		font-family: Transliteration;
 		content: '\00c4';
+	}
+	
+	.fotorama {
+		.fotorama__caption {
+			opacity: 1;
+			right: 0;
+			left: 0;
+			text-align: center;
+		}
+		
+		.fotorama__html {
+			background: #eee;
+		}
+		
+		.imageName {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 2em;
+			text-align: center;
+		}
 	}
 }

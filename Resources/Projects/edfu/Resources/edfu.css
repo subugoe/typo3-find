@@ -35,6 +35,9 @@
   padding-left: 0.3em;
   content: "\2014";
 }
+.tx_find section {
+  margin-bottom: 2em;
+}
 .tx_find .detail {
   margin-top: 2em;
 }
@@ -57,6 +60,19 @@
   display: block;
   margin-top: 1em;
 }
+.tx_find ul.photo-collections {
+  padding: 0;
+}
+.tx_find ul.photo-collections li {
+  list-style-type: none;
+}
+.tx_find ul.photo-collections ul.photos {
+  padding: 0;
+}
+.tx_find ul.photo-collections ul.photos li {
+  display: inline;
+  padding: 0;
+}
 .tx_find .klammerung:before {
   font-family: Transliteration;
   content: '\00f6';
@@ -64,4 +80,20 @@
 .tx_find .klammerung:after {
   font-family: Transliteration;
   content: '\00c4';
+}
+.tx_find .fotorama .fotorama__caption {
+  opacity: 1;
+  right: 0;
+  left: 0;
+  text-align: center;
+}
+.tx_find .fotorama .fotorama__html {
+  background: #eee;
+}
+.tx_find .fotorama .imageName {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2em;
+  text-align: center;
 }
