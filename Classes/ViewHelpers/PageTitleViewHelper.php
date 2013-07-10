@@ -36,8 +36,7 @@ class Tx_Find_ViewHelpers_PageTitleViewHelper extends Tx_Fluid_Core_ViewHelper_A
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('title', 'string', 'the title to set for the page', TRUE);
-
+		$this->registerArgument('title', 'string', 'the title to set for the page', FALSE, NULL);
 	}
 
 
@@ -45,7 +44,12 @@ class Tx_Find_ViewHelpers_PageTitleViewHelper extends Tx_Fluid_Core_ViewHelper_A
 	 * @return string
 	 */
 	public function render() {
-		$GLOBALS['TSFE']->page['title'] = $this->arguments['title'];
+		$title = $this->arguments['title'];
+		if ($title === NULL) {
+			$title = $this->renderChildren();
+		}
+debugster(array($this->arguments, $title));
+		$GLOBALS['TSFE']->page['title'] = $title;
 	}
 
 }
