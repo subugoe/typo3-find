@@ -61,13 +61,18 @@ $tabSelected: #263476;
 			float: left;
 			clear: left;
 
-
 			input {
 				display: block;
 				margin-left: 125px;
+				margin-bottom: 2px;
+				padding: 2px;
+				border-color: $borderA1 $borderA2 $borderA2 $borderA1;
+				border-style: solid;
+				border-width: 1px;
+				color: $textA;
+				background: $backgroundA;
 			}
 		}
-		
 		
 		.field-default {
 			label {
@@ -75,17 +80,11 @@ $tabSelected: #263476;
 			}
 
 			input {
-				display: block;
 				float: left;
 				width: 400px;
 				height: 30px;
 				margin: 0px 6px 2px 0px;
 				padding: 4px;
-				border-style: solid;
-				border-width: 1px;
-				border-color: $borderA1 $borderA2 $borderA2 $borderA1;
-				color: $textA;
-				background: $backgroundA;
 				font-size: 175%;
 			}
 		}
@@ -141,10 +140,6 @@ $tabSelected: #263476;
 			 display: none;
 		}
 
-		.search-extended .field-mode-extended {
-			display: block;
-		}
-
 		.sortOrder, .resultCountPicker {
 			float: right;
 			margin: 5px 0 0 0.5em;
@@ -159,6 +154,10 @@ $tabSelected: #263476;
 				margin-left: 3px;
 			}
 		}
+	}
+	
+	form.search-extended .field-mode-extended {
+		display: block;
 	}
 
 

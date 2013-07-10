@@ -42,22 +42,23 @@
 .tx_find form .fieldContainer input {
   display: block;
   margin-left: 125px;
+  margin-bottom: 2px;
+  padding: 2px;
+  border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
+  border-style: solid;
+  border-width: 1px;
+  color: #333333;
+  background: #f3f5f9;
 }
 .tx_find form .field-default label {
   display: none;
 }
 .tx_find form .field-default input {
-  display: block;
   float: left;
   width: 400px;
   height: 30px;
   margin: 0px 6px 2px 0px;
   padding: 4px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
-  color: #333333;
-  background: #f3f5f9;
   font-size: 175%;
 }
 .tx_find form label {
@@ -104,9 +105,6 @@
 .tx_find form .field-mode-extended {
   display: none;
 }
-.tx_find form .search-extended .field-mode-extended {
-  display: block;
-}
 .tx_find form .sortOrder, .tx_find form .resultCountPicker {
   float: right;
   margin: 5px 0 0 0.5em;
@@ -118,6 +116,9 @@
   position: relative;
   top: 2px;
   margin-left: 3px;
+}
+.tx_find form.search-extended .field-mode-extended {
+  display: block;
 }
 .tx_find .results {
   clear: left;

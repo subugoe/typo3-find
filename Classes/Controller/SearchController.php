@@ -242,8 +242,8 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	private function isExtendedSearch () {
 		$result = FALSE;
 
-		if (array_key_exists('extendedSearch', $this->requestArguments)) {
-			$result = ($this->requestArguments['extendedSearch'] == TRUE);
+		if (array_key_exists('extended', $this->requestArguments)) {
+			$result = ($this->requestArguments['extended'] == TRUE);
 		}
 		
 		return $result;
