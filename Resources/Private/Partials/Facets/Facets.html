@@ -12,7 +12,8 @@
 				<f:render partial="Facets/Facet" arguments="{
 						  facetData:'{s:valueForKey(array:results.components.facetset.facets, key:facetInfo.id)}',
 						  facetInfo:facetInfo,
-						  activeFacets: activeFacets
+						  activeFacets: activeFacets,
+						  uid: uid
 				}"/>
 			</f:if>
 		</f:for>
