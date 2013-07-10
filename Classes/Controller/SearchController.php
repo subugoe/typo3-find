@@ -372,7 +372,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					if ($facetInfo['config']['excludeOwnFilter']) {
 						$queryInfo['tag'] =  $this->tagForFacet($facetID);
 					}
-					debugster($queryInfo);
+
 					$query->createFilterQuery($queryInfo)
 							->setQuery($facetQuery);
 				}
