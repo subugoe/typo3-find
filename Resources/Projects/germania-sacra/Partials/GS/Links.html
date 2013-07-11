@@ -1,0 +1,26 @@
+{namespace s=Tx_Find_ViewHelpers}
+<section class="link">
+	<f:if condition="{document.url}">
+		<h2>Links</h2>
+		<ul>
+			<s:transpose name="urls" arrays="{
+				url: document.url,
+				art: document.url_art,
+				bemerkung: \"{s:highlightField(field:'url_bemerkung', document:document, results:results)}\"
+			}">
+				<f:for each="{urls}" as="url">
+					<f:if condition="url.art">
+						<li>
+							<f:link.external uri="{url.url}">
+								<f:translate key="label-url_type-{url.art}" default="{url.art}"/>
+								<f:if condition="{url.bemerkung}">
+									– {f:format.raw(value:url.bemerkung)}
+								</f:if>
+							</f:link.external>
+						</li>
+					</f:if>
+				</f:for>
+			</s:transpose>
+		</ul>
+	</f:if>
+</section>

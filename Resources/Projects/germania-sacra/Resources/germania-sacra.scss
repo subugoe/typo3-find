@@ -94,14 +94,14 @@ article {
 	}
 
 	.zeitraum:after {
-		content: ':'
+		content: ':';
 	}
 
-	.namensalternativen {
-		:before {
+	.person_namensalternativen {
+		&:before {
 			content: '(';
 		}
-		:after {
+		&:after {
 			content: ')';
 		}
 	}

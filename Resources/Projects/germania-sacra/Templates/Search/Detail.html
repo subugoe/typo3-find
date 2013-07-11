@@ -10,15 +10,16 @@
 		<f:render partial="GS/Karte" arguments="{_all}"/>
 
 		<h1>
-			<f:render partial="Display/Field/General" arguments="{results:results, document:}"/>
-			<s:highlightField field="kloster" document="{document}" results="{results}"/>
+			<f:render partial="Display/Field/General" arguments="{results:results, document:document, field:'kloster'}"/>
 		</h1>
 
 		<div class="main">
 			<f:if condition="{document.patrozinium}">
 				<section class="patrozinium">
 					<h2>Patrozinium</h2>
-					<p><s:highlightField field="patrozinium" document="{document}" results="{results}"/></p>
+					<p>
+						<f:render partial="Display/Field/General" arguments="{results:results, document:document, field:'patrozinium'}"/>
+					</p>
 				</section>
 			</f:if>
 
@@ -31,7 +32,9 @@
 			<f:if condition="{document.bemerkung_kloster.0}">
 				<section class="bemerkung">
 					<h2>Bemerkung</h2>
-					<p>{s:highlightField(field:'bemerkung_kloster', document:document, results:results, index:0)}</p>
+					<p>
+						<f:render partial="Display/Field/General" arguments="{results:results, document:document, field:'bemerkung_kloster'}"/>
+					</p>
 				</section>
 			</f:if>
 
@@ -40,13 +43,7 @@
 			<f:if condition="{document.literatur}">
 				<section class="literatur">
 					<h2>Literatur</h2>
-					<ul>
-						<f:for each="{s:highlightField(field:'literatur', document:document, results:results)}" as="literatur">
-							<li>
-								{f:format.raw(value:literatur)}
-							</li>
-						</f:for>
-					</ul>
+					<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur'}"/>
 				</section>
 			</f:if>
 
@@ -59,31 +56,7 @@
 				</p>
 			</section>
 
-			<section class="link">
-				<f:if condition="{document.url}">
-					<h2>Links</h2>
-					<ul>
-						<s:transpose name="urls" arrays="{
-							url: document.url,
-							art: document.url_art,
-							bemerkung: \"{s:highlightField(field:'url_bemerkung', document:document, results:results)}\"
-						}">
-							<f:for each="{urls}" as="url">
-								<f:if condition="url.art">
-									<li>
-										<f:link.external uri="{url.url}">
-											<f:translate key="label-url_type-{url.art}" default="{url.art}"/>
-											<f:if condition="{url.bemerkung}">
-												– {f:format.raw(value:url.bemerkung)}
-											</f:if>
-										</f:link.external>
-									</li>
-								</f:if>
-							</f:for>
-						</s:transpose>
-					</ul>
-				</f:if>
-			</section>
+			<f:render partial="GS/Links" arguments="{_all}"/>
 		</div>
 	</article>
 </f:section>

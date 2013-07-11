@@ -75,11 +75,11 @@ article section.person .name {
   font-weight: bold;
 }
 article .zeitraum:after {
-  content: ":";
+  content: ':';
 }
-article .namensalternativen :before {
+article .person_namensalternativen:before {
   content: '(';
 }
-article .namensalternativen :after {
+article .person_namensalternativen:after {
   content: ')';
 }
