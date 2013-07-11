@@ -79,7 +79,7 @@ plugin.tx_find {
 	}
 	view {
 		templateRootPath = EXT:find/Resources/Projects/germania-sacra/Templates/
-		# partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
+		partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
 	}
 }
 

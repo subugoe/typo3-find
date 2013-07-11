@@ -1,0 +1,79 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:if condition="{document.person_name_xml}">
+	<section class="person">
+		<h2>
+			<f:if condition="{f:count(subject:document.person_name_xml)} == 1">
+				<f:then>Person</f:then>
+				<f:else>Personen</f:else>
+			</f:if>
+		</h2>
+
+		<s:transpose name="personen" arrays="{
+			name_xml: \"{s:highlightField(field:'person_name_xml', document:document, results:results, raw:1)}\",
+			nameOriginal: document.person_name_xml,
+			namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results, raw:1)}\",
+			bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
+			bezeichnung_plural: \"{s:highlightField(field:'person_bezeichnung_plural', document:document, results:results)}\",
+			bezeichnungOriginal: document.person_bezeichnung,
+			anmerkung_xml: \"{s:highlightField(field:'person_anmerkung_xml', document:document, results:results, raw:1)}\",
+			von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
+			bis_verbal: \"{s:highlightField(field:'person_bis_verbal', document:document, results:results)}\",
+			gso: \"{s:highlightField(field:'person_gso', document:document, results:results)}\"
+		}">
+
+			<f:if condition="{f:count(subject:personen)} > 15">
+				<nav>
+					<ol>
+						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
+							<f:alias map="{samplePerson:'{s:arrayFirst(array:personenMitAmt)}'}">
+								<li><f:link.action addQueryString="1" section="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}" noCacheHash="1">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then><f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else></f:if></f:link.action></li>
+							</f:alias>
+						</f:groupedFor>
+					</ol>
+				</nav>
+			</f:if>
+
+			<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
+				<f:alias map="{
+					samplePerson:'{s:arrayFirst(array:personenMitAmt)}',
+					amtClass:'{s:regexp(string:amt, match:\"/\s+/\", replace:\"_\")}'
+				}">
+					<section>
+						<h3 id="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}">
+							{f:count(subject:personenMitAmt)}
+							<f:if condition="{f:count(subject:personenMitAmt)} == 1">
+								<f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then>
+								<f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else>
+							</f:if>
+						</h3>
+						<ol>
+							<f:for each="{personenMitAmt}" as="person">
+								<li>
+									<f:if condition="{person.von_verbal}{person.bis_verbal}">
+										<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-{f:format.raw(value:person.bis_verbal)}')}</span>
+									</f:if>
+									<f:link.external title="{person.bezeichnungOriginal} {person.nameOriginal} in der Personendatenbank anzeigen" uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
+										<f:if condition="{person.name_xml}">
+											<f:then>
+												<span class="name">{f:format.raw(value:person.name_xml)}</span>
+											</f:then>
+											<f:else>
+												unbekannter Name
+											</f:else>
+										</f:if>
+									</f:link.external>
+									<f:if condition="{person.namensalternativen_xml}">
+										{f:format.raw(value:person.namensalternativen_xml)}
+									</f:if>
+									<f:if condition="{person.anmerkung_xml}">
+										<span class="bemerkung">{f:format.raw(value:person.anmerkung_xml)}</span>
+									</f:if>
+								</li>
+							</f:for>
+						</ol>
+					</section>
+				</f:alias>
+			</f:groupedFor>
+		</s:transpose>
+	</section>
+</f:if>

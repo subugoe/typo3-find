@@ -1,0 +1,38 @@
+{namespace s=Tx_Find_ViewHelpers}
+<section class="lage">
+	<h2>Lage</h2>
+	<ol>
+		<s:transpose name="standorte" arrays="{
+			name: \"{s:highlightField(field:'ort', document:document, results:results)}\",
+			nameOriginal: document.ort,
+			bistum: \"{s:highlightField(field:'bistum', document:document, results:results)}\",
+			bistumOriginal: document.bistum
+			ist_erzbistum: document.ist_erzbistum,
+			wuestung: document.wuestung,
+			land: \"{s:highlightField(field:'land', document:document, results:results)}\",
+			von_verbal: \"{s:highlightField(field:'standort_von_verbal', document:document, results:results)}\",
+			bis_verbal: \"{s:highlightField(field:'standort_bis_verbal', document:document, results:results)}\"
+		}">
+			<f:for each="{standorte}" as="standort">
+				<li>
+					<p>
+						<f:if condition="{0:standort.von_verbal, 1:standort.bis_verbal} != {0:'', 1:''}">
+							<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
+						</f:if>
+						<span class="ort">
+							<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" noCacheHash="1" title="Alle Klöster in {standort.nameOriginal} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+
+						<span class="land">{f:format.raw(value:standort.land)},</span>
+
+						<span class="bistum">
+							<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" noCacheHash="1" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
+								{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
+								{f:format.raw(value:standort.bistum)}
+							</f:link.action>
+						</span>
+					</p>
+				</li>
+			</f:for>
+		</s:transpose>
+	</ol>
+</section>

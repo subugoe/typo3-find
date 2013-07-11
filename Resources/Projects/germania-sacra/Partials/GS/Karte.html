@@ -1,0 +1,34 @@
+{namespace s=Tx_Find_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<f:if condition="{document.koordinaten}">
+	<aside>
+		<h2>Karte</h2>
+		<div id="c-{document.id}-map" class="map"></div>
+		<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/germania-sacra/Resources/germania-sacra.js">
+			var ID = {s:json(data:document.id)};
+			var standorte = [];
+			var koordinaten, titel, queryURL, institutionengenau;
+			<f:for each="{document.koordinaten}" as="koordinaten" key="index">
+				koordinaten = {s:json(data:koordinaten)};
+				titel = {s:json(data:document.kloster)};
+				queryURL = "<f:uri.action arguments="{q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'}, count:1000, dataFields:'id,koordinaten,kloster,ort,orden_graphik,orden,orden_von_von,orden_bis_bis,standort_von_von,standort_bis_bis'}" action="json" pageType="1369315139" noCacheHash="1"/>";
+				institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
+				/**
+				* We need the '' quotes around the first array key in what follows to keep TYPO3 6.0.4 from
+				*	interpreting the object itself. TYPO3 6.1 seems to be OK.
+				*/
+				standorte.push({
+				'koordinaten': koordinaten,
+				titel: titel,
+				queryURL: queryURL,
+				institutionengenau: institutionengenau
+				});
+			</f:for>
+
+			germaniaSacra.initialise({
+			'ID': ID,
+			standorte: standorte
+			});
+		</t3jquery:addJQueryAndScript>
+	</aside>
+</f:if>
