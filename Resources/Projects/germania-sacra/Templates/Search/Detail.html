@@ -177,25 +177,25 @@
 				</section>
 			</f:if>
 
-			<f:if condition="{document.person_name}">
+			<f:if condition="{document.person_name_xml}">
 				<section class="person">
 					<h2>
-						<f:if condition="{f:count(subject:document.person_name)} == 1">
+						<f:if condition="{f:count(subject:document.person_name_xml)} == 1">
 							<f:then>Person</f:then>
 							<f:else>Personen</f:else>
 						</f:if>
 					</h2>
 
 					<s:transpose name="personen" arrays="{
-									name: \"{s:highlightField(field:'person_name', document:document, results:results)}\",
-									nameOriginal: document.person_name,
+									name_xml: \"{s:highlightField(field:'person_name_xml', document:document, results:results, raw:1)}\",
+									nameOriginal: document.person_name_xml,
 									namensalternativen_xml: \"{s:highlightField(field:'person_namensalternativen_xml', document:document, results:results, raw:1)}\",
 									bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
 									bezeichnung_plural: \"{s:highlightField(field:'person_bezeichnung_plural', document:document, results:results)}\",
 									bezeichnungOriginal: document.person_bezeichnung,
+									anmerkung_xml: \"{s:highlightField(field:'person_anmerkung_xml', document:document, results:results, raw:1)}\",
 									von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
 									bis_verbal: \"{s:highlightField(field:'person_bis_verbal', document:document, results:results)}\",
-									anmerkung: \"{s:highlightField(field:'person_anmerkung', document:document, results:results)}\",
 									gso: \"{s:highlightField(field:'person_gso', document:document, results:results)}\"
 						}">
 
