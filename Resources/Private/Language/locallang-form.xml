@@ -15,17 +15,17 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="input.default">All Fields:</label>
-			<label index="input.sort">Sort By:</label>
+			<label index="input.default">All Fields</label>
+			<label index="input.sort">Sort By</label>
 			<label index="input.sort-default">Default</label>
-			<label index="input.count">Results:</label>
+			<label index="input.count">Results</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
-			<label index="input.default">Alle Felder:</label>
-			<label index="input.sort">Sortierung:</label>
+			<label index="input.default">Alle Felder</label>
+			<label index="input.sort">Sortierung</label>
 			<label index="input.sort-default">Standard</label>
-			<label index="input.count">Trefferzahl:</label>
+			<label index="input.count">Trefferzahl</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,6 +1,6 @@
 <span class="radioGroup">
 	<span class="radioGroupLabel">
-		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>
+		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 	</span>
 	<f:for each="{fieldInfo.options}" as="value" key="key">
 		<f:form.radio id="c{uid}-field-{fieldInfo.id}-{key}" name="q[{fieldInfo.id}]" value="{key}" checked="{0:key}=={0:fieldInfo.default}"/>
