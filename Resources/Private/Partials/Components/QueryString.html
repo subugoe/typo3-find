@@ -1,0 +1,34 @@
+<f:comment>
+	Arguments that need to be passed to this partial:
+		* query: array with key: query field ID => value: query string
+		* facets: array with key: facet ID => value: (array with key: selected item => value: 1)
+</f:comment>
+<f:if condition="{f:count(subject:query)} > 0">
+	<f:then>
+		<f:translate key="Query"/>
+		<f:for each="{query}" as="value" key="key" iteration="iteration">
+			<f:if condition="{0:key} != {0:'default'}">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{key}"/>:
+			</f:if>
+			»{value}«
+			<f:if condition="{iteration.isLast} == 0">
+				<f:translate key="AND"/>
+			</f:if>
+		</f:for>
+	</f:then>
+	<f:else>
+		<f:translate key="All records"/>
+	</f:else>
+</f:if>
+<f:if condition="{facets}">
+	<f:translate key="restricted to"/>
+	<f:for each="{facets}" as="value" key="key" iteration="iteration">
+		<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{key}" default="{key}"/>:
+		<f:for each="{value}" as="facetValue" key="facetTerm">
+			»<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{key}.{facetTerm}" default="{facetTerm}"/>«
+		</f:for>
+		<f:if condition="{iteration.isLast} == 0">
+			<f:translate key="and"/>
+		</f:if>
+	</f:for>
+</f:if>

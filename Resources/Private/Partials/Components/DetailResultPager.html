@@ -10,19 +10,7 @@
 				</span>
 
 				<span class="query">
-					<f:if condition="{arguments.underlyingQuery.q}">
-						<f:translate key="Query"/>
-						<f:for each="{arguments.underlyingQuery.q}" as="value" key="key" iteration="iteration">
-							»<f:if condition="{0:key} != {0:'default'}">{key}: </f:if>{value}<f:if condition="{iteration.isLast} == 0"> AND </f:if>«
-						</f:for>
-					</f:if>
-					<f:if condition="{arguments.underlyingQuery.facet}">
-						<f:translate key="restricted to"/>
-						<f:for each="{arguments.underlyingQuery.facet}" as="value" key="key" iteration="iteration">
-							<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{key}" default="{key}"/>
-							<f:for each="{value}" as="facetValue" key="facetTerm">»<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{key}.{facetTerm}" default="{facetTerm}"/>«</f:for><f:if condition="{iteration.isLast} == 0">, </f:if>
-						</f:for>
-					</f:if>
+					<f:render partial="Components/QueryString" arguments="{query:arguments.underlyingQuery.q, facets:arguments.underlyingQuery.facets}"/>
 				</span>
 			</span>
 

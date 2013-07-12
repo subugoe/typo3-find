@@ -23,8 +23,11 @@
 
 			<label index="Filter by %s">Filter by %s</label>
 
+			<label index="All records">All records</label>
 			<label index="Query">Query</label>
-			<label index="restricted to">restricted to</label>
+			<label index="restricted to">with</label>
+			<label index="AND">and</label>
+			<label index="and">and</label>
 			<label index="result">result</label>
 			<label index="previous">previous</label>
 			<label index="next">next</label>
@@ -53,8 +56,11 @@
 
 			<label index="Filter by %s">Filter by %s</label>
 
+			<label index="All records">All records</label>
 			<label index="Query">Query</label>
-			<label index="restricted to">restricted to</label>
+			<label index="restricted to">with</label>
+			<label index="AND">and</label>
+			<label index="and">and</label>
 			<label index="result">result</label>
 			<label index="previous">previous</label>
 			<label index="next">next</label>
@@ -83,8 +89,11 @@
 
 			<label index="Filter by %s">Nach %s filtern</label>
 
+			<label index="All records">Alle Datensätze</label>
 			<label index="Query">Abfrage</label>
-			<label index="restricted to">eingeschränkt auf</label>
+			<label index="restricted to">mit</label>
+			<label index="AND">und</label>
+			<label index="and">und</label>
 			<label index="result">Treffer</label>
 			<label index="previous">voriger Treffer</label>
 			<label index="next">nächster Treffer</label>
