@@ -70,7 +70,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		$this->solr = new Solarium\Client($configuration);
 
 		$this->requestArguments = $this->request->getArguments();
-		$this->cleanArgumentsArray($this->requestArguments);
+        $this->cleanArgumentsArray($this->requestArguments);
 	}
 
 	
@@ -626,7 +626,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	 * For the key »default« it contains the default sort order string.
 	 * For the key »selected« it contains the selected sort order string.
 	 *
- 	 * @param \Solarium\QueryType\Select\Query\Query $sortString
+     * @param array $arguments request arguments
 	 */
 	private function addSortOrdersToTemplate ($arguments) {
 		$sortOptions = array('menu' => array());
@@ -706,7 +706,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	 * For the key »default« it contains the default number of results.
 	 * For the key »selected« it contains the the selected number of results.
 	 *
- 	 * @param \Solarium\QueryType\Select\Query\Query $sortString
+     * @param array $arguments request arguments
 	 */
 	private function addResultCountOptionsToTemplate ($arguments) {
 		$resultCountOptions = array('menu' => array());
