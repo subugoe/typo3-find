@@ -65,7 +65,7 @@ plugin.tx_find {
 			fields.1 = *
 			query = ###term###* OR ###term###
 			useQueryTerms = 1
-			useFacetTerms = 1
+			useFacetTerms = 0
 		}
 
 		CSSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.css
