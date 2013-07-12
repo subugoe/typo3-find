@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @font-face {
   font-family: 'TransliterationFont';
   src: url("Fonts/TransliterationTimesItalic.woff");
@@ -7,33 +6,37 @@
   font-style: normal;
 }
 
-/* ‚Äî */
-/* ‚Ä¶ */
+/* — */
+/* … */
 .tx_find .field-transliteration, .tx_find .transliteration, .tx_find .field-weiteres {
   font-family: TransliterationFont;
 }
-.tx_find h1 .technical {
+.tx_find .result h1 .technical {
   position: relative;
   float: right;
   margin-left: 1em;
   font-size: 75%;
 }
-.tx_find h1 .technical .bandseitezeile {
+.tx_find .result h1 .technical .bandseitezeile {
   color: #333;
 }
-.tx_find h1 .technical .bandseitezeile.multiple:after {
+.tx_find .result h1 .technical .bandseitezeile.multiple:after {
   position: absolute;
   top: 0;
   right: -1em;
   content: "\2026";
 }
-.tx_find h1 .technical .field-texttyp {
+.tx_find .result h1 .technical .field-texttyp {
   color: #999;
   font-style: italic;
 }
-.tx_find h1 .technical .field-texttyp:after {
+.tx_find .result h1 .technical .field-texttyp:after {
   padding-left: 0.3em;
   content: "\2014";
+}
+.tx_find .result h1 .field-beziehung {
+  font-size: 80%;
+  color: #666;
 }
 .tx_find section {
   margin-bottom: 2em;

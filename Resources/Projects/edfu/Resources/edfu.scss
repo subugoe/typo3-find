@@ -19,33 +19,40 @@ $more: '\2026'; /* … */
 	.field-transliteration, .transliteration, .field-weiteres {
 		font-family: TransliterationFont;
 	}
-	
-	h1 {
-		.technical {
-			position: relative;
-			float: right;
-			margin-left: 1em;
-			font-size: 75%;
-			
-			.bandseitezeile {
-				color: #333;
-			}
-	
-			.bandseitezeile.multiple:after {
-				position: absolute;
-				top: 0;
-				right: -1em;
-				content: $more;
+
+	.result {
+		h1 {
+			.technical {
+				position: relative;
+				float: right;
+				margin-left: 1em;
+				font-size: 75%;
+
+				.bandseitezeile {
+					color: #333;
+				}
+
+				.bandseitezeile.multiple:after {
+					position: absolute;
+					top: 0;
+					right: -1em;
+					content: $more;
+				}
+
+				.field-texttyp {
+					color: #999;
+					font-style: italic;
+				}
+
+				.field-texttyp:after {
+					padding-left: $dashspace;
+					content: $dash;
+				}
 			}
 
-			.field-texttyp {
-				color: #999;
-				font-style: italic;
-			}
-
-			.field-texttyp:after {
-				padding-left: $dashspace;
-				content: $dash;
+			.field-beziehung {
+				font-size: 80%;
+				color: #666;
 			}
 		}
 	}
