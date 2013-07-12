@@ -48,7 +48,7 @@ class Tx_Find_ViewHelpers_PageTitleViewHelper extends Tx_Fluid_Core_ViewHelper_A
 		if ($title === NULL) {
 			$title = $this->renderChildren();
 		}
-debugster(array($this->arguments, $title));
+
 		$GLOBALS['TSFE']->page['title'] = $title;
 	}
 
