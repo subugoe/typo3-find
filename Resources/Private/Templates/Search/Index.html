@@ -1,6 +1,12 @@
+{namespace s=Tx_Find_ViewHelpers}
 <f:layout name="Default"/>
 
 <f:section name="main">
+	<s:pageTitle>
+		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
+		–
+		{pageTitle}
+	</s:pageTitle>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
 	<div class="results">

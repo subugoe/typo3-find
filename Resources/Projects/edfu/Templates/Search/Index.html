@@ -3,6 +3,12 @@
 
 <f:section name="main">
 <f:debug>{_all}</f:debug>
+	<s:pageTitle>
+		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
+		–
+		{pageTitle}
+	</s:pageTitle>
+
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
 	<div class="results">

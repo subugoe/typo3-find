@@ -3,7 +3,7 @@
 
 <f:section name="main">
 <f:debug>{_all}</f:debug>
-	<s:pageTitle title="{document.fields.id}"/>
+	<s:pageTitle>{document.fields.id} – {pageTitle}</s:pageTitle>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 

@@ -231,6 +231,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		$contentObject = $this->configurationManager->getContentObject();
 		$uid = $contentObject->data['uid'];
 		$this->view->assign('uid', $uid);
+		$this->view->assign('pageTitle', $GLOBALS['TSFE']->page['title']);
 	}
 
 
