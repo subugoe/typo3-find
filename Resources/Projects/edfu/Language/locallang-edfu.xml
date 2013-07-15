@@ -13,6 +13,8 @@
 			<label index="Bildersammlung %s.">Photo collection »%s«.</label>
 			<label index="Photo »%s« aus dem Edfu-Projekt.">Photo »%s« of the Edfu-Project.</label>
 			<label index="Photo »%s« ist nicht online verfügbar.">Photo »%s« is not available online.</label>
+			<label index="Helligkeit">Brightness</label>
+			<label index="Kontrast">Contrast</label>
 			<label index="Literatur">References</label>
 		</languageKey>
 
@@ -22,6 +24,8 @@
 			<label index="Bildersammlung %s.">Bildersammlung »%s«.</label>
 			<label index="Photo »%s« aus dem Edfu-Projekt.">Photo »%s« aus dem Edfu-Projekt.</label>
 			<label index="Das Photo »%s« ist nicht online verfügbar.">Das Photo »%s« ist nicht online verfügbar.</label>
+			<label index="Helligkeit">Helligkeit</label>
+			<label index="Kontrast">Kontrast</label>
 			<label index="Literatur">Literatur</label>
 		</languageKey>
 	</data>

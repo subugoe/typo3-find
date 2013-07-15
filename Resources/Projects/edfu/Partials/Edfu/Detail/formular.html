@@ -1,7 +1,7 @@
 {namespace s=Tx_Find_ViewHelpers}
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
-<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/fotorama.js"/>
-<s:linkCSS file="EXT:find/Resources/Projects/edfu/Resources/fotorama/fotorama.css"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.js"/>
+<s:linkCSS file="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.css"/>
 <section class="general">
 	<div class="technical">
 		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
@@ -19,7 +19,37 @@
 		note:document.photo_collection_string,
 		id:document.photo_collection_id
 	}">
-		<div style="position:relative;">
+		<div class="imageControls">
+			<div class="control-container">
+				<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Kontrast')}</span>
+				<div id="slider-contrast" class="slider"></div>
+			</div>
+			<div class="control-container">
+				<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Helligkeit')}</span>
+				<div id="slider-brightness" class="slider"></div>
+			</div>
+		</div>
+		<t3jquery:addJQueryAndScript>
+			var onSlide = function (event, ui) {
+				var filterStrings = [];
+				jQuery('.ui-slider').each( function () {
+					var value = $(this).slider('value');
+					filterStrings.push(this.id.split('-')[1] + '(' + value + '%)');
+				});
+				var filterString = filterStrings.join(' ');
+
+				var jFotorama = jQuery('.fotorama__stage__shaft');
+				jFotorama.css({'filter': filterString, '-webkit-filter': filterString});
+			};
+
+			jQuery('.slider').slider({
+				min: 0,
+				max: 200,
+				value: 100,
+				slide: onSlide
+			});
+		</t3jquery:addJQueryAndScript>
+
 		<div class="photos fotorama" data-width="100%" data-ratio="1.5" data-thumb-width="60" data-thumb-height="60" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
 			<f:for each="{collections}" as="collection">
 				<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
@@ -38,11 +68,10 @@
 					</f:alias>
 				</f:for>
 			</f:for>
-		</div></div>
+		</div>
 	</s:transpose>
 </section>
 <section class="literatur">
 	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
 	<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
 </section>
-

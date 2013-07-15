@@ -89,6 +89,17 @@
   right: 0;
   left: 0;
   text-align: center;
+  transition-duration: 0.3s;
+}
+.tx_find .fotorama .fotorama__nav .fotorama__caption {
+  padding: 0;
+  font-size: 12px;
+}
+.tx_find .fotorama .fotorama__nav .fotorama__nav__frame .fotorama__loaded--img + .fotorama__caption {
+  opacity: 0;
+}
+.tx_find .fotorama .fotorama__nav .fotorama__nav__frame:hover .fotorama__caption {
+  opacity: 1;
 }
 .tx_find .fotorama .fotorama__html {
   background: #eee;
@@ -99,4 +110,9 @@
   right: 0;
   bottom: 2em;
   text-align: center;
+}
+.tx_find .control-container {
+  float: left;
+  width: 30%;
+  margin-right: 1em;
 }

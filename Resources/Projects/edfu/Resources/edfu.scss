@@ -127,8 +127,30 @@ $more: '\2026'; /* … */
 			right: 0;
 			left: 0;
 			text-align: center;
+			transition-duration: 0.3s;
 		}
-		
+
+		.fotorama__nav {
+			.fotorama__caption {
+				padding: 0;
+				font-size: 12px;
+			}
+
+			.fotorama__nav__frame {
+				.fotorama__loaded--img {
+					&+.fotorama__caption {
+						opacity: 0;
+					}
+				}
+
+				&:hover {
+					.fotorama__caption {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
 		.fotorama__html {
 			background: #eee;
 		}
@@ -140,5 +162,11 @@ $more: '\2026'; /* … */
 			bottom: 2em;
 			text-align: center;
 		}
+	}
+
+	.control-container {
+		float: left;
+		width: 30%;
+		margin-right: 1em;
 	}
 }
