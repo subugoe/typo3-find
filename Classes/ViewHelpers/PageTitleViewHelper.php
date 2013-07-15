@@ -49,7 +49,22 @@ class Tx_Find_ViewHelpers_PageTitleViewHelper extends Tx_Fluid_Core_ViewHelper_A
 			$title = $this->renderChildren();
 		}
 
-		$GLOBALS['TSFE']->page['title'] = $title;
+		/*
+		 * Hack-ish approach to deal with TYPO3 Caching problems.
+		 * 1. Apparently our changes to $GLOBALS['TSFE']->page['title'] only work for cached plugins
+		 * 2. I do not see a way to get correct results for the GET and POST parameters sent when the plugin is cached
+		 * 3. Manually replace the existing page title with the one we want if $GLOBALS['TSFE']->content is non-empty
+		 * Idea from: http://blog.bartlweb.net/2011/02/seitentitel-aus-einer-extension-heraus-veraendern/
+		 *
+		 * Apart from the general hackishness of this approach, it relies on the pre-set page title only
+		 * appearing once inside the <title> tag. Otherwise the order of the components in the page title will be wrong.
+		 */
+		if ($GLOBALS['TSFE']->content) {
+			$GLOBALS['TSFE']->content = preg_replace('/(<title>.*)' . $GLOBALS['TSFE']->page['title'] . '(.*<\/title>)/', '$1' . $title . '$2', $GLOBALS['TSFE']->content);
+		}
+		else {
+			$GLOBALS['TSFE']->page['title'] = $title;
+		}
 	}
 
 }

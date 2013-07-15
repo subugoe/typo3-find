@@ -10,8 +10,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Search' => 'index, detail, json, suggest', // The first controller and its first action will be the default
 	),
 	array ( // An array holding the non-cachable controller-action-combinations
-		// Try leaving all combinations cachable. Including the CSS / JS does not work in TYPO3 4.7 otherwise.
-		//'Search' => 'index, detail, json, suggest', // The first controller and its first action will be the default
+		'Search' => 'index, detail, json, suggest', // The first controller and its first action will be the default
 	)
 );
 
