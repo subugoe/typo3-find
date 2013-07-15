@@ -1,5 +1,4 @@
-@charset "UTF-8";
-/* Default SCSS for TYPO3 Extension ¬ªfind¬´ . */
+/* Default SCSS for TYPO3 Extension »find« . */
 .tx_find {
   /* search form */
   /* result list */
@@ -24,7 +23,6 @@
   clear: both;
 }
 .tx_find em.highlight {
-  font-style: normal;
   font-weight: bold;
   color: red;
 }
@@ -136,7 +134,7 @@
   font-size: 133%;
   line-height: 133%;
 }
-.tx_find .results ol.resultList li:target, .tx_find .results .facet-type-Tabs ol.resultList li.facetActive:target, .tx_find .facet-type-Tabs .results ol.resultList li.facetActive:target {
+.tx_find .results ol.resultList li:target {
   background: #eeeeff;
   border-radius: 7px;
   transition: background .5s ease-in-out;
