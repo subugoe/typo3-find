@@ -29,42 +29,25 @@
 				<div id="slider-brightness" class="slider"></div>
 			</div>
 		</div>
-		<t3jquery:addJQueryAndScript>
-			var onSlide = function (event, ui) {
-				var filterStrings = [];
-				jQuery('.ui-slider').each( function () {
-					var value = $(this).slider('value');
-					filterStrings.push(this.id.split('-')[1] + '(' + value + '%)');
-				});
-				var filterString = filterStrings.join(' ');
 
-				var jFotorama = jQuery('.fotorama__stage__shaft');
-				jFotorama.css({'filter': filterString, '-webkit-filter': filterString});
-			};
-
-			jQuery('.slider').slider({
-				min: 0,
-				max: 200,
-				value: 100,
-				slide: onSlide
-			});
-		</t3jquery:addJQueryAndScript>
-
-		<div class="photos fotorama" data-width="100%" data-ratio="1.5" data-thumb-width="60" data-thumb-height="60" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
+		<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-thumb-width="60" data-thumb-height="60" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
 			<f:for each="{collections}" as="collection">
 				<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
 					<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
-						<f:if condition="{s:pathExists(path:path)}">
-							<f:then>
-								<a href="{f:uri.image(src:path, maxHeight:2000px, maxWidth:2000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
-									<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="60m" height="60m"additionalAttributes="{data-caption:path}"/>
-								</a>
-							</f:then>
-							<f:else>
-								<div class="imageName">
-									<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« ist nicht online verfügbar." arguments="{0:photo_name}"/></div>
-							</f:else>
-						</f:if>
+						<li>
+							<f:if condition="{s:pathExists(path:path)}">
+								<f:then>
+									<a href="{f:uri.image(src:path, maxHeight:2000px, maxWidth:2000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
+										<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="60m" height="60m"additionalAttributes="{data-caption:path}"/>
+									</a>
+								</f:then>
+								<f:else>
+									<div class="imageName">
+										<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« ist nicht online verfügbar." arguments="{0:photo_name}"/>
+									</div>
+								</f:else>
+							</f:if>
+						</li>
 					</f:alias>
 				</f:for>
 			</f:for>

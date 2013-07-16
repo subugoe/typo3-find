@@ -69,6 +69,7 @@ plugin.tx_find {
 		}
 
 		CSSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.css
+		JSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.js
 
 		languageRootPath = EXT:find/Resources/Projects/edfu/Language/
 	}
