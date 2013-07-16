@@ -16,7 +16,15 @@
 			<f:render partial="Components/Pagination" arguments="{_all}"/>
 		</div>
 
-		<f:render partial="Facets/Facets" arguments="{_all}"/>
+		<section class="facets-buchstabe">
+			<style type="text/css">.facetCount {display: none;}</style>
+			<f:render partial="Facets/Facet"
+					  arguments="{
+						  facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
+						  facetInfo: facets.10,
+						  activeFacets: activeFacets
+			}"/>
+		</section>
 
 		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
 			<f:for each="{results.documents}" as="document">

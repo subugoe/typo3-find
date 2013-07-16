@@ -10,16 +10,27 @@ plugin.tx_find {
 		additionalFilters {
 		}
 		sort {
-		    1 {
-                id = default
-                sortCriteria = title_sort asc
-            }
+			1 {
+				id = default
+				sortCriteria = title_sort asc
+			}
 		}
 		standardFields {
 			title = title
 			snippet = publisher
 		}
 		facets {
+			10 {
+				id = buchstabe
+				field = title_facet
+				sortOrder = index
+				type = Tabs
+				excludeOwnFilter = 1
+				hidden = 1
+				selectedByDefault {
+					0 = 1
+				}
+			}
 		}
 		highlight {
 			fields.1 = *
