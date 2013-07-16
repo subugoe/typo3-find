@@ -27,6 +27,40 @@
 		</section>
 
 		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
+			<script type="text/javascript">
+				var ZDBInformation = function (data) {
+					var container;
+
+					var electronicInfos = ZDBInfoElement( jQuery('ElectronicData', data) );
+					var printInfos = ZDBInfoElement( jQuery('PrintData', data) );
+
+					if (electronicInfos || printInfos) {
+						container = document.createElement('div');
+						if (ZDBUseClientIP) {
+							appendLibraryNameFromResultDataTo(data, container);
+						}
+					}
+
+					if (electronicInfos) {
+						var electronicHeading = document.createElement('h5');
+						container.appendChild(electronicHeading);
+						electronicHeading.appendChild(document.createTextNode(localise('elektronisch')));
+						container.appendChild(electronicInfos);
+					}
+
+					if (printInfos) {
+						var printHeading = document.createElement('h5');
+						container.appendChild(printHeading);
+						printHeading.appendChild(document.createTextNode(localise('gedruckt')));
+						container.appendChild(printInfos);
+					}
+
+					return container;
+				};
+
+
+			</script>
+
 			<f:for each="{results.documents}" as="document">
 				<li>
 					<p class="itemHeader">
@@ -39,9 +73,18 @@
 							<f:link.external uri="http://aleph-www.ub.fu-berlin.de/F/?func=find-c&ccl_term=idn={document.fields.identifier.0}" class="catalogueLink" target="fu-opac">zum Katalog</f:link.external>
 						</f:if>
 					</p>
-					<p class="itemDetail">
-						<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'coverage', separator:', '}"/>
-					</p>
+					<f:if condition="{document.fields.issn}">
+						<script type="text/javascript">
+							var JOPURL = '/zdb/full.xml?issn={document.fields.issn.0}&genre=journal';
+							jQuery.get(JOPURL, function (data) {
+								console.log(data);
+								var jData = jQuery(data);
+								console.log(ZDBInformation(data));
+							});
+						</script>
+							{document.fields.issn.0}
+						</p>
+					</f:if>
 				</li>
 			</f:for>
 		</ol>
