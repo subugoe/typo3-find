@@ -84,7 +84,7 @@ var ddpowerzoomer={
 
 		$magnifier.outer.bind(ddpowerzoomer.mousewheelevt, function(e){ //bind mousewheel event to magnifier
 			if (ddpowerzoomer.activeimage){
-				var delta=e.detail? e.detail*(-120) : e.wheelDelta //delta returns +120 when wheel is scrolled up, -120 when scrolled down
+				var delta= e.originalEvent.detail? e.originalEvent.detail*(-120) : e.originalEvent.wheelDelta //delta returns +120 when wheel is scrolled up, -120 when scrolled down
 				if (delta<=-120){ //zoom out
 					ddpowerzoomer.movemagnifier(e, false, "out")
 				}
