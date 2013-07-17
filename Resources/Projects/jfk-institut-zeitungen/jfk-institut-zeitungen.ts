@@ -37,6 +37,7 @@ plugin.tx_find {
 		}
 
 		CSSPaths.50 = EXT:find/Resources/Projects/jfk-institut-zeitungen/Resources/jfk.css
+		JSPaths.50 = EXT:find/Resources/Projects/jfk-institut-zeitungen/Resources/jfk.js
 
 		languageRootPath = EXT:find/Resources/Projects/jfk-institut-zeitungen/Language/
 	}

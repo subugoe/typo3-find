@@ -1,0 +1,47 @@
+$indicatorSize: 8px;
+
+.tx_find {
+	ol.resultList li {
+		position: relative;
+
+		.locally-available {
+			.availability-indicator {
+				display: inline-block;
+				width: $indicatorSize;
+				height: $indicatorSize;
+				border-radius: $indicatorSize / 2;
+				background: green;
+			}
+
+			div {
+				display: none;
+				position: absolute;
+				z-index: 100;
+				top: -1em;
+				right: 2em;
+				box-shadow: #999 2px 2px 3px;
+				border: 1px solid #fff;
+				padding: 0.3em;
+				background: #eee;
+			}
+		}
+
+		&:hover {
+			background: #eee;
+
+			.locally-available div {
+				display: block;
+				max-width: 60%;
+
+				ul {
+					margin: 0;
+					padding-left: 2em;
+
+					li {
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+}
