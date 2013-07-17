@@ -11,12 +11,6 @@
 
 var jfk_jop = (function () {
 
-	/*  localise
-	*/
-	var localise = function (term) { return term; };
-	
-
-
 	/*	addZDBInfoForISSNToElementID
 		Fetches ZDB-JOP information for the given ID, creates a DOM Element
 		and inserts it into the element with the given elementID.
@@ -290,6 +284,79 @@ var jfk_jop = (function () {
 		}
 	
 		return container;
+	};
+
+
+
+	/*	localise
+		Return localised term using the passed dictionary
+			or the one stored in localisations variable.
+		The localisation dictionary has ISO 639-1 language codes as keys.
+		For each of them there can be a dictionary with terms for that language.
+		In case the language dictionary is not present, the default ('en') is used.
+		input:	term - string to localise
+				externalDictionary (optional) - localisation dictionary
+		output:	localised string
+	*/
+	function localise (term, externalDictionary) {
+		var dictionary = localisations;
+		if (externalDictionary) {
+			dictionary = externalDictionary;
+		}
+
+		if (!pageLanguage) {
+			pageLanguage = jQuery('html')[0].getAttribute('lang');
+			if (!pageLanguage) {
+				pageLanguage = 'en';
+			}
+		}
+
+		var languageCode = pageLanguage;
+		if (dictionary[pageLanguage] === null) {
+			languageCode = 'en';
+		}
+
+		var localised = dictionary[languageCode][term];
+		if (localised === undefined) {
+			localised = term;
+			// console.log('No localisation for: "' + term + '"');
+		}
+
+		return localised;
+	}
+
+
+	var localisations = {
+		'en': {
+			'Lokale Verfügbarkeit': 'local availability',
+			// ZDB-JOP status labels
+			'frei verfügbar': 'accessible for all',
+			'teilweise frei verfügbar': 'partially accessible for all',
+			'verfügbar': 'accessible',
+			'teilweise verfügbar': 'partially accessible',
+			'nicht verfügbar': 'not accessible',
+			'diese Ausgabe nicht verfügbar': 'this issue not accessible',
+			'Informationen bei der Zeitschriftendatenbank': 'View availability information at Zeitschriftendatenbank',
+			'[neuere Bände im Lesesaal 2]': '[current volumes in Lesesaal 2]',
+			'Zugriff': 'Access',
+			// Link tooltip
+			'Erscheint in separatem Fenster.': 'Link opens in a new window.',
+		},
+		'de': {
+			'Lokale Verfügbarkeit': 'Lokale Verfügbarkeit',
+			// ZDB-JOP status labels
+			'frei verfügbar': 'frei verfügbar',
+			'teilweise frei verfügbar': 'teilweise frei verfügbar',
+			'verfügbar': 'verfügbar',
+			'teilweise verfügbar': 'teilweise verfügbar',
+			'nicht verfügbar': 'nicht verfügbar',
+			'diese Ausgabe nicht verfügbar': 'diese Ausgabe nicht verfügbar',
+			'Informationen bei der Zeitschriftendatenbank': 'Verfügbarkeitsinformationen bei der Zeitschriftendatenbank ansehen',
+			'[neuere Bände im Lesesaal 2]': '[neuere Bände im Lesesaal 2]',
+			'Zugriff': 'Zugriff',
+			// Link tooltip
+			'Erscheint in separatem Fenster.': 'Erscheint in separatem Fenster.',
+		}
 	};
 
 
