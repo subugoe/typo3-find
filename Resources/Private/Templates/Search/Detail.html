@@ -13,13 +13,7 @@
 
 		<dl>
 			<f:for each="{document.fields}" as="value" key="fieldName">
-				<dt>
-					<f:translate key="LLL:{settings.languageRootPath}locallang-fields.xml:field.{fieldName}"
-								 default="{fieldName}"/>
-				</dt>
-				<dd>
-					<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:fieldName}"/>
-				</dd>
+				<f:render partial="Display/DLField" arguments="{results:results, document:document, field:fieldName}"/>
 			</f:for>
 		</dl>
 	</article>

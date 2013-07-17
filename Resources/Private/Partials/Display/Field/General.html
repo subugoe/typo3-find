@@ -1,13 +1,15 @@
 {namespace s=Tx_Find_ViewHelpers}
 <f:if condition="{s:isArray(subject:'{s:valueForKey(array:document.fields, key:field)}')}">
 	<f:then>
-		<f:format.raw>{groupPrefix}</f:format.raw>
-			<f:for each="{s:valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
-				<f:format.raw>{groupItemPrefix}</f:format.raw><f:format.raw>{fieldPrefix}</f:format.raw><s:highlightField field="{field}" document="{document}" results="{results}" index="{iterator.index}"/><f:format.raw>{fieldSuffix}</f:format.raw><f:if condition="{iterator.isLast}==0">{separator}</f:if><f:format.raw>{groupItemSuffix}</f:format.raw>
-			</f:for>
-		<f:format.raw>{groupSuffix}</f:format.raw>
+		{groupPrefix->f:format.raw()}
+		<f:for each="{s:valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
+			{groupItemPrefix->f:format.raw()}{fieldPrefix->f:format.raw()}
+				<f:render partial="Display/Field/Content" arguments="{_all}"/>
+			{fieldSuffix->f:format.raw()}{f:if(condition:"{iterator.isLast}==0", then:separator)}{groupItemSuffix->f:format.raw()}
+		</f:for>
+		{groupSuffix->f:format.raw()}
 	</f:then>
 	<f:else>
-		<f:format.raw>{fieldPrefix}</f:format.raw><s:highlightField field="{field}" document="{document}" results="{results}"/><f:format.raw>{fieldSuffix}</f:format.raw>
+		{fieldPrefix->f:format.raw()}<f:render partial="Display/Field/Content" arguments="{_all}"/>{fieldSuffix->f:format.raw()}
 	</f:else>
 </f:if>

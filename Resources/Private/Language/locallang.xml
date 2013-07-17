@@ -22,6 +22,7 @@
 			<label index="of">of</label>
 
 			<label index="Filter by %s">Filter by %s</label>
+			<label index="Alle Datensätze mit %1 »%2« zeigen.">Show all records with %1 »%2«.</label>
 
 			<label index="All records">All records</label>
 			<label index="Query">Query</label>
@@ -55,6 +56,7 @@
 			<label index="of">of</label>
 
 			<label index="Filter by %s">Filter by %s</label>
+			<label index="Alle Datensätze mit %1 »%2« zeigen.">Show all records with %1 »%2«.</label>
 
 			<label index="All records">All records</label>
 			<label index="Query">Query</label>
@@ -88,6 +90,7 @@
 			<label index="of">von</label>
 
 			<label index="Filter by %s">Nach %s filtern</label>
+			<label index="Alle Datensätze mit %1 »%2« zeigen.">Alle Datensätze mit %s »%s« zeigen.</label>
 
 			<label index="All records">Alle Datensätze</label>
 			<label index="Query">Abfrage</label>

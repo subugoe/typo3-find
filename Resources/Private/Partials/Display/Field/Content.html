@@ -1,0 +1,46 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:if condition="{linkFieldContent}">
+	<f:then>
+		<f:alias map="{
+			fieldName:'{f:translate(key:\"LLL:{settings.languageRootPath}locallang-fields.xml:field.{field}\", default:field)}',
+			fieldContent:'{s:valueForKey(array:document.fields, key:field)}',
+			highlightedFieldContent:'{s:highlightField(results:results, document:document, field:field, index:iterator.index)}'
+		}">
+			<f:if condition="{s:isArray(subject:fieldContent)}">
+				<f:then>
+					<f:link.action
+						action="index" noCacheHash="1"
+						arguments="{
+							q:'{default:\'{field}:\"{s:valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
+							facet:linkFacets
+						}"
+						title="{f:translate(
+							key:'LLL:{settings.languageRootPath}locallang.xml:Alle Datensätze mit %1 »%2« zeigen.',
+							arguments:'{1:fieldName, 2:fieldContent}'
+						)}"
+					>
+						{highlightedFieldContent->f:format.raw()}
+					</f:link.action>
+				</f:then>
+				<f:else>
+					<f:link.action
+						action="index" noCacheHash="1"
+						arguments="{
+							q:'{default:\'{field}:\"{fieldContent}\"\'}',
+							facet:linkFacets
+						}"
+						title="{f:translate(
+							key:'LLL:{settings.languageRootPath}locallang.xml:Alle Datensätze mit %1$ »%2« zeigen.',
+							arguments:'{1:fieldName, 2:fieldContent}'
+						)}"
+					>
+						{highlightedFieldContent->f:format.raw()}
+					</f:link.action>
+				</f:else>
+			</f:if>
+		</f:alias>
+	</f:then>
+	<f:else>
+		<s:highlightField field="{field}" document="{document}" results="{results}" index="{iterator.index}"/>
+	</f:else>
+</f:if>
