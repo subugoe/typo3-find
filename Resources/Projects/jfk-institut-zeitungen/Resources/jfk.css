@@ -33,3 +33,6 @@
 .tx_find ol.resultList li:hover .locally-available div ul li {
   margin: 0;
 }
+.tx_find .facetCount {
+  display: none;
+}
