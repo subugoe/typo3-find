@@ -30,7 +30,7 @@
 			<f:for each="{results.documents}" as="document">
 				<li>
 					<p class="itemHeader">
-						<s:regexp match="/&lt;&lt;([^<>]*)&gt;&gt;/" replace="\1">
+						<s:regexp match="/&lt;&lt;(.*?)&gt;&gt;/" replace="\1">
 							<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'title', separator:', '}"/>
 							<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'publisher', separator:', '}"/>
 						</s:regexp>
