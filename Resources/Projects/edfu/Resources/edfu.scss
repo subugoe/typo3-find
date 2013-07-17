@@ -170,3 +170,19 @@ $more: '\2026'; /* … */
 		margin-right: 1em;
 	}
 }
+
+.powerzoomer {
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	width: 100px;
+	height: 100px;
+	border: 2px solid #fff;
+	box-shadow: #000 1px 1px 4px;
+
+	.inner {
+		position:relative;
+		left:0;
+		top:0;
+	}
+}

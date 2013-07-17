@@ -71,8 +71,8 @@ var ddpowerzoomer={
 
 	
 	init:function($){
-		var $magnifier=$('<div style="position:absolute;width:100px;height:100px;display:none;overflow:hidden;border:1px solid black;" />')
-			.append('<div style="position:relative;left:0;top:0;" />')
+		var $magnifier=$('<div class="powerzoomer outer"/>')
+			.append('<div class="inner"/>')
 			.appendTo(document.body) //create magnifier container and add to doc
 		ddpowerzoomer.$magnifier={outer:$magnifier, inner:$magnifier.find('div:eq(0)'), image:null} //reference and remember various parts of magnifier
 		$magnifier=ddpowerzoomer.$magnifier
