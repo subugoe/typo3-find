@@ -44,7 +44,6 @@ var edfu = (function () {
 				largeimage: null,
 				magnifiersize: [200,200]
 			});
-			console.log('added zoom');
 		}
 		else {
 			if (!zoomTimeout) {

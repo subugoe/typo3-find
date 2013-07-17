@@ -10,12 +10,56 @@
   font-style: normal;
 }
 
+$larger: 133%;
 $dash: '\2014'; /* — */
 $dashspace: 0.3em;
 $more: '\2026'; /* … */
 
+.dashbefore {
+	&:before {
+		content: $dash;
+		padding-right: $dashspace;
+	}
+}
+
+.brackets {
+	&:before {
+		content: '(';
+	}
+
+	&:after {
+		content: ')';
+	}
+}
+
 .tx_find {
-	
+
+	dl {
+		dt {
+			float: left;
+			clear: left;
+			width: 160px;
+			margin: 0;
+			text-align: right;
+		}
+
+		dd {
+			margin: 0 0 1em 0;
+			padding-left: 170px;
+			min-height: 1em;
+
+			ul {
+				padding: 0;
+
+				li {
+					list-style-type: none;
+					padding: 0 0 0 2em;
+					text-indent: -2em;
+				}
+			}
+		}
+	}
+
 	.field-transliteration, .transliteration, .field-weiteres {
 		font-family: TransliterationFont;
 	}
@@ -50,6 +94,11 @@ $more: '\2026'; /* … */
 				}
 			}
 
+			.hieroglyph img{
+				width: 50px;
+				float: right;
+			}
+
 			.field-beziehung {
 				font-size: 80%;
 				color: #666;
@@ -63,29 +112,40 @@ $more: '\2026'; /* … */
 		
 	.detail {
 		margin-top: 2em;
-	}
-	
-	.detail.formular {
-		.technical {
+
+		.field-transliteration {
+			font-size: $larger;
 		}
 
-		.bandseitezeile {
-			font-size: 133%;
+		.field-beziehung {
+			@extend .dashbefore;
 		}
-		
+	}
+
+	.detail.formular {
+		h1 {
+			ul {
+				display: inline;
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+
+				li {
+					display: inline;
+					font-size: $larger;
+				}
+			}
+
+		}
+
 		.field-texttyp {
+			@extend .dashbefore;
 			font-style: italic;
 		}
-		
-		.field-texttyp:before {
-			content: $dash;
-			padding-right: $dashspace;
-		}
-		
+
 		.field-transliteration {
 			display: block;
 			margin-top: 1em;
-			font-size: 133%;
 		}
 		
 		.field-uebersetzung {
@@ -93,7 +153,14 @@ $more: '\2026'; /* … */
 			margin-top: 1em;
 		}
 	}
-	
+
+	.detail.wort {
+		.hieroglyph {
+			float: right;
+		}
+	}
+
+
 	ul.photo-collections {
 		padding: 0;
 		
@@ -169,6 +236,30 @@ $more: '\2026'; /* … */
 		width: 30%;
 		margin-right: 1em;
 	}
+
+	article.fields {
+		padding-top: 1em;
+
+		dl {
+			margin-top: 1em;
+
+			dt {
+				width: 200px;
+			}
+
+			dd {
+				padding-left: 210px;
+
+				ul {
+					padding-left: 2em;
+
+					li {
+						list-style-type: square;
+					}
+				}
+			}
+		}
+	}
 }
 
 .powerzoomer {
@@ -186,3 +277,4 @@ $more: '\2026'; /* … */
 		top:0;
 	}
 }
+

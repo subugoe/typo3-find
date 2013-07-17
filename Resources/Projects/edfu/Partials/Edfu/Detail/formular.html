@@ -1,15 +1,15 @@
 {namespace s=Tx_Find_ViewHelpers}
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
-<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.js"/>
+<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.uncompressed.js"/>
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/ddpowerzoomer.js"/>
 <s:linkCSS file="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.css"/>
 <section class="general">
-	<div class="technical">
-		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
-		<f:link.action arguments="{q: '{default: \'texttyp:\"{document.texttyp}\"\'}'}" noCacheHash="1" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze vom Texttyp »%s« zeigen.', arguments:'{0:document.texttyp}')}">
-			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', separator:', '}"/>
-		</f:link.action>
-	</div>
+	<h1>
+		<div class="technical">
+			<f:render partial="Edfu/Stellen" arguments="{_all}"/>
+			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', linkFieldContent:1}"/>
+		</div>
+	</h1>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
 	<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
 </section>

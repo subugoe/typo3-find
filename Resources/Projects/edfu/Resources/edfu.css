@@ -8,6 +8,38 @@
 
 /* — */
 /* … */
+.dashbefore:before, .tx_find .detail .field-beziehung:before, .tx_find .detail.formular .field-texttyp:before {
+  content: "\2014";
+  padding-right: 0.3em;
+}
+
+.brackets:before {
+  content: '(';
+}
+.brackets:after {
+  content: ')';
+}
+
+.tx_find dl dt {
+  float: left;
+  clear: left;
+  width: 160px;
+  margin: 0;
+  text-align: right;
+}
+.tx_find dl dd {
+  margin: 0 0 1em 0;
+  padding-left: 170px;
+  min-height: 1em;
+}
+.tx_find dl dd ul {
+  padding: 0;
+}
+.tx_find dl dd ul li {
+  list-style-type: none;
+  padding: 0 0 0 2em;
+  text-indent: -2em;
+}
 .tx_find .field-transliteration, .tx_find .transliteration, .tx_find .field-weiteres {
   font-family: TransliterationFont;
 }
@@ -34,6 +66,10 @@
   padding-left: 0.3em;
   content: "\2014";
 }
+.tx_find .result h1 .hieroglyph img {
+  width: 50px;
+  float: right;
+}
 .tx_find .result h1 .field-beziehung {
   font-size: 80%;
   color: #666;
@@ -44,24 +80,32 @@
 .tx_find .detail {
   margin-top: 2em;
 }
-.tx_find .detail.formular .bandseitezeile {
+.tx_find .detail .field-transliteration {
+  font-size: 133%;
+}
+.tx_find .detail.formular h1 ul {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.tx_find .detail.formular h1 ul li {
+  display: inline;
   font-size: 133%;
 }
 .tx_find .detail.formular .field-texttyp {
   font-style: italic;
 }
-.tx_find .detail.formular .field-texttyp:before {
-  content: "\2014";
-  padding-right: 0.3em;
-}
 .tx_find .detail.formular .field-transliteration {
   display: block;
   margin-top: 1em;
-  font-size: 133%;
 }
 .tx_find .detail.formular .field-uebersetzung {
   display: block;
   margin-top: 1em;
+}
+.tx_find .detail.wort .hieroglyph {
+  float: right;
 }
 .tx_find ul.photo-collections {
   padding: 0;
@@ -115,6 +159,24 @@
   float: left;
   width: 30%;
   margin-right: 1em;
+}
+.tx_find article.fields {
+  padding-top: 1em;
+}
+.tx_find article.fields dl {
+  margin-top: 1em;
+}
+.tx_find article.fields dl dt {
+  width: 200px;
+}
+.tx_find article.fields dl dd {
+  padding-left: 210px;
+}
+.tx_find article.fields dl dd ul {
+  padding-left: 2em;
+}
+.tx_find article.fields dl dd ul li {
+  list-style-type: square;
 }
 
 .powerzoomer {

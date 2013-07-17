@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>
+			Language labels for field names.
+		</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="field.texttyp">Text type</label>
+			<label index="field.funktion">Purpose</label>
+			<label index="field.ort">Place</label>
+			<label index="field.eponym">Eponym</label>
+			<label index="field.anmerkung">Note</label>
+			<label index="field.uebersetzung">Translation</label>
+			<label index="field.ortsbeschreibung">Place</label>
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="field.texttyp">Texttyp</label>
+			<label index="field.funktion">Funktion</label>
+			<label index="field.ort">Ort</label>
+			<label index="field.eponym">Eponym</label>
+			<label index="field.anmerkung">Anmerkung</label>
+			<label index="field.uebersetzung">Übersetzung</label>
+			<label index="field.ortsbeschreibung">Ortsbeschreibung</label>
+		</languageKey>
+	</data>
+</T3locallang>

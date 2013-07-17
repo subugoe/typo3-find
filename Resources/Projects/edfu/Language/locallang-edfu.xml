@@ -16,6 +16,12 @@
 			<label index="Helligkeit">Brightness</label>
 			<label index="Kontrast">Contrast</label>
 			<label index="Literatur">References</label>
+			<label index="Stelle">Page</label>
+			<label index="Stellen">Pages</label>
+			<label index="Alle Datensätze zu dieser Stelle zeigen.">Show all records for this text location.</label>
+			<label index="Unsicher">imprecise</label>
+			<label index="Zerstörung">destroyed</label>
+			<label index="Hieroglyph">Hieroglyph</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -27,6 +33,12 @@
 			<label index="Helligkeit">Helligkeit</label>
 			<label index="Kontrast">Kontrast</label>
 			<label index="Literatur">Literatur</label>
+			<label index="Stelle">Stelle</label>
+			<label index="Stellen">Stellen</label>
+			<label index="Alle Datensätze zu dieser Stelle zeigen.">Alle Datensätze zu dieser Stelle zeigen.</label>
+			<label index="Unsicher">Unsicher</label>
+			<label index="Zerstörung">Zerstörung</label>
+			<label index="Hieroglyph">Hieroglyph</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,0 +1,44 @@
+{namespace s=Tx_Find_ViewHelpers}
+<ul>
+	<s:transpose name="stellen" arrays="{
+			bandseitezeile: document.fields.bandseitezeile,
+			band: document.fields.band,
+			seite_start: document.fields.seite_start,
+			seite_stop: document.fields.seite_stop,
+			zeile_start: document.fields.zeile_start,
+			zeile_stop: document.fields.zeile_stop,
+			unsicher: document.fields.stelle_unsicher,
+			zerstoerung: document.fields.zerstoerung,
+			anmerkung: document.fields.stelle_anmerkung
+		}">
+
+		<f:for each="{stellen}" as="stelle">
+			<li>
+				<f:alias map="{format:'%03d'}">
+					<f:alias map="{
+						start:\"{stelle.band}{format->f:format.printf(arguments:'{0:stelle.seite_start}')}{format->f:format.printf(arguments:'{0:stelle.zeile_start}')}\",
+						stop:\"{stelle.band}{format->f:format.printf(arguments:'{0:stelle.seite_stop}')}{format->f:format.printf(arguments:'{0:stelle.zeile_stop}')}\"
+					}">
+						<f:alias map="{
+							solrQuery:'{!join from=besitzer to=id}typ:stelle AND start:[* TO {stop}] AND stop:[{start} TO *]',
+							typFacetSelection:'{all:1}'
+						}">
+							<f:link.action
+								action="index"
+								title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze zu dieser Stelle zeigen.')}"
+								arguments="{
+										q:'{raw:solrQuery}',
+										facet:'{typ:typFacetSelection}'
+								}">
+								<span class="bandseitezeile">{stelle.bandseitezeile}</span>
+							</f:link.action>
+							<f:if condition="{stelle.unsicher}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:unsicher"/>)</f:if>
+							<f:if condition="{stelle.zerstoerung}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Zerstörung"/>)</f:if>
+							<f:if condition="{stelle.anmerkung}">({stelle.anmerkung})</f:if>
+						</f:alias>
+					</f:alias>
+				</f:alias>
+			</li>
+		</f:for>
+	</s:transpose>
+</ul>

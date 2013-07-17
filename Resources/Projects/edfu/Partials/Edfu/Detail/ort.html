@@ -1,14 +1,14 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html>
-	<head>
-		<title></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	</head>
-	<body>
-		<div>TODO write content</div>
-	</body>
-</html>
+{namespace s=Tx_Find_ViewHelpers}
+<section class="general">
+	<h1>
+		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
+	</h1>
+	<dl>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'uebersetzung'}"/>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'ortsbeschreibung'}"/>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'ort',
+														linkFieldContent:1, linkFacets:'{typ:\'{ort:1}\'}'}"/>
+		<f:render partial="Edfu/StellenDLItem" arguments="{_all}"/>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'anmerkung'}"/>
+	</dl>
+</section>
