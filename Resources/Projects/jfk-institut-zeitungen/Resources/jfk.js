@@ -10,6 +10,8 @@
 
 
 var jfk_jop = (function () {
+	var pageLanguage;
+
 
 	/*	addZDBInfoForIDToElementID
 		Fetches ZDB-JOP information for the given ID, creates a DOM Element
