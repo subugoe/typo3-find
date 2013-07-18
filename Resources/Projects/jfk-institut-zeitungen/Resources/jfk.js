@@ -11,29 +11,33 @@
 
 var jfk_jop = (function () {
 
-	/*	addZDBInfoForISSNToElementID
+	/*	addZDBInfoForIDToElementID
 		Fetches ZDB-JOP information for the given ID, creates a DOM Element
 		and inserts it into the element with the given elementID.
-		inputs: issn - string
+		inputs: zdbID - string
 				elementID - string
 	*/
-	var addZDBInfoForISSNToElementID = function (issn, elementID) {
-		var JOPURL = '/zdb/full.xml?issn=' + issn + '&genre=journal';
-		jQuery.get(JOPURL, function (data) {
-			var ZDBInfo = ZDBInformation(data);
-			if (ZDBInfo) {
-				var container = document.getElementById(elementID);
+	var addZDBInfoForIDToElementID = function (ZDBID, elementID) {
+		if (ZDBID) {
+			var JOPURL = '/zdb/full.xml?genre=journal&';
+			JOPURL += 'pid=' + encodeURIComponent('zdbid=' + ZDBID);
 
-				var indicator = document.createElement('span');
-				indicator.setAttribute('class', 'availability-indicator');
-				container.appendChild(indicator);
-				container.appendChild(ZDBInfo);
-			}
-		});
+			jQuery.get(JOPURL, function (data) {
+				var ZDBInfo = ZDBInformation(data);
+				if (ZDBInfo) {
+					var container = document.getElementById(elementID);
+
+					var indicator = document.createElement('span');
+					indicator.setAttribute('class', 'availability-indicator');
+					container.appendChild(indicator);
+					container.appendChild(ZDBInfo);
+				}
+			});
+		}
 	};
 
 
-	
+
 	/*	turnIntoNewWindowLink
 		Add a target attribute to open in our target window and add a note
 		to the title about this fact.
@@ -362,6 +366,6 @@ var jfk_jop = (function () {
 
 
 	return {
-		addZDBInfoForISSNToElementID: addZDBInfoForISSNToElementID
+		addZDBInfoForIDToElementID: addZDBInfoForIDToElementID
 	};
 })();

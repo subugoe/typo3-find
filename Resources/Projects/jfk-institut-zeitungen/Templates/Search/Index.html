@@ -34,14 +34,12 @@
 							<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'publisher', separator:', '}"/>
 						</s:regexp>
 
-						<f:if condition="{document.fields.issn}">
-							<span id="c{uid}-issn-{document.fields.issn.0}" class="locally-available"></span>
-							<script type="text/javascript">
-								var ISSN = {s:json(data:document.fields.issn.0)};
-								var elementID = 'c' + {s:json(data:uid)} + '-issn-' + ISSN;
-								jfk_jop.addZDBInfoForISSNToElementID(ISSN, elementID);
-							</script>
-						</f:if>
+						<span id="c{uid}-issn-{document.fields.issn.0}" class="locally-available"></span>
+						<script type="text/javascript">
+							var ZDBID = {s:json(data:document.fields.zdb.0)};
+							var elementID = 'c' + {s:json(data:uid)} + '-zdb-' + ZDBID;
+							jfk_jop.addZDBInfoForIDToElementID(ZDBID, elementID);
+						</script>
 
 						<f:if condition="document.fields.identifier">
 							<f:link.external uri="http://aleph-www.ub.fu-berlin.de/F/?func=find-c&ccl_term=idn={document.fields.identifier.0}" class="catalogueLink" target="fu-opac"><f:translate key="LLL:{settings.languageRootPath}locallang-jfk.xml:zum Katalog"/></f:link.external>
