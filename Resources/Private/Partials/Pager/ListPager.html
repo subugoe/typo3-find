@@ -7,6 +7,7 @@
 					<f:link.action
 						arguments="{page:pager.previous}"
 						addQueryString="1"
+						section="{settings.jumpToID}"
 						noCacheHash="1"
 						class="icon-left-dir"
 						title="{f:translate(key:'Go to previous page of results. (Page %s)', arguments:'{1:pager.previous}')}"
@@ -25,6 +26,7 @@
 							<f:link.action
 								arguments="{page:page.number}"
 								addQueryString="1"
+								section="{settings.jumpToID}"
 								noCacheHash="1"
 							>
 								{page.text}
@@ -43,6 +45,7 @@
 					<f:link.action
 						arguments="{page:pager.next}"
 						addQueryString="1"
+						section="{settings.jumpToID}"
 						noCacheHash="1"
 						class="icon-right-dir" title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"
 					/>

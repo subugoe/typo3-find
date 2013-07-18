@@ -314,20 +314,21 @@ var toggleExtendedSearch = function () {
 	var jForm = jQuery('.searchForm', container);
 	var jThis = jQuery(this);
 
-	var parameterEscaped = escape(URLParameterPrefix + '[extended]');
-	var newLocation = location.href.replace(parameterEscaped, '').replace(/[&?]=[01]/, '');
+	var parameterEscaped = encodeURIComponent(URLParameterPrefix + '[extended]');
+	var newSearch = location.search.replace(parameterEscaped, '').replace(/[&?]=[01]/, '');
 	var makeExtended = !jForm.hasClass('search-extended');
 	if (makeExtended) {
 		jThis.text(this.getAttribute('extendedstring'));
 		jQuery('.field-mode-extended', jForm).slideDown('fast');
 
-		newLocation += (newLocation.match(/\?/) ? '&' : '?') + parameterEscaped + '=1';
+		newSearch += (newSearch.match(/\?/) ? '&' : '?') + parameterEscaped + '=1';
 	}
 	else {
 		jThis.text(this.getAttribute('simplestring'));
 		jQuery('.field-mode-extended', jForm).slideUp('fast');
 	}
 	jForm.toggleClass('search-simple').toggleClass('search-extended');
+	newLocation = location.origin + location.pathname + newSearch + location.hash;
 	changeURL(newLocation);
 
 	return false;
