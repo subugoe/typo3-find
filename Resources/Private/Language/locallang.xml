@@ -24,41 +24,7 @@
 			<label index="Go to next page of results. (Page %s)">Go to next page of results. (Page %s)</label>
 
 			<label index="Filter by %s">Filter by %s</label>
-			<label index="Alle Datensätze mit %1 »%2« zeigen.">Show all records with %1 »%2«.</label>
-
-			<label index="All records">All records</label>
-			<label index="Query">Query</label>
-			<label index="restricted to">with</label>
-			<label index="AND">and</label>
-			<label index="and">and</label>
-			<label index="result">result</label>
-			<label index="previous">previous</label>
-			<label index="next">next</label>
-			<label index="Return to results list">Return to results list</label>
-
-			<label index="Facets">Facets</label>
-			<label index="remove filter">remove filter</label>
-			<label index="remove filter %s">remove filter “%s”</label>
-			<label index="show all">show all</label>
-
-			<label index="Show Detail Page">Details</label>
-		</languageKey>
-
-		<languageKey index="en" type="array">
-			<label index="Missing type in configuration for queryField %s.">Error: Missing type in configuration for queryField »%s«.</label>
-
-			<label index="extended Search">extended Search</label>
-			<label index="basic Search">basic Search</label>
-			<label index="Search">Search</label>
-
-			<label index="jump to results">jump to results</label>
-			<label index="no results">no results</label>
-			<label index="1 result">1 result</label>
-			<label index="results">results</label>
-			<label index="of">of</label>
-
-			<label index="Filter by %s">Filter by %s</label>
-			<label index="Alle Datensätze mit %1 »%2« zeigen.">Show all records with %1 »%2«.</label>
+			<label index="Alle Datensätze mit %1$s »%2$s« zeigen.">Show all records with %1$s »%2$s«.</label>
 
 			<label index="All records">All records</label>
 			<label index="Query">Query</label>
@@ -94,7 +60,7 @@
 			<label index="Go to next page of results. (Page %s)">Zur folgenden Ergebnisseite gehen. (Seite %s)</label>
 
 			<label index="Filter by %s">Nach %s filtern</label>
-			<label index="Alle Datensätze mit %1 »%2« zeigen.">Alle Datensätze mit %s »%s« zeigen.</label>
+			<label index="Alle Datensätze mit %1$s »%2$s« zeigen.">Alle Datensätze mit %1$s »%2$s« zeigen.</label>
 
 			<label index="All records">Alle Datensätze</label>
 			<label index="Query">Abfrage</label>

@@ -426,11 +426,8 @@ $tabSelected: #263476;
 
 	dd {
 		margin: 0.2em 0 1em 2em;
-
+		ul {
+			margin: 0;
+		}
 	}
-
-	dd ul {
-		margin: 0;
-	}
-
 }
