@@ -1,0 +1,43 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:debug>{_all}</f:debug>
+<div class="pager listPager">
+	<f:alias map="{pager:'{s:pageList(currentPage:arguments.page, perPage:settings.paging.perPage, resultCount:results.numfound)}'}">
+		<span class="previous icon-left-dir">
+			<f:if condition="{pager.previous}">
+				<f:then>
+					<f:link.action arguments="{page:pager.previous}" noCacheHash="1"/>
+				</f:then>
+				<f:else>
+					<a></a>
+				</f:else>
+			</f:if>
+		</span>
+		<ol class="listPager page-count-{numberOfPages}">
+			<f:for each="{pager.pages}" as="page">
+			<f:debug>{page}</f:debug>
+					<li class="{f:if(condition:'{page.current}', then:'current')} {f:if(condition:'{page.gap}', then:'gap')}">
+					<f:if condition="{current:page.current, gap:page.gap} == {current:FALSE , gap:FALSE}">
+						<f:then>
+							<f:link.action arguments="{page:page.number}" noCacheHash="1">
+								{page.text}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							{page.text}
+						</f:else>
+					</f:if>
+				</li>
+			</f:for>
+		</ol>
+		<span class="previous icon-right-dir">
+			<f:if condition="{pager.next}">
+				<f:then>
+					<f:link.action arguments="{page:pager.next}" noCacheHash="1"/>
+				</f:then>
+				<f:else>
+					<a></a>
+				</f:else>
+			</f:if>
+		</span>
+	</f:alias>
+</div>

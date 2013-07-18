@@ -239,29 +239,29 @@
 .tx_find .facet-type-Tabs ol li.facetActive .facetCount, .tx_find .facet-type-Tabs ol li.facetActive .facetCount {
   color: #dddddd;
 }
-.tx_find .tx-pagebrowse-pi1 {
+.tx_find .listPager {
   margin-right: 220px;
   text-align: center;
 }
-.tx_find .tx-pagebrowse-pi1 * {
+.tx_find .listPager * {
   margin: 0;
   padding: 0;
 }
-.tx_find .tx-pagebrowse-pi1 ol {
+.tx_find .listPager ol {
   display: inline;
   list-style-type: none;
 }
-.tx_find .tx-pagebrowse-pi1 ol li, .tx_find .tx-pagebrowse-pi1 .facet-type-Tabs ol li.facetActive, .tx_find .facet-type-Tabs .tx-pagebrowse-pi1 ol li.facetActive {
+.tx_find .listPager ol li, .tx_find .listPager .facet-type-Tabs ol li.facetActive, .tx_find .facet-type-Tabs .listPager ol li.facetActive {
   display: inline;
 }
-.tx_find .tx-pagebrowse-pi1 ol li a, .tx_find .tx-pagebrowse-pi1 .facet-type-Tabs ol li.facetActive a, .tx_find .facet-type-Tabs .tx-pagebrowse-pi1 ol li.facetActive a {
+.tx_find .listPager ol li a, .tx_find .listPager .facet-type-Tabs ol li.facetActive a, .tx_find .facet-type-Tabs .listPager ol li.facetActive a {
   padding: 0.4em;
 }
-.tx_find .tx-pagebrowse-pi1 .tx-pagebrowse-current {
+.tx_find .listPager .tx-pagebrowse-current {
   font-weight: bold;
   color: black;
 }
-.tx_find .tx-pagebrowse-pi1 .resultCount {
+.tx_find .listPager .resultCount {
   margin-bottom: 2em;
 }
 .tx_find .resultCount {
