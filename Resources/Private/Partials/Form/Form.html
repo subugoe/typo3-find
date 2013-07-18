@@ -5,6 +5,12 @@
 		<f:form.hidden name="extendedSearch" value="1"/>
 	</f:if>
 
+	<f:for each="{formFacets}" as="facet" key="facetID">
+		<f:for each="{facet}" as="unused" key="facetValue">
+			<f:form.hidden name="facet[{facetID}][{facetValue}]" value="1"/>
+		</f:for>
+	</f:for>
+
 	<div class="formFields">
 		<f:for each="{settings.queryFields}" as="fieldInfo">
 			<f:if condition="{fieldInfo.type}">
