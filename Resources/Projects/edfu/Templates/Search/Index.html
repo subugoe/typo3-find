@@ -9,7 +9,14 @@
 		{pageTitle}
 	</s:pageTitle>
 
-	<f:render partial="Page/Standard" arguments="{_all}"/>
+	<s:newArray name="formFacetsInnerArray"
+		keys="{0:'{s:valueForKey(array:\"{s:arrayFirst(array:activeFacets.typ)}\", key:\"term\")}'}"
+		values="{0:1}"
+	>
+		<s:newArray name="formFacets" keys="{0:'typ'}" values="{0:formFacetsInnerArray}">
+			<f:render partial="Page/Standard" arguments="{_all}"/>
+		</s:newArray>
+	</s:newArray>
 
 	<div class="results">
 		<div class="navigation top"/>

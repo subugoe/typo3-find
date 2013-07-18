@@ -2,9 +2,18 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-<f:debug>{_all}</f:debug>
+<f:debug>{'{queryString}':1}</f:debug>
 	<s:pageTitle>{document.fields.id} – {pageTitle}</s:pageTitle>
-	<f:render partial="Page/Standard" arguments="{_all}"/>
+
+	<s:newArray name="formFacets"
+		keys="{0:'typ'}"
+		values="{0:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'}"
+	>
+		<f:render partial="Page/Standard" arguments="{_all}"/>
+	</s:newArray>
+	<f:debug>{_all}</f:debug>
+
+
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail {document.fields.typ}" id="c{uid}-record-{document.fields.id}">
