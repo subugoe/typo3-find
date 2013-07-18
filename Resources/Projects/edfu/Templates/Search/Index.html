@@ -21,7 +21,7 @@
 	<div class="results">
 		<div class="navigation top"/>
 			<f:render partial="Components/ResultCount" arguments="{_all}"/>
-			<f:render partial="Components/Pagination" arguments="{_all}"/>
+			<f:render partial="Pager/ListPager" arguments="{_all}"/>
 		</div>
 
 		<section class="facets-typ">
@@ -42,7 +42,7 @@
 		</ol>
 
 		<div class="navigation bottom"/>
-			<f:render partial="Components/Pagination" arguments="{_all}"/>
+			<f:render partial="Pager/ListPager" arguments="{_all}"/>
 		</div>
 	</div>
 </f:section>

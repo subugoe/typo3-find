@@ -65,5 +65,3 @@ plugin.tx_find {
 		# partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
 	}
 }
-
-plugin.tx_pagebrowse_pi1.enableMorePages = 1

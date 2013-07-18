@@ -83,19 +83,11 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		// Run the query.
 		$resultSet = $this->solr->select($query);
 
-		// Determine number of pages for pagebrowser.
-		$numberOfPages = 0;
-		if ($this->getCount() > 0) {
-			$numberOfPages = ceil($resultSet->getNumFound() / $this->getCount());
-		}
-
-		$assignments = array(
+		$this->view->assignMultiple(array(
 			'results' => $resultSet,
-			'numberOfPages' => $numberOfPages,
 			'counterStart' => $this->counterStart(),
 			'counterEnd' => $this->counterEnd(),
-		);
-		$this->view->assignMultiple($assignments);
+		));
 
 		$this->addQueryInformationAsJavaScript($this->requestArguments['q']);
 		$this->addStandardAssignments();
@@ -833,7 +825,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	 * @return int
 	 */
 	protected function counterStart() {
-		return $this->getOffset() + 1 ;
+		return $this->getOffset() + 1;
 	}
 
 
@@ -864,7 +856,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			$offset =  intval($arguments['start']);
 		}
 		else if (array_key_exists('page', $arguments)) {
-			$offset = intval($arguments['page']) * $this->getCount();
+			$offset = (intval($arguments['page']) - 1)  * $this->getCount();
 		}
 
 		$this->view->assign('offset', $offset);

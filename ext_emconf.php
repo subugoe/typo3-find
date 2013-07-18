@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'SUB Göttingen',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'dependencies' => 'extbase,fluid,pagebrowse,t3jquery',
+	'dependencies' => 'extbase,fluid,t3jquery',
 	'conflicts' => '',
 	'constraints' => array(
 		'depends' => array(
@@ -38,7 +38,6 @@ $EM_CONF[$_EXTKEY] = array(
 			'typo3' => '4.7.11-0.0.0',
 			'extbase' => '4.7.11-0.0.0',
 			'fluid' => '4.7.11-0.0.0',
-			'pagebrowse' => '1.3.2-0.0.0',
 			't3jquery' => '2.3.3-0.0.0',
 		),
 		'conflicts' => array(

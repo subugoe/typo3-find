@@ -20,6 +20,8 @@
 			<label index="1 result">1 result</label>
 			<label index="results">results</label>
 			<label index="of">of</label>
+			<label index="Go to previous page of results. (Page %s)">Go to previous page of results. (Page %s)</label>
+			<label index="Go to next page of results. (Page %s)">Go to next page of results. (Page %s)</label>
 
 			<label index="Filter by %s">Filter by %s</label>
 			<label index="Alle Datensätze mit %1 »%2« zeigen.">Show all records with %1 »%2«.</label>
@@ -88,6 +90,8 @@
 			<label index="1 result">1 Treffer</label>
 			<label index="results">Treffer</label>
 			<label index="of">von</label>
+			<label index="Go to previous page of results. (Page %s)">Zur vorigen Ergebnisseite gehen. (Seite %s)</label>
+			<label index="Go to next page of results. (Page %s)">Zur folgenden Ergebnisseite gehen. (Seite %s)</label>
 
 			<label index="Filter by %s">Nach %s filtern</label>
 			<label index="Alle Datensätze mit %1 »%2« zeigen.">Alle Datensätze mit %s »%s« zeigen.</label>

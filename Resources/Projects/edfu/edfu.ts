@@ -77,5 +77,3 @@ plugin.tx_find {
 		partialRootPath = EXT:find/Resources/Projects/edfu/Partials/
 	}
 }
-
-plugin.tx_pagebrowse_pi1.enableMorePages = 1

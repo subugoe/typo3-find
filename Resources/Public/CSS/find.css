@@ -257,7 +257,7 @@
 .tx_find .listPager ol li a, .tx_find .listPager .facet-type-Tabs ol li.facetActive a, .tx_find .facet-type-Tabs .listPager ol li.facetActive a {
   padding: 0.4em;
 }
-.tx_find .listPager .tx-pagebrowse-current {
+.tx_find .listPager .current {
   font-weight: bold;
   color: black;
 }

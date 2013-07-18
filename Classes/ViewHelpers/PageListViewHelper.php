@@ -40,7 +40,7 @@
 			$this->registerArgument('resultCount', 'int', 'total number of results', TRUE);
 			$this->registerArgument('perPage', 'int', 'number of results per page', FALSE, 10);
 			$this->registerArgument('adjacentPages', 'int', 'number of neighbours of the current page to show', FALSE, 3);
-	//		$this->registerArgument('minimumGapSize', 'int', 'gaps of fewer items than this are filles', FALSE, 2);
+			$this->registerArgument('minimumGapSize', 'int', 'gaps of fewer items than this are filles', FALSE, 2);
 		}
 
 
@@ -48,9 +48,12 @@
 		 * @return array
 		 */
 		public function render() {
-			debugster($this->arguments);
 			$currentPage = (int)$this->arguments['currentPage'];
 			$numberOfPages = ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
+			$adjacentPages = (int)$this->arguments['adjacentPages'];
+			$adjacentFirst = max($currentPage - $adjacentPages, 1);
+			$adjacentLast = min($currentPage + $adjacentPages, $numberOfPages);
+			$minimumGapSize = (int)$this->arguments['minimumGapSize'];
 
 			$pageIndex = 1;
 			while ($pageIndex <= $numberOfPages) {
@@ -63,8 +66,12 @@
 				else if ($pageIndex === 1 | $pageIndex === $numberOfPages) {
 					$pageInfo['status'] = 'edge';
 				}
-				else if (abs($pageIndex - $currentPage) <= $this->arguments['adjacentPages']) {
+				else if (abs($pageIndex - $currentPage) <= $adjacentPages) {
 					$pageInfo['status'] = 'adjacent';
+				}
+				else if (($pageIndex < $adjacentFirst && $adjacentFirst <= 1 + $minimumGapSize)
+						|| ($pageIndex > $adjacentLast && $numberOfPages - $adjacentLast <= $minimumGapSize)) {
+					$pageInfo['status'] = 'gapfiller';
 				}
 				else {
 					$pageInfo['status'] = 'gap';
@@ -74,7 +81,7 @@
 				if ($pageInfo['status'] === 'gap') {
 					$pageInfo['text'] = '…';
 					if ($pageIndex < $currentPage) {
-						$pageIndex = $currentPage - $this->arguments['adjacentPages'];
+						$pageIndex = $currentPage - $adjacentPages;
 					}
 					else if ($pageIndex > $currentPage) {
 						$pageIndex = $numberOfPages;

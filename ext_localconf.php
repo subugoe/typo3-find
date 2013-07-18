@@ -14,8 +14,5 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	)
 );
 
-// call hook for pagebrowse
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pagebrowse']['additionalMarkers'][] = 'Tx_Find_Hooks_PageBrowse->addAdditionalMarkers';
-
 // RealURL autoconfiguration
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['find'] = 'EXT:find/Classes/Hooks/RealUrl.php:Tx_Find_Hooks_RealUrl->addRealUrlConfiguration';

@@ -1,41 +1,54 @@
 {namespace s=Tx_Find_ViewHelpers}
-<f:debug>{_all}</f:debug>
 <div class="pager listPager">
 	<f:alias map="{pager:'{s:pageList(currentPage:arguments.page, perPage:settings.paging.perPage, resultCount:results.numfound)}'}">
-		<span class="previous icon-left-dir">
+		<span class="previous">
 			<f:if condition="{pager.previous}">
 				<f:then>
-					<f:link.action arguments="{page:pager.previous}" noCacheHash="1"/>
+					<f:link.action
+						arguments="{page:pager.previous}"
+						addQueryString="1"
+						noCacheHash="1"
+						class="icon-left-dir"
+						title="{f:translate(key:'Go to previous page of results. (Page %s)', arguments:'{1:pager.previous}')}"
+					/>
 				</f:then>
 				<f:else>
-					<a></a>
+					<a class="icon-left-dir"></a>
 				</f:else>
 			</f:if>
 		</span>
-		<ol class="listPager page-count-{numberOfPages}">
+		<ol class="listPager page-count-{f:count(subject:pager.pages)}">
 			<f:for each="{pager.pages}" as="page">
-			<f:debug>{page}</f:debug>
 					<li class="{f:if(condition:'{page.current}', then:'current')} {f:if(condition:'{page.gap}', then:'gap')}">
 					<f:if condition="{current:page.current, gap:page.gap} == {current:FALSE , gap:FALSE}">
 						<f:then>
-							<f:link.action arguments="{page:page.number}" noCacheHash="1">
+							<f:link.action
+								arguments="{page:page.number}"
+								addQueryString="1"
+								noCacheHash="1"
+							>
 								{page.text}
 							</f:link.action>
 						</f:then>
 						<f:else>
-							{page.text}
+							<a>{page.text}</a>
 						</f:else>
 					</f:if>
 				</li>
 			</f:for>
 		</ol>
-		<span class="previous icon-right-dir">
+		<span class="next">
 			<f:if condition="{pager.next}">
 				<f:then>
-					<f:link.action arguments="{page:pager.next}" noCacheHash="1"/>
+					<f:link.action
+						arguments="{page:pager.next}"
+						addQueryString="1"
+						noCacheHash="1"
+						class="icon-right-dir" title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"
+					/>
 				</f:then>
 				<f:else>
-					<a></a>
+					<a class="icon-right-dir"></a>
 				</f:else>
 			</f:if>
 		</span>

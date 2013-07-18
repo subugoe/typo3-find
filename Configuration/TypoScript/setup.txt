@@ -140,8 +140,3 @@ tx_find_page {
 		additionalHeaders = Content-type:application/json;charset=utf-8
 	}
 }
-
-plugin.tx_pagebrowse_pi1 {
-	templateFile = EXT:find/Resources/Private/Templates/pagebrowse/template.html
-	enableMorePages = 1
-}
