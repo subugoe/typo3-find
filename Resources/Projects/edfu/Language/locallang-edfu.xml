@@ -22,6 +22,9 @@
 			<label index="Unsicher">imprecise</label>
 			<label index="Zerstörung">destroyed</label>
 			<label index="Hieroglyph">Hieroglyph</label>
+			<label index="Wb">Berlin Dictionary</label>
+			<label index="Wb öffnen">Search for this page on the Berlin Dictionary web site. (Opens in another window)</label>
+			<label index="Zweifel">Doubts</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -39,6 +42,9 @@
 			<label index="Unsicher">Unsicher</label>
 			<label index="Zerstörung">Zerstörung</label>
 			<label index="Hieroglyph">Hieroglyph</label>
+			<label index="Wb">Wörterbuch Berlin</label>
+			<label index="Wb öffnen">Diese Stelle im Wörterbuch Berlin suchen. (Anderes Fenster)</label>
+			<label index="Zweifel">Zweifel</label>
 		</languageKey>
 	</data>
 </T3locallang>

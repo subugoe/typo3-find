@@ -3,13 +3,13 @@
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.uncompressed.js"/>
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Projects/edfu/Resources/ddpowerzoomer.js"/>
 <s:linkCSS file="EXT:find/Resources/Projects/edfu/Resources/fotorama/product/fotorama.css"/>
+<h1>
+	<div class="technical">
+		<f:render partial="Edfu/Stellen" arguments="{_all}"/>
+		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', linkFieldContent:1}"/>
+	</div>
+</h1>
 <section class="general">
-	<h1>
-		<div class="technical">
-			<f:render partial="Edfu/Stellen" arguments="{_all}"/>
-			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', linkFieldContent:1}"/>
-		</div>
-	</h1>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
 	<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
 </section>
@@ -55,7 +55,9 @@
 		</div>
 	</s:transpose>
 </section>
-<section class="literatur">
-	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
-	<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
-</section>
+<f:if condition="{document.fields.literatur}">
+	<section class="literatur">
+		<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
+		<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
+	</section>
+</f:if>

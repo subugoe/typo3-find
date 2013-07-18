@@ -94,15 +94,15 @@ $more: '\2026'; /* … */
 				}
 			}
 
-			.hieroglyph img{
-				width: 50px;
-				float: right;
-			}
-
 			.field-beziehung {
 				font-size: 80%;
 				color: #666;
 			}
+		}
+
+		.hieroglyph {
+			height: 32px;
+			float: right;
 		}
 	}
 	
@@ -120,46 +120,50 @@ $more: '\2026'; /* … */
 		.field-beziehung {
 			@extend .dashbefore;
 		}
-	}
 
-	.detail.formular {
-		h1 {
-			ul {
-				display: inline;
-				margin: 0;
-				padding: 0;
-				list-style-type: none;
-
-				li {
+		&.formular {
+			h1 {
+				ul {
 					display: inline;
-					font-size: $larger;
+					margin: 0;
+					padding: 0;
+					list-style-type: none;
+
+					li {
+						display: inline;
+						font-size: $larger;
+					}
 				}
+
 			}
 
+			.field-texttyp {
+				@extend .dashbefore;
+				font-style: italic;
+			}
+
+			.field-transliteration {
+				display: block;
+				margin-top: 1em;
+			}
+
+			.field-uebersetzung {
+				display: block;
+				margin-top: 1em;
+			}
 		}
 
-		.field-texttyp {
-			@extend .dashbefore;
-			font-style: italic;
+		&.wort {
+			.hieroglyph {
+				float: right;
+			}
+
+			.zweifel {
+				@extend .brackets;
+			}
 		}
 
-		.field-transliteration {
-			display: block;
-			margin-top: 1em;
-		}
-		
-		.field-uebersetzung {
-			display: block;
-			margin-top: 1em;
-		}
 	}
-
-	.detail.wort {
-		.hieroglyph {
-			float: right;
-		}
-	}
-
 
 	ul.photo-collections {
 		padding: 0;
@@ -187,7 +191,23 @@ $more: '\2026'; /* … */
 		font-family: Transliteration;
 		content: '\00c4';
 	}
-	
+
+	.imageControls {
+		margin: 0 auto 1em auto;
+		text-align: center;
+
+		.control-container {
+			display: inline-block;
+			margin: 0 0.5em;
+
+			.slider {
+				display: inline-block;
+				top: 3px;
+				width: 200px;
+			}
+		}
+	}
+
 	.fotorama {
 		.fotorama__caption {
 			opacity: 1;
@@ -229,12 +249,6 @@ $more: '\2026'; /* … */
 			bottom: 2em;
 			text-align: center;
 		}
-	}
-
-	.control-container {
-		float: left;
-		width: 30%;
-		margin-right: 1em;
 	}
 
 	article.fields {

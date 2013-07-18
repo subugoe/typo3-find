@@ -1,17 +1,25 @@
 {namespace s=Tx_Find_ViewHelpers}
 <section class="general">
 	<h1>
-		<div class="hieroglyph">
-			<img src="fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg" type="image/svg+xml" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Hieroglyph')}">
-		</div>
+		<f:if condition="{s:pathExists(path:'fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg')}">
+			<img src="fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg" type="image/svg+xml" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Hieroglyph')}" class="hieroglyph">
+		</f:if>
 		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
 	</h1>
 	<dl>
 		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'uebersetzung'}"/>
-		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'ortsbeschreibung'}"/>
-		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'ort',
-														linkFieldContent:1, linkFacets:'{typ:\'{ort:1}\'}'}"/>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'lemma'}"/>
+		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'weiteres'}"/>
 		<f:render partial="Edfu/StellenDLItem" arguments="{_all}"/>
 		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'anmerkung'}"/>
+		<dt class="dt-berlin"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Wb"/></dt>
+		<dd class="dd-berlin">
+			<f:link.external uri="http://aaew.bbaw.de/tla/servlet/VmsIdx?f=0&l=0&tr=&ue=&wb={document.fields.berlin_band}&pa={document.fields.berlin_seite_start}&be={document.fields.berlin_zeile_start}&bc=Start" target="wb_berlin" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Wb öffnen')}">
+				{document.fields.berlin_display}
+			</f:link.external>
+			<f:if condition="{document.fields.berlin_zweifel}">
+				<span class="zweifel"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Zweifel"/></span>
+			</f:if>
+		</dd>
 	</dl>
 </section>

@@ -63,7 +63,6 @@ plugin.tx_find {
 		}
 		highlight {
 			fields.1 = *
-			query = ###term###* OR ###term###
 			useQueryTerms = 1
 			useFacetTerms = 0
 		}

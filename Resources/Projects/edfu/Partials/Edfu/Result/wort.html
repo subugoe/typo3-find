@@ -1,9 +1,6 @@
 {namespace s=Tx_Find_ViewHelpers}
 <h1>
 	<f:link.action action="detail" arguments="{id:document.id}" noCacheHash="1" onclick="{f:if(condition:'{settings.paging.detailPagePaging == 1}', then:'return tx_find.detailViewWithPaging(this);')}">
-		<div class="hieroglyph">
-			<img src="fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg" type="image/svg+xml" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Hieroglyph')}">
-		</div>
 		<span class="technical">
 			<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
 		</span>
@@ -11,6 +8,9 @@
 	</f:link.action>
 </h1>
 <p>
+	<f:if condition="{s:pathExists(path:'fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg')}">
+		<img src="fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg" type="image/svg+xml" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Hieroglyph')}" class="hieroglyph">
+	</f:if>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'uebersetzung', separator:', '}"/>
 	<f:if condition="{document.fields.weiteres}">
 		/
