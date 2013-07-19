@@ -32,39 +32,41 @@ var edfu = (function () {
 	};
 
 
-	var zoomTimeout;
-
-	var setupZoom = function (event) {
-		jImage = jQuery('.fotorama__stage__frame.fotorama__active img');
-
-		if (jImage.length > 0) {
+	var setupZoom = function (jFrame) {
+		var jImage = jQuery('.fotorama__img', jFrame)
+		if (jImage && jImage.length > 0) {
 			jImage.addpowerzoom({
 				defaultpower: 2,
 				powerrange: [1.5, 7],
 				largeimage: null,
 				magnifiersize: [200,200]
 			});
+			jImage.mousemove();
 		}
 		else {
-			if (!zoomTimeout) {
-				console.log('setting timeout');
-				zoomTimeout = setTimeout(setupZoom, 500);
-			}
-			else {
-				zoomTimeout = undefined;
-			}
+			ddpowerzoomer.activeimage = undefined;
+			jQuery('.powerzoomer').hide();
 		}
-
-
 	};
 
 
 	jQuery(function () {
 		// Initialise fotorama slideshow.
-        var jFotorama = jQuery('ul.fotorama');
-        jFotorama.on('fotorama:didShow', function (event) {
-      			setupZoom(event);
-        })
+        var jFotorama = jQuery('.fotorama');
+
+		// Catch image changes to set up the zoom. Follows:
+		// https://github.com/artpolikarpov/fotorama/issues/26#issuecomment-21238688
+		jFotorama.on('fotorama:showend', function (event, fotorama) {
+			var jFrame = fotorama.activeFrame.$stageFrame;
+
+			if (!jFrame.data('state')) {
+				jFrame.on('f:load', function () {
+					setupZoom(jFrame);
+				});
+			} else {
+				setupZoom(jFrame);
+			}
+		})
 
 		jFotorama.fotoramaListAdapter().fotorama();
 

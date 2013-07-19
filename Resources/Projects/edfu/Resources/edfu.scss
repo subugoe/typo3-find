@@ -209,6 +209,8 @@ $more: '\2026'; /* … */
 	}
 
 	.fotorama {
+		padding: 0;
+
 		.fotorama__caption {
 			opacity: 1;
 			right: 0;
@@ -221,20 +223,6 @@ $more: '\2026'; /* … */
 			.fotorama__caption {
 				padding: 0;
 				font-size: 12px;
-			}
-
-			.fotorama__nav__frame {
-				.fotorama__loaded--img {
-					&+.fotorama__caption {
-						opacity: 0;
-					}
-				}
-
-				&:hover {
-					.fotorama__caption {
-						opacity: 1;
-					}
-				}
 			}
 		}
 
@@ -279,9 +267,8 @@ $more: '\2026'; /* … */
 .powerzoomer {
 	display: none;
 	position: absolute;
+	z-index: 1000;
 	overflow: hidden;
-	width: 100px;
-	height: 100px;
 	border: 2px solid #fff;
 	box-shadow: #000 1px 1px 4px;
 
