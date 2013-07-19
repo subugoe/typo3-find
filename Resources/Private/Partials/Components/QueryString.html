@@ -8,7 +8,7 @@
 		<f:translate key="Query"/>
 		<f:for each="{query}" as="value" key="key" iteration="iteration">
 			<f:if condition="{0:key} != {0:'default'}">
-				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{key}"/>:
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{key}" default="{key}"/>:
 			</f:if>
 			»{value}«
 			<f:if condition="{iteration.isLast} == 0">
