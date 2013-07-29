@@ -1,7 +1,11 @@
 
 .icon-level-up:before { content: '\e800'; } /* '' */
+.icon-pointer-0:before { content: '\e808'; } /* '' */
 .icon-right-dir:before { content: '\2192'; } /* '→' */
+.icon-pointer-90:before { content: '\e807'; } /* '' */
+.icon-pointer-180:before { content: '\e803'; } /* '' */
 .icon-left-dir:before { content: '\2190'; } /* '←' */
+.icon-pointer-270:before { content: '\e805'; } /* '' */
 .icon-cancel:before { content: '\e801'; } /* '' */
 .icon-cancel-circled:before { content: '\e802'; } /* '' */
 .icon-left-open:before { content: '\e806'; } /* '' */
