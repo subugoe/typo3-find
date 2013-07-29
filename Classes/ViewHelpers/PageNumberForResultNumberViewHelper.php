@@ -47,7 +47,7 @@ class Tx_Find_ViewHelpers_PageNumberForResultNumberViewHelper extends Tx_Fluid_C
 	 * @return string
 	 */
 	public function render() {
-		return floor($this->arguments['resultNumber'] / $this->arguments['resultsPerPage']);
+		return ceil($this->arguments['resultNumber'] / $this->arguments['resultsPerPage']);
 	}
 
 }
