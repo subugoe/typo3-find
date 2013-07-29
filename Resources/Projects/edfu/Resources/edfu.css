@@ -197,3 +197,28 @@
   left: 0;
   top: 0;
 }
+
+.imageContainer {
+  display: inline-block;
+  position: relative;
+}
+.imageContainer .szene {
+  display: block;
+  position: absolute;
+  font-size: 17px;
+  color: #f00;
+}
+.imageContainer .szene.icon-pointer-0 {
+  margin-top: -0.1em;
+  margin-left: -0.75em;
+}
+.imageContainer .szene.icon-pointer-90 {
+  margin-left: -1em;
+}
+.imageContainer .szene.icon-pointer-180 {
+  margin-top: -0.8em;
+  margin-left: -0.75em;
+}
+.imageContainer .szene.icon-pointer-270 {
+  margin-left: -0.3em;
+}

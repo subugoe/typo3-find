@@ -61,3 +61,6 @@
 		<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
 	</section>
 </f:if>
+<f:if condition="{document.fields.szene_uid}">
+	<f:render partial="Edfu/Szenen" arguments="{_all}"/>
+</f:if>

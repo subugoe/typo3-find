@@ -23,3 +23,6 @@
 		</dd>
 	</dl>
 </section>
+<f:if condition="{document.fields.szene_uid}">
+	<f:render partial="Edfu/Szenen" arguments="{_all}"/>
+</f:if>

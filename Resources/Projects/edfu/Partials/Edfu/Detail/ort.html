@@ -12,3 +12,6 @@
 		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'anmerkung'}"/>
 	</dl>
 </section>
+<f:if condition="{document.fields.szene_uid}">
+	<f:render partial="Edfu/Szenen" arguments="{_all}"/>
+</f:if>

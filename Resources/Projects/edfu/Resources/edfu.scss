@@ -279,3 +279,37 @@ $more: '\2026'; /* … */
 	}
 }
 
+
+.imageContainer {
+	display: inline-block;
+	position: relative;
+
+	.szene {
+		display: block;
+		position: absolute;
+		font-size: 17px;
+		color: #f00;
+
+		&.icon-pointer-0 {
+			margin-top: -0.1em;
+			margin-left: -0.75em;
+		}
+
+		&.icon-pointer-90 {
+			margin-left: -1em;
+		}
+
+		&.icon-pointer-180 {
+			margin-top: -0.8em;
+			margin-left: -0.75em;
+		}
+
+		&.icon-pointer-270 {
+			margin-left: -.3em;
+		}
+
+	}
+
+
+}
+
