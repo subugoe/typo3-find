@@ -36,13 +36,13 @@ plugin.tx_find {
 			fields.1 = *
 		}
 
-		CSSPaths.50 = EXT:find/Resources/Projects/jfk-institut-zeitungen/Resources/jfk.css
-		JSPaths.50 = EXT:find/Resources/Projects/jfk-institut-zeitungen/Resources/jfk.js
+		CSSPaths.50 = EXT:find/Projects/jfk-institut-zeitungen/Resources/jfk.css
+		JSPaths.50 = EXT:find/Projects/jfk-institut-zeitungen/Resources/jfk.js
 
-		languageRootPath = EXT:find/Resources/Projects/jfk-institut-zeitungen/Language/
+		languageRootPath = EXT:find/Projects/jfk-institut-zeitungen/Language/
 	}
 	view {
-		templateRootPath = EXT:find/Resources/Projects/jfk-institut-zeitungen/Templates/
-		# partialRootPath = EXT:find/Resources/Projects/jfk-institut-zeitungen/Partials/
+		templateRootPath = EXT:find/Projects/jfk-institut-zeitungen/Templates/
+		# partialRootPath = EXT:find/Projects/jfk-institut-zeitungen/Partials/
 	}
 }

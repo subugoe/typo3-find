@@ -73,12 +73,12 @@ plugin.tx_find {
 		additionalFilters {
 			1 = typ:kloster
 		}
-		CSSPaths.50 = EXT:find/Resources/Projects/germania-sacra/Resources/germania-sacra.css
+		CSSPaths.50 = EXT:find/germania-sacra/Resources/germania-sacra.css
 
-		languageRootPath = EXT:find/Resources/Projects/germania-sacra/Language/
+		languageRootPath = EXT:find/Projects/germania-sacra/Language/
 	}
 	view {
-		templateRootPath = EXT:find/Resources/Projects/germania-sacra/Templates/
-		partialRootPath = EXT:find/Resources/Projects/germania-sacra/Partials/
+		templateRootPath = EXT:find/Projects/germania-sacra/Templates/
+		partialRootPath = EXT:find/Projects/germania-sacra/Partials/
 	}
 }

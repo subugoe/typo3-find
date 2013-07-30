@@ -67,13 +67,13 @@ plugin.tx_find {
 			useFacetTerms = 0
 		}
 
-		CSSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.css
-		JSPaths.50 = EXT:find/Resources/Projects/edfu/Resources/edfu.js
+		CSSPaths.50 = EXT:find/Projects/edfu/Resources/edfu.css
+		JSPaths.50 = EXT:find/Projects/edfu/Resources/edfu.js
 
-		languageRootPath = EXT:find/Resources/Projects/edfu/Language/
+		languageRootPath = EXT:find/Projects/edfu/Language/
 	}
 	view {
-		templateRootPath = EXT:find/Resources/Projects/edfu/Templates/
-		partialRootPath = EXT:find/Resources/Projects/edfu/Partials/
+		templateRootPath = EXT:find/Projects/edfu/Templates/
+		partialRootPath = EXT:find/Projects/edfu/Partials/
 	}
 }
