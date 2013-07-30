@@ -79,7 +79,7 @@ var germaniaSacra = (function () {
 			if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
 				// Unique orden with an icon: use it.
 				var fileName = matchingOrden[0].graphik;
-				var iconURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Resources/Projects/germania-sacra/Resources/Ordenssymbole/' + fileName + '.png';
+				var iconURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Projects/germania-sacra/Resources/Ordenssymbole/' + fileName + '.png';
 				var size = new google.maps.Size(20, 30);
 				var origin = new google.maps.Point(0,0);
 				var anchor = new google.maps.Point(10, 30);
@@ -151,7 +151,7 @@ var germaniaSacra = (function () {
 
 
 	var addBistumsgrenzen = function (map) {
-		var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Resources/Projects/germania-sacra/Resources/Bistumsgrenzen/';
+		var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Projects/germania-sacra/Resources/Bistumsgrenzen/';
 		new google.maps.KmlLayer({
 			'map': map,
 			'preserveViewport': true,
