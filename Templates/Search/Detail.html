@@ -1,0 +1,75 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:layout name="Default"/>
+
+<f:section name="main">
+<f:debug>{_all}</f:debug>
+	<s:pageTitle>{document.fields.Titel_disp.0} – {pageTitle}</s:pageTitle>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
+
+	<article class="detail">
+
+		<h1><s:highlightField field="Titel_disp" document="{document}" results="{results}" index="0"/></h1>
+		
+		<section class="person">
+			<s:transpose name="personen" arrays="{
+				name: \"{s:highlightField(field:'Person_Name', document:document, results:results)}\",
+				id: document.Person_ID,
+				typ: document.Person_Typ,
+				daten: document.Person_Daten,
+				funktion: document.Person_Funktion
+			}">
+				<f:for each="{personen}" as="person">
+					<li>
+						<f:link.action arguments="{q: '{default: \'Person_ID:\"{person.id}\"\'}'}" title="Alle Treffer für »{person.name}« zeigen.">
+							<span class="name">{person.name -> f:format.raw()}</span>
+						</f:link.action>
+						<f:if condition="{person.daten}">
+							(<span class="date">{person.daten}</span>)
+						</f:if>
+						<f:if condition="{person.funktion}">
+							<span class="role">{person.funktion}</span>
+						</f:if>
+					</li>
+				</f:for>
+			</s:transpose>
+		</section>
+
+		<f:if condition="{document.Datum}">
+			<section class="fussnoten">
+				<h2>Datum</h2>
+				<f:render partial="Display/Field/List" arguments="{field:'Datum', document:document, results:results}"/>
+			</section>
+		</f:if>
+		
+		<f:if condition="{document.Ort_und_Datum}">
+			<section class="fussnoten">
+				<h2>Ort und Datum</h2>
+				<f:render partial="Display/Field/List" arguments="{field:'Ort_und_Datum', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Umfang}">
+			<section class="fussnoten">
+				<h2>Umfang</h2>
+				<f:render partial="Display/Field/List" arguments="{field:'Umfang', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Fussnoten}">
+			<section class="fussnoten">
+				<h2>Fußnoten</h2>
+				<f:render partial="Display/Field/List" arguments="{field:'Fussnoten', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+		<f:if condition="{document.Signatur}">
+			<section class="signatur">
+				<h2>Signatur</h2>
+				<f:render partial="Display/Field/List" arguments="{field:'Signatur', document:document, results:results}"/>
+			</section>
+		</f:if>
+
+
+	</article>
+</f:section>
