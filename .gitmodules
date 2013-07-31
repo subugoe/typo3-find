@@ -3,7 +3,7 @@
 	url = git://github.com/flot/flot.git
 [submodule "Resources/Public/JavaScript/jquery.chosen"]
 	path = Resources/Public/JavaScript/jquery.chosen
-	url = git@github.com:harvesthq/chosen.git
+	url = git://github.com/harvesthq/chosen.git
 [submodule "Projects/edfu/Resources/fotorama"]
 	path = Projects/edfu/Resources/fotorama
-	url = git@github.com:ssp/fotorama.git
+	url = git://github.com/ssp/fotorama.git
