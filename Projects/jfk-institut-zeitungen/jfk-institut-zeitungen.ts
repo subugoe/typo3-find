@@ -1,9 +1,9 @@
 plugin.tx_find {
 	settings {
 		connection {
-			host = 127.0.0.1
+			host = solr-harvest.tc.sub.uni-goettingen.de
 			port = 80
-			path = /solr-jfk/
+			path = /solr/jfk-institut-zeitungen/
 		}
 		queryFields {
 		}
