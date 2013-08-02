@@ -49,7 +49,7 @@
 		 */
 		public function render() {
 			$currentPage = (int)$this->arguments['currentPage'];
-			$numberOfPages = ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
+			$numberOfPages = (int)ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
 			$adjacentPages = (int)$this->arguments['adjacentPages'];
 			$adjacentFirst = max($currentPage - $adjacentPages, 1);
 			$adjacentLast = min($currentPage + $adjacentPages, $numberOfPages);
