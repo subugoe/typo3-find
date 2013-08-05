@@ -53,7 +53,6 @@ var localise = function (term) {
  * @returns {undefined}
  */
 var facetChosenSelect = function (event, data) {
-	console.log(event);
 	var term = data.selected;
 	var jArticle = jQuery(this).parents('article');
 	var jLI = jQuery("li[value='" + term + "']");
