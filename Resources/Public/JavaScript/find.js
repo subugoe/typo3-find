@@ -153,7 +153,14 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		}
 	};
 
+	// Create plot.
 	var plot = jQuery.plot(jGraphDiv , [{'data': graphData, 'color': graphColour}], graphOptions);
+
+	// Create tooltip.
+	tooltipDiv = document.createElement('div');
+	tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
+	var jTooltip = jQuery(tooltipDiv).appendTo(document.body);
+
 
 	for (var termIndex in config.activeFacets) {
 		var term = config.activeFacets[termIndex];
@@ -166,18 +173,22 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		}
 	}
 
-	var removeTooltip = function () {
-		jQuery("#tx_find-histogram-tooltip").remove();
+	var roundedRange = function (range) {
+		var outputRange = {};
+
+		var from = Math.floor(range.from);
+		outputRange.from = from - (from % config.barWidth);
+
+		var to = Math.ceil(range.to);
+		outputRange.to = to - (to % config.barWidth) + config.barWidth;
+		return outputRange;
 	};
 
 	var selectRanges = function (ranges) {
-		var from = Math.floor(ranges.xaxis.from);
-		ranges.xaxis.from = from - (from % config.barWidth);
-		var to = Math.ceil(ranges.xaxis.to);
-		ranges.xaxis.to = to - (to % config.barWidth);
-		plot.setSelection(ranges, true);
-		removeTooltip();
-		startSearchWithNewFacet(ranges.xaxis);
+		var newRange = roundedRange(ranges.xaxis);
+		plot.setSelection({'xaxis': newRange}, true);
+		hideTooltip();
+		startSearchWithNewFacet(newRange);
 	};
 
 	jGraphDiv.bind('plotclick', function (event, pos, item) {
@@ -192,33 +203,54 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		selectRanges(ranges);
 	});
 
-	jGraphDiv.bind('plothover', function(event, ranges, item) {
+	var hideTooltip = function () {
+		jTooltip.hide();
+	}
+
+	var updateTooltip = function (ranges) {
 		var showTooltip = function(x, y, contents) {
-			var tooltipDiv = document.createElement('div');
-			tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
-			tooltipDiv.appendChild(document.createTextNode(contents));
-			jQuery(tooltipDiv).css( {
-				'position': 'absolute',
-				'display': 'none',
+			jTooltip.text(contents);
+			jTooltip.css( {
 				'top': y - 20,
-				'left': x + 5,
-				'background': '#fff'
-			}).appendTo('body').show();
+				'left': x + 5
+			});
+			jTooltip.show();
 		};
 
-		removeTooltip();
-		var year = Math.floor(ranges.x);
-		year = year - (year % config.barWidth);
-		if (terms[year]) {
-			var hitCount = terms[year];
-			var displayString = year + ': ' + hitCount + ' ' + localise('Treffer');
-			var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
-			showTooltip(ranges.pageX, tooltipY, displayString);
+		var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
+		var displayString;
+
+		if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
+			var range = roundedRange(ranges.xaxis);
+			displayString = range.from.toString() + '-' + range.to.toString();
 		}
+		else {
+			var year = Math.floor(ranges.xaxis.from);
+			year = year - (year % config.barWidth);
+			if (terms[year]) {
+				var hitCount = terms[year];
+				var displayString = year.toString() + ': ' + hitCount + ' ' + localise('Treffer');
+			}
+		}
+
+		if (displayString) {
+			showTooltip(event.x, tooltipY, displayString);
+		}
+		else {
+			hideTooltip();
+		}
+	};
+
+	jGraphDiv.bind('plothover', function(event, ranges, item) {
+		updateTooltip({'xaxis': {'from': ranges.x, 'to': ranges.x}});
 	});
 
-	jGraphDiv.mouseout(removeTooltip);
+	jGraphDiv.bind('plotselecting', function (event, info) {
+		histogramContainer.currentSelection = info;
+		updateTooltip(info);
+	});
 
+	jGraphDiv.mouseout(hideTooltip);
 };
 
 

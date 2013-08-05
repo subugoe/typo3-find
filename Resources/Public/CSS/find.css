@@ -309,3 +309,9 @@
 .tx_find dd ul {
   margin: 0;
 }
+
+#tx_find-histogram-tooltip {
+  display: none;
+  position: absolute;
+  background: #fff;
+}
