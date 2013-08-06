@@ -1,9 +1,28 @@
+/**
+ * JavaScript for the TYPO3 find extension.
+ *
+ * Handles:
+ *  * passing underlying query information using POST to enable result paging
+ *  * toggling extended search
+ *  * autocomplete initialisation
+ *  * histogram facet selection
+ *  * showing facet overflow items
+ *
+ * 2013 Sven-S. Porst, SUB Göttingen <porst@sub.uni-goettingen.de>
+ */
 var tx_find = (function() {
 
 var URLParameterPrefix = 'tx_find_find';
 var container;
 
 
+/**
+ * Initialise. Set up:
+ * * container element variable
+ * * autocomplete for form fields
+ * * autocomplete for facets
+ * * event handlers
+ */
 var initialise = function () {
 	jQuery(document).ready(function() {
 		container = jQuery('.tx_find');
@@ -31,7 +50,6 @@ var initialise = function () {
 		jQuery('a.extendedSearch', container).click(toggleExtendedSearch);
 
 		jQuery('.position .resultPosition', container).click(onClickRecordNumber);
-
 	});
 };
 
@@ -81,8 +99,8 @@ var showAllFacetsOfType = function (myEvent) {
 
 
 /**
- *  Uses jQuery.flot to create a histogram for »terms« with configuration »config«
- *  in »container.
+ * Uses jQuery.flot to create a histogram for »terms« with configuration »config«
+ * in »container.
  *
  * @param {object} terms (keys: year numbers, values: result counts)
  * @param {DOMElement} histogramContainer
@@ -108,11 +126,12 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		}
 	}
 
-	/*	Set up xaxis with two labelled ticks, one at each end.
-		Dodgy: Use whitespace to approximately position the labels in a way that they don’t
-		extend beyond the end of the graph (by default they are centered at the point of
-		their axis, thus extending beyond the width of the graph on one site.
-	*/
+	/**
+	 * Set up xaxis with two labelled ticks, one at each end.
+	 * Dodgy: Use whitespace to approximately position the labels in a way that they don’t
+	 * extend beyond the end of the graph (by default they are centered at the point of
+	 * their axis, thus extending beyond the width of the graph on one site.
+	 */
 	var xaxisTicks = function (axis) {
 		return [[axis.datamin, '      ' + axis.datamin], [axis.datamax, axis.datamax + '      ']];
 	};
@@ -157,10 +176,12 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	var plot = jQuery.plot(jGraphDiv , [{'data': graphData, 'color': graphColour}], graphOptions);
 
 	// Create tooltip.
-	tooltipDiv = document.createElement('div');
-	tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
-	var jTooltip = jQuery(tooltipDiv).appendTo(document.body);
-
+	var jTooltip = jQuery('#tx_pazpar2-histogram-tooltip');
+	if (jTooltip.length == 0) {
+		var tooltipDiv = document.createElement('div');
+		tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
+		jTooltip = jQuery(tooltipDiv).appendTo(document.body);
+	}
 
 	for (var termIndex in config.activeFacets) {
 		var term = config.activeFacets[termIndex];
@@ -173,6 +194,14 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		}
 	}
 
+
+	/**
+	 * Rounds the passed range to the next multiple of config.barWidth
+	 * below and above.
+	 *
+	 * @param {object} range
+	 * @returns {object}
+	 */
 	var roundedRange = function (range) {
 		var outputRange = {};
 
@@ -181,9 +210,17 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 
 		var to = Math.ceil(range.to);
 		outputRange.to = to - (to % config.barWidth) + config.barWidth;
+
 		return outputRange;
 	};
 
+
+	/**
+	 * Rounds the xaxis range of the passed ranges, selects the resulting
+	 * range in the histogram and starts a new search.
+	 *
+	 * @param {object} ranges
+	 */
 	var selectRanges = function (ranges) {
 		var newRange = roundedRange(ranges.xaxis);
 		plot.setSelection({'xaxis': newRange}, true);
@@ -195,46 +232,62 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 		return true;
 	});
 
-	jGraphDiv.bind('plotunselected', function() {
-		return false;
-	});
-
 	jGraphDiv.bind('plotselected', function(event, ranges) {
 		selectRanges(ranges);
 	});
 
+	jGraphDiv.bind('plotunselected', function() {
+		return false;
+	});
+
+
+	/**
+	 * Hides the tooltip.
+	 */
 	var hideTooltip = function () {
 		jTooltip.hide();
 	}
 
-	var updateTooltip = function (ranges) {
+
+	/**
+	 * Updates the tooltip visiblity, position and text.
+	 *
+	 * @param {event} event
+	 * @param {object} ranges with property »xaxis«
+	 * @param {float} current x coordinate of the mouse
+	 */
+	var updateTooltip = function (event, ranges, pageX) {
 		var showTooltip = function(x, y, contents) {
 			jTooltip.text(contents);
-			jTooltip.css( {
-				'top': y - 20,
-				'left': x + 5
-			});
+			if (x) {
+				jTooltip.css( {
+					'top': y - 20,
+					'left': x + 5
+				});
+			}
 			jTooltip.show();
 		};
 
 		var tooltipY = jGraphDiv.offset().top + canvasHeight - 20;
 		var displayString;
 
-		if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
-			var range = roundedRange(ranges.xaxis);
-			displayString = range.from.toString() + '-' + range.to.toString();
-		}
-		else {
-			var year = Math.floor(ranges.xaxis.from);
-			year = year - (year % config.barWidth);
-			if (terms[year]) {
-				var hitCount = terms[year];
-				var displayString = year.toString() + ': ' + hitCount + ' ' + localise('Treffer');
+		if (ranges) {
+			if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
+				var range = roundedRange(ranges.xaxis);
+				displayString = range.from.toString() + '-' + range.to.toString();
+			}
+			else {
+				var year = Math.floor(ranges.xaxis.from);
+				year = year - (year % config.barWidth);
+				if (terms[year]) {
+					var hitCount = terms[year];
+					var displayString = year.toString() + ': ' + hitCount + ' ' + localise('Treffer');
+				}
 			}
 		}
 
 		if (displayString) {
-			showTooltip(event.x, tooltipY, displayString);
+			showTooltip(pageX, tooltipY, displayString);
 		}
 		else {
 			hideTooltip();
@@ -242,12 +295,12 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	};
 
 	jGraphDiv.bind('plothover', function(event, ranges, item) {
-		updateTooltip({'xaxis': {'from': ranges.x, 'to': ranges.x}});
+		updateTooltip(event, {'xaxis': {'from': ranges.x, 'to': ranges.x}}, ranges.pageX);
 	});
 
 	jGraphDiv.bind('plotselecting', function (event, info) {
 		histogramContainer.currentSelection = info;
-		updateTooltip(info);
+		updateTooltip(event, info);
 	});
 
 	jGraphDiv.mouseout(hideTooltip);
@@ -309,6 +362,7 @@ var detailViewWithPaging = function (element, position) {
 		return input;
 	};
 
+
 	if (underlyingQuery) {
 		// Try to determine position if it is not set explicitly (we should be in the main result list).
 		var jLI = jQuery(element).parents('li');
@@ -341,6 +395,12 @@ var detailViewWithPaging = function (element, position) {
 
 
 
+/**
+ * Toggles extended search: shows/hides additional fields
+ * and changes location URL to reflect the state.
+ *
+ * @returns {boolean}
+ */
 var toggleExtendedSearch = function () {
 	var jForm = jQuery('.searchForm', container);
 	var jThis = jQuery(this);
@@ -366,6 +426,12 @@ var toggleExtendedSearch = function () {
 };
 
 
+
+/**
+ * Pushes newURL to the history state.
+ *
+ * @param {string} newURL
+ */
 var changeURL = function (newURL) {
 	if (history.pushState !== undefined) {
 		history.pushState(null, null, newURL);
