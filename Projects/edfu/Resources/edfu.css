@@ -43,36 +43,66 @@
 .tx_find .field-transliteration, .tx_find .transliteration, .tx_find .field-weiteres {
   font-family: TransliterationFont;
 }
-.tx_find .result h1 .technical {
+.tx_find ol.resultList {
+  float: left;
+  width: 660px;
+  margin: 0;
+}
+.tx_find ol.resultList li {
+  clear: right;
+  margin-bottom: 1.5em;
+}
+.tx_find ol.resultList li span.block {
+  display: block;
+}
+.tx_find ol.resultList li h1 {
+  font-size: 133%;
+}
+.tx_find ol.resultList li h1 .technical {
   position: relative;
   float: right;
   margin-left: 1em;
   font-size: 75%;
 }
-.tx_find .result h1 .technical .bandseitezeile {
+.tx_find ol.resultList li h1 .technical .bandseitezeile {
   color: #333;
+  font-weight: bold;
 }
-.tx_find .result h1 .technical .bandseitezeile.multiple:after {
+.tx_find ol.resultList li h1 .technical .bandseitezeile.multiple:after {
   position: absolute;
   top: 0;
   right: -1em;
   content: "\2026";
 }
-.tx_find .result h1 .technical .field-texttyp {
+.tx_find ol.resultList li h1 .technical .field-texttyp {
   color: #999;
   font-style: italic;
 }
-.tx_find .result h1 .technical .field-texttyp:after {
+.tx_find ol.resultList li h1 .technical .field-texttyp:after {
   padding-left: 0.3em;
   content: "\2014";
 }
-.tx_find .result h1 .field-beziehung {
+.tx_find ol.resultList li h1 .field-beziehung {
   font-size: 80%;
   color: #666;
 }
-.tx_find .result .hieroglyph {
+.tx_find ol.resultList li p {
+  color: #000;
+  font-weight: normal;
+}
+.tx_find ol.resultList li .hieroglyph {
   height: 32px;
   float: right;
+}
+.tx_find ol.resultList li .details {
+  color: #999;
+}
+.tx_find ol.resultList li .details:hover {
+  color: #00247d;
+}
+.tx_find ol.resultList li .details:before {
+  margin-right: 0;
+  font-size: 80%;
 }
 .tx_find section {
   margin-bottom: 2em;

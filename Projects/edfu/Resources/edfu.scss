@@ -14,6 +14,7 @@ $larger: 133%;
 $dash: '\2014'; /* — */
 $dashspace: 0.3em;
 $more: '\2026'; /* … */
+$linkcolor: #00247d;
 
 .dashbefore {
 	&:before {
@@ -64,48 +65,82 @@ $more: '\2026'; /* … */
 		font-family: TransliterationFont;
 	}
 
-	.result {
-		h1 {
-			.technical {
-				position: relative;
+	ol.resultList {
+		float: left;
+		width: 660px;
+		margin: 0;
+
+		li {
+			clear: right;
+			margin-bottom: 1.5em;
+
+			span.block {
+				display: block;
+			}
+
+			h1 {
+				font-size: 133%;
+
+				.technical {
+					position: relative;
+					float: right;
+					margin-left: 1em;
+					font-size: 75%;
+
+					.bandseitezeile {
+						color: #333;
+						font-weight: bold;
+					}
+
+					.bandseitezeile.multiple:after {
+						position: absolute;
+						top: 0;
+						right: -1em;
+						content: $more;
+					}
+
+					.field-texttyp {
+						color: #999;
+						font-style: italic;
+					}
+
+					.field-texttyp:after {
+						padding-left: $dashspace;
+						content: $dash;
+					}
+				}
+
+				.field-beziehung {
+					font-size: 80%;
+					color: #666;
+				}
+			}
+
+			p {
+				color: #000;
+				font-weight: normal;
+			}
+
+			.hieroglyph {
+				height: 32px;
 				float: right;
-				margin-left: 1em;
-				font-size: 75%;
-
-				.bandseitezeile {
-					color: #333;
-				}
-
-				.bandseitezeile.multiple:after {
-					position: absolute;
-					top: 0;
-					right: -1em;
-					content: $more;
-				}
-
-				.field-texttyp {
-					color: #999;
-					font-style: italic;
-				}
-
-				.field-texttyp:after {
-					padding-left: $dashspace;
-					content: $dash;
-				}
 			}
 
-			.field-beziehung {
-				font-size: 80%;
-				color: #666;
-			}
-		}
+			.details {
+				color: #999;
 
-		.hieroglyph {
-			height: 32px;
-			float: right;
+				&:hover {
+					color: $linkcolor;
+				}
+
+				&:before {
+					margin-right: 0;
+					font-size: 80%;
+				}
+			}
 		}
 	}
-	
+
 	section {
 		margin-bottom: 2em;
 	}
@@ -312,4 +347,3 @@ $more: '\2026'; /* … */
 
 
 }
-
