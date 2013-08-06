@@ -124,6 +124,7 @@
 }
 .tx_find .results .navigation {
   margin-bottom: 2em;
+  clear: both;
 }
 .tx_find .results ol.resultList {
   margin: 0 220px 0 0;
