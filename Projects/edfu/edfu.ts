@@ -17,6 +17,10 @@ plugin.tx_find {
 			2 = -typ:stelle
 		}
 		sort {
+			1 {
+				id = default
+				sortCriteria = sort asc
+			}
 		}
 		standardFields {
 			title = transliteration
