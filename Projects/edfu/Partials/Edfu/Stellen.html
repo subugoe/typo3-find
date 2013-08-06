@@ -21,15 +21,18 @@
 					}">
 						<f:alias map="{
 							solrQuery:'{!join from=besitzer to=id}typ:stelle AND start:[* TO {stop}] AND stop:[{start} TO *]',
-							typFacetSelection:'{all:1}'
+							selectedType:'{s:newArray(keys:\'{0:document.fields.typ}\' , values:\'{0:1}\')}'
 						}">
 							<f:link.action
 								action="index"
 								title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze zu dieser Stelle zeigen.')}"
 								arguments="{
-										q:'{raw:solrQuery}',
-										facet:'{typ:typFacetSelection}'
-								}">
+									q:'{raw:solrQuery}',
+									facet:'{typ:selectedType}'
+								}"
+								section="{settings.jumpToID}"
+								noCacheHash="1"
+							>
 								<span class="bandseitezeile">{stelle.bandseitezeile}</span>
 							</f:link.action>
 							<f:if condition="{stelle.unsicher}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:unsicher"/>)</f:if>

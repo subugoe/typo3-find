@@ -52,10 +52,6 @@ plugin.tx_find {
 						id = wort
 						query = typ:wort
 					}
-					50 {
-						id = all
-						query = typ:formular OR typ:gott OR typ:ort OR typ:wort
-					}
 				}
 			}
 			20 {
