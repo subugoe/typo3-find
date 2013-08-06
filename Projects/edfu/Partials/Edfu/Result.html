@@ -1,15 +1,26 @@
 <li id="c{uid}-result-{document.id}">
 	<article class="result">
 		<f:link.action
-				action="detail"
-				arguments="{id:document.id}"
-				noCacheHash="1"
-				onclick="{f:if(
-		condition:'{settings.paging.detailPagePaging == 1}',
-		then:'return tx_find.detailViewWithPaging(this);'
-	)}"
+			action="detail"
+			arguments="{id:document.id}"
+			noCacheHash="1"
+			onclick="{f:if(
+				condition:'{settings.paging.detailPagePaging == 1}',
+				then:'return tx_find.detailViewWithPaging(this);'
+			)}"
 		>
 			<f:render partial="Edfu/Result/{document.typ}" arguments="{_all}"/>
 		</f:link.action>
+		<f:alias map="{solrQuery:'{f:if(condition:arguments.q.default,
+										then:\"{arguments.q.default} AND \")}NOT id:{document.id}'}">
+			<f:link.action
+				action="index"
+				addQueryString="1"
+				arguments="{q:'{default:solrQuery}'}"
+				noCacheHash="1"
+				class="icon-cancel-circled removeRecord"
+				title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Diesen Datensatz ausschließen')}"
+			/>
+		</f:alias>
 	</article>
 </li>

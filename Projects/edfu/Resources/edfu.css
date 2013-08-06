@@ -49,6 +49,7 @@
   margin: 0;
 }
 .tx_find ol.resultList li {
+  position: relative;
   clear: right;
   margin-bottom: 1.5em;
 }
@@ -103,6 +104,20 @@
 .tx_find ol.resultList li .details:before {
   margin-right: 0;
   font-size: 80%;
+}
+.tx_find ol.resultList li .removeRecord {
+  display: none;
+  position: absolute;
+  top: 1em;
+  left: -2.3em;
+  padding: 20px 10px 5px 5px;
+}
+.tx_find ol.resultList li:hover .removeRecord {
+  display: block;
+  color: #bbb;
+}
+.tx_find ol.resultList li:hover .removeRecord:hover {
+  color: #00247d;
 }
 .tx_find section {
   margin-bottom: 2em;
