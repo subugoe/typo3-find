@@ -64,7 +64,7 @@ plugin.tx_find {
 		sort {
 			#1 {
 			#	id = default
-			#	sort = year decs,name asc
+			#	sortCriteria = year desc,name asc
 			#}
 		}
 		count = {$plugin.tx_find.settings.count}
