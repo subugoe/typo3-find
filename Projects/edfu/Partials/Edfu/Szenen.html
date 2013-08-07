@@ -1,25 +1,27 @@
 {namespace s=Tx_Find_ViewHelpers}
-<s:transpose name="szenen" arrays="{
-	uid: document.fields.szene_uid,
-	nummer: document.fields.szene_nummer,
-	beschreibung: document.fields.szene_beschreibung,
-	bild_name: document.fields.szene_bild_name,
-	bild_rect: document.fields.szene_bild_rect,
-	koordinateX: document.fields.szene_koordinateX,
-	koordinateY: document.fields.szene_koordinateY,
-	breite: document.fields.szene_breite,
-	hoehe: document.fields.szene_hoehe,
-	prozentZ: document.fields.szene_prozentZ,
-	blickwinkel: document.fields.szene_blickwinkel
-}">
-	<section class="map">
-		<div class="imageContainer">
-			<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
-			<f:for each="{szenen}" as="szene">
-				<span class="szene icon-pointer-{szene.blickwinkel}"
-					  style="top:{szene.koordinateY}px; left:{szene.koordinateX}px;"
-					  title="{szene.beschreibung}"></span>
-			</f:for>
-		</div>
-	</section>
-</s:transpose>
+<f:if condition="{document.fields.szene_uid}">
+	<s:transpose name="szenen" arrays="{
+		uid: document.fields.szene_uid,
+		nummer: document.fields.szene_nummer,
+		beschreibung: document.fields.szene_beschreibung,
+		bild_name: document.fields.szene_bild_name,
+		bild_rect: document.fields.szene_bild_rect,
+		koordinateX: document.fields.szene_koordinateX,
+		koordinateY: document.fields.szene_koordinateY,
+		breite: document.fields.szene_breite,
+		hoehe: document.fields.szene_hoehe,
+		prozentZ: document.fields.szene_prozentZ,
+		blickwinkel: document.fields.szene_blickwinkel
+	}">
+		<section class="map">
+			<div class="imageContainer">
+				<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
+				<f:for each="{szenen}" as="szene">
+					<span class="szene icon-pointer-{szene.blickwinkel}"
+						  style="top:{szene.koordinateY}px; left:{szene.koordinateX}px;"
+						  title="{szene.beschreibung}"></span>
+				</f:for>
+			</div>
+		</section>
+	</s:transpose>
+</f:if>

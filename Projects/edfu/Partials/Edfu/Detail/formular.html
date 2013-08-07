@@ -56,12 +56,10 @@
 	</s:transpose>
 </section>
 <f:render partial="Edfu/Chassinat" arguments="{_all}"/>
+<f:render partial="Edfu/Szenen" arguments="{_all}"/>
 <f:if condition="{document.fields.literatur}">
 	<section class="literatur">
 		<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Literatur"/></h1>
 		<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur', separator:', '}"/>
 	</section>
-</f:if>
-<f:if condition="{document.fields.szene_uid}">
-	<f:render partial="Edfu/Szenen" arguments="{_all}"/>
 </f:if>
