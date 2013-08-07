@@ -215,7 +215,6 @@ $linkcolor: #00247d;
 				@extend .brackets;
 			}
 		}
-
 	}
 
 	ul.photo-collections {
@@ -289,6 +288,48 @@ $linkcolor: #00247d;
 			right: 0;
 			bottom: 2em;
 			text-align: center;
+		}
+	}
+
+	.chassinat {
+		ol {
+			display: inline;
+			margin-left: 0.3em;
+			padding: 0;
+
+			li {
+				display: inline;
+
+				&:after {
+					content: '\2027';
+				}
+				&:last-child:after {
+					content: '';
+				}
+			}
+		}
+
+		.chassinatPageViewer {
+			.chassinatPager {
+				margin: 1em 0;
+				text-align: center;
+			}
+
+			.imageContainer {
+				position: relative;
+				display: block;
+				margin: 0 30px;
+				overflow: hidden;
+				height: 1200px;
+
+				img {
+					position: absolute;
+					top: -50px;
+					left: auto;
+					right: auto;
+					height: 1280px;
+				}
+			}
 		}
 	}
 

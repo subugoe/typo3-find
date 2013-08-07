@@ -27,6 +27,10 @@
 			<label index="Wb öffnen">Search for this page on the Berlin Dictionary web site. (Opens in another window)</label>
 			<label index="Zweifel">Doubts</label>
 			<label index="Tempelplan">Temple map</label>
+			<label index="Springe zu Seite">Springe zu Seite</label>
+			<label index="Seite in neuem Fenster zeigen">Show this page in new window.</label>
+			<label index="vorige Seite">Show previous page.</label>
+			<label index="nächste Seite">Show next page.</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -49,6 +53,10 @@
 			<label index="Wb öffnen">Diese Stelle im Wörterbuch Berlin suchen. (Anderes Fenster)</label>
 			<label index="Zweifel">Zweifel</label>
 			<label index="Tempelplan">Tempelplan</label>
+			<label index="Springe zu Seite">Show page</label>
+			<label index="Seite in neuem Fenster zeigen">Diese Seite in neuem Fenster zeigen.</label>
+			<label index="vorige Seite">Vorige Seite zeigen.</label>
+			<label index="nächste Seite">Nächste Seite zeigen.</label>
 		</languageKey>
 	</data>
 </T3locallang>

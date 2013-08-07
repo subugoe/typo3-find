@@ -210,6 +210,38 @@
   bottom: 2em;
   text-align: center;
 }
+.tx_find .chassinat ol {
+  display: inline;
+  margin-left: 0.3em;
+  padding: 0;
+}
+.tx_find .chassinat ol li {
+  display: inline;
+}
+.tx_find .chassinat ol li:after {
+  content: '\2027';
+}
+.tx_find .chassinat ol li:last-child:after {
+  content: '';
+}
+.tx_find .chassinat .chassinatPageViewer .chassinatPager {
+  margin: 1em 0;
+  text-align: center;
+}
+.tx_find .chassinat .chassinatPageViewer .imageContainer {
+  position: relative;
+  display: block;
+  margin: 0 30px;
+  overflow: hidden;
+  height: 1200px;
+}
+.tx_find .chassinat .chassinatPageViewer .imageContainer img {
+  position: absolute;
+  top: -50px;
+  left: auto;
+  right: auto;
+  height: 1280px;
+}
 .tx_find article.fields {
   padding-top: 1em;
 }

@@ -1,0 +1,35 @@
+{namespace s=Tx_Find_ViewHelpers}
+{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<f:if condition="document.band">
+	<section class="chassinat">
+		<h1>Chassinat</h1>
+		<f:if condition="{f:count(subject:document.fields.band)} > 1">
+			<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Springe zu Seite"/>:
+			<ol class="pageList">
+				<s:transpose
+					name="stellen"
+					arrays="{
+						band:document.fields.band,
+						seite:document.fields.seite_start,
+						bandseitezeile:document.fields.bandseitezeile
+				}">
+					<f:for each="{stellen}" as="stelle">
+						<li>
+							<a href="#" onclick="return edfu.chassinatVolumePage({stelle.band}, {stelle.seite});">
+								{stelle.bandseitezeile}
+							</a>
+						</li>
+					</f:for>
+				</s:transpose>
+			</ol>
+		</f:if>
+		<div id="c{uid}-chassinatPageViewer" class="chassinatPageViewer">
+			<f:render partial="Edfu/ChassinatPager"/>
+			<div class="imageContainer"></div>
+			<f:render partial="Edfu/ChassinatPager"/>
+		</div>
+		<t3jquery:addJQueryAndScript>
+			jQuery().ready(edfu.chassinatVolumePage({document.fields.band.0}, {document.fields.seite_start.0}));
+		</t3jquery:addJQueryAndScript>
+	</section>
+</f:if>

@@ -50,6 +50,63 @@ var edfu = (function () {
 	};
 
 
+	var chassinatVolumePage = function (volume, page) {
+		var pageCounts = {5:421, 6:362, 7:355, 8:170};
+		var romanNumeral = {1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII'};
+
+		jPageViewer = jQuery('.chassinatPageViewer');
+
+		// Remove old image.
+		jQuery('img.chassinatPage').fadeOut(200, function () {
+			jQuery(this).remove();
+		});
+
+		// Insert new image.
+		var img = document.createElement('img');
+		img.setAttribute('class', 'chassinatPage');
+		img.setAttribute('alt', 'Chassinat ' + romanNumeral[volume] + ', ' + page);
+		var paddedPageNumber = '000' + page;
+		paddedPageNumber = paddedPageNumber.substring(paddedPageNumber.length - 3);
+		var imagePath = 'fileadmin/edfu-data/Chassinat/' + volume + '_' + paddedPageNumber + '.jpg';
+		img.setAttribute('src', imagePath);
+		jQuery('.imageContainer', jPageViewer).append(img);
+
+		// Update label.
+		jQuery('.currentPage a', jPageViewer)
+			.text(romanNumeral[volume] + ', ' + page)
+			.attr('href', imagePath);
+
+
+		// Update previous/next actions.
+		var jPrevious = jQuery('.previous', jPageViewer);
+		if (page > 1) {
+			jPrevious.unbind().click(function () {return chassinatVolumePage(volume, page - 1);});
+			jPrevious.attr('href', '#');
+		}
+		else {
+			jPrevious.unbind();
+			jPrevious.removeAttr('href');
+		}
+
+		var jNext= jQuery('.next', jPageViewer);
+		if (page < pageCounts[volume]) {
+			jNext.unbind().click(function () {return chassinatVolumePage(volume, page + 1);});
+			jNext.attr('href', '#');
+		}
+		else {
+			jNext.unbind();
+			jNext.removeAttr('href');
+		}
+
+		return false;
+	}
+
+
+	var localise = function (term) {
+		return term;
+	}
+
+
 	jQuery(function () {
 		if (jQuery().fotorama) {
 			// Initialise fotorama slideshow.
@@ -82,6 +139,7 @@ var edfu = (function () {
 	});
 
 	return {
+		chassinatVolumePage: chassinatVolumePage
 	};
 
 })();
