@@ -54,9 +54,27 @@ plugin.tx_find {
 			}
 		}
 		highlight {
-			fields.1 = *
+			fields {
+				1 = transliteration_highlight
+				2 = uebersetzung
+				4 = texttyp
+				5 = literatur
+				6 = ortsbeschreibung
+				7 = eponym
+				8 = beziehung
+				9 = funktion
+				10 = ort
+				11 = weiteres
+				12 = anmerkung
+				13 = stelle_anmerkung
+				14 = lemma
+				15 = bandseitezeile_highlight
+			}
 			useQueryTerms = 1
 			useFacetTerms = 0
+			alternateFields {
+				transliteration = transliteration_highlight
+			}
 		}
 
 		CSSPaths.50 = EXT:find/Projects/edfu/Resources/edfu.css
