@@ -30,7 +30,6 @@
 	 */
 	class Tx_Find_ViewHelpers_TSFEViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
-
 		/**
 		 * @return array
 		 */
