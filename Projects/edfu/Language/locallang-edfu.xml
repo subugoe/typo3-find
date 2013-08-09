@@ -8,6 +8,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">The translation and transliteration of this section is not ready yet.</label>
 			<label index="Diesen Datensatz ausschließen">Exclude this record from the result list.</label>
 			<label index="Alle Datensätze vom Typ »%s« zeigen.">Show all records of text type »%s«.</label>
 			<label index="Photos">Photos</label>
@@ -35,6 +36,7 @@
 		</languageKey>
 
 		<languageKey index="de" type="array">
+			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.</label>
 			<label index="Diesen Datensatz ausschließen">Diesen Datensatz aus der Trefferliste entfernen.</label>
 			<label index="Alle Datensätze vom Typ »%s« zeigen.">Alle Datensätze vom Typ »%s« zeigen.</label>
 			<label index="Photos">Photos</label>

@@ -41,14 +41,6 @@ plugin.tx_find {
 						query = typ:formular
 					}
 					20 {
-						id = gott
-						query = typ:gott
-					}
-					30 {
-						id = ort
-						query = typ:ort
-					}
-					40 {
 						id = wort
 						query = typ:wort
 					}
@@ -77,3 +69,19 @@ plugin.tx_find {
 		partialRootPath = EXT:find/Projects/edfu/Partials/
 	}
 }
+
+
+[globalVar = TSFE : beUserLogin > 0]
+plugin.tx_find.settings {
+	facets.10.facetQuery {
+		30 {
+			id = gott
+			query = typ:gott
+		}
+		40 {
+			id = ort
+			query = typ:ort
+		}
+	}
+}
+[global]

@@ -10,8 +10,17 @@
 	</div>
 </h1>
 <section class="general">
-	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
-	<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
+	<f:alias map="{tsfe:'{s:tsfe()}'}">
+		<f:if condition="{s:or(conditions:'{0:tsfe.beUserLogin, 1:document.fields.freigegeben.0}')}">
+			<f:then>
+				<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
+				<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
+			</f:then>
+			<f:else>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen."/>
+			</f:else>
+		</f:if>
+	</f:alias>
 </section>
 <section class="photos">
 	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photos"/></h1>

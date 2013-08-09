@@ -1,12 +1,23 @@
 {namespace s=Tx_Find_ViewHelpers}
-<h1>
-	<span class="technical">
-		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', separator:', '}"/>
-		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
-	</span>
-	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
-</h1>
-<p>
-	<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
-	<span class="details icon-right-open"><f:translate key="Show Detail Page"/></span>
-</p>
+<f:alias map="{tsfe:'{s:tsfe()}', a:'{0:1, 1:1}'}">
+	<h1>
+		<span class="technical">
+			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', separator:', '}"/>
+			<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
+		</span>
+		<f:if condition="{s:or(conditions:'{0:tsfe.beUserLogin, 1:document.fields.freigegeben.0}')}">
+			<f:then>
+				<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
+			</f:then>
+			<f:else>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen."/>
+			</f:else>
+		</f:if>
+	</h1>
+	<p>
+		<f:if condition="{s:or(conditions:'{0:tsfe.beUserLogin, 1:document.fields.freigegeben.0}')}">
+			<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>
+		</f:if>
+		<span class="details icon-right-open"><f:translate key="Show Detail Page"/></span>
+	</p>
+</f:alias>
