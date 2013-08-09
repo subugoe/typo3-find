@@ -41,6 +41,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "9248ce8062fb4707a6919bfe9ac1af8e",
+      "css": "popup",
+      "code": 59401,
+      "src": "entypo"
+    },
+    {
       "uid": "5308d824454af8ec7835786e272361a9",
       "css": "level-up",
       "code": 59392,
