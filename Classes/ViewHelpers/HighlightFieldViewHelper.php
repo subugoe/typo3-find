@@ -49,11 +49,12 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 		$this->registerArgument('results', 'Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
 		$this->registerArgument('document', 'Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
 		$this->registerArgument('field', 'string', 'name of field in document to highlight', TRUE);
+		$this->registerArgument('alternateField', 'string', 'name of alternate field in document to use for highlighting', FALSE, NULL);
 		$this->registerArgument('index', 'int', 'if the field is an array: index of the single element to highlight', FALSE);
 		$this->registerArgument('idKey', 'string', 'name of the field in document that is its ID', FALSE, 'id');
 		$this->registerArgument('highlightTagOpen', 'string', 'opening tag to insert to begin highlighting', FALSE, '<em class="highlight">');
 		$this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', FALSE, '</em>');
-		$this->registerArgument('raw', 'boolean', 'whether to HTML escape the output or not', FALSE, FALSE);
+		$this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', FALSE, FALSE);
 	}
 
 
@@ -64,17 +65,17 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 	public function render () {
 		if ($this->arguments['document']) {
 			$fields = $this->arguments['document']->getFields();
-			$field = $fields[$this->arguments['field']];
+			$fieldContent = $fields[$this->arguments['field']];
 			if ($this->arguments['index'] !== NULL) {
-				if (is_array($field) && count($field) > $this->arguments['index']) {
-					$field = $field[$this->arguments['index']];
+				if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
+					$fieldContent = $fieldContent[$this->arguments['index']];
 				}
 				else {
 					// TODO: error message
 				}
 			}
 
-			return $this->highlightField($field);
+			return $this->highlightField($fieldContent);
 		}
 	}
 
@@ -88,7 +89,6 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @return array|string
 	 */
 	private function highlightField ($fieldContent) {
-		$result = $fieldContent;
 		$highlightInfo = $this->getHighlightInfo();
 
 		if (is_array($fieldContent)) {
@@ -126,9 +126,9 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 				}
 
 				$highlightItemMarkedUp = str_replace(
-											array('\ueeee', '\ueeef'),
-											array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
-											$highlightItem );
+					array('\ueeee', '\ueeef'),
+					array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
+					$highlightItem );
 				$result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
 				break;
 			}
@@ -158,8 +158,15 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 	private function getHighlightInfo () {
 		$documentID = $this->arguments['document'][$this->arguments['idKey']];
 		$highlighting =  $this->arguments['results']->getHighlighting();
+
 		if ($highlighting) {
-			$highlightInfo = $highlighting->getResult($documentID)->getField($this->arguments['field']);
+			if ($this->arguments['alternateField']) {
+				$fieldName = $this->arguments['alternateField'];
+			}
+			else {
+				$fieldName = $this->arguments['field'];
+			}
+			$highlightInfo = $highlighting->getResult($documentID)->getField($fieldName);
 		}
 
 		return $highlightInfo;

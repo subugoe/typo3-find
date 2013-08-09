@@ -101,6 +101,9 @@ plugin.tx_find {
 			# query = ###term###
 			# useQueryTerms = 1
 			# useFacetTerms = 1
+			# alternateFields {
+			# 	transliteration = transliterationHiglight
+			# }
 		}
 		additionalFilters {
 			# 1 = type:kloster

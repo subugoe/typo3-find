@@ -737,6 +737,8 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		if ($this->settings['highlight'] && $this->settings['highlight']['fields']
 				&& count($this->settings['highlight']['fields']) > 0) {
 			$highlight = $query->getHighlighting();
+
+			// Configure highlight queries.
 			if ($this->settings['highlight']['query']) {
 				$queryWords= array();
 				if ($this->settings['highlight']['useQueryTerms'] && array_key_exists('q', $arguments)) {
@@ -760,7 +762,19 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 
 				$highlight->setQuery($queryString);
 			}
-			$highlight->setFields(implode(',', $this->settings['highlight']['fields']));
+
+			// Configure highlight fields.
+			$highlight->addFields(implode(',', $this->settings['highlight']['fields']));
+			
+			// Set up alternative fields.
+			if ($this->settings['highlight']['alternateFields']) {
+				foreach ($this->settings['highlight']['alternateFields'] as $fieldName => $alternateFieldName) {
+					$highlightField = $highlight->getField($fieldName);
+					$highlightField->setAlternateField($alternateFieldName);
+				}
+			}
+
+			// Set up prefix and postfix.
 			$highlight->setSimplePrefix('\ueeee');
 			$highlight->setSimplePostfix('\ueeef');
 		}

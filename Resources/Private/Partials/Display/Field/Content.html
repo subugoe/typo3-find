@@ -41,6 +41,6 @@
 		</f:alias>
 	</f:then>
 	<f:else>
-		<s:highlightField field="{field}" document="{document}" results="{results}" index="{iterator.index}"/>
+		<s:highlightField field="{field}" document="{document}" results="{results}" index="{iterator.index}" alternateField="{s:valueForKey(array:settings.highlight.alternateFields, key:field)}"/>
 	</f:else>
 </f:if>
