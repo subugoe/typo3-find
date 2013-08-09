@@ -186,29 +186,41 @@
   top: 3px;
   width: 200px;
 }
-.tx_find .fotorama {
+.tx_find .fotorama-container {
+  position: relative;
+}
+.tx_find .fotorama-container .fotorama {
   padding: 0;
 }
-.tx_find .fotorama .fotorama__caption {
+.tx_find .fotorama-container .fotorama .fotorama__caption {
   opacity: 1;
   right: 0;
   left: 0;
   text-align: center;
   transition-duration: 0.3s;
 }
-.tx_find .fotorama .fotorama__nav .fotorama__caption {
+.tx_find .fotorama-container .fotorama .fotorama__nav .fotorama__caption {
   padding: 0;
   font-size: 12px;
 }
-.tx_find .fotorama .fotorama__html {
+.tx_find .fotorama-container .fotorama .fotorama__html {
   background: #eee;
 }
-.tx_find .fotorama .imageName {
+.tx_find .fotorama-container .fotorama .imageName {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 2em;
   text-align: center;
+}
+.tx_find .fotorama-container .new-window {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #fff;
+  font-size: 18px;
+  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 2px;
 }
 .tx_find .chassinat ol {
   display: inline;

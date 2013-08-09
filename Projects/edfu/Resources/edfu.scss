@@ -260,34 +260,48 @@ $linkcolor: #00247d;
 		}
 	}
 
-	.fotorama {
-		padding: 0;
+	.fotorama-container {
+		position: relative;
 
-		.fotorama__caption {
-			opacity: 1;
-			right: 0;
-			left: 0;
-			text-align: center;
-			transition-duration: 0.3s;
-		}
+		.fotorama {
+			padding: 0;
 
-		.fotorama__nav {
 			.fotorama__caption {
-				padding: 0;
-				font-size: 12px;
+				opacity: 1;
+				right: 0;
+				left: 0;
+				text-align: center;
+				transition-duration: 0.3s;
+			}
+
+			.fotorama__nav {
+				.fotorama__caption {
+					padding: 0;
+					font-size: 12px;
+				}
+			}
+
+			.fotorama__html {
+				background: #eee;
+			}
+
+			.imageName {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 2em;
+				text-align: center;
 			}
 		}
 
-		.fotorama__html {
-			background: #eee;
-		}
-		
-		.imageName {
+		.new-window {
+			display: none;
 			position: absolute;
-			left: 0;
-			right: 0;
-			bottom: 2em;
-			text-align: center;
+			top: 8px;
+			right: 8px;
+			color: #fff;
+			font-size: 18px;
+			text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 2px;
 		}
 	}
 

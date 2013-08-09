@@ -31,10 +31,11 @@
 			</div>
 		</div>
 
-		<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-thumb-width="80" data-thumb-height="80" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
-			<f:for each="{collections}" as="collection">
-				<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
-					<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
+		<div class="fotorama-container">
+			<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-thumb-width="80" data-thumb-height="80" data-hash="true" data-max-height="100%" data-nav="thumbs" data-keyboard="true">
+				<f:for each="{collections}" as="collection">
+					<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
+						<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
 						<li>
 							<f:if condition="{s:pathExists(path:path)}">
 								<f:then>
@@ -49,10 +50,13 @@
 								</f:else>
 							</f:if>
 						</li>
-					</f:alias>
+						</f:alias>
+					</f:for>
 				</f:for>
-			</f:for>
-		</ul>
+			</ul>
+
+			<a class="new-window icon-popup" target="_blank" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bild in neuem Fenster zeigen')}"></a>
+		</div>
 	</s:transpose>
 </section>
 <f:render partial="Edfu/Chassinat" arguments="{_all}"/>

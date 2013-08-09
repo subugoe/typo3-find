@@ -34,6 +34,8 @@ var edfu = (function () {
 
 	var setupZoom = function (jFrame) {
 		var jImage = jQuery('.fotorama__img', jFrame);
+		var jNewWindowLink = jQuery('.new-window');
+
 		if (jImage && jImage.length > 0) {
 			jImage.addpowerzoom({
 				defaultpower: 2,
@@ -42,10 +44,14 @@ var edfu = (function () {
 				magnifiersize: [200,200]
 			});
 			jImage.mousemove();
+
+			jNewWindowLink.attr('href', jImage.attr('src')).show();
 		}
 		else {
 			ddpowerzoomer.activeimage = undefined;
 			jQuery('.powerzoomer').hide();
+
+			jNewWindowLink.removeAttr('href').hide();
 		}
 	};
 

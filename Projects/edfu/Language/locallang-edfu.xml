@@ -29,6 +29,7 @@
 			<label index="Tempelplan">Temple map</label>
 			<label index="Springe zu Seite">Springe zu Seite</label>
 			<label index="Seite in neuem Fenster zeigen">Show this page in new window.</label>
+			<label index="Bild in neuem Fenster zeigen">Show image in new window.</label>
 			<label index="vorige Seite">Show previous page.</label>
 			<label index="nächste Seite">Show next page.</label>
 		</languageKey>
@@ -55,6 +56,7 @@
 			<label index="Tempelplan">Tempelplan</label>
 			<label index="Springe zu Seite">Show page</label>
 			<label index="Seite in neuem Fenster zeigen">Diese Seite in neuem Fenster zeigen.</label>
+			<label index="Bild in neuem Fenster zeigen">Bild in neuem Fenster zeigen.</label>
 			<label index="vorige Seite">Vorige Seite zeigen.</label>
 			<label index="nächste Seite">Nächste Seite zeigen.</label>
 		</languageKey>
