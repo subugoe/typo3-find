@@ -10,7 +10,8 @@
 				<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
 			</f:then>
 			<f:else>
-				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen."/>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:%s Bilder"
+							 arguments="{0:'{f:count(subject:document.fields.photo)}'}"/>
 			</f:else>
 		</f:if>
 	</h1>

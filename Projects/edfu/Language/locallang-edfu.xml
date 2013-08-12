@@ -8,7 +8,8 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">The translation and transliteration of this section is not ready yet.</label>
+			<label index="%s Bilder">%s image for this text</label>
+			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">Work on this volume of Chassinat is not finished yet. The transliteration and translation of the text are not available at this time.</label>
 			<label index="Diesen Datensatz ausschließen">Exclude this record from the result list.</label>
 			<label index="Alle Datensätze vom Typ »%s« zeigen.">Show all records of text type »%s«.</label>
 			<label index="Photos">Photos</label>
@@ -38,7 +39,8 @@
 		</languageKey>
 
 		<languageKey index="de" type="array">
-			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.</label>
+			<label index="%s Bilder">%s Bilder für diesen Text</label>
+			<label index="Die Bearbeitung der Übersetzung und Transliteration dieser Stelle ist noch nicht abgeschlossen.">Die Bearbeitung  dieses Chassinat Bandes ist noch nicht abgeschlossen. Daher sind die Transliteration und Übersetzung dieser Textstelle im Moment nicht zu sehen.</label>
 			<label index="Diesen Datensatz ausschließen">Diesen Datensatz aus der Trefferliste entfernen.</label>
 			<label index="Alle Datensätze vom Typ »%s« zeigen.">Alle Datensätze vom Typ »%s« zeigen.</label>
 			<label index="Photos">Photos</label>
