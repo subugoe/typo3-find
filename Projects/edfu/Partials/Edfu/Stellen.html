@@ -23,18 +23,29 @@
 							solrQuery:'{!join from=besitzer to=id}typ:stelle AND start:[* TO {stop}] AND stop:[{start} TO *]',
 							selectedType:'{s:newArray(keys:\'{0:document.fields.typ}\' , values:\'{0:1}\')}'
 						}">
-							<f:link.action
-								action="index"
-								title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze zu dieser Stelle zeigen.')}"
-								arguments="{
-									q:'{raw:solrQuery}',
-									facet:'{typ:selectedType}'
+							<s:newArray
+								name="linkArguments"
+								keys="{0:'q', 1:'sort', 2:'count', 3:'extended', 4:'facet'}"
+								values="{
+									0:'{raw:solrQuery}',
+									1:arguments.underlyingQuery.sort,
+									2:arguments.underlyingQuery.count,
+									3:arguments.extended,
+									4:'{typ:selectedType}'
 								}"
-								section="{settings.jumpToID}"
-								noCacheHash="1"
+								omitEmptyFields="1"
 							>
-								<span class="bandseitezeile">{stelle.bandseitezeile}</span>
-							</f:link.action>
+								<f:link.action
+									action="index"
+									arguments="{linkArguments}"
+									section="{settings.jumpToID}"
+									noCacheHash="1"
+									class="internal"
+									title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Alle Datensätze zu dieser Stelle zeigen.')}"
+								>
+									<span class="bandseitezeile">{stelle.bandseitezeile}</span>
+								</f:link.action>
+							</s:newArray>
 							<f:if condition="{stelle.unsicher}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:unsicher"/>)</f:if>
 							<f:if condition="{stelle.zerstoerung}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Zerstörung"/>)</f:if>
 							<f:if condition="{stelle.anmerkung}">({stelle.anmerkung})</f:if>
