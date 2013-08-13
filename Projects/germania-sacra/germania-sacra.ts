@@ -24,6 +24,14 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = orden_suggest
 			}
+			30 {
+				id = ort
+				type = Text
+				extended = 1
+				autocomplete = 1
+				autocompleteDictionary = ort_suggest
+			}
+
 		}
 		sort {
 			1 {

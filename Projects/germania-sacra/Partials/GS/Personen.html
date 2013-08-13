@@ -26,7 +26,7 @@
 					<ol>
 						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
 							<f:alias map="{samplePerson:'{s:arrayFirst(array:personenMitAmt)}'}">
-								<li><f:link.action addQueryString="1" section="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}" noCacheHash="1">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then><f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else></f:if></f:link.action></li>
+								<li><f:link.action addQueryString="TRUE" section="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}" noCacheHash="1" class="internal">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then><f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else></f:if></f:link.action></li>
 							</f:alias>
 						</f:groupedFor>
 					</ol>
@@ -52,7 +52,10 @@
 									<f:if condition="{person.von_verbal}{person.bis_verbal}">
 										<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-{f:format.raw(value:person.bis_verbal)}')}</span>
 									</f:if>
-									<f:link.external title="{person.bezeichnungOriginal} {person.nameOriginal} in der Personendatenbank anzeigen" uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
+									<f:link.external
+										uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}"
+										title="{person.bezeichnungOriginal} {person.nameOriginal} in der Personendatenbank anzeigen"
+									>
 										<f:if condition="{person.name_xml}">
 											<f:then>
 												<span class="name">{f:format.raw(value:person.name_xml)}</span>

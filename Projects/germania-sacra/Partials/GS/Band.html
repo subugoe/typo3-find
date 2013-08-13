@@ -10,7 +10,11 @@
 							<f:if condition="{document.band_url_seitengenau}">
 								<f:then>
 									<!-- seitengenauer Link -->
-									<f:link.external class="band-link" uri="{document.band_url_seitengenau.0}/{s:regexp(string:document.band_seite.0, match:'/^([0-9]+).*/', replace:'$1')}">
+									<f:link.external
+										uri="{document.band_url_seitengenau.0}/{s:regexp(string:document.band_seite.0, match:'/^([0-9]+).*/', replace:'$1')}"
+										class="band-link"
+									>
+
 										<span class="band-nummer">{s:highlightField(field:'band_nummer', document:document, results:results, index:0)}</span>:
 										<span class="band-titel">{s:highlightField(field:'band_titel', document:document, results:results, index:0)}</span>,
 										<span class="seite">S. {document.band_seite.0}</span>
@@ -18,7 +22,7 @@
 								</f:then>
 								<f:else>
 									<!-- bandgenauer Link, Seiteninformation angezeigt -->
-									<f:link.external class="band-link" uri="{document.band_url.0}">
+									<f:link.external uri="{document.band_url.0}"  class="band-link">
 										<span class="band-nummer">{s:highlightField(field:'band_nummer', document:document, results:results, index:0)}</span>:
 										<span class="band-titel">{s:highlightField(field:'band_titel', document:document, results:results, index:0)}</span></f:link.external>,
 									<span class="seite">S. {document.band_seite.0}</span>
@@ -27,7 +31,7 @@
 						</f:then>
 						<f:else>
 							<!-- keine Seiteninformation vorhanden -->
-							<f:link.external class="band-link" uri="{document.band_url.0}">
+							<f:link.external uri="{document.band_url.0}" class="band-link">
 								<span class="band-nummer">{s:highlightField(field:'band_nummer', document:document, results:results, index:0)}</span>:
 								<span class="band-titel">{s:highlightField(field:'band_titel', document:document, results:results, index:0)}</span></f:link.external>
 						</f:else>

@@ -20,15 +20,54 @@
 							<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
 						</f:if>
 						<span class="ort">
-							<f:link.action arguments="{q: '{default: \'ort:\"{standort.nameOriginal}\"\'}'}" noCacheHash="1" title="Alle Klöster in {standort.nameOriginal} zeigen.">{f:format.raw(value:standort.name)}</f:link.action></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+							<s:newArray
+								name="linkArguments"
+								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
+								values="{
+									0:'{ort:\"{standort.nameOriginal}\"}',
+									1:arguments.underlyingQuery.sort,
+									2:arguments.underlyingQuery.count,
+									3:'1'
+								}"
+								omitEmptyFields="1"
+							>
+								<f:link.action
+									arguments="{linkArguments}"
+									noCacheHash="1"
+									section="{settings.jumpToID}"
+									class="internal"
+									title="Alle Klöster in {standort.nameOriginal} zeigen."
+								>
+									{f:format.raw(value:standort.name)}
+								</f:link.action>
+							</s:newArray>
+						</span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
 						<span class="land">{f:format.raw(value:standort.land)},</span>
 
 						<span class="bistum">
-							<f:link.action arguments="{q: '{default: \'bistum:\"{standort.bistum}\"\'}'}" noCacheHash="1" title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen.">
-								{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
-								{f:format.raw(value:standort.bistum)}
-							</f:link.action>
+							<s:newArray
+								name="linkArguments"
+								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
+								values="{
+									0:'{bistum:\"{standort.bistumOriginal}\"}',
+									1:arguments.underlyingQuery.sort,
+									2:arguments.underlyingQuery.count,
+									3:'1'
+								}"
+								omitEmptyFields="1"
+							>
+								<f:link.action
+									arguments="{linkArguments}"
+									noCacheHash="1"
+									section="{settings.jumpToID}"
+									class="internal"
+									title="Alle Klöster im {f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')} {standort.bistum} zeigen."
+								>
+									{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
+									{f:format.raw(value:standort.bistum)}
+								</f:link.action>
+							</s:newArray>
 						</span>
 					</p>
 				</li>

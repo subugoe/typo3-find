@@ -15,9 +15,28 @@
 							<span class="zeitraum">{f:format.raw(value:orden.von_verbal)} – {f:format.raw(value:orden.bis_verbal)}</span>
 						</f:if>
 						<span class="orden">
-							<f:link.action arguments="{q:'{default: \'orden:\"{orden.nameOriginal}\"\'}'}" noCacheHash="1" title="Alle Klöster der {orden.nameOriginal} zeigen.">
-								{f:format.raw(value:orden.name)}
-							</f:link.action>
+							<s:newArray
+								name="linkArguments"
+								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
+								values="{
+									0:'{orden:\"{orden.nameOriginal}\"}',
+									1:arguments.underlyingQuery.sort,
+									2:arguments.underlyingQuery.count,
+									3:'1'
+								}"
+								omitEmptyFields="1"
+							>
+								<f:link.action
+									action="index"
+									arguments="{linkArguments}"
+									noCacheHash="1"
+									section="{settings.jumpToID}"
+									class="internal"
+									title="Alle Klöster der {orden.nameOriginal} zeigen."
+								>
+									{f:format.raw(value:orden.name)}
+								</f:link.action>
+							</s:newArray>
 						</span>
 					</p>
 				</li>

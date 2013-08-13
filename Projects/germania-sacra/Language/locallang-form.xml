@@ -14,16 +14,11 @@
 		</description>
 	</meta>
 	<data type="array">
-		<languageKey index="default" type="array">
-			<label index="input.default">All Fields</label>
-			<label index="input.bistum">Bistum</label>
-			<label index="input.orden">Orden</label>
-		</languageKey>
-
 		<languageKey index="de" type="array">
 			<label index="input.default">Alle Felder</label>
 			<label index="input.bistum">Bistum</label>
 			<label index="input.orden">Orden</label>
+			<label index="input.ort">Ort</label>
 		</languageKey>
 	</data>
 </T3locallang>
