@@ -36,11 +36,14 @@
 		 */
 		public function initializeArguments() {
 			parent::initializeArguments();
+			$this->registerArgument('name', 'string', 'name of template variable to assign the result to', FALSE, NULL);
 			$this->registerArgument('array', 'array', 'existing array to add the new keys and values to', FALSE, array());
+
 			$this->registerArgument('keys', 'array', 'array of keys', FALSE, NULL);
 			$this->registerArgument('values', 'array', 'array of values', TRUE);
-			$this->registerArgument('name', 'string', 'name of template variable to assign the result to', FALSE, NULL);
+
 			$this->registerArgument('global', 'boolean', 'whether to make the variable available to all templates coming afterwards', FALSE, FALSE);
+			$this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', FALSE, FALSE);
 		}
 
 
@@ -49,19 +52,25 @@
 		 */
 		public function render() {
 			$result = '';
-			$array = $this->arguments['array'];
+			$result = $this->arguments['array'];
 
 			if ($this->arguments['keys']) {
-				$newArray = array_combine($this->arguments['keys'], $this->arguments['values']);
-				if ($newArray !== FALSE) {
-					$result = array_merge($array, $newArray);
+				if (count($this->arguments['keys']) === count($this->arguments['values'])) {
+					foreach ($this->arguments['keys'] as $index => $key) {
+						$value = $this->arguments['values'][$index];
+						if (!$this->arguments['omitEmptyFields'] || $value) {
+							$result[$key] = $value;
+						}
+					}
 				}
 				else {
-					$result = "newArray View Helper: Could not combine keys and values to new array, probably they don’t have the same number of elements.\n" . print_r($this->arguments, TRUE);
+					$result = "newArray View Helper: Number of keys and values must be the same.\n" . print_r($this->arguments, TRUE);
 				}
 			}
 			else {
-				$result = array_merge($array, $this->arguments['values']);
+				foreach ($this->arguments['values'] as $value) {
+					$result[] = $value;
+				}
 			}
 
 			$variableName = $this->arguments['name'];
