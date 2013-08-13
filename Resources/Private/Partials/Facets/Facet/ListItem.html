@@ -22,17 +22,17 @@
 					argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets, mode:'remove')}"
 					section="{settings.jumpToID}"
 					noCacheHash="1"
-					class="icon-cancel facetRemove"
+					class="icon-cancel facetRemove internal"
 					title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}" default="{facetTerm}"/></span></f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
 					addQueryString="TRUE"
 					arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
-					section="{settings.jumpToID}"
 					argumentsToBeExcludedFromQueryString="{0:'tx_find_find[page]'}"
+					section="{settings.jumpToID}"
 					noCacheHash="1"
-					class="facetAdd">
+					class="facetAdd internal">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
 							 default="{facetTerm}"/>&nbsp;<span class="facetCount">{itemCount}</span>
 			</f:link.action>

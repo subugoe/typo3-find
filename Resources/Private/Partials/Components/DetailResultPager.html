@@ -4,9 +4,32 @@
 		<p class="queryAndPager">
 			<span class="underlyingQuery">
 				<span class="backToResultList">
-					<f:link.action action="index" arguments="{q:arguments.underlyingQuery.q, sort:arguments.underlyingQuery.sort, count:arguments.underlyingQuery.count, facet:arguments.underlyingQuery.facet, page:'{s:pageNumberForResultNumber(resultNumber:arguments.underlyingQuery.position, resultsPerPage:settings.paging.perPage)}'}" section="c{uid}-result-{document.fields.id}" noCacheHash="1" class="icon-level-up">
-						<f:translate key="Return to results list"/>
-					</f:link.action>
+					<s:newArray
+						name="linkArguments"
+						keys="{0:'q', 1:'sort', 2:'count', 3:'facet', 4:'extended', 5:'page'}"
+						values="{
+							0:arguments.underlyingQuery.q,
+							1:arguments.underlyingQuery.sort,
+							2:arguments.underlyingQuery.count,
+							3:arguments.underlyingQuery.facet,
+							4:arguments.extended,
+							5:'{s:pageNumberForResultNumber(
+								resultNumber:arguments.underlyingQuery.position,
+								resultsPerPage:settings.paging.perPage
+							)}'
+						}"
+						omitEmptyFields="1"
+					>
+						<f:link.action
+							action="index"
+							arguments="{linkArguments}"
+							section="c{uid}-result-{document.fields.id}"
+							noCacheHash="1"
+							class="icon-level-up internal"
+						>
+							<f:translate key="Return to results list"/>
+						</f:link.action>
+					</s:newArray>
 				</span>
 
 				<span class="query">
@@ -25,8 +48,13 @@
 				<span class="pager">
 					<f:if condition="{document-previous}">
 						<f:then>
-							<f:link.action action="detail" arguments="{id: document-previous.fields.id}" noCacheHash="1" class="previous icon-left-dir" onclick="return tx_find.detailViewWithPaging(this, {document-previous-number});" title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}">
-							</f:link.action>
+							<f:link.action
+								action="detail"
+								arguments="{id: document-previous.fields.id}"
+								noCacheHash="1"
+								class="previous icon-left-dir internal no-change"
+								onclick="return tx_find.detailViewWithPaging(this, {document-previous-number});"
+								title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}"/>
 						</f:then>
 						<f:else>
 							<a class="icon-left-dir"></a>
@@ -34,8 +62,12 @@
 					</f:if>
 					<f:if condition="{document-next}">
 						<f:then>
-							<f:link.action action="detail" arguments="{id: document-next.fields.id}" noCacheHash="1" class="next icon-right-dir" onclick="return tx_find.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}">
-							</f:link.action>
+							<f:link.action
+								action="detail"
+								arguments="{id: document-next.fields.id}"
+								noCacheHash="1"
+								class="next icon-right-dir internal no-change"
+								onclick="return tx_find.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}"/>
 						</f:then>
 						<f:else>
 							<a class="icon-right-dir"></a>

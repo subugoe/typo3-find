@@ -6,10 +6,10 @@
 				<f:then>
 					<f:link.action
 						arguments="{page:pager.previous}"
-						addQueryString="1"
+						addQueryString="TRUE"
 						section="{settings.jumpToID}"
 						noCacheHash="1"
-						class="icon-left-dir"
+						class="icon-left-dir internal"
 						title="{f:translate(key:'Go to previous page of results. (Page %s)', arguments:'{1:pager.previous}')}"
 					/>
 				</f:then>
@@ -25,9 +25,10 @@
 						<f:then>
 							<f:link.action
 								arguments="{page:page.number}"
-								addQueryString="1"
+								addQueryString="TRUE"
 								section="{settings.jumpToID}"
 								noCacheHash="1"
+								class="internal"
 							>
 								{page.text}
 							</f:link.action>
@@ -44,10 +45,11 @@
 				<f:then>
 					<f:link.action
 						arguments="{page:pager.next}"
-						addQueryString="1"
+						addQueryString="TRUE"
 						section="{settings.jumpToID}"
 						noCacheHash="1"
-						class="icon-right-dir" title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"
+						class="icon-right-dir internal"
+						title="{f:translate(key:'Go to next page of results. (Page %s)', arguments:'{1:pager.next}')}"
 					/>
 				</f:then>
 				<f:else>

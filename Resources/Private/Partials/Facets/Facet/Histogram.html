@@ -12,27 +12,34 @@
 						argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
 						section="{settings.jumpToID}"
 						noCacheHash="1"
-						class="icon-cancel facetRemove"
+						class="icon-cancel facetRemove internal"
 						title="{f:translate(key:'remove filter %s', arguments:{0:years})}"><span class="facetName">{years}</span></f:link.action>
 				</span>
 			</f:alias>
 		</f:for>
 	</f:if>
-	<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
-		<script type="text/javascript">
-			<f:alias map="{
-				addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
-				removeArguments:'{f:if(
-					condition:\"{s:valueForKey(array:arguments.facet, key:facetInfo.id)}\",
-					then:\"{s:facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:activeFacets)}\",
-					else:\"{0:\'tx_find_find[page]\'}\"
-				)}'
-			}">
+	<f:alias map="{
+		addArguments:'{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
+		removeArguments:'{f:if(
+			condition:\"{s:valueForKey(array:arguments.facet, key:facetInfo.id)}\",
+			then:\"{s:facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:activeFacets)}\",
+			else:\"{0:\'tx_find_find[page]\'}\"
+		)}'
+	}">
+		<f:link.action
+			addQueryString="TRUE"
+			arguments="{addArguments}"
+			argumentsToBeExcludedFromQueryString="{removeArguments}"
+			section="{settings.jumpToID}"
+			noCacheHash="1"
+			class="link-template hidden internal"
+		/>
+		<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
+			<script type="text/javascript">
 			(function () {
 				var histogramConfiguration = {
 					'facetID': <s:json data="{facetInfo.id}"/>,
 					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-					'linkTemplate': <s:json data='<f:uri.action addQueryString="TRUE" arguments="{addArguments}" argumentsToBeExcludedFromQueryString="{removeArguments}" 					section="{settings.jumpToID}"	noCacheHash="1"/>'/>,
 					'activeFacets': [],
 				}
 				<f:for each="{s:valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
@@ -42,7 +49,7 @@
 
 				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
 			})();
-			</f:alias>
-		</script>
-	</div>
+			</script>
+		</div>
+	</f:alias>
 </div>

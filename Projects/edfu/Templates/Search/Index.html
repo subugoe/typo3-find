@@ -24,12 +24,13 @@
 		</div>
 
 		<section class="facets-typ">
-			<f:render partial="Facets/Facet"
-					  arguments="{
-						  facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
-						  facetInfo: facets.10,
-						  activeFacets: activeFacets
-			}"/>
+			<f:render
+				partial="Facets/Facet"
+				arguments="{
+					facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
+					facetInfo: facets.10,
+					activeFacets: activeFacets}"
+			/>
 		</section>
 		
 		<f:render partial="Facets/Facets" arguments="{_all}"/>

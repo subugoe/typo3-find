@@ -9,11 +9,13 @@
 			<f:if condition="{s:isArray(subject:fieldContent)}">
 				<f:then>
 					<f:link.action
-						action="index" noCacheHash="1"
+						action="index"
 						arguments="{
 							q:'{default:\'{field}:\"{s:valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
 							facet:linkFacets
 						}"
+						noCacheHash="1"
+						class="internal"
 						title="{f:translate(
 							key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
 							arguments:'{1:fieldName, 2:fieldContent}'
@@ -24,11 +26,13 @@
 				</f:then>
 				<f:else>
 					<f:link.action
-						action="index" noCacheHash="1"
+						action="index"
 						arguments="{
 							q:'{default:\'{field}:\"{fieldContent}\"\'}',
 							facet:linkFacets
 						}"
+						noCacheHash="1"
+						class="internal"
 						title="{f:translate(
 							key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
 							arguments:'{1:fieldName, 2:fieldContent}'

@@ -113,9 +113,10 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
 
 	var startSearchWithNewFacet = function (range) {
-		var facetQueryString = 'RANGE ' + range.from + '%20TO%20' + range.to;
-		var facetLink = config.linkTemplate.replace('%25%25%25%25', facetQueryString);
-		window.location.href = document.baseURI + facetLink;
+		var facetQueryString = 'RANGE%20' + range.from + '%20TO%20' + range.to;
+		var linkTemplate = jQuery('.link-template', jQuery(histogramContainer).parent())[0].href;
+		var facetLink = linkTemplate.replace('%25%25%25%25', facetQueryString);
+		window.location.href = facetLink;
 	};
 
 	var graphData = [];
@@ -131,6 +132,9 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	 * Dodgy: Use whitespace to approximately position the labels in a way that they don’t
 	 * extend beyond the end of the graph (by default they are centered at the point of
 	 * their axis, thus extending beyond the width of the graph on one site.
+	 *
+	 * @param {object} axis
+	 * @returns {array}
 	 */
 	var xaxisTicks = function (axis) {
 		return [[axis.datamin, '      ' + axis.datamin], [axis.datamax, axis.datamax + '      ']];
@@ -177,7 +181,7 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 
 	// Create tooltip.
 	var jTooltip = jQuery('#tx_pazpar2-histogram-tooltip');
-	if (jTooltip.length == 0) {
+	if (jTooltip.length === 0) {
 		var tooltipDiv = document.createElement('div');
 		tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
 		jTooltip = jQuery(tooltipDiv).appendTo(document.body);
@@ -246,7 +250,7 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	 */
 	var hideTooltip = function () {
 		jTooltip.hide();
-	}
+	};
 
 
 	/**
@@ -254,7 +258,7 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 	 *
 	 * @param {event} event
 	 * @param {object} ranges with property »xaxis«
-	 * @param {float} current x coordinate of the mouse
+	 * @param {float} pageX current x coordinate of the mouse
 	 */
 	var updateTooltip = function (event, ranges, pageX) {
 		var showTooltip = function(x, y, contents) {
@@ -386,6 +390,10 @@ var detailViewWithPaging = function (element, position) {
 			form.appendChild(inputs[inputIndex]);
 		};
 
+		if (jQuery('.searchForm.search-extended', container).length > 0) {
+			form.appendChild(inputWithNameAndValue(URLParameterPrefix + '[extended]', '1'));
+		}
+
 		result = form.submit();
 		return false;
 	}
@@ -402,25 +410,50 @@ var detailViewWithPaging = function (element, position) {
  * @returns {boolean}
  */
 var toggleExtendedSearch = function () {
+	var addURLParameter = function (url, name, value) {
+		var nameEscaped = encodeURIComponent(name);
+		var valueEscaped = encodeURIComponent(value);
+		var urlParts = url.split('#');
+		urlParts[0] += (urlParts[0].match(/\?/) ? '&' : '?') + nameEscaped + '=' + valueEscaped;
+		return urlParts.join('#');
+	};
+
+	var removeURLParameter = function (url, name) {
+		var nameEscaped = encodeURIComponent(name);
+		var re = new RegExp('&?' + nameEscaped + '=[^&]*');
+		var newURL = url.replace(re, '').replace(/\?$/, '');
+		return newURL;
+	};
+
+	var parameterName = URLParameterPrefix + '[extended]';
+
+	// Change URL in address bar.
 	var jForm = jQuery('.searchForm', container);
 	var jThis = jQuery(this);
-
-	var parameterEscaped = encodeURIComponent(URLParameterPrefix + '[extended]');
-	var newSearch = location.search.replace(parameterEscaped, '').replace(/[&?]=[01]/, '');
-	var makeExtended = !jForm.hasClass('search-extended');
+	var newURL= removeURLParameter(location.href, parameterName);
+	var makeExtended= !jForm.hasClass('search-extended');
 	if (makeExtended) {
 		jThis.text(this.getAttribute('extendedstring'));
 		jQuery('.field-mode-extended', jForm).slideDown('fast');
-
-		newSearch += (newSearch.match(/\?/) ? '&' : '?') + parameterEscaped + '=1';
+		newURL = addURLParameter(newURL, parameterName, '1');
 	}
 	else {
 		jThis.text(this.getAttribute('simplestring'));
 		jQuery('.field-mode-extended', jForm).slideUp('fast');
 	}
 	jForm.toggleClass('search-simple').toggleClass('search-extended');
-	newLocation = location.origin + location.pathname + newSearch + location.hash;
-	changeURL(newLocation);
+
+	changeURL(newURL);
+
+	// Change other URLs on the page.
+	jQuery('a:not(.no-change)', container).each( function () {
+		if (makeExtended) {
+			this.href = addURLParameter(this.href, parameterName, '1');
+		}
+		else {
+			this.href = removeURLParameter(this.href, parameterName);
+		}
+	});
 
 	return false;
 };
