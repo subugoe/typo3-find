@@ -20,7 +20,13 @@
 			}">
 				<f:for each="{personen}" as="person">
 					<li>
-						<f:link.action arguments="{q: '{default: \'Person_ID:\"{person.id}\"\'}'}" title="Alle Treffer für »{person.name}« zeigen.">
+						<f:link.action
+							arguments="{q: '{default: \'Person_ID:\"{person.id}\"\'}'}"
+							noCacheHash="1"
+							section="{settings.jumpToID}"
+							class="internal"
+							title="Alle Treffer für »{person.name}« zeigen."
+						>
 							<span class="name">{person.name -> f:format.raw()}</span>
 						</f:link.action>
 						<f:if condition="{person.daten}">
