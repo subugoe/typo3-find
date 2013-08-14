@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'TransliterationFont';
   src: url("Fonts/TransliterationTimesItalic.woff");
@@ -6,8 +7,8 @@
   font-style: normal;
 }
 
-/* — */
-/* … */
+/* ‚Äî */
+/* ‚Ä¶ */
 .dashbefore:before, .tx_find .detail .field-beziehung:before, .tx_find .detail.formular .field-texttyp:before {
   content: "\2014";
   padding-right: 0.3em;
@@ -202,6 +203,10 @@
 .tx_find .fotorama-container .fotorama .fotorama__nav .fotorama__caption {
   padding: 0;
   font-size: 12px;
+}
+.tx_find .fotorama-container .fotorama .fotorama__thumb-border {
+  margin-top: 0px;
+  margin-left: -42px;
 }
 .tx_find .fotorama-container .fotorama .fotorama__html {
   background: #eee;
