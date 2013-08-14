@@ -49,7 +49,7 @@
 							<f:if condition="{s:pathExists(path:path)}">
 								<f:then>
 									<a href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
-										<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="60m" height="60m"additionalAttributes="{data-caption:path}"/>
+										<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="300m" height="300m"additionalAttributes="{data-caption:path}"/>
 									</a>
 								</f:then>
 								<f:else>
