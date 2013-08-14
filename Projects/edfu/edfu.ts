@@ -76,6 +76,7 @@ plugin.tx_find {
 				14 = lemma
 				15 = bandseitezeile_highlight
 			}
+			query = ###term### OR transliteration:###term###*
 			useQueryTerms = 1
 			useFacetTerms = 0
 			alternateFields {
