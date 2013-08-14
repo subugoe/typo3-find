@@ -24,6 +24,12 @@
 .tx_find form label {
   width: 200px;
 }
+.tx_find form .field-mode-extended label {
+  line-height: 170%;
+}
+.tx_find form .field-mode-extended input {
+  font-size: 100%;
+}
 .tx_find dl dt {
   float: left;
   clear: left;
@@ -44,7 +50,11 @@
   padding: 0 0 0 2em;
   text-indent: -2em;
 }
-.tx_find .field-transliteration, .tx_find .transliteration, .tx_find .field-weiteres {
+.tx_find .field-transliteration,
+.tx_find .transliteration,
+.tx_find .field-weiteres,
+.tx_find .field-transliteration_exact input,
+.tx_find .field-transliteration_nosuffix input {
   font-family: TransliterationFont;
 }
 .tx_find ol.resultList {

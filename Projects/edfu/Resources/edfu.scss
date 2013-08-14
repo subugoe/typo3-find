@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'TransliterationFont';
-  src: url('Fonts/TransliterationTimesItalic.woff');
-  src: url('Fonts/TransliterationTimesItalic.eot') format('embedded-opentype'),
-       url('Fonts/TransliterationTimesItalic.woff') format('woff'),
-       url('Fonts/TransliterationTimesItalic.ttf') format('truetype'),
-	   /* TODO: make SVG font work: for some reason Times appears in the browser */
-       url('Fonts/TransliterationTimesItalic.svg#tti') format('svg');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'TransliterationFont';
+	src: url('Fonts/TransliterationTimesItalic.woff');
+	src: url('Fonts/TransliterationTimesItalic.eot') format('embedded-opentype'),
+		 url('Fonts/TransliterationTimesItalic.woff') format('woff'),
+		 url('Fonts/TransliterationTimesItalic.ttf') format('truetype'),
+		 /* TODO: make SVG font work: for some reason Times appears in the browser */
+		 url('Fonts/TransliterationTimesItalic.svg#tti') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 $larger: 133%;
@@ -39,6 +39,16 @@ $linkcolor: #00247d;
 		label {
 			width: 200px;
 		}
+		
+		.field-mode-extended {
+			label {
+				line-height: 170%;
+			}
+			
+			input {
+				font-size: 100%;
+			}
+		}
 	}
 
 	dl {
@@ -67,7 +77,12 @@ $linkcolor: #00247d;
 		}
 	}
 
-	.field-transliteration, .transliteration, .field-weiteres {
+	.field-transliteration,
+	.transliteration,
+	.field-weiteres,
+	.field-transliteration_exact input,
+	.field-transliteration_nosuffix input,
+	{
 		font-family: TransliterationFont;
 	}
 
