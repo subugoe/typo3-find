@@ -160,13 +160,13 @@ class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHel
 		$highlighting =  $this->arguments['results']->getHighlighting();
 
 		if ($highlighting) {
+			$highlightInfo = array();
+
 			if ($this->arguments['alternateField']) {
-				$fieldName = $this->arguments['alternateField'];
+				$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['alternateField']);
 			}
-			else {
-				$fieldName = $this->arguments['field'];
-			}
-			$highlightInfo = $highlighting->getResult($documentID)->getField($fieldName);
+
+			$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['field']);
 		}
 
 		return $highlightInfo;
