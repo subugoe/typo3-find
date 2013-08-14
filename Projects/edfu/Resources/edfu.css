@@ -21,6 +21,9 @@
   content: ')';
 }
 
+.tx_find form label {
+  width: 200px;
+}
 .tx_find dl dt {
   float: left;
   clear: left;

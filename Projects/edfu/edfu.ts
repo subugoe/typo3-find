@@ -8,7 +8,13 @@ plugin.tx_find {
 		queryFields {
 			10 {
 				extended = 1
-				id = transliteration
+				id = transliteration_exact
+				query = transliteration:###term###
+				type = Text
+			}
+			20 {
+				extended = 1
+				id = transliteration_nosuffix
 				type = Text
 			}
 		}

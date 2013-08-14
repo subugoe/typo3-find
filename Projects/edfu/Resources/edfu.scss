@@ -34,6 +34,12 @@ $linkcolor: #00247d;
 }
 
 .tx_find {
+	
+	form {
+		label {
+			width: 200px;
+		}
+	}
 
 	dl {
 		dt {
