@@ -445,13 +445,23 @@ var toggleExtendedSearch = function () {
 
 	changeURL(newURL);
 
-	// Change other URLs on the page.
+	// Change other link URLs on the page.
 	jQuery('a:not(.no-change)', container).each( function () {
 		if (makeExtended) {
 			this.href = addURLParameter(this.href, parameterName, '1');
 		}
 		else {
 			this.href = removeURLParameter(this.href, parameterName);
+		}
+	});
+
+	// De/activate hidden input »extended« in the form.
+	jQuery('input.extendedSearch', container).each( function () {
+		if (makeExtended) {
+			this.setAttribute('name', URLParameterPrefix + '[extended]');
+		}
+		else {
+			this.setAttribute('name', '');
 		}
 	});
 

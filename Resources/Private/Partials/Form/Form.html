@@ -3,9 +3,7 @@
 		section="{settings.jumpToID}"
 		class="searchForm {f:if(condition:extendedSearch, then:'search-extended', else:'search-simple')}">
 
-	<f:if condition="{extendedSearch}">
-		<f:form.hidden name="extendedSearch" value="1"/>
-	</f:if>
+	<f:form.hidden name="{f:if(condition:extendedSearch, then:'extended')}" value="1" class="extendedSearch"/>
 
 	<f:for each="{formFacets}" as="facet" key="facetID">
 		<f:for each="{facet}" as="unused" key="facetValue">
