@@ -6,15 +6,20 @@ plugin.tx_find {
 			path = /solr/edfu
 		}
 		queryFields {
+			0 {
+				noescape = 1
+			}
 			10 {
 				extended = 1
 				id = transliteration_exact
 				query = transliteration:###term###
+				noescape = 1
 				type = Text
 			}
 			20 {
 				extended = 1
 				id = transliteration_nosuffix
+				noescape = 1
 				type = Text
 			}
 		}
@@ -76,8 +81,7 @@ plugin.tx_find {
 				14 = lemma
 				15 = bandseitezeile_highlight
 			}
-			query = ###term### OR transliteration:###term###*
-			useQueryTerms = 1
+			useQueryTerms = 0
 			useFacetTerms = 0
 			alternateFields {
 				transliteration = transliteration_highlight

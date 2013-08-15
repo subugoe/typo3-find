@@ -20,13 +20,19 @@
 			<div class="imageContainer">
 				<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
 				<f:for each="{szenen}" as="szene">
-					<span
+					<f:link.action
+						arguments="{
+							q:'{raw:\"szene_uid:{szene.uid}\"}',
+							facets:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'
+						}"
+						section="{jumpToID}"
+						noCacheHash="1"
 						class="szene icon-pointer-{szene.blickwinkel}"
 						style="top:{szene.koordinateY}px;
 						       left:{szene.koordinateX}px;
 						       opacity: {f:if(condition:'{szene.hoehe} < 0.2', then:'0.2', else:szene.hoehe)};"
-						data-marker='{s:json(data:szene)}'
-						title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}; {f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Höhe')}: {s:regexp(string:szene.hoehe, match:'/^(0\.\\d\\d?).*$/', replace:'\\1')}"></span>
+						additionalAttributes="{data-marker:'{s:json(data:szene)}'}"
+						title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}; {f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Höhe')}: {s:regexp(string:szene.hoehe, match:'/^(0\.\\d\\d?).*$/', replace:'\\1')}"/>
 				</f:for>
 			</div>
 			<div class="imageDetail"></div>
