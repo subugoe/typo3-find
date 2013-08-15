@@ -188,7 +188,8 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			else {
 				// Without underlying query information, just get the record specified.
 				$query = $this->createQuery();
-				$query->setQuery('id:' . $id);
+				$escapedID = $query->getHelper()->escapeTerm($id);
+				$query->setQuery('id:' . $escapedID);
 				$selectResults = $this->solr->select($query);
 				if (count($selectResults) > 0) {
 					$assignments['results'] = $selectResults;
