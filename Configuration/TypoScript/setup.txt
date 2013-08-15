@@ -52,6 +52,13 @@ plugin.tx_find {
 			#	}
 			#	default = 1
 			#}
+			9999 {
+				id = raw
+				query = ###term###
+				extended = 1
+				hidden = 1
+				type = Text
+			}
 		}
 		dataFields {
 			default {

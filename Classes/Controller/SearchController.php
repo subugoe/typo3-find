@@ -277,7 +277,6 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		}
 
 		$queryFields = $this->settings['queryFields'];
-		$queryFields[] = array('id' => 'raw', 'query' => self::placeholder);
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {

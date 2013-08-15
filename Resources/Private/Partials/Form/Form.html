@@ -1,3 +1,4 @@
+{namespace s=Tx_Find_ViewHelpers}
 <f:form name="c{uid}-form"
 		method="get"
 		section="{settings.jumpToID}"
@@ -15,9 +16,14 @@
 		<f:for each="{settings.queryFields}" as="fieldInfo">
 			<f:if condition="{fieldInfo.type}">
 				<f:then>
-					<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
-						<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
-					</div>
+					<f:if condition="{s:or(conditions:'{
+						0:\"{s:not(condition:fieldInfo.hidden)}\",
+						1:\"{s:valueForKey(array:arguments.q, key:fieldInfo.id)}\"
+					}')}">
+						<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
+							<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
+						</div>
+					</f:if>
 				</f:then>
 				<f:else>
 					<div class="fieldContainer error">

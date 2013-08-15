@@ -18,6 +18,7 @@
 			<label index="input.default">All Fields</label>
 			<label index="input.sort">Sort By</label>
 			<label index="input.sort-default">Default</label>
+			<label index="input.raw">Solr Query</label>
 			<label index="input.count">Results</label>
 		</languageKey>
 
@@ -25,6 +26,7 @@
 			<label index="input.default">Alle Felder</label>
 			<label index="input.sort">Sortierung</label>
 			<label index="input.sort-default">Standard</label>
+			<label index="input.raw">Solr Abfrage</label>
 			<label index="input.count">Trefferzahl</label>
 		</languageKey>
 	</data>
