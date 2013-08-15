@@ -16,6 +16,8 @@
 	<data type="array">
 		<languageKey index="de" type="array">
 			<label index="input.default">Alle Felder</label>
+			<label index="input.raw">Solr Abfrage</label>
+
 			<label index="input.bistum">Bistum</label>
 			<label index="input.orden">Orden</label>
 			<label index="input.ort">Ort</label>
