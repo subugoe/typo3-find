@@ -107,8 +107,8 @@ plugin.tx_find {
 		highlight {
 			fields.1 = *
 			# query = ###term###
-			# useQueryTerms = 1
-			# useFacetTerms = 1
+			# useQueryTerms = 0
+			# useFacetTerms = 0
 			# alternateFields {
 			# 	transliteration = transliterationHiglight
 			# }
