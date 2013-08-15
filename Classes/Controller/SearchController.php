@@ -71,6 +71,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 
 		$this->requestArguments = $this->request->getArguments();
         $this->cleanArgumentsArray($this->requestArguments);
+		ksort($this->settings[queryFields]);
 	}
 
 	
