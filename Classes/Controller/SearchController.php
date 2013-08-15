@@ -237,7 +237,21 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		$result = FALSE;
 
 		if (array_key_exists('extended', $this->requestArguments)) {
+			// Show extended search when told so by the »extended« argument.
 			$result = ($this->requestArguments['extended'] == TRUE);
+		}
+		else {
+			// Show extended search when any of the »extended« fields are used.
+			if (array_key_exists('q', $this->requestArguments)) {
+				foreach ($this->settings['queryFields'] as $fieldInfo) {
+					if ($fieldInfo['extended']
+							&& array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
+							&& $this->requestArguments['q'][$fieldInfo['id']]) {
+						$result = TRUE;
+						break;
+					}
+				}
+			}
 		}
 		
 		return $result;
