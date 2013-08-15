@@ -105,12 +105,44 @@ var edfu = (function () {
 		}
 
 		return false;
-	}
+	};
 
 
+	var tempelSzeneIn = function (event) {
+		var markerData = jQuery.parseJSON(event.currentTarget.getAttribute('data-marker'));
+		if (markerData) {
+			var jDetails = jQuery('section.map .imageDetail');
+			var image = document.createElement('img');
+			var imagePath = 'typo3conf/ext/find/Projects/edfu/Resources/tempel/' + markerData.bild_name + '.gif';
+			image.setAttribute('src', imagePath);
+			image.setAttribute('alt', 'Genaue Lage der Szene auf der Tempelwand'); // TODO: Localise
+			jDetails.empty().show().append(image);
+			var szeneMarker = document.createElement('div');
+			var koordinaten = markerData.bild_rect.split(',');
+			if (koordinaten.length === 4) {
+				szeneMarker.setAttribute('style',
+					'left:' + koordinaten[0] + 'px;' +
+					'top:' + koordinaten[1] + 'px;' +
+					'width:' + (parseFloat(koordinaten[2]) - parseFloat(koordinaten[0])) + 'px;' +
+					'height:' + (parseFloat(koordinaten[3]) - parseFloat(koordinaten[1])) + 'px;'
+				);
+				jDetails.append(szeneMarker);
+				szeneMarker.setAttribute('class', 'szeneMarker');
+				jDetails.append(szeneMarker);
+			}
+		}
+	};
+
+	var tempelSzeneOut = function (event) {
+		var jDetails = jQuery('section.map .imageDetail');
+		jDetails.hide();
+	};
+
+
+	// TODO: implement & add dictionary
 	var localise = function (term) {
 		return term;
-	}
+	};
 
 
 	jQuery(function () {
@@ -142,6 +174,8 @@ var edfu = (function () {
 				slide: onSlide
 			});
 		}
+
+		jQuery('section.map .szene').hover(tempelSzeneIn, tempelSzeneOut);
 	});
 
 	return {

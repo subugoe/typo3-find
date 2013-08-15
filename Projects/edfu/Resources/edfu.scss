@@ -414,36 +414,55 @@ $linkcolor: #00247d;
 	}
 }
 
-
-.imageContainer {
-	display: inline-block;
+section.map {
 	position: relative;
+	
+	.imageContainer {
+		display: inline-block;
+		position: relative;
 
-	.szene {
-		display: block;
-		position: absolute;
-		font-size: 17px;
-		color: #f00;
+		.szene {
+			display: block;
+			position: absolute;
+			font-size: 17px;
+			color: #f00;
 
-		&.icon-pointer-0 {
-			margin-top: -0.1em;
-			margin-left: -0.75em;
+			&.icon-pointer-0 {
+				margin-top: -0.1em;
+				margin-left: -0.75em;
+			}
+
+			&.icon-pointer-90 {
+				margin-left: -1em;
+			}
+
+			&.icon-pointer-180 {
+				margin-top: -0.8em;
+				margin-left: -0.75em;
+			}
+
+			&.icon-pointer-270 {
+				margin-left: -.3em;
+			}
 		}
-
-		&.icon-pointer-90 {
-			margin-left: -1em;
-		}
-
-		&.icon-pointer-180 {
-			margin-top: -0.8em;
-			margin-left: -0.75em;
-		}
-
-		&.icon-pointer-270 {
-			margin-left: -.3em;
-		}
-
 	}
 
-
+	.imageDetail {
+		position: absolute;
+		right: 0;
+		top: 30px;
+		height: 700px;
+		width: 700px;
+		
+		img {
+			border: 3px solid #333;
+			box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.5);
+		}
+		
+		.szeneMarker {
+			position: absolute;
+			background: rgba(255, 0, 0, 0.5);
+			border: 2px solid rgb(255, 0, 0);
+		}
+	}
 }
