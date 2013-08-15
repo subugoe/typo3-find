@@ -180,11 +180,11 @@
   padding: 0;
 }
 .tx_find .klammerung:before {
-  font-family: Transliteration;
+  font-family: TransliterationFont;
   content: '\00f6';
 }
 .tx_find .klammerung:after {
-  font-family: Transliteration;
+  font-family: TransliterationFont;
   content: '\00c4';
 }
 .tx_find .imageControls {
