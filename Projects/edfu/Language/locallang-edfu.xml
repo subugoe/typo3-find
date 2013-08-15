@@ -46,7 +46,7 @@
 			<label index="Photos">Photos</label>
 			<label index="Bildersammlung %s.">Bildersammlung »%s«.</label>
 			<label index="Photo »%s« aus dem Edfu-Projekt.">Photo »%s« aus dem Edfu-Projekt.</label>
-			<label index="Das Photo »%s« ist nicht online verfügbar.">Das Photo »%s« ist nicht online verfügbar. Bitte wenden Sie sich bei Interesse an das Edfu-Projekt.</label>
+			<label index="Photo »%s« ist nicht online verfügbar.">Das Photo »%s« ist nicht online verfügbar. Bitte wenden Sie sich bei Interesse an das Edfu-Projekt.</label>
 			<label index="Helligkeit">Helligkeit</label>
 			<label index="Kontrast">Kontrast</label>
 			<label index="Literatur">Literatur</label>
