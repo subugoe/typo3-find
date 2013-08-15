@@ -56,6 +56,7 @@ plugin.tx_find {
 				id = raw
 				query = ###term###
 				extended = 1
+				noescape = 1
 				hidden = 1
 				type = Text
 			}

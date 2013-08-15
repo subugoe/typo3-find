@@ -267,25 +267,31 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	 * @param array $queryParameters
 	 * @return array
 	 */
-	private function queryComponentsForQueryParameters ($queryParameters) {
+	private function queryComponentsForQueryParameters ($query, $queryParameters) {
 		$queryComponents = array();
 
 		// Explicitly fill in default query if the user query is blank
 		// so we can apply the query template to this.
 		if (count($queryParameters) === 0) {
-			$queryParameters['default'] = '*:*';
+			$queryParameters['raw'] = '*:*';
 		}
 
 		$queryFields = $this->settings['queryFields'];
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {
+				$queryString = $queryParameters[$fieldID];
+
+				if (!$fieldInfo['noescape']) {
+					$queryString = $query->getHelper()->escapeTerm($queryString);
+				}
+
 				$queryPart = '';
 				if ($fieldInfo['query']) {
-					$queryPart = trim(str_replace(self::placeholder, $queryParameters[$fieldID], $fieldInfo['query']));
+					$queryPart = trim(str_replace(self::placeholder, $queryString, $fieldInfo['query']));
 				}
 				else {
-					$queryPart = $fieldID . ':' . $queryParameters[$fieldID];
+					$queryPart = $fieldID . ':' . $queryString;
 				}
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;
@@ -327,7 +333,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		if (array_key_exists('q', $arguments)) {
 			$queryParameters = $arguments['q'];
 		}
-		$queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
+		$queryComponents = $this->queryComponentsForQueryParameters($query, $queryParameters);
 		$queryString = implode(' ' . $query::QUERY_OPERATOR_AND . ' ', $queryComponents);
 		$query->setQuery($queryString);
 		$this->view->assign('query', $queryParameters);
@@ -757,14 +763,20 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			if ($this->settings['highlight']['query']) {
 				$queryWords= array();
 				if ($this->settings['highlight']['useQueryTerms'] && array_key_exists('q', $arguments)) {
-					foreach ($arguments['q'] as $queryTerm) {
-						$queryWords[] = $queryTerm;
+					foreach ($this->settings['queryFields'] as $queryField) {
+						if (array_key_exists($queryField['id'], $arguments['q'])) {
+							$queryTerm = $arguments['q'][$queryField['id']];
+							if (!$queryField['noescape']) {
+								$queryTerm = $query->getHelper()->escapeTerm($queryTerm);
+							}
+							$queryWords[] = $queryTerm;
+						}
 					}
 				}
 				if ($this->settings['highlight']['useFacetTerms']) {
 					foreach ($this->getActiveFacets($arguments) as $facets) {
 						foreach ($facets as $facetTerm => $facetInfo) {
-							$queryWords[] = $facetTerm;
+							$queryWords[] = $query->getHelper()->escapePhrase($facetTerm);
 						}
 					}
 				}

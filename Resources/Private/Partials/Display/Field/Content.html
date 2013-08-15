@@ -11,7 +11,7 @@
 					<f:link.action
 						action="index"
 						arguments="{
-							q:'{default:\'{field}:\"{s:valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
+							q:'{raw:\'{field}:\"{s:valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
 							facet:linkFacets
 						}"
 						noCacheHash="1"
@@ -28,7 +28,7 @@
 					<f:link.action
 						action="index"
 						arguments="{
-							q:'{default:\'{field}:\"{fieldContent}\"\'}',
+							q:'{raw:\'{field}:\"{fieldContent}\"\'}',
 							facet:linkFacets
 						}"
 						noCacheHash="1"
