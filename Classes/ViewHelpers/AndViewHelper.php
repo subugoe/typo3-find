@@ -26,9 +26,9 @@
 
 
 	/**
-	 * View Helper the truth value of all conditions joined by ||.
+	 * View Helper the truth value of all conditions joined by &&.
 	 */
-	class Tx_Find_ViewHelpers_OrViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class Tx_Find_ViewHelpers_AndViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 		/**
@@ -36,7 +36,7 @@
 		 */
 		public function initializeArguments() {
 			parent::initializeArguments();
-			$this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
+			$this->registerArgument('conditions', 'array', 'the array of conditions to AND', TRUE);
 		}
 
 
@@ -44,9 +44,9 @@
 		 * @return array
 		 */
 		public function render() {
-			$result = FALSE;
+			$result = TRUE;
 			foreach ($this->arguments['conditions'] as $condition) {
-				$result |= ($condition == TRUE);
+				$result &= ($condition == TRUE);
 			}
 
 			return $result;

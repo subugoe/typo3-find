@@ -28,7 +28,7 @@
 	/**
 	 * View Helper the truth value of all conditions joined by ||.
 	 */
-	class Tx_Find_ViewHelpers_OrViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class Tx_Find_ViewHelpers_NotViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 
 		/**
@@ -36,7 +36,7 @@
 		 */
 		public function initializeArguments() {
 			parent::initializeArguments();
-			$this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
+			$this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', TRUE);
 		}
 
 
@@ -44,12 +44,7 @@
 		 * @return array
 		 */
 		public function render() {
-			$result = FALSE;
-			foreach ($this->arguments['conditions'] as $condition) {
-				$result |= ($condition == TRUE);
-			}
-
-			return $result;
+			return !($this->arguments['condition'] == TRUE);
 		}
 
 	}
