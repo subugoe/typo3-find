@@ -100,7 +100,7 @@ plugin.tx_find {
 }
 
 
-[globalVar = TSFE : beUserLogin > 0]
+[usergroup = 1]
 plugin.tx_find.settings {
 	facets.10.facetQuery {
 		30 {
