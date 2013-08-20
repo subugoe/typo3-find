@@ -30,6 +30,11 @@
 .tx_find form .field-mode-extended input {
   font-size: 100%;
 }
+.tx_find form .fieldContainer.field-mode-simple label {
+  display: inline;
+  width: 6em;
+  line-height: 210%;
+}
 .tx_find dl dt {
   float: left;
   clear: left;

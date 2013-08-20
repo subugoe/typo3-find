@@ -49,6 +49,13 @@ $linkcolor: #00247d;
 				font-size: 100%;
 			}
 		}
+		
+		.fieldContainer.field-mode-simple label {
+			display: inline;
+			width: 6em; 
+			line-height: 210%;
+		}
+		
 	}
 
 	dl {
