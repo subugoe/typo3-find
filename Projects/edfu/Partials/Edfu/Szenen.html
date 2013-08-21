@@ -30,12 +30,19 @@
 						class="szene icon-pointer-{szene.blickwinkel}"
 						style="top:{szene.koordinateY}px;
 						       left:{szene.koordinateX}px;
-						       opacity: {f:if(condition:'{szene.hoehe} < 0.2', then:'0.2', else:szene.hoehe)};"
+							   color:hsl(-{szene.prozentZ}, 100%, 50%);"
 						additionalAttributes="{data-marker:'{s:json(data:szene)}'}"
 						title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}; {f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Höhe')}: {s:regexp(string:szene.hoehe, match:'/^(0\.\\d\\d?).*$/', replace:'\\1')}"/>
 				</f:for>
 			</div>
 			<div class="imageDetail"></div>
+			<div class="legendeHoehe">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Höhe"/>:
+				<div class="verlaufHoehe">
+					<span class="label unten"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:unten"/></span>
+					<span class="label oben"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:oben"/></span>
+				</div>
+			</div>
 		</section>
 	</s:transpose>
 </f:if>

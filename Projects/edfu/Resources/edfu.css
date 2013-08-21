@@ -354,3 +354,40 @@ section.map .imageDetail .szeneMarker {
   background: rgba(255, 0, 0, 0.5);
   border: 2px solid red;
 }
+section.map .legendeHoehe .verlaufHoehe {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  height: 20px;
+  width: 200px;
+  background: #ff0000;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, red 0%, #5500ff 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, red), color-stop(100%, #5500ff));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, red 0%, #5500ff 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, red 0%, #5500ff 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, red 0%, #5500ff 100%);
+  /* IE10+ */
+  background: linear-gradient(to right, red 0%, #5500ff 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0000', endColorstr='#5400ff',GradientType=1 );
+  /* IE6-9 */
+}
+section.map .legendeHoehe .verlaufHoehe .label {
+  position: absolute;
+  display: block;
+  font-weight: bold;
+  color: #fff;
+}
+section.map .legendeHoehe .verlaufHoehe .label.unten {
+  left: 3px;
+  text-align: left;
+}
+section.map .legendeHoehe .verlaufHoehe .label.oben {
+  right: 3px;
+  text-align: right;
+}
