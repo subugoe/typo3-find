@@ -1,13 +1,15 @@
 {namespace s=Tx_Find_ViewHelpers}
 <span class="field-uebersetzung">
-	<s:regexp match="/ö([^öÄ]*)Ä/" replace="<span class='klammerung'>\\1</span>">
-		<s:regexp match="/%([^%&]+)&/" replace="<em>\\1</em>">
-			<s:highlightField
-				field="{f:if(condition:field, then:field, else:'uebersetzung')}"
-				document="{document}"
-				results="{results}"
-				raw="1"
-			/>
+	<s:regexp match="/\\bö([^öÄ]*)Ä\\b/u" replace="<span class='transliteration'>ö</span>\\1<span class='transliteration'>Ä</span>">
+		<s:regexp match="/%([^%&]*)&/" replace="<span class='transliteration'>%</span>\\1<span class='transliteration'>&</span>">
+			<s:regexp match="/<((?!\/?em)[^>]*)>/u" replace="&lt;\\1&gt;">
+				<s:highlightField
+					field="{f:if(condition:field, then:field, else:'uebersetzung')}"
+					document="{document}"
+					results="{results}"
+					raw="1"
+				/>
+			</s:regexp>
 		</s:regexp>
 	</s:regexp>
 </span>

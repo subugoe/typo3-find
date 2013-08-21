@@ -184,14 +184,6 @@
   display: inline;
   padding: 0;
 }
-.tx_find .klammerung:before {
-  font-family: TransliterationFont;
-  content: '\00f6';
-}
-.tx_find .klammerung:after {
-  font-family: TransliterationFont;
-  content: '\00c4';
-}
 .tx_find .imageControls {
   margin: 0 auto 1em auto;
   text-align: center;
