@@ -79,6 +79,7 @@ plugin.tx_find {
 		}
 		additionalFilters {
 			1 = typ:kloster
+			# 2 = bearbeitungsstatus:Online
 		}
 		CSSPaths.50 = EXT:find/Projects/germania-sacra/Resources/germania-sacra.css
 
