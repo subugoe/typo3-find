@@ -14,7 +14,7 @@ $larger: 133%;
 $dash: '\2014'; /* — */
 $dashspace: 0.3em;
 $more: '\2026'; /* … */
-$linkcolor: #00247d;
+$adwRed: #c90230;
 
 .dashbefore {
 	&:before {
@@ -58,6 +58,10 @@ $linkcolor: #00247d;
 		
 	}
 
+	.facet-type-Tabs ol li.facetActive {
+		background: $adwRed;
+	}
+	
 	dl {
 		dt {
 			float: left;
@@ -159,7 +163,7 @@ $linkcolor: #00247d;
 				color: #999;
 
 				&:hover {
-					color: $linkcolor;
+					color: $adwRed;
 				}
 
 				&:before {
@@ -181,7 +185,7 @@ $linkcolor: #00247d;
 				color: #bbb;
 
 				&:hover {
-					color: $linkcolor;
+					color: $adwRed;
 				}
 			}
 		}
