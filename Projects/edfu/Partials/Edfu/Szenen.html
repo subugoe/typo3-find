@@ -5,19 +5,24 @@
 		nummer: document.fields.szene_nummer,
 		beschreibung: document.fields.szene_beschreibung,
 		bild_name: document.fields.szene_bild_name,
+		bild_dateiname: document.fields.szene_bild_dateiname,
+		bild_hoehe: document.fields.szene_bild_hoehe,
+		bild_breite: document.fields.szene_bild_breite,
+		bild_offset_x: document.fields.szene_bild_offset_x,
+		bild_offset_y: document.fields.szene_bild_offset_y,
 		bild_rect: document.fields.szene_bild_rect,
-		koordinateX: document.fields.szene_koordinateX,
-		koordinateY: document.fields.szene_koordinateY,
+		koordinate_x: document.fields.szene_koordinate_x,
+		koordinate_y: document.fields.szene_koordinate_y,
 		breite: document.fields.szene_breite,
 		hoehe: document.fields.szene_hoehe,
-		prozentZ: document.fields.szene_prozentZ,
+		prozent_z: document.fields.szene_prozent_z,
 		blickwinkel: document.fields.szene_blickwinkel
 	}">
 		<section class="map">
 			<h1>
 				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan"/>
 			</h1>
-			<div class="imageContainer">
+			<div class="mapContainer">
 				<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
 				<f:for each="{szenen}" as="szene">
 					<f:link.action
@@ -28,14 +33,16 @@
 						section="{jumpToID}"
 						noCacheHash="1"
 						class="szene icon-pointer-{szene.blickwinkel}"
-						style="top:{szene.koordinateY}px;
-						       left:{szene.koordinateX}px;
-							   color:hsl(-{szene.prozentZ}, 100%, 50%);"
-						additionalAttributes="{data-marker:'{s:json(data:szene)}'}"
+						style="top:{szene.koordinate_y}px;
+						       left:{szene.koordinate_x}px;
+							   color:hsl(-{szene.prozent_z}, 100%, 50%);"
+						additionalAttributes="{
+							data-marker:'{s:json(data:szene)}',
+							data-bild_dateiname:szene.bild_dateiname}"
 						title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}."/>
 				</f:for>
 			</div>
-			<div class="imageDetail"></div>
+			<div class="detailsContainer"></div>
 			<div class="legendeHoehe">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Höhe"/>:
 				<div class="verlaufHoehe">

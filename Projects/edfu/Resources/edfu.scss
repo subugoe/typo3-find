@@ -418,7 +418,7 @@ $adwRed: #c90230;
 section.map {
 	position: relative;
 	
-	.imageContainer {
+	.mapContainer {
 		display: inline-block;
 		position: relative;
 
@@ -448,22 +448,35 @@ section.map {
 		}
 	}
 
-	.imageDetail {
+	.detailsContainer {
 		position: absolute;
 		right: 0;
-		top: 30px;
-		height: 700px;
-		width: 700px;
+		top: 0px;
+		height: 900px;
+		width: 500px;
 		
-		img {
-			border: 3px solid #333;
-			box-shadow: 2px 1px 8px rgba(0, 0, 0, 0.5);
+		h2 {
+			text-align: center;
+			font-size: 120%;
 		}
 		
-		.szeneMarker {
+		.imageContainer {
 			position: absolute;
-			background: rgba(255, 0, 0, 0.5);
-			border: 2px solid rgb(255, 0, 0);
+			top: 60px;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+
+			img {
+				display: block;
+				width: 100%;
+			}
+		
+			.szeneMarker {
+				position: absolute;
+				background: rgb(255, 0, 0);
+				opacity: 0.6;
+			}
 		}
 	}
 					

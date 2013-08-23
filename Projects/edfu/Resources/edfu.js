@@ -111,32 +111,73 @@ var edfu = (function () {
 	var tempelSzeneIn = function (event) {
 		var markerData = jQuery.parseJSON(event.currentTarget.getAttribute('data-marker'));
 		if (markerData) {
-			var jDetails = jQuery('section.map .imageDetail');
-			var image = document.createElement('img');
-			var imagePath = 'typo3conf/ext/find/Projects/edfu/Resources/tempel/' + markerData.bild_name + '.gif';
-			image.setAttribute('src', imagePath);
-			image.setAttribute('alt', 'Genaue Lage der Szene auf der Tempelwand'); // TODO: Localise
-			jDetails.empty().show().append(image);
-			var szeneMarker = document.createElement('div');
-			var koordinaten = markerData.bild_rect.split(',');
-			if (koordinaten.length === 4) {
-				szeneMarker.setAttribute('style',
-					'left:' + koordinaten[0] + 'px;' +
-					'top:' + koordinaten[1] + 'px;' +
-					'width:' + (parseFloat(koordinaten[2]) - parseFloat(koordinaten[0])) + 'px;' +
-					'height:' + (parseFloat(koordinaten[3]) - parseFloat(koordinaten[1])) + 'px;'
-				);
-				jDetails.append(szeneMarker);
-				szeneMarker.setAttribute('class', 'szeneMarker');
-				jDetails.append(szeneMarker);
+			var addSzeneHighlight = function (marker) {
+				var data = jQuery.parseJSON(marker.getAttribute('data-marker'));
+
+				var koordinaten = data.bild_rect.split(',');
+				if (koordinaten.length === 4) {
+					var szeneMarker = document.createElement('a');
+
+					var styleString =
+						'left:' + (koordinaten[0] - data.bild_offset_x) * scaleFactor + 'px;' +
+						'top:' + (koordinaten[1] - data.bild_offset_y) * scaleFactor + 'px;' +
+						'width:' + (parseFloat(koordinaten[2]) - parseFloat(koordinaten[0])) * scaleFactor + 'px;' +
+						'height:' + (parseFloat(koordinaten[3]) - parseFloat(koordinaten[1])) * scaleFactor + 'px;' +
+						'background-color:hsl(-' + data.prozent_z + ', 100%, 50%);';
+					
+					szeneMarker.setAttribute('style', styleString);
+					szeneMarker.setAttribute('class', 'szeneMarker');
+					szeneMarker.setAttribute('href', marker.getAttribute('href'));
+					szeneMarker.setAttribute('title', marker.getAttribute('title'));
+					szeneMarker.data_uid = data.uid;
+					imageContainer.appendChild(szeneMarker);
+				}
+			};
+		
+			var jDetails = jQuery('section.map .detailsContainer');
+			if (jDetails.attr('data-bild_dateiname') !== markerData.bild_dateiname) {
+				jDetails.empty();
+				jDetails.attr('data-bild_dateiname', markerData.bild_dateiname);
+
+				var heading = document.createElement('h2');
+				heading.appendChild(document.createTextNode(markerData.bild_name));
+				jDetails.append(heading);
+
+				var imageContainer = document.createElement('div');
+				jDetails.append(imageContainer);
+				imageContainer.setAttribute('class', 'imageContainer');
+				var scaleFactor = Math.min(jDetails.width()/markerData.bild_breite, (jDetails.height() - 100) / markerData.bild_hoehe , 1);
+				var width = jDetails.width();
+				var height = jDetails.height();
+				imageContainer.setAttribute('style',
+					'width:' + Math.ceil(markerData.bild_breite * scaleFactor) + 'px;' +
+					'height:' + Math.ceil(markerData.bild_hoehe * scaleFactor) + 'px;');
+
+				var image = document.createElement('img');
+				imageContainer.appendChild(image);
+				var imagePath = 'typo3conf/ext/find/Projects/edfu/Resources/tempel/' + markerData.bild_dateiname;
+				image.setAttribute('src', imagePath);
+				image.setAttribute('alt', 'Detailansicht des relevanten Tempelausschnitts.'); // TODO: Localise
+
+				// Get all markers for the current image file and highlight their locations on the detail map.
+				jQuery('a[data-bild_dateiname="' + markerData.bild_dateiname + '"]').each( function() {
+					addSzeneHighlight(this);
+				});
+			}
+			else {
+				jQuery('.szeneMarker').css('opacity', function (index, value) {
+					if (this.data_uid === markerData.uid) {
+						return 1;
+					}
+					else {
+						return 0.6;
+					}
+				});
 			}
 		}
 	};
 
-	var tempelSzeneOut = function (event) {
-		var jDetails = jQuery('section.map .imageDetail');
-		jDetails.hide();
-	};
+	var tempelSzeneOut = function (event) {	};
 
 
 	// TODO: implement & add dictionary
