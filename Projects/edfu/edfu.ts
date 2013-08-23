@@ -26,6 +26,8 @@ plugin.tx_find {
 		additionalFilters {
 			1 = -typ:wb_berlin
 			2 = -typ:stelle
+			3 = -typ:gott
+			4 = -typ:ort
 		}
 		sort {
 			1 {
@@ -111,6 +113,10 @@ plugin.tx_find.settings {
 			id = ort
 			query = typ:ort
 		}
+	}
+	additionalFilters {
+		3 >
+		4 >
 	}
 }
 [global]
