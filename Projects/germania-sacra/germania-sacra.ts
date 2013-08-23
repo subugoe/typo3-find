@@ -66,10 +66,10 @@ plugin.tx_find {
 				query = {!join from=kloster_id to=id}(bistum_facet:"###term###" AND typ:standort-orden)
 			}
 			40 {
-				id = land
-				field = land_facet
+				id = band
+				field = band_nummer
 				autocomplete = 1
-				query = {!join from=kloster_id to=id}(land_facet:"###term###" AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(band_nummer:"###term###" AND typ:standort-orden)
 			}
 		}
 		highlight {

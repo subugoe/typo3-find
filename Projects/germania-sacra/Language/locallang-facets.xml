@@ -16,10 +16,8 @@
 		<languageKey index="default" type="array">
 			<label index="facet.orden">Orden</label>
 			<label index="facet.jahr50">Zeitraum</label>
-			<label index="facet.orden_jahr50">Zeitraum Orden</label>
-			<label index="facet.standort_jahr50">Zeitraum Standort</label>
 			<label index="facet.bistum">Bistum</label>
-			<label index="facet.land">Land</label>
+			<label index="facet.band">Germania Sacra Band</label>
 		</languageKey>
 	</data>
 </T3locallang>
