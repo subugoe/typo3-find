@@ -39,6 +39,7 @@ class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		$this->registerArgument('string', 'string', 'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
 		$this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
 		$this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
+		$this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()', FALSE, FALSE);
 	}
 
 
@@ -57,9 +58,14 @@ class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 			$result = preg_match($this->arguments['match'], $input);
 		}
 		else {
-			$result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+			if ($this->arguments['useMBEreg']) {
+				$result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+			}
+			else {
+				$result = mb_ereg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+			}
 		}
-		
+
 		return $result;
 	}
 
