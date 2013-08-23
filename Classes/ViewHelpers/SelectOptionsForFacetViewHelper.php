@@ -40,6 +40,7 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 		$this->registerArgument('values', 'array', 'values array for a facet', TRUE);
 		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
 		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
+		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
 	}
 
 
@@ -52,7 +53,13 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 		if ($this->arguments['leadingBlank']) {
 			$result[''] = '';
 		}
-		foreach ($this->arguments['values'] as $item => $count) {
+
+		$array = $this->arguments['values'];
+		if ($this->arguments['sortByName']) {
+			ksort($array);
+		}
+
+		foreach ($array as $item => $count) {
 			$result[$item] = $item . ($this->arguments[showCount] ? ' (' . $count . ')' : '');
 		}
 
