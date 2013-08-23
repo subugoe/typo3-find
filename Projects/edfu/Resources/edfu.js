@@ -79,7 +79,7 @@ var edfu = (function () {
 
 		// Update label.
 		jQuery('.currentPage a', jPageViewer)
-			.text(romanNumeral[volume] + ', ' + page)
+			.text(romanNumeral[volume] + ', ' + paddedPageNumber)
 			.attr('href', imagePath);
 
 
