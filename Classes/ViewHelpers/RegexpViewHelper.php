@@ -58,7 +58,7 @@ class Tx_Find_ViewHelpers_RegexpViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 			$result = preg_match($this->arguments['match'], $input);
 		}
 		else {
-			if ($this->arguments['useMBEreg']) {
+			if (!$this->arguments['useMBEreg']) {
 				$result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
 			}
 			else {
