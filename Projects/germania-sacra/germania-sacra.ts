@@ -8,7 +8,8 @@ plugin.tx_find {
 		}
 		queryFields {
 			0 {
-				query = {!join from=kloster_id to=id}(###term### AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(%s AND typ:standort-orden)
+				noescape = 1
 			}
 			10 {
 				id = bistum
@@ -48,13 +49,13 @@ plugin.tx_find {
 				id = orden
 				field = orden_facet
 				autocomplete = 1
-				query = {!join from=kloster_id to=id}(orden_facet:"###term###" AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(orden_facet:"%s" AND typ:standort-orden)
 			}
 			20 {
 				id = jahr50
 				field = jahr50
 				type = Histogram
-				query = {!join from=kloster_id to=id}(orden_standort_jahr50:###term### AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(orden_standort_jahr50:%s AND typ:standort-orden)
 				sortOrder = index
 				fetchMaximum = 1000
 				barWidth = 10
@@ -63,13 +64,13 @@ plugin.tx_find {
 				id = bistum
 				field = bistum_facet
 				autocomplete = 1
-				query = {!join from=kloster_id to=id}(bistum_facet:"###term###" AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(bistum_facet:"%s" AND typ:standort-orden)
 			}
 			40 {
 				id = band
 				field = band_facet
 				autocomplete = 1
-				query = {!join from=kloster_id to=id}(band_facet:"###term###" AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(band_facet:"%s" AND typ:standort-orden)
 			}
 		}
 		highlight {
