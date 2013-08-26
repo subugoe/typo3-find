@@ -52,6 +52,15 @@ plugin.tx_find {
 			#	}
 			#	default = 1
 			#}
+			#50 {
+			#	id = dateRange
+			#	type = Range
+			#	query = year_from:[* TO %2$s] AND year_to:[%1$s TO *]
+			#	default.0 = *
+			#	default.1 = *
+			#	noescape = 1
+			#	extended = 1
+			#}
 			9999 {
 				id = raw
 				query = %s
