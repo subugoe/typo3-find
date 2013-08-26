@@ -57,7 +57,7 @@ plugin.tx_find {
 				query = {!join from=kloster_id to=id}(orden_standort_jahr50:###term### AND typ:standort-orden)
 				sortOrder = index
 				fetchMaximum = 1000
-				barWidth = 50
+				barWidth = 10
 			}
 			30 {
 				id = bistum
