@@ -32,7 +32,15 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = ort_suggest
 			}
-
+			40 {
+				id = zeitraum
+				type = Range
+				query = {!join from=kloster_id to=id}(orden_standort_von:[* TO %2$s] AND orden_standort_bis:[%1$s TO *] AND typ:standort-orden)
+				default.0 = *
+				default.1 = *
+				noescape = 1
+				extended = 1
+			}
 		}
 		sort {
 			1 {
