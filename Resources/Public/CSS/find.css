@@ -1,4 +1,5 @@
-/* Default SCSS for TYPO3 Extension »find« . */
+@charset "UTF-8";
+/* Default SCSS for TYPO3 Extension ¬ªfind¬´ . */
 .tx_find {
   /* search form */
   /* result list */
@@ -37,10 +38,19 @@
   float: left;
   clear: left;
 }
-.tx_find form .fieldContainer input {
+.tx_find form .fieldContainer .fieldLabel {
+  display: block;
+  float: left;
+  width: 110px;
+  text-align: right;
+}
+.tx_find form .fieldContainer .inputContainer {
   display: block;
   margin-left: 125px;
   margin-bottom: 2px;
+  line-height: 133%;
+}
+.tx_find form .fieldContainer input {
   padding: 2px;
   border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
   border-style: solid;
@@ -48,22 +58,21 @@
   color: #333333;
   background: #f3f5f9;
 }
-.tx_find form .field-default label {
+.tx_find form .fieldContainer input.noleftmargin {
+  margin-left: 0;
+}
+.tx_find form .field-default .fieldLabel {
   display: none;
 }
 .tx_find form .field-default input {
-  float: left;
   width: 400px;
   height: 30px;
   margin: 0px 6px 2px 0px;
   padding: 4px;
-  font-size: 133%;
+  font-size: 100%;
 }
-.tx_find form label {
-  display: block;
-  float: left;
-  width: 110px;
-  text-align: right;
+.tx_find form .fieldType-Range input {
+  width: 6em;
 }
 .tx_find form .controls {
   float: left;
@@ -135,7 +144,7 @@
   font-size: 133%;
   line-height: 133%;
 }
-.tx_find .results ol.resultList li:target {
+.tx_find .results ol.resultList li:target, .tx_find .results .facet-type-Tabs ol.resultList li.facetActive:target, .tx_find .facet-type-Tabs .results ol.resultList li.facetActive:target {
   background: #eeeeff;
   border-radius: 7px;
   transition: background .5s ease-in-out;
