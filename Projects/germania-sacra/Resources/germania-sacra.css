@@ -1,25 +1,30 @@
-aside {
+.tx_find aside {
   float: right;
   width: 300px;
   margin: 0 0 1em 1em;
 }
-aside aside h2 {
+.tx_find aside aside h2 {
   display: none;
 }
-aside .map {
+.tx_find aside .map {
   height: 300px;
   background: #fff;
 }
-
-article section {
+.tx_find form .fieldContainer .fieldLabel {
+  width: 150px;
+}
+.tx_find form .fieldContainer .inputContainer {
+  margin-left: 160px;
+}
+.tx_find article section {
   margin-bottom: 1em;
 }
-article section > * {
+.tx_find article section > * {
   line-height: 1.5;
   margin: 0 0 0 12em;
   padding: 0;
 }
-article section h2 {
+.tx_find article section h2 {
   float: left;
   clear: left;
   width: 11em;
@@ -27,59 +32,59 @@ article section h2 {
   font-size: 100%;
   text-align: right;
 }
-article section h3 {
+.tx_find article section h3 {
   font-size: 100%;
   text-transform: uppercase;
   margin-top: 1em;
   margin-bottom: 1em;
 }
-article section ol, article section ul {
+.tx_find article section ol, .tx_find article section ul {
   padding: 0;
   list-style-type: none;
 }
-article section ol p {
+.tx_find article section ol p {
   padding-left: 1em;
   text-indent: -1em;
 }
-article section li p {
+.tx_find article section li p {
   margin-bottom: 0.5em;
 }
-article section nav {
+.tx_find article section nav {
   margin-bottom: 1em;
 }
-article section nav ol li {
+.tx_find article section nav ol li {
   display: inline;
   list-style-type: none;
 }
-article section nav ol li :after {
+.tx_find article section nav ol li :after {
   content: ', ';
 }
-article section nav ol li :last-of-type:after {
+.tx_find article section nav ol li :last-of-type:after {
   content: '';
 }
-article section section {
+.tx_find article section section {
   margin: 0;
 }
-article span.bemerkung {
+.tx_find article span.bemerkung {
   font-style: italic;
 }
-article .literatur li {
+.tx_find article .literatur li {
   word-wrap: break-word;
   padding-left: 1em;
   text-indent: -1em;
 }
-article span.ort,
-article span.orden,
-article span.band-nummer,
-article section.person .name {
+.tx_find article span.ort,
+.tx_find article span.orden,
+.tx_find article span.band-nummer,
+.tx_find article section.person .name {
   font-weight: bold;
 }
-article .zeitraum:after {
+.tx_find article .zeitraum:after {
   content: ':';
 }
-article .person_namensalternativen:before {
+.tx_find article .person_namensalternativen:before {
   content: '(';
 }
-article .person_namensalternativen:after {
+.tx_find article .person_namensalternativen:after {
   content: ')';
 }
