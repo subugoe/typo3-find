@@ -278,6 +278,19 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					$queryArguments = Array($queryArguments);
 				}
 
+				// Fill in pre-configured default values if they exist and the field is empty.
+				$defaults = $fieldInfo['default'];
+				if ($defaults) {
+					if (!is_array($defaults)) {
+						$defaults = array($defaults);
+					}
+					foreach($defaults as $defaultKey => $default) {
+						if (!array_key_exists($defaultKey, $queryArguments)) {
+							$queryArguments[$defaultKey] = $default;
+						}
+					}
+				}
+
 				// Escape all arguments unless told not to do so.
 				if (!$fieldInfo['noescape']) {
 					$escapedQueryArguments = array();
@@ -286,6 +299,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					}
 					$queryArguments = $escapedQueryArguments;
 				}
+
 				$queryFormat = $fieldInfo['query'];
 				if (!$queryFormat) {
 					$queryFormat = $fieldID . ':%s';
