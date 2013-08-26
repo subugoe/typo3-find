@@ -7,7 +7,7 @@ plugin.tx_find {
 		}
 		queryFields {
 			0 {
-				query = ###term### AND -Satzart:Stamm*
+				query = %s AND -Satzart:Stamm*
 			}
 			10 {
 				extended = 1
@@ -52,7 +52,7 @@ plugin.tx_find {
 		}
 		highlight {
 			fields.1 = *
-			query = ###term###
+			query = %s
 			useQueryTerms = 1
 			useFacetTerms = 1
 		}
