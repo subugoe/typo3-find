@@ -8,7 +8,7 @@ plugin.tx_find {
 		queryFields {
 			0 {
 				id = default
-				query = ###term###
+				query = %s
 				type = Text
 			#	autocomplete = 1
 			#	autocompleteDictionary =
@@ -21,7 +21,7 @@ plugin.tx_find {
 			#15 {
 			#	id = notperson
 			#	extended = 1
-			#	query = NOT person:###term###
+			#	query = NOT person:%s
 			#	type = Text
 			#}
 			#20 {
@@ -54,7 +54,7 @@ plugin.tx_find {
 			#}
 			9999 {
 				id = raw
-				query = ###term###
+				query = %s
 				extended = 1
 				noescape = 1
 				hidden = 1
@@ -93,7 +93,7 @@ plugin.tx_find {
 			#	fetchMaximum = 1000
 			#	displayDefault = 1000
 			#	sortOrder = index
-			#	query = year:###term###
+			#	query = year:%s
 			#}
 		}
 		facetDefaults {
@@ -106,7 +106,7 @@ plugin.tx_find {
 		}
 		highlight {
 			fields.1 = *
-			# query = ###term###
+			# query = %s
 			# useQueryTerms = 0
 			# useFacetTerms = 0
 			# alternateFields {

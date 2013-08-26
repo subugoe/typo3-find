@@ -35,13 +35,6 @@ require_once(t3lib_extMgm::extPath('find') . 'vendor/autoload.php');
 class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * Placeholder string used in search query configuration and replaced with
-	 * the query term.
-	 */
-	const placeholder = '###term###';
-
-
-	/**
 	 * @var \Solarium\Client
 	 */
 	protected $solr;
@@ -271,7 +264,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		$queryComponents = array();
 
 		// Explicitly fill in default query if the user query is blank
-		// so we can apply the query template to this.
+		// so we get all results.
 		if (count($queryParameters) === 0) {
 			$queryParameters['raw'] = '*:*';
 		}
@@ -280,19 +273,26 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {
-				$queryString = $queryParameters[$fieldID];
+				$queryArguments = $queryParameters[$fieldID];
+				if (!is_array($queryArguments)) {
+					$queryArguments = Array($queryArguments);
+				}
 
+				// Escape all arguments unless told not to do so.
 				if (!$fieldInfo['noescape']) {
-					$queryString = $query->getHelper()->escapeTerm($queryString);
+					$escapedQueryArguments = array();
+					foreach($queryArguments as $key => $queryArgument) {
+						$escapedQueryArguments[$key] = $query->getHelper()->escapeTerm($queryArgument);
+					}
+					$queryArguments = $escapedQueryArguments;
+				}
+				$queryFormat = $fieldInfo['query'];
+				if (!$queryFormat) {
+					$queryFormat = $fieldID . ':%s';
 				}
 
-				$queryPart = '';
-				if ($fieldInfo['query']) {
-					$queryPart = trim(str_replace(self::placeholder, $queryString, $fieldInfo['query']));
-				}
-				else {
-					$queryPart = $fieldID . ':' . $queryString;
-				}
+				$queryPart = vsprintf($queryFormat, $queryArguments);
+
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;
 				}
@@ -430,13 +430,13 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				$queryPattern = $facetConfig['query'];
 			}
 			else {
-				$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . self::placeholder;
+				$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . '%s';
 			}
 
 			// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
 			// (because PHP loses ] in array keys during URL parsing)
 			$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
-			$queryString = str_replace(self::placeholder, $queryTerm, $queryPattern);
+			$queryString = sprintf($queryPattern, $queryTerm);
 		}
 
 		return $queryString;
@@ -783,7 +783,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 
 				$queryComponents = array();
 				foreach ($queryWords as $queryWord) {
-					$queryComponents[] = '(' . str_replace(self::placeholder, $queryWord, $this->settings['highlight']['query']) . ')';
+					$queryComponents[] = '(' . sprintf($this->settings['highlight']['query'], $queryWord) . ')';
 				}
 				$queryString = implode(' OR ', $queryComponents);
 
