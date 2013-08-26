@@ -67,9 +67,9 @@ plugin.tx_find {
 			}
 			40 {
 				id = band
-				field = band_nummer
+				field = band_facet
 				autocomplete = 1
-				query = {!join from=kloster_id to=id}(band_nummer:"###term###" AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(band_facet:"###term###" AND typ:standort-orden)
 			}
 		}
 		highlight {

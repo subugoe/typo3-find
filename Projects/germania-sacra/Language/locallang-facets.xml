@@ -18,6 +18,7 @@
 			<label index="facet.jahr50">Zeitraum</label>
 			<label index="facet.bistum">Bistum</label>
 			<label index="facet.band">Germania Sacra Band</label>
+			<label index="facet.band.hat_band">Alle Bände</label>
 		</languageKey>
 	</data>
 </T3locallang>
