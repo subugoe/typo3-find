@@ -33,29 +33,36 @@ $adwRed: #c90230;
 	}
 }
 
+$labelWidth: 200px;
+
 .tx_find {
 	
 	form {
-		label {
-			width: 200px;
-		}
-		
-		.field-mode-extended {
-			label {
-				line-height: 170%;
+		.fieldContainer {
+			.fieldLabel {
+				width: $labelWidth;
+			}
+
+			&.field-mode-extended {
+				label {
+					line-height: 170%;
+				}
+
+				input {
+					font-size: 100%;
+					
+				}
+			}
+
+			.inputContainer {
+				margin-left: $labelWidth + 10px;
 			}
 			
-			input {
-				font-size: 100%;
+			&.field-mode-simple label {
+				display: inline;
+				line-height: 210%;
 			}
 		}
-		
-		.fieldContainer.field-mode-simple label {
-			display: inline;
-			width: 6em; 
-			line-height: 210%;
-		}
-		
 	}
 
 	.facet-type-Tabs ol li.facetActive {

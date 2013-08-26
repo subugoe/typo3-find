@@ -12,7 +12,7 @@ plugin.tx_find {
 			10 {
 				extended = 1
 				id = transliteration_exact
-				query = transliteration:###term###
+				query = transliteration:%s
 				noescape = 1
 				type = Text
 			}

@@ -21,18 +21,20 @@
   content: ')';
 }
 
-.tx_find form label {
+.tx_find form .fieldContainer .fieldLabel {
   width: 200px;
 }
-.tx_find form .field-mode-extended label {
+.tx_find form .fieldContainer.field-mode-extended label {
   line-height: 170%;
 }
-.tx_find form .field-mode-extended input {
+.tx_find form .fieldContainer.field-mode-extended input {
   font-size: 100%;
+}
+.tx_find form .fieldContainer .inputContainer {
+  margin-left: 210px;
 }
 .tx_find form .fieldContainer.field-mode-simple label {
   display: inline;
-  width: 6em;
   line-height: 210%;
 }
 .tx_find .facet-type-Tabs ol li.facetActive {
