@@ -10,6 +10,8 @@ plugin.tx_find {
 			0 {
 				query = {!join from=kloster_id to=id}(%s AND typ:standort-orden)
 				noescape = 1
+				autocomplete = 1
+				autocompleteDictionary = suggest
 			}
 			10 {
 				id = bistum
