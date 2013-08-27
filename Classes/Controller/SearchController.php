@@ -438,8 +438,6 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		}
 		else {
 			// No Facet queries configured: build the query.
-			$queryPattern = '';
-
 			if (array_key_exists('query', $facetConfig)) {
 				$queryPattern = $facetConfig['query'];
 			}
