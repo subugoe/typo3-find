@@ -46,6 +46,13 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
+			50 {
+				id = status
+				type = SelectFacet
+				facetID = status
+				query = {!join from=kloster_id to=id}(status_facet:%s AND typ:standort-orden)
+				extended = 1
+			}
 		}
 		sort {
 			1 {
@@ -84,6 +91,12 @@ plugin.tx_find {
 				field = band_facet
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(band_facet:"%s" AND typ:standort-orden)
+			}
+			100 {
+				id = status
+				field = status_facet
+				hidden = 1
+				fetchMinimum = 0
 			}
 		}
 		highlight {
