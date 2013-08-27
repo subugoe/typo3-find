@@ -35,6 +35,14 @@ $tabSelected: #263476;
 	}
 
 
+	/* error message */
+	
+	section.error {
+		margin-bottom: 1em;
+		padding: 1em;
+		border: 2px solid red;
+	}
+	
 	/* search form */
 
 	form {

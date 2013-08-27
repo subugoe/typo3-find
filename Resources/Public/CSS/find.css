@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /* Default SCSS for TYPO3 Extension ¬ªfind¬´ . */
 .tx_find {
+  /* error message */
   /* search form */
   /* result list */
   /* facets */
@@ -26,6 +27,11 @@
 .tx_find em.highlight {
   font-weight: bold;
   color: red;
+}
+.tx_find section.error {
+  margin-bottom: 1em;
+  padding: 1em;
+  border: 2px solid red;
 }
 .tx_find form {
   position: relative;

@@ -43,6 +43,9 @@
 			<label index="show all">show all</label>
 
 			<label index="Show Detail Page">Details</label>
+
+			<label index="Your query could not be executed.">Your query could not be executed.</label>
+			<label index="Re-run the query with escaped terms.">Re-run the query with escaped terms.</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -80,6 +83,9 @@
 			<label index="show all">alle zeigen</label>
 
 			<label index="Show Detail Page">Details</label>
+
+			<label index="Your query could not be executed.">Ihre Abfrage konnte nicht ausgeführt werden.</label>
+			<label index="Re-run the query with escaped terms.">Abfrage mit maskierten Steuerzeichen wiederholen.</label>
 		</languageKey>
 
 	</data>
