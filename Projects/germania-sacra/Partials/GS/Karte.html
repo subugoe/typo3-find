@@ -21,12 +21,8 @@
 					pageType="1369315139"
 					noCacheHash="1"/>";
 				institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
-				/**
-				 * We need the '' quotes around the first array key in what follows to keep TYPO3 6.0.4 from
-				 *	interpreting the object itself. TYPO3 6.1 seems to be OK.
-				 */
 				standorte.push({
-					koordinaten': koordinaten,
+					koordinaten: koordinaten,
 					titel: titel,
 					queryURL: queryURL,
 					institutionengenau: institutionengenau
@@ -34,7 +30,7 @@
 			</f:for>
 
 			germaniaSacra.initialise({
-				'ID': ID,
+				ID: ID,
 				standorte: standorte
 			});
 		</t3jquery:addJQueryAndScript>
