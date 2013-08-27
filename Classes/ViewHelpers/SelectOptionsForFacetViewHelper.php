@@ -41,26 +41,38 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
 		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
 		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
+		$this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
 	}
 
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function render() {
 		$result = array();
 
+		// Start the select with a blank element?
 		if ($this->arguments['leadingBlank']) {
 			$result[''] = '';
 		}
 
-		$array = $this->arguments['values'];
-		if ($this->arguments['sortByName']) {
-			ksort($array);
+		$extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
+		foreach ($this->arguments['values'] as $item => $count) {
+			// Localise item name.
+			$localisationKey = $this->arguments['localisationPrefix'] . $item;
+
+			$localisedItem = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $extensionName);
+			if (!$localisedItem) {
+				$localisedItem = $item;
+			}
+
+			// Append count to item name?
+			$result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' ('. $count . ')' : '');
 		}
 
-		foreach ($array as $item => $count) {
-			$result[$item] = $item . ($this->arguments[showCount] ? ' (' . $count . ')' : '');
+		// Sort the array?
+		if ($this->arguments['sortByName']) {
+			ksort($result);
 		}
 
 		return $result;

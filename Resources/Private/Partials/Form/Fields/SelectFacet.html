@@ -32,7 +32,12 @@
 		id="c{uid}-field-{fieldInfo.id}"
 		class="inputContainer"
 		name="q[{fieldInfo.id}]"
-		options="{s:selectOptionsForFacet(values:facetData.values, leadingBlank:1, sortByName:1)}"
+		options="{s:selectOptionsForFacet(
+			values:facetData.values,
+			leadingBlank:1,
+			sortByName:1,
+			localisationPrefix:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-'
+		)}"
 		value="{s:valueForKey(array:arguments.q, key:fieldInfo.id)}"
 	/>
 </f:alias>

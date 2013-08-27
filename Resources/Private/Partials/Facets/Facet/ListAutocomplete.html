@@ -5,7 +5,12 @@
 <f:alias map="{translateArguments:'{0:\"{f:translate(key:\'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}\', default:facetInfo.id)}\"}'}">
 	<form>
 		<f:form.select
-			options="{s:selectOptionsForFacet(values:facetData.values, leadingBlank:1, sortByName:1)}"
+			options="{s:selectOptionsForFacet(
+				values:facetData.values,
+				leadingBlank:1,
+				sortByName:1,
+				localisationPrefix:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.'
+			)}"
 			class="facetSearch"
 			additionalAttributes="{data-placeholder:'{f:translate(key:\"Filter by %s\", arguments:translateArguments)}'}"/>
 	</form>
