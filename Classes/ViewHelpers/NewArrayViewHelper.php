@@ -51,7 +51,6 @@
 		 * @return string
 		 */
 		public function render() {
-			$result = '';
 			$result = $this->arguments['array'];
 
 			if ($this->arguments['keys']) {
@@ -75,6 +74,9 @@
 
 			$variableName = $this->arguments['name'];
 			if ($variableName !== NULL) {
+				if ($this->templateVariableContainer->exists($variableName)) {
+					$this->templateVariableContainer->remove($variableName);
+				}
 				$this->templateVariableContainer->add($variableName, $result);
 				$result = $this->renderChildren();
 				if ($this->arguments['global'] !== TRUE) {
