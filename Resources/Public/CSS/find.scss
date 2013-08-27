@@ -94,6 +94,11 @@ $tabSelected: #263476;
 			input.noleftmargin {
 				margin-left: 0;
 			}
+			
+			select {
+				position: relative;
+				top: 2px;
+			}
 		}
 		
 		.field-default {

@@ -67,6 +67,10 @@
 .tx_find form .fieldContainer input.noleftmargin {
   margin-left: 0;
 }
+.tx_find form .fieldContainer select {
+  position: relative;
+  top: 2px;
+}
 .tx_find form .field-default .fieldLabel {
   display: none;
 }
