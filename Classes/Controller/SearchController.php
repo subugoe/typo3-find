@@ -75,7 +75,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		$query = $this->createQueryForArguments($this->requestArguments);
 
 		// Run the query.
-		$resultSet = $this->solr->select($query);
+		try {
+			$resultSet = $this->solr->select($query);
+		}
+		catch (Solarium\Exception\HttpException $e) {
+			$this->view->assign('error', array('solr' => $e));
+		}
 
 		$this->view->assignMultiple(array(
 			'results' => $resultSet,
