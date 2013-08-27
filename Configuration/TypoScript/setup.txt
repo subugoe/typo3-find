@@ -76,6 +76,7 @@ plugin.tx_find {
 				type = Text
 			}
 		}
+		defaultQuery = *:*
 		dataFields {
 			default {
 			}

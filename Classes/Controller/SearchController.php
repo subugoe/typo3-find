@@ -268,12 +268,6 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 	private function queryComponentsForQueryParameters ($query, $queryParameters) {
 		$queryComponents = array();
 
-		// Explicitly fill in default query if the user query is blank
-		// so we get all results.
-		if (count($queryParameters) === 0) {
-			$queryParameters['raw'] = '*:*';
-		}
-
 		$queryFields = $this->settings['queryFields'];
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
@@ -317,6 +311,11 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					$queryComponents[$fieldID] = $queryPart;
 				}
 			}
+		}
+
+		// Ask for all results if there is no query.
+		if (count($queryComponents) === 0) {
+			$queryComponents[] = $this->settings['defaultQuery'];
 		}
 
 		return $queryComponents;
