@@ -61,6 +61,12 @@ plugin.tx_find {
 			#	noescape = 1
 			#	extended = 1
 			#}
+			#60 {
+			#	id = status
+			#	type = SelectFacet
+			#	facetID = status
+			#	extended = 1
+			#}
 			9999 {
 				id = raw
 				query = %s
@@ -103,6 +109,13 @@ plugin.tx_find {
 			#	displayDefault = 1000
 			#	sortOrder = index
 			#	query = year:%s
+			#}
+			#100 {
+			#	id = status
+			#	field = status_facet
+			#	hidden = 1
+			#	fetchMinimum = 0
+			#	fetchMaximum = 1000
 			#}
 		}
 		facetDefaults {

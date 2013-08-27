@@ -1,0 +1,38 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:comment>
+	Creates a search form <select> with values from the facet with name given by the facetID setting.
+	The select’s items are sorted alphabetically and preceded by a blank.
+
+	Example TypoScript configuration:
+		plugin.tx_find.settings {
+			queryFields {
+				10 {
+					id = status
+					type = SelectFacet      # use this facet Partial
+					facetID = status        # use select items from facet with id »status«
+					extended = 1            # only show in extended search
+				}
+			}
+			facets {
+				10 {
+					id = status
+					field = status_facet    # Solr field to query
+					hidden = 1              # do not display this facet
+					fetchMinimum = 0        # also list items with 0 results
+					fetchMaximum = 1000     # set this high enough to get all terms
+				}
+			}
+		}
+</f:comment>
+<label class="fieldLabel" for="c{uid}-field-{fieldInfo.id}">
+	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
+</label>
+<f:alias map="{facetData:'{s:valueForKey(array:results.components.facetset.facets, key:fieldInfo.facetID)}'}">
+	<f:form.select
+		id="c{uid}-field-{fieldInfo.id}"
+		class="inputContainer"
+		name="q[{fieldInfo.id}]"
+		options="{s:selectOptionsForFacet(values:facetData.values, leadingBlank:1, sortByName:1)}"
+		value="{s:valueForKey(array:arguments.q, key:fieldInfo.id)}"
+	/>
+</f:alias>
