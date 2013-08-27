@@ -64,7 +64,7 @@
 			<label index="Go to previous page of results. (Page %s)">Zur vorigen Ergebnisseite gehen. (Seite %s)</label>
 			<label index="Go to next page of results. (Page %s)">Zur folgenden Ergebnisseite gehen. (Seite %s)</label>
 
-			<label index="Filter by %s">Nach %s filtern</label>
+			<label index="Filter by %s">Filtern nach %s</label>
 			<label index="Alle Datensätze mit %1$s »%2$s« zeigen.">Alle Datensätze mit %1$s »%2$s« zeigen.</label>
 
 			<label index="All records">Alle Datensätze</label>
