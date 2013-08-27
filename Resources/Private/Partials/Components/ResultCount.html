@@ -1,7 +1,14 @@
 <div class="resultCount">
 	<f:if condition="{results.numfound}==0">
 		<f:then>
-			<f:translate key="no results"/>
+			<f:if condition="{error}">
+				<f:then>
+					<f:translate key="Error"/>
+				</f:then>
+				<f:else>
+					<f:translate key="no results"/>
+				</f:else>
+			</f:if>
 		</f:then>
 		<f:else>
 			<f:if condition="{results.numfound}==1">

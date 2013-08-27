@@ -19,6 +19,7 @@
 			<label index="no results">no results</label>
 			<label index="1 result">1 result</label>
 			<label index="results">results</label>
+			<label index="Error">Error</label>
 			<label index="of">of</label>
 			<label index="Go to previous page of results. (Page %s)">Go to previous page of results. (Page %s)</label>
 			<label index="Go to next page of results. (Page %s)">Go to next page of results. (Page %s)</label>
@@ -55,6 +56,7 @@
 			<label index="no results">keine Treffer</label>
 			<label index="1 result">1 Treffer</label>
 			<label index="results">Treffer</label>
+			<label index="Error">Fehler</label>
 			<label index="of">von</label>
 			<label index="Go to previous page of results. (Page %s)">Zur vorigen Ergebnisseite gehen. (Seite %s)</label>
 			<label index="Go to next page of results. (Page %s)">Zur folgenden Ergebnisseite gehen. (Seite %s)</label>
