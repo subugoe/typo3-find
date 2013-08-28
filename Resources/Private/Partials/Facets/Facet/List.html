@@ -6,12 +6,16 @@
 </f:if>
 
 <ol class="facetList{f:if(condition:facetInfo.autocomplete, then:' autocomplete')}">
-	<f:for each="{facetData.values}" as="itemCount" key="facetTermOriginal" iteration="iterator">
+	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
 		<f:alias map="{
-			facetTerm:'{f:if(
+			facetTermDisplay:'{f:if(
 				condition:facetInfo.sortPrefixSeparator,
-				then:1,
-				else:facetTermOriginal
+				then:\"{s:regexp(
+					string:facetTerm,
+					match:\'/^.*?{facetInfo.sortPrefixSeparator}/\',
+					replace:\'\'
+				)}\",
+				else:facetTerm
 			)}'
 		}">
 			<f:render partial="Facets/Facet/ListItem" arguments="{_all}"/>

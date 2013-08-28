@@ -14,7 +14,10 @@
 				<f:then>hidden</f:then>
 			</f:if>
 		</f:else>
-	</f:if>' value="{facetTerm}" label="{f:translate(key:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}', default:facetTerm)}" count="{itemCount}">
+	</f:if>'
+	value="{facetTerm}"
+	label="{f:translate(key:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}', default:facetTerm)}"
+	count="{itemCount}">
 	<f:if condition="{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
 		<f:then>
 			<f:link.action
@@ -23,7 +26,7 @@
 				section="{settings.jumpToID}"
 				noCacheHash="1"
 				class="icon-cancel facetRemove internal"
-				title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}" default="{facetTerm}"/></span></f:link.action>
+				title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}" default="{facetTermDisplay}"/></span></f:link.action>
 		</f:then>
 		<f:else>
 			<f:link.action
@@ -34,8 +37,8 @@
 				noCacheHash="1"
 				class="facetAdd internal">
 				<f:translate
-					key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}"
-					default="{facetTerm}"/>&nbsp;<span class="facetCount">{itemCount}</span>
+					key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}"
+					default="{facetTermDisplay}"/>&nbsp;<span class="facetCount">{itemCount}</span>
 			</f:link.action>
 		</f:else>
 	</f:if>
