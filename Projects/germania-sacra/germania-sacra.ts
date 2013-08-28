@@ -89,6 +89,7 @@ plugin.tx_find {
 			40 {
 				id = band
 				field = band_facet
+				sortPrefixSeparator = ||||
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(band_facet:"%s" AND typ:standort-orden)
 			}
