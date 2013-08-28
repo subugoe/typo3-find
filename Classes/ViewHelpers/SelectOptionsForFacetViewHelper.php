@@ -41,6 +41,7 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
 		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
 		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
+		$this->registerArgument('sortPrefixSeparator', 'string', 'sort the whole string but only keep the part after the separator for display', FALSE, NULL);
 		$this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
 	}
 
@@ -73,6 +74,16 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 		// Sort the array?
 		if ($this->arguments['sortByName']) {
 			ksort($result);
+		}
+
+		// Strip sort prefixes.
+		if ($this->arguments['sortPrefixSeparator']) {
+			$strippedResult = array();
+			foreach ($result as $key => $value) {
+				$valueParts = explode($this->arguments['sortPrefixSeparator'], $value, 2);
+				$strippedResult[$key] = $valueParts[count($valueParts) - 1];
+			}
+			$result = $strippedResult;
 		}
 
 		return $result;
