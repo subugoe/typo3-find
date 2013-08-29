@@ -319,6 +319,12 @@ $tabSelected: #263476;
 		}
 	}
 	
+	.facet-type-Map {
+		.mapContainer {
+			height: 150px;
+		}
+	}
+	
 	.facet-type-Tabs {
 		@extend article.facet;
 

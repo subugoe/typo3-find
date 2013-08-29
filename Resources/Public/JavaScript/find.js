@@ -532,3 +532,134 @@ return {
 };
 
 })();
+
+
+
+
+/**
+ * Object to set up the map in a facet.
+ *
+ * @type {object}
+ */
+var tx_find_facetMap = (function () {
+	var interface = {};
+	var config;
+	var map;
+	var markers = {};
+
+	var init = function (parameters) {
+		config = parameters;
+		interface.config = config;
+		tx_find.googleMapsLoader.loadWithCallback(mapsLoadedCallback);
+	};
+	interface.init = init;
+
+	var mapsLoadedCallback = function () {
+		// Extract information from facet data.
+		// The facet term needs begin with the zero-padded zoom level,
+		// a dash and the geohash. The facet needs to be sorted by index.
+		var zoomInfo = {};
+		var lastZoomLevel = 0;
+		for (var facetIndex in config.facetData) {
+			var indexParts = facetIndex.split('-');
+			if (indexParts.length === 2) {
+				var geohashScale = parseInt(indexParts[0]);
+				lastZoomLevel = geohashScale;
+				
+				if (!zoomInfo[geohashScale]) {
+					zoomInfo[geohashScale] = {};
+				}
+				zoomInfo[geohashScale][indexParts[1]] = config.facetData[facetIndex];
+			}
+		}
+
+		var lastZoomLevelIsComplete = (Object.keys(config.facetData).length < config.facetFetchMaximum);
+		if (!lastZoomLevelIsComplete) {
+			lastZoomLevel--;
+		}
+
+		// Create map.
+		google.maps.visualRefresh = true;
+		var mapOptions = {
+			'mapTypeId': google.maps.MapTypeId.ROADMAP,
+			'mapTypeControl': false,
+			'streetViewControl': false,
+			'scrollwheel': false
+		};
+
+		map = new google.maps.Map(config.container, mapOptions);
+		interface.map = map;
+
+		// Use the last complete level of geo information to determine the bounding box.
+		var containingBounds = new google.maps.LatLngBounds();
+		var zoomLevelInfo = zoomInfo[lastZoomLevel];
+		for (var geohashString in zoomLevelInfo) {
+			var geohashBounds = geohash.bbox(geohashString);
+			var bounds = new google.maps.LatLngBounds(
+				new google.maps.LatLng(geohashBounds.s, geohashBounds.w),
+				new google.maps.LatLng(geohashBounds.n, geohashBounds.e)
+			);
+			containingBounds.union(bounds);
+		}
+
+		// Shrink the bounding box a little to compensate for Google’s generous margins.
+		var containingSpan = containingBounds.toSpan();
+		var shrinkFactor = 0.2;
+		var shrunkBounds = new google.maps.LatLngBounds(
+			new google.maps.LatLng(
+				containingBounds.getSouthWest().lat() + containingSpan.lat() * shrinkFactor,
+				containingBounds.getSouthWest().lng() + containingSpan.lng() * shrinkFactor
+			),
+			new google.maps.LatLng(
+				containingBounds.getNorthEast().lat() - containingSpan.lat() * shrinkFactor,
+				containingBounds.getNorthEast().lng() - containingSpan.lng() * shrinkFactor
+			)
+		);
+		map.fitBounds(shrunkBounds);
+
+		// Determine which zoom level to take the data from.
+		var geohashScaleForMarkers = 0;
+		for (var zoomLevel = 1; zoomLevel <= lastZoomLevel; zoomLevel++) {
+			if (Object.keys(zoomInfo[zoomLevel]).length < 100) {
+				geohashScaleForMarkers = zoomLevel;
+			}
+		}
+
+		zoomLevelInfo = zoomInfo[geohashScaleForMarkers];
+		for (var geohashString in zoomLevelInfo) {
+			var geohashPoint = geohash.decode_exactly(geohashString);
+			var point = new google.maps.LatLng(geohashPoint[0], geohashPoint[1]);
+			var marker = new google.maps.Marker({
+				'map': map,
+				'position': point,
+				'clickable': false,
+				'icon': {
+					'path': google.maps.SymbolPath.CIRCLE,
+					'strokeColor': 'e33',
+					'fillColor': 'f33',
+					'fillOpacity': 1,
+					'scale': 0.5 + Math.min(Math.sqrt(zoomLevelInfo[geohashString]), 5)
+				}
+			});
+			markers[geohashString] = marker;
+		}
+	};
+
+	return interface;
+
+})();
+
+
+// Add object property counting for old browsers.
+if (!Object.keys) {
+    Object.keys = function (obj) {
+        var keys = [],
+            k;
+        for (k in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, k)) {
+                keys.push(k);
+            }
+        }
+        return keys;
+    };
+}

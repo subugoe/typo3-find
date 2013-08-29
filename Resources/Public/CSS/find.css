@@ -236,6 +236,9 @@
 .tx_find article.facet .flot-x-axis .flot-tick-label:first-child, .tx_find .facet-type-Tabs .flot-x-axis .flot-tick-label:first-child {
   left: 13px!important;
 }
+.tx_find .facet-type-Map .mapContainer {
+  height: 150px;
+}
 .tx_find .facet-type-Tabs h1 {
   display: none;
 }
