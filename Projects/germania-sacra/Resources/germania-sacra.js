@@ -9,9 +9,93 @@ var germaniaSacra = (function () {
 
 
 	var initialise = function (config) {
-		klosterID = config.ID;
-		standorte = config.standorte;
-		tx_find.googleMapsLoader.loadWithCallback(mapsReady);
+		if (config && config.ID) {
+			// Single item view.
+			klosterID = config.ID;
+			standorte = config.standorte;
+			tx_find.googleMapsLoader.loadWithCallback(mapsReady);
+		}
+		else if (jQuery('.facet-type-Map').length > 0) {
+			// Search result view.
+			var jMapFacetContainer = jQuery('.facet-type-Map');
+
+			var link = document.createElement('a');
+			link.appendChild(document.createTextNode('groß'));
+			link.setAttribute('href', '#');
+			link.onclick = toggleMap;
+			jMapFacetContainer.append(link);
+		}
+	};
+
+	var toggleMap = function () {
+		var jMap = jQuery('.mapContainer');
+		var mapPosition = jMap.position();
+
+		var jHeading = jQuery('.facet-type-Map h1');
+		var headingPosition = jHeading.position();
+
+		var previousConfig = {
+			'container': {
+				'top': mapPosition.top,
+				'left': mapPosition.left,
+				'height': jMap.height()
+			},
+			'heading': {
+				'top': headingPosition.top,
+				'left': headingPosition.left
+			},
+			'map': {
+				'center': tx_find_facetMap.map.getCenter(),
+				'zoom': tx_find_facetMap.map.getZoom()
+			}
+		};
+
+		jHeading.css({
+			'position': 'absolute',
+			'top': headingPosition.top,
+			'right': 0,
+			'left': headingPosition.left
+		});
+
+		jMap.css({
+			'position':'absolute',
+			'top': mapPosition.top,
+			'right': 0,
+			'left': mapPosition.left,
+			'height': jMap.height()
+		});
+
+		var right = '225px';
+		var duration = 300;
+		jMap.animate({
+			'left': 0,
+			'right': right,
+			'height': '700px'
+			},
+			{
+				'duration': duration,
+				'progress' : function (promise, progress, remaining) {
+					google.maps.event.trigger(tx_find_facetMap.map, 'resize');
+					tx_find_facetMap.map.setCenter(previousConfig.map.center);
+					var newZoomLevel = previousConfig.map.zoom;
+					if (progress > 0.5) {
+						newZoomLevel = previousConfig.map.zoom + 2;
+					}
+					tx_find_facetMap.map.setZoom(newZoomLevel);
+				}
+		});
+
+		jHeading.animate({
+			'left': 0,
+			'right': right
+			},
+			{
+				'duration': duration
+		});
+
+		jQuery('.resultList, .navigation').fadeOut(duration);
+
+		return false;
 	};
 
 
@@ -161,7 +245,9 @@ var germaniaSacra = (function () {
 
 
 	return {
-		initialise: initialise
+		'initialise': initialise
 	};
 	
 })();
+
+jQuery(germaniaSacra.initialise);

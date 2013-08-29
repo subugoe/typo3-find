@@ -117,6 +117,7 @@ plugin.tx_find {
 			# 2 = bearbeitungsstatus:Online
 		}
 		CSSPaths.50 = EXT:find/Projects/germania-sacra/Resources/germania-sacra.css
+		JSPaths.50 =  EXT:find/Projects/germania-sacra/Resources/germania-sacra.js
 
 		languageRootPath = EXT:find/Projects/germania-sacra/Language/
 	}
