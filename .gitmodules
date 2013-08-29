@@ -7,3 +7,6 @@
 [submodule "Projects/edfu/Resources/fotorama"]
 	path = Projects/edfu/Resources/fotorama
 	url = git://github.com/ssp/fotorama.git
+[submodule "Resources/Public/JavaScript/js-geohash"]
+	path = Resources/Public/JavaScript/js-geohash
+	url = git@github.com:y-matsuwitter/js-geohash.git
