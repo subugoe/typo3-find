@@ -11,7 +11,7 @@ var germaniaSacra = (function () {
 	var initialise = function (config) {
 		klosterID = config.ID;
 		standorte = config.standorte;
-		loadScript();
+		tx_find.googleMapsLoader.loadWithCallback(mapsReady);
 	};
 
 
@@ -160,17 +160,8 @@ var germaniaSacra = (function () {
 	};
 
 
-	var loadScript = function () {
-		var script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=germaniaSacra.mapsReady';
-		document.body.appendChild(script);
-	};
-
-
 	return {
-		initialise: initialise,
-		mapsReady: mapsReady
+		initialise: initialise
 	};
 	
 })();
