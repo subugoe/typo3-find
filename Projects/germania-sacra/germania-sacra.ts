@@ -50,7 +50,7 @@ plugin.tx_find {
 				id = status
 				type = SelectFacet
 				facetID = status
-				query = {!join from=kloster_id to=id}(status_facet:%s AND typ:standort-orden)
+				query = {!join from=kloster_id to=id}(status_facet:"%s" AND typ:standort-orden)
 				extended = 1
 			}
 		}
