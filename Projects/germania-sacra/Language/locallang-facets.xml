@@ -14,6 +14,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="facet.map">Karte</label>
 			<label index="facet.orden">Orden</label>
 			<label index="facet.jahr50">Zeitraum</label>
 			<label index="facet.bistum">Bistum</label>

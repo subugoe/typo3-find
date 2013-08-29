@@ -66,12 +66,19 @@ plugin.tx_find {
 		}
 		facets {
 			10 {
+				id = map
+				field = geohash
+				type = Map
+				sortOrder = index
+				fetchMaximum = 1000
+			}
+			20 {
 				id = orden
 				field = orden_facet
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(orden_facet:"%s" AND typ:standort-orden)
 			}
-			20 {
+			30 {
 				id = jahr50
 				field = jahr50
 				type = Histogram
@@ -80,13 +87,13 @@ plugin.tx_find {
 				fetchMaximum = 1000
 				barWidth = 10
 			}
-			30 {
+			40 {
 				id = bistum
 				field = bistum_facet
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(bistum_facet:"%s" AND typ:standort-orden)
 			}
-			40 {
+			50 {
 				id = band
 				field = band_facet
 				sortPrefixSeparator = ####
