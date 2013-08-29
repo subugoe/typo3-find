@@ -303,8 +303,6 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				if (!$queryFormat) {
 					$queryFormat = $fieldID . ':%s';
 				}
-				$queryFormat = str_replace('"', '\"', $queryFormat);
-
 				$queryPart = '_query_:' . $query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryArguments));
 
 				if ($queryPart) {
