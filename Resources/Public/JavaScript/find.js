@@ -62,6 +62,39 @@ var localise = function (term) {
 
 
 
+var googleMapsLoader = (function() {
+
+	var callbacks = [];
+
+	var loadWithCallback = function (callback) {
+		if (!window.google || !window.google.maps) {
+			callbacks.push(callback);
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=tx_find.googleMapsLoader.mapsCallback';
+			document.body.appendChild(script);
+		}
+		else {
+			callback();
+		}
+	};
+
+	var mapsCallback = function () {
+		for (var i in callbacks) {
+			var callback = callbacks[i];
+			callback();
+		}
+	};
+
+	return {
+		'loadWithCallback': loadWithCallback,
+		'mapsCallback': mapsCallback
+	};
+
+})();
+
+
+
 /**
  * Handles selection in jquery.chosen menu for facets:
  * Get link of the selected facet and follow it.
@@ -494,7 +527,8 @@ return {
 	'showAllFacetsOfType': showAllFacetsOfType,
 	'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
 	'detailViewWithPaging': detailViewWithPaging,
-	'toggleExtendedSearch': toggleExtendedSearch
+	'toggleExtendedSearch': toggleExtendedSearch,
+	'googleMapsLoader': googleMapsLoader
 };
 
 })();
