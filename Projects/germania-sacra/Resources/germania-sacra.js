@@ -131,9 +131,7 @@ var germaniaSacra = (function () {
 		jResizeLink.removeClass('icon-resize-full').addClass('icon-resize-small');
 		jResizeLink.unbind('click').click(smallMap);
 
-		var parameterName = tx_find.URLParameterPrefix + '[largeMap]';
-		var newURL = tx_find.addURLParameter(location.href, parameterName, 1);
-		tx_find.changeURL(newURL);
+		tx_find.changeURLParameterForPage('largeMap', 1);
 
 		return false;
 	};
@@ -183,9 +181,7 @@ var germaniaSacra = (function () {
 		jResizeLink.removeClass('icon-resize-small').addClass('icon-resize-full');
 		jResizeLink.unbind('click').click(largeMap);
 
-		var parameterName = tx_find.URLParameterPrefix + '[largeMap]';
-		var newURL = tx_find.removeURLParameter(location.href, parameterName);
-		tx_find.changeURL(newURL);
+		tx_find.changeURLParameterForPage('largeMap');
 
 		return false;
 	};
