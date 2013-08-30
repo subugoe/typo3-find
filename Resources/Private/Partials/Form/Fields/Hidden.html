@@ -1,0 +1,13 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:form.hidden
+	name="{f:if(
+		condition:'{s:valueForKey(array:arguments, key:fieldInfo.id)}',
+		then:fieldInfo.id
+	)}"
+	value="{f:if(
+		condition:fieldInfo.default,
+		then:fieldInfo.default,
+		else:1
+	)}"
+	class="{fieldInfo.id}"
+/>

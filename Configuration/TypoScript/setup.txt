@@ -67,7 +67,11 @@ plugin.tx_find {
 			#	facetID = status
 			#	extended = 1
 			#}
-			9999 {
+			10001 {
+				id = extended
+				type = Hidden
+			}
+			10002 {
 				id = raw
 				query = %s
 				extended = 1
