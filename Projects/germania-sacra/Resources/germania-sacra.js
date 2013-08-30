@@ -97,7 +97,7 @@ var germaniaSacra = (function () {
 		});
 
 		// Move elements around.
-		jQuery('.tx_find').css({'min-height': '850px'});
+		jQuery('.tx_find .results').css({'min-height': '850px'});
 
 		var right = '225px';
 
@@ -131,6 +131,7 @@ var germaniaSacra = (function () {
 		jResizeLink.removeClass('icon-resize-full').addClass('icon-resize-small');
 		jResizeLink.unbind('click').click(smallMap);
 
+		jQuery('.tx_find .reults').addClass('largeMap');
 		tx_find.changeURLParameterForPage('largeMap', 1);
 
 		return false;
@@ -158,7 +159,7 @@ var germaniaSacra = (function () {
 				'done': function () {
 					jMap.css({'position': 'static'});
 					jHeading.css({'position': 'static'});
-					jQuery('.tx_find').css({'min-height': 'auto'});
+					jQuery('.tx_find .results').css({'min-height': ''});
 				}
 			}
 		);
@@ -181,6 +182,7 @@ var germaniaSacra = (function () {
 		jResizeLink.removeClass('icon-resize-small').addClass('icon-resize-full');
 		jResizeLink.unbind('click').click(largeMap);
 
+		jQuery('.tx_find .reults').removeClass('largeMap');
 		tx_find.changeURLParameterForPage('largeMap');
 
 		return false;

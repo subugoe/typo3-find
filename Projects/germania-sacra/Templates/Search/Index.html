@@ -1,1 +1,30 @@
-../../EXT-Private/Templates/Search/Index.html
+{namespace s=Tx_Find_ViewHelpers}
+<f:layout name="Default"/>
+
+<f:section name="main">
+	<s:pageTitle>
+		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
+		–
+		{pageTitle}
+	</s:pageTitle>
+	<f:render partial="Page/Standard" arguments="{_all}"/>
+
+	<div class="results {f:if(condition:arguments.largeMap, then:'largeMap', else:'gaga')}">
+		<div class="navigation top"/>
+			<f:render partial="Components/ResultCount" arguments="{_all}"/>
+			<f:render partial="Pager/ListPager" arguments="{_all}"/>
+		</div>
+
+		<f:render partial="Facets/Facets" arguments="{_all}"/>
+
+		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
+			<f:for each="{results.documents}" as="document">
+				<f:render partial="Display/Result" arguments="{_all}"/>
+			</f:for>
+		</ol>
+
+		<div class="navigation bottom"/>
+			<f:render partial="Pager/ListPager" arguments="{_all}"/>
+		</div>
+	</div>
+</f:section>

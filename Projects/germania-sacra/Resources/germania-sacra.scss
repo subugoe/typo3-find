@@ -25,11 +25,30 @@
 			
 			.inputContainer {
 				margin-left: $formLabelWidth + 10px;
-			}
+							}
 		}
 	}
 
+	$mapRight = 225px;
+	
+	.results {
+		&.largeMap {
+			.facet-type-Map .mapContainer {
+				position: absolute;
+				left: 0;
+				right: $mapRight;
+				height: 700px;
+			}
 
+			.facet-type-Map h1 {
+				position: absolute;
+				left: 0;
+				right: $mapRight;
+			}
+		}
+	}
+	
+	
 	article {
 		section {
 			margin-bottom: 1em;
