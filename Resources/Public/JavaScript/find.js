@@ -646,6 +646,8 @@ var tx_find_facetMap = (function () {
 			});
 			markers[geohashString] = marker;
 		}
+
+		jQuery(config.container).trigger('tx_find.facetMapLoaded');
 	};
 
 	return interface;
