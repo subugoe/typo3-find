@@ -138,6 +138,7 @@
   display: block;
 }
 .tx_find .results {
+  position: relative;
   clear: left;
   padding-top: 2em;
 }
