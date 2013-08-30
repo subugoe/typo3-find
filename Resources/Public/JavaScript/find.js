@@ -632,16 +632,17 @@ var tx_find_facetMap = (function () {
 		for (var geohashString in zoomLevelInfo) {
 			var geohashPoint = geohash.decode_exactly(geohashString);
 			var point = new google.maps.LatLng(geohashPoint[0], geohashPoint[1]);
+			var resultCount = zoomLevelInfo[geohashString];
 			var marker = new google.maps.Marker({
 				'map': map,
 				'position': point,
-				'clickable': false,
+				'title': resultCount,
 				'icon': {
 					'path': google.maps.SymbolPath.CIRCLE,
 					'strokeColor': 'e33',
 					'fillColor': 'f33',
 					'fillOpacity': 1,
-					'scale': 0.5 + Math.min(Math.sqrt(zoomLevelInfo[geohashString]), 5)
+					'scale': 0.5 + Math.min(Math.sqrt(resultCount), 5)
 				}
 			});
 			markers[geohashString] = marker;
