@@ -40,14 +40,14 @@
 	tx_find_facetMap.init ({
 		container: jQuery('.facet-id-{facetInfo.id} .mapContainer')[0],
 		queryURLTemplate: {s:json(data:"{f:uri.action(
-			addQueryString:'TRUE',
-			arguments='{
+			addQueryString:TRUE,
+			arguments:'{
 				q:\'###TERM###\',
-				count:1000,
-			}'
-			action='json'
-			pageType='1369315139'
-			noCacheHash='1'
+				count:1000
+			}',
+			action:'json',
+			pageType:'1369315139',
+			noCacheHash:'1'
 		)}")},
 		facetData: {s:json(data:facetData.values)},
 		facetFetchMaximum: {facetInfo.fetchMaximum}
