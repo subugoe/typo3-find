@@ -636,7 +636,7 @@ var tx_find_facetMap = (function () {
 			var marker = new google.maps.Marker({
 				'map': map,
 				'position': point,
-				'title': resultCount,
+				'title': resultCount.toString(),
 				'icon': {
 					'path': google.maps.SymbolPath.CIRCLE,
 					'strokeColor': 'e33',
