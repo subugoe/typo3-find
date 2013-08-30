@@ -194,7 +194,7 @@ var germaniaSacra = (function () {
 		google.maps.event.trigger(mapInfo.map, 'resize');
 		mapInfo.map.setCenter(mapInfo.center);
 		var newZoomLevel = mapInfo.zoom;
-		if (progress > 0.5) {
+		if (progress > 0.2) {
 			if (mapInfo.direction === 'up') {
 				newZoomLevel = mapInfo.zoom + 2;
 			}
