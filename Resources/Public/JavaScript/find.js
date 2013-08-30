@@ -433,21 +433,6 @@ var detailViewWithPaging = function (element, position) {
  * @returns {boolean}
  */
 var toggleExtendedSearch = function () {
-	var addURLParameter = function (url, name, value) {
-		var nameEscaped = encodeURIComponent(name);
-		var valueEscaped = encodeURIComponent(value);
-		var urlParts = url.split('#');
-		urlParts[0] += (urlParts[0].match(/\?/) ? '&' : '?') + nameEscaped + '=' + valueEscaped;
-		return urlParts.join('#');
-	};
-
-	var removeURLParameter = function (url, name) {
-		var nameEscaped = encodeURIComponent(name);
-		var re = new RegExp('&?' + nameEscaped + '=[^&]*');
-		var newURL = url.replace(re, '').replace(/\?$/, '');
-		return newURL;
-	};
-
 	var parameterName = URLParameterPrefix + '[extended]';
 
 	// Change URL in address bar.
@@ -493,6 +478,24 @@ var toggleExtendedSearch = function () {
 
 
 
+
+var addURLParameter = function (url, name, value) {
+	var nameEscaped = encodeURIComponent(name);
+	var valueEscaped = encodeURIComponent(value);
+	var urlParts = url.split('#');
+	urlParts[0] += (urlParts[0].match(/\?/) ? '&' : '?') + nameEscaped + '=' + valueEscaped;
+	return urlParts.join('#');
+};
+
+var removeURLParameter = function (url, name) {
+	var nameEscaped = encodeURIComponent(name);
+	var re = new RegExp('&?' + nameEscaped + '=[^&]*');
+	var newURL = url.replace(re, '').replace(/\?$/, '');
+	return newURL;
+};
+
+
+
 /**
  * Pushes newURL to the history state.
  *
@@ -518,7 +521,11 @@ return {
 	'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
 	'detailViewWithPaging': detailViewWithPaging,
 	'toggleExtendedSearch': toggleExtendedSearch,
-	'googleMapsLoader': googleMapsLoader
+	'googleMapsLoader': googleMapsLoader,
+	'addURLParameter': addURLParameter,
+	'removeURLParameter': removeURLParameter,
+	'changeURL': changeURL,
+	'URLParameterPrefix': URLParameterPrefix
 };
 
 })();
