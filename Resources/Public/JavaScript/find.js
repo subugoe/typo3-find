@@ -63,31 +63,21 @@ var localise = function (term) {
 
 
 var googleMapsLoader = (function() {
-
-	var callbacks = [];
-
-	var loadWithCallback = function (callback) {
+	var load = function () {
 		if (!window.google || !window.google.maps) {
-			callbacks.push(callback);
 			var script = document.createElement('script');
 			script.type = 'text/javascript';
 			script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=tx_find.googleMapsLoader.mapsCallback';
 			document.body.appendChild(script);
 		}
-		else {
-			callback();
-		}
 	};
 
 	var mapsCallback = function () {
-		for (var i in callbacks) {
-			var callback = callbacks[i];
-			callback();
-		}
+		jQuery(document).trigger('tx_find.mapsLoaded');
 	};
 
 	return {
-		'loadWithCallback': loadWithCallback,
+		'load': load,
 		'mapsCallback': mapsCallback
 	};
 
@@ -550,7 +540,13 @@ var tx_find_facetMap = (function () {
 	var init = function (parameters) {
 		config = parameters;
 		interface.config = config;
-		tx_find.googleMapsLoader.loadWithCallback(mapsLoadedCallback);
+		if (document.google !== undefined && google.maps) {
+			mapsLoadedCallback();
+		}
+		else {
+			jQuery(document).bind('tx_find.mapsLoaded', mapsLoadedCallback);
+			tx_find.googleMapsLoader.load();
+		}
 	};
 	interface.init = init;
 
