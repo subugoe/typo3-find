@@ -4,38 +4,70 @@
  * 2013 Sven-S. Porst, SUB Göttingen <porst@sub.uni-goettingen.de>
  */
 var germaniaSacra = (function () {
-	var klosterID = undefined;
-	var standorte = undefined;
-
+	var klosterID;
+	var standorte;
+	var originalPositions;
+	var mapInfo;
+	var zoomDuration = 300;
 
 	var initialise = function (config) {
 		if (config && config.ID) {
 			// Single item view.
 			klosterID = config.ID;
 			standorte = config.standorte;
-			tx_find.googleMapsLoader.loadWithCallback(mapsReady);
+			tx_find.googleMapsLoader.load();
+			jQuery(document).bind('tx_find.mapsLoaded', mapsReady);
 		}
 		else if (jQuery('.facet-type-Map').length > 0) {
 			// Search result view.
-			var jMapFacetContainer = jQuery('.facet-type-Map');
+			var jH1 = jQuery('.facet-type-Map h1');
+			jH1.wrapInner(document.createElement('a'));
 
-			var link = document.createElement('a');
-			link.appendChild(document.createTextNode('groß'));
-			link.setAttribute('href', '#');
-			link.onclick = toggleMap;
-			jMapFacetContainer.append(link);
-		}
+			var extraTextSmall = document.createElement('span');
+			extraTextSmall.setAttribute('class', 'extraText small');
+			extraTextSmall.appendChild(document.createTextNode('groß anzeigen'));
+
+			var extraTextLarge = document.createElement('span');
+			extraTextLarge.setAttribute('class', 'extraText large hidden');
+			extraTextLarge.appendChild(document.createTextNode('verkleinern und Liste anzeigen'));
+			
+			var jLink = jQuery('a', jH1);
+			jLink.addClass('largeMap icon-resize-full');
+			jLink.attr('href', '#');
+			jLink.click(largeMap);
+			jLink.append(extraTextSmall);
+			jLink.append(extraTextLarge);
+
+			if (tx_find_facetMap.map) {
+				addBistumsgrenzen(tx_find_facetMap.map);
+			}
+			else {
+				jQuery('.mapContainer').bind('tx_find.facetMapLoaded', function () {
+					addBistumsgrenzen(tx_find_facetMap.map);
+				});
+			}
+  		}
 	};
 
-	var toggleMap = function () {
+	var storeMapInfo = function (direction) {
+		mapInfo = {
+			'map': tx_find_facetMap.map,
+			'center': tx_find_facetMap.map.getCenter(),
+			'zoom': tx_find_facetMap.map.getZoom(),
+			'direction': direction
+		};
+	};
+
+	var largeMap = function () {
 		var jMap = jQuery('.mapContainer');
 		var mapPosition = jMap.position();
 
 		var jHeading = jQuery('.facet-type-Map h1');
 		var headingPosition = jHeading.position();
 
-		var previousConfig = {
-			'container': {
+		// Store previous positioning information.
+		originalPositions = {
+			'map': {
 				'top': mapPosition.top,
 				'left': mapPosition.left,
 				'height': jMap.height()
@@ -43,13 +75,12 @@ var germaniaSacra = (function () {
 			'heading': {
 				'top': headingPosition.top,
 				'left': headingPosition.left
-			},
-			'map': {
-				'center': tx_find_facetMap.map.getCenter(),
-				'zoom': tx_find_facetMap.map.getZoom()
 			}
 		};
 
+		storeMapInfo('up');
+
+		// Add absolute positioning.
 		jHeading.css({
 			'position': 'absolute',
 			'top': headingPosition.top,
@@ -65,37 +96,113 @@ var germaniaSacra = (function () {
 			'height': jMap.height()
 		});
 
+		// Move elements around.
+		jQuery('.tx_find').css({'min-height': '850px'});
+
 		var right = '225px';
-		var duration = 300;
-		jMap.animate({
-			'left': 0,
-			'right': right,
-			'height': '700px'
+
+		jMap.animate(
+			{
+				'left': 0,
+				'right': right,
+				'height': '700px'
 			},
 			{
-				'duration': duration,
-				'progress' : function (promise, progress, remaining) {
-					google.maps.event.trigger(tx_find_facetMap.map, 'resize');
-					tx_find_facetMap.map.setCenter(previousConfig.map.center);
-					var newZoomLevel = previousConfig.map.zoom;
-					if (progress > 0.5) {
-						newZoomLevel = previousConfig.map.zoom + 2;
-					}
-					tx_find_facetMap.map.setZoom(newZoomLevel);
-				}
-		});
+				'duration': zoomDuration,
+				'progress': updateMapForProgress
+			}
+		);
 
-		jHeading.animate({
-			'left': 0,
-			'right': right
-			},
-			{
-				'duration': duration
-		});
+		jHeading.animate(
+			{'left': 0, 'right': right},
+			{'duration': zoomDuration}
+		);
 
-		jQuery('.resultList, .navigation').fadeOut(duration);
+		jQuery('.extraText.small', jHeading).fadeOut({
+			'duration': zoomDuration/2,
+			'done': function() {
+				jQuery('.extraText.large', jHeading).fadeIn(zoomDuration/2);
+			}
+		});
+		jQuery('.resultList, .navigation').fadeOut(zoomDuration);
+
+		// Switch link to shrink.
+		var jResizeLink = jQuery('a', jHeading);
+		jResizeLink.removeClass('icon-resize-full').addClass('icon-resize-small');
+		jResizeLink.unbind('click').click(smallMap);
+
+		var parameterName = tx_find.URLParameterPrefix + '[largeMap]';
+		var newURL = tx_find.addURLParameter(location.href, parameterName, 1);
+		tx_find.changeURL(newURL);
 
 		return false;
+	};
+
+	var smallMap = function () {
+		var jMap = jQuery('.mapContainer');
+		var mapPosition = jMap.position();
+
+		var jHeading = jQuery('.facet-type-Map h1');
+		var headingPosition = jHeading.position();
+
+		storeMapInfo('down');
+
+		// Move elements around.
+		jMap.animate(
+			{
+				'left': originalPositions.map.left,
+				'right': 0,
+				'height': originalPositions.map.height
+			},
+			{
+				'duration': zoomDuration,
+				'progress': updateMapForProgress,
+				'done': function () {
+					jMap.css({'position': 'static'});
+					jHeading.css({'position': 'static'});
+					jQuery('.tx_find').css({'min-height': 'auto'});
+				}
+			}
+		);
+
+		jHeading.animate(
+			{'left': originalPositions.heading.left, 'right': 0},
+			{'duration': zoomDuration}
+		);
+
+		jQuery('.extraText.large', jHeading).fadeOut({
+			'duration': zoomDuration/2,
+			'done': function () {
+				jQuery('.extraText.small', jHeading).fadeIn(zoomDuration/2);
+			}
+		});
+		jQuery('.resultList, .navigation').fadeIn(zoomDuration);
+
+		// Switch link to full.
+		var jResizeLink = jQuery('a', jHeading);
+		jResizeLink.removeClass('icon-resize-small').addClass('icon-resize-full');
+		jResizeLink.unbind('click').click(largeMap);
+
+		var parameterName = tx_find.URLParameterPrefix + '[largeMap]';
+		var newURL = tx_find.removeURLParameter(location.href, parameterName);
+		tx_find.changeURL(newURL);
+
+		return false;
+	};
+
+	var updateMapForProgress = function (promise, progress, remaining) {
+		google.maps.event.trigger(mapInfo.map, 'resize');
+		mapInfo.map.setCenter(mapInfo.center);
+		var newZoomLevel = mapInfo.zoom;
+		if (progress > 0.5) {
+			if (mapInfo.direction === 'up') {
+				newZoomLevel = mapInfo.zoom + 2;
+			}
+			else if (mapInfo.direction === 'down') {
+				newZoomLevel = mapInfo.zoom - 2;
+			}
+		}
+		mapInfo.map.setZoom(newZoomLevel);
 	};
 
 
@@ -235,12 +342,14 @@ var germaniaSacra = (function () {
 
 
 	var addBistumsgrenzen = function (map) {
-		var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Projects/germania-sacra/Resources/Bistumsgrenzen/';
-		new google.maps.KmlLayer({
-			'map': map,
-			'preserveViewport': true,
-			'url': baseURL + 'Bistumsgrenzen.kml'
-		});
+		if (map) {
+			var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Projects/germania-sacra/Resources/Bistumsgrenzen/';
+			new google.maps.KmlLayer({
+				'map': map,
+				'preserveViewport': true,
+				'url': baseURL + 'Bistumsgrenzen.kml'
+			});
+		}
 	};
 
 

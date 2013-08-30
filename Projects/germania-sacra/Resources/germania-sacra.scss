@@ -122,6 +122,23 @@
 				content: ')';
 			}
 		}
-
+	}
+	
+	.facet-type-Map {
+		h1 {
+			.extraText {
+				text-transform: none;
+				font-style: italic;
+				color: #bbb;
+			}
+			
+			:hover .extraText {
+				color: inherit;
+			}
+		}
+	}
+	
+	.hidden {
+		display: none;
 	}
 }

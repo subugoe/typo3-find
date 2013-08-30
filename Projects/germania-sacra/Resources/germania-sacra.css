@@ -88,3 +88,14 @@
 .tx_find article .person_namensalternativen:after {
   content: ')';
 }
+.tx_find .facet-type-Map h1 .extraText {
+  text-transform: none;
+  font-style: italic;
+  color: #bbb;
+}
+.tx_find .facet-type-Map h1 :hover .extraText {
+  color: inherit;
+}
+.tx_find .hidden {
+  display: none;
+}
