@@ -438,25 +438,37 @@ var toggleExtendedSearch = function () {
 	// Change URL in address bar.
 	var jForm = jQuery('.searchForm', container);
 	var jThis = jQuery(this);
-	var newURL= removeURLParameter(location.href, parameterName);
 	var makeExtended= !jForm.hasClass('search-extended');
 	if (makeExtended) {
 		jThis.text(this.getAttribute('extendedstring'));
 		jQuery('.field-mode-extended', jForm).slideDown('fast');
-		newURL = addURLParameter(newURL, parameterName, '1');
+		changeURLParameterForPage('extended', 1);
 	}
 	else {
 		jThis.text(this.getAttribute('simplestring'));
 		jQuery('.field-mode-extended', jForm).slideUp('fast');
+		changeURLParameterForPage('extended');
 	}
 	jForm.toggleClass('search-simple').toggleClass('search-extended');
 
+	return false;
+};
+
+
+var changeURLParameterForPage = function (name, value) {
+	var parameterName = URLParameterPrefix + '[' + name + ']';
+
+	// Change the URL in the location bar.
+	var newURL = removeURLParameter(location.href, parameterName);
+	if (value !== undefined) {
+		newURL = addURLParameter(newURL, parameterName, value);
+	}
 	changeURL(newURL);
 
 	// Change other link URLs on the page.
 	jQuery('a:not(.no-change)', container).each( function () {
-		if (makeExtended) {
-			this.href = addURLParameter(this.href, parameterName, '1');
+		if (value !== undefined) {
+			this.href = addURLParameter(this.href, parameterName, value);
 		}
 		else {
 			this.href = removeURLParameter(this.href, parameterName);
@@ -464,16 +476,14 @@ var toggleExtendedSearch = function () {
 	});
 
 	// De/activate hidden input »extended« in the form.
-	jQuery('input.extendedSearch', container).each( function () {
-		if (makeExtended) {
-			this.setAttribute('name', URLParameterPrefix + '[extended]');
+	jQuery('input.' + parameterName, container).each( function () {
+		if (value !== undefined) {
+			this.setAttribute('name', URLParameterPrefix + '[' + parameterName + ']');
 		}
 		else {
 			this.setAttribute('name', '');
 		}
 	});
-
-	return false;
 };
 
 
@@ -522,6 +532,7 @@ return {
 	'detailViewWithPaging': detailViewWithPaging,
 	'toggleExtendedSearch': toggleExtendedSearch,
 	'googleMapsLoader': googleMapsLoader,
+	'changeURLParameterForPage': changeURLParameterForPage,
 	'addURLParameter': addURLParameter,
 	'removeURLParameter': removeURLParameter,
 	'changeURL': changeURL,
