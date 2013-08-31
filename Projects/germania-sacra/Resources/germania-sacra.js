@@ -124,7 +124,7 @@ var germaniaSacra = (function () {
 				jQuery('.extraText.large', jHeading).fadeIn(zoomDuration/2);
 			}
 		});
-		jQuery('.resultList, .navigation').fadeOut(zoomDuration);
+		jQuery('.resultList, .navigation').fadeTo(zoomDuration, 0);
 
 		// Switch link to shrink.
 		var jResizeLink = jQuery('a', jHeading);
@@ -175,7 +175,7 @@ var germaniaSacra = (function () {
 				jQuery('.extraText.small', jHeading).fadeIn(zoomDuration/2);
 			}
 		});
-		jQuery('.resultList, .navigation').fadeIn(zoomDuration);
+		jQuery('.resultList, .navigation').fadeTo(zoomDuration, 1);
 
 		// Switch link to full.
 		var jResizeLink = jQuery('a', jHeading);
