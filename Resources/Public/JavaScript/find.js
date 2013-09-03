@@ -629,6 +629,14 @@ var tx_find_facetMap = (function () {
 				containingBounds.getNorthEast().lng() - containingSpan.lng() * shrinkFactor
 			)
 		);
+
+		var centre = shrunkBounds.getCenter();
+		var bounds = shrunkBounds.extend(
+			new google.maps.LatLng(centre.lat() - 0.01, centre.lng() - 0.01)
+		).extend(
+			new google.maps.LatLng(centre.lat() + 0.01, centre.lng() + 0.01)
+		);
+
 		map.fitBounds(shrunkBounds);
 
 		// Determine which zoom level to take the data from.
