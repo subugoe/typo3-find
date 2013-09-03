@@ -18,6 +18,7 @@
 			<label index="input.default">Alle Felder</label>
 			<label index="input.raw">Solr Abfrage</label>
 
+			<label index="input.klostername">Klostername</label>
 			<label index="input.bistum">Bistum</label>
 			<label index="input.orden">Orden</label>
 			<label index="input.ort">Ort</label>

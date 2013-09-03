@@ -13,6 +13,14 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = suggest
 			}
+			5 {
+				id = klostername
+				type = Text
+				query = {!join from=kloster_id to=id}(kloster:%s AND typ:standort-orden)
+				extended = 1
+				autocomplete = 1
+				autocompleteDictionary = klostername_suggest
+			}
 			10 {
 				id = bistum
 				type = Text
