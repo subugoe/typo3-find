@@ -272,7 +272,8 @@ var germaniaSacra = (function () {
 				var size = new google.maps.Size(20, 30);
 				var origin = new google.maps.Point(0,0);
 				var anchor = new google.maps.Point(10, 30);
-				icon = new google.maps.MarkerImage(iconURL, size, origin, anchor);
+				icon = new google.maps.MarkerImage(iconURL, undefined, origin, anchor, size);
+			
 			}
 
 			return icon;
