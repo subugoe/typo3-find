@@ -8,6 +8,8 @@
 			</f:if>
 		</h2>
 
+		<p>{document.personallistenstatus.0}.</p>
+
 		<s:transpose name="personen" arrays="{
 			name_xml: \"{s:highlightField(field:'person_name_xml', document:document, results:results, raw:1)}\",
 			nameOriginal: document.person_name_xml,
