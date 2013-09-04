@@ -22,49 +22,47 @@
 </section>
 <section class="photos">
 	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photos"/></h1>
-	<s:transpose name="collections" arrays="{
-		photos:document.photo_collection_photos,
-		note:document.photo_collection_string,
-		id:document.photo_collection_id
-	}">
-		<div class="imageControls">
-			<div class="control-container">
-				<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Kontrast')}</span>
-				<div id="slider-contrast" class="slider"></div>
-			</div>
-			<div class="control-container">
-				<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Helligkeit')}</span>
-				<div id="slider-brightness" class="slider"></div>
-			</div>
+	<div class="imageControls">
+		<div class="control-container">
+			<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Kontrast')}</span>
+			<div id="slider-contrast" class="slider"></div>
 		</div>
-
-		<div class="fotorama-container">
-			<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-hash="true" data-max-height="100%" data-nav="thumbs" data-thumb-height="80" data-thumb-width="80" data-keyboard="true">
-				<f:for each="{collections}" as="collection">
-					<f:for each="{s:split(string:collection.photos, separator:',')}" as="photo">
-						<f:alias map="{path:'fileadmin/edfu-data/Photos/{photo}.{f:if(condition:\"{s:regexp(string:photo, match:\'/^SW/\')}\", then:\"jpg\", else:\"JPG\")}', photo_name:'{s:regexp(string:photo, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
-						<li>
-							<f:if condition="{s:pathExists(path:path)}">
-								<f:then>
-									<a href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
-										<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="300m" height="300m"additionalAttributes="{data-caption:path}"/>
-									</a>
-								</f:then>
-								<f:else>
-									<div class="imageName" data-caption="{photo_name}">
-										<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« ist nicht online verfügbar." arguments="{0:photo_name}"/>
-									</div>
-								</f:else>
-							</f:if>
-						</li>
-						</f:alias>
-					</f:for>
-				</f:for>
-			</ul>
-
-			<a class="new-window icon-popup" target="_blank" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bild in neuem Fenster zeigen')}"></a>
+		<div class="control-container">
+			<span class="slider-label">{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Helligkeit')}</span>
+			<div id="slider-brightness" class="slider"></div>
 		</div>
-	</s:transpose>
+	</div>
+
+	<div class="fotorama-container">
+		<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-hash="true" data-max-height="100%" data-nav="thumbs" data-thumb-height="100" data-thumb-width="100" data-keyboard="true">
+			<f:for each="{document.photo_pfad}" as="photo_pfad">
+				<f:alias map="{
+					path:'fileadmin/edfu-data/Photos/{photo_pfad}.{f:if(
+						condition:\"{s:regexp(string:photo_pfad, match:\'/^SW/\')}\",
+						then:\"jpg\",
+						else:\"JPG\"
+					)}',
+					photo_name:'{s:regexp(string:photo_pfad, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
+					<li>
+						<f:if condition="{s:pathExists(path:path)}">
+							<f:then>
+								<a href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}" data-caption="{photo_name}" id="c{uid}-collection-{collection.id}-photo-{photo_name}" title="asd">
+									<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="300m" height="300m"additionalAttributes="{data-caption:path}"/>
+								</a>
+							</f:then>
+							<f:else>
+								<div class="imageName" data-caption="{photo_name}">
+									<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« ist nicht online verfügbar." arguments="{0:photo_name}"/>
+								</div>
+							</f:else>
+						</f:if>
+					</li>
+				</f:alias>
+			</f:for>
+		</ul>
+
+		<a class="new-window icon-popup" target="_blank" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Bild in neuem Fenster zeigen')}"></a>
+	</div>
 </section>
 <f:render partial="Edfu/Chassinat" arguments="{_all}"/>
 <f:render partial="Edfu/Szenen" arguments="{_all}"/>
