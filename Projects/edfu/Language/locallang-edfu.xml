@@ -33,7 +33,7 @@
 			<label index="Höhe">Elevation</label>
 			<label index="unten">bottom</label>
 			<label index="oben">top</label>
-			<label index="Springe zu Seite">Springe zu Seite</label>
+			<label index="Springe zu Seite">Show page</label>
 			<label index="Seite in neuem Fenster zeigen">Show this page in new window.</label>
 			<label index="Bild in neuem Fenster zeigen">Show image in new window.</label>
 			<label index="vorige Seite">Show previous page.</label>
@@ -66,7 +66,7 @@
 			<label index="Höhe">Höhe</label>
 			<label index="unten">unten</label>
 			<label index="oben">oben</label>
-			<label index="Springe zu Seite">Show page</label>
+			<label index="Springe zu Seite">Springe zu Seite</label>
 			<label index="Seite in neuem Fenster zeigen">Diese Seite in neuem Fenster zeigen.</label>
 			<label index="Bild in neuem Fenster zeigen">Bild in neuem Fenster zeigen.</label>
 			<label index="vorige Seite">Vorige Seite zeigen.</label>
