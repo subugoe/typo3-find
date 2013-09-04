@@ -13,19 +13,21 @@
 		>
 			<f:render partial="Edfu/Result/{document.typ}" arguments="{_all}"/>
 		</f:link.action>
-		<f:alias map="{solrQuery:'{f:if(
-			condition:arguments.q.default,
-			then:\"{arguments.q.default} AND \")}NOT id:{document.id}'}"
-		>
-			<f:link.action
-				action="index"
-				addQueryString="TRUE"
-				arguments="{q:'{default:solrQuery}'}"
-				section="{settings.jumpToID}"
-				noCacheHash="1"
-				class="icon-cancel-circled removeRecord internal"
-				title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Diesen Datensatz ausschließen')}"
-			/>
-		</f:alias>
+		<f:if condition="{f:security.ifHasRole(role:'Edfu', then:1, else:0)}">
+			<f:alias map="{solrQuery:'{f:if(
+				condition:arguments.q.default,
+				then:\"{arguments.q.default} AND \")}NOT id:{document.id}'}"
+			>
+				<f:link.action
+					action="index"
+					addQueryString="TRUE"
+					arguments="{q:'{default:solrQuery}'}"
+					section="{settings.jumpToID}"
+					noCacheHash="1"
+					class="icon-cancel-circled removeRecord internal"
+					title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Diesen Datensatz ausschließen')}"
+				/>
+			</f:alias>
+		</f:if>
 	</article>
 </li>
