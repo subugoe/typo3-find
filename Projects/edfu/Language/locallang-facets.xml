@@ -31,6 +31,8 @@
 			<label index="facet.band.7">VII</label>
 			<label index="facet.band.8">VIII</label>
 
+			<label index="facet.tempel">Temple</label>
+
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -50,6 +52,8 @@
 			<label index="facet.band.6">VI</label>
 			<label index="facet.band.7">VII</label>
 			<label index="facet.band.8">VIII</label>
+
+			<label index="facet.tempel">Tempel</label>
 
 		</languageKey>
 	</data>

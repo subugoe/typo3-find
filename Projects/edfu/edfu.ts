@@ -65,6 +65,11 @@ plugin.tx_find {
 				sortOrder = index
 				displayDefault = 8
 			}
+			30 {
+				id = tempel
+				field = tempel
+				fetchMinimum = 1
+			}
 		}
 		highlight {
 			fields {
