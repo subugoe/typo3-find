@@ -225,6 +225,7 @@ var edfu = (function () {
 		}
 
 		jQuery('section.map .szene').hover(tempelSzeneIn, tempelSzeneOut);
+		jQuery('section.map .szene:first').mouseenter();
 	});
 
 	return {
