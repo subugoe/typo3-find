@@ -23,6 +23,7 @@
 
 			<label index="input.transliteration_exact">Transliteration</label>
 			<label index="input.transliteration_nosuffix">Transliteration without suffix</label>
+			<label index="input.szene">Scene ID</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -34,6 +35,7 @@
 
 			<label index="input.transliteration_exact">Transliteration</label>
 			<label index="input.transliteration_nosuffix">Transliteration ohne Suffix</label>
+			<label index="input.szene">Szene ID</label>
 		</languageKey>
 	</data>
 </T3locallang>

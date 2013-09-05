@@ -10,16 +10,23 @@ plugin.tx_find {
 				noescape = 1
 			}
 			10 {
-				extended = 1
 				id = transliteration_exact
+				extended = 1
 				query = transliteration:%s
 				noescape = 1
 				type = Text
 			}
 			20 {
-				extended = 1
 				id = transliteration_nosuffix
+				extended = 1
 				noescape = 1
+				type = Text
+			}
+			30 {
+				id = szene
+				extended = 1
+				hidden = 1
+				query = szene_uid:%s
 				type = Text
 			}
 		}

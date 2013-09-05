@@ -27,7 +27,7 @@
 				<f:for each="{szenen}" as="szene">
 					<f:link.action
 						arguments="{
-							q:'{raw:\"szene_uid:{szene.uid}\"}',
+							q:'{szene:szene.uid}',
 							facets:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'
 						}"
 						section="{jumpToID}"
