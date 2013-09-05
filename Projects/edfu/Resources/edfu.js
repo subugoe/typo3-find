@@ -191,6 +191,12 @@ var edfu = (function () {
 			// Initialise fotorama slideshow.
     	    var jFotorama = jQuery('.fotorama');
 
+			var jFirstImageLink = jQuery('a:has(img):first', jFotorama);
+			if (jFirstImageLink.length === 1) {
+				var firstImageID = jFirstImageLink[0].id;
+				jFotorama.attr('data-initialid', firstImageID);
+			}
+
 			// Catch image changes to set up the zoom. Follows:
 			// https://github.com/artpolikarpov/fotorama/issues/26#issuecomment-21238688
 			jFotorama.on('fotorama:showend', function (event, fotorama) {
