@@ -147,17 +147,20 @@ var edfu = (function () {
 				jDetails.append(imageContainer);
 				imageContainer.setAttribute('class', 'imageContainer');
 				var scaleFactor = Math.min(jDetails.width()/markerData.bild_breite, (jDetails.height() - 100) / markerData.bild_hoehe , 1);
-				var width = jDetails.width();
-				var height = jDetails.height();
+				var width = Math.ceil(markerData.bild_breite * scaleFactor);
+				var height = Math.ceil(markerData.bild_hoehe * scaleFactor);
 				imageContainer.setAttribute('style',
-					'width:' + Math.ceil(markerData.bild_breite * scaleFactor) + 'px;' +
-					'height:' + Math.ceil(markerData.bild_hoehe * scaleFactor) + 'px;');
+					'width:' + width + 'px;' +
+					'height:' + height + 'px;');
 
 				var image = document.createElement('img');
 				imageContainer.appendChild(image);
 				var imagePath = 'typo3conf/ext/find/Projects/edfu/Resources/tempel/' + markerData.bild_dateiname;
 				image.setAttribute('src', imagePath);
 				image.setAttribute('alt', 'Detailansicht des relevanten Tempelausschnitts.'); // TODO: Localise
+
+				var marginTop = Math.max((jDetails.height() - 100 - height) / 2, 0);
+				jDetails.css({'margin-top': marginTop + 'px'});
 
 				// Get all markers for the current image file and highlight their locations on the detail map.
 				jQuery('a[data-bild_dateiname="' + markerData.bild_dateiname + '"]').each( function() {
