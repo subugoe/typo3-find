@@ -9,9 +9,11 @@
 	<dl>
 		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'uebersetzung'}"/>
 		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'lemma'}"/>
-		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'weiteres'}"/>
 		<f:render partial="Edfu/StellenDLItem" arguments="{_all}"/>
-		<f:render partial="Display/DLField" arguments="{results:results, document:document, field:'anmerkung'}"/>
+
+		<f:render partial="Edfu/AnmerkungDLItem" arguments="{results:results, document:document, field:'anmerkung'}"/>
+		<f:render partial="Edfu/AnmerkungDLItem" arguments="{results:results, document:document, field:'weiteres'}"/>
+
 		<dt class="dt-berlin"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Wb"/></dt>
 		<dd class="dd-berlin">
 			<f:link.external uri="http://aaew.bbaw.de/tla/servlet/VmsIdx?f=0&l=0&tr=&ue=&wb={document.fields.berlin_band}&pa={document.fields.berlin_seite_start}&be={document.fields.berlin_zeile_start}&bc=Start" target="wb_berlin" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Wb öffnen')}">
