@@ -220,8 +220,7 @@
   font-size: 12px;
 }
 .tx_find .fotorama-container .fotorama .fotorama__thumb-border {
-  margin-top: 0px;
-  margin-left: -52px;
+  margin-top: 2px;
 }
 .tx_find .fotorama-container .fotorama .fotorama__html {
   background: #eee;
