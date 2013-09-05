@@ -191,6 +191,7 @@ var edfu = (function () {
 			// Initialise fotorama slideshow.
     	    var jFotorama = jQuery('.fotorama');
 
+			// Show the first non-blank image.
 			var jFirstImageLink = jQuery('a:has(img):first', jFotorama);
 			if (jFirstImageLink.length === 1) {
 				var firstImageID = jFirstImageLink[0].id;
@@ -211,6 +212,7 @@ var edfu = (function () {
 				}
 			});
 
+			// Initialise fotorama.
 			jFotorama.fotoramaListAdapter().fotorama();
 
 			// Initialise slider for image settings.
