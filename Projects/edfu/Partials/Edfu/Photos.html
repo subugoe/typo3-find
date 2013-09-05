@@ -17,7 +17,18 @@
 	</div>
 
 	<div class="fotorama-container">
-		<ul class="photos fotorama" data-auto="false" data-width="100%" data-ratio="1.5" data-hash="true" data-max-height="100%" data-nav="thumbs" data-thumb-height="100" data-thumb-width="100" data-keyboard="true">
+		<ul
+			class="photos fotorama"
+			data-auto="false"
+			data-hash="true"
+			data-width="100%"
+			data-max-height="100%"
+			data-ratio="1.5"
+			data-nav="thumbs"
+			data-thumb-height="100"
+			data-thumb-width="100"
+			data-keyboard="true"
+		>
 			<f:for each="{document.photo_pfad}" as="photo_pfad">
 				<f:alias map="{
 					path:'fileadmin/edfu-data/Photos/{photo_pfad}.{f:if(
@@ -29,8 +40,18 @@
 					<li>
 						<f:if condition="{s:pathExists(path:path)}">
 							<f:then>
-								<a href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}" data-caption="{photo_name}" id="c{uid}-photo-{photo_name}">
-									<f:image src="{path}" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}" width="300m" height="300m"additionalAttributes="{data-caption:path}"/>
+								<a
+									href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}"
+									id="c{uid}-photo-{photo_name}"
+									data-caption="{photo_name}"
+								>
+									<f:image
+										src="{path}"
+										alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Photo »%s« aus dem Edfu-Projekt.', arguments:{0:photo_name})}"
+										width="300m"
+										height="300m"
+										additionalAttributes="{data-caption:path}"
+									/>
 								</a>
 							</f:then>
 							<f:else>
