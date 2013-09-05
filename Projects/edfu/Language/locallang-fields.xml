@@ -14,7 +14,7 @@
 			<label index="field.eponym">Eponym</label>
 			<label index="field.anmerkung">Note</label>
 			<label index="field.uebersetzung">Translation</label>
-			<label index="field.ortsbeschreibung">Place</label>
+			<label index="field.lokalisation">Localisation</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -24,7 +24,7 @@
 			<label index="field.eponym">Eponym</label>
 			<label index="field.anmerkung">Anmerkung</label>
 			<label index="field.uebersetzung">Übersetzung</label>
-			<label index="field.ortsbeschreibung">Ortsbeschreibung</label>
+			<label index="field.lokalisation">Lokalisation</label>
 		</languageKey>
 	</data>
 </T3locallang>
