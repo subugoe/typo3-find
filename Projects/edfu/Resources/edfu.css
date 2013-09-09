@@ -221,6 +221,7 @@
 }
 .tx_find .fotorama-container .fotorama .fotorama__thumb-border {
   margin-top: 2px;
+  padding-right: 1px;
 }
 .tx_find .fotorama-container .fotorama .fotorama__html {
   background: #eee;
