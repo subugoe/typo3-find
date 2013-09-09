@@ -33,7 +33,7 @@ var initialise = function () {
 				source: function(request, returnSuggestions) {
 					var autocompleteURL = this.element.attr('autocompleteURL');
 					if (autocompleteURL) {
-						autocompleteURL = autocompleteURL.replace('%25%25%25%25', request.term);
+						autocompleteURL = autocompleteURL.replace('%25%25%25%25', request.term.toLowerCase());
 						jQuery.getJSON(autocompleteURL, function (data) {
 							returnSuggestions(data);
 						});
