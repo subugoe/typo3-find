@@ -266,12 +266,14 @@ var germaniaSacra = (function () {
 					matchingOrden.push(ordenInfo);
 				}
 			}
+
+			var origin = new google.maps.Point(0, 0);
+			var anchor = new google.maps.Point(10, 30);
 			if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
 				// Unique orden with an icon: use it.
 				var fileName = matchingOrden[0].graphik;
 				var iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
-				var origin = new google.maps.Point(0,0);
-				var anchor = new google.maps.Point(10, 30);
+				var imageSize = new google.maps.Size(20, 30);
 				icon = new google.maps.MarkerImage(iconURL, undefined, origin, anchor, imageSize);
 			}
 
