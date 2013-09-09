@@ -213,6 +213,15 @@ var edfu = (function () {
 				} else {
 					setupZoom(jFrame);
 				}
+
+				for (var imageIndex in fotorama.data) {
+					var imageData = fotorama.data[imageIndex];
+					var thumb = imageData['$navThumbFrame'][0];
+					var caption = document.createElement('div');
+					caption.setAttribute('class', 'fotorama__caption');
+					caption.appendChild(document.createTextNode(imageData.caption));
+					thumb.appendChild(caption);
+				}
 			});
 
 			// Initialise fotorama.
