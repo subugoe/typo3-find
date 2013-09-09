@@ -198,7 +198,7 @@ var edfu = (function () {
 			var jFirstImageLink = jQuery('a:has(img):first', jFotorama);
 			if (jFirstImageLink.length === 1) {
 				var firstImageID = jFirstImageLink[0].id;
-				jFotorama.attr('data-initialid', firstImageID);
+				jFotorama.attr('data-startindex', firstImageID);
 			}
 
 			// Catch image changes to set up the zoom. Follows:
