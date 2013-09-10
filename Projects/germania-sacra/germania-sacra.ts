@@ -61,7 +61,7 @@ plugin.tx_find {
 			50 {
 				id = person
 				type = Text
-				query = (person_name_xml:%1$s AND typ:kloster)
+				query = ((person_name_xml:%1$s OR person_namensalternativen_xml:%1$s) AND typ:kloster)
 				noescape = 1
 				extended = 1
 			}
