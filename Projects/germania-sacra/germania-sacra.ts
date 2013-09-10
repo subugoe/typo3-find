@@ -55,6 +55,13 @@ plugin.tx_find {
 				extended = 1
 			}
 			50 {
+				id = person
+				type = Text
+				query = (person_name_xml:%1$s AND typ:kloster)
+				noescape = 1
+				extended = 1
+			}
+			60 {
 				id = status
 				type = SelectFacet
 				facetID = status
