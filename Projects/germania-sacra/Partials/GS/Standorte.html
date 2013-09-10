@@ -38,10 +38,7 @@
 									class="internal"
 									title="Alle Klöster in {standort.nameOriginal} zeigen."
 								>
-									{f:format.raw(value:standort.name)}
-								</f:link.action>
-							</s:newArray>
-						</span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+									{f:format.raw(value:standort.name)}</f:link.action></s:newArray></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
 						<span class="land">{f:format.raw(value:standort.land)},</span>
 
