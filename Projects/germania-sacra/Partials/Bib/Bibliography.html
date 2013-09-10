@@ -1,0 +1,26 @@
+{namespace s=Tx_Find_ViewHelpers}
+{namespace bib=Ipf\Bib\ViewHelpers}
+
+<f:if condition="{document.literatur_citekey}">
+	<section class="literatur">
+		<h2>Literatur</h2>
+		<ul>
+			<s:transpose
+				name="items"
+				arrays="{
+					citekey:document.literatur_citekey,
+					beschreibung:document.literatur_beschreibung
+			}">
+				<f:for each="{items}" as="item">
+					<f:alias map="{bibitem:'{bib:publicationByCiteId(citeId:item.citekey)}'}">
+						<f:if condition="{bibitem}">
+							<li>
+								<f:render partial="Bib/Item" arguments="{bibitem:bibitem, beschreibung:item.beschreibung}"/>
+							</li>
+						</f:if>
+					</f:alias>
+				</f:for>
+			</s:transpose>
+		</ul>
+	</section>
+</f:if>

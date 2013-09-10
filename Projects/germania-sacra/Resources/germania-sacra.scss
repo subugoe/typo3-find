@@ -161,3 +161,12 @@
 		display: none;
 	}
 }
+
+.bibitem {
+	.year, .author, .editor {
+		font-style: italic;
+	}
+	.title, .beschreibung {
+		font-weight: bold;
+	}
+}

@@ -1,0 +1,33 @@
+<span class="bibitem" id="c-{uid}-literatur-{bibitem.citeid}">
+	<f:for each="{bibitem.authors}" as="author" iteration="iterator">
+		<span class="author">{author}{f:if(condition:'{iterator.isLast}==1', then:'.', else:',')}</span>
+	</f:for>
+	<f:if condition="{bibitem.editor}">
+		<span class="editor">{bibitem.editor} (Hg.).</span>
+	</f:if>
+	<f:if condition="{bibitem.title}">
+		<span class="title">{bibitem.title};</span>
+	</f:if>
+	<f:if condition="{bibitem.series}">
+		<span class="series">{bibitem.series};</span>
+	</f:if>
+	<f:if condition="{bibitem.publisher}">
+		<span class="publisher">{bibitem.publisher};</span>
+	</f:if>
+	<f:if condition="{bibitem.year}">
+		<span class="year">{bibitem.year}.</span>
+	</f:if>
+	<f:if condition="{bibitem.web_url}">
+		<span class="url">
+			<f:link.external uri="{bibitem.web_url}">{bibitem.web_url}</f:link.external>
+			<f:if condition="{bibitem.web_url_date}">
+				<span class="url-date">
+					(abgerufen am {bibitem.web_url_date})
+				</span>
+			</f:if>
+		</span>
+	</f:if>
+	<f:if condition="{beschreibung}">
+		<span class="beschreibung">{beschreibung}.</span>
+	</f:if>
+</span>

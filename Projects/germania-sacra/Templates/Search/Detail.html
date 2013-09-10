@@ -40,12 +40,7 @@
 
 			<f:render partial="GS/Personen" arguments="{_all}"/>
 
-			<f:if condition="{document.literatur}">
-				<section class="literatur">
-					<h2>Literatur</h2>
-					<f:render partial="Display/Field/List" arguments="{results:results, document:document, field:'literatur'}"/>
-				</section>
-			</f:if>
+			<f:render partial="Bib/Bibliography" arguments="{_all}"/>
 
 			<section class="permalink">
 				<h2>Zitierlink</h2>

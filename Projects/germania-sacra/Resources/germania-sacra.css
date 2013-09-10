@@ -110,3 +110,10 @@
 .tx_find .hidden {
   display: none;
 }
+
+.bibitem .year, .bibitem .author, .bibitem .editor {
+  font-style: italic;
+}
+.bibitem .title, .bibitem .beschreibung {
+  font-weight: bold;
+}
