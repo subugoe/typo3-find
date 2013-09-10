@@ -16,6 +16,17 @@
 .tx_find form .fieldContainer .inputContainer {
   margin-left: 160px;
 }
+.tx_find .results.largeMap .facet-type-Map .mapContainer {
+  position: absolute;
+  left: 0;
+  right: 225px;
+  height: 700px;
+}
+.tx_find .results.largeMap .facet-type-Map h1 {
+  position: absolute;
+  left: 0;
+  right: 225px;
+}
 .tx_find article section {
   margin-bottom: 1em;
 }
