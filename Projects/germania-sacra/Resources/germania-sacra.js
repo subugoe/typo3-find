@@ -256,7 +256,7 @@ var germaniaSacra = (function () {
 
 
 	var addNearby = function (map, queryURL) {
-		var iconsForStandort = function (standortInfo, ordenInfos) {
+		var iconForStandort = function (standortInfo, ordenInfos) {
 			var icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png';
 
 			var matchingOrden = [];
@@ -267,21 +267,22 @@ var germaniaSacra = (function () {
 				}
 			}
 
-			var origin = new google.maps.Point(0, 0);
-			var anchor = new google.maps.Point(10, 30);
 			if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
 				// Unique orden with an icon: use it.
 				var fileName = matchingOrden[0].graphik;
 				var iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
-				var imageSize = new google.maps.Size(20, 30);
-				icon = new google.maps.MarkerImage(iconURL, undefined, origin, anchor, imageSize);
+				var scaledSize = new google.maps.Size(20, 30);
+				var origin = new google.maps.Point(0, 0);
+				var anchor = new google.maps.Point(10, 30);
+				icon = {
+					'url': iconURL,
+					'scaledSize': scaledSize,
+					'origin': origin,
+					'anchor': anchor
+				};
 			}
 
-			var shadowURL = baseURL + 'Ordenssymbole/shadow.png';
-			var shadowSize = new google.maps.Size(35, 30);
-			var shadow = new google.maps.MarkerImage(shadowURL, undefined, origin, anchor, shadowSize);
-
-			return [icon, shadow];
+			return icon;
 		};
 
 		jQuery.getJSON(queryURL, function (data) {
@@ -329,14 +330,13 @@ var germaniaSacra = (function () {
 						var standort = standorte[standortIndex];
 						var point = new google.maps.LatLng(standort.lat, standort.long);
 						var title = result.kloster;
-						var icons = iconsForStandort(standort, ordenInfos);
+						var icon = iconForStandort(standort, ordenInfos);
 
 						var marker = new google.maps.Marker({
 							'map': map,
 							'position': point,
 							'title': title,
-							'icon': icons[0],
-							'shadow': icons[1],
+							'icon': icon,
 							'zIndex': 50
 						});
 					}
