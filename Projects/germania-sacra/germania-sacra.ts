@@ -17,6 +17,7 @@ plugin.tx_find {
 				id = klostername
 				type = Text
 				query = {!join from=kloster_id to=id}(kloster:%s AND typ:standort-orden)
+				noescape = 1
 				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = klostername_suggest
@@ -25,6 +26,7 @@ plugin.tx_find {
 				id = bistum
 				type = Text
 				query = {!join from=kloster_id to=id}(bistum:%s AND typ:standort-orden)
+				noescape = 1
 				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = bistum_suggest
@@ -33,6 +35,7 @@ plugin.tx_find {
 				id = orden
 				type = Text
 				query = {!join from=kloster_id to=id}(orden:%s AND typ:standort-orden)
+				noescape = 1
 				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = orden_suggest
@@ -41,6 +44,7 @@ plugin.tx_find {
 				id = ort
 				type = Text
 				query = {!join from=kloster_id to=id}(ort:%s AND typ:standort-orden)
+				noescape = 1
 				extended = 1
 				autocomplete = 1
 				autocompleteDictionary = ort_suggest
