@@ -210,3 +210,33 @@ plugin.tx_find {
 		partialRootPath = EXT:find/Projects/germania-sacra/Partials/
 	}
 }
+
+tx_find_page = PAGE
+tx_find_page {
+	typeNum = 1378891468
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:application/rdf+xml;charset=utf-8
+	}
+}
+
+tx_find_page = PAGE
+tx_find_page {
+	typeNum = 1378902868
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/comma-separated-values;charset=utf-8
+	}
+}
+
+tx_find_page = PAGE
+tx_find_page {
+	typeNum = 1378914906
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/plain;charset=utf-8
+	}
+}
