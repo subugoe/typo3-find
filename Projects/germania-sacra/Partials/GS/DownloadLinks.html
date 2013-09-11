@@ -1,0 +1,19 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:if condition="{f:count(subject:results.documents)} > 0">
+	<s:newArray name="newQ" values="{}">
+		<f:for each="{arguments.q}" as="argument" key="key">
+			<s:newArray name="newQ" global="1" array="{newQ}" keys="{1:'{key}-nojoin'}" values="{1:argument}"/>
+		</f:for>
+		<div class="downloadLinks">
+			<f:link.action
+				arguments="{q:newQ,
+					count:1000,
+					data-format:'csv'
+				}"
+				action="data"
+				pageType="1378902868"
+				noCacheHash="1"
+			>CSV</f:link.action>
+		</div>
+	</s:newArray>
+</f:if>
