@@ -15,9 +15,10 @@
 					arguments="{
 						q:{raw:'{!geofilt pt={koordinaten} sfield=koordinaten d=100}'},
 						count:1000,
-						dataFields:'id,koordinaten,kloster,ort,orden_graphik,orden,orden_von_von,orden_bis_bis,standort_von_von,standort_bis_bis'
+						dataFields:'id,koordinaten,kloster,ort,orden_graphik,orden,orden_von_von,orden_bis_bis,standort_von_von,standort_bis_bis',
+						data-format:'json-solr-results'
 					}"
-					action="json"
+					action="data"
 					pageType="1369315139"
 					noCacheHash="1"/>";
 				institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};

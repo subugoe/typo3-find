@@ -285,8 +285,7 @@ var germaniaSacra = (function () {
 			return icon;
 		};
 
-		jQuery.getJSON(queryURL, function (data) {
-			var results = data.response.docs;
+		jQuery.getJSON(queryURL, function (results) {
 			for (var docIndex in results) {
 				var result = results[docIndex];
 				if (result.id !== klosterID) {
