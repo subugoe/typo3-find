@@ -94,9 +94,9 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 
 
 	/**
-	 * JSON output.
+	 * Data output.
 	 */
-	public function jsonAction() {
+	public function dataAction() {
 		$this->indexAction();
 	}
 
