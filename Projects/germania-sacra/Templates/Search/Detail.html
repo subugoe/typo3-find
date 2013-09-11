@@ -27,8 +27,6 @@
 
 			<f:render partial="GS/Orden" arguments="{_all}"/>
 
-			<f:render partial="GS/Band" arguments="{_all}"/>
-
 			<f:if condition="{document.bemerkung_kloster.0}">
 				<section class="bemerkung">
 					<h2>Bemerkung</h2>
@@ -38,9 +36,7 @@
 				</section>
 			</f:if>
 
-			<f:render partial="GS/Personen" arguments="{_all}"/>
-
-			<f:render partial="Bib/Bibliography" arguments="{_all}"/>
+			<f:render partial="GS/Band" arguments="{_all}"/>
 
 			<section class="permalink">
 				<h2>Zitierlink</h2>
@@ -52,6 +48,10 @@
 			</section>
 
 			<f:render partial="GS/Links" arguments="{_all}"/>
+
+			<f:render partial="Bib/Bibliography" arguments="{_all}"/>
+
+			<f:render partial="GS/Personen" arguments="{_all}"/>
 		</div>
 	</article>
 </f:section>
