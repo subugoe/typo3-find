@@ -112,6 +112,7 @@ plugin.tx_find {
 				id = person
 				type = Text
 				query = ((person_name:%1$s OR person_namensalternativen:%1$s) AND typ:kloster)
+				queryAlternate.1 = ((person_name:%1$s~0.5 OR person_namensalternativen:%1$s~0.5) AND typ:kloster)
 				noescape = 1
 				extended = 1
 			}
@@ -119,6 +120,7 @@ plugin.tx_find {
 				id = person-nojoin
 				type = Text
 				query = ((person_name:%1$s OR person_namensalternativen:%1$s) AND typ:kloster)
+				queryAlternate.1 = ((person_name:%1$s~0.5 OR person_namensalternativen:%1$s~0.5) AND typ:kloster)
 				hidden = 1
 				noescape = 1
 				extended = 1
@@ -193,7 +195,22 @@ plugin.tx_find {
 			}
 		}
 		highlight {
-			fields.1 = *
+			fields {
+				1 = kloster
+				2 = patrozinium
+				11 = ort
+				12 = bistum
+				13 = land
+				21 = orden
+				22 = bemerkung_kloster
+				31 = band_nummer
+				32 = band_titel
+				41 = url
+				42 = url_bemerkung
+				51 = person_name
+				52 = person_namensalternativen
+				53 = person_anmerkung
+			}
 			useQueryTerms = 1
 			useFacetTerms = 1
 		}

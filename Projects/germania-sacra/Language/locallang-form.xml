@@ -25,6 +25,7 @@
 			<label index="input.zeitraum-from">Zeitraum von-</label>
 			<label index="input.zeitraum-to">bis</label>
 			<label index="input.person">Personenname</label>
+			<label index="input.person-checkbox">ähnliche Namen einschließen</label>
 			<label index="input.status">Klosterstatus</label>
 		</languageKey>
 	</data>

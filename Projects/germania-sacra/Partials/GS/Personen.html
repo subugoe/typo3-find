@@ -14,13 +14,13 @@
 			name: \"{s:highlightField(field:'person_name', document:document, results:results)}\",
 			nameOriginal: document.person_name,
 			namensalternativen: \"{s:highlightField(field:'person_namensalternativen', document:document, results:results)}\",
-			bezeichnung: \"{s:highlightField(field:'person_bezeichnung', document:document, results:results)}\",
-			bezeichnung_plural: \"{s:highlightField(field:'person_bezeichnung_plural', document:document, results:results)}\",
+			bezeichnung: document.person_bezeichnung,
+			bezeichnung_plural: document.person_bezeichnung_plural,
 			bezeichnungOriginal: document.person_bezeichnung,
 			anmerkung: \"{s:highlightField(field:'person_anmerkung', document:document, results:results)}\",
-			von_verbal: \"{s:highlightField(field:'person_von_verbal', document:document, results:results)}\",
-			bis_verbal: \"{s:highlightField(field:'person_bis_verbal', document:document, results:results)}\",
-			gso: \"{s:highlightField(field:'person_gso', document:document, results:results)}\"
+			von_verbal: document.person_von_verbal,
+			bis_verbal: document.person_bis_verbal,
+			gso: document.person_gso
 		}">
 
 			<f:if condition="{f:count(subject:personen)} > 15">
@@ -52,7 +52,7 @@
 							<f:for each="{personenMitAmt}" as="person">
 								<li>
 									<f:if condition="{person.von_verbal}{person.bis_verbal}">
-										<span class="zeitraum">{f:format.raw(value:person.von_verbal)}{f:if(condition:person.bis_verbal, then:'-{f:format.raw(value:person.bis_verbal)}')}</span>
+										<span class="zeitraum">{person.von_verbal}{f:if(condition:person.bis_verbal, then:'-{person.bis_verbal}')}</span>
 									</f:if>
 									<f:link.external
 										uri="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}"
@@ -60,7 +60,7 @@
 									>
 										<f:if condition="{person.name}">
 											<f:then>
-												<span class="name">{person.name}</span>
+												<span class="name">{f:format.raw(value:person.name)}</span>
 											</f:then>
 											<f:else>
 												unbekannter Name
@@ -68,10 +68,10 @@
 										</f:if>
 									</f:link.external>
 									<f:if condition="{person.namensalternativen}">
-										<span class="namensalternativen">{person.namensalternativen}</span>
+										<span class="namensalternativen">{f:format.raw(value:person.namensalternativen)}</span>
 									</f:if>
 									<f:if condition="{person.anmerkung}">
-										<span class="bemerkung">{person.anmerkung}</span>
+										<span class="bemerkung">{f:format.raw(value:person.anmerkung)}</span>
 									</f:if>
 								</li>
 							</f:for>
