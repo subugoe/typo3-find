@@ -278,7 +278,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				// c) single field with additional configuration (e.g. text field with alternate query)
 				$queryArguments = $queryParameters[$fieldID];
 				$queryAlternate = NULL;
-				if (array_key_exists('alternate', $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)) {
+				if (is_array($queryArguments) && array_key_exists('alternate', $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)) {
 					$queryAlternate = $queryArguments['alternate'];
 					if (array_key_exists('term', $queryArguments)) {
 						$queryTerms = $queryArguments['term'];

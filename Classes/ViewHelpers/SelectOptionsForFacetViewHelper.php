@@ -37,7 +37,7 @@ class Tx_Find_ViewHelpers_SelectOptionsForFacetViewHelper extends Tx_Fluid_Core_
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('values', 'array', 'values array for a facet', TRUE);
+		$this->registerArgument('values', 'array', 'values array for a facet', FALSE, array());
 		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
 		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
 		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);

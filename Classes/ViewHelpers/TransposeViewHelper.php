@@ -33,8 +33,8 @@ class Tx_Find_ViewHelpers_TransposeViewHelper extends Tx_Fluid_Core_ViewHelper_A
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', TRUE);;
-		$this->registerArgument('name', 'string', 'Variable name to map the new array to', TRUE);;
+		$this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', FALSE, array());
+		$this->registerArgument('name', 'string', 'Variable name to map the new array to', TRUE);
 	}
 
 
