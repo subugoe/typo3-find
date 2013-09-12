@@ -40,7 +40,7 @@
 			$this->registerArgument('array', 'array', 'existing array to add the new keys and values to', FALSE, array());
 
 			$this->registerArgument('keys', 'array', 'array of keys', FALSE, NULL);
-			$this->registerArgument('values', 'array', 'array of values', TRUE);
+			$this->registerArgument('values', 'array', 'array of values', FALSE, array());
 
 			$this->registerArgument('global', 'boolean', 'whether to make the variable available to all templates coming afterwards', FALSE, FALSE);
 			$this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', FALSE, FALSE);

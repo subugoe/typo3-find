@@ -8,7 +8,7 @@
 	<section class="error">
 		<f:translate key="Your query could not be executed."/>
 
-		<s:newArray name="escapedQuery" array="{arguments.q}" values="{}">
+		<s:newArray name="escapedQuery" array="{arguments.q}">
 			<f:for each="{settings.queryFields}" as="queryField">
 				<f:if condition="{queryField.noescape}">
 					<f:if condition="{s:valueForKey(array:arguments.q, key:queryField.id)}">
