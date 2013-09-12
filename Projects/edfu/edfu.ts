@@ -10,21 +10,14 @@ plugin.tx_find {
 				noescape = 1
 			}
 			10 {
-				id = transliteration_exact
-				extended = 1
+				id = translit
+				type = Text
 				query = transliteration:%s
+				queryAlternate.1 = transliteration_nosuffix:%s
 				noescape = 1
-				type = Text
-			}
-			20 {
-				id = transliteration_nosuffix
-				extended = 1
-				noescape = 1
-				type = Text
 			}
 			30 {
 				id = szene
-				extended = 1
 				hidden = 1
 				query = szene_uid:%s
 				type = Text
@@ -114,7 +107,7 @@ plugin.tx_find {
 }
 
 
-[usergroup = 1]
+#[usergroup = 1]
 plugin.tx_find.settings {
 	facets.10.facetQuery {
 		30 {
@@ -131,4 +124,4 @@ plugin.tx_find.settings {
 		4 >
 	}
 }
-[global]
+#[global]

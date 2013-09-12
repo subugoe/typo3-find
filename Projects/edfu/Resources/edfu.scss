@@ -33,7 +33,7 @@ $adwRed: #c90230;
 	}
 }
 
-$labelWidth: 200px;
+$labelWidth: 120px;
 
 .tx_find {
 	
@@ -43,25 +43,29 @@ $labelWidth: 200px;
 				width: $labelWidth;
 			}
 
-			&.field-mode-extended {
-				label {
-					line-height: 170%;
-				}
-
-				input {
-					font-size: 100%;
-					
-				}
+			.inputType-text {
+				width: 400px;
+				height: 30px;
+				margin: 0px 6px 2px 0px;
+				padding: 4px;
+				font-size: 100%;
 			}
-
+			
 			.inputContainer {
 				margin-left: $labelWidth + 10px;
 			}
 			
 			&.field-mode-simple label {
 				display: inline;
-				line-height: 210%;
+				padding-top: 8px;
+				line-height: 100%;
 			}
+		}
+		
+		.controls {
+			position: absolute;
+			bottom: 4px;
+			left: 670px;
 		}
 	}
 

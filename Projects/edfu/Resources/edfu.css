@@ -22,20 +22,27 @@
 }
 
 .tx_find form .fieldContainer .fieldLabel {
-  width: 200px;
+  width: 120px;
 }
-.tx_find form .fieldContainer.field-mode-extended label {
-  line-height: 170%;
-}
-.tx_find form .fieldContainer.field-mode-extended input {
+.tx_find form .fieldContainer .inputType-text {
+  width: 400px;
+  height: 30px;
+  margin: 0px 6px 2px 0px;
+  padding: 4px;
   font-size: 100%;
 }
 .tx_find form .fieldContainer .inputContainer {
-  margin-left: 210px;
+  margin-left: 130px;
 }
 .tx_find form .fieldContainer.field-mode-simple label {
   display: inline;
-  line-height: 210%;
+  padding-top: 8px;
+  line-height: 100%;
+}
+.tx_find form .controls {
+  position: absolute;
+  bottom: 4px;
+  left: 670px;
 }
 .tx_find .facet-type-Tabs ol li.facetActive {
   background: #c90230;

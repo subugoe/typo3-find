@@ -21,8 +21,8 @@
 			<label index="input.sort-default">Default</label>
 			<label index="input.count">Results</label>
 
-			<label index="input.transliteration_exact">Transliteration</label>
-			<label index="input.transliteration_nosuffix">Transliteration without suffix</label>
+			<label index="input.translit">Transliteration</label>
+			<label index="input.translit-checkbox">ohne Suffix</label>
 			<label index="input.szene">Scene ID</label>
 		</languageKey>
 
@@ -33,8 +33,8 @@
 			<label index="input.sort-default">Standard</label>
 			<label index="input.count">Trefferzahl</label>
 
-			<label index="input.transliteration_exact">Transliteration</label>
-			<label index="input.transliteration_nosuffix">Transliteration ohne Suffix</label>
+			<label index="input.translit">Transliteration</label>
+			<label index="input.translit-checkbox">ohne Suffix</label>
 			<label index="input.szene">Szene ID</label>
 		</languageKey>
 	</data>
