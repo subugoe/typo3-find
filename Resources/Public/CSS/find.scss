@@ -115,6 +115,15 @@ $tabSelected: #263476;
 			}
 		}
 		
+		.fieldType-Text {
+			.alternate label {
+				display: inline-block;
+				float: none;
+				width: auto;
+				text-align: left;
+			}
+		}
+		
 		.fieldType-Range {
 			input {
 				width: 6em;

@@ -81,6 +81,12 @@
   padding: 4px;
   font-size: 100%;
 }
+.tx_find form .fieldType-Text .alternate label {
+  display: inline-block;
+  float: none;
+  width: auto;
+  text-align: left;
+}
 .tx_find form .fieldType-Range input {
   width: 6em;
 }

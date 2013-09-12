@@ -18,10 +18,17 @@ plugin.tx_find {
 			#	extended = 1
 			#	type = Text
 			#}
-			#15 {
+			#11 {
 			#	id = notperson
 			#	extended = 1
 			#	query = NOT person:%s
+			#	type = Text
+			#}
+			#12 {
+			#	id = personlastname
+			#	extended = 1
+			#	query = person:%s
+			#	queryAlternate.1 = lastname:%s
 			#	type = Text
 			#}
 			#20 {
@@ -74,7 +81,6 @@ plugin.tx_find {
 			10002 {
 				id = raw
 				query = %s
-				extended = 1
 				noescape = 1
 				hidden = 1
 				type = Text

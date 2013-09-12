@@ -272,9 +272,24 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		foreach ($queryFields as $fieldInfo) {
 			$fieldID = $fieldInfo['id'];
 			if ($fieldID && $queryParameters[$fieldID]) {
+				// Extract array of query terms from the different structures:
+				// a) just a single string (e.g. text field)
+				// b) array of strings (e.g. date range field)
+				// c) single field with additional configuration (e.g. text field with alternate query)
 				$queryArguments = $queryParameters[$fieldID];
-				if (!is_array($queryArguments)) {
-					$queryArguments = Array($queryArguments);
+				$queryAlternate = NULL;
+				if (array_key_exists('alternate', $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)) {
+					$queryAlternate = $queryArguments['alternate'];
+					if (array_key_exists('term', $queryArguments)) {
+						$queryTerms = $queryArguments['term'];
+					}
+				}
+				else {
+					$queryTerms = $queryArguments;
+				}
+
+				if (!is_array($queryTerms)) {
+					$queryTerms = Array($queryTerms);
 				}
 
 				// Fill in pre-configured default values if they exist and the field is empty.
@@ -284,27 +299,33 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 						$defaults = array($defaults);
 					}
 					foreach($defaults as $defaultKey => $default) {
-						if (!array_key_exists($defaultKey, $queryArguments)) {
-							$queryArguments[$defaultKey] = $default;
+						if (!array_key_exists($defaultKey, $queryTerms)) {
+							$queryTerms[$defaultKey] = $default;
 						}
 					}
 				}
 
 				// Escape all arguments unless told not to do so.
 				if (!$fieldInfo['noescape']) {
-					$escapedQueryArguments = array();
-					foreach($queryArguments as $key => $queryArgument) {
-						$escapedQueryArguments[$key] = $query->getHelper()->escapeTerm($queryArgument);
+					$escapedQueryTerms = array();
+					foreach($queryTerms as $key => $term) {
+						$escapedQueryTerms[$key] = $query->getHelper()->escapeTerm($term);
 					}
-					$queryArguments = $escapedQueryArguments;
+					$queryTerms = $escapedQueryTerms;
 				}
 
-				$queryFormat = $fieldInfo['query'];
+				// Get the query format and insert the query term.
+				if (!$queryAlternate) {
+					$queryFormat = $fieldInfo['query'];
+				}
+				else if (array_key_exists($queryAlternate, $fieldInfo['queryAlternate'])) {
+					$queryFormat = $fieldInfo['queryAlternate'][$queryAlternate];
+				}
 				if (!$queryFormat) {
 					$queryFormat = $fieldID . ':%s';
 				}
-				$queryPart = '_query_:' . $query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryArguments));
-
+				
+				$queryPart = '_query_:' . $query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;
 				}
