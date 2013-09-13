@@ -207,9 +207,9 @@ plugin.tx_find {
 				32 = band_titel
 				41 = url
 				42 = url_bemerkung
-				51 = person_name
-				52 = person_namensalternativen
-				53 = person_anmerkung
+				# 51 = person_name
+				# 52 = person_namensalternativen
+				# 53 = person_anmerkung
 			}
 			useQueryTerms = 1
 			useFacetTerms = 1
