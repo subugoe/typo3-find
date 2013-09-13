@@ -12,7 +12,7 @@
 		)}'
 	}">
 		<ul class="downloadGroup">
-			<f:for each="{pager.pages}" as="page">
+			<f:for each="{pager.pages}" as="page" iteration="iterator">
 				<s:newArray name="newQ">
 					<f:for each="{arguments.q}" as="argument" key="key">
 						<s:newArray
@@ -39,7 +39,7 @@
 							arguments="{
 								q:newQ,
 								page:page.number,
-								count:500,
+								count:'{f:if(condition:iterator.isLast, then:1000, else:500)}',
 								data-format:downloadFormat
 							}"
 							action="data"
