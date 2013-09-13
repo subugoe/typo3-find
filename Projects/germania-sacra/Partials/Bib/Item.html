@@ -1,6 +1,6 @@
 <span class="bibitem" id="c-{uid}-literatur-{bibitem.citeid}">
 	<f:for each="{bibitem.authors}" as="author" iteration="iterator">
-		<span class="author">{author}{f:if(condition:'{iterator.isLast}==1', then:'.', else:',')}</span>
+		<span class="author">{author.surname}{f:if(condition:author:forename, then:', {author.forename}')}{f:if(condition:'{iterator.isLast}==1', then:'.', else:',')}</span>
 	</f:for>
 	<f:if condition="{bibitem.editor}">
 		<span class="editor">{bibitem.editor} (Hg.).</span>
