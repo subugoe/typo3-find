@@ -160,13 +160,25 @@
 	.hidden {
 		display: none;
 	}
-}
+	
+	
+	.bibitem {
+		.year, .author, .editor {
+			font-style: italic;
+		}
+		.title, .beschreibung {
+			font-weight: bold;
+		}
+	}
+	
+	.downloadLinks {
+		ul, li {
+			display: inline;
+			padding: 0;
+		}
+		.formatName {
+			text-transform: uppercase;
+		}
+	}
 
-.bibitem {
-	.year, .author, .editor {
-		font-style: italic;
-	}
-	.title, .beschreibung {
-		font-weight: bold;
-	}
 }

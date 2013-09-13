@@ -110,10 +110,16 @@
 .tx_find .hidden {
   display: none;
 }
-
-.bibitem .year, .bibitem .author, .bibitem .editor {
+.tx_find .bibitem .year, .tx_find .bibitem .author, .tx_find .bibitem .editor {
   font-style: italic;
 }
-.bibitem .title, .bibitem .beschreibung {
+.tx_find .bibitem .title, .tx_find .bibitem .beschreibung {
   font-weight: bold;
+}
+.tx_find .downloadLinks ul, .tx_find .downloadLinks li {
+  display: inline;
+  padding: 0;
+}
+.tx_find .downloadLinks .formatName {
+  text-transform: uppercase;
 }

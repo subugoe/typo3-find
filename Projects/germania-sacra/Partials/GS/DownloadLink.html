@@ -1,0 +1,37 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:comment>TODO: Add facet queries</f:comment>
+<div class="formatDownload">
+	<span class="formatName">{downloadFormat}</span> Download:
+	<f:alias map="{
+		pager:'{s:pageList(
+			currentPage:1,
+			perPage:500,
+			resultCount:results.numfound,
+			adjacentPages:10000,
+			minimumGapSize:10000
+		)}'
+	}">
+		<ul class="downloadGroup">
+			<f:for each="{pager.pages}" as="page">
+				<s:newArray name="newQ">
+					<f:for each="{arguments.q}" as="argument" key="key">
+						<s:newArray name="newQ" global="1" array="{newQ}" keys="{1:'{key}-nojoin'}" values="{1:argument}"/>
+					</f:for>
+					<li class="downloadGroup">
+						<f:link.action
+							arguments="{
+								q:newQ,
+								page:page.number,
+								count:500,
+								data-format:downloadFormat
+							}"
+							action="data"
+							pageType="{downloadFormatPageType}"
+							noCacheHash="1"
+						>{page.number}</f:link.action>
+					</li>
+				</s:newArray>
+			</f:for>
+		</ul>
+	</f:alias>
+</div>
