@@ -140,6 +140,39 @@ plugin.tx_find {
 				extended = 1
 				hidden = 1
 			}
+			# corresponds to facet 20
+			121 {
+				id = orden-facet-nojoin
+				type = Text
+				query = (orden_facet:"%s" AND typ:standort-orden)
+				extended = 1
+				hidden = 1
+			}
+			# corresponds to facet 30
+			131 {
+				id = jahr50-facet-nojoin
+				type = Text
+				query = (orden_standort_jahr50:%s AND typ:standort-orden)
+				extended = 1
+				hidden = 1
+			}
+			# corresponds to facet 40
+			141 {
+				id = bistum-facet-nojoin
+				type = Text
+				query = (bistum_facet:"%s" AND typ:standort-orden)
+				extended = 1
+				hidden = 1
+			}
+			# corresponds to facet 50
+			151 {
+				id = band-facet-nojoin
+				type = Text
+				query = (band_facet:"%s" AND typ:standort-orden)
+				extended = 1
+				hidden = 1
+			}
+
 		}
 		sort {
 			1 {
@@ -159,12 +192,14 @@ plugin.tx_find {
 				sortOrder = index
 				fetchMaximum = 1000
 			}
+			# corresponds to queryField 121
 			20 {
 				id = orden
 				field = orden_facet
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(orden_facet:"%s" AND typ:standort-orden)
 			}
+			# corresponds to queryField 131
 			30 {
 				id = jahr50
 				field = jahr50
@@ -174,12 +209,14 @@ plugin.tx_find {
 				fetchMaximum = 1000
 				barWidth = 10
 			}
+			# corresponds to queryField 141
 			40 {
 				id = bistum
 				field = bistum_facet
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(bistum_facet:"%s" AND typ:standort-orden)
 			}
+			# corresponds to queryField 151
 			50 {
 				id = band
 				field = band_facet

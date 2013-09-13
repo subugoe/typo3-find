@@ -15,7 +15,24 @@
 			<f:for each="{pager.pages}" as="page">
 				<s:newArray name="newQ">
 					<f:for each="{arguments.q}" as="argument" key="key">
-						<s:newArray name="newQ" global="1" array="{newQ}" keys="{1:'{key}-nojoin'}" values="{1:argument}"/>
+						<s:newArray
+							name="newQ"
+							global="1"
+							array="{newQ}"
+							keys="{1:'{key}-nojoin'}"
+							values="{1:argument}"
+						/>
+					</f:for>
+					<f:for each="{arguments.facet}" as="value" key="key">
+						<f:for each="{value}" as="unused" key="term">
+							<s:newArray
+								name="newQ"
+								global="1"
+								array="{newQ}"
+								keys="{1:'{key}-facet-nojoin'}"
+								values="{1:term}"
+							/>
+						</f:for>
 					</f:for>
 					<li class="downloadGroup">
 						<f:link.action
