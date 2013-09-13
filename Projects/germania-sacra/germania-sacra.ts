@@ -228,8 +228,8 @@ plugin.tx_find {
 	}
 }
 
-tx_find_page = PAGE
-tx_find_page {
+tx_find_page_rdf = PAGE
+tx_find_page_rdf {
 	typeNum = 1378891468
 	10 < tt_content.list.20.find_find
 	config {
@@ -238,8 +238,8 @@ tx_find_page {
 	}
 }
 
-tx_find_page = PAGE
-tx_find_page {
+tx_find_page_csv = PAGE
+tx_find_page_csv {
 	typeNum = 1378902868
 	10 < tt_content.list.20.find_find
 	config {
@@ -248,8 +248,8 @@ tx_find_page {
 	}
 }
 
-tx_find_page = PAGE
-tx_find_page {
+tx_find_page_bna = PAGE
+tx_find_page_bna {
 	typeNum = 1378914906
 	10 < tt_content.list.20.find_find
 	config {
