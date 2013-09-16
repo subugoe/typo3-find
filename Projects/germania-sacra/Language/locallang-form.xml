@@ -22,6 +22,7 @@
 			<label index="input.bistum">Bistum</label>
 			<label index="input.orden">Orden</label>
 			<label index="input.ort">Ort</label>
+			<label index="input.zeitraum">Zeitraum</label>
 			<label index="input.zeitraum-from">Zeitraum von-</label>
 			<label index="input.zeitraum-to">bis</label>
 			<label index="input.person">Personenname</label>
