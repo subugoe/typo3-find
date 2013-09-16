@@ -45,8 +45,7 @@ class Tx_Find_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_Abs
 	 */
 	public function render() {
 		$result = FALSE;
-
-		if ($this->arguments['subject']) {
+		if ($this->arguments['subject'] !== NULL) {
 			if (is_array($this->arguments['subject'])) {
 				$result = TRUE;
 			}
