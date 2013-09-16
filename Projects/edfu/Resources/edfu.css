@@ -70,8 +70,7 @@
 .tx_find .field-transliteration,
 .tx_find .transliteration,
 .tx_find .field-weiteres,
-.tx_find .field-transliteration_exact input,
-.tx_find .field-transliteration_nosuffix input {
+.tx_find .field-translit input {
   font-family: TransliterationFont;
 }
 .tx_find ol.resultList {
