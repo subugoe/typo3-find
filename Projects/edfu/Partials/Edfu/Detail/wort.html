@@ -16,7 +16,7 @@
 
 		<dt class="dt-berlin"><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Wb"/></dt>
 		<dd class="dd-berlin">
-			<f:link.external uri="http://aaew.bbaw.de/tla/servlet/VmsIdx?f=0&l=0&tr=&ue=&wb={document.fields.berlin_band}&pa={document.fields.berlin_seite_start}&be={document.fields.berlin_zeile_start}&bc=Start" target="wb_berlin" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Wb öffnen')}">
+			<f:link.external uri="http://aaew.bbaw.de/tla/servlet/WbImgBrowser?wb={document.fields.berlin_band}&pa={document.fields.berlin_seite_start}&u=Gast&a=Gast&cpy=1" target="wb_berlin" title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Wb öffnen')}">
 				{document.fields.berlin_display}
 			</f:link.external>
 			<f:if condition="{document.fields.berlin_zweifel}">
