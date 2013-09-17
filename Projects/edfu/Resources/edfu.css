@@ -366,7 +366,16 @@ section.map .detailsContainer .imageContainer img {
 section.map .detailsContainer .imageContainer .szeneMarker {
   position: absolute;
   background: red;
+  opacity: 0;
+}
+section.map .detailsContainer .imageContainer .szeneMarker:hover {
+  opacity: 0.2;
+}
+section.map .detailsContainer .imageContainer .szeneMarker.highlighted {
   opacity: 0.6;
+}
+section.map .detailsContainer .imageContainer .szeneMarker.highlighted:hover, section.map .detailsContainer .imageContainer .szeneMarker.highlighted.active {
+  opacity: 1;
 }
 section.map .legendeHoehe .verlaufHoehe {
   position: relative;

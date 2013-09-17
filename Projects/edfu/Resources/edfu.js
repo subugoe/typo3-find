@@ -4,6 +4,10 @@
  * 2013 Sven-S. Porst, SUB Göttingen <porst@sub.uni-goettingen.de>
  */
 var edfu = (function () {
+	var szeneQueryURLTemplate;
+	var szeneLinkURLTemplate;
+	var szenenInfo = {};
+
 	var onSlide = function (event, ui) {
 		var filterStrings = [];
 		jQuery('.ui-slider').each( function () {
@@ -109,35 +113,21 @@ var edfu = (function () {
 
 
 	var tempelSzeneIn = function (event) {
-		var markerData = jQuery.parseJSON(event.currentTarget.getAttribute('data-marker'));
-		if (markerData) {
-			var addSzeneHighlight = function (marker) {
-				var data = jQuery.parseJSON(marker.getAttribute('data-marker'));
-
-				var koordinaten = data.bild_rect.split(',');
-				if (koordinaten.length === 4) {
-					var szeneMarker = document.createElement('a');
-
-					var styleString =
-						'left:' + (koordinaten[0] - data.bild_offset_x) * scaleFactor + 'px;' +
-						'top:' + (koordinaten[1] - data.bild_offset_y) * scaleFactor + 'px;' +
-						'width:' + (parseFloat(koordinaten[2]) - parseFloat(koordinaten[0])) * scaleFactor + 'px;' +
-						'height:' + (parseFloat(koordinaten[3]) - parseFloat(koordinaten[1])) * scaleFactor + 'px;' +
-						'background-color:hsl(-' + data.prozent_z + ', 100%, 50%);';
-					
-					szeneMarker.setAttribute('style', styleString);
-					szeneMarker.setAttribute('class', 'szeneMarker');
-					szeneMarker.setAttribute('href', marker.getAttribute('href'));
-					szeneMarker.setAttribute('title', marker.getAttribute('title'));
-					szeneMarker.data_uid = data.uid;
-					imageContainer.appendChild(szeneMarker);
-				}
+		var jDetails = jQuery('section.map .detailsContainer');
+		var parsedObject = jQuery.parseJSON(event.currentTarget.getAttribute('data-marker'));
+		if (parsedObject) {
+			var markerData = {
+				bild_name: parsedObject.bild_name,
+				bild_dateiname: parsedObject.bild_dateiname,
+				bild_breite: parsedObject.bild_breite,
+				bild_hoehe: parsedObject.bild_hoehe,
+				bild_offset_x: parsedObject.bild_offset_x,
+				bild_offset_y: parsedObject.bild_offset_y,
+				highlightedIDs: {}
 			};
-		
-			var jDetails = jQuery('section.map .detailsContainer');
-			if (jDetails.attr('data-bild_dateiname') !== markerData.bild_dateiname) {
+
+			if (jDetails.data('bild_dateiname') !== markerData.bild_dateiname) {
 				jDetails.empty();
-				jDetails.attr('data-bild_dateiname', markerData.bild_dateiname);
 
 				var heading = document.createElement('h2');
 				heading.appendChild(document.createTextNode(markerData.bild_name));
@@ -164,23 +154,101 @@ var edfu = (function () {
 
 				// Get all markers for the current image file and highlight their locations on the detail map.
 				jQuery('a[data-bild_dateiname="' + markerData.bild_dateiname + '"]').each( function() {
-					addSzeneHighlight(this);
+					var szeneID = this.id.replace('szene-', 'szene-id-');
+					markerData.highlightedIDs[szeneID] = true;
 				});
+
+				markerData.scaleFactor = scaleFactor;
+				jDetails.removeData();
+				jDetails.data(markerData);
+				addSzenenToDetail();
 			}
 			else {
-				jQuery('.szeneMarker').css('opacity', function (index, value) {
-					if (this.data_uid === markerData.uid) {
-						return 1;
-					}
-					else {
-						return 0.6;
-					}
-				});
+				jQuery('.szeneMarker').removeClass('active', jDetails);
+				jQuery('#szene-id-' + parsedObject.uid, jDetails).addClass('active');
 			}
 		}
 	};
 
-	var tempelSzeneOut = function (event) {	};
+
+
+	var loadSzeneRects = function () {
+		var fileNames = {};
+		jQuery('section.map .szene').each( function () {
+			fileNames[this.getAttribute('data-bild_dateiname')] = true;
+		});
+
+		for (var fileName in fileNames) {
+			var query = encodeURIComponent('szene_bild_dateiname:' + fileName + ' AND typ:szene');
+			var datafields = 'szene_uid,szene_bild_rect,szene_beschreibung,szene_prozent_z';
+			var queryURL = szeneQueryURLTemplate.replace('%23%23%23TERM%23%23%23', query).replace('%23%23%23DATAFIELDS%23%23%23', datafields);
+			jQuery.getJSON(queryURL, function (data) {
+				szenenInfo[fileName] = data;
+				addSzenenToDetail();
+			});
+		}
+	};
+
+	var addSzenenToDetail = function () {
+		var jDetails = jQuery('section.map .szene');
+		var fileName = jDetails.data('bild_dateiname');
+		if (szenenInfo[fileName] && !jDetails.data('rects_added')) {
+			for (var szenenIndex in szenenInfo[fileName]) {
+				var szeneInfo = szenenInfo[fileName][szenenIndex];
+				addSzeneRectToDetail(szeneInfo);
+			}
+			jDetails.data('rects_added', true);
+		}
+	};
+
+
+	var addSzeneRectToDetail = function (szeneInfo) {
+		if (szeneInfo.szene_uid && szeneInfo.szene_uid.length > 0
+				&& szeneInfo.szene_bild_rect && szeneInfo.szene_bild_rect.length > 0
+				&& szeneInfo.szene_prozent_z && szeneInfo.szene_prozent_z.length > 0
+				&& szeneInfo.szene_beschreibung && szeneInfo.szene_beschreibung.length > 0) {
+
+			var koordinaten = szeneInfo.szene_bild_rect[0].split(',');
+			if (koordinaten.length === 4) {
+				var uid = szeneInfo.szene_uid[0];
+				var beschreibung = szeneInfo.szene_beschreibung[0]
+				var prozent_z = szeneInfo.szene_prozent_z[0];
+
+				var jDetails = jQuery('section.map .detailsContainer');
+				var data = jDetails.data();
+
+				var szeneMarker = document.createElement('a');
+				var jSzeneMarker = jQuery(szeneMarker);
+				szeneMarker.id = 'szene-id-' + uid;
+				jSzeneMarker.data('uid', uid);
+				szeneMarker.setAttribute('class', 'szeneMarker');
+
+				jSzeneMarker.css({
+					'left': (koordinaten[0] - data.bild_offset_x) * data.scaleFactor + 'px',
+					'top': (koordinaten[1] - data.bild_offset_y) * data.scaleFactor + 'px',
+					'width': (parseFloat(koordinaten[2]) - parseFloat(koordinaten[0])) * data.scaleFactor + 'px',
+					'height': (parseFloat(koordinaten[3]) - parseFloat(koordinaten[1])) * data.scaleFactor + 'px',
+					'background-color': 'hsl(' + (-Math.round(prozent_z)) + ', 100%, 50%)',
+				});
+				if (data.highlightedIDs[szeneMarker.id]) {
+					jSzeneMarker.addClass('highlighted')
+				}
+
+				szeneMarker.setAttribute('href', szeneLinkForID(uid));
+				szeneMarker.setAttribute('title', beschreibung);
+
+				var jImageContainer = jQuery('.imageContainer', jDetails);
+				jImageContainer.append(szeneMarker);
+			}
+		}
+	};
+
+
+	var szeneLinkForID = function (id) {
+		return szeneLinkURLTemplate.replace('%23%23%23TERM%23%23%23', id);
+	};
+
+
 
 
 	// TODO: implement & add dictionary
@@ -189,58 +257,66 @@ var edfu = (function () {
 	};
 
 
-	jQuery(function () {
-		if (jQuery().fotorama) {
-			// Initialise fotorama slideshow.
-    	    var jFotorama = jQuery('.fotorama');
+	var init = function (config) {
+		szeneQueryURLTemplate = config.szeneQueryURL;
+		szeneLinkURLTemplate = config.szeneLinkURL;
 
-			// Show the first non-blank image.
-			var jFirstImageLink = jQuery('a:has(img):first', jFotorama);
-			if (jFirstImageLink.length === 1) {
-				var firstImageID = jFirstImageLink[0].id;
-				jFotorama.attr('data-startindex', firstImageID);
+		jQuery(function () {
+			if (jQuery().fotorama) {
+				// Initialise fotorama slideshow.
+				var jFotorama = jQuery('.fotorama');
+
+				// Show the first non-blank image.
+				var jFirstImageLink = jQuery('a:has(img):first', jFotorama);
+				if (jFirstImageLink.length === 1) {
+					var firstImageID = jFirstImageLink[0].id;
+					jFotorama.attr('data-startindex', firstImageID);
+				}
+
+				// Catch image changes to set up the zoom. Follows:
+				// https://github.com/artpolikarpov/fotorama/issues/26#issuecomment-21238688
+				jFotorama.on('fotorama:showend', function (event, fotorama) {
+					var jFrame = fotorama.activeFrame.$stageFrame;
+
+					if (!jFrame.data('state')) {
+						jFrame.on('f:load', function () {
+							setupZoom(jFrame);
+						});
+					} else {
+						setupZoom(jFrame);
+					}
+
+					for (var imageIndex in fotorama.data) {
+						var imageData = fotorama.data[imageIndex];
+						var thumb = imageData['$navThumbFrame'][0];
+						var caption = document.createElement('div');
+						caption.setAttribute('class', 'fotorama__caption');
+						caption.appendChild(document.createTextNode(imageData.caption));
+						thumb.appendChild(caption);
+					}
+				});
+
+				// Initialise fotorama.
+				jFotorama.fotoramaListAdapter().fotorama();
+
+				// Initialise slider for image settings.
+				jQuery('.slider').slider({
+					min: 0,
+					max: 200,
+					value: 100,
+					slide: onSlide
+				});
 			}
 
-			// Catch image changes to set up the zoom. Follows:
-			// https://github.com/artpolikarpov/fotorama/issues/26#issuecomment-21238688
-			jFotorama.on('fotorama:showend', function (event, fotorama) {
-				var jFrame = fotorama.activeFrame.$stageFrame;
+			jQuery('section.map .szene').mouseenter(tempelSzeneIn);
+			jQuery('section.map .szene:first').mouseenter();
+			loadSzeneRects();
+		});
+	};
 
-				if (!jFrame.data('state')) {
-					jFrame.on('f:load', function () {
-						setupZoom(jFrame);
-					});
-				} else {
-					setupZoom(jFrame);
-				}
-
-				for (var imageIndex in fotorama.data) {
-					var imageData = fotorama.data[imageIndex];
-					var thumb = imageData['$navThumbFrame'][0];
-					var caption = document.createElement('div');
-					caption.setAttribute('class', 'fotorama__caption');
-					caption.appendChild(document.createTextNode(imageData.caption));
-					thumb.appendChild(caption);
-				}
-			});
-
-			// Initialise fotorama.
-			jFotorama.fotoramaListAdapter().fotorama();
-
-			// Initialise slider for image settings.
-			jQuery('.slider').slider({
-				min: 0,
-				max: 200,
-				value: 100,
-				slide: onSlide
-			});
-		}
-
-		jQuery('section.map .szene').hover(tempelSzeneIn, tempelSzeneOut);
-		jQuery('section.map .szene:first').mouseenter();
-	});
 
 	return {
+		init: init,
 		chassinatVolumePage: chassinatVolumePage
 	};
 
