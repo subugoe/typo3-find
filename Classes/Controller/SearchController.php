@@ -421,7 +421,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					// Do not add it otherwise as the additional {!tag ...} prepended to the Solr query
 					// will break usage of {!join …} in the query.
 					$queryInfo = array('key' => 'facet-' . $facetID . '-' . $facetTerm);
-					if ($facetInfo['config']['excludeOwnFilter']) {
+					if ($facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
 						$queryInfo['tag'] =  $this->tagForFacet($facetID);
 					}
 
