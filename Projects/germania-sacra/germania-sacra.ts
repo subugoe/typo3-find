@@ -271,7 +271,8 @@ tx_find_page_rdf {
 	10 < tt_content.list.20.find_find
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:application/rdf+xml;charset=utf-8
+		additionalHeaders = Content-type:application/rdf+xml;charset=utf-8|Content-Disposition:attachment;filename="Kloster.rdf"
+ filename="Kloster.rdf"
 	}
 }
 
@@ -281,7 +282,7 @@ tx_find_page_csv {
 	10 < tt_content.list.20.find_find
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:text/comma-separated-values;charset=utf-8
+		additionalHeaders = Content-type:text/comma-separated-values;charset=utf-8|Content-Disposition:attachment;filename="Kloester.csv"
 	}
 }
 
@@ -291,6 +292,6 @@ tx_find_page_bna {
 	10 < tt_content.list.20.find_find
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:text/plain;charset=utf-8|Content-Disposition: attachment; filename="Kloester.bna"
+		additionalHeaders = Content-type:text/plain;charset=utf-8|Content-Disposition:attachment;filename="Kloester.bna"
 	}
 }
