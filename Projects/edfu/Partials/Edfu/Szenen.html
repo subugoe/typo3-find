@@ -25,22 +25,39 @@
 			<div class="mapContainer">
 				<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
 				<f:for each="{szenen}" as="szene">
-					<f:link.action
-						arguments="{
-							q:'{szene:szene.uid}',
-							facets:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'
-						}"
-						section="{jumpToID}"
-						noCacheHash="1"
-						id="szene-{szene.uid}"
-						class="szene icon-pointer-{szene.blickwinkel}"
-						style="top:{szene.koordinate_y}px;
-						       left:{szene.koordinate_x}px;
-							   color:hsl(-{szene.prozent_z}, 100%, 50%);"
-						additionalAttributes="{
-							data-marker:'{s:json(data:szene)}',
-							data-bild_dateiname:szene.bild_dateiname}"
-						title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}."/>
+					<f:alias map="{colour:'hsl(-{szene.prozent_z}, 100%, 50%)'}">
+						<f:link.action
+							arguments="{
+								q:'{szene:szene.uid}',
+								facets:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'
+							}"
+							section="{jumpToID}"
+							noCacheHash="1"
+							id="szene-{szene.uid}"
+							class="szene pointer-{szene.blickwinkel}"
+							style="
+								{f:if(condition:'{szene.blickwinkel}==0', then:'
+									border-width: 0px 5px 10px 5px;
+									border-color: transparent transparent {colour} transparent;')}
+								{f:if(condition:'{szene.blickwinkel}==90', then:'
+									border-width: 5px 0px 5px 10px;
+									border-color: transparent transparent transparent {colour};')}
+								{f:if(condition:'{szene.blickwinkel}==180', then:'
+									border-width: 10px 5px 0px 5px;
+									border-color: {colour} transparent transparent transparent;')}
+								{f:if(condition:'{szene.blickwinkel}==270', then:'
+									border-width: 5px 10px 5px 0px;
+									border-color: transparent {colour} transparent transparent;')}
+								top:{szene.koordinate_y}px;
+								left:{szene.koordinate_x}px;
+							"
+							additionalAttributes="{
+								data-marker:'{s:json(data:szene)}',
+								data-bild_dateiname:szene.bild_dateiname
+							}"
+							title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}."
+						/>
+					</f:alias>
 				</f:for>
 			</div>
 			<div class="detailsContainer"></div>

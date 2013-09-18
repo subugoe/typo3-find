@@ -435,25 +435,25 @@ section.map {
 		.szene {
 			display: block;
 			position: absolute;
-			font-size: 17px;
-			color: #f00;
-
-			&.icon-pointer-0 {
-				margin-top: -0.1em;
-				margin-left: -0.75em;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			
+			&.pointer-0 {
+				margin-top: 0;
+				margin-left: -5px;
 			}
-
-			&.icon-pointer-90 {
-				margin-left: -1em;
+			&.pointer-90 {
+				margin-top: -8px;
+				margin-left: -10px;
 			}
-
-			&.icon-pointer-180 {
-				margin-top: -0.8em;
-				margin-left: -0.75em;
+			&.pointer-180 {
+				margin-top: -5px;
+				margin-left: -10px;
 			}
-
-			&.icon-pointer-270 {
-				margin-left: -.3em;
+			&.pointer-270 {
+				margin-top: -8px;
+				margin-left: 0px;
 			}
 		}
 	}

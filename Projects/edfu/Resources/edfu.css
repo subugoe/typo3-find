@@ -324,22 +324,25 @@ section.map .mapContainer {
 section.map .mapContainer .szene {
   display: block;
   position: absolute;
-  font-size: 17px;
-  color: #f00;
+  width: 0;
+  height: 0;
+  border-style: solid;
 }
-section.map .mapContainer .szene.icon-pointer-0 {
-  margin-top: -0.1em;
-  margin-left: -0.75em;
+section.map .mapContainer .szene.pointer-0 {
+  margin-top: 0;
+  margin-left: -5px;
 }
-section.map .mapContainer .szene.icon-pointer-90 {
-  margin-left: -1em;
+section.map .mapContainer .szene.pointer-90 {
+  margin-top: -8px;
+  margin-left: -10px;
 }
-section.map .mapContainer .szene.icon-pointer-180 {
-  margin-top: -0.8em;
-  margin-left: -0.75em;
+section.map .mapContainer .szene.pointer-180 {
+  margin-top: -5px;
+  margin-left: -10px;
 }
-section.map .mapContainer .szene.icon-pointer-270 {
-  margin-left: -0.3em;
+section.map .mapContainer .szene.pointer-270 {
+  margin-top: -8px;
+  margin-left: 0px;
 }
 section.map .detailsContainer {
   position: absolute;
