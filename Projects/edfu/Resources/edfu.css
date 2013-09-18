@@ -196,6 +196,7 @@
   padding: 0;
 }
 .tx_find .imageControls {
+  display: none;
   margin: 0 auto 1em auto;
   text-align: center;
 }
