@@ -288,11 +288,13 @@ var edfu = (function () {
 
 					for (var imageIndex in fotorama.data) {
 						var imageData = fotorama.data[imageIndex];
-						var thumb = imageData['$navThumbFrame'][0];
-						var caption = document.createElement('div');
-						caption.setAttribute('class', 'fotorama__caption');
-						caption.appendChild(document.createTextNode(imageData.caption));
-						thumb.appendChild(caption);
+						if (imageData['$navThumbFrame']) {
+							var thumb = imageData['$navThumbFrame'][0];
+							var caption = document.createElement('div');
+							caption.setAttribute('class', 'fotorama__caption');
+							caption.appendChild(document.createTextNode(imageData.caption));
+							thumb.appendChild(caption);
+						}
 					}
 				});
 
