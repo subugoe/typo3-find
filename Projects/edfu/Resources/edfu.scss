@@ -173,16 +173,16 @@ $labelWidth: 120px;
 			.details {
 				color: #999;
 
-				&:hover {
-					color: $adwRed;
-				}
-
 				&:before {
 					margin-right: 0;
 					font-size: 80%;
 				}
 			}
 
+			a:hover .details {
+				color: $adwRed;
+			}
+			
 			.removeRecord {
 				display: none;
 				position: absolute;

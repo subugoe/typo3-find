@@ -129,12 +129,12 @@
 .tx_find ol.resultList li .details {
   color: #999;
 }
-.tx_find ol.resultList li .details:hover {
-  color: #c90230;
-}
 .tx_find ol.resultList li .details:before {
   margin-right: 0;
   font-size: 80%;
+}
+.tx_find ol.resultList li a:hover .details {
+  color: #c90230;
 }
 .tx_find ol.resultList li .removeRecord {
   display: none;
