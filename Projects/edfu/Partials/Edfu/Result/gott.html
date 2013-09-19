@@ -4,7 +4,7 @@
 		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
 	</span>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
-	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'beziehung', separator:', '}"/>
+	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'beziehung', separator:', ', prefixString:' – '}"/>
 </h1>
 <p>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'eponym', separator:', '}"/>
