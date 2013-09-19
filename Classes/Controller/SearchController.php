@@ -462,7 +462,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				}
 			}
 			if ($queryString === NULL) {
-				$this->flashMessageContainer->add('find: Resuls for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', t3lib_FlashMessage::WARNING);
+				$this->flashMessageContainer->add('find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', t3lib_FlashMessage::WARNING);
 			}
 		}
 		else {
