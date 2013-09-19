@@ -21,7 +21,7 @@
 			<label index="facet.typ.wort">Word</label>
 			<label index="facet.typ.all">Alle</label>
 
-			<label index="facet.band">Chassinat Volume</label>
+			<label index="facet.band">Found in Chassinat Volume</label>
 			<label index="facet.band.1">I</label>
 			<label index="facet.band.2">II</label>
 			<label index="facet.band.3">III</label>
@@ -43,7 +43,7 @@
 			<label index="facet.typ.wort">Wort</label>
 			<label index="facet.typ.all">Alle</label>
 
-			<label index="facet.band">Chassinat Band</label>
+			<label index="facet.band">Gefundene Belege in Chassinat Band</label>
 			<label index="facet.band.1">I</label>
 			<label index="facet.band.2">II</label>
 			<label index="facet.band.3">III</label>
