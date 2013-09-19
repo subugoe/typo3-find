@@ -136,7 +136,8 @@ plugin.tx_find {
 				id = status-nojoin
 				type = SelectFacet
 				facetID = status
-				query = (status_facet:"%s" AND typ:standort-orden)
+				query = (status_facet:%s AND typ:standort-orden)
+				phrase = 1
 				extended = 1
 				hidden = 1
 			}
@@ -144,7 +145,8 @@ plugin.tx_find {
 			121 {
 				id = orden-facet-nojoin
 				type = Text
-				query = (orden_facet:"%s" AND typ:standort-orden)
+				query = (orden_facet:%s AND typ:standort-orden)
+				phrase = 1
 				extended = 1
 				hidden = 1
 			}
@@ -160,7 +162,8 @@ plugin.tx_find {
 			141 {
 				id = bistum-facet-nojoin
 				type = Text
-				query = (bistum_facet:"%s" AND typ:standort-orden)
+				query = (bistum_facet:%s AND typ:standort-orden)
+				phrase = 1
 				extended = 1
 				hidden = 1
 			}
@@ -168,11 +171,11 @@ plugin.tx_find {
 			151 {
 				id = band-facet-nojoin
 				type = Text
-				query = (band_facet:"%s" AND typ:standort-orden)
+				query = (band_facet:%s AND typ:standort-orden)
+				phrase = 1
 				extended = 1
 				hidden = 1
 			}
-
 		}
 		sort {
 			1 {
