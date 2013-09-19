@@ -1,15 +1,25 @@
 {namespace s=Tx_Find_ViewHelpers}
-<f:if condition="{s:isArray(subject:'{s:valueForKey(array:document.fields, key:field)}')}">
-	<f:then>
-		{groupPrefix->f:format.raw()}
-		<f:for each="{s:valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
-			{groupItemPrefix->f:format.raw()}{fieldPrefix->f:format.raw()}
-				<f:render partial="Display/Field/Content" arguments="{_all}"/>
-			{fieldSuffix->f:format.raw()}{f:if(condition:"{iterator.isLast}==0", then:separator)}{groupItemSuffix->f:format.raw()}
-		</f:for>
-		{groupSuffix->f:format.raw()}
-	</f:then>
-	<f:else>
-		{fieldPrefix->f:format.raw()}<f:render partial="Display/Field/Content" arguments="{_all}"/>{fieldSuffix->f:format.raw()}
-	</f:else>
+<f:if condition="{s:valueForKey(array:document.fields, key:field)}">
+	<f:if condition="{s:isArray(subject:'{s:valueForKey(array:document.fields, key:field)}')}">
+		<f:then>
+			{groupPrefix->f:format.raw()}
+			<f:if condition="{prefixString}">
+				<span class="prefix-{field}">{prefixString}</span>
+			</f:if>
+			<f:for each="{s:valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
+				{groupItemPrefix->f:format.raw()}{fieldPrefix->f:format.raw()}
+					<f:render partial="Display/Field/Content" arguments="{_all}"/>
+				{fieldSuffix->f:format.raw()}{f:if(condition:"{iterator.isLast}==0", then:separator)}{groupItemSuffix->f:format.raw()}
+			</f:for>
+			{groupSuffix->f:format.raw()}
+		</f:then>
+		<f:else>
+			{fieldPrefix->f:format.raw()}
+			<f:if condition="{prefixString}">
+				<span class="prefix-{field}">{prefixString}</span>
+			</f:if>
+			<f:render partial="Display/Field/Content" arguments="{_all}"/>
+			{fieldSuffix->f:format.raw()}
+		</f:else>
+	</f:if>
 </f:if>
