@@ -309,7 +309,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				if (!$fieldInfo['noescape']) {
 					$escapedQueryTerms = array();
 					foreach($queryTerms as $key => $term) {
-						$escapedQueryTerms[$key] = $query->getHelper()->escapeTerm($term);
+						if ($fieldInfo['phrase']) {
+							$escapedQueryTerms[$key] = $query->getHelper()->escapePhrase($term);
+						}
+						else {
+							$escapedQueryTerms[$key] = $query->getHelper()->escapeTerm($term);
+						}
 					}
 					$queryTerms = $escapedQueryTerms;
 				}
@@ -803,7 +808,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 						if (array_key_exists($queryField['id'], $arguments['q'])) {
 							$queryTerm = $arguments['q'][$queryField['id']];
 							if (!$queryField['noescape']) {
-								$queryTerm = $query->getHelper()->escapeTerm($queryTerm);
+								if ($queryField['phrase']) {
+									$queryTerm = $query->getHelper()->escapePhrase($queryTerm);
+								}
+								else {
+									$queryTerm = $query->getHelper()->escapeTerm($queryTerm);
+								}
 							}
 							$queryWords[] = $queryTerm;
 						}
