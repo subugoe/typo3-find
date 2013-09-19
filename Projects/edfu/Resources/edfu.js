@@ -173,12 +173,7 @@ var edfu = (function () {
 
 
 	var loadSzeneRects = function () {
-		var fileNames = {};
-		jQuery('section.map .szene').each( function () {
-			fileNames[this.getAttribute('data-bild_dateiname')] = true;
-		});
-
-		for (var fileName in fileNames) {
+		var loadRectsForFileName = function (fileName) {
 			var query = encodeURIComponent('szene_bild_dateiname:' + fileName + ' AND typ:szene');
 			var datafields = 'szene_uid,szene_bild_rect,szene_beschreibung,szene_prozent_z';
 			var queryURL = szeneQueryURLTemplate.replace('%23%23%23TERM%23%23%23', query).replace('%23%23%23DATAFIELDS%23%23%23', datafields);
@@ -186,11 +181,20 @@ var edfu = (function () {
 				szenenInfo[fileName] = data;
 				addSzenenToDetail();
 			});
+		};
+		
+		var fileNames = {};
+		jQuery('section.map .szene').each( function () {
+			fileNames[this.getAttribute('data-bild_dateiname')] = true;
+		});
+
+		for (var fileName in fileNames) {
+			loadRectsForFileName(fileName);
 		}
 	};
 
 	var addSzenenToDetail = function () {
-		var jDetails = jQuery('section.map .szene');
+		var jDetails = jQuery('section.map .detailsContainer');
 		var fileName = jDetails.data('bild_dateiname');
 		if (szenenInfo[fileName] && !jDetails.data('rects_added')) {
 			for (var szenenIndex in szenenInfo[fileName]) {
