@@ -22,7 +22,7 @@
 			<label index="input.count">Results</label>
 
 			<label index="input.translit">Transliteration</label>
-			<label index="input.translit-checkbox">ohne Suffix</label>
+			<label index="input.translit-checkbox">without Suffix</label>
 			<label index="input.szene">Scene ID</label>
 		</languageKey>
 
