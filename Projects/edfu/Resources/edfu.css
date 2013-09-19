@@ -113,8 +113,9 @@
   padding-left: 0.3em;
   content: "\2014";
 }
-.tx_find ol.resultList li h1 .field-beziehung {
-  font-size: 80%;
+.tx_find ol.resultList li h1 .field-beziehung,
+.tx_find ol.resultList li h1 .field-berlin_display {
+  font-size: 75%;
   color: #666;
 }
 .tx_find ol.resultList li p {
