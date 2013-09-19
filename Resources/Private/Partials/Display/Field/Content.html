@@ -1,4 +1,7 @@
 {namespace s=Tx_Find_ViewHelpers}
+<f:if condition="{prefixString}">
+	<span class="prefix-{field}">{prefixString}</span>
+</f:if>
 <f:if condition="{linkFieldContent}">
 	<f:then>
 		<f:alias map="{
