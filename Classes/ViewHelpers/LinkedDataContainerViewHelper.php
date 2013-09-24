@@ -57,17 +57,38 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 		$items = $this->templateVariableContainer->get($this->arguments['name'], $items);
 		$this->templateVariableContainer->remove($this->arguments['name']);
 
-		$result = '';
-		$format = $this->arguments['format'];
-		if ($format === 'turtle') {
-			$result = $this->renderTurtle($items);
-		}
+		$LDRenderer = Tx_Find_ViewHelpers_LinkedDataRenderer::instantiateSubclassForType($this->arguments['format']);
+		$result = $LDRenderer->renderItems($items);
 
 		return $result;
 	}
 
 
-	private function renderTurtle ($items) {
+
+}
+
+
+
+abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
+
+	public static function instantiateSubclassForType ($type) {
+		if ($type === 'rdf') {
+
+		}
+		else {
+			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataTurtleRenderer');
+		}
+
+		return $instance;
+	}
+
+	abstract function renderItems ($items);
+}
+
+
+
+class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
+	public function renderItems ($items) {
 		// loop over subjects
 		$subjectArray = array();
 		foreach ($items as $subject => $subjectStatements) {
@@ -111,7 +132,7 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 				$predicateString .= implode(', ', $objectArray);
 				$predicateArray[] = $predicateString;
 			}
-	
+
 			$subjectString .= implode(" ;\n\t", $predicateArray);
 			$subjectArray[] = $subjectString;
 		}
@@ -132,7 +153,7 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 
 	private function turtleString ($item, $usePrefixes = TRUE) {
 		$result = '<' . $item . '>';
-		
+
 		if ($usePrefixes) {
 			foreach($this->arguments['prefixes'] as $acronym => $prefix) {
 				if (strpos($item, $prefix) === 0) {
@@ -147,7 +168,7 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 				}
 			}
 		}
-		
+
 		return $result;
 	}
 
