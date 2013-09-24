@@ -26,7 +26,7 @@
 
 
 /**
- * View Helper to split a string into an array of strings at the given separator..
+ * View Helper to split a string into an array of strings at the given separator.
  */
 class Tx_Find_ViewHelpers_SplitViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
@@ -36,8 +36,8 @@ class Tx_Find_ViewHelpers_SplitViewHelper extends Tx_Fluid_Core_ViewHelper_Abstr
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'the string to split into components', TRUE);
-		$this->registerArgument('separator', 'string', 'the string separating the components', FALSE, ', ');
+		$this->registerArgument('string', 'string', 'The string to split into components', FALSE, NULL);
+		$this->registerArgument('separator', 'string', 'The string separating the components', FALSE, ', ');
 	}
 
 
@@ -45,7 +45,12 @@ class Tx_Find_ViewHelpers_SplitViewHelper extends Tx_Fluid_Core_ViewHelper_Abstr
 	 * @return array
 	 */
 	public function render() {
-		return explode($this->arguments['separator'], $this->arguments['string']);
+		$string = $this->arguments['string'];
+		if ($string === NULL) {
+			$string = $this->renderChildren();
+		}
+
+		return explode($this->arguments['separator'], $string);
 	}
 
 }
