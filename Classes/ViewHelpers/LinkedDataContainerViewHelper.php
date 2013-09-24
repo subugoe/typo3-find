@@ -31,6 +31,8 @@
  */
 class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
+	protected $usedPrefixes = array();
+
 
 	/**
 	 * Registers own arguments.
@@ -66,12 +68,6 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 
 
 	private function renderTurtle ($items) {
-		$result = "\n";
-		foreach ($this->arguments['prefixes'] as $acronym => $prefix) {
-			$result .= '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . " .\n";
-		}
-		$result .= "\n";
-
 		// loop over subjects
 		$subjectArray = array();
 		foreach ($items as $subject => $subjectStatements) {
@@ -121,6 +117,16 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 		}
 		$result .= implode(" .\n\n", $subjectArray) . " .\n";
 
+		// Prepend the prefixes that are used.
+		$prefixes = array();
+		foreach ($this->arguments['prefixes'] as $acronym => $prefix) {
+			if ($this->usedPrefixes[$acronym] === TRUE) {
+				$prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . " .\n";
+			}
+		}
+
+		$result = "\n" . implode('', $prefixes) . "\n" . $result;
+
 		return $result;
 	}
 
@@ -131,10 +137,13 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 			foreach($this->arguments['prefixes'] as $acronym => $prefix) {
 				if (strpos($item, $prefix) === 0) {
 					$result = str_replace($prefix, $acronym . ':', $item);
+					$this->usedPrefixes[$acronym] = TRUE;
 					break;
 				}
 				else if (strpos($item, $acronym . ':') === 0) {
 					$result = $item;
+					$this->usedPrefixes[$acronym] = TRUE;
+					break;
 				}
 			}
 		}
