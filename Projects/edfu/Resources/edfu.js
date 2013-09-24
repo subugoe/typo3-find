@@ -175,7 +175,7 @@ var edfu = (function () {
 	var loadSzeneRects = function () {
 		var loadRectsForFileName = function (fileName) {
 			var query = encodeURIComponent('szene_bild_dateiname:' + fileName + ' AND typ:szene');
-			var datafields = 'szene_uid,szene_bild_rect,szene_beschreibung,szene_prozent_z';
+			var datafields = 'szene_uid,szene_bild_rect,szene_beschreibung,szene_prozent_z,stelle_count';
 			var queryURL = szeneQueryURLTemplate.replace('%23%23%23TERM%23%23%23', query).replace('%23%23%23DATAFIELDS%23%23%23', datafields);
 			jQuery.getJSON(queryURL, function (data) {
 				szenenInfo[fileName] = data;
@@ -238,7 +238,9 @@ var edfu = (function () {
 					jSzeneMarker.addClass('highlighted')
 				}
 
-				szeneMarker.setAttribute('href', szeneLinkForID(uid));
+				if (szeneInfo.stelle_count > 0) {
+					szeneMarker.setAttribute('href', szeneLinkForID(uid));
+				}
 				szeneMarker.setAttribute('title', beschreibung);
 
 				var jImageContainer = jQuery('.imageContainer', jDetails);
