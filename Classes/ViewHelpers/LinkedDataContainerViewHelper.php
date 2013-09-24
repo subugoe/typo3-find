@@ -31,9 +31,6 @@
  */
 class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
-	protected $usedPrefixes = array();
-
-
 	/**
 	 * Registers own arguments.
 	 */
@@ -58,6 +55,7 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 		$this->templateVariableContainer->remove($this->arguments['name']);
 
 		$LDRenderer = Tx_Find_ViewHelpers_LinkedDataRenderer::instantiateSubclassForType($this->arguments['format']);
+		$LDRenderer->setPrefixes($this->arguments['prefixes']);
 		$result = $LDRenderer->renderItems($items);
 
 		return $result;
@@ -71,9 +69,12 @@ class Tx_Find_ViewHelpers_LinkedDataContainerViewHelper extends Tx_Fluid_Core_Vi
 
 abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
 
+	protected $prefixes = array();
+	protected $usedPrefixes = array();
+
 	public static function instantiateSubclassForType ($type) {
 		if ($type === 'rdf') {
-
+			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataRDFRenderer');
 		}
 		else {
 			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataTurtleRenderer');
@@ -82,12 +83,17 @@ abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
 		return $instance;
 	}
 
+	public function setPrefixes ($prefixes) {
+		$this->prefixes = $prefixes;
+	}
+
 	abstract function renderItems ($items);
 }
 
 
 
 class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
+
 	public function renderItems ($items) {
 		// loop over subjects
 		$subjectArray = array();
@@ -140,7 +146,7 @@ class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_L
 
 		// Prepend the prefixes that are used.
 		$prefixes = array();
-		foreach ($this->arguments['prefixes'] as $acronym => $prefix) {
+		foreach ($this->prefixes as $acronym => $prefix) {
 			if ($this->usedPrefixes[$acronym] === TRUE) {
 				$prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . " .\n";
 			}
@@ -155,7 +161,7 @@ class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_L
 		$result = '<' . $item . '>';
 
 		if ($usePrefixes) {
-			foreach($this->arguments['prefixes'] as $acronym => $prefix) {
+			foreach($this->prefixes as $acronym => $prefix) {
 				if (strpos($item, $prefix) === 0) {
 					$result = str_replace($prefix, $acronym . ':', $item);
 					$this->usedPrefixes[$acronym] = TRUE;
@@ -173,5 +179,79 @@ class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_L
 	}
 
 }
+
+
+
+class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
+
+	protected $doc;
+
+	public function renderItems ($items) {
+		$this->doc = new DomDocument();
+		$this->prefixes['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+		$rdf = $this->doc->createElement($this->prefixedName('rdf:RDF'));
+		$this->doc->appendChild($rdf);
+
+		// loop over subjects
+		foreach ($items as $subject => $subjectStatements) {
+			$subjectDescription = $this->doc->createElement($this->prefixedName('rdf:Description'));
+			$subjectDescription->setAttribute($this->prefixedName('rdf:about'), $subject);
+
+			// loop over predicates
+			foreach ($subjectStatements as $predicate => $objects) {
+
+				// loop over objects
+				foreach ($objects as $object => $properties) {
+					$predicateElement = $this->doc->createElement($this->prefixedName($predicate));
+					$subjectDescription->appendChild($predicateElement);
+
+					if ($properties === NULL) {
+						$objectParts = explode(':', $object, 2);
+						if ($this->prefixes[$objectParts[0]] && count($objectParts) === 2) {
+							$object = $this->prefixes[$objectParts[0]] . $objectParts[1];
+						}
+						$fullObjectURI = object;
+						$predicateElement->setAttribute($this->prefixedName('rdf:resource'), $this->prefixedName($object));
+					}
+					else {
+						if ($properties['language']) {
+							$predicateElement->setAttribute($this->prefixedName('xml:lang'), $properties['language']);
+						}
+						if ($properties['type']) {
+							$predicateElement->setAttribute($this->prefixedName('rdf:datatype'), $properties['type']);
+						}
+
+						$predicateElement->appendChild($this->doc->createTextNode($object));
+					}
+					
+					$subjectDescription->appendChild($predicateElement);
+				}
+			}
+
+			$rdf->appendChild($subjectDescription);
+		}
+
+		// Add the prefixes that are used as xmlns.
+		foreach ($this->usedPrefixes as $prefix => $value) {
+			if ($this->prefixes[$prefix]) {
+				$this->doc->firstChild->setAttribute('xmlns:' . $prefix, $this->prefixes[$prefix]);
+			}
+		}
+
+		$this->doc->formatOutput = TRUE;
+		return $this->doc->saveXML();
+	}
+
+	private function prefixedName ($name) {
+		$nameParts = explode(':', $name, 2);
+		if ($this->prefixes[$nameParts[0]]) {
+			$this->usedPrefixes[$nameParts[0]] = TRUE;
+		}
+
+		return $name;
+	}
+
+}
+
 
 ?>
