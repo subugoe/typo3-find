@@ -1,93 +1,11 @@
-{namespace s=Tx_Find_ViewHelpers}
-<s:formatXML>
-	<rdf:RDF
-		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-		xmlns:owl="http://www.w3.org/2002/07/owl#"
-		xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-		xmlns:dct="http://purl.org/dc/terms/"
-		xmlns:foaf="http://xmlns.com/foaf/0.1/"
-		xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-
-		<f:for each="{results.documents}" as="document">
-			<f:alias map="{myURI:'{f:render(partial:\'GS/Permalink\', arguments:\'{id:document.sql_uid}\')}'}">
-				<rdf:Description rdf:about="{myURI}">
-					<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
-
-					<foaf:name>{document.fields.kloster}</foaf:name>
-					<skos:prefLabel>{document.fields.kloster}</skos:prefLabel>
-					<f:if condition="{document.fields.patrozinium}"><skos:altLabel>{document.fields.patrozinium}</skos:altLabel></f:if>
-
-					<f:comment>
-						TODO: Koordinaten _richtig_ Mappen.
-					</f:comment>
-
-					<f:for each="{document.fields.koordinaten}" as="koordinaten">
-						<geo:lat>{s:regexp(string:koordinaten, match:"/^(.*),.*/", replace:'\1')}</geo:lat>
-						<geo:long>{s:regexp(string:koordinaten, match:"/^.*,(.*)/", replace:'\1')}</geo:long>
-					</f:for>
-
-					<f:for each="{document.fields.url}" as="url">
-						<f:if condition="{1:url.art} == {1:'Wikipedia'}">
-							<owl:sameAs rdf:resource="{url.url}"/>
-						</f:if>
-						<f:if condition="{1:url.art} == {1:'GND'}">
-							<owl:sameAs rdf:resource="{url.url}"/>
-						</f:if>
-					</f:for>
-				</rdf:Description>
-
-				<s:transpose name="personen" arrays="{
-					name: document.fields.person_name,
-					namensalternativen: document.fields.person_namensalternativen,
-					bezeichnung: document.fields.person_bezeichnung,
-					von_verbal: document.fields.person_von_verbal,
-					bis_verbal: document.fields.person_bis_verbal,
-					gso: document.fields.person_gso,
-					gnd: document.fields.person_gnd
-				}">
-					<f:for each="{personen}" as="person">
-						<rdf:Description rdf:about="{myURI}">
-							<foaf:member rdf:resource="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}"/>
-						</rdf:Description>
-						<rdf:Description rdf:about="http://personendatenbank.germania-sacra.de/index/gsn/{person.gso}">
-							<foaf:name>{person.name}</foaf:name>
-							<f:if condition="{person.namensalternativen}">
-								<skos:altLabel>{person.namensalternativen}</skos:altLabel>
-							</f:if>
-							<f:if condition="{person.gnd}">
-								<owl:sameAs rdf:resource="http://d-nb.info/gnd/{person.gnd}"/>
-							</f:if>
-						</rdf:Description>
-					</f:for>
-				</s:transpose>
-
-
-				<f:comment>
-					* zusätzlich sameAs relation zwischen Wikipedia & GND herstellen? (scheint in WP nicht für Körperschaften vermerkt zu sein)
-					* präzisere relation as foaf:member!
-				</f:comment>
-				<f:for each="{document.bistum_gnd}" as="gnd">
-					<rdf:Description rdf:about="http://d-nb.info/gnd/{gnd}">
-						<foaf:member rdf:resource="{myURI}"/>
-					</rdf:Description>
-				</f:for>
-				<f:for each="{document.bistum_wikipedia}" as="url">
-					<rdf:Description rdf:about="{url}">
-						<foaf:member rdf:resource="{myURI}"/>
-					</rdf:Description>
-				</f:for>
-
-				<f:for each="{document.orden_gnd}" as="gnd">
-					<rdf:Description rdf:about="http://d-nb.info/gnd/{gnd}">
-						<foaf:member rdf:resource="{myURI}"/>
-					</rdf:Description>
-				</f:for>
-				<f:for each="{document.orden_wikipedia}" as="gnd">
-					<rdf:Description rdf:about="{url}">
-						<foaf:member rdf:resource="{myURI}"/>
-					</rdf:Description>
-				</f:for>
-			</f:alias>
-		</f:for>
-	</rdf:RDF>
-</s:formatXML>
+{namespace s=Tx_Find_ViewHelpers}<s:strip>
+	<f:for each="{results.documents}" as="document">
+		<f:alias map="{
+			klosterURI: '{f:render(partial:\'GS/Permalink\', arguments:\'{id:document.sql_uid}\')}',
+			doc: document.fields,
+			LDFormat: 'rdf'
+		}">
+			<f:render partial="Formats/linked-data" arguments="{_all}"/>
+		</f:alias>
+	</f:for>
+</s:strip>
