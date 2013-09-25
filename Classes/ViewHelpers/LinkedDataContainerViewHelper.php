@@ -76,6 +76,9 @@ abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
 		if ($type === 'rdf') {
 			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataRDFRenderer');
 		}
+		else if ($type === 'json-ld') {
+			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataJSONLDRenderer');
+		}
 		else {
 			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataTurtleRenderer');
 		}
@@ -91,7 +94,9 @@ abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
 }
 
 
-
+/*
+ * http://www.w3.org/TR/2012/WD-turtle-20120710/
+ */
 class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
 
 	public function renderItems ($items) {
@@ -180,20 +185,21 @@ class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_L
 }
 
 
-
+/*
+ * http://www.w3.org/RDF/
+ * http://www.w3.org/TR/REC-rdf-syntax/
+ */
 class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
 
-	protected $doc;
-
 	public function renderItems ($items) {
-		$this->doc = new DomDocument();
+		$doc = new DomDocument();
 		$this->prefixes['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-		$rdf = $this->doc->createElement($this->prefixedName('rdf:RDF'));
-		$this->doc->appendChild($rdf);
+		$rdf = $doc->createElement($this->prefixedName('rdf:RDF'));
+		$doc->appendChild($rdf);
 
 		// loop over subjects
 		foreach ($items as $subjectURI => $subjectStatements) {
-			$subjectDescription = $this->doc->createElement($this->prefixedName('rdf:Description'));
+			$subjectDescription = $doc->createElement($this->prefixedName('rdf:Description'));
 			$subjectDescription->setAttribute($this->prefixedName('rdf:about'), $this->prefixedName($subjectURI, TRUE));
 
 			// loop over predicates
@@ -201,7 +207,7 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 
 				// loop over objects
 				foreach ($objects as $object => $properties) {
-					$predicateElement = $this->doc->createElement($this->prefixedName($predicate));
+					$predicateElement = $doc->createElement($this->prefixedName($predicate));
 					$subjectDescription->appendChild($predicateElement);
 
 					if ($properties === NULL) {
@@ -219,7 +225,7 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 							$predicateElement->setAttribute($this->prefixedName('rdf:datatype'), $this->prefixedName($properties['type'], TRUE));
 						}
 
-						$predicateElement->appendChild($this->doc->createTextNode($object));
+						$predicateElement->appendChild($doc->createTextNode($object));
 					}
 					
 					$subjectDescription->appendChild($predicateElement);
@@ -232,12 +238,12 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 		// Add the prefixes that are used as xmlns.
 		foreach ($this->usedPrefixes as $prefix => $value) {
 			if ($this->prefixes[$prefix]) {
-				$this->doc->firstChild->setAttribute('xmlns:' . $prefix, $this->prefixes[$prefix]);
+				$doc->firstChild->setAttribute('xmlns:' . $prefix, $this->prefixes[$prefix]);
 			}
 		}
 
-		$this->doc->formatOutput = TRUE;
-		return $this->doc->saveXML();
+		$doc->formatOutput = TRUE;
+		return $doc->saveXML();
 	}
 
 	private function prefixedName ($name, $expand = FALSE) {
@@ -254,5 +260,87 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 
 }
 
+
+/*
+ *
+ * http://www.w3.org/TR/json-ld-syntax/
+ */
+class Tx_Find_ViewHelpers_LinkedDataJSONLDRenderer extends Tx_Find_ViewHelpers_LinkedDataRenderer {
+
+	public function renderItems ($items) {
+		$graph = array();
+
+		// loop over subjects
+		foreach ($items as $subjectURI => $subjectStatements) {
+			$subject = array('@id' => $this->prefixedName($subjectURI));
+
+			// loop over predicates
+			foreach ($subjectStatements as $predicateURI => $objects) {
+
+				// loop over objects
+				foreach ($objects as $objectString => $properties) {
+					if ($properties === NULL) {
+						$object = $this->prefixedName($objectString);
+					}
+					else {
+						$object = array('@value' => $objectString);
+
+						if ($properties['language']) {
+							$object['@language'] = $properties['language'];
+						}
+						if ($properties['type']) {
+							$object['@type'] = $properties['type'];
+						}
+					}
+
+					$predicateURI = $this->prefixedName($predicateURI);
+					if ($subject[$predicateURI]) {
+						if (is_array($subject[$predicateURI])) {
+							$subject[$predicateURI][] = $object;
+ 						}
+						else {
+							$subject[$predicateURI] = array($subject[$predicateURI], $object);
+						}
+					}
+					else {
+						$subject[$predicateURI] = $object;
+					}
+				}
+			}
+
+			$graph[] = $subject;
+		}
+
+		// Add the prefixes as the @context.
+		$context = array();
+		foreach ($this->usedPrefixes as $prefix => $value) {
+			if ($this->prefixes[$prefix]) {
+				$context[$prefix] = $this->prefixes[$prefix];
+			}
+		}
+
+		return json_encode(array(
+			'@context' => $context,
+			'@graph' => $graph
+		));
+	}
+
+	private function prefixedName ($name) {
+		foreach ($this->prefixes as $acronym => $URI) {
+			if (strpos($name, $URI) === 0) {
+				$name = str_replace($URI, $acronym . ':', $name);
+				$this->usedPrefixes[$acronym] = TRUE;
+				break;
+			}
+			else if (strpos($name, $acronym . ':') === 0) {
+				$this->usedPrefixes[$acronym] = TRUE;
+				break;
+			}
+		}
+
+		return $name;
+	}
+
+}
 
 ?>
