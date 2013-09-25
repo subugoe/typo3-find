@@ -18,6 +18,12 @@
 		</s:newArray>
 	</s:newArray>
 
+	<f:if condition="{arguments.facet.typ.wort}">
+		<p class="searchNote">
+			<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:WL Suchnotiz"/>
+		</p>
+	</f:if>
+
 	<div class="results">
 		<div class="navigation top"/>
 			<f:render partial="Components/ResultCount" arguments="{_all}"/>

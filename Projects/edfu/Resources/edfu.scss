@@ -73,6 +73,10 @@ $labelWidth: 120px;
 		background: $adwRed;
 	}
 	
+	.searchNote {
+		margin-top: 1em;
+	}
+	
 	dl {
 		dt {
 			float: left;
@@ -106,7 +110,7 @@ $labelWidth: 120px;
 	{
 		font-family: TransliterationFont;
 	}
-
+	
 	ol.resultList {
 		float: left;
 		width: 660px;

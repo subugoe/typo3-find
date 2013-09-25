@@ -38,6 +38,7 @@
 			<label index="Bild in neuem Fenster zeigen">Show image in new window.</label>
 			<label index="vorige Seite">Show previous page.</label>
 			<label index="nächste Seite">Show next page.</label>
+			<label index="WL Suchnotiz">Combine the search term (Transliteration) with the Wb Page (All Fields).</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -71,6 +72,7 @@
 			<label index="Bild in neuem Fenster zeigen">Bild in neuem Fenster zeigen.</label>
 			<label index="vorige Seite">Vorige Seite zeigen.</label>
 			<label index="nächste Seite">Nächste Seite zeigen.</label>
+			<label index="WL Suchnotiz">Kombinieren Sie den Suchbegriff (Transliteration) mit der Seite in Wb (Alle Felder).</label>
 		</languageKey>
 	</data>
 </T3locallang>

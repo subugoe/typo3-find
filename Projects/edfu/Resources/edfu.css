@@ -47,6 +47,9 @@
 .tx_find .facet-type-Tabs ol li.facetActive {
   background: #c90230;
 }
+.tx_find .searchNote {
+  margin-top: 1em;
+}
 .tx_find dl dt {
   float: left;
   clear: left;
