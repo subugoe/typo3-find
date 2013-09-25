@@ -15,5 +15,11 @@
 		/
 		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'weiteres', separator:', '}"/>
 	</f:if>
+	<f:if condition="{document.fields.anmerkung}">
+		<span class="field-anmerkung">
+			—
+			<f:render partial="Edfu/AnmerkungItem" arguments="{results:results, document:document, field:'anmerkung'}"/>
+		</span>
+	</f:if>
 	<span class="details icon-right-open"><f:translate key="Show Detail Page"/></span>
 </p>

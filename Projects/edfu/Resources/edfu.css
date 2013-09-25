@@ -126,6 +126,9 @@
   height: 32px;
   float: right;
 }
+.tx_find ol.resultList li .field-anmerkung {
+  font-style: italic;
+}
 .tx_find ol.resultList li .details {
   color: #999;
 }
