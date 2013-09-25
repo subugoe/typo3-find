@@ -1,0 +1,27 @@
+{namespace s=Tx_Find_ViewHelpers}
+<f:if condition="{document.url_quelle}">
+	<section class="quelle">
+		<h2>Quelle</h2>
+		<ul>
+			<s:transpose name="quellen" arrays="{
+				url: document.url_quelle,
+				titel: document.url_quelle_titel
+			}">
+				<f:for each="{quellen}" as="quelle">
+					<li>
+						<f:link.external uri="{quelle.url}">
+							<f:if condition="{quelle.titel}">
+								<f:then>
+									{quelle.titel}
+								</f:then>
+								<f:else>
+									{quelle.url}
+								</f:else>
+							</f:if>
+						</f:link.external>
+					</li>
+				</f:for>
+			</s:transpose>
+		</ul>
+	</section>
+</f:if>
