@@ -16,7 +16,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="input.default">All Fields</label>
-			<label index="input.default.placeholder">e.g. German Translation, Chassinat page, WB page</label>
+			<label index="input.default.placeholder">e.g.: Nilpferd, VIII 051 13</label>
 			<label index="input.raw">Solr Abfrage</label>
 			<label index="input.sort">Sort By</label>
 			<label index="input.sort-default">Default</label>
@@ -29,7 +29,7 @@
 
 		<languageKey index="de" type="array">
 			<label index="input.default">Alle Felder</label>
-			<label index="input.default.placeholder">z.B. Übersetzung, Chassinat Stelle, WB Stelle</label>
+			<label index="input.default.placeholder">z.B. Nilpferd, VIII 051 13</label>
 			<label index="input.raw">Solr Abfrage</label>
 			<label index="input.sort">Sortierung</label>
 			<label index="input.sort-default">Standard</label>

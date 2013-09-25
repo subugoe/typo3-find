@@ -4,7 +4,7 @@
 		<f:render partial="Edfu/BandSeiteZeile" arguments="{_all}"/>
 	</span>
 	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
-	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'berlin_display', separator:', ', prefixString:' – WB '}"/>
+	<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'berlin_display', separator:', ', prefixString:' – Wb '}"/>
 </h1>
 <p>
 	<f:if condition="{s:pathExists(path:'fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg')}">
