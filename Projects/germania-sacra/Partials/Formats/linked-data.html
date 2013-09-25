@@ -7,7 +7,7 @@
 		foaf:'http://xmlns.com/foaf/0.1/',
 		skos:'http://www.w3.org/2004/02/skos/core#',
 		gnd:'http://d-nb.info/gnd/',
-		dbpedia:'http://dbpedia.org/ontology/',
+		dbpedia-ontology:'http://dbpedia.org/ontology/',
 		role:'http://purl.org/vocab/participation/schema#',
 		prov:'http://www.w3.org/ns/prov#',
 		geo:'http://www.w3.org/2003/01/geo/wgs84_pos#',
@@ -116,7 +116,7 @@
 				<s:linkedDataItem subject="{standortURI}" predicate="foaf:name">{standort.ort}</s:linkedDataItem>
 
 				<f:if condition="{standort.bistum_gnd}">
-					<s:linkedDataItem subject="{standortURI}" predicate="dbpedia:locatedInArea" object="gnd:{standort.bistum_gnd}"/>
+					<s:linkedDataItem subject="{standortURI}" predicate="dbpedia-ontology:locatedInArea" object="gnd:{standort.bistum_gnd}"/>
 				</f:if>
 
 				<f:if condition="{standort.geonames}">
@@ -172,7 +172,7 @@
 				<s:linkedDataItem subject="{roleURI}" predicate="role:holder" object="{personURI}"/>
 				<s:linkedDataItem subject="{klosterURI}" predicate="role:role" object="{roleURI}"/>
 				<f:if condition="person.bezeichnung">
-					<s:linkedDataItem subject="{roleURI}" predicate="foaf:name">{person.bezeichnung}</s:linkedDataItem>
+					<s:linkedDataItem subject="{roleURI}" predicate="foaf:name" language="de">{person.bezeichnung}</s:linkedDataItem>
 				</f:if>
 				<f:if condition="{person.von}">
 					<s:linkedDataItem subject="{roleURI}" predicate="role:startDate" objectType="xsd:date">{person.von}-01-01</s:linkedDataItem>
