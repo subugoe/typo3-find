@@ -36,7 +36,7 @@ class Tx_Find_ViewHelpers_JSONViewHelper extends Tx_Fluid_Core_ViewHelper_Abstra
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', TRUE);
+		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
 	}
 
 
@@ -44,7 +44,12 @@ class Tx_Find_ViewHelpers_JSONViewHelper extends Tx_Fluid_Core_ViewHelper_Abstra
 	 * @return string
 	 */
 	public function render() {
-		return json_encode($this->arguments['data']);
+		$data = $this->arguments['data'];
+		if ($data === NULL) {
+			$data = $this->renderChildren();
+		}
+
+		return json_encode($data);
 	}
 
 }
