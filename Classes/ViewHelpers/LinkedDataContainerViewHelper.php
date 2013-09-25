@@ -124,7 +124,6 @@ class Tx_Find_ViewHelpers_LinkedDataTurtleRenderer extends Tx_Find_ViewHelpers_L
 						}
 						else {
 							// TODO: Error Handling for could not escape.
-							debugster('gaga');
 						}
 						if ($properties['language']) {
 							$objectString .= '@' . $properties['language'];
@@ -193,9 +192,9 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 		$this->doc->appendChild($rdf);
 
 		// loop over subjects
-		foreach ($items as $subject => $subjectStatements) {
+		foreach ($items as $subjectURI => $subjectStatements) {
 			$subjectDescription = $this->doc->createElement($this->prefixedName('rdf:Description'));
-			$subjectDescription->setAttribute($this->prefixedName('rdf:about'), $subject);
+			$subjectDescription->setAttribute($this->prefixedName('rdf:about'), $this->prefixedName($subjectURI, TRUE));
 
 			// loop over predicates
 			foreach ($subjectStatements as $predicate => $objects) {
@@ -210,15 +209,14 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 						if ($this->prefixes[$objectParts[0]] && count($objectParts) === 2) {
 							$object = $this->prefixes[$objectParts[0]] . $objectParts[1];
 						}
-						$fullObjectURI = object;
-						$predicateElement->setAttribute($this->prefixedName('rdf:resource'), $this->prefixedName($object));
+						$predicateElement->setAttribute($this->prefixedName('rdf:resource'), $this->prefixedName($object, TRUE));
 					}
 					else {
 						if ($properties['language']) {
 							$predicateElement->setAttribute($this->prefixedName('xml:lang'), $properties['language']);
 						}
 						if ($properties['type']) {
-							$predicateElement->setAttribute($this->prefixedName('rdf:datatype'), $properties['type']);
+							$predicateElement->setAttribute($this->prefixedName('rdf:datatype'), $this->prefixedName($properties['type'], TRUE));
 						}
 
 						$predicateElement->appendChild($this->doc->createTextNode($object));
@@ -242,10 +240,13 @@ class Tx_Find_ViewHelpers_LinkedDataRDFRenderer extends Tx_Find_ViewHelpers_Link
 		return $this->doc->saveXML();
 	}
 
-	private function prefixedName ($name) {
+	private function prefixedName ($name, $expand = FALSE) {
 		$nameParts = explode(':', $name, 2);
 		if ($this->prefixes[$nameParts[0]]) {
 			$this->usedPrefixes[$nameParts[0]] = TRUE;
+			if ($expand && count($nameParts) > 1) {
+				$name = $this->prefixes[$nameParts[0]] . $nameParts[1];
+			}
 		}
 
 		return $name;
