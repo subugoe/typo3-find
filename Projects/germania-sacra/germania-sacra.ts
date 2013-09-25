@@ -268,6 +268,16 @@ plugin.tx_find {
 	}
 }
 
+tx_find_page_turtle = PAGE
+tx_find_page_turtle {
+	typeNum = 1380124799
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/turtle;charset=utf-8
+	}
+}
+
 tx_find_page_rdf = PAGE
 tx_find_page_rdf {
 	typeNum = 1378891468
@@ -275,6 +285,16 @@ tx_find_page_rdf {
 	config {
 		disableAllHeaderCode = 1
 		additionalHeaders = Content-type:text/turtle;charset=utf-8
+	}
+}
+
+tx_find_page_jsonld = PAGE
+tx_find_page_jsonld {
+	typeNum = 1380123307
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/json;charset=utf-8
 	}
 }
 

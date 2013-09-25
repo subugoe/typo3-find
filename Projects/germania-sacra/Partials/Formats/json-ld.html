@@ -1,0 +1,11 @@
+{namespace s=Tx_Find_ViewHelpers}<s:strip>
+	<f:for each="{results.documents}" as="document">
+		<f:alias map="{
+			klosterURI: '{f:render(partial:\'GS/Permalink\', arguments:\'{id:document.sql_uid}\')}',
+			doc: document.fields,
+			LDFormat: 'json-ld'
+		}">
+			<f:render partial="Formats/linked-data" arguments="{_all}"/>
+		</f:alias>
+	</f:for>
+</s:strip>
