@@ -19,14 +19,14 @@ plugin.tx_find {
 			20 {
 				id = author
 				type = Text
-				query = author_browse:%s
+				query = author:%s
 				extended = 1
 				noescape = 1
 			}
 			30 {
 				id = year
 				type = Range
-				field = publishDate
+				query = publishDate:[%1$s TO %2$s]
 				default.0 = *
 				default.1 = *
 				extended = 1
