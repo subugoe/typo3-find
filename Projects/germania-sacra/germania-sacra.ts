@@ -21,7 +21,7 @@ plugin.tx_find {
 				noescape = 1
 				hidden = 1
 			}
-			5 {
+			10 {
 				id = klostername
 				type = Text
 				query = {!join from=kloster_id to=id}(kloster:%s AND typ:standort-orden)
@@ -30,15 +30,43 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = klostername_suggest
 			}
-			6 {
+			11 {
 				id = klostername-nojoin
 				type = Text
 				query = (kloster:%s AND typ:standort-orden)
 				hidden = 1
-				noescape = 1
 				extended = 1
 			}
-			10 {
+			20 {
+				id = kloster-id
+				type = Text
+				query = (id:%s)
+				extended = 1
+			}
+			21 {
+				id = kloster-id-nojoin
+				type = Text
+				query = (id:%s)
+				hidden = 1
+				extended = 1
+			}
+			30 {
+				id = status
+				type = SelectFacet
+				facetID = status
+				query = {!join from=kloster_id to=id}(status_facet:"%s" AND typ:standort-orden)
+				extended = 1
+			}
+			31 {
+				id = status-nojoin
+				type = SelectFacet
+				facetID = status
+				query = (status_facet:%s AND typ:standort-orden)
+				phrase = 1
+				extended = 1
+				hidden = 1
+			}
+			40 {
 				id = bistum
 				type = Text
 				query = {!join from=kloster_id to=id}(bistum:%s AND typ:standort-orden)
@@ -47,7 +75,7 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = bistum_suggest
 			}
-			11 {
+			41 {
 				id = bistum-nojoin
 				type = Text
 				query = (bistum:%s AND typ:standort-orden)
@@ -55,7 +83,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			20 {
+			50 {
 				id = orden
 				type = Text
 				query = {!join from=kloster_id to=id}(orden:%s AND typ:standort-orden)
@@ -64,7 +92,7 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = orden_suggest
 			}
-			21 {
+			51 {
 				id = orden-nojoin
 				type = Text
 				query = (orden:%s AND typ:standort-orden)
@@ -72,7 +100,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			30 {
+			60 {
 				id = ort
 				type = Text
 				query = {!join from=kloster_id to=id}(ort:%s AND typ:standort-orden)
@@ -81,7 +109,7 @@ plugin.tx_find {
 				autocomplete = 1
 				autocompleteDictionary = ort_suggest
 			}
-			31 {
+			61 {
 				id = ort-nojoin
 				type = Text
 				query = (ort:%s AND typ:standort-orden)
@@ -89,7 +117,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			40 {
+			70 {
 				id = zeitraum
 				type = Range
 				query = {!join from=kloster_id to=id}(orden_standort_von:[* TO %2$s] AND orden_standort_bis:[%1$s TO *] AND typ:standort-orden)
@@ -98,7 +126,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			41 {
+			71 {
 				id = zeitraum-nojoin
 				type = Range
 				query =  (orden_standort_von:[* TO %2$s] AND orden_standort_bis:[%1$s TO *] AND typ:standort-orden)
@@ -108,7 +136,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			50 {
+			80 {
 				id = person
 				type = Text
 				query = ((person_name:%1$s OR person_namensalternativen:%1$s) AND typ:kloster)
@@ -116,7 +144,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			51 {
+			81 {
 				id = person-nojoin
 				type = Text
 				query = ((person_name:%1$s OR person_namensalternativen:%1$s) AND typ:kloster)
@@ -124,22 +152,6 @@ plugin.tx_find {
 				hidden = 1
 				noescape = 1
 				extended = 1
-			}
-			60 {
-				id = status
-				type = SelectFacet
-				facetID = status
-				query = {!join from=kloster_id to=id}(status_facet:"%s" AND typ:standort-orden)
-				extended = 1
-			}
-			61 {
-				id = status-nojoin
-				type = SelectFacet
-				facetID = status
-				query = (status_facet:%s AND typ:standort-orden)
-				phrase = 1
-				extended = 1
-				hidden = 1
 			}
 			# corresponds to facet 20
 			121 {
