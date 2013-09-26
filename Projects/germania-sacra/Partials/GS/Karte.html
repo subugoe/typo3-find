@@ -7,7 +7,7 @@
 		<t3jquery:addJQueryAndScript>
 			var ID = {s:json(data:document.id)};
 			var standorte = [];
-			var koordinaten, titel, queryURL, institutionengenau;
+			var koordinaten, titel, queryURL, institutionengenau, icon;
 			<f:for each="{document.koordinaten}" as="koordinaten" key="index">
 				koordinaten = {s:json(data:koordinaten)};
 				titel = {s:json(data:document.kloster)};
@@ -22,11 +22,13 @@
 					pageType="1369315139"
 					noCacheHash="1"/>";
 				institutionengenau = {s:json(data:"{s:valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
+				icon = {s:json(data:"{s:valueForKey(array:document.orden_graphik, key:index)}")};
 				standorte.push({
 					koordinaten: koordinaten,
 					titel: titel,
 					queryURL: queryURL,
-					institutionengenau: institutionengenau
+					institutionengenau: institutionengenau,
+					icon: icon
 				});
 			</f:for>
 

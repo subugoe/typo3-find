@@ -225,12 +225,23 @@ var germaniaSacra = (function () {
 				var long = parseFloat(koordinaten[1]);
 				if (lat !== NaN && long !== NaN) {
 					var point = new google.maps.LatLng(lat, long);
-					new google.maps.Marker({
+
+					var markerOptions = {
 						'map': map,
 						'position': point,
 						'title': standort.titel,
 						'zIndex': 100
-					});
+					};
+					if (standort.icon) {
+						markerOptions['icon'] = {
+							'url': baseURL + 'Ordenssymbole/' + standort.icon + '.png',
+							'scaledSize': new google.maps.Size(30, 45),
+							'origin': iconOrigin(),
+							'anchor': new google.maps.Point(15, 45)
+						};
+					}
+					new google.maps.Marker(markerOptions);
+
 					containingBounds.extend(point);
 					addNearby(map, standort.queryURL);
 				}
@@ -254,37 +265,46 @@ var germaniaSacra = (function () {
 		map.fitBounds(containingBounds);
 	};
 
+	var iconScaledSize = function () {
+		return new google.maps.Size(20, 30);
+	};
+
+	var iconOrigin = function () {
+		return new google.maps.Point(0, 0);
+	};
+
+	var iconAnchor = function () {
+		return new google.maps.Point(10, 30);
+	};
+
+	var iconForStandort = function (standortInfo, ordenInfos) {
+		var icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png';
+
+		var matchingOrden = [];
+		for (var ordenIndex in ordenInfos) {
+			var ordenInfo = ordenInfos[ordenIndex];
+			if (standortInfo.von < ordenInfo.bis && ordenInfo.von < standortInfo.bis) {
+				matchingOrden.push(ordenInfo);
+			}
+		}
+
+		if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
+			// Unique orden with an icon: use it.
+			var fileName = matchingOrden[0].graphik;
+			var iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
+			icon = {
+				'url': iconURL,
+				'scaledSize': iconScaledSize(),
+				'origin': iconOrigin(),
+				'anchor': iconAnchor()
+			};
+		}
+
+		return icon;
+	};
+
 
 	var addNearby = function (map, queryURL) {
-		var iconForStandort = function (standortInfo, ordenInfos) {
-			var icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png';
-
-			var matchingOrden = [];
-			for (var ordenIndex in ordenInfos) {
-				var ordenInfo = ordenInfos[ordenIndex];
-				if (standortInfo.von < ordenInfo.bis && ordenInfo.von < standortInfo.bis) {
-					matchingOrden.push(ordenInfo);
-				}
-			}
-
-			if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
-				// Unique orden with an icon: use it.
-				var fileName = matchingOrden[0].graphik;
-				var iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
-				var scaledSize = new google.maps.Size(20, 30);
-				var origin = new google.maps.Point(0, 0);
-				var anchor = new google.maps.Point(10, 30);
-				icon = {
-					'url': iconURL,
-					'scaledSize': scaledSize,
-					'origin': origin,
-					'anchor': anchor
-				};
-			}
-
-			return icon;
-		};
-
 		jQuery.getJSON(queryURL, function (results) {
 			for (var docIndex in results) {
 				var result = results[docIndex];
@@ -347,11 +367,10 @@ var germaniaSacra = (function () {
 
 	var addBistumsgrenzen = function (map) {
 		if (map) {
-			var baseURL = 'http://vlib.sub.uni-goettingen.de/test/typo3conf/ext/find/Projects/germania-sacra/Resources/Bistumsgrenzen/';
 			new google.maps.KmlLayer({
 				'map': map,
 				'preserveViewport': true,
-				'url': baseURL + 'Bistumsgrenzen.kml'
+				'url': baseURL + 'Bistumsgrenzen/Bistumsgrenzen.kml'
 			});
 		}
 	};
