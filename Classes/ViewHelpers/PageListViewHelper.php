@@ -24,11 +24,14 @@
 	 * THE SOFTWARE.
 	 ******************************************************************************/
 
+	namespace Subugoe\Find\ViewHelpers;
 
+
+	
 	/**
 	 * View Helper returning an array of data needed to create a page list with templates.
 	 */
-	class Tx_Find_ViewHelpers_PageListViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class PageListViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 		/**

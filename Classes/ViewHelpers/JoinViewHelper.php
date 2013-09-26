@@ -24,11 +24,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to join the elements of an array into a string.
  */
-class Tx_Find_ViewHelpers_JoinViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class JoinViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

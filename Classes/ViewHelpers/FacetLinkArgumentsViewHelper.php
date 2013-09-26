@@ -27,6 +27,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+namespace Subugoe\Find\ViewHelpers;
+
+
+
 /**
  * Returns additional parameters needed to create links for facets.
  *
@@ -39,7 +43,7 @@
  * 		- remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
  *					leaving out the facetTerm parameter removes all selected items for the facet facetID
  */
-class Tx_Find_ViewHelpers_FacetLinkArgumentsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class FacetLinkArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Register arguments.

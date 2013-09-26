@@ -24,11 +24,14 @@
 	 * THE SOFTWARE.
 	 ******************************************************************************/
 
+	namespace Subugoe\Find\ViewHelpers;
+
+	
 
 	/**
 	 * View Helper returning the TSFE array.
 	 */
-	class Tx_Find_ViewHelpers_TSFEViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class TSFEViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 		/**
 		 * @return array

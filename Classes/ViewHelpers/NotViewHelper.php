@@ -24,11 +24,14 @@
 	 * THE SOFTWARE.
 	 ******************************************************************************/
 
+	namespace Subugoe\Find\ViewHelpers;
+
+	
 
 	/**
 	 * View Helper the truth value of all conditions joined by ||.
 	 */
-	class Tx_Find_ViewHelpers_NotViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class NotViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 		/**

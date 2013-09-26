@@ -24,6 +24,9 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper for styling the content of index document’s result fields.
@@ -39,7 +42,7 @@
  * The highlighting tags can be configured using the highlightTagOpen and
  * highlightTagClose arguments.
  */
-class Tx_Find_ViewHelpers_HighlightFieldViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.

@@ -1,4 +1,5 @@
 <?php
+namespace Subugoe\Find\ViewHelpers;
 /*******************************************************************************
  * Copyright notice
  *
@@ -25,10 +26,11 @@
  ******************************************************************************/
 
 
+
 /**
  * View Helper 
  */
-class Tx_Find_ViewHelpers_LinkCSSViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class LinkCSSViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

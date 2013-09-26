@@ -24,11 +24,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to split a string into an array of strings at the given separator.
  */
-class Tx_Find_ViewHelpers_SplitViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class SplitViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

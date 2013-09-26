@@ -24,11 +24,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to return the passed array, string or number as JSON.
  */
-class Tx_Find_ViewHelpers_JSONViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class JSONViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

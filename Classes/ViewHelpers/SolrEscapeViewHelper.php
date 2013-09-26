@@ -24,11 +24,14 @@
 	 * THE SOFTWARE.
 	 ******************************************************************************/
 
+	namespace Subugoe\Find\ViewHelpers;
+
+	
 
 	/**
 	 * View Helper to escape a string for Solr queries.
 	 */
-	class Tx_Find_ViewHelpers_SolrEscapeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class SolrEscapeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 		/**

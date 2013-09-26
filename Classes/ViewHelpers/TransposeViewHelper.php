@@ -25,8 +25,11 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
 
-class Tx_Find_ViewHelpers_TransposeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+
+
+class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Registers arguments.

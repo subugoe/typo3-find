@@ -24,11 +24,14 @@
 	 * THE SOFTWARE.
 	 ******************************************************************************/
 
+	namespace Subugoe\Find\ViewHelpers;
+
+
 
 	/**
 	 * View Helper to create a new array with the given keys and values.
 	 */
-	class Tx_Find_ViewHelpers_NewArrayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 		/**

@@ -24,13 +24,16 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to return the number of the page the result at position resultNumber
  * appears on with resultsPerPage items per page, i.e. returns
  * resultNumber mod resultsPerPage.
  */
-class Tx_Find_ViewHelpers_PageNumberForResultNumberViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class PageNumberForResultNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

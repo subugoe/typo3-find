@@ -24,11 +24,13 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
 
 /**
  * View Helper to return whether the variable is an array.
  */
-class Tx_Find_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

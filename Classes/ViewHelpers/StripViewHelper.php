@@ -24,11 +24,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to strip leading and trailing whitespace or other characters from a given string.
  */
-class Tx_Find_ViewHelpers_StripViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class StripViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

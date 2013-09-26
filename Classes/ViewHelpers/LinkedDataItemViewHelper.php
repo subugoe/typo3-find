@@ -24,12 +24,15 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
+namespace Subugoe\Find\ViewHelpers;
+
+
 
 /**
  * View Helper to create a container for linked data output.
  * Add data by using the linkedDataItem View Helper inside it.
  */
-class Tx_Find_ViewHelpers_LinkedDataItemViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class LinkedDataItemViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**;
