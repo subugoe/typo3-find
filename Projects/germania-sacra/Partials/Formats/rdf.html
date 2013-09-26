@@ -1,4 +1,4 @@
-{namespace s=Tx_Find_ViewHelpers}<s:strip>
+{namespace s=Subugoe\Find\ViewHelpers}<s:strip>
 	<f:for each="{results.documents}" as="document">
 		<f:alias map="{
 			klosterURI: '{f:render(partial:\'GS/Permalink\', arguments:\'{id:document.sql_uid}\')}',
