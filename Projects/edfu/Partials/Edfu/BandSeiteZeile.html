@@ -1,4 +1,4 @@
-{namespace s=Tx_Find_ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
 <f:if condition="{f:count(subject:document.fields.bandseitezeile) > 0}">
 	<f:alias map="{multiple:\"{f:if(condition:'{f:count(subject:document.fields.bandseitezeile)} > 1', then: 1, else:0)}\"}">
 		<span class="bandseitezeile{f:if(condition:multiple, then:' multiple', else:'')}" {f:if(condition:multiple, then:'title="{s:join(array:document.fields.bandseitezeile, separator:\'; \')}"')}>
