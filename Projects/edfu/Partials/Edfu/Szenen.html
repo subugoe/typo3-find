@@ -25,11 +25,17 @@
 			<div class="mapContainer">
 				<f:image src="EXT:find/Projects/edfu/Resources/tempel/tempel.png" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Tempelplan')}"/>
 				<f:for each="{szenen}" as="szene">
-					<f:alias map="{colour:'hsl(-{szene.prozent_z}, 100%, 50%)'}">
+					<f:alias map="{
+						colour:'hsl(-{szene.prozent_z}, 100%, 50%)',
+						typFacetArray:'{s:newArray(
+							keys:\"{0:document.fields.typ}\",
+							values:\"{0:1}\"
+						)}'
+					}">
 						<f:link.action
 							arguments="{
 								q:'{szene:szene.uid}',
-								facets:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'
+								facet:'{typ:typFacetArray}'
 							}"
 							section="{jumpToID}"
 							noCacheHash="1"

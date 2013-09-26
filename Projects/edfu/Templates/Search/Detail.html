@@ -3,39 +3,44 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<t3jquery:addJQueryAndScript>
-		var szeneQueryURL = {s:json(
-			data:"{f:uri.action(
-				arguments:\"{
-					q:{raw:'###TERM###'},
-					facet:{typ:{szene:1}},
-					count:1000,
-					dataFields:'###DATAFIELDS###',
-					data-format:'json-solr-results'
-				}\",
-				section:jumpToID,
-				action:'data',
-				pageType:'1369315139',
-				noCacheHash:1
-			)}"
-		)};
-		var szeneLinkURL = {s:json(
-			data:"{f:uri.action(
-				arguments:\"{
-					q:{szene:'###TERM###'},
-					facet:'{s:newArray(keys:\'{0:document.fields.typ}\', values:\'{0:1}\')}'
-				}\",
-				section:jumpToID,
-				action:'index',
-				noCacheHash:1
-			)}"
-		)};
+	<f:alias map="{typFacetArray:'{s:newArray(
+		keys:\"{0:document.fields.typ}\",
+		values:\"{0:1}\"
+	)}'}">
+		<t3jquery:addJQueryAndScript>
+			var szeneQueryURL = {s:json(
+				data:"{f:uri.action(
+					arguments:\"{
+						q:{raw:'###TERM###'},
+						facet:{typ:{szene:1}},
+						count:1000,
+						dataFields:'###DATAFIELDS###',
+						data-format:'json-solr-results'
+					}\",
+					section:jumpToID,
+					action:'data',
+					pageType:'1369315139',
+					noCacheHash:1
+				)}"
+			)};
+			var szeneLinkURL = {s:json(
+				data:"{f:uri.action(
+					arguments:\"{
+						q:{szene:'###TERM###'},
+						facet:'{typ:typFacetArray}'
+					}\",
+					section:jumpToID,
+					action:'index',
+					noCacheHash:1
+				)}"
+			)};
 
-		edfu.init({
-			'szeneQueryURL':szeneQueryURL,
-			'szeneLinkURL':szeneLinkURL
-		});
-	</t3jquery:addJQueryAndScript>
+			edfu.init({
+				'szeneQueryURL':szeneQueryURL,
+				'szeneLinkURL':szeneLinkURL
+			});
+		</t3jquery:addJQueryAndScript>
+	</f:alias>
 	<s:pageTitle>{document.fields.id} – {pageTitle}</s:pageTitle>
 
 	<s:newArray
