@@ -12,6 +12,6 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 	'Find' // A title shown in the backend dropdown field
 );
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Find');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Find');
 
 ?>
