@@ -176,12 +176,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					}
 					else {
 						$this->flashMessageContainer->add('find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', t3lib_FlashMessage::ERROR);
-						$this->redirect('index');
+						$this->forward('index');
 					}
 				}
 				else {
 					$this->flashMessageContainer->add('find: »detail« action query with underlying query returned no results.', t3lib_FlashMessage::ERROR);
-					$this->redirect('index');
+					$this->forward('index');
 				}
 			}
 			else {
@@ -197,7 +197,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				}
 				else {
 					$this->flashMessageContainer->add('find: »detail« action query for id »' . $id . '« returned no results.', t3lib_FlashMessage::ERROR);
-					$this->redirect('index');
+					$this->forward('index');
 				}
 			}
 
@@ -207,7 +207,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		else {
 			// id argument missing or empty
 			$this->flashMessageContainer->add('find: Non-empty argument »id« is required for action »detail«.', t3lib_FlashMessage::ERROR);
-			$this->redirect('index');
+			$this->forward('index');
 		}
 	}
 
