@@ -27,12 +27,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+namespace Subugoe\Find\Controller;
+
+
+
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('find') . 'vendor/autoload.php');
 
 /**
  * Description
  */
-class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
+class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var \Solarium\Client
@@ -60,7 +64,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			)
 		);
 
-		$this->solr = new Solarium\Client($configuration);
+		$this->solr = new \Solarium\Client($configuration);
 
 		$this->requestArguments = $this->request->getArguments();
         $this->cleanArgumentsArray($this->requestArguments);
@@ -423,7 +427,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					// Add a filter query by default.
 
 					// Add tag/key when configured to excludeOwnFilter for this facet.
-					// Do not add it otherwise as the additional {!tag ...} prepended to the Solr query
+					// Do not add it otherwise as the additional {!tag …} prepended to the Solr query
 					// will break usage of {!join …} in the query.
 					$queryInfo = array('key' => 'facet-' . $facetID . '-' . $facetTerm);
 					if ($facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
@@ -690,7 +694,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 			foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
 				if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
 					$localisationKey = 'LLL:' . $this->settings['languageRootPath'] . 'locallang-form.xml:input.sort-' . $sortOption['id'];
-					$localisedLabel = Tx_Extbase_Utility_Localization::translate($localisationKey, $this->request->getControllerExtensionKey());
+					$localisedLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $this->request->getControllerExtensionKey());
 					if (!$localisedLabel) {
 						$localisedLabel = $sortOption['id'];
 					}
@@ -993,7 +997,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		}
 
 		if ($this->settings['paging']['detailPagePaging']) {
-			$scriptTag = new Tx_Fluid_Core_ViewHelper_TagBuilder('script');
+			$scriptTag = new \TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder('script');
 			$scriptTag->addAttribute('type', 'text/javascript');
 			
 			$underlyingQuery = array('q' => $query);
