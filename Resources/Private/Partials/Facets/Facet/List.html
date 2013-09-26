@@ -1,4 +1,4 @@
-{namespace s=Tx_Find_ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
 <f:if condition="{facetInfo.autocomplete}">
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
 		<f:render partial="Facets/Facet/ListAutocomplete" arguments="{_all}"/>
