@@ -175,12 +175,12 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 						}
 					}
 					else {
-						$this->flashMessageContainer->add('find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', t3lib_FlashMessage::ERROR);
+						$this->flashMessageContainer->add('find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 						$this->forward('index');
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('find: »detail« action query with underlying query returned no results.', t3lib_FlashMessage::ERROR);
+					$this->flashMessageContainer->add('find: »detail« action query with underlying query returned no results.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 					$this->forward('index');
 				}
 			}
@@ -196,7 +196,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					$assignments['document'] = $resultSet[0];
 				}
 				else {
-					$this->flashMessageContainer->add('find: »detail« action query for id »' . $id . '« returned no results.', t3lib_FlashMessage::ERROR);
+					$this->flashMessageContainer->add('find: »detail« action query for id »' . $id . '« returned no results.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 					$this->forward('index');
 				}
 			}
@@ -206,7 +206,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 		}
 		else {
 			// id argument missing or empty
-			$this->flashMessageContainer->add('find: Non-empty argument »id« is required for action »detail«.', t3lib_FlashMessage::ERROR);
+			$this->flashMessageContainer->add('find: Non-empty argument »id« is required for action »detail«.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 			$this->forward('index');
 		}
 	}
@@ -462,7 +462,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 				}
 			}
 			if ($queryString === NULL) {
-				$this->flashMessageContainer->add('find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', t3lib_FlashMessage::WARNING);
+				$this->flashMessageContainer->add('find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 			}
 		}
 		else {
@@ -590,7 +590,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 								$queryForFacet->createQuery($facetQuery['id'], $facetQuery['query']);
 							}
 							else {
-								$this->flashMessageContainer->add('find: TypoScript facet »' . $facetID . '«, facetQuery ' . $facetQueryIndex . ' does not have the required keys »id« and »query«. Ignoring this facetQuery.', t3lib_FlashMessage::WARNING);
+								$this->flashMessageContainer->add('find: TypoScript facet »' . $facetID . '«, facetQuery ' . $facetQueryIndex . ' does not have the required keys »id« and »query«. Ignoring this facetQuery.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 							}
 						}
 					}
@@ -607,7 +607,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('find: TypoScript facet ' . $key . ' does not have the required key »id«. Ignoring this facet.', t3lib_FlashMessage::WARNING);
+					$this->flashMessageContainer->add('find: TypoScript facet ' . $key . ' does not have the required key »id«. Ignoring this facet.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 				}
 			}
 		}
@@ -701,7 +701,7 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('find: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', t3lib_FlashMessage::WARNING);
+					$this->flashMessageContainer->add('find: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 				}
 			}
 
@@ -737,14 +737,14 @@ class Tx_Find_Controller_SearchController extends Tx_Extbase_MVC_Controller_Acti
 						$sortDirection = $query::SORT_DESC;
 					}
 					else if ($sortCriterionParts[1] !== 'asc') {
-						$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', t3lib_FlashMessage::WARNING);
+						$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 						continue;
 					}
 
 					$query->addSort($sortCriterionParts[0], $sortDirection);
 				}
 				else {
-					$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', t3lib_FlashMessage::WARNING);
+					$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 				}
 			}
 		}
