@@ -74,13 +74,13 @@ abstract class Tx_Find_ViewHelpers_LinkedDataRenderer {
 
 	public static function instantiateSubclassForType ($type) {
 		if ($type === 'rdf') {
-			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataRDFRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Find_ViewHelpers_LinkedDataRDFRenderer');
 		}
 		else if ($type === 'json-ld') {
-			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataJSONLDRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Find_ViewHelpers_LinkedDataJSONLDRenderer');
 		}
 		else {
-			$instance = t3lib_div::makeInstance('Tx_Find_ViewHelpers_LinkedDataTurtleRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Find_ViewHelpers_LinkedDataTurtleRenderer');
 		}
 
 		return $instance;
