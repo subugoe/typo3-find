@@ -29,8 +29,8 @@ gnd:4067883-0
 kloster:349#orden-282
 	a role:Role, gnd:4114609-8 ;
 	role:holder kloster:349 ;
-	role:startDate "1131-01-01"^^xsd:date ;
-	role:endDate "1810-01-01"^^xsd:date .
+	role:startDate "1131-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1810-01-01T12:00:00Z"^^xsd:dateTime .
 
 gnd:4114609-8
 	a skos:Concept ;
@@ -39,8 +39,8 @@ gnd:4114609-8
 kloster:349#orden-283
 	a role:Role, gnd:4114609-8 ;
 	role:holder kloster:349 ;
-	role:startDate "1148-01-01"^^xsd:date ;
-	role:endDate "1810-01-01"^^xsd:date .
+	role:startDate "1148-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1810-01-01T12:00:00Z"^^xsd:dateTime .
 
 gnd:4005487-1
 	a foaf:Group ;
@@ -54,14 +54,14 @@ gnd:4005487-1
 kloster:349#orden-284
 	a role:Role, gnd:4114609-8 ;
 	role:holder kloster:349 ;
-	role:startDate "1148-01-01"^^xsd:date ;
-	role:endDate "1810-01-01"^^xsd:date .
+	role:startDate "1148-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1810-01-01T12:00:00Z"^^xsd:dateTime .
 
 kloster:349#hat-standort-423
 	a prov:Activity, gnd:4143381-6 ;
 	prov:wasAssociatedWith kloster:349 ;
-	prov:startedAtTime "1131-01-01"^^xsd:date ;
-	prov:endedAtTime "1810-01-01"^^xsd:date ;
+	prov:startedAtTime "1131-01-01T12:00:00Z"^^xsd:dateTime ;
+	prov:endedAtTime "1810-01-01T12:00:00Z"^^xsd:dateTime ;
 	prov:atLocation kloster:349#standort-423 .
 
 gnd:4143381-6
@@ -77,8 +77,8 @@ kloster:349#standort-423
 kloster:349#hat-standort-349
 	a prov:Activity, gnd:4143381-6 ;
 	prov:wasAssociatedWith kloster:349 ;
-	prov:startedAtTime "1148-01-01"^^xsd:date ;
-	prov:endedAtTime "1198-01-01"^^xsd:date ;
+	prov:startedAtTime "1148-01-01T12:00:00Z"^^xsd:dateTime ;
+	prov:endedAtTime "1198-01-01T12:00:00Z"^^xsd:dateTime ;
 	prov:atLocation <http://sws.geonames.org/2944388>, kloster:349#standort-349 .
 
 kloster:349#standort-349
@@ -90,8 +90,8 @@ kloster:349#standort-349
 kloster:349#hat-standort-329
 	a prov:Activity, gnd:4143381-6 ;
 	prov:wasAssociatedWith kloster:349 ;
-	prov:startedAtTime "1148-01-01"^^xsd:date ;
-	prov:endedAtTime "1232-01-01"^^xsd:date ;
+	prov:startedAtTime "1148-01-01T12:00:00Z"^^xsd:dateTime ;
+	prov:endedAtTime "1232-01-01T12:00:00Z"^^xsd:dateTime ;
 	prov:atLocation kloster:349#standort-329 .
 
 kloster:349#standort-329

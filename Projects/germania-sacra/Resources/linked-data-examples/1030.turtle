@@ -32,8 +32,8 @@ gnd:4067883-0
 kloster:1030#orden-994
 	a role:Role, gnd:4114609-8 ;
 	role:holder kloster:1030 ;
-	role:startDate "1133-01-01"^^xsd:date ;
-	role:endDate "1803-01-01"^^xsd:date .
+	role:startDate "1133-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1803-01-01T12:00:00Z"^^xsd:dateTime .
 
 gnd:4114609-8
 	a skos:Concept ;
@@ -42,8 +42,8 @@ gnd:4114609-8
 kloster:1030#hat-standort-1148
 	a prov:Activity, gnd:4143381-6 ;
 	prov:wasAssociatedWith kloster:1030 ;
-	prov:startedAtTime "1133-01-01"^^xsd:date ;
-	prov:endedAtTime "1803-01-01"^^xsd:date ;
+	prov:startedAtTime "1133-01-01T12:00:00Z"^^xsd:dateTime ;
+	prov:endedAtTime "1803-01-01T12:00:00Z"^^xsd:dateTime ;
 	prov:atLocation kloster:1030#standort-1148 .
 
 gnd:4143381-6
@@ -64,8 +64,8 @@ person:066-02185-001#amt-291280
 	a role:Role ;
 	role:holder person:066-02185-001 ;
 	foaf:name "Abt"@de ;
-	role:startDate "1181-01-01"^^xsd:date ;
-	role:endDate "1198-01-01"^^xsd:date .
+	role:startDate "1181-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1198-01-01T12:00:00Z"^^xsd:dateTime .
 
 person:066-04666-001
 	a foaf:Person ;
@@ -75,8 +75,8 @@ person:066-04666-001#amt-291657
 	a role:Role ;
 	role:holder person:066-04666-001 ;
 	foaf:name "Abt"@de ;
-	role:startDate "1203-01-01"^^xsd:date ;
-	role:endDate "1208-01-01"^^xsd:date .
+	role:startDate "1203-01-01T12:00:00Z"^^xsd:dateTime ;
+	role:endDate "1208-01-01T12:00:00Z"^^xsd:dateTime .
 
 person:066-03182-001
 	a foaf:Person ;
@@ -86,7 +86,7 @@ person:066-03182-001#amt-291352
 	a role:Role ;
 	role:holder person:066-03182-001 ;
 	foaf:name "Abt"@de ;
-	role:startDate "1650-01-01"^^xsd:date .
+	role:startDate "1650-01-01T12:00:00Z"^^xsd:dateTime .
 
 person:066-00634-001
 	a foaf:Person ;
@@ -96,7 +96,7 @@ person:066-00634-001#amt-291376
 	a role:Role ;
 	role:holder person:066-00634-001 ;
 	foaf:name "Abt"@de ;
-	role:startDate "1651-01-01"^^xsd:date .
+	role:startDate "1651-01-01T12:00:00Z"^^xsd:dateTime .
 
 person:066-02207-001
 	a foaf:Person ;
@@ -107,4 +107,4 @@ person:066-02207-001#amt-291286
 	a role:Role ;
 	role:holder person:066-02207-001 ;
 	foaf:name "Abt"@de ;
-	role:startDate "1673-01-01"^^xsd:date .
+	role:startDate "1673-01-01T12:00:00Z"^^xsd:dateTime .

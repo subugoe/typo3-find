@@ -91,10 +91,10 @@
 					<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:holder" object="{klosterURI}"/>
 					<s:linkedDataItem subject="{ordenURI}" predicate="role:role" object="{mitgliedschaftURI}"/>
 					<f:if condition="{orden.bis}">
-						<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:startDate" objectType="xsd:date">{orden.von}-01-01</s:linkedDataItem>
+						<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:startDate" objectType="xsd:dateTime">{orden.von}-01-01T12:00:00Z</s:linkedDataItem>
 					</f:if>
 					<f:if condition="{orden.bis}">
-						<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:endDate" objectType="xsd:date">{orden.bis}-01-01</s:linkedDataItem>
+						<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:endDate" objectType="xsd:dateTime">{orden.bis}-01-01T12:00:00Z</s:linkedDataItem>
 					</f:if>
 				</f:alias>
 			</f:if>
@@ -129,10 +129,10 @@
 				<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:wasAssociatedWith" object="{klosterURI}"/>
 
 				<f:if condition="{standort.von}">
-					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:startedAtTime" objectType="xsd:date">{standort.von}-01-01</s:linkedDataItem>
+					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:startedAtTime" objectType="xsd:dateTime">{standort.von}-01-01T12:00:00Z</s:linkedDataItem>
 				</f:if>
 				<f:if condition="{standort.bis}">
-					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:endedAtTime" objectType="xsd:date">{standort.bis}-01-01</s:linkedDataItem>
+					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:endedAtTime" objectType="xsd:dateTime">{standort.bis}-01-01T12:00:00Z</s:linkedDataItem>
 				</f:if>
 
 				<f:if condition="{standort.geonames}">
@@ -196,10 +196,10 @@
 					<s:linkedDataItem subject="{roleURI}" predicate="foaf:name" language="de">{person.bezeichnung}</s:linkedDataItem>
 				</f:if>
 				<f:if condition="{person.von}">
-					<s:linkedDataItem subject="{roleURI}" predicate="role:startDate" objectType="xsd:date">{person.von}-01-01</s:linkedDataItem>
+					<s:linkedDataItem subject="{roleURI}" predicate="role:startDate" objectType="xsd:dateTime">{person.von}-01-01T12:00:00Z</s:linkedDataItem>
 				</f:if>
 				<f:if condition="{person.bis}">
-					<s:linkedDataItem subject="{roleURI}" predicate="role:endDate" objectType="xsd:date">{person.bis}-01-01</s:linkedDataItem>
+					<s:linkedDataItem subject="{roleURI}" predicate="role:endDate" objectType="xsd:dateTime">{person.bis}-01-01T12:00:00Z</s:linkedDataItem>
 				</f:if>
 			</f:alias>
 		</f:for>
