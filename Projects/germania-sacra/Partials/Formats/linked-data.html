@@ -18,6 +18,9 @@
 >
 	<s:linkedDataItem subject="{klosterURI}" predicate="rdf:type" object="foaf:Organization"/>
 	<s:linkedDataItem subject="{klosterURI}" predicate="rdf:type" object="gnd:4031225-2"/>
+	<s:linkedDataItem subject="gnd:4031225-2" predicate="rdf:type" object="skos:Concept"/>
+	<s:linkedDataItem subject="gnd:4031225-2" predicate="foaf:name" language="de">Kloster (Körperschaft)</s:linkedDataItem>
+	<s:linkedDataItem subject="gnd:4031225-2" predicate="foaf:name" language="en">Monastery (Corporate Body)</s:linkedDataItem>
 
 	<s:linkedDataItem subject="{klosterURI}" predicate="foaf:name">{doc.kloster}</s:linkedDataItem>
 	<f:if condition="{doc.patrozinium}">
@@ -62,6 +65,7 @@
 					mitgliedschaftURI:'{klosterURI}#orden-{orden.uid}',
 					ordenURI:'gnd:{orden.gnd}'
 				}">
+					<s:linkedDataItem subject="{ordenURI}" predicate="rdf:type" object="foaf:Group"/>
 					<s:linkedDataItem subject="{ordenURI}" predicate="foaf:member" object="{klosterURI}"/>
 					<s:linkedDataItem subject="{ordenURI}" predicate="foaf:name" language="de">{orden.name}</s:linkedDataItem>
 					<f:if condition="{orden.ordo}">
@@ -81,6 +85,9 @@
 
 					<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="rdf:type" object="role:Role"/>
 					<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="rdf:type" object="gnd:4114609-8"/>
+					<s:linkedDataItem subject="gnd:4114609-8" predicate="rdf:type" object="skos:Concept"/>
+					<s:linkedDataItem subject="gnd:4114609-8" predicate="foaf:name" language="de">Kloster gehört zu Orden</s:linkedDataItem>
+					<s:linkedDataItem subject="gnd:4114609-8" predicate="foaf:name" language="en">Monastery belongs to order</s:linkedDataItem>
 					<s:linkedDataItem subject="{mitgliedschaftURI}" predicate="role:holder" object="{klosterURI}"/>
 					<s:linkedDataItem subject="{ordenURI}" predicate="role:role" object="{mitgliedschaftURI}"/>
 					<f:if condition="{orden.bis}">
@@ -110,29 +117,43 @@
 			uid: doc.standort_uid
 	}">
 		<f:for each="{standorte}" as="standort">
-			<f:alias map="{standortURI:'{klosterURI}#standort-{standort.uid}'}">
-				<s:linkedDataItem subject="{standortURI}" predicate="rdf:type" object="prov:Activity"/>
-				<s:linkedDataItem subject="{standortURI}" predicate="rdf:type" object="gnd:4066749-2"/>
+			<f:alias map="{
+				standortHabenURI:'{klosterURI}#hat-standort-{standort.uid}',
+				standortURI:'{klosterURI}#standort-{standort.uid}'
+			}">
+				<s:linkedDataItem subject="{standortHabenURI}" predicate="rdf:type" object="prov:Activity"/>
+				<s:linkedDataItem subject="{standortHabenURI}" predicate="rdf:type" object="gnd:4143381-6"/>
+				<s:linkedDataItem subject="gnd:4143381-6" predicate="rdf:type" object="skos:Concept"/>
+				<s:linkedDataItem subject="gnd:4143381-6" predicate="foaf:name" language="de">Klostersitz ist in</s:linkedDataItem>
+				<s:linkedDataItem subject="gnd:4143381-6" predicate="foaf:name" language="en">Monastery is located in</s:linkedDataItem>
+				<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:wasAssociatedWith" object="{klosterURI}"/>
+
+				<f:if condition="{standort.von}">
+					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:startedAtTime" objectType="xsd:date">{standort.von}-01-01</s:linkedDataItem>
+				</f:if>
+				<f:if condition="{standort.bis}">
+					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:endedAtTime" objectType="xsd:date">{standort.bis}-01-01</s:linkedDataItem>
+				</f:if>
+
+				<f:if condition="{standort.geonames}">
+					<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:atLocation" object="http://sws.geonames.org/{standort.geonames}"/>
+				</f:if>
+
+				<s:linkedDataItem subject="{standortHabenURI}" predicate="prov:atLocation" object="{standortURI}"/>
+
+				
+				<s:linkedDataItem subject="{standortURI}" predicate="rdf:type" object="prov:Location"/>
 				<s:linkedDataItem subject="{standortURI}" predicate="foaf:name">{standort.ort}</s:linkedDataItem>
 
 				<f:if condition="{standort.bistum_gnd}">
 					<s:linkedDataItem subject="{standortURI}" predicate="dbpedia-ontology:locatedInArea" object="gnd:{standort.bistum_gnd}"/>
 				</f:if>
 
-				<f:if condition="{standort.geonames}">
-					<s:linkedDataItem subject="{standortURI}" predicate="prov:atLocation" object="{standort.geonames}"/>
-				</f:if>
 				<f:if condition="{standort.koordinaten}">
 					<s:linkedDataItem subject="{standortURI}" predicate="geo:lat" objectType="xsd:float"><s:regexp match="/^(.*),.*/" replace="\1">{standort.koordinaten}</s:regexp></s:linkedDataItem>
 					<s:linkedDataItem subject="{standortURI}" predicate="geo:long" objectType="xsd:float"><s:regexp match="/^.*,(.*)/" replace="\1">{standort.koordinaten}</s:regexp></s:linkedDataItem>
 				</f:if>
 
-				<f:if condition="{standort.von}">
-					<s:linkedDataItem subject="{standortURI}" predicate="prov:startedAtTime" objectType="xsd:date">{standort.von}-01-01</s:linkedDataItem>
-				</f:if>
-				<f:if condition="{standort.bis}">
-					<s:linkedDataItem subject="{standortURI}" predicate="prov:endedAtTime" objectType="xsd:date">{standort.bis}-01-01</s:linkedDataItem>
-				</f:if>
 			</f:alias>
 		</f:for>
 	</s:transpose>
