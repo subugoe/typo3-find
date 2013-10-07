@@ -1,0 +1,93 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix gnd: <http://d-nb.info/gnd/> .
+@prefix role: <http://purl.org/vocab/participation/schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix kloster: <http://kloester.germania-sacra.de/gsn/> .
+@prefix person: <http://personendatenbank.germania-sacra.de/index/gsn/> .
+
+kloster:1030
+	rdf:type foaf:Organization, gnd:4031225-2 ;
+	foaf:name "Zisterzienserkloster Altenberg" ;
+	skos:altLabel "unbekannt" ;
+	foaf:member person:066-02185-001, person:066-04666-001, person:066-03182-001, person:066-00634-001, person:066-02207-001 ;
+	role:role person:066-02185-001#amt-291280, person:066-04666-001#amt-291657, person:066-03182-001#amt-291352, person:066-00634-001#amt-291376, person:066-02207-001#amt-291286 .
+
+gnd:4067883-0
+	foaf:member kloster:1030 ;
+	foaf:name "Zisterzienser"@de ;
+	foaf:nick "OCist" ;
+	foaf:page <http://de.wikipedia.org/wiki/Zisterzienser> ;
+	owl:sameAs <http://dbpedia.org/page/Zisterzienser> ;
+	role:role kloster:1030#orden-994 .
+
+kloster:1030#orden-994
+	rdf:type role:Role, gnd:4114609-8 ;
+	role:holder kloster:1030 ;
+	role:startDate "1133-01-01"^^xsd:date ;
+	role:endDate "1803-01-01"^^xsd:date .
+
+kloster:1030#standort-1148
+	rdf:type prov:Activity, gnd:4066749-2 ;
+	foaf:name "Altenberg" ;
+	geo:lat "51.0537"^^xsd:float ;
+	geo:long "7.12617"^^xsd:float ;
+	prov:startedAtTime "1133-01-01"^^xsd:date ;
+	prov:endedAtTime "1803-01-01"^^xsd:date .
+
+person:066-02185-001
+	rdf:type foaf:Person ;
+	foaf:name "Goswin" .
+
+person:066-02185-001#amt-291280
+	rdf:type role:Role ;
+	role:holder person:066-02185-001 ;
+	foaf:name "Abt"@de ;
+	role:startDate "1181-01-01"^^xsd:date ;
+	role:endDate "1198-01-01"^^xsd:date .
+
+person:066-04666-001
+	rdf:type foaf:Person ;
+	foaf:name "Richolt" .
+
+person:066-04666-001#amt-291657
+	rdf:type role:Role ;
+	role:holder person:066-04666-001 ;
+	foaf:name "Abt"@de ;
+	role:startDate "1203-01-01"^^xsd:date ;
+	role:endDate "1208-01-01"^^xsd:date .
+
+person:066-03182-001
+	rdf:type foaf:Person ;
+	foaf:name "Johannes Blankenberg" .
+
+person:066-03182-001#amt-291352
+	rdf:type role:Role ;
+	role:holder person:066-03182-001 ;
+	foaf:name "Abt"@de ;
+	role:startDate "1650-01-01"^^xsd:date .
+
+person:066-00634-001
+	rdf:type foaf:Person ;
+	foaf:name "Johannes Blankenberg" .
+
+person:066-00634-001#amt-291376
+	rdf:type role:Role ;
+	role:holder person:066-00634-001 ;
+	foaf:name "Abt"@de ;
+	role:startDate "1651-01-01"^^xsd:date .
+
+person:066-02207-001
+	rdf:type foaf:Person ;
+	foaf:name "Gottfried Gummersbach" ;
+	foaf:nick "Godefridus, Gotfridus" .
+
+person:066-02207-001#amt-291286
+	rdf:type role:Role ;
+	role:holder person:066-02207-001 ;
+	foaf:name "Abt"@de ;
+	role:startDate "1673-01-01"^^xsd:date .

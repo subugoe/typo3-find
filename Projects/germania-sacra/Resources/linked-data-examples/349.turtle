@@ -1,0 +1,74 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix gnd: <http://d-nb.info/gnd/> .
+@prefix role: <http://purl.org/vocab/participation/schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix kloster: <http://kloester.germania-sacra.de/gsn/> .
+
+kloster:349
+	rdf:type foaf:Organization, gnd:4031225-2 ;
+	foaf:name "(St. Michael, Bremen?, später Bergedorf, später Hude)" ;
+	skos:altLabel "Michael (?), Maria (?)" .
+
+gnd:4067883-0
+	foaf:member kloster:349 ;
+	foaf:name "Zisterzienser"@de ;
+	foaf:nick "OCist" ;
+	foaf:page <http://de.wikipedia.org/wiki/Zisterzienser> ;
+	owl:sameAs <http://dbpedia.org/page/Zisterzienser> ;
+	role:role kloster:349#orden-282, kloster:349#orden-283 .
+
+kloster:349#orden-282
+	rdf:type role:Role, gnd:4114609-8 ;
+	role:holder kloster:349 ;
+	role:startDate "1131-01-01"^^xsd:date ;
+	role:endDate "1810-01-01"^^xsd:date .
+
+kloster:349#orden-283
+	rdf:type role:Role, gnd:4114609-8 ;
+	role:holder kloster:349 ;
+	role:startDate "1148-01-01"^^xsd:date ;
+	role:endDate "1810-01-01"^^xsd:date .
+
+gnd:4005487-1
+	foaf:member kloster:349 ;
+	foaf:name "Benediktinerinnen"@de ;
+	foaf:nick "OSB (w)" ;
+	foaf:page <http://de.wikipedia.org/wiki/Benediktinerinnen> ;
+	owl:sameAs <http://dbpedia.org/page/Benediktinerinnen> ;
+	role:role kloster:349#orden-284 .
+
+kloster:349#orden-284
+	rdf:type role:Role, gnd:4114609-8 ;
+	role:holder kloster:349 ;
+	role:startDate "1148-01-01"^^xsd:date ;
+	role:endDate "1810-01-01"^^xsd:date .
+
+kloster:349#standort-423
+	rdf:type prov:Activity, gnd:4066749-2 ;
+	foaf:name "Hude (Oldenburg)" ;
+	geo:lat "53.1067"^^xsd:float ;
+	geo:long "8.45833"^^xsd:float ;
+	prov:startedAtTime "1131-01-01"^^xsd:date ;
+	prov:endedAtTime "1810-01-01"^^xsd:date .
+
+kloster:349#standort-349
+	rdf:type prov:Activity, gnd:4066749-2 ;
+	foaf:name "Bremen, Hansestadt" ;
+	prov:atLocation <2944388> ;
+	geo:lat "53.0728"^^xsd:float ;
+	geo:long "8.80533"^^xsd:float ;
+	prov:startedAtTime "1148-01-01"^^xsd:date ;
+	prov:endedAtTime "1198-01-01"^^xsd:date .
+
+kloster:349#standort-329
+	rdf:type prov:Activity, gnd:4066749-2 ;
+	foaf:name "Bergedorf" ;
+	geo:lat "53.024"^^xsd:float ;
+	geo:long "8.46867"^^xsd:float ;
+	prov:startedAtTime "1148-01-01"^^xsd:date ;
+	prov:endedAtTime "1232-01-01"^^xsd:date .
