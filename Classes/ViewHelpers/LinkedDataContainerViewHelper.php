@@ -77,13 +77,13 @@ abstract class LinkedDataRenderer {
 
 	public static function instantiateSubclassForType ($type) {
 		if ($type === 'rdf') {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('LinkedDataRDFRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpers\LinkedDataRDFRenderer');
 		}
 		else if ($type === 'json-ld') {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('LinkedDataJSONLDRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpersLinkedDataJSONLDRenderer');
 		}
 		else {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('LinkedDataTurtleRenderer');
+			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpers\LinkedDataTurtleRenderer');
 		}
 
 		return $instance;
