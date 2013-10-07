@@ -167,17 +167,25 @@ class LinkedDataTurtleRenderer extends LinkedDataRenderer {
 	private function turtleString ($item, $usePrefixes = TRUE) {
 		$result = '<' . $item . '>';
 
-		if ($usePrefixes) {
-			foreach($this->prefixes as $acronym => $prefix) {
-				if (strpos($item, $prefix) === 0) {
-					$result = str_replace($prefix, $acronym . ':', $item);
-					$this->usedPrefixes[$acronym] = TRUE;
-					break;
-				}
-				else if (strpos($item, $acronym . ':') === 0) {
-					$result = $item;
-					$this->usedPrefixes[$acronym] = TRUE;
-					break;
+		$itemParts = explode(':', $item, 2);
+		$rdfTypeURI = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+		if ($item === $rdfTypeURI
+				|| (count($itemParts) > 1 && $this->prefixes[$itemParts[0]] . $itemParts[1] === $rdfTypeURI)) {
+			$result = 'a';
+		}
+		else {
+			if ($usePrefixes) {
+				foreach($this->prefixes as $acronym => $prefix) {
+					if (strpos($item, $prefix) === 0) {
+						$result = str_replace($prefix, $acronym . ':', $item);
+						$this->usedPrefixes[$acronym] = TRUE;
+						break;
+					}
+					else if ($itemParts[0] === $acronym) {
+						$result = $item;
+						$this->usedPrefixes[$acronym] = TRUE;
+						break;
+					}
 				}
 			}
 		}
