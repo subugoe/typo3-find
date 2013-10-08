@@ -2,18 +2,17 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-<f:debug>{_all}</f:debug>
-	<s:pageTitle>{document.fields.Titel_disp.0} – {pageTitle}</s:pageTitle>
+	<s:page.title>{document.fields.Titel_disp.0} – {pageTitle}</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">
 
-		<h1><s:highlightField field="Titel_disp" document="{document}" results="{results}" index="0"/></h1>
+		<h1><s:find.highlightField field="Titel_disp" document="{document}" results="{results}" index="0"/></h1>
 		
 		<section class="person">
-			<s:transpose name="personen" arrays="{
-				name: \"{s:highlightField(field:'Person_Name', document:document, results:results)}\",
+			<s:data.transpose name="personen" arrays="{
+				name: \"{s:find.highlightField(field:'Person_Name', document:document, results:results)}\",
 				id: document.Person_ID,
 				typ: document.Person_Typ,
 				daten: document.Person_Daten,
@@ -38,7 +37,7 @@
 						</f:if>
 					</li>
 				</f:for>
-			</s:transpose>
+			</s:data.transpose>
 		</section>
 
 		<f:if condition="{document.Datum}">
