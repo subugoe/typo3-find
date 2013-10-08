@@ -39,7 +39,7 @@
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/js-geohash/geohash.js">
 	tx_find_facetMap.init ({
 		container: jQuery('.facet-id-{facetInfo.id} .mapContainer')[0],
-		queryURLTemplate: {s:json(data:"{f:uri.action(
+		queryURLTemplate: {s:format.json(data:"{f:uri.action(
 			addQueryString:TRUE,
 			arguments:'{
 				q:\'###TERM###\',
@@ -49,7 +49,7 @@
 			pageType:'1369315139',
 			noCacheHash:'1'
 		)}")},
-		facetData: {s:json(data:facetData.values)},
+		facetData: {s:format.json(data:facetData.values)},
 		facetFetchMaximum: {facetInfo.fetchMaximum}
 	});
 </t3jquery:addJQueryAndScript>

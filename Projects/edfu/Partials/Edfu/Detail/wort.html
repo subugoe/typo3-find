@@ -1,7 +1,7 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <section class="general">
 	<h1>
-		<f:if condition="{s:pathExists(path:'fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg')}">
+		<f:if condition="{s:find.pathExists(path:'fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg')}">
 			<img src="fileadmin/edfu-data/WL/WL{document.fields.hieroglyph}.svg" type="image/svg+xml" alt="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Hieroglyph')}" class="hieroglyph">
 		</f:if>
 		<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>

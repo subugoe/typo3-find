@@ -1,4 +1,4 @@
-{namespace s=Subugoe\Find\ViewHelpers}<s:regexp match="/(\n)[\n\s]*/" replace="\\1"><f:alias map="{fields:'{
+{namespace s=Subugoe\Find\ViewHelpers}<s:format.regexp match="/(\n)[\n\s]*/" replace="\\1"><f:alias map="{fields:'{
 	101:\'kloster_id\',
 	102:\'kloster\',
 	103:\'patrozinium\',
@@ -53,23 +53,23 @@
 	322:\'orden_ordo\',
 	323:\'orden_symbol\',
 	324:\'orden_typ\'
-}'}"><s:csvLine data="{fields}"/>
+}'}"><s:format.csvLine data="{fields}"/>
 	<f:for each="{results.data.response.docs}" as="doc" iteration="iterator">
-		<s:newArray name="line" values="{}">
+		<s:data.newArray name="line" values="{}">
 			<f:for each="{fields}" as="fieldName">
-				<f:alias map="{value:'{s:valueForKey(array:doc, key:fieldName)}'}">
-					<f:if condition="{s:isArray(subject:value)}">
+				<f:alias map="{value:'{s:data.valueForKey(array:doc, key:fieldName)}'}">
+					<f:if condition="{s:data.isArray(subject:value)}">
 						<f:then>
-							<s:newArray name="line" global="1" array="{line}" keys="{1:fieldName}" values="{1:'{s:join(array:value, separator:\"|\")}'}"/>
+							<s:data.newArray name="line" global="1" array="{line}" keys="{1:fieldName}" values="{1:'{s:format.join(array:value, separator:\"|\")}'}"/>
 						</f:then>
 						<f:else>
-							<s:newArray name="line" global="1" array="{line}" keys="{1:fieldName}" values="{1:value}"/>
+							<s:data.newArray name="line" global="1" array="{line}" keys="{1:fieldName}" values="{1:value}"/>
 						</f:else>
 					</f:if>
 				</f:alias>
 			</f:for>
-			<s:csvLine data="{line}"/>
-		</s:newArray>
+			<s:format.csvLine data="{line}"/>
+		</s:data.newArray>
 	</f:for>
 </f:alias>
-</s:regexp>
+</s:format.regexp>

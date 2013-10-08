@@ -6,7 +6,7 @@
 		<f:if condition="{f:count(subject:document.fields.band)} > 1">
 			<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Springe zu Seite"/>:
 			<ol class="pageList">
-				<s:transpose
+				<s:data.transpose
 					name="stellen"
 					arrays="{
 						band:document.fields.band,
@@ -20,7 +20,7 @@
 							</a>
 						</li>
 					</f:for>
-				</s:transpose>
+				</s:data.transpose>
 			</ol>
 		</f:if>
 		<div id="c{uid}-chassinatPageViewer" class="chassinatPageViewer">

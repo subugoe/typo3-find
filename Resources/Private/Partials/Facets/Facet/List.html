@@ -10,7 +10,7 @@
 		<f:alias map="{
 			facetTermDisplay:'{f:if(
 				condition:facetInfo.sortPrefixSeparator,
-				then:\"{s:regexp(
+				then:\"{s:format.regexp(
 					string:facetTerm,
 					match:\'/^.*?{facetInfo.sortPrefixSeparator}/\',
 					replace:\'\'

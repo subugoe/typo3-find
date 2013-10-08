@@ -4,7 +4,7 @@
 		<p class="queryAndPager">
 			<span class="underlyingQuery">
 				<span class="backToResultList">
-					<s:newArray
+					<s:data.newArray
 						name="linkArguments"
 						keys="{0:'q', 1:'sort', 2:'count', 3:'facet', 4:'extended', 5:'page'}"
 						values="{
@@ -13,7 +13,7 @@
 							2:arguments.underlyingQuery.count,
 							3:arguments.underlyingQuery.facet,
 							4:arguments.extended,
-							5:'{s:pageNumberForResultNumber(
+							5:'{s:find.pageNumberForResultNumber(
 								resultNumber:arguments.underlyingQuery.position,
 								resultsPerPage:settings.paging.perPage
 							)}'
@@ -29,7 +29,7 @@
 						>
 							<f:translate key="Return to results list"/>
 						</f:link.action>
-					</s:newArray>
+					</s:data.newArray>
 				</span>
 
 				<span class="query">
@@ -55,7 +55,7 @@
 								noCacheHash="1"
 								class="previous icon-left-dir internal no-change"
 								onclick="return tx_find.detailViewWithPaging(this, {document-previous-number});"
-								title="{f:translate(key:'previous')}: {s:valueForKey(array:document-previous.fields, key:settings.standardFields.title)}"/>
+								title="{f:translate(key:'previous')}: {s:data.valueForKey(array:document-previous.fields, key:settings.standardFields.title)}"/>
 						</f:then>
 						<f:else>
 							<a class="icon-left-dir"></a>
@@ -69,7 +69,7 @@
 								section="{settings.jumpToID}"
 								noCacheHash="1"
 								class="next icon-right-dir internal no-change"
-								onclick="return tx_find.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:valueForKey(array:document-next.fields, key:settings.standardFields.title)}"/>
+								onclick="return tx_find.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:data.valueForKey(array:document-next.fields, key:settings.standardFields.title)}"/>
 						</f:then>
 						<f:else>
 							<a class="icon-right-dir"></a>

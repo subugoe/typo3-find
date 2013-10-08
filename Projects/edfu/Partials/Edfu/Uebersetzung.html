@@ -1,17 +1,17 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <span class="field-uebersetzung">
-	<s:regexp match="\bö([^öÄ]*)Ä\b" replace="<span class='transliteration'>ö</span>\\1<span class='transliteration'>Ä</span>" useMBEreg="true">
-		<s:regexp match="/%([^%&]*)&amp;/u" replace="<span class='transliteration'>%</span>\\1<span class='transliteration'>&amp;</span>">
-			<s:regexp match="/<((?!\/?em)[^>]*)>/u" replace="&lt;\\1&gt;">
-				<s:regexp match="/&/" replace="&amp;">
-					<s:highlightField
+	<s:format.regexp match="\bö([^öÄ]*)Ä\b" replace="<span class='transliteration'>ö</span>\\1<span class='transliteration'>Ä</span>" useMBEreg="true">
+		<s:format.regexp match="/%([^%&]*)&amp;/u" replace="<span class='transliteration'>%</span>\\1<span class='transliteration'>&amp;</span>">
+			<s:format.regexp match="/<((?!\/?em)[^>]*)>/u" replace="&lt;\\1&gt;">
+				<s:format.regexp match="/&/" replace="&amp;">
+					<s:find.highlightField
 						field="{f:if(condition:field, then:field, else:'uebersetzung')}"
 						document="{document}"
 						results="{results}"
 						raw="1"
 					/>
-				</s:regexp>
-			</s:regexp>
-		</s:regexp>
-	</s:regexp>
+				</s:format.regexp>
+			</s:format.regexp>
+		</s:format.regexp>
+	</s:format.regexp>
 </span>

@@ -3,15 +3,15 @@
 	<f:then>
 		<f:alias map="{
 			fieldName:'{f:translate(key:\"LLL:{settings.languageRootPath}locallang-fields.xml:field.{field}\", default:field)}',
-			fieldContent:'{s:valueForKey(array:document.fields, key:field)}',
-			highlightedFieldContent:'{s:highlightField(results:results, document:document, field:field, index:iterator.index)}'
+			fieldContent:'{s:data.valueForKey(array:document.fields, key:field)}',
+			highlightedFieldContent:'{s:find.highlightField(results:results, document:document, field:field, index:iterator.index)}'
 		}">
-			<f:if condition="{s:isArray(subject:fieldContent)}">
+			<f:if condition="{s:data.isArray(subject:fieldContent)}">
 				<f:then>
 					<f:link.action
 						action="index"
 						arguments="{
-							q:'{raw:\'{field}:\"{s:valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
+							q:'{raw:\'{field}:\"{s:data.valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
 							facet:linkFacets
 						}"
 						noCacheHash="1"
@@ -45,12 +45,12 @@
 		</f:alias>
 	</f:then>
 	<f:else>
-		<s:highlightField
+		<s:find.highlightField
 			field="{field}"
 			document="{document}"
 			results="{results}"
 			index="{iterator.index}"
-			alternateField="{s:valueForKey(array:settings.highlight.alternateFields, key:field)}"
+			alternateField="{s:data.valueForKey(array:settings.highlight.alternateFields, key:field)}"
 		/>
 	</f:else>
 </f:if>

@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:alias map="{
-	queryParameter:'{s:valueForKey(array:query, key:fieldInfo.id)}',
+	queryParameter:'{s:data.valueForKey(array:query, key:fieldInfo.id)}',
 	hasAlternate:'{f:if(condition:fieldInfo.queryAlternate, then:1, else:0)}'
 }">
 	<label class="fieldLabel" for="c{uid}-field-{fieldInfo.id}">

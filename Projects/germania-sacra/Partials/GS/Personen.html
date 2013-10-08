@@ -10,14 +10,14 @@
 
 		<p>{document.personallistenstatus.0}.</p>
 
-		<s:transpose name="personen" arrays="{
-			name: \"{s:highlightField(field:'person_name', document:document, results:results)}\",
+		<s:data.transpose name="personen" arrays="{
+			name: \"{s:find.highlightField(field:'person_name', document:document, results:results)}\",
 			nameOriginal: document.person_name,
-			namensalternativen: \"{s:highlightField(field:'person_namensalternativen', document:document, results:results)}\",
+			namensalternativen: \"{s:find.highlightField(field:'person_namensalternativen', document:document, results:results)}\",
 			bezeichnung: document.person_bezeichnung,
 			bezeichnung_plural: document.person_bezeichnung_plural,
 			bezeichnungOriginal: document.person_bezeichnung,
-			anmerkung: \"{s:highlightField(field:'person_anmerkung', document:document, results:results)}\",
+			anmerkung: \"{s:find.highlightField(field:'person_anmerkung', document:document, results:results)}\",
 			von_verbal: document.person_von_verbal,
 			bis_verbal: document.person_bis_verbal,
 			gso: document.person_gso
@@ -27,8 +27,8 @@
 				<nav>
 					<ol>
 						<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
-							<f:alias map="{samplePerson:'{s:arrayFirst(array:personenMitAmt)}'}">
-								<li><f:link.action addQueryString="TRUE" section="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}" noCacheHash="1" class="internal">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then><f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else></f:if></f:link.action></li>
+							<f:alias map="{samplePerson:'{s:data.arrayFirst(array:personenMitAmt)}'}">
+								<li><f:link.action addQueryString="TRUE" section="c-{document.id}-amt-{s:format.regexp(string:amt, match:'/\s+/', replace:'_')}" noCacheHash="1" class="internal">{f:count(subject:personenMitAmt)}&nbsp;<f:if condition="{f:count(subject:personenMitAmt)} == 1"><f:then>{s:data.valueForKey(array:samplePerson, key:'bezeichnung')}</f:then><f:else>{s:data.valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else></f:if></f:link.action></li>
 							</f:alias>
 						</f:groupedFor>
 					</ol>
@@ -37,15 +37,15 @@
 
 			<f:groupedFor each="{personen}" as="personenMitAmt" groupBy="bezeichnungOriginal" groupKey="amt">
 				<f:alias map="{
-					samplePerson:'{s:arrayFirst(array:personenMitAmt)}',
-					amtClass:'{s:regexp(string:amt, match:\"/\s+/\", replace:\"_\")}'
+					samplePerson:'{s:data.arrayFirst(array:personenMitAmt)}',
+					amtClass:'{s:format.regexp(string:amt, match:\"/\s+/\", replace:\"_\")}'
 				}">
 					<section>
-						<h3 id="c-{document.id}-amt-{s:regexp(string:amt, match:'/\s+/', replace:'_')}">
+						<h3 id="c-{document.id}-amt-{s:format.regexp(string:amt, match:'/\s+/', replace:'_')}">
 							{f:count(subject:personenMitAmt)}
 							<f:if condition="{f:count(subject:personenMitAmt)} == 1">
-								<f:then>{s:valueForKey(array:samplePerson, key:'bezeichnung')}</f:then>
-								<f:else>{s:valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else>
+								<f:then>{s:data.valueForKey(array:samplePerson, key:'bezeichnung')}</f:then>
+								<f:else>{s:data.valueForKey(array:samplePerson, key:'bezeichnung_plural')}</f:else>
 							</f:if>
 						</h3>
 						<ol>
@@ -79,6 +79,6 @@
 					</section>
 				</f:alias>
 			</f:groupedFor>
-		</s:transpose>
+		</s:data.transpose>
 	</section>
 </f:if>

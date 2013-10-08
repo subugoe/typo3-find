@@ -27,18 +27,18 @@
 <label class="fieldLabel" for="c{uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>
-<f:alias map="{facetData:'{s:valueForKey(array:results.components.facetset.facets, key:fieldInfo.facetID)}'}">
+<f:alias map="{facetData:'{s:data.valueForKey(array:results.components.facetset.facets, key:fieldInfo.facetID)}'}">
 	<f:form.select
 		id="c{uid}-field-{fieldInfo.id}"
 		class="inputContainer"
 		name="q[{fieldInfo.id}]"
-		options="{s:selectOptionsForFacet(
+		options="{s:find.selectOptionsForFacet(
 			values:facetData.values,
 			leadingBlank:1,
 			sortByName:1,
 			sortPrefixSeparator:fieldInfo.sortPrefixSeparator,
 			localisationPrefix:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-'
 		)}"
-		value="{s:valueForKey(array:arguments.q, key:fieldInfo.id)}"
+		value="{s:data.valueForKey(array:arguments.q, key:fieldInfo.id)}"
 	/>
 </f:alias>

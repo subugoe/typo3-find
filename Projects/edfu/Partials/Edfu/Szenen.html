@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:if condition="{document.fields.szene_uid}">
-	<s:transpose name="szenen" arrays="{
+	<s:data.transpose name="szenen" arrays="{
 		uid: document.fields.szene_uid,
 		nummer: document.fields.szene_nummer,
 		beschreibung: document.fields.szene_beschreibung,
@@ -27,7 +27,7 @@
 				<f:for each="{szenen}" as="szene">
 					<f:alias map="{
 						colour:'hsl(-{szene.prozent_z}, 100%, 50%)',
-						typFacetArray:'{s:newArray(
+						typFacetArray:'{s:data.newArray(
 							keys:\"{0:document.fields.typ}\",
 							values:\"{0:1}\"
 						)}'
@@ -58,7 +58,7 @@
 								left:{szene.koordinate_x}px;
 							"
 							additionalAttributes="{
-								data-marker:'{s:json(data:szene)}',
+								data-marker:'{s:format.json(data:szene)}',
 								data-bild_dateiname:szene.bild_dateiname
 							}"
 							title="{f:translate(key:'LLL:{settings.languageRootPath}locallang-edfu.xml:Szene')}: {szene.beschreibung}."
@@ -75,5 +75,5 @@
 				</div>
 			</div>
 		</section>
-	</s:transpose>
+	</s:data.transpose>
 </f:if>

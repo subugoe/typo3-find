@@ -13,7 +13,7 @@
 	<f:form.textfield
 		id="c{uid}-field-{fieldInfo.id}-from"
 		name="q[{fieldInfo.id}][0]"
-		value="{s:valueForKey(array:'{s:valueForKey(array:query, key:fieldInfo.id)}', key:'0')}"
+		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:query, key:fieldInfo.id)}', key:'0')}"
 		placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-from.placeholder')}"
 	/>
 	-
@@ -21,7 +21,7 @@
 		id="c{uid}-field-{fieldInfo.id}-to"
 		class="noleftmargin"
 		name="q[{fieldInfo.id}][1]"
-		value="{s:valueForKey(array:'{s:valueForKey(array:query, key:fieldInfo.id)}', key:'1')}"
+		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:query, key:fieldInfo.id)}', key:'1')}"
 		placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-to.placeholder')}"
 	/>
 </span>

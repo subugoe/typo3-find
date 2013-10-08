@@ -2,21 +2,20 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-<f:debug>{_all}</f:debug>
-	<s:pageTitle>
+	<s:page.title>
 		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
 		–
 		{pageTitle}
-	</s:pageTitle>
+	</s:page.title>
 
-	<s:newArray name="formFacetsInnerArray"
-		keys="{0:'{s:valueForKey(array:\"{s:arrayFirst(array:activeFacets.typ)}\", key:\"term\")}'}"
+	<s:data.newArray name="formFacetsInnerArray"
+		keys="{0:'{s:data.valueForKey(array:\"{s:data.arrayFirst(array:activeFacets.typ)}\", key:\"term\")}'}"
 		values="{0:1}"
 	>
-		<s:newArray name="formFacets" keys="{0:'typ'}" values="{0:formFacetsInnerArray}">
+		<s:data.newArray name="formFacets" keys="{0:'typ'}" values="{0:formFacetsInnerArray}">
 			<f:render partial="Page/Standard" arguments="{_all}"/>
-		</s:newArray>
-	</s:newArray>
+		</s:data.newArray>
+	</s:data.newArray>
 
 	<f:if condition="{arguments.facet.typ.wort}">
 		<p class="searchNote">
@@ -34,7 +33,7 @@
 			<f:render
 				partial="Facets/Facet"
 				arguments="{
-					facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
+					facetData: '{s:data.valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
 					facetInfo: facets.10,
 					activeFacets: activeFacets}"
 			/>

@@ -3,12 +3,12 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<f:alias map="{typFacetArray:'{s:newArray(
+	<f:alias map="{typFacetArray:'{s:data.newArray(
 		keys:\"{0:document.fields.typ}\",
 		values:\"{0:1}\"
 	)}'}">
 		<t3jquery:addJQueryAndScript>
-			var szeneQueryURL = {s:json(
+			var szeneQueryURL = {s:format.json(
 				data:"{f:uri.action(
 					arguments:\"{
 						q:{raw:'###TERM###'},
@@ -23,7 +23,7 @@
 					noCacheHash:1
 				)}"
 			)};
-			var szeneLinkURL = {s:json(
+			var szeneLinkURL = {s:format.json(
 				data:"{f:uri.action(
 					arguments:\"{
 						q:{szene:'###TERM###'},
@@ -41,15 +41,15 @@
 			});
 		</t3jquery:addJQueryAndScript>
 	</f:alias>
-	<s:pageTitle>{document.fields.id} – {pageTitle}</s:pageTitle>
+	<s:page.title>{document.fields.id} – {pageTitle}</s:page.title>
 
-	<s:newArray
+	<s:data.newArray
 		name="formFacets"
 		keys="{0:'typ'}"
-		values="{0:'{s:newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'}"
+		values="{0:'{s:data.newArray(keys:\"{0:document.fields.typ}\", values:\"{0:1}\")}'}"
 	>
 		<f:render partial="Page/Standard" arguments="{_all}"/>
-	</s:newArray>
+	</s:data.newArray>
 
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 

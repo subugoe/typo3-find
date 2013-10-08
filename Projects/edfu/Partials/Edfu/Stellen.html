@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <ul>
-	<s:transpose name="stellen" arrays="{
+	<s:data.transpose name="stellen" arrays="{
 			bandseitezeile: document.fields.bandseitezeile,
 			band: document.fields.band,
 			seite_start: document.fields.seite_start,
@@ -21,9 +21,9 @@
 					}">
 						<f:alias map="{
 							solrQuery:'{!join from=besitzer to=id}typ:stelle AND start:[* TO {stop}] AND stop:[{start} TO *]',
-							selectedType:'{s:newArray(keys:\'{0:document.fields.typ}\' , values:\'{0:1}\')}'
+							selectedType:'{s:data.newArray(keys:\'{0:document.fields.typ}\' , values:\'{0:1}\')}'
 						}">
-							<s:newArray
+							<s:data.newArray
 								name="linkArguments"
 								keys="{0:'q', 1:'sort', 2:'count', 3:'extended', 4:'facet'}"
 								values="{
@@ -45,7 +45,7 @@
 								>
 									<span class="bandseitezeile">{stelle.bandseitezeile}</span>
 								</f:link.action>
-							</s:newArray>
+							</s:data.newArray>
 							<f:if condition="{stelle.unsicher}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:unsicher"/>)</f:if>
 							<f:if condition="{stelle.zerstoerung}">(<f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Zerstörung"/>)</f:if>
 							<f:if condition="{stelle.anmerkung}">({stelle.anmerkung})</f:if>
@@ -54,5 +54,5 @@
 				</f:alias>
 			</li>
 		</f:for>
-	</s:transpose>
+	</s:data.transpose>
 </ul>

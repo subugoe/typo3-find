@@ -2,13 +2,13 @@
 <ol class="facetTabs">
 	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
 		<li class="{f:if(
-			condition:'{s:facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}',
+			condition:'{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}',
 			then:'facetActive'
 		)}">
 			<f:link.action
 				addQueryString="TRUE"
-				argumentsToBeExcludedFromQueryString="{s:facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
-				arguments="{s:facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
+				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
+				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
 				section="{settings.jumpToID}"
 				noCacheHash="1"
 				class="internal"

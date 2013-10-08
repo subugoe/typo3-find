@@ -6,7 +6,7 @@
 	</div>
 </h1>
 <section class="general">
-	<f:if condition="{s:or(conditions:'{0:\"{f:security.ifHasRole(role:\'Edfu\', then:1, else:0)}\", 1:document.fields.freigegeben.0}')}">
+	<f:if condition="{s:logic.or(conditions:'{0:\"{f:security.ifHasRole(role:\'Edfu\', then:1, else:0)}\", 1:document.fields.freigegeben.0}')}">
 		<f:then>
 			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'transliteration', separator:', '}"/>
 			<f:render partial="Edfu/Uebersetzung" arguments="{results:results, document:document}"/>

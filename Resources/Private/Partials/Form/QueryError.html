@@ -8,21 +8,21 @@
 	<section class="error">
 		<f:translate key="Your query could not be executed."/>
 
-		<s:newArray name="escapedQuery" array="{arguments.q}">
+		<s:data.newArray name="escapedQuery" array="{arguments.q}">
 			<f:for each="{settings.queryFields}" as="queryField">
 				<f:if condition="{queryField.noescape}">
-					<f:if condition="{s:valueForKey(array:arguments.q, key:queryField.id)}">
-						<s:newArray
+					<f:if condition="{s:data.valueForKey(array:arguments.q, key:queryField.id)}">
+						<s:data.newArray
 							name="escapedQuery"
 							array="{escapedQuery}"
 							keys="{0:queryField.id}"
-							values="{0:'{s:solrEscape(string:\"{s:valueForKey(array:arguments.q, key:queryField.id)}\")}'}"
+							values="{0:'{s:format.solrEscape(string:\"{s:data.valueForKey(array:arguments.q, key:queryField.id)}\")}'}"
 							global="TRUE"
 						/>
 					</f:if>
 				</f:if>
 			</f:for>
-			<s:newArray name="escapedArguments" array="{arguments}" keys="{0:'q'}" values="{0:escapedQuery}" global="TRUE"/>
+			<s:data.newArray name="escapedArguments" array="{arguments}" keys="{0:'q'}" values="{0:escapedQuery}" global="TRUE"/>
 			<f:link.action
 				action="index"
 				addQueryString="TRUE"
@@ -34,6 +34,6 @@
 			>
 				<f:translate key="Re-run the query with escaped terms."/>
 			</f:link.action>
-		</s:newArray>
+		</s:data.newArray>
 	</section>
 </f:if>

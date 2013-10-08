@@ -1,7 +1,7 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:form.hidden
 	name="{f:if(
-		condition:'{s:valueForKey(array:arguments, key:fieldInfo.id)}',
+		condition:'{s:data.valueForKey(array:arguments, key:fieldInfo.id)}',
 		then:fieldInfo.id
 	)}"
 	value="{f:if(

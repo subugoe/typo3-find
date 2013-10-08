@@ -2,7 +2,7 @@
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Projects/edfu/Resources/fotorama/product/fotorama.uncompressed.js"/>
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Projects/edfu/Resources/ddpowerzoomer.js"/>
-<s:linkCSS file="EXT:find/Projects/edfu/Resources/fotorama/product/fotorama.css"/>
+<s:page.linkCSS file="EXT:find/Projects/edfu/Resources/fotorama/product/fotorama.css"/>
 <section class="photos">
 	<h1><f:translate key="LLL:{settings.languageRootPath}locallang-edfu.xml:Photos"/></h1>
 	<div class="imageControls">
@@ -32,13 +32,13 @@
 			<f:for each="{document.photo_pfad}" as="photo_pfad">
 				<f:alias map="{
 					path:'fileadmin/edfu-data/Photos/{photo_pfad}.{f:if(
-						condition:\"{s:regexp(string:photo_pfad, match:\'/^SW/\')}\",
+						condition:\"{s:format.regexp(string:photo_pfad, match:\'/^SW/\')}\",
 						then:\"jpg\",
 						else:\"JPG\"
 					)}',
-					photo_name:'{s:regexp(string:photo_pfad, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
+					photo_name:'{s:format.regexp(string:photo_pfad, match:\'|.*/(.*)|\', replace:\'\\1\')}'}">
 					<li>
-						<f:if condition="{s:pathExists(path:path)}">
+						<f:if condition="{s:find.pathExists(path:path)}">
 							<f:then>
 								<a
 									href="{f:uri.image(src:path, maxHeight:4000px, maxWidth:4000px)}"

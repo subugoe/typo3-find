@@ -2,7 +2,7 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<s:pageTitle>{document.fields.id} – {pageTitle}</s:pageTitle>
+	<s:page.title>{document.fields.id} – {pageTitle}</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 

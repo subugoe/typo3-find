@@ -2,11 +2,11 @@
 <section class="orden">
 	<h2>Orden</h2>
 	<ol>
-		<s:transpose name="ordens" arrays="{
-			name: \"{s:highlightField(field:'orden', document:document, results:results)}\",
+		<s:data.transpose name="ordens" arrays="{
+			name: \"{s:find.highlightField(field:'orden', document:document, results:results)}\",
 			nameOriginal: document.orden,
-			von_verbal: \"{s:highlightField(field:'orden_von_verbal', document:document, results:results)}\",
-			bis_verbal: \"{s:highlightField(field:'orden_bis_verbal', document:document, results:results)}\"
+			von_verbal: \"{s:find.highlightField(field:'orden_von_verbal', document:document, results:results)}\",
+			bis_verbal: \"{s:find.highlightField(field:'orden_bis_verbal', document:document, results:results)}\"
 		}">
 			<f:for each="{ordens}" as="orden">
 				<li>
@@ -15,7 +15,7 @@
 							<span class="zeitraum">{f:format.raw(value:orden.von_verbal)} – {f:format.raw(value:orden.bis_verbal)}</span>
 						</f:if>
 						<span class="orden">
-							<s:newArray
+							<s:data.newArray
 								name="linkArguments"
 								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
 								values="{
@@ -36,11 +36,11 @@
 								>
 									{f:format.raw(value:orden.name)}
 								</f:link.action>
-							</s:newArray>
+							</s:data.newArray>
 						</span>
 					</p>
 				</li>
 			</f:for>
-		</s:transpose>
+		</s:data.transpose>
 	</ol>
 </section>

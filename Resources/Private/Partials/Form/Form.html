@@ -16,9 +16,9 @@
 		<f:for each="{settings.queryFields}" as="fieldInfo">
 			<f:if condition="{fieldInfo.type}">
 				<f:then>
-					<f:if condition="{s:or(conditions:'{
-						0:\"{s:not(condition:fieldInfo.hidden)}\",
-						1:\"{s:valueForKey(array:arguments.q, key:fieldInfo.id)}\"
+					<f:if condition="{s:logic.or(conditions:'{
+						0:\"{s:logic.not(condition:fieldInfo.hidden)}\",
+						1:\"{s:data.valueForKey(array:arguments.q, key:fieldInfo.id)}\"
 					}')}">
 						<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
 							<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>

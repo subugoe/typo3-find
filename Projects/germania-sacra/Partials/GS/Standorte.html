@@ -2,16 +2,16 @@
 <section class="lage">
 	<h2>Lage</h2>
 	<ol>
-		<s:transpose name="standorte" arrays="{
-			name: \"{s:highlightField(field:'ort', document:document, results:results)}\",
+		<s:data.transpose name="standorte" arrays="{
+			name: \"{s:find.highlightField(field:'ort', document:document, results:results)}\",
 			nameOriginal: document.ort,
-			bistum: \"{s:highlightField(field:'bistum', document:document, results:results)}\",
+			bistum: \"{s:find.highlightField(field:'bistum', document:document, results:results)}\",
 			bistumOriginal: document.bistum
 			ist_erzbistum: document.ist_erzbistum,
 			wuestung: document.wuestung,
-			land: \"{s:highlightField(field:'land', document:document, results:results)}\",
-			von_verbal: \"{s:highlightField(field:'standort_von_verbal', document:document, results:results)}\",
-			bis_verbal: \"{s:highlightField(field:'standort_bis_verbal', document:document, results:results)}\"
+			land: \"{s:find.highlightField(field:'land', document:document, results:results)}\",
+			von_verbal: \"{s:find.highlightField(field:'standort_von_verbal', document:document, results:results)}\",
+			bis_verbal: \"{s:find.highlightField(field:'standort_bis_verbal', document:document, results:results)}\"
 		}">
 			<f:for each="{standorte}" as="standort">
 				<li>
@@ -20,7 +20,7 @@
 							<span class="zeitraum">{f:format.raw(value:standort.von_verbal)} – {f:format.raw(value:standort.bis_verbal)}</span>
 						</f:if>
 						<span class="ort">
-							<s:newArray
+							<s:data.newArray
 								name="linkArguments"
 								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
 								values="{
@@ -38,12 +38,12 @@
 									class="internal"
 									title="Alle Klöster in {standort.nameOriginal} zeigen."
 								>
-									{f:format.raw(value:standort.name)}</f:link.action></s:newArray></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
+									{f:format.raw(value:standort.name)}</f:link.action></s:data.newArray></span>{f:if(condition:standort.wuestung, then:' <span class="wuestung">(Wüstung)</span>')},
 
 						<span class="land">{f:format.raw(value:standort.land)},</span>
 
 						<span class="bistum">
-							<s:newArray
+							<s:data.newArray
 								name="linkArguments"
 								keys="{0:'q', 1:'sort', 2:'count', 3:'extended'}"
 								values="{
@@ -64,11 +64,11 @@
 									{f:if(condition:standort.ist_erzbistum, then:'Erzbistum', else:'Bistum')}
 									{f:format.raw(value:standort.bistum)}
 								</f:link.action>
-							</s:newArray>
+							</s:data.newArray>
 						</span>
 					</p>
 				</li>
 			</f:for>
-		</s:transpose>
+		</s:data.transpose>
 	</ol>
 </section>

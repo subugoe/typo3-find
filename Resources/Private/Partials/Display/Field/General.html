@@ -1,12 +1,12 @@
 {namespace s=Subugoe\Find\ViewHelpers}
-<f:if condition="{s:valueForKey(array:document.fields, key:field)}">
-	<f:if condition="{s:isArray(subject:'{s:valueForKey(array:document.fields, key:field)}')}">
+<f:if condition="{s:data.valueForKey(array:document.fields, key:field)}">
+	<f:if condition="{s:data.isArray(subject:'{s:data.valueForKey(array:document.fields, key:field)}')}">
 		<f:then>
 			{groupPrefix->f:format.raw()}
 			<f:if condition="{prefixString}">
 				<span class="prefix-{field}">{prefixString}</span>
 			</f:if>
-			<f:for each="{s:valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
+			<f:for each="{s:data.valueForKey(array:document.fields, key:field)}" as="value" iteration="iterator">
 				{groupItemPrefix->f:format.raw()}{fieldPrefix->f:format.raw()}
 					<f:render partial="Display/Field/Content" arguments="{_all}"/>
 				{fieldSuffix->f:format.raw()}{f:if(condition:"{iterator.isLast}==0", then:separator)}{groupItemSuffix->f:format.raw()}

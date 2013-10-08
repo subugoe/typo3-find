@@ -3,7 +3,7 @@
 	<section class="quelle">
 		<h2>Quelle</h2>
 		<ul>
-			<s:transpose name="quellen" arrays="{
+			<s:data.transpose name="quellen" arrays="{
 				url: document.url_quelle,
 				titel: document.url_quelle_titel
 			}">
@@ -21,7 +21,7 @@
 						</f:link.external>
 					</li>
 				</f:for>
-			</s:transpose>
+			</s:data.transpose>
 		</ul>
 	</section>
 </f:if>

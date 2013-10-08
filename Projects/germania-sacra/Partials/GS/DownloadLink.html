@@ -3,7 +3,7 @@
 <div class="formatDownload">
 	<span class="formatName">{downloadFormat}</span> Download:
 	<f:alias map="{
-		pager:'{s:pageList(
+		pager:'{s:find.pageList(
 			currentPage:1,
 			perPage:500,
 			resultCount:results.numfound,
@@ -13,9 +13,9 @@
 	}">
 		<ul class="downloadGroup">
 			<f:for each="{pager.pages}" as="page" iteration="iterator">
-				<s:newArray name="newQ">
+				<s:data.newArray name="newQ">
 					<f:for each="{arguments.q}" as="argument" key="key">
-						<s:newArray
+						<s:data.newArray
 							name="newQ"
 							global="1"
 							array="{newQ}"
@@ -25,7 +25,7 @@
 					</f:for>
 					<f:for each="{arguments.facet}" as="value" key="key">
 						<f:for each="{value}" as="unused" key="term">
-							<s:newArray
+							<s:data.newArray
 								name="newQ"
 								global="1"
 								array="{newQ}"
@@ -47,7 +47,7 @@
 							noCacheHash="1"
 						>{page.number}</f:link.action>
 					</li>
-				</s:newArray>
+				</s:data.newArray>
 			</f:for>
 		</ul>
 	</f:alias>

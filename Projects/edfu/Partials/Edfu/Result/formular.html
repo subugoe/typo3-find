@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:alias map="{loggedIn:'{f:security.ifHasRole(role:\"Edfu\", then:1, else:0)}'}">
-	<f:alias map="{showDetails:'{s:or(conditions:\"{0:loggedIn, 1:document.fields.freigegeben.0}\")}'}">
+	<f:alias map="{showDetails:'{s:logic.or(conditions:\"{0:loggedIn, 1:document.fields.freigegeben.0}\")}'}">
 		<h1>
 			<span class="technical">
 				<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'texttyp', separator:', '}"/>

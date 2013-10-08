@@ -1,8 +1,8 @@
 {namespace s=Subugoe\Find\ViewHelpers}
-<f:alias map="{fieldContent:'{s:valueForKey(array:document.fields, key:field)}'}">
+<f:alias map="{fieldContent:'{s:data.valueForKey(array:document.fields, key:field)}'}">
 	<f:if condition="{fieldContent}">
 		<dt class="dt-{field}">
-			<f:if condition="{s:isArray(subject:fieldContent)}">
+			<f:if condition="{s:data.isArray(subject:fieldContent)}">
 				<f:then>
 					<f:translate key="LLL:{settings.languageRootPath}locallang-fields.xml:field.{field}.plural" default="{field}"/>
 				</f:then>

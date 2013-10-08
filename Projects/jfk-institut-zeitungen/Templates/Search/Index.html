@@ -2,11 +2,11 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<s:pageTitle>
+	<s:page.title>
 		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
 		–
 		{pageTitle}
-	</s:pageTitle>
+	</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
 	<div class="results">
@@ -18,7 +18,7 @@
 		<section class="facets-buchstabe">
 			<f:render partial="Facets/Facet"
 					  arguments="{
-						  facetData: '{s:valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
+						  facetData: '{s:data.valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
 						  facetInfo: facets.10,
 						  activeFacets: activeFacets
 			}"/>
@@ -28,16 +28,16 @@
 			<f:for each="{results.documents}" as="document">
 				<li>
 					<p class="itemHeader">
-						<s:regexp match="/&lt;&lt;(.*?)&gt;&gt;/" replace="\1">
+						<s:format.regexp match="/&lt;&lt;(.*?)&gt;&gt;/" replace="\1">
 							<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'title', separator:', '}"/>
 							<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:'publisher', separator:', '}"/>
-						</s:regexp>
+						</s:format.regexp>
 
 						<f:if condition="{document.fields.zdb}">
 							<span id="c{uid}-zdb-{document.fields.zdb.0}" class="locally-available"></span>
 							<script type="text/javascript">
-								var ZDBID = {s:json(data:document.fields.zdb.0)};
-								var elementID = 'c' + {s:json(data:uid)} + '-zdb-' + ZDBID;
+								var ZDBID = {s:format.json(data:document.fields.zdb.0)};
+								var elementID = 'c' + {s:format.json(data:uid)} + '-zdb-' + ZDBID;
 								jfk_jop.addZDBInfoForIDToElementID(ZDBID, elementID);
 							</script>
 						</f:if>
