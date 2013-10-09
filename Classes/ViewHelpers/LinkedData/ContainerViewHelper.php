@@ -54,7 +54,7 @@ class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 		$this->templateVariableContainer->add($this->arguments['name'], array());
 
 		$this->renderChildren();
-		$items = $this->templateVariableContainer->get($this->arguments['name'], $items);
+		$items = $this->templateVariableContainer->get($this->arguments['name']);
 		$this->templateVariableContainer->remove($this->arguments['name']);
 
 		$LDRenderer = Renderer\AbstractRenderer::instantiateSubclassForType($this->arguments['format']);
