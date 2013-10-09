@@ -161,16 +161,6 @@
 		display: none;
 	}
 	
-	
-	.bibitem {
-		.year, .author, .editor {
-			font-style: italic;
-		}
-		.title, .beschreibung {
-			font-weight: bold;
-		}
-	}
-	
 	.downloadLinks {
 		ul, li {
 			display: inline;
@@ -179,6 +169,10 @@
 		.formatName {
 			text-transform: uppercase;
 		}
+	}
+	
+	.zitation-detail {
+		font-style: italic;
 	}
 
 }

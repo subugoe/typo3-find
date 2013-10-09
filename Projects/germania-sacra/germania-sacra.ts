@@ -269,7 +269,9 @@ plugin.tx_find {
 		additionalFilters {
 			# 2 = bearbeitungsstatus:Online
 		}
+
 		CSSPaths.50 = EXT:find/Projects/germania-sacra/Resources/germania-sacra.css
+		CSSPaths.60 = EXT:find/Projects/germania-sacra/Resources/bib.css
 		JSPaths.50 =  EXT:find/Projects/germania-sacra/Resources/germania-sacra.js
 
 		languageRootPath = EXT:find/Projects/germania-sacra/Language/

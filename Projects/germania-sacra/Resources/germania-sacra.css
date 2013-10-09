@@ -110,16 +110,13 @@
 .tx_find .hidden {
   display: none;
 }
-.tx_find .bibitem .year, .tx_find .bibitem .author, .tx_find .bibitem .editor {
-  font-style: italic;
-}
-.tx_find .bibitem .title, .tx_find .bibitem .beschreibung {
-  font-weight: bold;
-}
 .tx_find .downloadLinks ul, .tx_find .downloadLinks li {
   display: inline;
   padding: 0;
 }
 .tx_find .downloadLinks .formatName {
   text-transform: uppercase;
+}
+.tx_find .zitation-detail {
+  font-style: italic;
 }

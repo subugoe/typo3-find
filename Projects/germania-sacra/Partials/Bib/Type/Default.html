@@ -1,0 +1,20 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace bib=Ipf\Bib\ViewHelpers}
+<bib:renderPublication bibitem="{bibitem}">
+	<bib:renderPublicationField field="authors" xml="1" suffix=":" suffixIfLast=".">
+		<f:render partial="Bib/Authors" arguments="{_all}"/>
+	</bib:renderPublicationField>
+	<bib:renderPublicationField field="title"/>
+	<f:if condition="{bibitem.series}{bibitem.volume}">
+		<bib:renderPublicationField field="seriesvolume" prefix="(" prefixIfFirst="(" suffix=")" suffixIfLast=")">
+			{bibitem.series}{f:if(condition:"{s:logic.and(conditions:'{0:bibitem.series, 1:bibitem.volume}')}", then:", ")}
+			{bibitem.volume}
+		</bib:renderPublicationField>
+	</f:if>
+	<bib:renderPublicationField field="editor" suffix=" (Hg.)," suffixIfLast=" (Hg.)."/>
+	<bib:renderPublicationField field="edition"/>
+	<bib:renderPublicationField field="publisher"/>
+	<bib:renderPublicationField field="address"/>
+	<bib:renderPublicationField field="month"/>
+	<bib:renderPublicationField field="year"/>
+</bib:renderPublication>
