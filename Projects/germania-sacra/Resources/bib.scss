@@ -9,7 +9,9 @@
 		font-weight: bold;
 	}
 
-	.tx_bib_field-series {
+	.tx_bib_field-series,
+	.tx_bib_field-journal,
+	.tx_bib_field-booktitle {
 		font-style: italic;
 	}
 }

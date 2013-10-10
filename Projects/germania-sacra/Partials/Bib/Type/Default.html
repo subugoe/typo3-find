@@ -1,20 +1,60 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 {namespace bib=Ipf\Bib\ViewHelpers}
 <bib:renderPublication bibitem="{bibitem}">
-	<bib:renderPublicationField field="authors" xml="1" suffix=":" suffixIfLast=".">
+	<bib:renderPublicationField field="authors" xml="1" suffix=":">
 		<f:render partial="Bib/Authors" arguments="{_all}"/>
 	</bib:renderPublicationField>
-	<bib:renderPublicationField field="title"/>
-	<f:if condition="{bibitem.series}{bibitem.volume}">
-		<bib:renderPublicationField field="seriesvolume" prefix="(" prefixIfFirst="(" suffix=")" suffixIfLast=")">
-			{bibitem.series}{f:if(condition:"{s:logic.and(conditions:'{0:bibitem.series, 1:bibitem.volume}')}", then:", ")}
-			{bibitem.volume}
-		</bib:renderPublicationField>
+	<bib:renderPublicationField field="title" suffix="."/>
+
+	<f:if condition="{bibitem.journal}">
+		<bib:renderPublicationField field="journal" prefix="In: " prefixIfFirst="In: "/>
+		<f:if condition="{bibitem.volume}">
+			<bib:renderPublicationField field="volume"/>
+		</f:if>
+		<f:if condition="{bibitem.number}">
+			<bib:renderPublicationField field="number" prefix="(" prefixIfFirst="(" suffix=")" suffixIfLast=")"/>
+		</f:if>
 	</f:if>
-	<bib:renderPublicationField field="editor" suffix=" (Hg.)," suffixIfLast=" (Hg.)."/>
+
+	<f:if condition="{bibitem.booktitle}">
+		<bib:renderPublicationField field="editor" prefix="In: " prefixIfFirst="In: " suffix=" (Hg.)," suffixIfLast=" (Hg.)."/>
+		<bib:renderPublicationField field="booktitle"/>
+	</f:if>
+
+	<f:if condition="{s:logic.not(condition:bibitem.journal)}">
+		<f:if condition="{bibitem.series}{bibitem.volume}">
+			<bib:renderPublicationField field="seriesvolume" prefix="(" prefixIfFirst="(" suffix=")" suffixIfLast=")">
+				{bibitem.series}{f:if(condition:"{s:logic.and(conditions:'{0:bibitem.series, 1:bibitem.volume}')}", then:", ")}
+				{bibitem.volume}
+			</bib:renderPublicationField>
+		</f:if>
+	</f:if>
+	
+	<f:if condition="{s:logic.not(condition:bibitem.booktitle)}">
+		<bib:renderPublicationField field="editor" suffix=" (Hg.)," suffixIfLast=" (Hg.)."/>
+	</f:if>
+
 	<bib:renderPublicationField field="edition"/>
 	<bib:renderPublicationField field="publisher"/>
 	<bib:renderPublicationField field="address"/>
 	<bib:renderPublicationField field="month"/>
 	<bib:renderPublicationField field="year"/>
+	<bib:renderPublicationField field="pages" prefix="S. "/>
+	
+	<f:if condition="{bibitem.DOI}">
+		<bib:renderPublicationField field="doi" xml="1" prefix="DOI: " prefixIfFirst="DOI: ">
+			<f:link.external uri="http://dx.doi.org/{bibitem.DOI}">{bibitem.DOI}</f:link.external>
+		</bib:renderPublicationField>
+	</f:if>
+
+	<f:if condition="{bibitem.web_url}">
+		<bib:renderPublicationField field="url" xml="1">
+			<span class="url">
+				<f:link.external uri="{bibitem.web_url}">{bibitem.web_url}</f:link.external>
+				<f:if condition="{bibitem.web_url_date}">
+					<span class="url-date">(abgerufen am {bibitem.web_url_date})</span>
+				</f:if>
+			</span>
+		</bib:renderPublicationField>
+	</f:if>
 </bib:renderPublication>
