@@ -10,7 +10,7 @@
 @prefix person: <http://personendatenbank.germania-sacra.de/index/gsn/> .
 
 kloster:1030
-	a foaf:Organization, gnd:4031225-2 ;
+	a foaf:Organization, prov:Agent, gnd:4031225-2 ;
 	foaf:name "Zisterzienserkloster Altenberg" ;
 	skos:altLabel "unbekannt" ;
 	foaf:member person:066-02185-001, person:066-04666-001, person:066-03182-001, person:066-00634-001, person:066-02207-001 ;
@@ -24,7 +24,7 @@ gnd:4067883-0
 	a foaf:Group ;
 	foaf:member kloster:1030 ;
 	foaf:name "Zisterzienser"@de ;
-	foaf:nick "OCist" ;
+	skos:altLabel "OCist" ;
 	foaf:page <http://de.wikipedia.org/wiki/Zisterzienser> ;
 	owl:sameAs <http://dbpedia.org/page/Zisterzienser> ;
 	role:role kloster:1030#orden-994 .

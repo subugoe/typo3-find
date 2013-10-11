@@ -17,6 +17,7 @@
 	format="{LDFormat}"
 >
 	<s:linkedData.item subject="{klosterURI}" predicate="rdf:type" object="foaf:Organization"/>
+	<s:linkedData.item subject="{klosterURI}" predicate="rdf:type" object="prov:Agent"/>
 	<s:linkedData.item subject="{klosterURI}" predicate="rdf:type" object="gnd:4031225-2"/>
 	<s:linkedData.item subject="gnd:4031225-2" predicate="rdf:type" object="skos:Concept"/>
 	<s:linkedData.item subject="gnd:4031225-2" predicate="foaf:name" language="de">Kloster (Körperschaft)</s:linkedData.item>
@@ -69,7 +70,7 @@
 					<s:linkedData.item subject="{ordenURI}" predicate="foaf:member" object="{klosterURI}"/>
 					<s:linkedData.item subject="{ordenURI}" predicate="foaf:name" language="de">{orden.name}</s:linkedData.item>
 					<f:if condition="{orden.ordo}">
-						<s:linkedData.item subject="{ordenURI}" predicate="foaf:nick">{orden.ordo}</s:linkedData.item>
+						<s:linkedData.item subject="{ordenURI}" predicate="skos:altLabel">{orden.ordo}</s:linkedData.item>
 					</f:if>
 					<f:comment>
 						TODO: Orden Graphik einbauen (wenn URL stabil)?

@@ -9,7 +9,7 @@
 @prefix kloster: <http://kloester.germania-sacra.de/gsn/> .
 
 kloster:349
-	a foaf:Organization, gnd:4031225-2 ;
+	a foaf:Organization, prov:Agent, gnd:4031225-2 ;
 	foaf:name "(St. Michael, Bremen?, später Bergedorf, später Hude)" ;
 	skos:altLabel "Michael (?), Maria (?)" .
 
@@ -21,7 +21,7 @@ gnd:4067883-0
 	a foaf:Group ;
 	foaf:member kloster:349 ;
 	foaf:name "Zisterzienser"@de ;
-	foaf:nick "OCist" ;
+	skos:altLabel "OCist" ;
 	foaf:page <http://de.wikipedia.org/wiki/Zisterzienser> ;
 	owl:sameAs <http://dbpedia.org/page/Zisterzienser> ;
 	role:role kloster:349#orden-282, kloster:349#orden-283 .
@@ -46,7 +46,7 @@ gnd:4005487-1
 	a foaf:Group ;
 	foaf:member kloster:349 ;
 	foaf:name "Benediktinerinnen"@de ;
-	foaf:nick "OSB (w)" ;
+	skos:altLabel "OSB (w)" ;
 	foaf:page <http://de.wikipedia.org/wiki/Benediktinerinnen> ;
 	owl:sameAs <http://dbpedia.org/page/Benediktinerinnen> ;
 	role:role kloster:349#orden-284 .
