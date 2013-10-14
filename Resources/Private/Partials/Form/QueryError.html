@@ -1,39 +1,46 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:comment>
-	Detect Solr errors and present a link that re-runs the query after escaping
-	the parameters for fields with noescape = 1.
+	Detect Solr errors and try to handle them:
+	
+	* query error: present a link that re-runs the query after escaping the parameters for fields with noescape = 1.
+	* timeout: note the timeout condition and suggest to rerun the query (are we lucky?) or use a simpler one.
 </f:comment>
 
 <f:if condition="{error.solr}">
 	<section class="error">
-		<f:translate key="Your query could not be executed."/>
+		<f:if condition="{error.solr.code} == 400">
+			<f:translate key="Your query could not be executed."/>
 
-		<s:data.newArray name="escapedQuery" array="{arguments.q}">
-			<f:for each="{settings.queryFields}" as="queryField">
-				<f:if condition="{queryField.noescape}">
-					<f:if condition="{s:data.valueForKey(array:arguments.q, key:queryField.id)}">
-						<s:data.newArray
-							name="escapedQuery"
-							array="{escapedQuery}"
-							keys="{0:queryField.id}"
-							values="{0:'{s:format.solrEscape(string:\"{s:data.valueForKey(array:arguments.q, key:queryField.id)}\")}'}"
-							global="TRUE"
-						/>
+			<s:data.newArray name="escapedQuery" array="{arguments.q}">
+				<f:for each="{settings.queryFields}" as="queryField">
+					<f:if condition="{queryField.noescape}">
+						<f:if condition="{s:data.valueForKey(array:arguments.q, key:queryField.id)}">
+							<s:data.newArray
+								name="escapedQuery"
+								array="{escapedQuery}"
+								keys="{0:queryField.id}"
+								values="{0:'{s:format.solrEscape(string:\"{s:data.valueForKey(array:arguments.q, key:queryField.id)}\")}'}"
+								global="TRUE"
+							/>
+						</f:if>
 					</f:if>
-				</f:if>
-			</f:for>
-			<s:data.newArray name="escapedArguments" array="{arguments}" keys="{0:'q'}" values="{0:escapedQuery}" global="TRUE"/>
-			<f:link.action
-				action="index"
-				addQueryString="TRUE"
-				argumentsToBeExcludedFromQueryString="{0:'tx_find_find[q]'}"
-				arguments="{escapedArguments}"
-				section="{settings.jumpToID}"
-				noCacheHash="1"
-				class="internal"
-			>
-				<f:translate key="Re-run the query with escaped terms."/>
-			</f:link.action>
-		</s:data.newArray>
+				</f:for>
+				<s:data.newArray name="escapedArguments" array="{arguments}" keys="{0:'q'}" values="{0:escapedQuery}" global="TRUE"/>
+				<f:link.action
+					action="index"
+					addQueryString="TRUE"
+					argumentsToBeExcludedFromQueryString="{0:'tx_find_find[q]'}"
+					arguments="{escapedArguments}"
+					section="{settings.jumpToID}"
+					noCacheHash="1"
+					class="internal"
+				>
+					<f:translate key="Re-run the query with escaped terms."/>
+				</f:link.action>
+			</s:data.newArray>
+		</f:if>
+		<f:if condition="{error.solr.code} == 0">
+			<f:translate key="Your query took too long."/>
+		</f:if>
 	</section>
 </f:if>

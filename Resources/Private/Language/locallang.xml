@@ -46,6 +46,7 @@
 
 			<label index="Your query could not be executed.">Your query could not be executed.</label>
 			<label index="Re-run the query with escaped terms.">Re-run the query with escaped terms.</label>
+			<label index="Your query took too long.">Your query took too long and was cancelled. Try re-running the query or using a simpler one. If your query is simple already, please get in touch with us and tell us what you tried to do.</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -86,6 +87,7 @@
 
 			<label index="Your query could not be executed.">Ihre Abfrage konnte nicht ausgeführt werden.</label>
 			<label index="Re-run the query with escaped terms.">Abfrage mit maskierten Steuerzeichen wiederholen.</label>
+			<label index="Your query took too long.">Ihre Abfrage dauerte zu lange und wurde abgebrochen. Bitte versuchen Sie, die Seite neuzuladen oder stellen Sie eine einfachere Abfrage. Falls Ihre Abfrage bereits einfach war, schicken Sie uns bitte eine Nachricht mit der Abfrage, damit wir das Problem lösen können.</label>
 		</languageKey>
 
 	</data>

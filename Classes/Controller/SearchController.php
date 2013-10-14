@@ -83,8 +83,10 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		try {
 			$resultSet = $this->solr->select($query);
 		}
-		catch (Solarium\Exception\HttpException $e) {
-			$this->view->assign('error', array('solr' => $e));
+		catch (\Solarium\Exception\HttpException $exception) {
+			$message = 'find: Solr Exception (Timeout?)';
+			$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('requestArguments' => $this->requestArguments, 'exception' => $this->exceptionToArray($exception)), FALSE);
+			$this->view->assign('error', array('solr' => $exception));
 		}
 
 		$this->view->assignMultiple(array(
@@ -136,12 +138,13 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * Single Item View action.
 	 */
 	public function detailAction() {
-		if (array_key_exists('id', $this->requestArguments) && !empty($this->requestArguments['id'])) {
-			$id = $this->requestArguments['id'];
+		$arguments = $this->requestArguments;
+		if (array_key_exists('id', $arguments) && !empty($arguments['id'])) {
+			$id = $arguments['id'];
 			$assignments = array();
-			if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $this->requestArguments)) {
+			if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $arguments)) {
 				// If underlying query has been sent, fetch more data to enable paging arrows.
-				$underlyingQueryInfo = $this->requestArguments['underlyingQuery'];
+				$underlyingQueryInfo = $arguments['underlyingQuery'];
 
 				// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
 				$positionIndex = $underlyingQueryInfo['position'] - 1;
@@ -149,7 +152,6 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$nextIndex = $positionIndex + 1;
 				$resultIndexOffset = ($positionIndex === 0) ? 0 : 1;
 
-				$arguments = $this->requestArguments;
 				foreach ($arguments['underlyingQuery'] as $key => $value) {
 					$arguments[$key] = $value;
 				}
@@ -160,33 +162,42 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$query->setStart($previousIndex);
 				$query->setRows($nextIndex - $previousIndex + 1);
 
-				$selectResults = $this->solr->select($query);
-				if (count($selectResults) > 0) {
-					$assignments['results'] = $selectResults;
-					$resultSet = $selectResults->getDocuments();
+				try {
+					$selectResults = $this->solr->select($query);
+					if (count($selectResults) > 0) {
+						$assignments['results'] = $selectResults;
+						$resultSet = $selectResults->getDocuments();
 
-					// the actual result is at position 0 (for the first document) or 1 (otherwise).
-					$document = $resultSet[$resultIndexOffset];
-					if ($document['id'] === $id) {
-						$assignments['document'] = $document;
-						if ($resultIndexOffset !== 0) {
-							$assignments['document-previous'] = $resultSet[0];
-							$assignments['document-previous-number'] = $previousIndex + 1;
+						// the actual result is at position 0 (for the first document) or 1 (otherwise).
+						$document = $resultSet[$resultIndexOffset];
+						if ($document['id'] === $id) {
+							$assignments['document'] = $document;
+							if ($resultIndexOffset !== 0) {
+								$assignments['document-previous'] = $resultSet[0];
+								$assignments['document-previous-number'] = $previousIndex + 1;
+							}
+							$nextResultIndex = 1 + $resultIndexOffset;
+							if (count($resultSet) > $nextResultIndex) {
+								$assignments['document-next'] = $resultSet[$nextResultIndex];
+								$assignments['document-next-number'] = $nextIndex + 1;
+							}
 						}
-						$nextResultIndex = 1 + $resultIndexOffset;
-						if (count($resultSet) > $nextResultIndex) {
-							$assignments['document-next'] = $resultSet[$nextResultIndex];
-							$assignments['document-next-number'] = $nextIndex + 1;
+						else {
+							$message = 'find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.';
+							$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments));
+							$this->forward('index');
 						}
 					}
 					else {
-						$this->flashMessageContainer->add('find: »detail« action query with underlying query could not retrieve record id »' . $id . '«.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+						$message = 'find: »detail« action query with underlying query returned no results.';
+						$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments));
 						$this->forward('index');
 					}
 				}
-				else {
-					$this->flashMessageContainer->add('find: »detail« action query with underlying query returned no results.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
-					$this->forward('index');
+				catch (\Solarium\Exception\HttpException $exception) {
+					$message = 'find: Solr Exception (Timeout?)';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments, 'exception' => $this->exceptionToArray($exception)), FALSE);
+					$this->view->assign('error', array('solr' => $exception));
 				}
 			}
 			else {
@@ -194,15 +205,23 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$query = $this->createQuery();
 				$escapedID = $query->getHelper()->escapeTerm($id);
 				$query->setQuery('id:' . $escapedID);
-				$selectResults = $this->solr->select($query);
-				if (count($selectResults) > 0) {
-					$assignments['results'] = $selectResults;
-					$resultSet = $selectResults->getDocuments();
-					$assignments['document'] = $resultSet[0];
+				try {
+					$selectResults = $this->solr->select($query);
+					if (count($selectResults) > 0) {
+						$assignments['results'] = $selectResults;
+						$resultSet = $selectResults->getDocuments();
+						$assignments['document'] = $resultSet[0];
+					}
+					else {
+						$message = 'find: »detail« action query for id »' . $id . '« returned no results.';
+						$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments));
+						$this->forward('index');
+					}
 				}
-				else {
-					$this->flashMessageContainer->add('find: »detail« action query for id »' . $id . '« returned no results.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
-					$this->forward('index');
+				catch (\Solarium\Exception\HttpException $exception) {
+					$message = 'find: Solr Exception (Timeout?)';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments, 'exception' => $this->exceptionToArray($exception)));
+					$this->view->assign('error', array('solr' => $exception));
 				}
 			}
 
@@ -211,7 +230,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		}
 		else {
 			// id argument missing or empty
-			$this->flashMessageContainer->add('find: Non-empty argument »id« is required for action »detail«.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+			$message = 'find: Non-empty argument »id« is required for action »detail«.';
+			$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('arguments' => $arguments));
 			$this->forward('index');
 		}
 	}
@@ -458,31 +478,38 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	private function getFacetQuery ($facetConfig, $queryTerm) {
 		$queryString = NULL;
 
-		if (array_key_exists('facetQuery', $facetConfig)) {
-			// Facet queries are configured: use one of them.
-			foreach ($facetConfig['facetQuery'] as $facetQueryConfig) {
-				if ($facetQueryConfig['id'] === $queryTerm) {
-					$queryString = $facetQueryConfig['query'];
-					break;
+		if ($facetConfig) {
+			if (array_key_exists('facetQuery', $facetConfig)) {
+				// Facet queries are configured: use one of them.
+				foreach ($facetConfig['facetQuery'] as $facetQueryConfig) {
+					if ($facetQueryConfig['id'] === $queryTerm) {
+						$queryString = $facetQueryConfig['query'];
+						break;
+					}
+				}
+				if ($queryString === NULL) {
+					$message = 'find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('requestArguments' => $this->requestArguments, 'facetConfig' => $facetConfig, 'queryTerm' => $queryTerm));
 				}
 			}
-			if ($queryString === NULL) {
-				$this->flashMessageContainer->add('find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+			else {
+				// No Facet queries configured: build the query.
+				if (array_key_exists('query', $facetConfig)) {
+					$queryPattern = $facetConfig['query'];
+				}
+				else {
+					$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . '%s';
+				}
+
+				// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
+				// (because PHP loses ] in array keys during URL parsing)
+				$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
+				$queryString = sprintf($queryPattern, $queryTerm);
 			}
 		}
 		else {
-			// No Facet queries configured: build the query.
-			if (array_key_exists('query', $facetConfig)) {
-				$queryPattern = $facetConfig['query'];
-			}
-			else {
-				$queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . '%s';
-			}
-
-			// Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
-			// (because PHP loses ] in array keys during URL parsing)
-			$queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
-			$queryString = sprintf($queryPattern, $queryTerm);
+			$message = 'find: A non-configured facet was selected. Ignoring it.';
+			$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('requestArguments' => $this->requestArguments));
 		}
 
 		return $queryString;
@@ -595,7 +622,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 								$queryForFacet->createQuery($facetQuery['id'], $facetQuery['query']);
 							}
 							else {
-								$this->flashMessageContainer->add('find: TypoScript facet »' . $facetID . '«, facetQuery ' . $facetQueryIndex . ' does not have the required keys »id« and »query«. Ignoring this facetQuery.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+								$message = 'find: TypoScript facet »' . $facetID . '«, facetQuery ' . $facetQueryIndex . ' does not have the required keys »id« and »query«. Ignoring this facetQuery.';
+								$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('facetQuery' => $facetQuery, 'facetConfiguration' => $facetConfiguration));
 							}
 						}
 					}
@@ -612,10 +640,12 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('find: TypoScript facet ' . $key . ' does not have the required key »id«. Ignoring this facet.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+					$message = 'find: TypoScript facet ' . $key . ' does not have the required key »id«. Ignoring this facet.';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('facet' => $facet, 'facetConfiguration' => $facetConfiguration));
 				}
 			}
 		}
+		
 		$this->view->assign('facets', $facetConfiguration);
 	}
 
@@ -706,7 +736,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 					}
 				}
 				else {
-					$this->flashMessageContainer->add('find: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+					$message = 'find: TypoScript sort option »' . $sortOptionIndex . '« does not have the required keys »id« and »sortCriteria. Ignoring this setting.';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('sortOption' => $sortOption));
 				}
 			}
 
@@ -742,14 +773,16 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 						$sortDirection = $query::SORT_DESC;
 					}
 					else if ($sortCriterionParts[1] !== 'asc') {
-						$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+						$message = 'find: sort criterion »' . $sortCriterion . '«’s sort direction is »' . $sortCriterionParts[1] . '« It should be »asc« or »desc«. Ignoring it.';
+						$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 						continue;
 					}
 
 					$query->addSort($sortCriterionParts[0], $sortDirection);
 				}
 				else {
-					$this->flashMessageContainer->add('find: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
+					$message = 'find: sort criterion »' . $sortCriterion . '« does not have the required form »fieldName [asc|desc]«. Ignoring it.';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING);
 				}
 			}
 		}
@@ -1031,7 +1064,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * Specifically aimed at the __hmac and __referrer keys introduced by Fluid
 	 * forms as well as the text submitted by empty search form fields.
 	 * 
-	 * @param type $array
+	 * @param array $array
 	 */
 	private function cleanArgumentsArray (&$array) {
 		foreach ($array as $key => &$value) {
@@ -1042,6 +1075,56 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				$this->cleanArgumentsArray($value);
 			}
 		}
+	}
+
+
+	/**
+	 * Logs errors to both flashMessages and devLog.
+	 *
+	 * @param string $message the message to display
+	 * @param int $level the error level using the scale from TYPO3\CMS\Core\Messaging
+	 * @param array $extraInfo additional data to pass to devLog
+	 * @param boolean $showFlashMessages whether to show the flash message or not (defaults to TRUE)
+	 */
+	private function logError ($message, $level, $extraInfo = NULL, $showFlashMessage = TRUE) {
+		if ($showFlashMessage) {
+			$this->flashMessageContainer->add($message, $level);
+		}
+
+		/* translates between the equivalent \TYPO3\CMS\Core\Messaging and devLog log levels */
+		$logLevelTranslation = array(
+			\TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE => 1,
+			\TYPO3\CMS\Core\Messaging\FlashMessage::INFO => 0,
+			\TYPO3\CMS\Core\Messaging\FlashMessage::OK => -1,
+			\TYPO3\CMS\Core\Messaging\FlashMessage::WARNING => 2,
+			\TYPO3\CMS\Core\Messaging\FlashMessage::ERROR => 3
+		);
+
+		\TYPO3\CMS\Core\Utility\GeneralUtility::devLog($message, 'find', $logLevelTranslation[$level], $extraInfo);
+	}
+
+
+
+	/**
+	 * Returns an array that can be handled by devLog with the information from an exception.
+	 *
+	 * @param Exception $exception
+	 * @return array
+	 */
+	private function exceptionToArray ($exception, $includePrevious = FALSE) {
+		$array = array(
+			'message' => $exception->getMessage(),
+			'code' => $exception->getCode(),
+			'file' => $exception->getFile(),
+			'line' => $exception->getLine(),
+			'trace' => $exception->getTraceAsString()
+		);
+
+		if ($includePrevious) {
+			$array['previous'] = $this->exceptionToArray($exception->getPrevious(), TRUE);
+		}
+
+		return $array;
 	}
 
 }
