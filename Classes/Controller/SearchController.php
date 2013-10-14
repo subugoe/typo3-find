@@ -488,12 +488,13 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 					}
 				}
 				if ($queryString === NULL) {
-					$message = 'find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Ignoring it.';
-					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, array('requestArguments' => $this->requestArguments, 'facetConfig' => $facetConfig, 'queryTerm' => $queryTerm));
+					$message = 'find: Results for Facet »' . $facetConfig['id'] . '« with facetQuery ID »' . $queryTerm . '« were requested, but this facetQuery is not configured. Building a generic facet query instead.';
+					$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::INFO, array('requestArguments' => $this->requestArguments, 'facetConfig' => $facetConfig, 'queryTerm' => $queryTerm), FALSE);
 				}
 			}
-			else {
-				// No Facet queries configured: build the query.
+
+			if ($queryString === NULL) {
+				// No Facet queries applicable: build the query.
 				if (array_key_exists('query', $facetConfig)) {
 					$queryPattern = $facetConfig['query'];
 				}
