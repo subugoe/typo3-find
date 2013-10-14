@@ -139,6 +139,7 @@ plugin.tx_find {
 		}
 		highlight {
 			fields.1 = *
+			fragsize = 100
 			# query = %s
 			# useQueryTerms = 0
 			# useFacetTerms = 0
