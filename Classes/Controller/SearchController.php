@@ -842,7 +842,10 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 			// Configure highlight fields.
 			$highlight->addFields(implode(',', $this->settings['highlight']['fields']));
-			
+
+			// Configure the fragement length.
+			$highlight->setFragSize($this->settings['highlight']['fragsize']);
+
 			// Set up alternative fields.
 			if ($this->settings['highlight']['alternateFields']) {
 				foreach ($this->settings['highlight']['alternateFields'] as $fieldName => $alternateFieldName) {
