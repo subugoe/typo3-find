@@ -4,6 +4,7 @@ plugin.tx_find {
 			host = 127.0.0.1
 			port = 8080
 			path = /solr/edfu
+			timeout = 10
 		}
 		queryFields {
 			0 {
