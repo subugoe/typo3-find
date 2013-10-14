@@ -49,8 +49,8 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 */
 	public function initializeArguments () {
 		parent::initializeArguments();
-		$this->registerArgument('results', 'Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
-		$this->registerArgument('document', 'Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
+		$this->registerArgument('results', '\Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
+		$this->registerArgument('document', '\Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
 		$this->registerArgument('field', 'string', 'name of field in document to highlight', TRUE);
 		$this->registerArgument('alternateField', 'string', 'name of alternate field in document to use for highlighting', FALSE, NULL);
 		$this->registerArgument('index', 'int', 'if the field is an array: index of the single element to highlight', FALSE);

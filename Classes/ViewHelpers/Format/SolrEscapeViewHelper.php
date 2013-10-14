@@ -52,7 +52,7 @@
 				$string = $this->renderChildren();
 			}
 
-			$solariumHelper = new Solarium\Core\Query\Helper();
+			$solariumHelper = new \Solarium\Core\Query\Helper();
 			$escapedString = $solariumHelper->escapeTerm($string);
 
 			return $escapedString;
