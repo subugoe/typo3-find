@@ -4,6 +4,7 @@ plugin.tx_find {
 			host = {$plugin.tx_find.settings.connection.host}
 			port = {$plugin.tx_find.settings.connection.port}
 			path = {$plugin.tx_find.settings.connection.path}
+			timeout = {$plugin.tx_find.settings.connection.timeout}
 		}
 		queryFields {
 			0 {

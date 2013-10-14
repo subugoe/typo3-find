@@ -60,6 +60,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 					'host' => $this->settings['connection']['host'],
 					'port' => intval($this->settings['connection']['port']),
 					'path' => $this->settings['connection']['path'],
+					'timeout' => $this->settings['connection']['timeout']
 				)
 			)
 		);
