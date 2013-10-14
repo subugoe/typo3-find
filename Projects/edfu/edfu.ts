@@ -108,7 +108,7 @@ plugin.tx_find {
 }
 
 
-#[usergroup = 1]
+[usergroup = 1]
 plugin.tx_find.settings {
 	facets.10.facetQuery {
 		30 {
@@ -125,4 +125,4 @@ plugin.tx_find.settings {
 		4 >
 	}
 }
-#[global]
+[global]
