@@ -87,6 +87,7 @@ plugin.tx_find {
 				14 = lemma
 				15 = bandseitezeile_highlight
 			}
+			fragsize = 5000
 			useQueryTerms = 0
 			useFacetTerms = 0
 			alternateFields {
