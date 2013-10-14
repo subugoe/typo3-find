@@ -5,6 +5,7 @@ plugin.tx_find {
 			# host = vlib.sub.uni-goettingen.de
 			port = 8080
 			path = /solr/germania-sacra
+			timeout = 15
 		}
 		defaultQuery = {!join from=kloster_id to=id}(typ:standort-orden)
 		queryFields {
@@ -259,8 +260,8 @@ plugin.tx_find {
 				32 = band_titel
 				41 = url
 				42 = url_bemerkung
-				# 51 = person_name
-				# 52 = person_namensalternativen
+				51 = person_name
+				52 = person_namensalternativen
 				# 53 = person_anmerkung
 			}
 			useQueryTerms = 1
