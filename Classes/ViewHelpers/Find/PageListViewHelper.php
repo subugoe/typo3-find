@@ -51,7 +51,7 @@
 		 * @return array
 		 */
 		public function render() {
-			$currentPage = (int)$this->arguments['currentPage'];
+			$currentPage = ($this->arguments['currentPage'] ? (int)$this->arguments['currentPage'] : 1);
 			$numberOfPages = (int)ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
 			$adjacentPages = (int)$this->arguments['adjacentPages'];
 			$adjacentFirst = max($currentPage - $adjacentPages, 1);
