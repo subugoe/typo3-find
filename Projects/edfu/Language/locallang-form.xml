@@ -25,6 +25,9 @@
 			<label index="input.translit">Transliteration</label>
 			<label index="input.translit-checkbox">without Suffix</label>
 			<label index="input.szene">Scene ID</label>
+			<label index="input.texttyp">Text type</label>
+			<label index="input.ort">Place</label>
+			<label index="input.lokalisation">Localisation</label>
 		</languageKey>
 
 		<languageKey index="de" type="array">
@@ -38,6 +41,9 @@
 			<label index="input.translit">Transliteration</label>
 			<label index="input.translit-checkbox">ohne Suffix</label>
 			<label index="input.szene">Szene ID</label>
+			<label index="input.texttyp">Texttyp</label>
+			<label index="input.ort">Ort</label>
+			<label index="input.lokalisation">Lokalisation</label>
 		</languageKey>
 	</data>
 </T3locallang>

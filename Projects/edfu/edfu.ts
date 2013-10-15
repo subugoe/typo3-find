@@ -8,22 +8,48 @@ plugin.tx_find {
 		}
 		queryFields {
 			0 {
-				query = %s -typ:wb_berlin -typ_stelle
+				query = %s -typ:wb_berlin -typ:stelle
 				noescape = 1
 			}
 			10 {
 				id = translit
 				type = Text
-				query = transliteration:%s -typ:wb_berlin -typ_stelle
-				queryAlternate.1 = transliteration_nosuffix:%s -typ:wb_berlin -typ_stelle
+				query = transliteration:%s -typ:wb_berlin -typ:stelle
+				queryAlternate.1 = transliteration_nosuffix:%s -typ:wb_berlin -typ:stelle
 				noescape = 1
 			}
 			30 {
 				id = szene
 				hidden = 1
-				query = szene_uid:%s -typ:wb_berlin -typ_stelle
+				query = szene_uid:%s -typ:wb_berlin -typ:stelle
 				type = Text
 			}
+			40 {
+				id = texttyp
+				hidden = 1
+				query = texttyp:%s
+				phrase = 1
+				type = Text
+			}
+			50 {
+				id = ort
+				hidden = 1
+				query = ort:%s
+				phrase = 1
+				type = Text
+			}
+			50 {
+				id = lokalisation
+				hidden = 1
+				query = lokalisation:%s
+				phrase = 1
+				type = Text
+			}
+		}
+		queryFieldForDataField {
+			texttyp = texttyp
+			ort = ort
+			lokalisation = lokalisation
 		}
 		additionalFilters {
 			3 = -typ:gott
