@@ -3,45 +3,75 @@
 	<f:then>
 		<f:alias map="{
 			fieldName:'{f:translate(key:\"LLL:{settings.languageRootPath}locallang-fields.xml:field.{field}\", default:field)}',
-			fieldContent:'{s:data.valueForKey(array:document.fields, key:field)}',
-			highlightedFieldContent:'{s:find.highlightField(results:results, document:document, field:field, index:iterator.index)}'
+			highlightedFieldContent:'{s:find.highlightField(
+				results:results,
+				document:document,
+				field:field,
+				index:iterator.index
+			)}'
 		}">
-			<f:if condition="{s:data.isArray(subject:fieldContent)}">
+			<f:if condition="{s:data.isArray(subject:'{s:data.valueForKey(array:document.fields, key:field)}')}">
 				<f:then>
-					<f:link.action
-						action="index"
-						arguments="{
-							q:'{raw:\'{field}:\"{s:data.valueForKey(array:fieldContent, key:iterator.index)}\"\'}',
-							facet:linkFacets
-						}"
-						noCacheHash="1"
-						class="internal"
-						title="{f:translate(
-							key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
-							arguments:'{1:fieldName, 2:fieldContent}'
-						)}"
-					>
-						{highlightedFieldContent->f:format.raw()}
-					</f:link.action>
+					<s:data.newArray
+						name="fieldContent"
+						global="1"
+						keys="{0:0}"
+						values="{0:{0:'{s:data.valueForKey(
+							array:\"{s:data.valueForKey(array:document.fields, key:field)}\",
+							key:iterator.index
+						)}'}}"
+					/>
 				</f:then>
 				<f:else>
-					<f:link.action
-						action="index"
-						arguments="{
-							q:'{raw:\'{field}:\"{fieldContent}\"\'}',
-							facet:linkFacets
-						}"
-						noCacheHash="1"
-						class="internal"
-						title="{f:translate(
-							key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
-							arguments:'{1:fieldName, 2:fieldContent}'
-						)}"
-					>
-						{highlightedFieldContent->f:format.raw()}
-					</f:link.action>
+					<s:data.newArray
+						name="fieldContent"
+						global="1"
+						keys="{0:0}"
+						values="{0:'{s:data.valueForKey(
+							array:document.fields,
+							key:field
+						)}'}"
+					/>
 				</f:else>
 			</f:if>
+			<s:data.newArray
+				name="queryArray"
+				keys="{0:'{f:if(
+					condition:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					then:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					else:\"raw\"
+				)}'}"
+				values="{0:'{f:if(
+					condition:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					then:fieldContent.0,
+					else:\'{field}:\"{fieldContent.0}\"\'
+				)}'}"
+			>
+				<f:link.action
+					action="index"
+					arguments="{
+						q:queryArray,
+						facet:linkFacets
+					}"
+					noCacheHash="1"
+					class="internal"
+					title="{f:translate(
+						key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
+						arguments:'{1:fieldName, 2:fieldContent}'
+					)}"
+				>
+					{highlightedFieldContent->f:format.raw()}
+				</f:link.action>
+			</s:data.newArray>
 		</f:alias>
 	</f:then>
 	<f:else>
