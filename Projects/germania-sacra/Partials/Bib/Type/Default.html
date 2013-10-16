@@ -56,7 +56,7 @@
 	</f:if>
 
 	<f:if condition="{bibitem.web_url}">
-		<bib:renderPublicationField field="url" xml="1">
+		<bib:renderPublicationField field="url" xml="1" prefix="Online verfügbar unter: " prefixIfFirst="Online verfügbar unter: ">
 			<span class="url"><f:link.external uri="{bibitem.web_url}">{bibitem.web_url}</f:link.external><f:if condition="{bibitem.web_url_date}">
 					<span class="url-date">(abgerufen am {bibitem.web_url_date})</span>
 			</f:if></span>
