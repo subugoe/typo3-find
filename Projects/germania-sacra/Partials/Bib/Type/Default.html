@@ -30,7 +30,7 @@
 	<f:if condition="{s:logic.not(condition:bibitem.journal)}">
 		<f:if condition="{bibitem.series}{bibitem.volume}">
 			<bib:renderPublicationField field="seriesvolume" prefix="(" prefixIfFirst="(" suffix=")" suffixIfLast=")">
-				{bibitem.series}{f:if(condition:"{s:logic.and(conditions:'{0:bibitem.series, 1:bibitem.volume}')}", then:", ")}
+				{bibitem.series}
 				{bibitem.volume}
 			</bib:renderPublicationField>
 		</f:if>
