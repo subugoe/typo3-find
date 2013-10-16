@@ -9,7 +9,7 @@
 	<bib:renderPublicationField field="title" suffix="."/>
 
 	<f:if condition="{bibitem.journal}">
-		<bib:renderPublicationField field="journal" prefix="In: " prefixIfFirst="In: "/>
+		<bib:renderPublicationField field="journal" prefix="In: " prefixIfFirst="In: " suffix="" suffixIfLast=""/>
 		<f:if condition="{bibitem.volume}">
 			<bib:renderPublicationField field="volume"/>
 		</f:if>
