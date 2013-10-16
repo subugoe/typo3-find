@@ -354,7 +354,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				if (!$queryFormat) {
 					$queryFormat = $fieldID . ':%s';
 				}
-				
+
+				ksort($queryTerms);
 				$queryPart = '_query_:' . $query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;
