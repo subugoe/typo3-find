@@ -43,6 +43,12 @@
 	<bib:renderPublicationField field="year"/>
 	<bib:renderPublicationField field="pages" prefix="S. "/>
 	
+	<f:if condition="{note}">
+		<bib:renderPublicationField field="customNote" xml="1" suffix="." suffixIfLast=".">
+			<span class="zitation-detail">{note}</span>
+		</bib:renderPublicationField>
+	</f:if>
+
 	<f:if condition="{bibitem.DOI}">
 		<bib:renderPublicationField field="doi" xml="1" prefix="DOI: " prefixIfFirst="DOI: ">
 			<f:link.external uri="http://dx.doi.org/{bibitem.DOI}">{bibitem.DOI}</f:link.external>
@@ -51,12 +57,9 @@
 
 	<f:if condition="{bibitem.web_url}">
 		<bib:renderPublicationField field="url" xml="1">
-			<span class="url">
-				<f:link.external uri="{bibitem.web_url}">{bibitem.web_url}</f:link.external>
-				<f:if condition="{bibitem.web_url_date}">
+			<span class="url"><f:link.external uri="{bibitem.web_url}">{bibitem.web_url}</f:link.external><f:if condition="{bibitem.web_url_date}">
 					<span class="url-date">(abgerufen am {bibitem.web_url_date})</span>
-				</f:if>
-			</span>
+			</f:if></span>
 		</bib:renderPublicationField>
 	</f:if>
 </bib:renderPublication>

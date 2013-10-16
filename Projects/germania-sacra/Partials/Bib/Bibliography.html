@@ -41,14 +41,9 @@
 							<f:alias map="{bibitem:'{bib:publicationByCiteId(citeId:item.citekey)}'}">
 								<f:render
 									partial="Bib/Type/{s:data.valueForKey(array:mediaTypes, key:bibitem.bibtype)}"
-									arguments="{_all}"
+									arguments="{bibitem:bibitem, note:item.beschreibung}"
 								/>
 							</f:alias>
-							<f:if condition="{item.beschreibung}">
-								<span class="zitation-detail">
-									{item.beschreibung}.
-								</span>
-							</f:if>
 						</li>
 					</f:for>
 				</s:data.transpose>
