@@ -278,7 +278,7 @@ var germaniaSacra = (function () {
 	};
 
 	var iconForStandort = function (standortInfo, ordenInfos) {
-		var icon = 'http://maps.google.com/mapfiles/kml/paddle/red-circle-lv.png';
+		var iconURL = baseURL + 'Ordenssymbole/Kloster_allgemein.png';
 
 		var matchingOrden = [];
 		for (var ordenIndex in ordenInfos) {
@@ -291,14 +291,15 @@ var germaniaSacra = (function () {
 		if (matchingOrden.length === 1 && matchingOrden[0].graphik !== '') {
 			// Unique orden with an icon: use it.
 			var fileName = matchingOrden[0].graphik;
-			var iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
-			icon = {
-				'url': iconURL,
-				'scaledSize': iconScaledSize(),
-				'origin': iconOrigin(),
-				'anchor': iconAnchor()
-			};
+			iconURL = baseURL + 'Ordenssymbole/' + fileName + '.png';
 		}
+
+		icon = {
+			'url': iconURL,
+			'scaledSize': iconScaledSize(),
+			'origin': iconOrigin(),
+			'anchor': iconAnchor()
+		};
 
 		return icon;
 	};
