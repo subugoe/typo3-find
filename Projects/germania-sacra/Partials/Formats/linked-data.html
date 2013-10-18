@@ -3,6 +3,7 @@
 	prefixes="{
 		xsd:'http://www.w3.org/2001/XMLSchema#',
 		rdf:'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+		rdfs:'http://www.w3.org/2000/01/rdf-schema#',
 		owl:'http://www.w3.org/2002/07/owl#',
 		foaf:'http://xmlns.com/foaf/0.1/',
 		skos:'http://www.w3.org/2004/02/skos/core#',
@@ -20,8 +21,8 @@
 	<s:linkedData.item subject="{klosterURI}" predicate="rdf:type" object="prov:Agent"/>
 	<s:linkedData.item subject="{klosterURI}" predicate="rdf:type" object="gnd:4031225-2"/>
 	<s:linkedData.item subject="gnd:4031225-2" predicate="rdf:type" object="skos:Concept"/>
-	<s:linkedData.item subject="gnd:4031225-2" predicate="foaf:name" language="de">Kloster (Körperschaft)</s:linkedData.item>
-	<s:linkedData.item subject="gnd:4031225-2" predicate="foaf:name" language="en">Monastery (Corporate Body)</s:linkedData.item>
+	<s:linkedData.item subject="gnd:4031225-2" predicate="rdfs:label" language="de">Kloster (Körperschaft)</s:linkedData.item>
+	<s:linkedData.item subject="gnd:4031225-2" predicate="rdfs:label" language="en">Monastery (Corporate Body)</s:linkedData.item>
 
 	<s:linkedData.item subject="{klosterURI}" predicate="foaf:name">{doc.kloster}</s:linkedData.item>
 	<f:if condition="{doc.patrozinium}">
@@ -37,7 +38,7 @@
 		<f:for each="{urls}" as="url">
 			<f:if condition="{1:url.art} == {1:'Wikipedia'}">
 				<s:linkedData.item subject="{klosterURI}" predicate="foaf:page" object="{url.url}"/>
-				<s:linkedData.item subject="{klosterURI}" predicate="owl:sameAs" object="{s:format.regexp(string:url.url, match:'|http://de.wikipedia.org/wiki/|', replace:'http://dbpedia.org/page/')}"/>
+				<s:linkedData.item subject="{klosterURI}" predicate="rdfs:seeAlso" object="{s:format.regexp(string:url.url, match:'|http://de.wikipedia.org/wiki/|', replace:'http://de.dbpedia.org/resource/')}"/>
 			</f:if>
 			<f:if condition="{1:url.art} == {1:'GND'}">
 				<s:linkedData.item subject="{klosterURI}" predicate="owl:sameAs" object="{url.url}"/>
@@ -81,14 +82,14 @@
 
 					<f:if condition="{orden.wikipedia}">
 						<s:linkedData.item subject="{ordenURI}" predicate="foaf:page" object="{orden.wikipedia}"/>
-						<s:linkedData.item subject="{ordenURI}" predicate="owl:sameAs" object="{s:format.regexp(string:orden.wikipedia, match:'|http://de.wikipedia.org/wiki/|', replace:'http://dbpedia.org/page/')}"/>
+						<s:linkedData.item subject="{ordenURI}" predicate="owl:sameAs" object="{s:format.regexp(string:orden.wikipedia, match:'|http://de.wikipedia.org/wiki/|', replace:'http://de.dbpedia.org/resource/')}"/>
 					</f:if>
 
 					<s:linkedData.item subject="{mitgliedschaftURI}" predicate="rdf:type" object="role:Role"/>
 					<s:linkedData.item subject="{mitgliedschaftURI}" predicate="rdf:type" object="gnd:4114609-8"/>
 					<s:linkedData.item subject="gnd:4114609-8" predicate="rdf:type" object="skos:Concept"/>
-					<s:linkedData.item subject="gnd:4114609-8" predicate="foaf:name" language="de">Kloster gehört zu Orden</s:linkedData.item>
-					<s:linkedData.item subject="gnd:4114609-8" predicate="foaf:name" language="en">Monastery belongs to order</s:linkedData.item>
+					<s:linkedData.item subject="gnd:4114609-8" predicate="rdfs:label" language="de">Kloster gehört zu Orden</s:linkedData.item>
+					<s:linkedData.item subject="gnd:4114609-8" predicate="rdfs:label" language="en">Monastery belongs to order</s:linkedData.item>
 					<s:linkedData.item subject="{mitgliedschaftURI}" predicate="role:holder" object="{klosterURI}"/>
 					<s:linkedData.item subject="{ordenURI}" predicate="role:role" object="{mitgliedschaftURI}"/>
 					<f:if condition="{orden.bis}">
@@ -125,8 +126,8 @@
 				<s:linkedData.item subject="{standortHabenURI}" predicate="rdf:type" object="prov:Activity"/>
 				<s:linkedData.item subject="{standortHabenURI}" predicate="rdf:type" object="gnd:4143381-6"/>
 				<s:linkedData.item subject="gnd:4143381-6" predicate="rdf:type" object="skos:Concept"/>
-				<s:linkedData.item subject="gnd:4143381-6" predicate="foaf:name" language="de">Klostersitz ist in</s:linkedData.item>
-				<s:linkedData.item subject="gnd:4143381-6" predicate="foaf:name" language="en">Monastery is located in</s:linkedData.item>
+				<s:linkedData.item subject="gnd:4143381-6" predicate="rdfs:label" language="de">Klostersitz ist in</s:linkedData.item>
+				<s:linkedData.item subject="gnd:4143381-6" predicate="rdfs:label" language="en">Monastery is located in</s:linkedData.item>
 				<s:linkedData.item subject="{standortHabenURI}" predicate="prov:wasAssociatedWith" object="{klosterURI}"/>
 
 				<f:if condition="{standort.von}">
@@ -183,7 +184,7 @@
 				<s:linkedData.item subject="{personURI}" predicate="foaf:name">{person.name}</s:linkedData.item>
 				<f:if condition="{person.namensalternativen}">
 					<f:for each="{s:data.split(string:person.namensalternativen, separator:'; ')}" as="namensalternative">
-						<s:linkedData.item subject="{personURI}" predicate="foaf:nick">{namensalternative}</s:linkedData.item>
+						<s:linkedData.item subject="{personURI}" predicate="skos:altLabel">{namensalternative}</s:linkedData.item>
 					</f:for>
 				</f:if>
 				<f:if condition="{person.gnd}">
