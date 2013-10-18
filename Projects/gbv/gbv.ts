@@ -66,11 +66,13 @@ plugin.tx_find {
 			}
 		}
 		highlight {
-			fields {
-			}
-			useQueryTerms = 0
-			useFacetTerms = 0
-			alternateFields {
+			default {
+				fields {
+				}
+				useQueryTerms = 0
+				useFacetTerms = 0
+				alternateFields {
+				}
 			}
 		}
 

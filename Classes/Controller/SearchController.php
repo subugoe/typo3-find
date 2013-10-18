@@ -827,6 +827,38 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 
 	/**
+	 * Returns the merged settings for the given name.
+	 * Uses settings.$settingName.default and adds
+	 * settings.$settingsName.$actionName to it.
+	 *
+	 * Settings array keys need to be non-numeric if they are supposed to be overriden.
+	 *
+	 * @param string $settingName the key of the subarray of $this->settings to work on
+	 * @return array highlight configuration
+	 */
+	private function getMergedSettings ($settingName) {
+		$config = array();
+
+		if (array_key_exists($settingName, $this->settings)) {
+			$setting = $this->settings[$settingName];
+
+			if (array_key_exists('default', $setting)) {
+				$config = $setting['default'];
+
+				$actionName = $this->request->getControllerActionName();
+				if (array_key_exists($actionName, $setting)) {
+					$actionConfig = $setting[$actionName];
+					$config = array_replace_recursive($config, $actionConfig);
+				}
+			}
+		}
+
+		return $config;
+	}
+
+
+
+	/**
 	 * Sets up $query’s highlighting according to TypoScript settings.
 	 * Unicode Private Use Area Codepoints U+EEEE and U+EEEF are used to mark
 	 * the highlight to better deal with field contents that contain markup
@@ -836,14 +868,15 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @param array $arguments request arguments
 	 */
 	private function addHighlighting ($query, $arguments) {
-		if ($this->settings['highlight'] && $this->settings['highlight']['fields']
-				&& count($this->settings['highlight']['fields']) > 0) {
+		$highlightConfig = $this->getMergedSettings('highlight');
+
+		if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
 			$highlight = $query->getHighlighting();
 
 			// Configure highlight queries.
-			if ($this->settings['highlight']['query']) {
+			if ($highlightConfig['query']) {
 				$queryWords= array();
-				if ($this->settings['highlight']['useQueryTerms'] && array_key_exists('q', $arguments)) {
+				if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
 					foreach ($this->settings['queryFields'] as $queryField) {
 						if (array_key_exists($queryField['id'], $arguments['q'])) {
 							$queryTerm = $arguments['q'][$queryField['id']];
@@ -859,7 +892,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 						}
 					}
 				}
-				if ($this->settings['highlight']['useFacetTerms']) {
+
+				if ($highlightConfig['useFacetTerms']) {
 					foreach ($this->getActiveFacets($arguments) as $facets) {
 						foreach ($facets as $facetTerm => $facetInfo) {
 							$queryWords[] = $query->getHelper()->escapePhrase($facetTerm);
@@ -869,7 +903,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 				$queryComponents = array();
 				foreach ($queryWords as $queryWord) {
-					$queryComponents[] = '(' . sprintf($this->settings['highlight']['query'], $queryWord) . ')';
+					$queryComponents[] = '(' . sprintf($highlightConfig['query'], $queryWord) . ')';
 				}
 				$queryString = implode(' OR ', $queryComponents);
 
@@ -877,14 +911,14 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 
 			// Configure highlight fields.
-			$highlight->addFields(implode(',', $this->settings['highlight']['fields']));
+			$highlight->addFields(implode(',', $highlightConfig['fields']));
 
 			// Configure the fragement length.
-			$highlight->setFragSize($this->settings['highlight']['fragsize']);
+			$highlight->setFragSize($highlightConfig['fragsize']);
 
 			// Set up alternative fields.
-			if ($this->settings['highlight']['alternateFields']) {
-				foreach ($this->settings['highlight']['alternateFields'] as $fieldName => $alternateFieldName) {
+			if ($highlightConfig['alternateFields']) {
+				foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
 					$highlightField = $highlight->getField($fieldName);
 					$highlightField->setAlternateField($alternateFieldName);
 				}
@@ -919,24 +953,25 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @param array $arguments request arguments
 	 */
 	private function setFields ($query, $arguments) {
+		$fieldsConfig = $this->getMergedSettings('dataFields');
 		$fields = array();
 
 		// Use field list from query parameters or from defaults.
 		if (array_key_exists('dataFields', $arguments) && $arguments['dataFields']) {
 			$fields = explode(',', $arguments['dataFields']);
 		}
-		else if ($this->settings['dataFields']['default']) {
-			$fields = array_values($this->settings['dataFields']['default']);
+		else if ($fieldsConfig['default']) {
+			$fields = array_values($fieldsConfig['default']);
 		}
 
 		// If allowed fields are configured, keep only those.
-		$allowedFields = $this->settings['dataFields']['allow'];
+		$allowedFields = $fieldsConfig['allow'];
 		if ($allowedFields) {
 			$fields = array_intersect($fields, $allowedFields);
 		}
 
 		// If disallowed fields are configured, remove those.
-		$disallowedFields = $this->settings['dataFields']['disallow'];
+		$disallowedFields = $fieldsConfig['disallow'];
 		if ($disallowedFields) {
 			$fields = array_diff($fields, $disallowedFields);
 		}

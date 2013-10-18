@@ -98,27 +98,31 @@ plugin.tx_find {
 			}
 		}
 		highlight {
-			fields {
-				1 = transliteration_highlight
-				2 = uebersetzung
-				4 = texttyp
-				5 = literatur
-				6 = ortsbeschreibung
-				7 = eponym
-				8 = beziehung
-				9 = funktion
-				10 = ort
-				11 = weiteres
-				12 = anmerkung
-				13 = stelle_anmerkung
-				14 = lemma
-				15 = bandseitezeile_highlight
+			default {
+				fields {
+					f1 = transliteration_highlight
+					f2 = uebersetzung
+					f3 = texttyp
+					f4 = eponym
+					f5 = beziehung
+					f6 = ort
+					f7 = weiteres
+					f8 = anmerkung
+				}
+				fragsize = 5000
+				useQueryTerms = 0
+				useFacetTerms = 0
+				alternateFields {
+					transliteration = transliteration_highlight
+					bandseitezeile = bandseitezeile_highlight
+				}
 			}
-			fragsize = 5000
-			useQueryTerms = 0
-			useFacetTerms = 0
-			alternateFields {
-				transliteration = transliteration_highlight
+			detail {
+				f51 = literatur
+				f52 = ortsbeschreibung
+				f53 = funktion
+				f54 = stelle_anmerkung
+				f55 = lemma
 			}
 		}
 
@@ -134,7 +138,7 @@ plugin.tx_find {
 }
 
 
-[usergroup = 1]
+#[usergroup = 1]
 plugin.tx_find.settings {
 	facets.10.facetQuery {
 		30 {
@@ -151,4 +155,4 @@ plugin.tx_find.settings {
 		4 >
 	}
 }
-[global]
+#[global]

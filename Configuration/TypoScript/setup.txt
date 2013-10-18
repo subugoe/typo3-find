@@ -90,11 +90,24 @@ plugin.tx_find {
 		defaultQuery = *:*
 		dataFields {
 			default {
+				default {
+					# when setting the fields explicitly, do not forget including the id field if you need to do anything related to the document
+					# f0 = id
+					# f1 = name
+				}
+				allow {
+				}
+				disallow {
+				}
 			}
-			allow {
-			}
-			disallow {
-			}
+			# index {
+			#	default {
+			#	}
+			#	allow {
+			#	}
+			#	disallow {
+			#	}
+			# }
 		}
 		# Map data field id -> query field id to set up specific searches of field contents
 		queryFieldForDataField {
@@ -142,14 +155,22 @@ plugin.tx_find {
 			sortOrder = count
 		}
 		highlight {
-			fields.1 = *
-			fragsize = 100
-			# query = %s
-			# useQueryTerms = 0
-			# useFacetTerms = 0
-			# alternateFields {
-			# 	transliteration = transliterationHiglight
-			# }
+			default {
+				fields.f1 = *
+				fragsize = 100
+				# query = %s
+				# useQueryTerms = 0
+				# useFacetTerms = 0
+				# alternateFields {
+				# 	transliteration = transliterationHiglight
+				# }
+			}
+			index {
+			}
+			detail {
+			}
+			data {
+			}
 		}
 		additionalFilters {
 			# 1 = type:kloster

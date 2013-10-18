@@ -247,26 +247,49 @@ plugin.tx_find {
 				fetchMinimum = 0
 			}
 		}
-		highlight {
-			fields {
-				1 = kloster
-				2 = patrozinium
-				11 = ort
-				12 = bistum
-				13 = land
-				21 = orden
-				22 = bemerkung_kloster
-				31 = band_nummer
-				32 = band_titel
-				41 = url
-				42 = url_bemerkung
-				51 = person_name
-				52 = person_namensalternativen
-				# 53 = person_anmerkung
+
+		dataFields {
+			default {
+				default {
+					f0 = id
+					f1 = kloster
+				}
 			}
-			useQueryTerms = 1
-			useFacetTerms = 1
+			detail {
+				default {
+					f0 = *
+				}
+			}
+			data < plugin.tx_find.settings.dataFields.detail
 		}
+
+		highlight {
+			default {
+				fields {
+					f1 = kloster
+				}
+				useQueryTerms = 1
+				useFacetTerms = 1
+			}
+			detail {
+				fields {
+					f2 = patrozinium
+					f11 = ort
+					f12 = bistum
+					f13 = land
+					f21 = orden
+					f22 = bemerkung_kloster
+					f31 = band_nummer
+					f32 = band_titel
+					f41 = url
+					f42 = url_bemerkung
+					f51 = person_name
+					f52 = person_namensalternativen
+					# f53 = person_anmerkung
+				}
+			}
+		}
+
 		additionalFilters {
 			# 2 = bearbeitungsstatus:Online
 		}

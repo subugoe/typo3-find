@@ -32,9 +32,6 @@ plugin.tx_find {
 				}
 			}
 		}
-		highlight {
-			fields.1 = *
-		}
 
 		CSSPaths.50 = EXT:find/Projects/jfk-institut-zeitungen/Resources/jfk.css
 		JSPaths.50 = EXT:find/Projects/jfk-institut-zeitungen/Resources/jfk.js
