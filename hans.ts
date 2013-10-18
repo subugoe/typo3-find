@@ -51,10 +51,12 @@ plugin.tx_find {
 			}
 		}
 		highlight {
-			fields.1 = *
-			query = %s
-			useQueryTerms = 1
-			useFacetTerms = 1
+			default {
+				fields.1 = *
+				query = %s
+				useQueryTerms = 1
+				useFacetTerms = 1
+			}
 		}
 		additionalFilters {
 		}
