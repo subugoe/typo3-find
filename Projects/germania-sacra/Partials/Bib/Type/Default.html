@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 {namespace bib=Ipf\Bib\ViewHelpers}
-<bib:renderPublication bibitem="{bibitem}">
+<bib:renderPublication bibliographyItem="{bibitem}">
 	<f:if condition="{f:count(subject:bibitem.authors)} > 0">
 		<bib:renderPublicationField field="authors" xml="1" suffix=":">
 			<f:render partial="Bib/Authors" arguments="{_all}"/>
