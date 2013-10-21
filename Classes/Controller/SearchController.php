@@ -962,8 +962,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$fields = array();
 
 		// Use field list from query parameters or from defaults.
-		if (array_key_exists('dataFields', $arguments) && $arguments['dataFields']) {
-			$fields = explode(',', $arguments['dataFields']);
+		if (array_key_exists('data-fields', $arguments) && $arguments['data-fields']) {
+			$fields = explode(',', $arguments['data-fields']);
 		}
 		else if ($fieldsConfig['default']) {
 			$fields = array_values($fieldsConfig['default']);
