@@ -326,16 +326,6 @@ tx_find_page_rdf {
 	}
 }
 
-tx_find_page_jsonld = PAGE
-tx_find_page_jsonld {
-	typeNum = 1380123307
-	10 < tt_content.list.20.find_find
-	config {
-		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:text/json;charset=utf-8
-	}
-}
-
 tx_find_page_csv = PAGE
 tx_find_page_csv {
 	typeNum = 1378902868
