@@ -79,7 +79,7 @@ class RDFRenderer extends AbstractRenderer {
 		}
 
 		// Add the prefixes that are used as xmlns.
-		foreach ($this->usedPrefixes as $prefix => $value) {
+		foreach (array_keys($this->usedPrefixes) as $prefix) {
 			if ($this->prefixes[$prefix]) {
 				$doc->firstChild->setAttribute('xmlns:' . $prefix, $this->prefixes[$prefix]);
 			}

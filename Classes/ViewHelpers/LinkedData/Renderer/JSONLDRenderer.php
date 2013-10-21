@@ -80,7 +80,7 @@ class JSONLDRenderer extends AbstractRenderer {
 
 		// Add the prefixes as the @context.
 		$context = array();
-		foreach ($this->usedPrefixes as $prefix => $value) {
+		foreach (array_keys($this->usedPrefixes) as $prefix) {
 			if ($this->prefixes[$prefix]) {
 				$context[$prefix] = $this->prefixes[$prefix];
 			}
