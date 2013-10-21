@@ -42,11 +42,17 @@ class Tx_Find_Hooks_RealUrl {
 		return array_merge_recursive($params['config'], array(
 				'postVarSets' => array(
 					'_DEFAULT' => array(
+						'id' => array(
+							array(
+								'GETvar' => 'tx_find_find[id]',
+							),
+						),
 						'a' => array(
 							array(
 								'GETvar' => 'tx_find_find[action]',
 								'valueMap' => array(
-									'record' => 'detail'
+									'data' => 'data',
+									'suggest' => 'suggest',
 								),
 								'noMatch' => 'bypass',
 							),
@@ -55,21 +61,6 @@ class Tx_Find_Hooks_RealUrl {
 							array(
 								'GETvar' => 'tx_find_find[controller]',
 								'noMatch' => 'bypass',
-							),
-						),
-						'docid' => array(
-							array(
-								'GETvar' => 'tx_find_find[id]',
-							),
-						),
-						'q' => array(
-							array(
-								'GETvar' => 'tx_find_find[q]',
-							),
-						),
-						'f' => array(
-							array(
-								'GETvar' => 'tx_find_find[facet]',
 							),
 						),
 					)
