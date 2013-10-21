@@ -322,7 +322,7 @@ tx_find_page_rdf {
 	10 < tt_content.list.20.find_find
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:text/turtle;charset=utf-8
+		additionalHeaders = Content-type:application/rdf+xml;charset=utf-8
 	}
 }
 
