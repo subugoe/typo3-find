@@ -77,26 +77,31 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * Index Action.
 	 */
 	public function indexAction() {
-		$query = $this->createQueryForArguments($this->requestArguments);
-
-		// Run the query.
-		try {
-			$resultSet = $this->solr->select($query);
+		if (array_key_exists('id', $this->requestArguments)) {
+			$this->forward('detail');
 		}
-		catch (\Solarium\Exception\HttpException $exception) {
-			$message = 'find: Solr Exception (Timeout?)';
-			$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('requestArguments' => $this->requestArguments, 'exception' => $this->exceptionToArray($exception)), FALSE);
-			$this->view->assign('error', array('solr' => $exception));
+		else {
+			$query = $this->createQueryForArguments($this->requestArguments);
+
+			// Run the query.
+			try {
+				$resultSet = $this->solr->select($query);
+			}
+			catch (\Solarium\Exception\HttpException $exception) {
+				$message = 'find: Solr Exception (Timeout?)';
+				$this->logError($message, \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, array('requestArguments' => $this->requestArguments, 'exception' => $this->exceptionToArray($exception)), FALSE);
+				$this->view->assign('error', array('solr' => $exception));
+			}
+
+			$this->view->assignMultiple(array(
+				'results' => $resultSet,
+				'counterStart' => $this->counterStart(),
+				'counterEnd' => $this->counterEnd(),
+			));
+
+			$this->addQueryInformationAsJavaScript($this->requestArguments['q']);
+			$this->addStandardAssignments();
 		}
-
-		$this->view->assignMultiple(array(
-			'results' => $resultSet,
-			'counterStart' => $this->counterStart(),
-			'counterEnd' => $this->counterEnd(),
-		));
-
-		$this->addQueryInformationAsJavaScript($this->requestArguments['q']);
-		$this->addStandardAssignments();
 	}
 
 
