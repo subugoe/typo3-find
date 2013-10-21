@@ -7,10 +7,10 @@ if (!defined('TYPO3_MODE')) {
 	'Subugoe.' . $_EXTKEY, // The extension name (in UpperCamelCase) with vendor prefix
 	'Find', // A unique name of the plugin in UpperCamelCase
 	array ( // An array holding the enabled controller-action-combinations
-		'Search' => 'index, detail, data, suggest', // The first controller and its first action will be the default
+		'Search' => 'index, detail, suggest', // The first controller and its first action will be the default
 	),
 	array ( // An array holding the non-cachable controller-action-combinations
-		'Search' => 'index, detail, data, suggest', // The first controller and its first action will be the default
+		'Search' => 'index, detail, suggest', // The first controller and its first action will be the default
 	)
 );
 

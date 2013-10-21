@@ -40,10 +40,11 @@
 								q:newQ,
 								page:page.number,
 								count:'{f:if(condition:iterator.isLast, then:1000, else:500)}',
-								data-format:downloadFormat
+								data-format:downloadFormat,
 								data-fields:'*'
 							}"
-							action="data"
+							action="index"
+							format="data"
 							pageType="{downloadFormatPageType}"
 							noCacheHash="1"
 						>{page.number}</f:link.action>

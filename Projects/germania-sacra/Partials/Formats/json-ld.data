@@ -1,0 +1,9 @@
+{namespace s=Subugoe\Find\ViewHelpers}<s:format.strip>
+	<f:render
+		partial="Formats/linked-data"
+		arguments="{
+			documents:documents,
+			LDFormat:'json-ld'
+		}"
+	/>
+</s:format.strip>

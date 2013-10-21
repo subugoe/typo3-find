@@ -18,8 +18,9 @@
 						data-fields:'id,koordinaten,kloster,ort,orden_graphik,orden,orden_von_von,orden_bis_bis,standort_von_von,standort_bis_bis',
 						data-format:'json-solr-results'
 					}"
-					action="data"
+					action="index"
 					pageType="1369315139"
+					format="data"
 					noCacheHash="1"/>";
 				institutionengenau = {s:format.json(data:"{s:data.valueForKey(array:document.koordinaten_institutionengenau, key:index)}")};
 				icon = {s:format.json(data:"{s:data.valueForKey(array:document.orden_graphik, key:index)}")};

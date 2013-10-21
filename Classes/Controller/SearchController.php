@@ -105,13 +105,6 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	}
 
 
-	/**
-	 * Data output.
-	 */
-	public function dataAction() {
-		$this->indexAction();
-	}
-
 
 	/**
 	 * Suggest/Autocomplete action.

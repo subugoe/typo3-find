@@ -4,5 +4,8 @@
 		then:arguments.data-format,
 		else:'raw-solr-response'
 	)}"
-	arguments="{_all}"
+	arguments="{
+		documents:results.documents,
+		results:results
+	}"
 />
