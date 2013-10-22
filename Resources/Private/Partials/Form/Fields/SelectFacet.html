@@ -27,7 +27,6 @@
 <label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>
-<f:debug>{_all}</f:debug>
 <f:alias map="{facetData:'{s:data.valueForKey(array:results.components.facetset.facets, key:fieldInfo.facetID)}'}">
 	<f:form.select
 		id="c{config.uid}-field-{fieldInfo.id}"
