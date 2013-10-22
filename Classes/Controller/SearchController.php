@@ -51,6 +51,13 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 
 	/**
+	 * Array to collect the configuration information that will be added as a template variable.
+	 * @var array
+	 */
+	protected $configuration = array();
+
+
+	/**
 	 * Initialisation and setup.
 	 */
 	public function initializeAction() {
@@ -247,6 +254,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$uid = $contentObject->data['uid'];
 		$this->view->assign('uid', $uid);
 		$this->view->assign('pageTitle', $GLOBALS['TSFE']->page['title']);
+
+		$this->view->assign('config', $this->configuration);
 	}
 
 
@@ -926,6 +935,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			$highlight->setSimplePrefix('\ueeee');
 			$highlight->setSimplePostfix('\ueeef');
 		}
+
+		$this->configuration['highlight'] =  $highlightConfig;
 	}
 
 
