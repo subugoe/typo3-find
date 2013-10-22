@@ -882,27 +882,46 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 			// Configure highlight queries.
 			if ($highlightConfig['query']) {
-				$queryWords= array();
+				$queryWords = array();
 				if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
-					foreach ($this->settings['queryFields'] as $queryField) {
-						if (array_key_exists($queryField['id'], $arguments['q'])) {
-							$queryTerm = $arguments['q'][$queryField['id']];
-							if (!$queryField['noescape']) {
-								if ($queryField['phrase']) {
-									$queryTerm = $query->getHelper()->escapePhrase($queryTerm);
-								}
-								else {
-									$queryTerm = $query->getHelper()->escapeTerm($queryTerm);
+					$queryParameters = $arguments['q'];
+					foreach ($this->settings['queryFields'] as $fieldInfo) {
+						$fieldID = $fieldInfo['id'];
+						if ($fieldID && $queryParameters[$fieldID]) {
+							$queryArguments = $queryParameters[$fieldID];
+							$queryAlternate = NULL;
+							if (is_array($queryArguments) && array_key_exists('alternate', $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)) {
+								$queryAlternate = $queryArguments['alternate'];
+								if (array_key_exists('term', $queryArguments)) {
+									$queryTerms = $queryArguments['term'];
 								}
 							}
-							$queryWords[] = $queryTerm;
+							else {
+								$queryTerms = $queryArguments;
+							}
+
+							if (!is_array($queryTerms)) {
+								$queryTerms = Array($queryTerms);
+							}
+
+							foreach($queryTerms as $queryTerm) {
+								if (!$fieldInfo['noescape']) {
+									if ($fieldInfo['phrase']) {
+										$queryTerm = $query->getHelper()->escapePhrase($queryTerm);
+									}
+									else {
+										$queryTerm = $query->getHelper()->escapeTerm($queryTerm);
+									}
+								}
+								$queryWords[] = $queryTerm;
+							}
 						}
 					}
 				}
 
 				if ($highlightConfig['useFacetTerms']) {
 					foreach ($this->getActiveFacets($arguments) as $facets) {
-						foreach ($facets as $facetTerm => $facetInfo) {
+						foreach (array_keys($facets) as $facetTerm) {
 							$queryWords[] = $query->getHelper()->escapePhrase($facetTerm);
 						}
 					}
@@ -934,6 +953,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			// Set up prefix and postfix.
 			$highlight->setSimplePrefix('\ueeee');
 			$highlight->setSimplePostfix('\ueeef');
+
 		}
 
 		$this->configuration['highlight'] =  $highlightConfig;
