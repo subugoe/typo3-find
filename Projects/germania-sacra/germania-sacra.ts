@@ -1,13 +1,54 @@
+# »find« Extension configuration for the Germania Sacra index.
+#
+# 2013 Sven-S. Porst, SUB Göttingen <porst@sub.uni-goettingen.de>
+#
 plugin.tx_find {
+	# Paths for own templates and partials.
+	# Most of them us symlinks to point back to the standard files provided by the extension.
+	view {
+		templateRootPath = EXT:find/Projects/germania-sacra/Templates/
+		partialRootPath = EXT:find/Projects/germania-sacra/Partials/
+	}
+
 	settings {
+		# Connection setup for the Solr index.
+		# Needs to be adapted / overwritten for the final configuration.
 		connection {
 			host = 127.0.0.1
-			# host = vlib.sub.uni-goettingen.de
 			port = 8080
 			path = /solr/germania-sacra
+
+			# Use a huge 30 second timeout for Solr queries.
+			# Some queries, e.g. when using a similarity search for person names
+			# on documents with many (>1000) persons as well as highlighting,
+			# do take longer than 5 seconds for some reason.
 			timeout = 30
 		}
+
+		# Add a filter query to only return documents marked as »Online«.
+		additionalFilters {
+			1 = bearbeitungsstatus:Online
+		}
+
+		# Query field configuration
+		# The Germania Sacra index is complex as described in
+		# https://github.com/subugoe/germania-sacra-daten/tree/master/klosterdatenbank_neu#ausmultiplizieren-der-daten
+		#
+		# There are documents with typ:kloster containing the full monastery information
+		# used for display. While documents with typ:standort-orden are more granular
+		# and contain information about a monastery at a time interval in which it
+		# is at a single location and member of a single order.
+		#
+		# To allow precise queries on time + order + location information despite Solr’s
+		# flat document model, we query the typ:standort-orden documents and then
+		# use Solr 4’s {!join} to get the corresponding full monastery documents for display.
+		#
+		# In addition, for each query field (with number *0), there is a
+		# hidden variant without the {!join} (with number *1) which returns the typ:standort-orden documents.
+		# Similary the is a hidden query field without {!join} for each facet.
+		# These are used to retrieve standort-orden documents for export to CSV and BNA in the GS/DownloadLinks Partial.
 		defaultQuery = {!join from=kloster_id to=id}(typ:standort-orden)
+
 		queryFields {
 			0 {
 				query = {!join from=kloster_id to=id}(%s AND typ:standort-orden)
@@ -51,6 +92,8 @@ plugin.tx_find {
 				hidden = 1
 				extended = 1
 			}
+			# The monastery status query field displays a popup menu which is filled
+			# with values from the status facet (facets.130).
 			30 {
 				id = status
 				type = SelectFacet
@@ -154,7 +197,7 @@ plugin.tx_find {
 				noescape = 1
 				extended = 1
 			}
-			# corresponds to facet 20
+			# corresponds to 20
 			121 {
 				id = orden-facet-nojoin
 				type = Text
@@ -190,16 +233,23 @@ plugin.tx_find {
 				hidden = 1
 			}
 		}
+
+		# Sort by city name.
 		sort {
 			1 {
 				id = default
 				sortCriteria = ort_sort asc,von asc
 			}
 		}
+
+		# Fields to use for displaying the result list.
 		standardFields {
 			title = kloster
-			snippet = uebersetzung
+			snippet >
 		}
+
+		# Facet configuration.
+		# Just like the queryFields the facets use {!join} in their filter queries.
 		facets {
 			10 {
 				id = map
@@ -240,7 +290,9 @@ plugin.tx_find {
 				autocomplete = 1
 				query = {!join from=kloster_id to=id}(band_facet:"%s" AND typ:standort-orden)
 			}
-			100 {
+			# Request the status information to build the popup menu for the
+			# monastery status query field (queryFields.30).
+			130 {
 				id = status
 				field = status_facet
 				hidden = 1
@@ -248,6 +300,9 @@ plugin.tx_find {
 			}
 		}
 
+		# Limit the requested data fields for different query types:
+		# Only request the minimum by default and load all fields for displaying
+		# full records or loading data.
 		dataFields {
 			default {
 				default {
@@ -263,11 +318,16 @@ plugin.tx_find {
 			data < plugin.tx_find.settings.dataFields.detail
 		}
 
+		# Configure the fields to highlight.
+		# Just highlight the monastery name in the result list.
+		# Highlight more fields for the detail view.
+		# Set up a highlight query (required to not lose highlighting due to {!join}
 		highlight {
 			default {
 				fields {
 					f1 = kloster
 				}
+				query = %s
 				useQueryTerms = 1
 				useFacetTerms = 1
 			}
@@ -285,27 +345,23 @@ plugin.tx_find {
 					f42 = url_bemerkung
 					f51 = person_name
 					f52 = person_namensalternativen
-					# f53 = person_anmerkung
+					f53 = person_anmerkung
 				}
 			}
 		}
 
-		additionalFilters {
-			# 2 = bearbeitungsstatus:Online
-		}
-
+		# Configure custom CSS, JavaScript and localisation resources.
 		CSSPaths.50 = EXT:find/Projects/germania-sacra/Resources/germania-sacra.css
 		CSSPaths.60 = EXT:find/Projects/germania-sacra/Resources/bib.css
 		JSPaths.50 =  EXT:find/Projects/germania-sacra/Resources/germania-sacra.js
 
 		languageRootPath = EXT:find/Projects/germania-sacra/Language/
 	}
-	view {
-		templateRootPath = EXT:find/Projects/germania-sacra/Templates/
-		partialRootPath = EXT:find/Projects/germania-sacra/Partials/
-	}
 }
 
+
+# Configure TYPO3 page types.
+# These are needed to send the correct Contnent-Type headers for export and linked data formats.
 tx_find_page_turtle = PAGE
 tx_find_page_turtle {
 	typeNum = 1380124799
@@ -345,3 +401,15 @@ tx_find_page_bna {
 		additionalHeaders = Content-type:text/plain;charset=utf-8|Content-Disposition:attachment;filename="Kloester.bna"
 	}
 }
+
+
+
+# Remove filters suppressing records when the user is logged in.
+# usergroup needs to be compared witht the uid of the frontend user group in TYPO3.
+#[usergroup = 1]
+plugin.tx_find.settings {
+	additionalFilters {
+		1 >
+	}
+}
+#[global]
