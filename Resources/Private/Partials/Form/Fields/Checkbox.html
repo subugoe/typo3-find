@@ -1,9 +1,9 @@
 <f:form.checkbox
-	id="c{uid}-field-{fieldInfo.id}"
+	id="c{config.uid}-field-{fieldInfo.id}"
 	class="inputContainer"
 	name="{fieldInfo.id}"
-	value="{}"/>
+	value="{s:data.valueForKey(array:config.query, key:fieldInfo.id)}"/>
 <!-- TODO: need to pre-set value with default field -->
-<label class="fieldLabel" for="c{uid}-field-{fieldInfo.id}">
+<label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>

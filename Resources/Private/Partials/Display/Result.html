@@ -1,5 +1,5 @@
 {namespace s=Subugoe\Find\ViewHelpers}
-<li id="c{uid}-result-{document.id}">
+<li id="c{config.uid}-result-{document.id}">
 	<article>
 		<h1>
 			<f:link.action
@@ -17,6 +17,7 @@
 						<f:render
 							partial="Display/Field/Inline"
 							arguments="{
+								config:config,
 								results:results,
 								document:document,
 								field:settings.standardFields.title,
@@ -33,6 +34,7 @@
 			<f:render
 				partial="Display/Field/Inline"
 				arguments="{
+					config:config,
 					results:results,
 					document:document,
 					field:settings.standardFields.snippet,

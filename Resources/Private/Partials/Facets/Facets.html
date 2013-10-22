@@ -3,20 +3,18 @@
 	<section class="facets">
 		<h3 class="invisible">
 			<f:translate key="Facets"/>
-			<a href="#c{uid}-resultList">
+			<a href="#c{config.uid}-resultList">
 				<f:translate key="Jump to results"/>
 			</a>
 		</h3>
-		<f:for each="{facets}" as="facetInfo" key="facetKey">
+		<f:for each="{config.facets}" as="facetInfo" key="facetKey">
 			<f:if condition="{facetInfo.hidden}!=1">
 				<f:render
 					partial="Facets/Facet"
 					arguments="{
 						facetData:'{s:data.valueForKey(array:results.components.facetset.facets, key:facetInfo.id)}',
 						facetInfo:facetInfo,
-						activeFacets: activeFacets,
-						arguments: arguments,
-						uid: uid
+						config:config
 					}"/>
 			</f:if>
 		</f:for>

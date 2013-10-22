@@ -1,6 +1,6 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <li class='index-{iterator.cycle} count-{itemCount}
-	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
+	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
 		<f:then>facetActive</f:then>
 	</f:if>
 	<f:if condition="{facetInfo.displayDefault}">
@@ -18,11 +18,11 @@
 	value="{facetTerm}"
 	label="{f:translate(key:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTerm}', default:facetTerm)}"
 	count="{itemCount}">
-	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}">
+	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
 		<f:then>
 			<f:link.action
 				addQueryString="TRUE"
-				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets, mode:'remove')}"
+				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 				section="{settings.jumpToID}"
 				noCacheHash="1"
 				class="icon-cancel facetRemove internal"
@@ -31,8 +31,8 @@
 		<f:else>
 			<f:link.action
 				addQueryString="TRUE"
-				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:activeFacets)}"
-				argumentsToBeExcludedFromQueryString="{0:'tx_find_find[page]'}"
+				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
+				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]'}"
 				section="{settings.jumpToID}"
 				noCacheHash="1"
 				class="facetAdd internal">

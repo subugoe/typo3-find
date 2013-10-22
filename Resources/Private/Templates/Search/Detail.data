@@ -1,7 +1,7 @@
 <f:render
 	partial="Formats/{f:if(
-		condition:arguments.data-format,
-		then:arguments.data-format,
+		condition:config.arguments.data-format,
+		then:config.arguments.data-format,
 		else:'raw-solr-response'
 	)}"
 	arguments="{

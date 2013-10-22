@@ -102,9 +102,10 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 			$this->view->assignMultiple(array(
 				'results' => $resultSet,
-				'counterStart' => $this->counterStart(),
-				'counterEnd' => $this->counterEnd(),
 			));
+			
+			$this->configuration['counterStart'] = $this->counterStart();
+			$this->configuration['counterEnd'] = $this->counterEnd();
 
 			$this->addQueryInformationAsJavaScript($this->requestArguments['q']);
 			$this->addStandardAssignments();
@@ -246,15 +247,19 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * Assigns standard variables to the view.
 	 */
 	private function addStandardAssignments () {
-		$this->view->assign('prefixId', 'tx_find_find');
 		$this->view->assign('arguments', $this->requestArguments);
-		$this->view->assign('extendedSearch', $this->isExtendedSearch());
-
+		
+		$this->configuration['extendedSearch'] = $this->isExtendedSearch();
+	
 		$contentObject = $this->configurationManager->getContentObject();
 		$uid = $contentObject->data['uid'];
-		$this->view->assign('uid', $uid);
-		$this->view->assign('pageTitle', $GLOBALS['TSFE']->page['title']);
+		$this->configuration['uid'] = $uid;
 
+		$this->configuration['prefixID'] = 'tx_find_find';
+
+		$this->configuration['pageTitle'] = $GLOBALS['TSFE']->page['title'];
+
+		// ksort($this->configuration);
 		$this->view->assign('config', $this->configuration);
 	}
 
@@ -388,7 +393,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$query = $this->solr->createSelect();
 		$this->addTypoScriptFilters($query);
 
-		$this->view->assign('solarium', $query);
+		$this->configuration['solarium'] = $query;
 
 		return $query;
 	}
@@ -412,8 +417,9 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$queryComponents = $this->queryComponentsForQueryParameters($query, $queryParameters);
 		$queryString = implode(' ' . $query::QUERY_OPERATOR_AND . ' ', $queryComponents);
 		$query->setQuery($queryString);
-		$this->view->assign('query', $queryParameters);
-		$this->view->assign('queryString', $queryString);
+
+		$this->configuration['query'] = $queryParameters;
+		$this->configuration['queryString'] = $queryString;
 
 		$this->setFields($query, $arguments);
 		$this->setRange($query, $arguments);
@@ -470,7 +476,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 		}
 
-		$this->view->assign('activeFacets', $activeFacetsForTemplate);
+		$this->configuration['activeFacets'] = $activeFacetsForTemplate;
 	}
 
 
@@ -655,7 +661,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 		}
 		
-		$this->view->assign('facets', $facetConfiguration);
+		$this->configuration['facets'] = $facetConfiguration;
 	}
 
 
@@ -758,7 +764,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 		}
 
-		$this->view->assign('sortOptions', $sortOptions);
+		$this->configuration['sortOptions'] = $sortOptions;
 	}
 
 
@@ -800,7 +806,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 
 	/**
-	 * Provides result count information in the template variable »resultCountOptions«.
+	 * Provides result count information in the configuration »resultCountOptions«.
 	 *
 	 * For the key »menu« it contains an array with keys and values the result count
 	 * that is suitable for use in the f:form.select View Helper’s options argument.
@@ -828,7 +834,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 		}
 
-		$this->view->assign('resultCountOptions', $resultCountOptions);
+		$this->configuration['resultCountOptions'] = $resultCountOptions;
 	}
 
 
@@ -1053,7 +1059,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			$offset = (intval($arguments['page']) - 1)  * $this->getCount();
 		}
 
-		$this->view->assign('offset', $offset);
+		$this->configuration['offset'] = $offset;
 		return $offset;
 	}
 
@@ -1081,7 +1087,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$maxCount = intval($this->settings['paging']['maximumPerPage']);
 		$count = min(array($count, $maxCount));
 
-		$this->view->assign('count', $count);
+		$this->configuration['count'] = $count;
 		return $count;
 	}
 

@@ -5,23 +5,23 @@
 		from:[* TO %2$s] AND to:[%1$s TO *]
 </f:comment>
 <span class="fieldLabel">
-	<label for="c{uid}-field-{fieldInfo.id}-from">
-		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-from" default="{fieldInfo.id}"/></label><label for="c{uid}-field-{fieldInfo.id}-to"><f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-to" default="{fieldInfo.id}"/>:
+	<label for="c{config.uid}-field-{fieldInfo.id}-from">
+		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-from" default="{fieldInfo.id}"/></label><label for="c{config.uid}-field-{fieldInfo.id}-to"><f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-to" default="{fieldInfo.id}"/>:
 	</label>
 </span>
 <span class="inputContainer">
 	<f:form.textfield
-		id="c{uid}-field-{fieldInfo.id}-from"
+		id="c{config.uid}-field-{fieldInfo.id}-from"
 		name="q[{fieldInfo.id}][0]"
-		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:query, key:fieldInfo.id)}', key:'0')}"
+		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:config.query, key:fieldInfo.id)}', key:'0')}"
 		placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-from.placeholder')}"
 	/>
 	-
 	<f:form.textfield
-		id="c{uid}-field-{fieldInfo.id}-to"
+		id="c{config.uid}-field-{fieldInfo.id}-to"
 		class="noleftmargin"
 		name="q[{fieldInfo.id}][1]"
-		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:query, key:fieldInfo.id)}', key:'1')}"
+		value="{s:data.valueForKey(array:'{s:data.valueForKey(array:config.query, key:fieldInfo.id)}', key:'1')}"
 		placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-to.placeholder')}"
 	/>
 </span>

@@ -1,10 +1,10 @@
-<label class="fieldLabel" for="c{uid}-field-{fieldInfo.id}">
+<label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>
 <f:form.select
-	id="c{uid}-field-{fieldInfo.id}"
+	id="c{config.uid}-field-{fieldInfo.id}"
 	class="inputContainer"
 	name="q[{fieldInfo.id}]"
 	options="{fieldInfo.options}"
-	value="{s:data.valueForKey(array:arguments.q, key:fieldInfo.id)}"
+	value="{s:data.valueForKey(array:config.query, key:fieldInfo.id)}"
 />

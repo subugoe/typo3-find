@@ -5,13 +5,13 @@
 	<span class="inputContainer">
 		<f:for each="{fieldInfo.options}" as="value" key="key">
 			<f:form.radio
-				id="c{uid}-field-{fieldInfo.id}-{key}"
+				id="c{config.uid}-field-{fieldInfo.id}-{key}"
 				name="q[{fieldInfo.id}]"
 				value="{key}"
 				checked="{0:key}=={0:fieldInfo.default}"
 			/>
 			<!-- TODO set with previous value -->
-			<label for="c{uid}-field-{fieldInfo.id}-{key}">
+			<label for="c{config.uid}-field-{fieldInfo.id}-{key}">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-{key}" default="{key}"/>
 			</label>
 		</f:for>

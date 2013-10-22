@@ -42,7 +42,7 @@
 			});
 		</t3jquery:addJQueryAndScript>
 	</f:alias>
-	<s:page.title>{document.fields.id} – {pageTitle}</s:page.title>
+	<s:page.title>{document.fields.id} – {config.pageTitle}</s:page.title>
 
 	<s:data.newArray
 		name="formFacets"
@@ -54,7 +54,7 @@
 
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
-	<article class="detail {document.fields.typ}" id="c{uid}-record-{document.fields.id}">
+	<article class="detail {document.fields.typ}" id="c{config.uid}-record-{document.fields.id}">
 		<f:render partial="Edfu/Detail/{document.fields.typ}" arguments="{_all}"/>
 		<a onclick="jQuery('article.fields').slideToggle(); return false;" href="#">Alle Felder</a>
 	</article>

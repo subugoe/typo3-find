@@ -3,13 +3,13 @@
 
 <f:section name="main">
 	<s:page.title>
-		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
+		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:config.activeFacets}"/>
 		–
-		{pageTitle}
+		{config.pageTitle}
 	</s:page.title>
 
 	<s:data.newArray name="formFacetsInnerArray"
-		keys="{0:'{s:data.valueForKey(array:\"{s:data.arrayFirst(array:activeFacets.typ)}\", key:\"term\")}'}"
+		keys="{0:'{s:data.valueForKey(array:\"{s:data.arrayFirst(array:config.activeFacets.typ)}\", key:\"term\")}'}"
 		values="{0:1}"
 	>
 		<s:data.newArray name="formFacets" keys="{0:'typ'}" values="{0:formFacetsInnerArray}">
@@ -33,15 +33,15 @@
 			<f:render
 				partial="Facets/Facet"
 				arguments="{
-					facetData: '{s:data.valueForKey(array:results.components.facetset.facets, key:facets.10.id)}',
-					facetInfo: facets.10,
-					activeFacets: activeFacets}"
-			/>
+					facetData: '{s:data.valueForKey(array:results.components.facetset.facets, key:config.facets.10.id)}',
+					facetInfo: config.facets.10,
+					config:config
+			}"/>
 		</section>
 		
 		<f:render partial="Facets/Facets" arguments="{_all}"/>
 
-		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
+		<ol id="c{config.uid}-resultList" class="resultList" start="{config.counterStart}">
 			<f:for each="{results.documents}" as="document">
 				<f:render partial="Edfu/Result" arguments="{_all}"/>
 			</f:for>

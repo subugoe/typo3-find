@@ -3,9 +3,9 @@
 
 <f:section name="main">
 	<s:page.title>
-		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:activeFacets}"/>
+		<f:render partial="Components/QueryString" arguments="{query:arguments.q, facets:config.activeFacets}"/>
 		–
-		{pageTitle}
+		{config.pageTitle}
 	</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
@@ -17,7 +17,7 @@
 
 		<f:render partial="Facets/Facets" arguments="{_all}"/>
 
-		<ol id="c{uid}-resultList" class="resultList" start="{counterStart}">
+		<ol id="c{config.uid}-resultList" class="resultList" start="{config.counterStart}">
 			<f:for each="{results.documents}" as="document">
 				<f:render partial="Display/Result" arguments="{_all}"/>
 			</f:for>

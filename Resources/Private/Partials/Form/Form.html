@@ -1,10 +1,10 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:render partial="Form/QueryError.html" arguments="{_all}"/>
 
-<f:form name="c{uid}-form"
+<f:form name="c{config.uid}-form"
 		method="get"
 		section="{settings.jumpToID}"
-		class="searchForm {f:if(condition:extendedSearch, then:'search-extended', else:'search-simple')}">
+		class="searchForm {f:if(condition:config.extendedSearch, then:'search-extended', else:'search-simple')}">
 
 	<f:for each="{formFacets}" as="facet" key="facetID">
 		<f:for each="{facet}" as="unused" key="facetValue">
@@ -39,11 +39,11 @@
 
 		<f:groupedFor each="{settings.queryFields}" as="fieldsByType" groupBy="extended" groupKey="extended">
 			<f:if condition="{0:extended} == {0:1}">
-				<f:if condition="{extendedSearch}">
+				<f:if condition="{config.extendedSearch}">
 					<f:then>
 						<f:link.action
 							addQueryString="TRUE"
-							argumentsToBeExcludedFromQueryString="{0:'tx_find_find[extendedSearch]'}"
+							argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[extendedSearch]'}"
 							class="extendedSearch internal"
 							additionalAttributes="{
 								simpleString:'{f:translate(key:\"extended Search\")}',
@@ -69,21 +69,21 @@
 		</f:groupedFor>
 	</div>
 
-	<f:if condition="{f:count(subject:sortOptions.menu)} > 1">
+	<f:if condition="{f:count(subject:config.sortOptions.menu)} > 1">
 		<div class="sortOrder">
-			<label for="c{uid}-sortSelect">
+			<label for="c{config.uid}-sortSelect">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.sort"/>
 			</label>
-			<f:form.select id="c{uid}-sortSelect" name="sort" options="{sortOptions.menu}" value="{sortOptions.selected}"/>
+			<f:form.select id="c{config.uid}-sortSelect" name="sort" options="{config.sortOptions.menu}" value="{config.sortOptions.selected}"/>
 		</div>
 	</f:if>
 
-	<f:if condition="{f:count(subject:resultCountOptions.menu)} > 1">
+	<f:if condition="{f:count(subject:config.resultCountOptions.menu)} > 1">
 		<div class="resultCountPicker">
-			<label for="c{uid}-resultCountSelect">
+			<label for="c{config.uid}-resultCountSelect">
 				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.count"/>
 			</label>
-			<f:form.select id="c{uid}-resultCountSelect" name="count" options="{resultCountOptions.menu}" value="{resultCountOptions.selected}"/>
+			<f:form.select id="c{config.uid}-resultCountSelect" name="count" options="{config.resultCountOptions.menu}" value="{config.resultCountOptions.selected}"/>
 		</div>
 	</f:if>
 

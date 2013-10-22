@@ -3,13 +3,13 @@
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.js"/>
 <t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.selection.js"/>
 <div class="facetHistogram-container">
-	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, activeFacets:activeFacets)}">
-		<f:for each="{s:data.valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
+	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, activeFacets:config.activeFacets)}">
+		<f:for each="{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
 			<f:alias map="{years:\"{s:format.regexp(match:'/RANGE ([0-9]*) TO ([0-9]*)/', replace:'\1-\2', string:term)}\"}">
 				<span class="facetActive">
 					<f:link.action
 						addQueryString="TRUE"
-						argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, activeFacets:activeFacets, mode:'remove')}"
+						argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, activeFacets:config.activeFacets, mode:'remove')}"
 						section="{settings.jumpToID}"
 						noCacheHash="1"
 						class="icon-cancel facetRemove internal"
@@ -19,11 +19,11 @@
 		</f:for>
 	</f:if>
 	<f:alias map="{
-		addArguments:'{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:activeFacets)}',
+		addArguments:'{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:config.activeFacets)}',
 		removeArguments:'{f:if(
-			condition:\"{s:data.valueForKey(array:arguments.facet, key:facetInfo.id)}\",
-			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:activeFacets)}\",
-			else:\"{0:\'tx_find_find[page]\'}\"
+			condition:\"{s:data.valueForKey(array:config.arguments.facet, key:facetInfo.id)}\",
+			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:config.activeFacets)}\",
+			else:\"{0:\'{config.prefixID}[page]\'}\"
 		)}'
 	}">
 		<f:link.action
@@ -34,7 +34,7 @@
 			noCacheHash="1"
 			class="link-template hidden internal"
 		/>
-		<div class="histogram" id="c-{uid}-histogram-{facetInfo.id}">
+		<div class="histogram" id="c-{config.uid}-histogram-{facetInfo.id}">
 			<script type="text/javascript">
 			(function () {
 				var histogramConfiguration = {
@@ -42,12 +42,12 @@
 					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
 					'activeFacets': [],
 				}
-				<f:for each="{s:data.valueForKey(array:activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
+				<f:for each="{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
 					histogramConfiguration.activeFacets.push({s:format.json(data:term)});
 				</f:for>
 				var facetData = <s:format.json data="{facetData.values}"/>;
 
-				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{uid}-histogram-{facetInfo.id}'), histogramConfiguration);
+				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{config.uid}-histogram-{facetInfo.id}'), histogramConfiguration);
 			})();
 			</script>
 		</div>
