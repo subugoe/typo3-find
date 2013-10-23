@@ -49,11 +49,11 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 		$iterationArray = array();
 		// Strip non-numeric keys in the value arrays.
 		foreach ($this->arguments['arrays'] as $key => $array) {
-			$iterationArray = $array;
-			$arrays[$key] = array_values($array);
+			$iterationArray = ($array !== NULL) ? $array : array();
+			$arrays[$key] = array_values($iterationArray);
 		}
 
-		if ($this->identicalLengths($arrays)) {
+		if ($iterationArray && $this->identicalLengths($arrays)) {
 			$rows = array();
 			foreach(array_keys($iterationArray) as $rowIndex) {
 				$row = array();
