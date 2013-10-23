@@ -169,8 +169,9 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 				if ($this->arguments['alternateField']) {
 					$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['alternateField']);
 				}
-
-				$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['field']);
+				else {
+					$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['field']);
+				}
 			}
 		}
 
