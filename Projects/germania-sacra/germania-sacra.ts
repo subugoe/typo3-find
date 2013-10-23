@@ -25,6 +25,10 @@ plugin.tx_find {
 			timeout = 30
 		}
 
+		# Page ID of the bib extension’s store for Germania Sacra’s bibliography.
+		# This needs to be adjusted for the Page ID of the target site.
+		tx_bib_pid = 107
+
 		# Add a filter query to only return documents marked as »Online«.
 		additionalFilters {
 			1 = bearbeitungsstatus:Online
