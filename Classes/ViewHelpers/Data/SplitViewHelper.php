@@ -30,12 +30,15 @@ namespace Subugoe\Find\ViewHelpers\Data;
 
 /**
  * View Helper to split a string into an array of strings at the given separator.
+ * 
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class SplitViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
-	 * Registers own arguments.
+	 * Register arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();

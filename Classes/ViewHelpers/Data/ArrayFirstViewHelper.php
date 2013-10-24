@@ -29,30 +29,39 @@ namespace Subugoe\Find\ViewHelpers\Data;
 
 
 /**
- * View Helper to return the first element of the passed array.
+ * View Helper to return the first element of the passed array even when not
+ * knowing the key names.
+ *
+ * Usage examples can bee seen in Private/Partials/Test.html.
  */
 class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
-	 * Registers own arguments.
+	 * Register arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('array', 'array', 'the array to return the first element of', TRUE);
+		$this->registerArgument('array', 'array', 'the array to return the first value of', FALSE, NULL);
 	}
 
 
 	/**
-	 * @return string
+	 * @return string|int|boolean|array
 	 */
 	public function render() {
 		$result = NULL;
 
-		if (is_array($this->arguments['array']) && count($this->arguments['array']) > 0) {
-			$arrayKeys = array_keys($this->arguments['array']);
+		$array = $this->arguments['array'];
+		if ($array === NULL) {
+			$array = $this->renderChildren();
+		}
+
+		if (is_array($array) && count($array) > 0) {
+			$arrayKeys = array_keys($array);
 			$firstKey = $arrayKeys[0];
-			$result = $this->arguments['array'][$firstKey];
+			$result = $array[$firstKey];
 		}
 
 		return $result;

@@ -29,28 +29,35 @@ namespace Subugoe\Find\ViewHelpers\Data;
 
 /**
  * View Helper to return whether the variable is an array.
+ *
+ * Usage examples can bee seen in Private/Partials/Test.html.
  */
 class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
-	 * Registers own arguments.
+	 * Register arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('subject', 'array|string|int', 'The variable to inspect', TRUE);
+		$this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
 	}
 
 
 	/**
-	 * @return string
+	 * @return boolean
 	 */
 	public function render() {
 		$result = FALSE;
-		if ($this->arguments['subject'] !== NULL) {
-			if (is_array($this->arguments['subject'])) {
-				$result = TRUE;
-			}
+
+		$subject = $this->arguments['subject'];
+		if ($subject === NULL) {
+			$subject = $this->renderChildren();
+		}
+
+		if ($subject !== NULL) {
+			$result = is_array($subject);
 		}
 
 		return $result;

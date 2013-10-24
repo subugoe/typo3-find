@@ -30,12 +30,15 @@ namespace Subugoe\Find\ViewHelpers\Data;
 
 /**
  * View Helper to return the value of a key in an array.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class ValueForKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
-	 * Registers own arguments.
+	 * Register arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
@@ -45,7 +48,7 @@ class ValueForKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 
 
 	/**
-	 * @return string
+	 * @return string|int|boolean|array
 	 */
 	public function render() {
 		$result = NULL;

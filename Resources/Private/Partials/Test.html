@@ -1,0 +1,185 @@
+{namespace t=Subugoe\Find\ViewHelpers}
+<article>
+	<h1>Demonstration of the View Helpers included with the find Extension</h1>
+
+	<section id="data">
+		<h2>Data</h2>
+		<p>
+			View Helpers in the Data namespace transform template variables, mostly arrays.
+		</p>
+
+
+		<h3 id="data.arrayFirst">data.arrayFirst</h3>
+		<p>
+			Returns the first value of the array passed in the »array« parameter
+			or as a child.
+		</p><p>
+			This can be helpful if the key of the parameter is not known.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">array (or child)</dt>
+			<dd>The array to return the first value from.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{c:3, b:2, a:1}'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:data.arrayFirst array=\"{test\', 1:\'Array}\"\'}', separator:'')}/>"><t:data.arrayFirst array="{testArray}"/></f:debug>
+				<f:debug inline="1" title="Tag use with array as child: {t:format.join(array:'{0:\'<s:data.arrayFirst>{test\', 1:\'Array}</s:data.arrayFirst>\'}', separator:'')}"><t:data.arrayFirst>{testArray}</t:data.arrayFirst></f:debug>
+				<f:debug inline="1" title="Inline use: {t:format.join(array:'{0:\'{s:data.arrayFirst(array:\', 1:\'testArray)}\'}', separator:'')}">{t:data.arrayFirst(array:testArray)}</f:debug>
+			</f:alias>
+		</p>
+
+
+
+		<h3 id="data.isArray">data.isArray</h3>
+		<p>
+			Returns TRUE if the »array« parameter or the child is an array,
+			FALSE otherwise.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">subject (or child)</dt>
+			<dd>The variable to check.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{c:3, b:2, a:1}'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Tag use on array: {t:format.join(array:'{0:\'<s:data.isArray subject=\"{test\', 1:\'Array}\"\'}', separator:'')}/>"><t:data.isArray subject="{testArray}"/></f:debug>
+				<f:debug inline="1" title="Tag use with array as child: {t:format.join(array:'{0:\'<s:data.isArray>{test\', 1:\'Array}</s:data.isArray>\'}', separator:'')}"><t:data.isArray>{testArray}</t:data.isArray></f:debug>
+				<f:debug inline="1" title="Inline use on number: {t:format.join(array:'{0:\'{s:data.isArray(subject:\', 1:\'testArray.a)}\'}', separator:'')}">{t:data.isArray(subject:testArray.a)}</f:debug>
+			</f:alias>
+		</p>
+
+
+
+		<h3 id="data.newArray">data.newArray</h3>
+		<p>
+			The data.newArray View Helper helps creating and manipulating arrays in the template.
+		</p>
+		<p>
+			It can be used to create an array with given keys and values, even when the keys are not strings.
+			The resulting array is returned or assigned to a template variable.
+			In addition it can take a given array, add elements to it and overwrite the previous array in template variables;
+			This lets you build up an array in a loop.
+			To overcome the very limited power of Fluid variables it can also add a variable to and not remove it when leaving the tag’s scope;
+			This is probably a bad idea but can make the templates less unreadable.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt>name [NULL]</dt>
+			<dd>If not NULL, name of the template variable to assign the resulting array to.</dd>
+			<dt>array [array()]</dt>
+			<dd>Array to initialise the new array with. Useful for building up arrays.</dd>
+			<dt>keys [NULL]</dt>
+			<dd>Array of keys to add to the new array. If not given or NULL, no keys will be used. Otherwise this array needs to have the same number of elements as the <em>values</em> array.</dd>
+			<dt>values</dt>
+			<dd>Array of values to add to the new array.</dd>
+			<dt>global [FALSE]</dt>
+			<dd>If set to TRUE, the resulting array will be assigned to the template variable named em>name</em> but not removed. It will persist until the end of the Partial.</dd>
+			<dt>omitEmptyFields [FALSE]</dt>
+			<dd>If set to TRUE, empty values will be omitted when building the new array.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{string1:'a', string2:'d', existingArray:'{c:3, b:2, a:1}'}">
+				<f:debug inline="1" title="Variable string1">{string1}</f:debug>
+				<f:debug inline="1" title="Variable string2">{string2}</f:debug>
+				<f:debug inline="1" title="Variable existingArray">{existingArray}</f:debug>
+				<f:debug inline="1" title="Add two entries to the existingArray, one of which replaces the original value: {t:format.join(array:'{0:\'<s:data.newArray array=\"{existing\', 1:\'Array}\" keys=\"{0:string1,\', 2:\' 1:string2}\" values=\"{0:8,\', 3:\' 1:9}\"/>\'}', separator:'')}"><t:data.newArray array="{existingArray}" keys="{0:string1, 1:string2}" values="{0:8, 1:9}"/></f:debug>
+				<t:data.newArray name="newArray" array="{existingArray}" keys="{0:string1, 1:string2}" values="{0:8, 1:9}">
+				<f:debug inline="1" title="The same as in the previous example, but assing the resulting value to a template variable and use that inside the tag: {t:format.join(array:'{0:\'<s:data.newArray name=\"newArray\" array=\"{existing\', 1:\'Array}\" keys=\"{0:string1,\', 2:\' 1:string2}\" values=\"{0:8,\', 3:\' 1:9}\">{new\', 4:\'Array}</s:data.newArray>\'}', separator:'')}">{newArray}</f:debug>
+				</t:data.newArray>
+			</f:alias>
+		</p>
+		<p>
+			For further examples of using this view helper, e.g. to dynamically build an array in a loop,
+			please refer to the Partials of the find Extension,
+			e.g. EXT:find/Resources/Private/Partials/Components/QueryString.html.
+		</p>
+
+
+
+		<h3 id="data.split">data.split</h3>
+		<p>
+			Splits the given string at a separator and returns the resulting array.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">string (or child)</dt>
+			<dd>The string to split.</dd>
+			<dt>separator [, ]</dt>
+			<dd>The separator to split at.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testString:'1, 2, 3'}">
+				<f:debug inline="1" title="Variable testArray">{testString}</f:debug>
+				<f:debug inline="1" title="Tag use with default separator: {t:format.join(array:'{0:\'<s:data.split string=\"{test\', 1:\'String}\"\'}', separator:'')}/>"><t:data.split string="{testString}"/></f:debug>
+				<f:debug inline="1" title="Tag use with string as child: {t:format.join(array:'{0:\'<s:data.split>{test\', 1:\'String}</s:data.split>\'}', separator:'')}"><t:data.split>{testString}</t:data.split></f:debug>
+				<f:debug inline="1" title="Inline use with space as the separator: {t:format.join(array:'{0:\'{s:data.split(string:\', 1:\'testString, separator:\" \")}\'}', separator:'')}">{t:data.split(string:testString, separator:' ')}</f:debug>
+			</f:alias>
+		</p>
+
+
+		<h3 id="data.transpose">data.transpose</h3>
+		<p>
+			The data.transpose View Helper rearranges a collection of given arrays
+			with the same number of elements into a single array whose items are
+			arrays containing one element of each of the original arrays.
+		</p>
+		<p>
+			This is particularly useful when dealing with Solr documents containing
+			separate arrays with information belonging together (not uncommon due to
+			Solr’s flat data model). After “transposing” these into a single array
+			you can easily loop over them with the for View Helper.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt>arrays [array()]</dt>
+			<dd>Array with keys field names and values arrays of values for that field.</dd>
+			<dt>name (required)</dt>
+			<dd>Name of the template variable to assign the resulting array to.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{fruits:'{0:\'apple\', 1:\'pear\', 2:\'cherry\'}', bakedGoods:'{0:\'crumble\', 1:\'cake\', 2:\'pie\'}'}">
+				<f:debug inline="1" title="Variable fruits">{fruits}</f:debug>
+				<f:debug inline="1" title="Variable bakedGoods">{bakedGoods}</f:debug>
+				<t:data.transpose arrays="{fruit:fruits, bakedGood:bakedGoods}" name="sweets">
+					<f:debug inline="1" title="The resulting array available in the variable sweets inside the View Helper: {t:format.join(array:'{0:\'<s:data.transpose arrays=\"{fruit:fruits, \', 1:\'bakedGood:bakedGoods}\" name=\"sweets\">{swe\', 2:\'ets}</s:data.transpose>\'}', separator:'')}">{sweets}</f:debug>
+				</t:data.transpose>
+			</f:alias>
+		</p>
+
+
+		<h3 id="data.valueForKey">data.valueForKey</h3>
+		<p>
+			Returns the value of the given key in the given array.
+			Also works when the key is available as a variable rather than a constant string.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">array</dt>
+			<dd>The array to take the value from.</dd>
+			<dt class="required">key</dt>
+			<dd>The key to return the value for.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{c:3, b:2, a:1}', testKey:'b'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Variable testKey">{testKey}</f:debug>
+
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:data.valueForKey array=\"{test\', 1:\'Array}\" key=\"{test\', 2:\'Key}\"/>\'}', separator:'')}"><t:data.valueForKey array="{testArray}" key="{testKey}"/></f:debug>
+				<f:debug inline="1" title="Inline use: {t:format.join(array:'{0:\'{s:data.valueForKey(array:\', 1:\'testArray, key:testKey)}\'}', separator:'')}">{t:data.valueForKey(array:testArray, key:testKey)}</f:debug>
+			</f:alias>
+		</p>
+
+
+	</section>
+
+
+</article>

@@ -29,15 +29,21 @@ namespace Subugoe\Find\ViewHelpers\Data;
 
 
 
+/**
+ * View Helper to rearrange an array of columns into an array of rows and.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
+ */
 class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Registers arguments.
+	 * Register arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', FALSE, array());
-		$this->registerArgument('name', 'string', 'Variable name to map the new array to', TRUE);
+		$this->registerArgument('name', 'string', 'Variable name to assign the new array to', TRUE);
 	}
 
 
