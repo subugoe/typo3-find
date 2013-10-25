@@ -110,7 +110,7 @@
 		<dl>
 			<dt class="required">string (or child)</dt>
 			<dd>The string to split.</dd>
-			<dt>separator [, ]</dt>
+			<dt>separator [', ']</dt>
 			<dd>The separator to split at.</dd>
 		</dl>
 		<h4>Examples</h4>
@@ -177,9 +177,184 @@
 				<f:debug inline="1" title="Inline use: {t:format.join(array:'{0:\'{s:data.valueForKey(array:\', 1:\'testArray, key:testKey)}\'}', separator:'')}">{t:data.valueForKey(array:testArray, key:testKey)}</f:debug>
 			</f:alias>
 		</p>
-
-
 	</section>
 
 
+
+	<section id="find">
+		<h2>Find</h2>
+		<p>
+			View Helpers specific for the find Extension. Particularly for use with data returned by the Solarium Solr client to create the right query parameters for faceting, data for page and doing result highlighting.
+		</p>
+
+		<p>
+			TODO.
+		</p>
+	</section>
+
+
+
+	<section id="format">
+		<h2>Format</h2>
+		<p>
+			View Helpers in the Format namespace transform the input into formatted strings.
+		</p>
+
+		<h3 id="format.CSVLine">format.CSVLine</h3>
+		<p>
+			Returns the value of the given key in the given array.
+			Also works when the key is available as a variable rather than a constant string.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">data (or child)</dt>
+			<dd>The array of fields to output as CSV line.</dd>
+			<dt>fieldDelimiter [',']</dt>
+			<dd>The string to use as a column separator.</dd>
+			<dt>fieldEnclosure ['"']</dt>
+			<dd>The string to enclose the field content in.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{0:\'one\', 1:\'two,two\', 2:\'three\"|three\'}'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.CSVLine data=\"{test\', 1:\'Array}\"/>\'}', separator:'')}"><t:format.CSVLine data="{testArray}"/></f:debug>
+				<f:debug inline="1" title="Tag use with data as child: {t:format.join(array:'{0:\'<s:format.CSVLine>{test\', 1:\'Array}</s:format.CSVLine>\'}', separator:'')}"><t:format.CSVLine>{testArray}</t:format.CSVLine></f:debug>
+				<f:debug inline="1" title="Inline use with custom field delimiters and enclosures: {t:format.join(array:'{0:\'{s:format.CSVLine(data:\', 1:\'testArray, fieldDelimiter:\"|\", fieldEnclosure:\"*\")}\'}', separator:'')}">{t:format.CSVLine(data:testArray, fieldDelimiter:"|", fieldEnclosure:"*")}</f:debug>
+			</f:alias>
+		</p>
+
+
+
+		<h3 id="format.join">format.join</h3>
+		<p>
+			Joins an array of strings into a single string.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">array (or child)</dt>
+			<dd>The array of strings to join into a string.</dd>
+			<dt>separator [', ']</dt>
+			<dd>The separator string to place between the elements of the array.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{0:\'one\', 1:\'two\', 2:\'three\'}'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.join array=\"{test\', 1:\'Array}\"/>\'}', separator:'')}"><t:format.join array="{testArray}"/></f:debug>
+				<f:debug inline="1" title="Tag use with array as child: {t:format.join(array:'{0:\'<s:format.join>{test\', 1:\'Array}</s:format.join/>\'}', separator:'')}"><t:format.join>{testArray}</t:format.join></f:debug>
+				<f:debug inline="1" title="Inline use with custom separator: {t:format.join(array:'{0:\'{s:format.join(array:test\', 1:\'Array, separator:\"*\")}\'}', separator:'')}">{t:format.join(array:testArray, separator:"*")}</f:debug>
+			</f:alias>
+		</p>
+
+
+
+		<h3 id="format.JSON">format.JSON</h3>
+		<p>
+			Serialises a given array, string or number to (ugly) JSON.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">data (or child)</dt>
+			<dd>The data to serialise as JSON.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testArray:'{0:\'one\', 1:2, 2:\'{a:\"A\", b:\"B\", c:\"C\"}\'}'}">
+				<f:debug inline="1" title="Variable testArray">{testArray}</f:debug>
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.JSON data=\"{test\', 1:\'Array}\"/>\'}', separator:'')}"><t:format.JSON data="{testArray}"/></f:debug>
+				<f:debug inline="1" title="Tag use with data as child: {t:format.join(array:'{0:\'<s:format.JSON>{test\', 1:\'Array}</s:format.JSON/>\'}', separator:'')}"><t:format.JSON>{testArray}</t:format.JSON></f:debug>
+				<f:debug inline="1" title="Inline use: {t:format.join(array:'{0:\'{s:format.JSON(data:test\', 1:\'Array)}\'}', separator:'')}">{t:format.JSON(data:testArray)}</f:debug>
+			</f:alias>
+		</p>
+
+
+
+		<h3 id="format.regexp">format.regexp</h3>
+		<p>
+			Provides regular expression matching and replacing.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">string (or child)</dt>
+			<dd>The string to match or replace in.</dd>
+			<dt class="required">match</dt>
+			<dd>The regular expression to match in string. (In standard use, it needs to be wrapped with slashes.)</dd>
+			<dt>replace [NULL]</dt>
+			<dd>The string or expression to replace matches with. If not set, only the truth value of matching will be returned.</dd>
+			<dt>useMBEreg [FALSE]</dt>
+			<dd>Whether to use mb_ereg_replace() instead of preg_replace(). An alternative on systems where the standard matching has problems with Unicode. (match should not be wrapped in slashes when used with this option.)</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<t:format.regexp string=\"foo-bar\"\', 1:\' match=\"/foo/\" replace=\"bar\"/>\'}', separator:'')}"><t:format.regexp string="foo-bar" match="/foo/" replace="bar"/></f:debug>
+			<f:debug inline="1" title="Tag use using the string from child: {t:format.join(array:'{0:\'<s:format.regexp \', 1:\' match=\"/foo/\" replace=\"bar\">foo-bar</s:format.regexp>\'}', separator:'')}"><t:format.regexp match="/foo/" replace="bar">foo-bar</t:format.regexp></f:debug>
+			<f:debug inline="1" title="Inline use checking for a match: {t:format.join(array:'{0:\'{s:format.regexp(string:\"foo-bar\"\', 1:\', match:\"/foo/\")}\'}', separator:'')}">{t:format.regexp(string:"foo-bar", match:"/foo/")}</f:debug>
+		</p>
+
+
+
+		<h3 id="format.solrEscape">format.solrEscape</h3>
+		<p>
+			Escapes the given string for Solr queries.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">string (or child)</dt>
+			<dd>The string to escape for Solr.</dd>
+			<dt>phrase [FALSE]</dt>
+			<dd>Whether to use phrase escaping.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.solrEscape string=\"multi-word query \', 1:\'(including: Solr special characters)\"/>\'}', separator:'')}"><t:format.solrEscape string="multi-word query (including: Solr special characters)"/></f:debug>
+			<f:debug inline="1" title="Tag use for phrase: {t:format.join(array:'{0:\'<s:format.solrEscape string=\"multi-word query \', 1:\'(including: Solr special characters)\" phrase=\"1\"/>\'}', separator:'')}"><t:format.solrEscape string="multi-word query (including: Solr special characters)" phrase="1"/></f:debug>
+			<f:debug inline="1" title="Inline use: {t:format.join(array:'{0:\'{s:format.solrEscape(string:\"multi-word query \', 1:\'(including: Solr special characters)\")}\'}', separator:'')}">{t:format.solrEscape(string:"multi-word query (including: Solr special characters)")}</f:debug>
+		</p>
+
+
+
+		<h3 id="format.strip">format.strip</h3>
+		<p>
+			Strips the given string of leading and trailing whitespace or other characters.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">string (or child)</dt>
+			<dd>The string to strip leading and trailing characters from.</dd>
+			<dt>strip [NULL]</dt>
+			<dd>String of characters to strip. NULL will use PHP’s default set of whitespace characters.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.strip string=\"  *spacious\', 1:\' text*	\"/>\'}', separator:'')}"><t:format.strip string="  *spacious text*	"/></f:debug>
+			<f:debug inline="1" title="Tag use on child: {t:format.join(array:'{0:\'<s:format.strip>  *spacious text*	\', 1:\'</s:format.strip>\'}', separator:'')}"><t:format.strip>  *spacious text*	</t:format.strip></f:debug>
+			<f:debug inline="1" title="Inline use with custom characters to strip: {t:format.join(array:'{0:\'{s:format.strip(string:\"  *spacious\', 1:\' text*	\", strip:\" *	\")}\'}', separator:'')}">{t:format.strip(string:"  *spacious text*	", strip:" *	")}</f:debug>
+		</p>
+
+
+
+		<h3 id="format.XML">format.XML</h3>
+		<p>
+			Tries to parse the tag’s content as XML and returns a formatted,
+			i.e. indented string of the XML.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt>htmloutput [FALSE]</dt>
+			<dd>Whether to use HTML markup instead of XML for the output.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:alias map="{testXML:'<a><b><c/></b><b>d</b></a>'}">
+				<f:debug inline="1" title="Variable testXML">{testXML->f:format.raw()}</f:debug>
+				<f:debug inline="1" title="Tag use: {t:format.join(array:'{0:\'<s:format.XML>{test\', 1:\'XML->f:format.raw()}</s:format.XML>\'}', separator:'')}"><t:format.XML>{testXML->f:format.raw()}</t:format.XML></f:debug>
+				<f:debug inline="1" title="Tag use with HTML output: {t:format.join(array:'{0:\'<s:format.xml htmloutput=\"1\">{test\', 1:\'XML->f:format.raw()}</s:format.XML>\'}', separator:'')}"><t:format.XML htmloutput="1">{testXML->f:format.raw()}</t:format.XML></f:debug>
+			</f:alias>
+		</p>
+		<p>
+			Unfortunately the indentation is not visible when displaying the result with the f:debug View Helper as we do here.
+		</p>
+
+	</section>
 </article>

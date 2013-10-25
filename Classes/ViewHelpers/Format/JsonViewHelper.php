@@ -27,20 +27,23 @@
 namespace Subugoe\Find\ViewHelpers\Format;
 
 
-
 /**
  * View Helper to return the passed array, string or number as JSON.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class JSONViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
 	}
+
 
 
 	/**

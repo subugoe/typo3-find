@@ -27,15 +27,17 @@
 namespace Subugoe\Find\ViewHelpers\Format;
 
 
-
 /**
  * View Helper for converting XML to formatted XML.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
@@ -43,12 +45,13 @@ class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	}
 
 
+
 	/**
 	 * @return string
 	 */
 	public function render() {
 		$input = $this->renderChildren();
-		$XML = new DOMDocument();
+		$XML = new \DOMDocument();
 		$XML->preserveWhiteSpace = FALSE;
 		$XML->formatOutput = TRUE;
 		$XML->encoding = 'UTF-8';

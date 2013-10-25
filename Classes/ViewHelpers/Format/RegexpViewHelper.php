@@ -27,15 +27,17 @@
 namespace Subugoe\Find\ViewHelpers\Format;
 
 
-
 /**
  * Does Search and Replace with a regular expression.
+ * 
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class RegexpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();

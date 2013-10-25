@@ -27,30 +27,39 @@
 namespace Subugoe\Find\ViewHelpers\Format;
 
 
-
 /**
  * View Helper to return the passed array, string or number as JSON.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class CSVLineViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('data', 'array', 'The array to output as CSV line', TRUE);
+		$this->registerArgument('data', 'array', 'The array to output as CSV line', FALSE, NULL);
 		$this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', FALSE, ',');
-		$this->registerArgument('fieldEnclosure', 'array', 'The string to enclose the field content in', FALSE, '"');
+		$this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', FALSE, '"');
 	}
+
 
 
 	/**
 	 * @return string
 	 */
 	public function render() {
+		$data = $this->arguments['data'];
+		if ($data === NULL) {
+			$data = $this->renderChildren();
+		}
+
+		// Write CSV to pseudo-file as PHP cannot write it directly to a string.
 		$fp = fopen('php://temp', 'r+');
-		fputcsv($fp, $this->arguments['data'], $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
+		fputcsv($fp, $data, $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
 		rewind($fp);
 		$result = fgets($fp);
 		fclose($fp);
