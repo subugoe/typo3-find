@@ -357,4 +357,155 @@
 		</p>
 
 	</section>
+
+
+
+	<section id="linked-data">
+		<h2>Linked Data</h2>
+		<p>
+			View Helpers allowing to build Linked Data output in a Fluid template.
+		</p>
+		<p>
+			Please refer to the Projects/germania-sacra/Partials/Formats/linked-data.data
+			partial for an example.
+		</p>
+
+
+		<h3 id="linkedData.container">linkedData.container</h3>
+		<p>
+			Creates a linked data document.
+			Triples need to be added inside this View Helper using the linkedData.item View Helper.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt>format ['turtle']</dt>
+			<dd>Name of the Linked Data format to output. Supported formats are 'turtle', 'rdf' and 'json-ld'.</dd>
+			<dt>prefixes [array()]</dt>
+			<dd>Array with short namespace names as keys and namespace URIs as values. Used to create more legible linked data.</dd>
+		</dl>
+
+
+
+		<h3 id="linkedData.item">linkedData.item</h3>
+		<p>
+			Creates a linked data triple.
+			May only be used inside the linkedData.container View Helper.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt>subject</dt>
+			<dd>The triple’s subject (URI).</dd>
+			<dt>predicate</dt>
+			<dd>The triple’s predicate (URI).</dd>
+			<dt>object [NULL]</dt>
+			<dd>The triple’s object (URI). If the object is a literal string, it needs to be given as the tag’s child.</dd>
+			<dt>objectType [NULL]</dt>
+			<dd>The type of triple’s object (URI). Only used if the object is a literal string.</dd>
+			<dt>language [NULL]</dt>
+			<dd>ISO 639-1 language code for the triple’s object. Only used if the object is a literal string.</dd>
+		</dl>
+
+	</section>
+
+
+
+	<section id="logic">
+		<h2>Logic</h2>
+		<p>
+			View Helpers providing basic logic operations which Fluid does not support out of the box.
+		</p>
+
+
+	
+		<h3 id="logic.and">logic.and</h3>
+		<p>
+			Returns the logical value of ANDing all conditions that are passed.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">conditions</dt>
+			<dd>Array of conditions to AND.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.and(conditions:\"{0:1, \', 1:\'1:1}\")}\'}', separator:'')}">{t:logic.and(conditions:"{0:1, 1:1}")}</f:debug>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.and(conditions:\"{0:1, \', 1:\'1:1, 2:0}\")}\'}', separator:'')}">{t:logic.and(conditions:"{0:1, 1:1, 2:0}")}</f:debug>
+		</p>
+
+
+
+		<h3 id="logic.not">logic.not</h3>
+		<p>
+			Returns the negative of the truth value PHP assigns to the condition that ist passed.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">condition</dt>
+			<dd>The conditions to NOT.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.not(condition:0\', 1:\')}\'}', separator:'')}">{t:logic.not(condition:0)}</f:debug>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.not(condition:\"some \', 1:\'string\")}\'}', separator:'')}">{t:logic.not(condition:"some string")}</f:debug>
+		</p>
+
+
+
+		<h3 id="logic.or">logic.or</h3>
+		<p>
+			Returns the logical value of ORing all conditions that are passed.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">conditions</dt>
+			<dd>Array of conditions to OR.</dd>
+		</dl>
+		<h4>Examples</h4>
+		<p>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.or(conditions:\"{0:1, \', 1:\'1:1}\")}\'}', separator:'')}">{t:logic.or(conditions:"{0:1, 1:1}")}</f:debug>
+			<f:debug inline="1" title="Inline Tag Use: {t:format.join(array:'{0:\'{t:logic.or(conditions:\"{0:1, \', 1:\'1:1, 2:0}\")}\'}', separator:'')}">{t:logic.or(conditions:"{0:1, 1:1, 2:0}")}</f:debug>
+		</p>
+	</section>
+
+
+
+	<section id="page">
+		<h2>Page</h2>
+		<p>
+			View Helpers for page settings.
+		</p>
+
+
+
+		<h3 id="page.linkCSS">page.linkCSS</h3>
+		<p>
+			Adds the CSS file at the given path to the current page.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">file</dt>
+			<dd>Path to the CSS file.</dd>
+		</dl>
+		<h4>Example</h4>
+		<p>
+			<code>&lt;s:page.linkCSS file="EXT:find/Resources/Public/JavaScript/jquery.chosen/public/chosen.min.css"/&gt;</code>
+		</p>
+
+
+
+		<h3 id="page.title">page.title</h3>
+		<p>
+			Sets the page’s &lt;title&gt; tag.
+		</p>
+		<h4>Arguments</h4>
+		<dl>
+			<dt class="required">title (or child)</dt>
+			<dd>Title to use for the page.</dd>
+		</dl>
+		<h4>Example</h4>
+		<p>
+			<code>&lt;s:page.title&gt;My Page Title&lt;/s:page.title&gt;</code>
+		</p>
+	</section>
+
 </article>

@@ -27,24 +27,26 @@
 namespace Subugoe\Find\ViewHelpers\LinkedData;
 
 
-
 /**
  * View Helper to create a container for linked data output.
  * Add data by using the linkedDataItem View Helper inside it.
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments () {
 		parent::initializeArguments();
 		$this->registerArgument('format', 'string', 'The linked data format to create', FALSE, 'turtle');
-		$this->registerArgument('base', 'string', 'The base name', FALSE, NULL);
 		$this->registerArgument('prefixes', 'array', 'The namespace names to use', FALSE, array());
 
 		$this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE, 'linkedDataContainer');
 	}
+
 
 
 	/**
@@ -63,8 +65,6 @@ class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
 		return $result;
 	}
-
-
 
 }
 

@@ -29,17 +29,21 @@ namespace Subugoe\Find\ViewHelpers\Page;
 
 /**
  * View Helper 
+ *
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class LinkCSSViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('file', 'string', 'Path to the CSS file', TRUE);
 	}
+
 
 
 	/**

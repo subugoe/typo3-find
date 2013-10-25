@@ -27,20 +27,23 @@
 namespace Subugoe\Find\ViewHelpers\Page;
 
 
-
 /**
  * View Helper to join the elements of an array into a string.
+ * 
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class TitleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('title', 'string', 'the title to set for the page', FALSE, NULL);
 	}
+
 
 
 	/**

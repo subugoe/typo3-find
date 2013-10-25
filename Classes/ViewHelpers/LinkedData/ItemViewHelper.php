@@ -37,6 +37,7 @@ class ItemViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
 	/**;
 	 * Registers own arguments.
+	 * @return void
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
@@ -44,10 +45,11 @@ class ItemViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 		$this->registerArgument('predicate', 'string', 'The triple’s predicate', TRUE);
 		$this->registerArgument('object', 'string', 'The triple’s object', FALSE, NULL);
 		$this->registerArgument('objectType', 'string', 'Type of the triple’s object', FALSE, NULL);
-		$this->registerArgument('language', 'string', 'Language code for the triple’s object', FALSE, NULL);
+		$this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', FALSE, NULL);
 
 		$this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE, 'linkedDataContainer');
 	}
+
 
 
 	/**
