@@ -1,53 +1,26 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 {namespace bib=Ipf\Bib\ViewHelpers}
 <f:if condition="{document.literatur_citekey}">
-	<f:alias map="{
-		mediaTypes:\"{
-			0:'Default',
-			1:'Default',
-			2:'Default',
-			3:'Default',
-			4:'Default',
-			5:'Default',
-			6:'Default',
-			7:'Default',
-			8:'Default',
-			9:'Default',
-			10:'Default',
-			11:'Default',
-			12:'Default',
-			13:'Default',
-			14:'Default',
-			15:'Default',
-			16:'Default',
-			17:'Default',
-			18:'Default',
-			19:'Default',
-			20:'Default',
-			21:'Default'
-		}\"
-	}">
-		<section class="literatur">
-			<h2>Literatur</h2>
-			<ul>
-				<s:data.transpose
-					name="items"
-					arrays="{
-						citekey:document.literatur_citekey,
-						beschreibung:document.literatur_beschreibung
-				}">
-					<f:for each="{items}" as="item">
-						<li>
-							<f:alias map="{bibitem:'{bib:publicationByCiteId(citeId:item.citekey, storagePid:\"{settings.tx_bib_pid}\")}'}">
-								<f:render
-									partial="Bib/Type/{s:data.valueForKey(array:mediaTypes, key:bibitem.bibtype)}"
-									arguments="{bibitem:bibitem, note:item.beschreibung}"
-								/>
-							</f:alias>
-						</li>
-					</f:for>
-				</s:data.transpose>
-			</ul>
-		</section>
-	</f:alias>
+	<section class="literatur">
+		<h2>Literatur</h2>
+		<ul>
+			<s:data.transpose
+				name="items"
+				arrays="{
+					citekey:document.literatur_citekey,
+					beschreibung:document.literatur_beschreibung
+			}">
+				<f:for each="{items}" as="item">
+					<li>
+						<f:alias map="{bibitem:'{bib:publicationByCiteId(citeId:item.citekey, storagePid:\"{settings.tx_bib_pid}\")}'}">
+							<f:render
+								partial="Bib/Type/Default"
+								arguments="{bibitem:bibitem, note:item.beschreibung}"
+							/>
+						</f:alias>
+					</li>
+				</f:for>
+			</s:data.transpose>
+		</ul>
+	</section>
 </f:if>
