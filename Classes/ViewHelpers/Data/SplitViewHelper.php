@@ -27,7 +27,6 @@
 namespace Subugoe\Find\ViewHelpers\Data;
 
 
-
 /**
  * View Helper to split a string into an array of strings at the given separator.
  * 
@@ -47,6 +46,7 @@ class SplitViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	}
 
 
+	
 	/**
 	 * @return array
 	 */

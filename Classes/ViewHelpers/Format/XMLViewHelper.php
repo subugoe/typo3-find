@@ -24,42 +24,43 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Data;
+namespace Subugoe\Find\ViewHelpers\Format;
+
 
 
 /**
- * View Helper to return whether the variable is an array.
- *
- * Usage examples are available in Private/Partials/Test.html.
+ * View Helper for converting XML to formatted XML.
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
-	 * Register arguments.
-	 * @return void
+	 * Registers own arguments.
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
+		$this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', FALSE, FALSE);
 	}
 
 
-	
 	/**
-	 * @return boolean
+	 * @return string
 	 */
 	public function render() {
-		$result = FALSE;
-
-		$subject = $this->arguments['subject'];
-		if ($subject === NULL) {
-			$subject = $this->renderChildren();
+		$input = $this->renderChildren();
+		$XML = new DOMDocument();
+		$XML->preserveWhiteSpace = FALSE;
+		$XML->formatOutput = TRUE;
+		$XML->encoding = 'UTF-8';
+		$XML->loadXML($input);
+		if ($this->arguments['htmloutput']) {
+			$result = $XML->saveHTML();
+		}
+		else {
+			$result = $XML->saveXML();
 		}
 
-		if ($subject !== NULL) {
-			$result = is_array($subject);
-		}
+		// TODO: Error handling?
 
 		return $result;
 	}

@@ -27,11 +27,10 @@
 namespace Subugoe\Find\ViewHelpers\Data;
 
 
-
 /**
  * View Helper to create a new array with the given keys and values.
  *
- * Usage examples can bee seen in Private/Partials/Test.html.
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -53,6 +52,7 @@ class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	}
 
 
+	
 	/**
 	 * @return array
 	 */

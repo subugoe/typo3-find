@@ -27,7 +27,6 @@
 namespace Subugoe\Find\ViewHelpers\Data;
 
 
-
 /**
  * View Helper to return the value of a key in an array.
  *
@@ -46,6 +45,7 @@ class ValueForKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 		$this->registerArgument('key', 'string', 'The key to extract the value for', TRUE);
 	}
 
+	
 
 	/**
 	 * @return string|int|boolean|array

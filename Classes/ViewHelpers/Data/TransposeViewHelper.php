@@ -1,5 +1,4 @@
 <?php
-
 /*******************************************************************************
  * Copyright notice
  *
@@ -28,7 +27,6 @@
 namespace Subugoe\Find\ViewHelpers\Data;
 
 
-
 /**
  * View Helper to rearrange an array of columns into an array of rows and.
  *
@@ -47,6 +45,7 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	}
 
 
+	
 	/**
 	 * @return string Rendered string
 	 */

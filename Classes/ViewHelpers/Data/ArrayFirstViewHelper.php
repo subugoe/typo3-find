@@ -27,12 +27,11 @@
 namespace Subugoe\Find\ViewHelpers\Data;
 
 
-
 /**
  * View Helper to return the first element of the passed array even when not
  * knowing the key names.
  *
- * Usage examples can bee seen in Private/Partials/Test.html.
+ * Usage examples are available in Private/Partials/Test.html.
  */
 class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -47,6 +46,7 @@ class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	}
 
 
+	
 	/**
 	 * @return string|int|boolean|array
 	 */
