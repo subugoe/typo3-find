@@ -1,4 +1,0 @@
-<f:if condition="{bibitem.authors}">
-	<span class="authors">
-		<f:for each="{bibitem.authors}" as="author" iteration="iteration">
-			<span class="field field-author">{author.surname}{f:if(condition:author.forename, then:', {author.forename}')}</span>{f:if(condition:iteration.isLast, then:'', else:';')}</f:for></span></f:if>
