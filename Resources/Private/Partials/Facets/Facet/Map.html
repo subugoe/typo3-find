@@ -42,7 +42,7 @@
 		queryURLTemplate: {s:format.json(data:"{f:uri.action(
 			addQueryString:TRUE,
 			arguments:'{
-				q:\'###TERM###\',
+				q:\'{raw:\"###TERM###\"}\',
 				count:1000
 			}',
 			action:'index',
