@@ -10,6 +10,22 @@
   height: 300px;
   background: #fff;
 }
+.tx_find .mapContainer .infoWindow article.kloster h1 {
+  position: static;
+  margin: 0;
+  padding: 0;
+}
+.tx_find .mapContainer .infoWindow article.kloster h1 a:hover {
+  font-weight: 300;
+}
+.tx_find .mapContainer .infoWindow article.kloster ul, .tx_find .mapContainer .infoWindow article.kloster li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.tx_find .mapContainer .infoWindow article.kloster .zeitraum:after {
+  content: ': ';
+}
 .tx_find form .fieldContainer .fieldLabel {
   width: 150px;
 }

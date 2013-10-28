@@ -9,6 +9,8 @@
 	</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
+	<f:render partial="GS/JavaScript" arguments="{_all}"/>
+
 	<div class="results {f:if(condition:arguments.largeMap, then:'largeMap')}">
 		<div class="navigation top"/>
 			<f:render partial="Components/ResultCount" arguments="{_all}"/>

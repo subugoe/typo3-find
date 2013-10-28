@@ -4,6 +4,9 @@
 <f:section name="main">
 	<s:page.title>{document.fields.kloster} – {config.pageTitle}</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
+
+	<f:render partial="GS/JavaScript" arguments="{id: document.id}"/>
+
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
 	<article class="detail">

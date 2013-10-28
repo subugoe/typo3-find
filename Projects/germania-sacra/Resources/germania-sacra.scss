@@ -13,8 +13,33 @@
 			height: 300px;
 			background: #fff;
 		}
+		
 	}
 
+	.mapContainer .infoWindow {
+		article.kloster {
+			h1 {
+				position: static;
+				margin: 0;
+				padding: 0;
+
+				a:hover {
+					font-weight: 300;
+				}
+			}
+
+			ul, li {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+
+			.zeitraum:after {
+				content:': ';
+			}
+		}
+	}
+	
 	$formLabelWidth: 150px;
 
 	form {
