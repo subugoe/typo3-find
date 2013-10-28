@@ -9,4 +9,7 @@
 	url = git@github.com:y-matsuwitter/js-geohash.git
 [submodule "Projects/germania-sacra"]
 	path = Projects/germania-sacra
-	url = git@github.com:ssp/typo3-find-germania-sacra.git
+	url = git://github.com/ssp/typo3-find-germania-sacra.git
+[submodule "Projects/edfu"]
+	path = Projects/edfu
+	url = git://github.com/subugoe/typo3-find-edfu.git
