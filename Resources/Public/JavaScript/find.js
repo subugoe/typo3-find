@@ -554,6 +554,7 @@ var tx_find_facetMap = (function () {
 	var config;
 	var map;
 	var markers = {};
+	interface.markers = markers;
 
 	var init = function (parameters) {
 		config = parameters;
@@ -593,7 +594,6 @@ var tx_find_facetMap = (function () {
 		}
 
 		// Create map.
-		google.maps.visualRefresh = true;
 		var mapOptions = {
 			'mapTypeId': google.maps.MapTypeId.ROADMAP,
 			'mapTypeControl': false,
