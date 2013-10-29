@@ -1,4 +1,9 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates a hidden input.
+
+	If a default value is set, that will be used, otherwise it has value 1.
+</f:comment>
 <f:form.hidden
 	name="{f:if(
 		condition:'{s:data.valueForKey(array:arguments, key:fieldInfo.id)}',
