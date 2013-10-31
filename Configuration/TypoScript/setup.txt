@@ -32,12 +32,6 @@ plugin.tx_find {
 			#	queryAlternate.1 = lastname:%s
 			#	type = Text
 			#}
-			#20 {
-			#	id = done
-			#	extended = 1
-			#	type = Checkbox
-			#	default = 0
-			#}
 			#30 {
 			#	id = country
 			#	extended = 1
@@ -118,7 +112,6 @@ plugin.tx_find {
 			#	sortCriteria = year desc,name asc
 			#}
 		}
-		count = {$plugin.tx_find.settings.count}
 		standardFields {
 			title = title
 			snippet = snippet
@@ -176,7 +169,7 @@ plugin.tx_find {
 			# 1 = type:kloster
 		}
 		paging {
-			perPage = 20
+			perPage = {$plugin.tx_find.settings.count}
 			menu {
 			#	1 = 10
 			#	2 = 20
