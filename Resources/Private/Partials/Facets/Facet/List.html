@@ -1,7 +1,7 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:if condition="{facetInfo.autocomplete}">
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
-		<f:render partial="Facets/Facet/ListAutocomplete" arguments="{_all}"/>
+		<f:render partial="Facets/Facet/List/Autocomplete" arguments="{_all}"/>
 	</f:if>
 </f:if>
 
@@ -18,7 +18,7 @@
 				else:facetTerm
 			)}'
 		}">
-			<f:render partial="Facets/Facet/ListItem" arguments="{_all}"/>
+			<f:render partial="Facets/Facet/List/Item" arguments="{_all}"/>
 		</f:alias>
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
