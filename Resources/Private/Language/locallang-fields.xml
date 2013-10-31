@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>
+			Language labels for field labels.
+			The file »locallang-form.xml« will be loaded from the path set as
+			»settings.languageRootPath« in TypoScript.
+
+			Localisation keys / label indexes follow the convention:
+				* field.fieldID for field labels
+		</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="field.typ">Type</label>
+			<label index="field.name">Name</label>
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="field.typ">Typ</label>
+			<label index="field.name">Name</label>
+		</languageKey>
+	</data>
+</T3locallang>
