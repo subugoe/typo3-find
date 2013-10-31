@@ -1,3 +1,8 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates a <select> using the array provided in the field configuration’s
+	options array.
+</f:comment>
 <label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>
@@ -6,5 +11,5 @@
 	class="inputContainer"
 	name="q[{fieldInfo.id}]"
 	options="{fieldInfo.options}"
-	value="{s:data.valueForKey(array:config.query, key:fieldInfo.id)}"
+	value="{queryParameter}"
 />

@@ -1,9 +1,19 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates a Checkbox input.
+	The default parameter can be used to pre-set its state.
+</f:comment>
 <f:form.checkbox
 	id="c{config.uid}-field-{fieldInfo.id}"
 	class="inputContainer"
-	name="{fieldInfo.id}"
-	value="{s:data.valueForKey(array:config.query, key:fieldInfo.id)}"/>
-<!-- TODO: need to pre-set value with default field -->
+	name="q[{fieldInfo.id}]"
+	value="1"
+	checked="{f:if(
+		condition:'{queryParameter}!=\"NULL\"',
+		then:queryParameter,
+		else:fieldInfo.default
+	)}"
+/>
 <label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
 	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
 </label>

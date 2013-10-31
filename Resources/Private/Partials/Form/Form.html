@@ -21,7 +21,9 @@
 						1:\"{s:data.valueForKey(array:arguments.q, key:fieldInfo.id)}\"
 					}')}">
 						<div class="fieldContainer fieldType-{fieldInfo.type} field-{fieldInfo.id} field-mode-{f:if(condition:'{fieldInfo.extended}', then:'extended', else:'simple')}">
-							<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
+							<f:alias map="{queryParameter:'{s:data.valueForKey(array:config.query, key:fieldInfo.id)}'}">
+								<f:render partial="Form/Fields/{fieldInfo.type}" arguments="{_all}"/>
+							</f:alias>
 						</div>
 					</f:if>
 				</f:then>

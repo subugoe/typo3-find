@@ -1,3 +1,8 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates radio buttons inputs using the keys and values from the field
+	configuration’s options array.
+</f:comment>
 <span class="radioGroup">
 	<span class="fieldLabel radioGroupLabel">
 		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
@@ -8,11 +13,14 @@
 				id="c{config.uid}-field-{fieldInfo.id}-{key}"
 				name="q[{fieldInfo.id}]"
 				value="{key}"
-				checked="{0:key}=={0:fieldInfo.default}"
+				checked="{f:if(
+					condition:queryParameter,
+					then:'{f:if(condition:\"{key}=={queryParameter}\", then:1, else:0)}',
+					else:'{f:if(condition:\"{0:key}=={0:fieldInfo.default}\", then:1, else:0)}'
+				)}"
 			/>
-			<!-- TODO set with previous value -->
 			<label for="c{config.uid}-field-{fieldInfo.id}-{key}">
-				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-{key}" default="{key}"/>
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-{value}" default="{value}"/>
 			</label>
 		</f:for>
 	</span>

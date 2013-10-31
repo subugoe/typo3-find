@@ -110,7 +110,7 @@ All settings discussed in this section are inside the ``plugin.tx_find.settings`
 
 
 Connection to the Solr index
-............................
+::::::::::::::::::::::::::::
 
 The ``connection`` settings array is used to configure access to the Solr index. It contains:
 
@@ -161,6 +161,7 @@ Examples::
 		}
 		12 {
 			id = name3
+			type = Text
 			autocomplete = 1
 			autocompleteDictionary = name
 		}
@@ -227,16 +228,25 @@ The SelectFacet field creates a popup menu using the data from a facet that has 
 		}
 	}
 
-Checkbox
-........
-
-TODO: document
-
-
 Radio
 .....
 
-TODO: document
+Creates radio buttons for the array set in the ``options`` array. E.g.::
+
+	plugin.tx_find.settings {
+		60 {
+			id = version
+			extended = 1
+			type = Radio
+			options {
+				1 = Steak
+				2 = Chicken
+				3 = Pancake
+			}
+			default = 2
+		}
+	}
+
 
 
 
