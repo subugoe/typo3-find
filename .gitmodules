@@ -13,3 +13,6 @@
 [submodule "Projects/edfu"]
 	path = Projects/edfu
 	url = git://github.com/subugoe/typo3-find-edfu.git
+[submodule "Projects/jfk-institut-zeitungen"]
+	path = Projects/jfk-institut-zeitungen
+	url = git://github.com/subugoe/typo3-find-jfk-institut-zeitungen.git
