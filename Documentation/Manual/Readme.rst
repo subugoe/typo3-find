@@ -556,6 +556,17 @@ By default the extension creates links that jump to the extension’s content (`
 	plugin.tx_find.settings.jumpToID = menu
 
 
+JavaScript and CSS resources
+::::::::::::::::::::::::::::
+
+Settings include the ``JSPaths`` and ``CSSPaths`` arrays which can be used to configure JavaScript and CSS files to be added to the page. The default setup configures files at positions ``10`` and ``20`` of ``CSSPaths`` and at position ``10`` of ``JSPaths``. E.g.::
+
+	plugin.tx_find.settings {
+		CSSPaths.30 = EXT:find/Projects/test/Resources/test.css
+		JSPaths.20 = EXT:find/Projects/test/Resources/test.js
+	}
+
+
 Localisation
 ::::::::::::
 
