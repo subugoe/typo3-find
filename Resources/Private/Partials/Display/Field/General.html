@@ -1,4 +1,25 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates output for field contents.
+	Takes into account whether the field is an array and inserts the prefixes
+	and suffixes configured in the variables passed to this partial:
+		* results:results,
+		* document:document,
+		* field:field,
+		* prefixString
+		* groupPrefix
+		* groupSuffix
+		* groupItemPrefix
+		* groupItemSuffix
+		* fieldPrefix
+		* fieldSuffix
+		* separator
+		* linkFieldContent
+		* linkFacets
+		* config
+	The Display/Field/Inline and Display/Field/List partials provide readymade
+	configurations for the typical display cases.
+</f:comment>
 <f:if condition="{s:data.valueForKey(array:document.fields, key:field)}">
 	<f:if condition="{s:data.isArray(subject:'{s:data.valueForKey(array:document.fields, key:field)}')}">
 		<f:then>

@@ -1,4 +1,7 @@
 {namespace t3jquery=Tx_T3jquery_ViewHelpers}
+<f:comment>
+	Adds the JavaScript files configured in the CSSPaths settings to the page’s head.
+</f:comment>
 <f:for each="{settings.JSPaths}" as="JSPath">
 	<t3jquery:addJQueryAndScript jsfile="{JSPath}"/>
 </f:for>

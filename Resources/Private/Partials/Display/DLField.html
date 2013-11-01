@@ -1,4 +1,9 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Renders a dt/dd pair for the field named field of the document passed.
+	Takes into account whether the field is repeatable or not and uses the
+	appropriate label.
+</f:comment>
 <f:alias map="{fieldContent:'{s:data.valueForKey(array:document.fields, key:field)}'}">
 	<f:if condition="{fieldContent}">
 		<dt class="dt-{field}">

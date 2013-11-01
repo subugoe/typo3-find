@@ -1,4 +1,14 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	The main search form, automatically built from the configuration in the
+	queryFields setting.
+
+	Uses the the partials in the Form/Fields folder to create each individual
+	field type. Also creates the submit button, extended search link and
+	possibly the UI to control the sort order and number of results per page.
+
+	Adds an error message to the page if an error occured.
+</f:comment>
 <f:render partial="Form/QueryError.html" arguments="{_all}"/>
 
 <f:form name="c{config.uid}-form"

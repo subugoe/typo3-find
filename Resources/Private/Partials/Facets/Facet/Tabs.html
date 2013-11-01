@@ -1,4 +1,13 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Variation of the list facet designed to be used as »Tabs« outside the normal
+	facet section (e.g. allow a general selection of different data types).
+	
+	It has to be included in an appropriate position of the page, probably between
+	the search form and the result list and will only allow the selection of
+	a single facet item. Please refer to the Readme for notes on the appropriate
+	facet configuration for this use case.
+</f:comment>
 <ol class="facetTabs">
 	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
 		<li class="{f:if(

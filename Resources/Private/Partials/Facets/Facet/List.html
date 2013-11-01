@@ -1,10 +1,18 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Renders the facet as a list.
+	If there are more than displayDefault list items, additional ones are hidden
+	with a JavaScript link to show them.
+
+	Each list item is created by the Facets/Facet/List/Item partial.
+	A potentially configured autocomplete popup is created by the
+	Facets/Facet/List/Autocomplete partial.
+</f:comment>
 <f:if condition="{facetInfo.autocomplete}">
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
 		<f:render partial="Facets/Facet/List/Autocomplete" arguments="{_all}"/>
 	</f:if>
 </f:if>
-
 <ol class="facetList{f:if(condition:facetInfo.autocomplete, then:' autocomplete')}">
 	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
 		<f:alias map="{

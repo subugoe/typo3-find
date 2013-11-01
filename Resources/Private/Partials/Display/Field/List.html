@@ -1,3 +1,14 @@
+<f:comment>
+	Used to render field contents as an <ul> items (in <li> tags).
+	You need to pass the variables:
+		* results (result set)
+		* document (the document you are rendering)
+		* field (name of the field to be rendered)
+		* prefixString (precedes the output)
+		* linkFieldContent (wrap each item in a link with a query for that field value?)
+		* linkFacets (add a facet selection to the query link?)
+		* config (extension configuration)
+</f:comment>
 <f:render
 	partial="Display/Field/General"
 	arguments="{

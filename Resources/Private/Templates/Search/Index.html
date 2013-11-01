@@ -1,5 +1,15 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:layout name="Default"/>
+<f:comment>
+	Template for a the search results view.
+
+	Sets up the page with its title, the search form, pager and result count
+	information. Then displays the configured facets and a result list using the
+	fields configured as standardFields.title and standardFields.snippet.
+	Results are linked to the respective documents’ detail pages.
+
+	This result display is sufficient for basic result lists.
+</f:comment>
 
 <f:section name="main">
 	<s:page.title>

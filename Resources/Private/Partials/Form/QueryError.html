@@ -5,7 +5,6 @@
 	* query error: present a link that re-runs the query after escaping the parameters for fields with noescape = 1.
 	* timeout: note the timeout condition and suggest to rerun the query (are we lucky?) or use a simpler one.
 </f:comment>
-
 <f:if condition="{error.solr}">
 	<section class="error">
 		<f:if condition="{error.solr.code} == 400">

@@ -1,4 +1,10 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates a list item for document stored in the document variable.
+
+	It uses the standardFields configured in settings, result highlighting
+	(if configured) and a link to the document’s page.
+</f:comment>
 <li id="c{config.uid}-result-{document.id}">
 	<article>
 		<h1>

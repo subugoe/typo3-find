@@ -1,3 +1,12 @@
+<f:comment>
+	Creates an individual facet using the arguments:
+		* facetInfo: with the facet configuration
+		* facetData: with the facet entries
+		* config: with the extension’s current setup
+
+	Each facet is created by the partial in Facets/Facet with the name of the
+	facet’s configured type (deaulting to  »List«).
+</f:comment>
 <f:if condition="{f:count(subject:facetData.values)} > 0">
 	<article class="facet facet-id-{facetInfo.id}{f:if(condition:facetInfo.type, then:' facet-type-{facetInfo.type}')}">
 		<h1>

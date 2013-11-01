@@ -1,5 +1,15 @@
 {namespace s=Subugoe\Find\ViewHelpers}
 <f:layout name="Default"/>
+<f:comment>
+	Template for a basic Detail view of all fields in the document.
+
+	Sets up the page with its title, CSS, JavaScript, the search form and pager,
+	uses the field configured as as a heading and creates
+	a definition list of all field contents.
+
+	This can be a good starting point for refining the detail view for your
+	data model.
+</f:comment>
 
 <f:section name="main">
 	<s:page.title>{document.fields.id} – {config.pageTitle}</s:page.title>

@@ -1,4 +1,8 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates the Facets section on the page and inserts each facet into it using
+	the Facet partial.
+</f:comment>
 <f:if condition="{results.components.facetset.facets}">
 	<section class="facets">
 		<h3 class="invisible">

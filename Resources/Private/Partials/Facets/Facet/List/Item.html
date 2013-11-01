@@ -1,4 +1,9 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates a facet list item with a link to select or deselect the facet
+	depending on its current status.
+	Determines whether the item should be hidden and adds CSS classes accordingly.
+</f:comment>
 <li class='index-{iterator.cycle} count-{itemCount}
 	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
 		<f:then>facetActive</f:then>

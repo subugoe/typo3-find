@@ -1,4 +1,10 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	This partial renders the actual field content. It is invoked from the
+	Display/Field/General partial and uses the variables passed from there.
+	Features include building the appropriate query links for linked result terms
+	and invoking search term highlighting.
+</f:comment>
 <f:if condition="{linkFieldContent}">
 	<f:then>
 		<f:alias map="{

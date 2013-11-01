@@ -1,4 +1,7 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Creates the result pager used on detail pages.
+</f:comment>
 <f:if condition="{settings.paging.detailPagePaging}">
 	<f:if condition="{arguments.underlyingQuery}">
 		<p class="queryAndPager">
