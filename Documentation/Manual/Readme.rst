@@ -12,7 +12,7 @@ Aims
 The extensions aims are to provide:
 
 * access to arbitrary Solr indexes in TYPO3
-* minimal confiuguration for a basic display
+* minimal configuration for a basic display
 * rich templating abilities for creating complex displays
 
 
