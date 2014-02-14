@@ -6,7 +6,7 @@
 	url = git://github.com/harvesthq/chosen.git
 [submodule "Resources/Public/JavaScript/js-geohash"]
 	path = Resources/Public/JavaScript/js-geohash
-	url = git@github.com:y-matsuwitter/js-geohash.git
+	url = git://github.com/y-matsuwitter/js-geohash.git
 [submodule "Projects/germania-sacra"]
 	path = Projects/germania-sacra
 	url = git://github.com/ssp/typo3-find-germania-sacra.git
