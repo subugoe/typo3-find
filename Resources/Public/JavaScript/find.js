@@ -174,7 +174,8 @@ var createHistogramForTermsInContainer = function (terms, histogramContainer, co
 				'fill': true,
 				'lineWidth': 0,
 				'barWidth': config.barWidth,
-				'fillColor': graphColour
+				// 'fillColor': graphColour
+				'fillColor': 'grey'
 			}
 		},
 		'xaxis':  {
