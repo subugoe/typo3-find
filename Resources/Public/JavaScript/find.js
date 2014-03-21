@@ -115,6 +115,7 @@ var showAllFacetsOfType = function (myEvent) {
 	var containingList = jLink.parents('ol')[0];
 	// Fade in the hidden elemens and hide the Show All link.
 	jQuery('.hidden', containingList).slideDown(300);
+    jQuery('.hidden', containingList).removeClass('hidden');
 	jLink.parent().fadeOut(200);
 	return false;
 };
@@ -377,7 +378,7 @@ var detailViewWithPaging = function (element, position) {
 
 	/**
 	 * Creates an <input> element for the given name and value.
-	 * 
+	 *
 	 * @param {string} name for name property of the <input> element
 	 * @param {string} value for value property of the <input> element
 	 * @returns DOMElement <input> element
@@ -520,7 +521,7 @@ var changeURL = function (newURL) {
 
 
 var onClickRecordNumber = function (myEvent) {
-	
+
 };
 
 
@@ -581,7 +582,7 @@ var tx_find_facetMap = (function () {
 			if (indexParts.length === 2) {
 				var geohashScale = parseInt(indexParts[0]);
 				lastZoomLevel = geohashScale;
-				
+
 				if (!zoomInfo[geohashScale]) {
 					zoomInfo[geohashScale] = {};
 				}
