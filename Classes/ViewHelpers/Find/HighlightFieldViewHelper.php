@@ -27,7 +27,6 @@
 namespace Subugoe\Find\ViewHelpers\Find;
 
 
-
 /**
  * View Helper for styling the content of index document’s result fields.
  * Requires the query result object for finding the information as well as the
@@ -47,7 +46,7 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	/**
 	 * Registers own arguments.
 	 */
-	public function initializeArguments () {
+	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('results', '\Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
 		$this->registerArgument('document', '\Solarium\QueryType\Select\Result\Document', 'Result document to work on', TRUE);
@@ -61,19 +60,17 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	}
 
 
-	
 	/**
 	 * @return string
 	 */
-	public function render () {
+	public function render() {
 		if ($this->arguments['document']) {
 			$fields = $this->arguments['document']->getFields();
 			$fieldContent = $fields[$this->arguments['field']];
 			if ($this->arguments['index'] !== NULL) {
 				if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
 					$fieldContent = $fieldContent[$this->arguments['index']];
-				}
-				else {
+				} else {
 					// TODO: error message
 				}
 			}
@@ -83,7 +80,6 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	}
 
 
-
 	/**
 	 * Returns string or array of strings with highlighted areas enclosed
 	 * by \ueeee and \ueeef.
@@ -91,7 +87,7 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 * @param array|string $fieldContent content of the field to highlight
 	 * @return array|string
 	 */
-	private function highlightField ($fieldContent) {
+	private function highlightField($fieldContent) {
 		$highlightInfo = $this->getHighlightInfo();
 
 		if (is_array($fieldContent)) {
@@ -99,14 +95,12 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 			foreach ($fieldContent as $singleField) {
 				$result[] = $this->highlightSingleField($singleField, $highlightInfo);
 			}
-		}
-		else {
+		} else {
 			$result = $this->highlightSingleField($fieldContent, $highlightInfo);
 		}
 
 		return $result;
 	}
-
 
 
 	/**
@@ -116,7 +110,7 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 * @param type $highlightInfo information provided by the index’ highlighter
 	 * @return string
 	 */
-	private function highlightSingleField ($fieldString, $highlightInfo){
+	private function highlightSingleField($fieldString, $highlightInfo) {
 		$result = NULL;
 
 		foreach ($highlightInfo as $highlightItem) {
@@ -129,9 +123,9 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 				}
 
 				$highlightItemMarkedUp = str_replace(
-					array('\ueeee', '\ueeef'),
-					array($this->arguments['highlightTagOpen'],	$this->arguments['highlightTagClose']),
-					$highlightItem );
+						array('\ueeee', '\ueeef'),
+						array($this->arguments['highlightTagOpen'], $this->arguments['highlightTagClose']),
+						$highlightItem);
 				$result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
 				break;
 			}
@@ -141,8 +135,7 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 		if ($result === NULL) {
 			if ($this->arguments['raw']) {
 				$result = $fieldString;
-			}
-			else {
+			} else {
 				$result = htmlspecialchars($fieldString);
 			}
 		}
@@ -151,25 +144,23 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	}
 
 
-
 	/**
 	 * Returns highlight information for the document and field configured in
 	 * our arguments.
 	 *
 	 * @return array
 	 */
-	private function getHighlightInfo () {
+	private function getHighlightInfo() {
+		$highlightInfo = array();
 		$documentID = $this->arguments['document'][$this->arguments['idKey']];
 		if ($documentID) {
-			$highlighting =  $this->arguments['results']->getHighlighting();
+			$highlighting = $this->arguments['results']->getHighlighting();
 
 			if ($highlighting) {
-				$highlightInfo = array();
 
 				if ($this->arguments['alternateField']) {
 					$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['alternateField']);
-				}
-				else {
+				} else {
 					$highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['field']);
 				}
 			}

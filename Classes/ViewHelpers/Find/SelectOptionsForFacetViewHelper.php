@@ -27,7 +27,6 @@
 namespace Subugoe\Find\ViewHelpers\Find;
 
 
-
 /**
  * View Helper to convert an array with facet information into an array suitable
  * for use as options for f:form.select.
@@ -61,17 +60,19 @@ class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 		}
 
 		$extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
-		foreach ($this->arguments['values'] as $item => $count) {
-			// Localise item name.
-			$localisationKey = $this->arguments['localisationPrefix'] . $item;
+		if (!empty($this->arguments['values'])) {
+			foreach ($this->arguments['values'] as $item => $count) {
+				// Localise item name.
+				$localisationKey = $this->arguments['localisationPrefix'] . $item;
 
-			$localisedItem = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $extensionName);
-			if (!$localisedItem) {
-				$localisedItem = $item;
+				$localisedItem = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $extensionName);
+				if (!$localisedItem) {
+					$localisedItem = $item;
+				}
+
+				// Append count to item name?
+				$result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' (' . $count . ')' : '');
 			}
-
-			// Append count to item name?
-			$result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' ('. $count . ')' : '');
 		}
 
 		// Sort the array?
