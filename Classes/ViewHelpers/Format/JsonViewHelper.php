@@ -32,7 +32,7 @@ namespace Subugoe\Find\ViewHelpers\Format;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class JSONViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class JsonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**
@@ -43,7 +43,6 @@ class JSONViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 		parent::initializeArguments();
 		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
 	}
-
 
 
 	/**
