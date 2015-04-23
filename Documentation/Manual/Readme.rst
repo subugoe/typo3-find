@@ -118,6 +118,7 @@ The ``connection`` settings array is used to configure access to the Solr index.
 * ``port`` [8080]: port of the Solr service on the server
 * ``path`` [/solr/]: path of the Index on the Solr server
 * ``timeout`` [5]: number of seconds before a Solr request times out
+* ``scheme`` [http]: URI scheme of the connection
 
 
 The search form
