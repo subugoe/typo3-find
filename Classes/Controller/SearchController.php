@@ -67,7 +67,8 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 					'host' => $this->settings['connection']['host'],
 					'port' => intval($this->settings['connection']['port']),
 					'path' => $this->settings['connection']['path'],
-					'timeout' => $this->settings['connection']['timeout']
+					'timeout' => $this->settings['connection']['timeout'],
+					'scheme' => $this->settings['connection']['scheme']
 				)
 			)
 		);
@@ -79,7 +80,6 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		ksort($this->settings['queryFields']);
 	}
 
-	
 	/**
 	 * Index Action.
 	 */
@@ -103,7 +103,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			$this->view->assignMultiple(array(
 				'results' => $resultSet,
 			));
-			
+
 			$this->configuration['counterStart'] = $this->counterStart();
 			$this->configuration['counterEnd'] = $this->counterEnd();
 
@@ -248,9 +248,9 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	private function addStandardAssignments () {
 		$this->view->assign('arguments', $this->requestArguments);
-		
+
 		$this->configuration['extendedSearch'] = $this->isExtendedSearch();
-	
+
 		$contentObject = $this->configurationManager->getContentObject();
 		$uid = $contentObject->data['uid'];
 		$this->configuration['uid'] = $uid;
@@ -266,7 +266,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 	/**
 	 * Returns whether extended search should be used or not.
-	 * 
+	 *
 	 * @return Boolean
 	 */
 	private function isExtendedSearch () {
@@ -289,11 +289,11 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				}
 			}
 		}
-		
+
 		return $result;
 	}
 
-	
+
 	/**
 	 * Takes the array of search query parameters and builds an array of Solr
 	 * search strings from it, using the »queryFields« configuration from TypoScript.
@@ -432,7 +432,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		return $query;
 	}
 
-	
+
 
 	/**
 	 * Adds filter queries for active facets to $query.
@@ -608,12 +608,12 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	}
 
 
-	
+
 	/**
 	 * Adds facet queries to $query from setup in TypoScript.
 	 * Provides the facet setup enriched with the default values when no configuration
 	 * is present in the »facets« template variable.
-	 * 
+	 *
 	 * @param \Solarium\QueryType\Select\Query\Query $query
 	 */
 	private function addFacetQueries ($query) {
@@ -649,7 +649,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 										->setLimit($facet['fetchMaximum'])
 										->setSort($facet['sortOrder']);
 					}
-					
+
 					if ($facet['excludeOwnFilter'] == 1) {
 						$queryForFacet->addExclude($this->tagForFacet($facetID));
 					}
@@ -660,7 +660,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				}
 			}
 		}
-		
+
 		$this->configuration['facets'] = $facetConfiguration;
 	}
 
@@ -966,7 +966,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	}
 
 
-	
+
 	/**
 	 * Sets up the range of documents to be fetches by $query.
 	 *
@@ -1092,7 +1092,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	}
 
 
-	
+
 	/**
 	 * Stores information about the active query in the »underlyingQuery« JavaScript variable.
 	 *
@@ -1108,7 +1108,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		if ($this->settings['paging']['detailPagePaging']) {
 			$scriptTag = new \TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder('script');
 			$scriptTag->addAttribute('type', 'text/javascript');
-			
+
 			$underlyingQuery = array('q' => $query);
 			if (!empty($arguments['facet'])) {
 				$underlyingQuery['facet'] = $arguments['facet'];
@@ -1135,7 +1135,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 *
 	 * Specifically aimed at the __hmac and __referrer keys introduced by Fluid
 	 * forms as well as the text submitted by empty search form fields.
-	 * 
+	 *
 	 * @param array $array
 	 */
 	private function cleanArgumentsArray (&$array) {
