@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\BufferedAdd;
+
 use Solarium\Client;
 use Solarium\Core\Plugin\Plugin;
 use Solarium\QueryType\Update\Result as UpdateResult;
@@ -57,7 +58,6 @@ use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
  */
 class BufferedAdd extends Plugin
 {
-
     /**
      * Default options
      *
@@ -80,13 +80,6 @@ class BufferedAdd extends Plugin
      * @var DocumentInterface[]
      */
     protected $buffer = array();
-    
-    /**
-     * End point to execute updates against.
-     * 
-     * @var string
-     */
-    protected $endpoint;
 
     /**
      * Plugin init function
@@ -100,28 +93,27 @@ class BufferedAdd extends Plugin
     {
         $this->updateQuery = $this->client->createUpdate();
     }
-    
+
     /**
      * Set the endpoint for the documents
-     * 
+     *
      * @param string $endpoint The endpoint to set
-     * 
+     *
      * @return self
      */
     public function setEndpoint($endpoint)
     {
-        $this->endpoint = $endpoint;
-        return $this;
+        return $this->setOption('endpoint', $endpoint);
     }
-    
+
     /**
      * Return the endpoint
-     * 
+     *
      * @return string
      */
     public function getEndPoint()
     {
-        return $this->endpoint;
+        return $this->getOption('endpoint');
     }
 
     /**
@@ -273,5 +265,4 @@ class BufferedAdd extends Plugin
 
         return $result;
     }
-
 }

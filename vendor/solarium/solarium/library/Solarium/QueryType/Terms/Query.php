@@ -37,10 +37,9 @@
  * @namespace
  */
 namespace Solarium\QueryType\Terms;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Query as BaseQuery;
-use Solarium\QueryType\Terms\RequestBuilder;
-use Solarium\QueryType\Terms\ResponseParser;
 
 /**
  * Terms query
@@ -52,7 +51,6 @@ use Solarium\QueryType\Terms\ResponseParser;
  */
 class Query extends BaseQuery
 {
-
     /**
      * Default options
      *
@@ -120,7 +118,10 @@ class Query extends BaseQuery
     public function getFields()
     {
         $value = $this->getOption('fields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -276,7 +277,10 @@ class Query extends BaseQuery
     public function getRegexFlags()
     {
         $value = $this->getOption('regexflags');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -386,5 +390,4 @@ class Query extends BaseQuery
     {
         return $this->getOption('sort');
     }
-
 }

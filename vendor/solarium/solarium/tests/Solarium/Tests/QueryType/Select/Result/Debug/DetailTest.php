@@ -30,17 +30,19 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result\Debug;
+
 use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Detail
      */
     protected $result;
 
-    protected $value, $match, $description;
+    protected $value;
+    protected $match;
+    protected $description;
 
     public function setUp()
     {
@@ -68,6 +70,13 @@ class DetailTest extends \PHPUnit_Framework_TestCase
     public function testGetDescription()
     {
          $this->assertEquals($this->description, $this->result->getDescription());
+    }
+
+    public function testSetSubDetails()
+    {
+        $subDetailsDummy = array('dummy', 'testing');
+        $this->result->setSubDetails($subDetailsDummy);
+        $this->assertEquals($subDetailsDummy, $this->result->getSubDetails());
     }
 
 }

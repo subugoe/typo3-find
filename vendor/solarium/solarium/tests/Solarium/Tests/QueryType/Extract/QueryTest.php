@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Extract;
+
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\Query\Document\Document;
 use Solarium\QueryType\Extract\Query;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -70,7 +70,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         );
 
         $options = array(
-            'fmap' => $mappings
+            'fmap' => $mappings,
         );
 
         $this->query->setOptions($options);
@@ -104,6 +104,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->setDefaultField('defaulttext');
         $this->assertEquals('defaulttext', $this->query->getDefaultField());
+    }
+
+    public function testSetAndGetExtractOnly()
+    {
+        $this->query->setExtractOnly(true);
+        $this->assertEquals(true, $this->query->getExtractOnly());
     }
 
     public function testSetAndGetLowernames()
@@ -174,7 +180,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFieldMappings($query)
     {
-        $fields = array('field1' => 'target1','field2' => 'target2');
+        $fields = array('field1' => 'target1', 'field2' => 'target2');
         $query->addFieldMappings($fields);
         $this->assertEquals($fields, $query->getFieldMappings());
 
@@ -199,13 +205,12 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFields($query)
     {
-        $fields = array('field3' => 'target3','field4' => 'target4');
+        $fields = array('field3' => 'target3', 'field4' => 'target4');
         $query->setFieldMappings($fields);
         $this->assertEquals($fields, $query->getFieldMappings());
     }
-
 }
 
-class MyCustomDoc extends Document{
-
+class MyCustomDoc extends Document
+{
 }

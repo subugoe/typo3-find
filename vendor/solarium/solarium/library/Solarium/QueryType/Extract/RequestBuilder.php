@@ -42,6 +42,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Client\Request;
@@ -58,7 +59,8 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request
      *
-     * @param  Query   $query
+     * @throws RuntimeException
+     * @param  Query|QueryInterface $query
      * @return Request
      */
     public function build(QueryInterface $query)
@@ -67,14 +69,15 @@ class RequestBuilder extends BaseRequestBuilder
         $request->setMethod(Request::METHOD_POST);
 
         // add common options to request
-        $request->addParam('commit',       $query->getCommit());
+        $request->addParam('commit', $query->getCommit());
         $request->addParam('commitWithin', $query->getCommitWithin());
 
-        $request->addParam('uprefix',      $query->getUprefix());
-        $request->addParam('lowernames',   $query->getLowernames());
+        $request->addParam('uprefix', $query->getUprefix());
+        $request->addParam('lowernames', $query->getLowernames());
         $request->addParam('defaultField', $query->getDefaultField());
+        $request->addParam('extractOnly', $query->getExtractOnly());
 
-        foreach ($query->getFieldMappings() AS $fromField => $toField) {
+        foreach ($query->getFieldMappings() as $fromField => $toField) {
             $request->addParam('fmap.' . $fromField, $toField);
         }
 
@@ -85,23 +88,30 @@ class RequestBuilder extends BaseRequestBuilder
             }
 
             // literal.*
-            foreach ($doc->getFields() AS $name => $value) {
+            foreach ($doc->getFields() as $name => $value) {
                 $value = (array) $value;
-                foreach ($value AS $multival) {
+                foreach ($value as $multival) {
                     $request->addParam('literal.' . $name, $multival);
                 }
             }
 
             // boost.*
-            foreach ($doc->getFieldBoosts() AS $name => $value) {
+            foreach ($doc->getFieldBoosts() as $name => $value) {
                 $request->addParam('boost.' . $name, $value);
             }
         }
 
         // add file to request
-        $request->setFileUpload($query->getFile());
-        $request->addParam('resource.name', basename($query->getFile()));
-        $request->addHeader('Content-Type: multipart/form-data');
+        $file = $query->getFile();
+        if (preg_match('/^(http|https):\/\/(.+)/i', $file)) {
+            $request->addParam('stream.url', $file);
+        } else if (is_readable($file)) {
+            $request->setFileUpload($file);
+            $request->addParam('resource.name', basename($query->getFile()));
+            $request->addHeader('Content-Type: multipart/form-data');
+        } else {
+            throw new RuntimeException('Extract query file path/url invalid or not available');
+        }
 
         return $request;
     }

@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Query\Component;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as RequestBuilder;
 
@@ -48,7 +49,6 @@ use Solarium\QueryType\Select\RequestBuilder\Component\DistributedSearch as Requ
  */
 class DistributedSearch extends Component
 {
-
     /**
      * Request to be distributed across all shards in the list
      *
@@ -249,7 +249,7 @@ class DistributedSearch extends Component
     /**
      * Add a collection
      *
-     * @param  string $key   unique string
+     * @param  string $key        unique string
      * @param  string $collection The syntax is host:port/base_url
      * @return self   Provides fluent interface
      * @link http://wiki.apache.org/solr/SolrCloud/
@@ -328,6 +328,4 @@ class DistributedSearch extends Component
     {
         return $this->collections;
     }
-
-
 }

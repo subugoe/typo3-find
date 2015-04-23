@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
+
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting;
 use Solarium\QueryType\Select\Query\Component\Highlighting\Field;
 use Solarium\QueryType\Select\Query\Query;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Field
      */
@@ -54,6 +54,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'fragsize' => 25,
             'mergecontiguous' => true,
             'alternatefield' => 'text',
+            'preservemulti' => true,
             'formatter' => 'myFormatter',
             'simpleprefix' => '<b>',
             'simplepostfix' => '</b>',
@@ -67,6 +68,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(25, $this->fld->getFragSize());
         $this->assertEquals(true, $this->fld->getMergeContiguous());
         $this->assertEquals('text', $this->fld->getAlternateField());
+        $this->assertEquals(true, $this->fld->getPreserveMulti());
         $this->assertEquals('myFormatter', $this->fld->getFormatter());
         $this->assertEquals('<b>', $this->fld->getSimplePrefix());
         $this->assertEquals('</b>', $this->fld->getSimplePostfix());
@@ -128,6 +130,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->fld->getAlternateField()
         );
     }
+    
+    public function testSetAndGetPreserveMulti()
+    {
+        $value = true;
+        $this->fld->setPreserveMulti($value);
+
+        $this->assertEquals(
+            $value,
+            $this->fld->getPreserveMulti()
+        );
+    }
 
     public function testSetAndGetFormatter()
     {
@@ -182,5 +195,4 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->fld->getUseFastVectorHighlighter()
         );
     }
-
 }

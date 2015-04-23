@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\FacetSet;
 use Solarium\QueryType\Select\ResponseParser\ResponseParser;
@@ -37,7 +38,6 @@ use Solarium\QueryType\Update\Query\Document\Document;
 
 class ResponseParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testParse()
     {
         $data = array(
@@ -46,7 +46,8 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                     array('fieldA' => 1, 'fieldB' => 'Test'),
                     array('fieldA' => 2, 'fieldB' => 'Test2')
                 ),
-                'numFound' => 503
+                'numFound' => 503,
+                'maxScore' => 1.23,
             ),
             'responseHeader' => array(
                 'status' => 1,
@@ -71,6 +72,54 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $result['status']);
         $this->assertEquals(13, $result['queryTime']);
         $this->assertEquals(503, $result['numfound']);
+        $this->assertEquals(1.23, $result['maxscore']);
+
+        $docs = array(
+            new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
+            new Document(array('fieldA' => 2, 'fieldB' => 'Test2'))
+        );
+        $this->assertEquals($docs, $result['documents']);
+
+        $components = array(
+            Query::COMPONENT_FACETSET => new FacetSet(array())
+        );
+        $this->assertEquals($components, $result['components']);
+    }
+
+    public function testParseWithoutScore()
+    {
+        $data = array(
+            'response' => array(
+                'docs' => array(
+                    array('fieldA' => 1, 'fieldB' => 'Test'),
+                    array('fieldA' => 2, 'fieldB' => 'Test2')
+                ),
+                'numFound' => 503,
+            ),
+            'responseHeader' => array(
+                'status' => 1,
+                'QTime' => 13,
+            )
+        );
+
+        $query = new Query(array('documentclass' => 'Solarium\QueryType\Update\Query\Document\Document'));
+        $query->getFacetSet();
+
+        $resultStub = $this->getMock('Solarium\QueryType\Select\Result\Result', array(), array(), '', false);
+        $resultStub->expects($this->once())
+             ->method('getData')
+             ->will($this->returnValue($data));
+        $resultStub->expects($this->once())
+             ->method('getQuery')
+             ->will($this->returnValue($query));
+
+        $parser = new ResponseParser();
+        $result = $parser->parse($resultStub);
+
+        $this->assertEquals(1, $result['status']);
+        $this->assertEquals(13, $result['queryTime']);
+        $this->assertEquals(503, $result['numfound']);
+        $this->assertEquals(null, $result['maxscore']);
 
         $docs = array(
             new Document(array('fieldA' => 1, 'fieldB' => 'Test')),
@@ -92,7 +141,7 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
                     array('fieldA' => 1, 'fieldB' => 'Test'),
                     array('fieldA' => 2, 'fieldB' => 'Test2')
                 ),
-                'numFound' => 503
+                'numFound' => 503,
             ),
             'responseHeader' => array(
                 'status' => 1,
@@ -150,5 +199,4 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(13, $result['queryTime']);
         $this->assertEquals(null, $result['numfound']);
     }
-
 }

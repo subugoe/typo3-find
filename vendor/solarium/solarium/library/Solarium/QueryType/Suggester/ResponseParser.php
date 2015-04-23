@@ -38,6 +38,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester;
+
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
 use Solarium\QueryType\Suggester\Result\Result;
@@ -47,7 +48,6 @@ use Solarium\QueryType\Suggester\Result\Result;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
-
     /**
      * Get result data for the response
      *
@@ -60,6 +60,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $query = $result->getQuery();
 
         $suggestions = array();
+        $allSuggestions = array();
         $collation = null;
 
         if (isset($data['spellcheck']['suggestions']) && is_array($data['spellcheck']['suggestions'])) {
@@ -74,12 +75,17 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                 if ($term == 'collation') {
                     $collation = $termData;
                 } else {
-                    $suggestions[$term] = new $termClass(
-                        $termData['numFound'],
-                        $termData['startOffset'],
-                        $termData['endOffset'],
-                        $termData['suggestion']
-                    );
+                    if (!array_key_exists(0, $termData)) {
+                        $termData = array($termData);
+                    }
+
+                    foreach ($termData as $currentTermData) {
+                        $allSuggestions[] = $this->createTerm($termClass, $currentTermData);
+
+                        if (!array_key_exists($term, $suggestions)) {
+                            $suggestions[$term] = $this->createTerm($termClass, $currentTermData);
+                        }
+                    }
                 }
             }
         }
@@ -88,9 +94,19 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             $data,
             array(
                 'results' => $suggestions,
+                'all' => $allSuggestions,
                 'collation' => $collation,
             )
         );
     }
 
+    private function createTerm($termClass, array $termData)
+    {
+        return new $termClass(
+            $termData['numFound'],
+            $termData['startOffset'],
+            $termData['endOffset'],
+            $termData['suggestion']
+        );
+    }
 }

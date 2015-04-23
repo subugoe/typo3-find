@@ -30,11 +30,11 @@
  */
 
 namespace Solarium\Tests\QueryType\Suggester\Result;
+
 use Solarium\QueryType\Suggester\Result\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var SuggesterDummy
      */
@@ -44,6 +44,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $data;
+
+    /**
+     * @var array
+     */
+    protected $allData;
 
     /**
      * @var string
@@ -56,8 +61,9 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             'term1' => 'data1',
             'term2' => 'data2',
         );
+        $this->allData = array_values($this->data);
         $this->collation = 'collation result';
-        $this->result = new SuggesterDummy($this->data, $this->collation);
+        $this->result = new SuggesterDummy($this->data, $this->allData, $this->collation);
     }
 
     public function testGetStatus()
@@ -81,6 +87,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->data, $this->result->getResults());
     }
 
+    public function testGetAll()
+    {
+        $this->assertEquals($this->allData, $this->result->getAll());
+    }
+
     public function testGetTerm()
     {
         $this->assertEquals($this->data['term1'], $this->result->getTerm('term1'));
@@ -99,7 +110,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $results = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $results[$key] = $doc;
         }
 
@@ -110,19 +121,18 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->collation, $this->result->getCollation());
     }
-
 }
 
 class SuggesterDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($results, $collation)
+    public function __construct($results, $all, $collation)
     {
         $this->results = $results;
+        $this->all = $all;
         $this->collation = $collation;
         $this->status = 1;
         $this->queryTime = 12;
     }
-
 }

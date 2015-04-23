@@ -37,9 +37,9 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
-use Solarium\QueryType\Select\Result\DocumentInterface;
 
 /**
  * Select query result
@@ -63,7 +63,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
-
     /**
      * Solr numFound
      *
@@ -72,6 +71,15 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * @var int
      */
     protected $numfound;
+
+    /**
+     * Solr maxscore
+     *
+     * Will only be available if 'score' was one of the requested fields in your query
+     *
+     * @var float
+     */
+    protected $maxscore;
 
     /**
      * Document instances array
@@ -147,6 +155,21 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     }
 
     /**
+     * get Solr maxscore
+     *
+     * Returns the highest score of the documents in the total result for your current query (ignoring paging)
+     * Will only be available if 'score' was one of the requested fields in your query
+     *
+     * @return float
+     */
+    public function getMaxScore()
+    {
+        $this->parseResponse();
+
+        return $this->maxscore;
+    }
+
+    /**
      * Get all documents
      *
      * @return DocumentInterface[]
@@ -216,7 +239,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return MoreLikeThis\Result
+     * @return \Solarium\QueryType\Select\Result\MoreLikeThis\Result
      */
     public function getMoreLikeThis()
     {
@@ -228,7 +251,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Highlighting\Result
+     * @return \Solarium\QueryType\Select\Result\Highlighting\Result
      */
     public function getHighlighting()
     {
@@ -240,7 +263,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Grouping\Result
+     * @return \Solarium\QueryType\Select\Result\Grouping\Result
      */
     public function getGrouping()
     {
@@ -264,7 +287,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Spellcheck\Result
+     * @return \Solarium\QueryType\Select\Result\Spellcheck\Result
      */
     public function getSpellcheck()
     {
@@ -276,7 +299,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Stats\Result
+     * @return \Solarium\QueryType\Select\Result\Stats\Result
      */
     public function getStats()
     {
@@ -288,7 +311,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return Debug\Result
+     * @return \Solarium\QueryType\Select\Result\Debug\Result
      */
     public function getDebug()
     {

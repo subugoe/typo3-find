@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Debug as DebugComponent;
 use Solarium\QueryType\Select\Result\Debug\Result;
@@ -51,7 +52,6 @@ use Solarium\QueryType\Select\Result\Debug\TimingPhase;
  */
 class Debug implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -135,11 +135,16 @@ class Debug implements ComponentParserInterface
             $details = array();
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
-                    $details[] = new Detail(
+                    $detail = new Detail(
                         $detailData['match'],
                         $detailData['value'],
                         $detailData['description']
                     );
+                    
+                    if (isset($detailData['details']) && is_array($detailData['details'])) {
+                        $detail->setSubDetails($detailData['details']);
+                    }
+                    $details[] = $detail;
                 }
             }
 
@@ -178,5 +183,4 @@ class Debug implements ComponentParserInterface
 
         return new TimingPhase($name, $time, $classes);
     }
-
 }

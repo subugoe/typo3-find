@@ -30,13 +30,13 @@
  */
 
 namespace Solarium\Tests\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\MoreLikeThis\Query;
 use Solarium\QueryType\MoreLikeThis\RequestBuilder;
 use Solarium\Core\Client\Request;
 
 class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Query
      */
@@ -58,6 +58,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
         $this->query->setInterestingTerms('test');
         $this->query->setMatchInclude(true);
         $this->query->setStart(12);
+        $this->query->setMatchOffset(15);
         $this->query->setMltFields('description,name');
         $this->query->setMinimumTermFrequency(1);
         $this->query->setMinimumDocumentFrequency(3);
@@ -74,7 +75,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
             array(
                 'mlt.interestingTerms' => 'test',
                 'mlt.match.include' => 'true',
-                'mlt.match.offset' => 12,
+                'mlt.match.offset' => 15,
                 'mlt.fl' => 'description,name',
                 'mlt.mintf' => 1,
                 'mlt.mindf' => 3,
@@ -83,13 +84,14 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
-                'mlt.qf' => 'description',
+                'mlt.qf' => array('description'),
                 'q' => '*:*',
                 'fl' => '*,score',
                 'rows' => 10,
                 'start' => 12,
                 'wt' => 'json',
                 'omitHeader' => 'true',
+                'json.nl' => 'flat',
             ),
             $request->getParams()
         );
@@ -109,9 +111,9 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertEquals(Request::METHOD_POST,$request->getMethod());
-        $this->assertEquals(null,$request->getParam('q'));
-        $this->assertEquals($content,$request->getRawData());
+        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+        $this->assertEquals(null, $request->getParam('q'));
+        $this->assertEquals($content, $request->getRawData());
         $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders()));
     }
 }

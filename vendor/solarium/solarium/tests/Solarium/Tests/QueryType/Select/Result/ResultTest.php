@@ -30,28 +30,38 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\Result;
+
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var SelectDummy
      */
     protected $result;
 
-    protected $numFound, $docs, $components, $facetSet, $moreLikeThis,
-              $highlighting, $grouping, $stats, $debug;
+    protected $numFound;
+    protected $maxScore;
+    protected $docs;
+    protected $components;
+    protected $facetSet;
+    protected $moreLikeThis;
+    protected $highlighting;
+    protected $grouping;
+    protected $stats;
+    protected $debug;
+    protected $spellcheck;
 
     public function setUp()
     {
         $this->numFound = 11;
+        $this->maxScore = 0.91;
 
         $this->docs = array(
-            new Document(array('id'=>1,'title'=>'doc1')),
-            new Document(array('id'=>1,'title'=>'doc1')),
+            new Document(array('id'=>1, 'title'=>'doc1')),
+            new Document(array('id'=>1, 'title'=>'doc1')),
         );
 
         $this->facetSet = 'dummy-facetset-value';
@@ -72,12 +82,17 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             Query::COMPONENT_DEBUG => $this->debug,
         );
 
-        $this->result = new SelectDummy(1, 12, $this->numFound, $this->docs, $this->components);
+        $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
     }
 
     public function testGetNumFound()
     {
         $this->assertEquals($this->numFound, $this->result->getNumFound());
+    }
+
+    public function testGetMaxScore()
+    {
+        $this->assertEquals($this->maxScore, $this->result->getMaxScore());
     }
 
     public function testGetDocuments()
@@ -167,7 +182,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testIterator()
     {
         $docs = array();
-        foreach ($this->result AS $key => $doc) {
+        foreach ($this->result as $key => $doc) {
             $docs[$key] = $doc;
         }
 
@@ -189,20 +204,19 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $this->result->getQueryTime()
         );
     }
-
 }
 
 class SelectDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($status, $queryTime, $numfound, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
     {
         $this->numfound = $numfound;
+        $this->maxscore = $maxscore;
         $this->documents = $docs;
         $this->components = $components;
         $this->queryTime = $queryTime;
         $this->status = $status;
     }
-
 }

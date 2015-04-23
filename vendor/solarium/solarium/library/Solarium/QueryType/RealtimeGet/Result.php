@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\RealtimeGet;
+
 use Solarium\QueryType\Select\Result\Result as BaseResult;
 use Solarium\QueryType\Select\Result\DocumentInterface;
 
@@ -47,7 +48,6 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
-
     /**
      * Get first document in set
      *
@@ -56,7 +56,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getDocument()
     {
         $docs = $this->getDocuments();
+
         return reset($docs);
     }
-
 }

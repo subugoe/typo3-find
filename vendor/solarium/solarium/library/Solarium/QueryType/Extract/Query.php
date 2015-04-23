@@ -42,10 +42,11 @@
  * @namespace
  */
 namespace Solarium\QueryType\Extract;
+
 use Solarium\Core\Query\Query as BaseQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
-use Solarium\QueryType\Update\Query\Document\Document;
+use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 
 /**
  * Extract query
@@ -71,6 +72,7 @@ class Query extends BaseQuery
         'resultclass' => 'Solarium\QueryType\Extract\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
         'omitheader'  => true,
+        'extractonly' => false,
     );
 
     /**
@@ -131,10 +133,10 @@ class Query extends BaseQuery
      * The fields in the document are indexed together with the generated
      * fields that Solr extracts from the file.
      *
-     * @param  Document $document
+     * @param  DocumentInterface $document
      * @return self
      */
-    public function setDocument($document)
+    public function setDocument(DocumentInterface $document)
     {
         return $this->setOption('document', $document);
     }
@@ -142,7 +144,7 @@ class Query extends BaseQuery
     /**
      * Get the document with literal fields and boost settings
      *
-     * @return Document|null
+     * @return DocumentInterface|null
      */
     public function getDocument()
     {
@@ -303,7 +305,7 @@ class Query extends BaseQuery
      */
     public function addFieldMappings($mappings)
     {
-        foreach ($mappings AS $fromField => $toField) {
+        foreach ($mappings as $fromField => $toField) {
             $this->addFieldMapping($fromField, $toField);
         }
 
@@ -387,14 +389,33 @@ class Query extends BaseQuery
     }
 
     /**
+     * Set the ExtractOnly parameter of SOLR Extraction Handler
+     *
+     * @param bool $value
+     * @return self Provides fluent interface
+     */
+    public function setExtractOnly($value) {
+        return $this->setOption('extractonly', (bool) $value);
+    }
+
+    /**
+     * Get the ExtractOnly parameter of SOLR Extraction Handler
+     *
+     * @return boolean
+     */
+    public function getExtractOnly() {
+        return $this->getOption('extractonly');
+    }
+
+    /**
      * Create a document object instance
      *
      * You can optionally directly supply the fields and boosts
      * to get a ready-made document instance for direct use in an add command
      *
-     * @param  array    $fields
-     * @param  array    $boosts
-     * @return Document
+     * @param  array             $fields
+     * @param  array             $boosts
+     * @return DocumentInterface
      */
     public function createDocument($fields = array(), $boosts = array())
     {
@@ -402,5 +423,4 @@ class Query extends BaseQuery
 
         return new $class($fields, $boosts);
     }
-
 }

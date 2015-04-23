@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core;
+
 use Solarium\Exception\InvalidArgumentException;
 
 /**
@@ -50,20 +51,6 @@ interface ConfigurableInterface
 {
 
     /**
-     * Constructor
-     *
-     * If options are passed they will be merged with {@link $options} using
-     * the {@link setOptions()} method.
-     *
-     * After handling the options the {@link _init()} method is called.
-     *
-     * @throws InvalidArgumentException
-     * @param  array|\Zend_Config       $options
-     * @return void
-     */
-    public function __construct($options = null);
-
-    /**
      * Set options
      *
      * If $options is an object it will be converted into an array by called
@@ -73,7 +60,7 @@ interface ConfigurableInterface
      * @throws InvalidArgumentException
      * @param  array|\Zend_Config       $options
      * @param  boolean                  $overwrite True for overwriting existing options, false
-     *  for merging (new values overwrite old ones if needed)
+     *                                             for merging (new values overwrite old ones if needed)
      *
      * @return void
      */
@@ -95,5 +82,4 @@ interface ConfigurableInterface
      * @return array
      */
     public function getOptions();
-
 }

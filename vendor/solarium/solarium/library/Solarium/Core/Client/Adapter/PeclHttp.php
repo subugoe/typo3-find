@@ -38,6 +38,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client\Adapter;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -53,7 +54,6 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class PeclHttp extends Configurable implements AdapterInterface
 {
-
     /**
      * Initialization hook
      *
@@ -65,7 +65,7 @@ class PeclHttp extends Configurable implements AdapterInterface
     {
         // @codeCoverageIgnoreStart
         if (!class_exists('HttpRequest', false)) {
-           throw new RuntimeException('Pecl_http is not available, install it to use the PeclHttp adapter');
+            throw new RuntimeException('Pecl_http is not available, install it to use the PeclHttp adapter');
         }
 
         parent::init();
@@ -132,10 +132,14 @@ class PeclHttp extends Configurable implements AdapterInterface
      * {@link http://us.php.net/manual/en/http.constants.php
      *  HTTP Predefined Constant}
      *
+     * {@link http://us.php.net/manual/en/http.request.options.php
+     *  HttpRequest options}
+     *
      * @throws InvalidArgumentException
      * @param  Request                  $request
      * @param  Endpoint                 $endpoint
-     * @param HttpRequest
+     * @param  HttpRequest
+     * @return \HttpRequest
      */
     public function toHttpRequest($request, $endpoint)
     {
@@ -152,10 +156,12 @@ class PeclHttp extends Configurable implements AdapterInterface
 
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
-        if(empty($authData['username'])) $authData = $request->getAuthentication();
+        if (empty($authData['username'])) {
+            $authData = $request->getAuthentication();
+        }
 
-        if ( !empty($authData['username']) && !empty($authData['password'])) {
-            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password'] );
+        if (!empty($authData['username']) && !empty($authData['password'])) {
+            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password']);
         }
 
         switch ($request->getMethod()) {
@@ -187,7 +193,13 @@ class PeclHttp extends Configurable implements AdapterInterface
         }
 
         $httpRequest->setMethod($method);
-        $httpRequest->setOptions(array('timeout' => $endpoint->getTimeout()));
+        $httpRequest->setOptions(
+            array(
+                'timeout' => $endpoint->getTimeout(),
+                'connecttimeout' => $endpoint->getTimeout(),
+                'dns_cache_timeout' => $endpoint->getTimeout(),
+            )
+        );
         $httpRequest->setHeaders($headers);
 
         return $httpRequest;

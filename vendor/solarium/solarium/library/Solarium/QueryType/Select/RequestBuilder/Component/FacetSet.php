@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
+
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\RequestBuilder\RequestBuilder;
 use Solarium\QueryType\Select\Query\Component\FacetSet as FacetsetComponent;
@@ -52,7 +53,6 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
-
     /**
      * Add request settings for FacetSet
      *
@@ -185,6 +185,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam("f.$field.facet.range.end", $facet->getEnd());
         $request->addParam("f.$field.facet.range.gap", $facet->getGap());
         $request->addParam("f.$field.facet.range.hardend", $facet->getHardend());
+        $request->addParam("f.$field.facet.mincount", $facet->getMinCount());
 
         foreach ($facet->getOther() as $otherValue) {
             $request->addParam("f.$field.facet.range.other", $otherValue);
@@ -204,7 +205,13 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      */
     public function addFacetPivot($request, $facet)
     {
-        $request->addParam('facet.pivot', implode(',', $facet->getFields()));
+        $request->addParam(
+            'facet.pivot',
+            $this->renderLocalParams(
+                implode(',', $facet->getFields()),
+                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+            )
+        );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
     }
 }
