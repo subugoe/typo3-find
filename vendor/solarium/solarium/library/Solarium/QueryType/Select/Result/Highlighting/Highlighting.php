@@ -37,14 +37,12 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\Result\Highlighting;
-use Solarium\QueryType\Select\Result\Highlighting\Result;
 
 /**
  * Select component highlighting result
  */
 class Highlighting implements \IteratorAggregate, \Countable
 {
-
     /**
      * Result array
      *
@@ -55,8 +53,7 @@ class Highlighting implements \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  array $results
-     * @return void
+     * @param array $results
      */
     public function __construct($results)
     {

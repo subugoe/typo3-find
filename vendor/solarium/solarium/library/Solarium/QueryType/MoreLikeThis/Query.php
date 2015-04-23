@@ -40,6 +40,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\MoreLikeThis;
+
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\MoreLikeThis\ResponseParser as ResponseParser;
@@ -54,7 +55,6 @@ use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
  */
 class Query extends SelectQuery
 {
-
     /**
      * Default options
      *
@@ -70,6 +70,7 @@ class Query extends SelectQuery
         'fields'        => '*,score',
         'interestingTerms' => 'none',
         'matchinclude'  => false,
+        'matchoffset'   => 0,
         'stream'        => false,
         'omitheader'    => true,
     );
@@ -175,6 +176,30 @@ class Query extends SelectQuery
     }
 
     /**
+     * Set the mlt.match.offset parameter, which determines the which result from the query should be used for MLT
+     * For paging of MLT use setStart / setRows
+     *
+     * @see http://wiki.apache.org/solr/MoreLikeThisHandler#Params
+     *
+     * @param  int  $offset
+     * @return self Provides fluent interface
+     */
+    public function setMatchOffset($offset)
+    {
+        return $this->setOption('matchoffset', $offset);
+    }
+
+    /**
+     * Get the mlt.match.offset parameter.
+     *
+     * @return int
+     */
+    public function getMatchOffset()
+    {
+        return $this->getOption('matchoffset');
+    }
+
+    /**
      * Set MLT fields option
      *
      * The fields to use for similarity. NOTE: if possible, these should have a
@@ -203,7 +228,10 @@ class Query extends SelectQuery
     public function getMltFields()
     {
         $value = $this->getOption('mltfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
 
@@ -401,8 +429,10 @@ class Query extends SelectQuery
     public function getQueryFields()
     {
         $value = $this->getOption('queryfields');
-        if ($value === null) $value = array();
+        if ($value === null) {
+            $value = array();
+        }
+
         return $value;
     }
-
 }

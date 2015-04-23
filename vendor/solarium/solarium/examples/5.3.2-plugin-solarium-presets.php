@@ -11,19 +11,15 @@ class MyQuery extends Select
 }
 
 // this very simple plugin that modifies the default querytype mapping
-class queryCustomizer extends Plugin
+class QueryCustomizer extends Plugin
 {
-
     public function initPlugin($client, $options)
     {
         $client->registerQueryType(
             Client::QUERY_SELECT,
-            'MyQuery',
-            'Solarium\QueryType\Select\RequestBuilder\RequestBuilder',
-            'Solarium\QueryType\Select\ResponseParser\ResponseParser'
+            'MyQuery'
         );
     }
-
 }
 
 
@@ -31,7 +27,7 @@ htmlHeader();
 
 // create a client instance and register the plugin
 $client = new Client($config);
-$client->registerPlugin('querycustomizer', 'queryCustomizer');
+$client->registerPlugin('querycustomizer', 'QueryCustomizer');
 
 // create a select query instance
 $query = $client->createSelect();
@@ -46,9 +42,10 @@ foreach ($resultset as $document) {
 
     echo '<hr/><table>';
 
-    foreach($document AS $field => $value)
-    {
-        if(is_array($value)) $value = implode(', ', $value);
+    foreach ($document as $field => $value) {
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }

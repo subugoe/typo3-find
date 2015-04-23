@@ -43,7 +43,6 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class Detail
 {
-
     /**
      * Value
      *
@@ -64,6 +63,11 @@ class Detail
      * @var string
      */
     protected $description;
+
+    /**
+     * @var array
+     */
+    protected $subDetails;
 
     /**
      * Constructor
@@ -107,6 +111,22 @@ class Detail
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param array $subDetails
+     */
+    public function setSubDetails($subDetails)
+    {
+        $this->subDetails = $subDetails;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubDetails()
+    {
+        return $this->subDetails;
     }
 
 }

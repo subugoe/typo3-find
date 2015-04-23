@@ -37,6 +37,8 @@
  * @namespace
  */
 namespace Solarium\QueryType\Update\Query\Document;
+
+use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Result\AbstractDocument;
 use Solarium\Exception\RuntimeException;
 
@@ -77,6 +79,13 @@ class Document extends AbstractDocument implements DocumentInterface
      * @var string
      */
     const MODIFIER_ADD = 'add';
+
+    /**
+     * Directive to remove a value (e.g. multivalued fields) using atomic updates
+     *
+     * @var string
+     */
+    const MODIFIER_REMOVE = 'remove';
 
     /**
      * This value has the same effect as not setting a version
@@ -139,6 +148,15 @@ class Document extends AbstractDocument implements DocumentInterface
     protected $version;
 
     /**
+     * Helper instance
+     *
+     * @var Helper
+     */
+    protected $helper;
+
+    protected $filterControlCharacters = true;
+
+    /**
      * Constructor
      *
      * @param array $fields
@@ -174,6 +192,10 @@ class Document extends AbstractDocument implements DocumentInterface
                 $this->fields[$key] = array($this->fields[$key]);
             }
 
+            if ($this->filterControlCharacters && is_string($value)) {
+                $value = $this->getHelper()->filterControlCharacters($value);
+            }
+
             $this->fields[$key][] = $value;
             $this->setFieldBoost($key, $boost);
             if ($modifier !== null) {
@@ -199,9 +221,13 @@ class Document extends AbstractDocument implements DocumentInterface
      */
     public function setField($key, $value, $boost = null, $modifier = null)
     {
-        if ($value === null) {
+        if ($value === null && $modifier == null) {
             $this->removeField($key);
         } else {
+            if ($this->filterControlCharacters && is_string($value)) {
+                $value = $this->getHelper()->filterControlCharacters($value);
+            }
+
             $this->fields[$key] = $value;
             $this->setFieldBoost($key, $boost);
             if ($modifier !== null) {
@@ -355,30 +381,32 @@ class Document extends AbstractDocument implements DocumentInterface
         if ($value !== null) {
             $this->addField($key, $value);
         }
+
         return $this;
     }
 
     /**
      * Sets the modifier type for the provided field
      *
-     * @param string $key
-     * @param string $modifier
+     * @param  string           $key
+     * @param  string           $modifier
      * @throws RuntimeException
      * @return self
      */
     public function setFieldModifier($key, $modifier = null)
     {
-        if (! in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_INC, self::MODIFIER_SET)) ) {
+        if (!in_array($modifier, array(self::MODIFIER_ADD, self::MODIFIER_REMOVE, self::MODIFIER_INC, self::MODIFIER_SET))) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;
+
         return $this;
     }
 
     /**
      * Returns the appropriate modifier for atomic updates.
      *
-     * @param string $key
+     * @param  string      $key
      * @return null|string
      */
     public function getFieldModifier($key)
@@ -391,6 +419,7 @@ class Document extends AbstractDocument implements DocumentInterface
      *
      * Adds validation for atomicUpdates
      *
+     * @throws RuntimeException
      * @return array
      */
     public function getFields()
@@ -407,12 +436,13 @@ class Document extends AbstractDocument implements DocumentInterface
     /**
      * Set version
      *
-     * @param int $version
+     * @param  int  $version
      * @return self
      */
     public function setVersion($version)
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -424,5 +454,41 @@ class Document extends AbstractDocument implements DocumentInterface
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * Get a helper instance
+     *
+     * Uses lazy loading: the helper is instantiated on first use
+     *
+     * @return Helper
+     */
+    public function getHelper()
+    {
+        if (null === $this->helper) {
+            $this->helper = new Helper($this);
+        }
+
+        return $this->helper;
+    }
+
+    /**
+     * Whether values should be filtered for control characters automatically
+     *
+     * @param boolean $filterControlCharacters
+     */
+    public function setFilterControlCharacters($filterControlCharacters)
+    {
+        $this->filterControlCharacters = $filterControlCharacters;
+    }
+
+    /**
+     * Returns whether values should be filtered automatically or control characters
+     *
+     * @return boolean
+     */
+    public function getFilterControlCharacters()
+    {
+        return $this->filterControlCharacters;
     }
 }

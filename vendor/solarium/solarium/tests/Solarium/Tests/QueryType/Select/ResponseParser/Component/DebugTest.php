@@ -30,12 +30,12 @@
  */
 
 namespace Solarium\Tests\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\ResponseParser\Component\Debug as Parser;
 use Solarium\QueryType\Select\Result\Debug\Detail;
 
 class DebugTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Parser
      */
@@ -63,7 +63,19 @@ class DebugTest extends \PHPUnit_Framework_TestCase
                             array(
                                 'match' => true,
                                 'value' => 0.5,
-                                'description' => 'tf(termFreq(text:ipod)=1)',
+                                'description' => 'sum of:',
+                                'details' => array(
+                                    array(
+                                        'match' => true,
+                                        'value' => 0.25,
+                                        'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:'
+                                    ),
+                                    array(
+                                        'match' => true,
+                                        'value' => 0.25,
+                                        'description' => 'tf(termFreq(text:ipod)=1)',
+                                    )
+                                )
                             )
                         ),
                     ),
@@ -117,11 +129,23 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0.5, $doc->getValue());
         $this->assertEquals(true, $doc->getMatch());
         $this->assertEquals('fieldWeight(text:ipod in 5), product of:', $doc->getDescription());
-        $this->assertEquals(
-            array(new Detail(true, 0.5, 'tf(termFreq(text:ipod)=1)')),
-            $doc->getDetails()
-        );
 
+        $expectedDetail = new Detail(true, 0.5, 'sum of:');
+        $expectedDetail->setSubDetails(
+            array(
+                array(
+                    'match' => true,
+                    'value' => 0.25,
+                    'description' => 'weight(dummyfield:flachdach^250.0 in 1311) [], result of:'
+                ),
+                array(
+                    'match' => true,
+                    'value' => 0.25,
+                    'description' => 'tf(termFreq(text:ipod)=1)',
+                )
+            )
+        );
+        $this->assertEquals(array($expectedDetail), $doc->getDetails());
         $this->assertEquals(1, count($result->getExplainOther()));
         $doc = $result->getExplainOther()->getDocument('IW-02');
         $this->assertEquals(0.6, $doc->getValue());
@@ -168,5 +192,4 @@ class DebugTest extends \PHPUnit_Framework_TestCase
         $result = $this->parser->parse(null, null, array());
         $this->assertEquals(null, $result);
     }
-
 }

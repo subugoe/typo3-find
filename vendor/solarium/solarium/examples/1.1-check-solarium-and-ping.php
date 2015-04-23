@@ -13,12 +13,13 @@ $client = new Solarium\Client($config);
 $ping = $client->createPing();
 
 // execute the ping query
-try{
+try {
     $result = $client->ping($ping);
     echo 'Ping query successful';
     echo '<br/><pre>';
     var_dump($result->getData());
-}catch(Solarium\Exception $e){
+    echo '</pre>';
+} catch (Solarium\Exception $e) {
     echo 'Ping query failed';
 }
 

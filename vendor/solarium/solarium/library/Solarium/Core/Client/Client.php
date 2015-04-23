@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Core\Client;
+
 use Solarium\Core\Configurable;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\QueryInterface;
@@ -58,6 +59,7 @@ use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Main interface for interaction with Solr
@@ -76,7 +78,6 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
  */
 class Client extends Configurable
 {
-
     /**
      * Querytype select
      */
@@ -169,6 +170,7 @@ class Client extends Configurable
         'parallelexecution' => 'Solarium\Plugin\ParallelExecution\ParallelExecution',
         'bufferedadd' => 'Solarium\Plugin\BufferedAdd\BufferedAdd',
         'prefetchiterator' => 'Solarium\Plugin\PrefetchIterator',
+        'minimumscorefilter' => 'Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter',
     );
 
     /**
@@ -218,7 +220,9 @@ class Client extends Configurable
      */
     protected function init()
     {
+        //@todo use injection
         $this->eventDispatcher = new EventDispatcher();
+
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'endpoint':
@@ -561,13 +565,27 @@ class Client extends Configurable
     }
 
     /**
-     * Get the EventDispatcherInstance
+     * Gets the event dispatcher.
      *
-     * @return EventDispatcher
+     * @return EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
         return $this->eventDispatcher;
+    }
+
+    /**
+     * Sets the event dispatcher.
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     *
+     * @return $this
+     */
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
     }
 
     /**
@@ -591,7 +609,7 @@ class Client extends Configurable
         }
 
         if (!($plugin instanceof PluginInterface)) {
-           throw new InvalidArgumentException('All plugins must implement the PluginInterface');
+            throw new InvalidArgumentException('All plugins must implement the PluginInterface');
         }
 
         $plugin->initPlugin($this, $options);
@@ -750,8 +768,8 @@ class Client extends Configurable
     /**
      * Execute a query
      *
-     * @param QueryInterface
-     * @param Endpoint|string|null
+     * @param  QueryInterface       $query
+     * @param  Endpoint|string|null $endpoint
      * @return ResultInterface
      */
     public function execute(QueryInterface $query, $endpoint = null)
@@ -819,8 +837,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Ping\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Ping\Query $query
+     * @param  Endpoint|string|null                          $endpoint
      * @return \Solarium\QueryType\Ping\Result
      */
     public function ping(QueryInterface $query, $endpoint = null)
@@ -845,8 +863,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Update\Query\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Update\Query\Query $query
+     * @param  Endpoint|string|null                                  $endpoint
      * @return \Solarium\QueryType\Update\Result
      */
     public function update(QueryInterface $query, $endpoint = null)
@@ -870,8 +888,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Select\Query\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Select\Query\Query $query
+     * @param  Endpoint|string|null                                  $endpoint
      * @return \Solarium\QueryType\Select\Result\Result
      */
     public function select(QueryInterface $query, $endpoint = null)
@@ -895,8 +913,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\MoreLikeThis\Query $query
-     * @param Endpoint
+     * @param  QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
+     * @param  Endpoint|string|null                                  $endpoint
      * @return \Solarium\QueryType\MoreLikeThis\Result
      */
     public function moreLikeThis(QueryInterface $query, $endpoint = null)
@@ -910,8 +928,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
-     * @param Endpoint
+     * @param  QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
+     * @param  Endpoint|string|null                                                                                $endpoint
      * @return \Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
     public function analyze(QueryInterface $query, $endpoint = null)
@@ -925,8 +943,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Terms\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Terms\Query $query
+     * @param  Endpoint|string|null                           $endpoint
      * @return \Solarium\QueryType\Terms\Result
      */
     public function terms(QueryInterface $query, $endpoint = null)
@@ -940,8 +958,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Suggester\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Suggester\Query $query
+     * @param  Endpoint|string|null                               $endpoint
      * @return \Solarium\QueryType\Suggester\Result\Result
      */
     public function suggester(QueryInterface $query, $endpoint = null)
@@ -955,8 +973,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\Extract\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\Extract\Query $query
+     * @param  Endpoint|string|null                             $endpoint
      * @return \Solarium\QueryType\Extract\Result
      */
     public function extract(QueryInterface $query, $endpoint = null)
@@ -970,8 +988,8 @@ class Client extends Configurable
      * @internal This is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API.
      *
-     * @param \Solarium\QueryType\RealtimeGet\Query $query
-     * @param Endpoint|string|null
+     * @param  QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
+     * @param  Endpoint|string|null                                 $endpoint
      * @return \Solarium\QueryType\RealtimeGet\Result
      */
     public function realtimeGet(QueryInterface $query, $endpoint = null)
@@ -1118,7 +1136,7 @@ class Client extends Configurable
     /**
      * Create a RealtimeGet query instance
      *
-     * @param  mixed                             $options
+     * @param  mixed                                 $options
      * @return \Solarium\QueryType\RealtimeGet\Query
      */
     public function createRealtimeGet($options = null)

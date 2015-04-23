@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client;
+
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -56,9 +57,11 @@ use Solarium\Core\Event\PostExecute as PostExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 
+/**
+ * @coversDefaultClass \Solarium\Core\Client\Client
+ */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Client
      */
@@ -112,6 +115,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @covers ::getEventDispatcher
+     * @covers ::setEventDispatcher
+     */
+    public function testGetEventDispatcher() {
+      $this->assertInstanceOf('\Symfony\Component\EventDispatcher\EventDispatcherInterface', $this->client->getEventDispatcher());
+      $event_dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+      $this->client->setEventDispatcher($event_dispatcher);
+      $this->assertSame($event_dispatcher, $this->client->getEventDispatcher());
+    }
+
     public function testConfigModeWithoutKeys()
     {
         $options = array(
@@ -125,14 +139,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ),
             'querytype' => array(
                 array(
-                    'type'           => 'myquerytype',
-                    'query'          => 'MyQuery',
+                    'type' => 'myquerytype',
+                    'query' => 'MyQuery',
                 )
             ),
             'plugin' => array(
                  array(
-                    'key'     => 'myplugin',
-                    'plugin'  => __NAMESPACE__.'\\MyClientPlugin',
+                    'key' => 'myplugin',
+                    'plugin' => __NAMESPACE__.'\\MyClientPlugin',
                     'options' => array(
                         'option1' => 'value1',
                         'option2' => 'value2',
@@ -247,8 +261,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGetEndpoints()
     {
         $options = array(
-            's1' => array('host' => 's1.local'),        //use array key
-            array('key' => 's2', 'host' => 's2.local'), //use key array entry
+            //use array key
+            's1' => array('host' => 's1.local'),
+
+            //use key array entry
+            array('key' => 's2', 'host' => 's2.local'),
         );
 
         $this->client->addEndpoints($options);
@@ -393,7 +410,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $adapterOptions = array(
             'host' => 'myhost',
             'port' => 8080,
-            'customOption' => 'foobar'
+            'customOption' => 'foobar',
         );
 
         $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('setOptions', 'execute'));
@@ -409,7 +426,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $queryTypes = $this->client->getQueryTypes();
 
-        $this->client->registerQueryType('myquerytype','myquery');
+        $this->client->registerQueryType('myquerytype', 'myquery');
 
         $queryTypes['myquerytype'] = 'myquery';
 
@@ -422,7 +439,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testRegisterAndGetPlugin()
     {
         $options = array('option1' => 1);
-        $this->client->registerPlugin('testplugin',__NAMESPACE__.'\\MyClientPlugin',$options);
+        $this->client->registerPlugin('testplugin', __NAMESPACE__.'\\MyClientPlugin', $options);
 
         $plugin = $this->client->getPlugin('testplugin');
 
@@ -440,7 +457,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testRegisterInvalidPlugin()
     {
         $this->setExpectedException('Solarium\Exception\InvalidArgumentException');
-        $this->client->registerPlugin('testplugin','StdClass');
+        $this->client->registerPlugin('testplugin', 'StdClass');
     }
 
     public function testGetInvalidPlugin()
@@ -469,7 +486,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testRemoveAndGetPlugins()
     {
         $options = array('option1' => 1);
-        $this->client->registerPlugin('testplugin',__NAMESPACE__.'\\MyClientPlugin',$options);
+        $this->client->registerPlugin('testplugin', __NAMESPACE__.'\\MyClientPlugin', $options);
 
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
@@ -491,7 +508,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testRemovePluginAndGetPluginsWithObjectInput()
     {
         $options = array('option1' => 1);
-        $this->client->registerPlugin('testplugin',__NAMESPACE__.'\\MyClientPlugin',$options);
+        $this->client->registerPlugin('testplugin', __NAMESPACE__.'\\MyClientPlugin', $options);
 
         $plugin = $this->client->getPlugin('testplugin');
         $plugins = $this->client->getPlugins();
@@ -615,7 +632,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateResult()
     {
         $query = new SelectQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = $this->client->createResult($query, $response);
 
         $this->assertThat(
@@ -627,7 +644,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateResultPrePlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreCreateResultEvent($query, $response);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
         $expectedEvent->setName(Events::PRE_CREATE_RESULT);
@@ -649,7 +666,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateResultPostPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = $this->client->createResult($query, $response);
         $expectedEvent = new PostCreateResultEvent($query, $response, $result);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -672,7 +689,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateResultWithOverridingPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('test 1234',array('HTTP 1.0 200 OK'));
+        $response = new Response('test 1234', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreCreateResultEvent($query, $response);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
         $expectedEvent->setName(Events::PRE_CREATE_RESULT);
@@ -698,7 +715,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateResultWithInvalidResult()
     {
         $overrideValue =  '\\stdClass';
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $mockQuery = $this->getMock('Solarium\QueryType\Select\Query\Query', array('getResultClass'));
         $mockQuery->expects($this->once())
@@ -712,10 +729,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $query = new PingQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($this->client, $query, $response);
 
-        $observer = $this->getMock('Solarium\Core\Client\Client', array('createRequest','executeRequest','createResult'));
+        $observer = $this->getMock(
+            'Solarium\Core\Client\Client',
+            array('createRequest', 'executeRequest', 'createResult')
+        );
 
         $observer->expects($this->once())
                  ->method('createRequest')
@@ -729,7 +749,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $observer->expects($this->once())
                  ->method('createResult')
-                 ->with($this->equalTo($query),$this->equalTo('dummyresponse'))
+                 ->with($this->equalTo($query), $this->equalTo('dummyresponse'))
                  ->will($this->returnValue($result));
 
         $observer->execute($query);
@@ -738,12 +758,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testExecutePrePlugin()
     {
         $query = new PingQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($this->client, $query, $response);
         $expectedEvent = new PreExecuteEvent($query);
         $expectedEvent->setName(Events::PRE_EXECUTE);
 
-        $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest','executeRequest','createResult'));
+        $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest', 'executeRequest', 'createResult'));
 
         $mock->expects($this->once())
              ->method('createRequest')
@@ -772,12 +792,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testExecutePostPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $result = new Result($this->client, $query, $response);
         $expectedEvent = new PostExecuteEvent($query, $result);
         $expectedEvent->setName(Events::POST_EXECUTE);
 
-        $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest','executeRequest','createResult'));
+        $mock = $this->getMock('Solarium\Core\Client\Client', array('createRequest', 'executeRequest', 'createResult'));
 
         $mock->expects($this->once())
              ->method('createRequest')
@@ -800,14 +820,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $expectedEvent->setDispatcher($mock->getEventDispatcher());
 
-
         $mock->execute($query);
     }
 
     public function testExecuteWithOverridingPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedResult = new Result($this->client, $query, $response);
         $expectedEvent = new PreExecuteEvent($query);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -833,7 +852,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testExecuteRequest()
     {
         $request = new Request();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
 
         $observer = $this->getMock('Solarium\Core\Client\Adapter\Http', array('execute'));
         $observer->expects($this->once())
@@ -854,7 +873,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
         $expectedEvent->setName(Events::PRE_EXECUTE_REQUEST);
@@ -871,7 +890,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->method('preExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
 
-        $this->client->getEventDispatcher()->addListener(Events::PRE_EXECUTE_REQUEST, array($observer, 'preExecuteRequest'));
+        $this->client->getEventDispatcher()->addListener(
+            Events::PRE_EXECUTE_REQUEST,
+            array($observer, 'preExecuteRequest')
+        );
         $this->client->executeRequest($request, $endpoint);
     }
 
@@ -879,7 +901,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $expectedEvent = new PostExecuteRequestEvent($request, $endpoint, $response);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
         $expectedEvent->setName(Events::POST_EXECUTE_REQUEST);
@@ -896,14 +918,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                  ->method('postExecuteRequest')
                  ->with($this->equalTo($expectedEvent));
 
-        $this->client->getEventDispatcher()->addListener(Events::POST_EXECUTE_REQUEST, array($observer, 'postExecuteRequest'));
+        $this->client->getEventDispatcher()->addListener(
+            Events::POST_EXECUTE_REQUEST,
+            array($observer, 'postExecuteRequest')
+        );
         $this->client->executeRequest($request, $endpoint);
     }
 
     public function testExecuteRequestWithOverridingPlugin()
     {
         $request = new Request();
-        $response = new Response('',array('HTTP 1.0 200 OK'));
+        $response = new Response('', array('HTTP 1.0 200 OK'));
         $endpoint = $this->client->createEndpoint('s1');
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -1224,7 +1249,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $observer->createExtract($options);
     }
-
 }
 
 class MyAdapter extends ClientAdapterHttp

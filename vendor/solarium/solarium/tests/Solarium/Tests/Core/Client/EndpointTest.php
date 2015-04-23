@@ -30,6 +30,7 @@
  */
 
 namespace Solarium\Tests\Core\Client;
+
 use Solarium\Core\Client\Endpoint;
 
 class EndpointTest extends \PHPUnit_Framework_TestCase
@@ -47,13 +48,14 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testConfigMode()
     {
         $options = array(
-            'host'     => '192.168.0.1',
-            'port'     => 123,
-            'path'     => '/mysolr/',
-            'core'     => 'mycore',
-            'timeout'  => 3,
+            'scheme' => 'http',
+            'host' => '192.168.0.1',
+            'port' => 123,
+            'path' => '/mysolr/',
+            'core' => 'mycore',
+            'timeout' => 3,
             'username' => 'x',
-            'password' => 'y'
+            'password' => 'y',
         );
         $this->endpoint->setOptions($options);
 
@@ -98,11 +100,24 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(7, $this->endpoint->getTimeout());
     }
 
+    public function testSetAndGetScheme()
+    {
+        $this->endpoint->setScheme('https');
+        $this->assertEquals('https', $this->endpoint->getScheme());
+    }
+
     public function testGetBaseUri()
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
 
         $this->assertEquals('http://myserver:123/mypath/', $this->endpoint->getBaseUri());
+    }
+
+    public function testGetBaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
+
+        $this->assertEquals('https://myserver:123/mypath/', $this->endpoint->getBaseUri());
     }
 
     public function testGetBaseUriWithCore()
@@ -131,18 +146,18 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     public function testToString()
     {
         $options = array(
-            'host'     => '192.168.0.1',
-            'port'     => 123,
-            'path'     => '/mysolr/',
-            'core'     => 'mycore',
-            'timeout'  => 3,
+            'host' => '192.168.0.1',
+            'port' => 123,
+            'path' => '/mysolr/',
+            'core' => 'mycore',
+            'timeout' => 3,
             'username' => 'x',
-            'password' => 'y'
+            'password' => 'y',
         );
         $this->endpoint->setOptions($options);
 
-        $this->assertEquals(
-'Solarium\Core\Client\Endpoint::__toString
+        $endpoint = <<<EOF
+Solarium\Core\Client\Endpoint::__toString
 base uri: http://192.168.0.1:123/mysolr/mycore/
 host: 192.168.0.1
 port: 123
@@ -154,8 +169,9 @@ authentication: Array
     [username] => x
     [password] => y
 )
-',
-            (string) $this->endpoint
-        );
+
+EOF;
+
+        $this->assertEquals($endpoint, (string) $this->endpoint);
     }
 }

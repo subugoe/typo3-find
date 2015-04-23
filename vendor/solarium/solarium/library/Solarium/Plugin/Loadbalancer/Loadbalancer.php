@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\Plugin\Loadbalancer;
+
 use Solarium\Core\Plugin\Plugin;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
@@ -68,7 +69,6 @@ use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
  */
 class Loadbalancer extends Plugin
 {
-
     /**
      * Default options
      *
@@ -484,8 +484,9 @@ class Loadbalancer extends Plugin
     /**
      * Execute a request using the adapter
      *
-     * @param  Request  $request
-     * @return Response $response
+     * @throws RuntimeException
+     * @param  Request          $request
+     * @return Response         $response
      */
     protected function getLoadbalancedResponse($request)
     {
@@ -554,5 +555,4 @@ class Loadbalancer extends Plugin
 
         return $this->randomizer;
     }
-
 }

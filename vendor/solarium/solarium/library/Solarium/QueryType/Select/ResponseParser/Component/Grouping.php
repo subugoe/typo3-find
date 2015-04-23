@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Select\ResponseParser\Component;
+
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Query\Component\Grouping as GroupingComponent;
 use Solarium\QueryType\Select\Result\Grouping\Result;
@@ -49,7 +50,6 @@ use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
  */
 class Grouping implements ComponentParserInterface
 {
-
     /**
      * Parse result data into result objects
      *
@@ -65,6 +65,8 @@ class Grouping implements ComponentParserInterface
         if (isset($data['grouped'])) {
 
             // parse field groups
+            $valueResultClass = $grouping->getOption('resultvaluegroupclass');
+            $documentClass = $query->getOption('documentclass');
             foreach ($grouping->getFields() as $field) {
                 if (isset($data['grouped'][$field])) {
                     $result = $data['grouped'][$field];
@@ -83,8 +85,10 @@ class Grouping implements ComponentParserInterface
                         $start = (isset($valueGroupResult['doclist']['start'])) ?
                                 $valueGroupResult['doclist']['start'] : null;
 
+                        $maxScore = (isset($valueGroupResult['doclist']['maxScore'])) ?
+                                $valueGroupResult['doclist']['maxScore'] : null;
+
                         // create document instances
-                        $documentClass = $query->getOption('documentclass');
                         $documents = array();
                         if (isset($valueGroupResult['doclist']['docs']) &&
                             is_array($valueGroupResult['doclist']['docs'])) {
@@ -94,18 +98,15 @@ class Grouping implements ComponentParserInterface
                             }
                         }
 
-                        $valueGroups[] = new ValueGroup(
-                            $value, $numFound, $start, $documents
-                        );
+                        $valueGroups[] = new $valueResultClass($value, $numFound, $start, $documents, $maxScore, $query);
                     }
 
-                    $groups[$field] = new FieldGroup(
-                        $matches, $groupCount, $valueGroups
-                    );
+                    $groups[$field] = new FieldGroup($matches, $groupCount, $valueGroups);
                 }
             }
 
             // parse query groups
+            $groupResultClass = $grouping->getOption('resultquerygroupclass');
             foreach ($grouping->getQueries() as $groupQuery) {
                 if (isset($data['grouped'][$groupQuery])) {
                     $result = $data['grouped'][$groupQuery];
@@ -126,9 +127,7 @@ class Grouping implements ComponentParserInterface
                     }
 
                     // create a group result object
-                    $group = new QueryGroup(
-                        $matches, $numFound, $start, $maxScore, $documents
-                    );
+                    $group = new $groupResultClass($matches, $numFound, $start, $maxScore, $documents, $query);
                     $groups[$groupQuery] = $group;
                 }
             }

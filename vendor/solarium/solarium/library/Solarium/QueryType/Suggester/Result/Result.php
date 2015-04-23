@@ -37,6 +37,7 @@
  * @namespace
  */
 namespace Solarium\QueryType\Suggester\Result;
+
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
@@ -67,6 +68,13 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * @var array
      */
     protected $results;
+
+    /**
+     * Suggester flat results
+     *
+     * @var array
+     */
+    protected $all;
 
     /**
      * Collation result
@@ -116,6 +124,18 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $this->parseResponse();
 
         return $this->results;
+    }
+
+    /**
+     * Get flat results
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        $this->parseResponse();
+
+        return $this->all;
     }
 
     /**
