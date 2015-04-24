@@ -5,6 +5,7 @@ plugin.tx_find {
 			port = 8080
 			path = /solr/
 			timeout = 5
+			scheme = http
 		}
 		count = 20
 		 # cat=plugin.tx_find/file; type=string; label=Path to CSS file (FE)
