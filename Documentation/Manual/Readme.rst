@@ -120,6 +120,19 @@ The ``connection`` settings array is used to configure access to the Solr index.
 * ``timeout`` [5]: number of seconds before a Solr request times out
 * ``scheme`` [http]: URI scheme of the connection
 
+Solr Shard usage
+::::::::::::::::::::::::::::
+
+The ``shards`` settings array is used to configure Solarium to use a Distributed Search. The array contains datasets of a shard key and the shard itself.
+
+Example::
+
+	plugin.tx_find.settings.shards {
+	    shard1 = localhost:8983/solr
+        shard2 = localhost:7574/solr
+	}
+
+See https://wiki.apache.org/solr/DistributedSearch for more informations regarding Distributed Search.
 
 The search form
 :::::::::::::::
