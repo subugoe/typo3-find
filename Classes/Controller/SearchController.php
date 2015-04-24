@@ -393,11 +393,27 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$query = $this->solr->createSelect();
 		$this->addTypoScriptFilters($query);
 
+		$this->createDistributedQuery($query);
+
 		$this->configuration['solarium'] = $query;
 
 		return $query;
 	}
 
+
+	/**
+	 * Check configuration for shards and when found create Distributed Search
+	 *
+	 * @param \Solarium\QueryType\Select\Query\Query $query
+	 */
+	private function createDistributedQuery(&$query) {
+		if(count($this->settings['shards'])) {
+			$distributedSearch = $query->getDistributedSearch();
+			foreach($this->settings['shards'] as $name => $shard) {
+				$distributedSearch->addShard($name, $shard);
+			}
+		}
+	}
 
 
 	/**
