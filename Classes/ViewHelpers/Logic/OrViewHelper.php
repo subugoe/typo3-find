@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Logic;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Logic;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper the truth value of all conditions joined by ||.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class OrViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class OrViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -43,8 +42,6 @@ class OrViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 		parent::initializeArguments();
 		$this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
 	}
-
-
 
 	/**
 	 * @return bool
@@ -59,5 +56,3 @@ class OrViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	}
 
 }
-
-?>

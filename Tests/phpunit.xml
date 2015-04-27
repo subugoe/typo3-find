@@ -1,5 +1,6 @@
 <phpunit backupGlobals="false"
 	backupStaticAttributes="false"
+	bootstrap="../../../../typo3/sysext/core/Build/UnitTestsBootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertWarningsToExceptions="true"
@@ -9,11 +10,10 @@
 	stopOnFailure="false"
 	stopOnIncomplete="false"
 	stopOnSkipped="false"
-	strict="false"
 	verbose="false">
 
 	<testsuites>
-		<testsuite>
+		<testsuite name="EXT:find tests">
 			<directory>./Unit/</directory>
 		</testsuite>
 	</testsuites>

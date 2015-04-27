@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,22 +26,21 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
-
-
-
-/*
- *
- * http://www.w3.org/TR/json-ld-syntax/
+/**
+ * @see http://www.w3.org/TR/json-ld-syntax/
  */
-class JSONLDRenderer extends AbstractRenderer {
+class JSONLDRenderer extends AbstractRenderer implements RendererInterface {
 
-	public function renderItems ($items) {
-		$graph = array();
+	/**
+	 * @param $items
+	 * @return string
+	 */
+	public function renderItems($items) {
+		$graph = [];
 
 		// loop over subjects
 		foreach ($items as $subjectURI => $subjectStatements) {
-			$subject = array('@id' => $this->prefixedName($subjectURI));
+			$subject = ['@id' => $this->prefixedName($subjectURI)];
 
 			// loop over predicates
 			foreach ($subjectStatements as $predicateURI => $objects) {
@@ -48,9 +49,8 @@ class JSONLDRenderer extends AbstractRenderer {
 				foreach ($objects as $objectString => $properties) {
 					if ($properties === NULL) {
 						$object = $this->prefixedName($objectString);
-					}
-					else {
-						$object = array('@value' => $objectString);
+					} else {
+						$object = ['@value' => $objectString];
 
 						if ($properties['language']) {
 							$object['@language'] = $properties['language'];
@@ -64,12 +64,10 @@ class JSONLDRenderer extends AbstractRenderer {
 					if ($subject[$predicateURI]) {
 						if (is_array($subject[$predicateURI])) {
 							$subject[$predicateURI][] = $object;
- 						}
-						else {
-							$subject[$predicateURI] = array($subject[$predicateURI], $object);
+						} else {
+							$subject[$predicateURI] = [$subject[$predicateURI], $object];
 						}
-					}
-					else {
+					} else {
 						$subject[$predicateURI] = $object;
 					}
 				}
@@ -79,29 +77,30 @@ class JSONLDRenderer extends AbstractRenderer {
 		}
 
 		// Add the prefixes as the @context.
-		$context = array();
+		$context = [];
 		foreach (array_keys($this->usedPrefixes) as $prefix) {
 			if ($this->prefixes[$prefix]) {
 				$context[$prefix] = $this->prefixes[$prefix];
 			}
 		}
 
-		return json_encode(array(
+		return json_encode([
 			'@context' => $context,
 			'@graph' => $graph
-		));
+		]);
 	}
 
-
-	
-	private function prefixedName ($name) {
+	/**
+	 * @param $name
+	 * @return mixed
+	 */
+	protected function prefixedName($name) {
 		foreach ($this->prefixes as $acronym => $URI) {
 			if (strpos($name, $URI) === 0) {
 				$name = str_replace($URI, $acronym . ':', $name);
 				$this->usedPrefixes[$acronym] = TRUE;
 				break;
-			}
-			else if (strpos($name, $acronym . ':') === 0) {
+			} else if (strpos($name, $acronym . ':') === 0) {
 				$this->usedPrefixes[$acronym] = TRUE;
 				break;
 			}
@@ -111,5 +110,3 @@ class JSONLDRenderer extends AbstractRenderer {
 	}
 
 }
-
-?>

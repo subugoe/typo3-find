@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Data;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,41 +26,47 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Data;
-
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
  * View Helper to split a string into an array of strings at the given separator.
- * 
+ *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class SplitViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class SplitViewHelper extends AbstractViewHelper implements CompilableInterface {
 
 	/**
-	 * Register arguments.
-	 * @return void
+	 * @param string $string The string to split into components
+	 * @param string $separator The string separating the components
+	 * @return string|int|boolean|array
 	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'The string to split into components', FALSE, NULL);
-		$this->registerArgument('separator', 'string', 'The string separating the components', FALSE, ', ');
+	public function render($string, $separator = ', ') {
+		return self::renderStatic(
+			[
+				'string' => $string,
+				'separator' => $separator
+			],
+			$this->buildRenderChildrenClosure(),
+			$this->renderingContext
+		);
 	}
 
-
-	
 	/**
-	 * @return array
+	 * @param array $arguments
+	 * @param \Closure $renderChildrenClosure
+	 * @param RenderingContextInterface $renderingContext
+	 *
+	 * @return string
 	 */
-	public function render() {
-		$string = $this->arguments['string'];
+	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
+		$string = $arguments['string'];
 		if ($string === NULL) {
-			$string = $this->renderChildren();
+			$string = $renderChildrenClosure;
 		}
 
-		return explode($this->arguments['separator'], $string);
+		return explode($arguments['separator'], $string);
 	}
 
 }
-
-?>

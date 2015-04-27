@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the passed array, string or number as JSON.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class JsonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class JsonViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -43,7 +42,6 @@ class JsonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 		parent::initializeArguments();
 		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
 	}
-
 
 	/**
 	 * @return string
@@ -58,5 +56,3 @@ class JsonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 	}
 
 }
-
-?>

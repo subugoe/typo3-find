@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the passed array, string or number as JSON.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class CSVLineViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class CSVLineViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -45,8 +44,6 @@ class CSVLineViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		$this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', FALSE, ',');
 		$this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', FALSE, '"');
 	}
-
-
 
 	/**
 	 * @return string
@@ -67,5 +64,3 @@ class CSVLineViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	}
 
 }
-
-?>

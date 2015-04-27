@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Data;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,8 +25,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Data;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 
 /**
@@ -32,8 +33,7 @@ namespace Subugoe\Find\ViewHelpers\Data;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class IsArrayViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -44,8 +44,6 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		$this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
 	}
 
-
-	
 	/**
 	 * @return boolean
 	 */
@@ -65,5 +63,3 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	}
 
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Find;
 
 /* * *************************************************************
  *  Copyright notice
@@ -7,7 +8,7 @@
  *      Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
  *      Sven-S. Porst <porst@sub.uni-goettingen.de>
  *      Göttingen State and University Library
- *  
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,16 +27,12 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
-namespace Subugoe\Find\ViewHelpers\Find;
-
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Determines whether a facet is selected or not
  */
-class FacetIsActiveViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper{
-
+class FacetIsActiveViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -44,14 +41,12 @@ class FacetIsActiveViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 		parent::initializeArguments();
 		$this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', TRUE);
 		$this->registerArgument('facetTerm', 'string', 'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches', FALSE, NULL);
-		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, Array());
+		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, []);
 		$this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
 	}
 
-
-	
 	/**
-	 * @return array
+	 * @return bool
 	 */
 	public function render() {
 		foreach ($this->arguments['activeFacets'] as $facets) {
@@ -67,5 +62,3 @@ class FacetIsActiveViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	}
 
 }
-
-?>

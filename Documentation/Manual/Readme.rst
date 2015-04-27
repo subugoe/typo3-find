@@ -5,6 +5,10 @@ This TYPO3 extension aims to enable the query and display of arbitrary Solr inde
 
 It provides the ability to configure many aspects of the query – e.g. query fields, facets, filtering through TypoScript – and set up the display through Fluid templates. Partials for standard display features as well as a number of View Helpers that help creating those templates are included in the extension.
 
+Installation
+------------
+
+For developing this extension clone this repository and install the dependencies via composer  with ``composer install``.
 
 Aims
 ----
@@ -119,6 +123,14 @@ The ``connection`` settings array is used to configure access to the Solr index.
 * ``path`` [/solr/]: path of the Index on the Solr server
 * ``timeout`` [5]: number of seconds before a Solr request times out
 * ``scheme`` [http]: URI scheme of the connection
+
+
+Solr Components
+:::::::::::::::
+
+When using the eDisMax feature solr offers, add
+
+* ``eDisMax = 1``
 
 
 The search form
@@ -671,7 +683,7 @@ URLs for queries and faceting are not prettified and – if required – will ne
 Prerequisites
 -------------
 
-* TYPO3 6.1 or higher
+* TYPO3 6.2 or higher
 * t3jquery Extension
 
 

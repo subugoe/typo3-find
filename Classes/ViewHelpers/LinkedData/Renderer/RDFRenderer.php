@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -22,19 +24,19 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- ******************************************************************************/
+******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
-
-
-
-/*
- * http://www.w3.org/RDF/
- * http://www.w3.org/TR/REC-rdf-syntax/
+/**
+ * @see http://www.w3.org/RDF/
+ * @see http://www.w3.org/TR/REC-rdf-syntax/
  */
-class RDFRenderer extends AbstractRenderer {
+class RDFRenderer extends AbstractRenderer implements RendererInterface {
 
-	public function renderItems ($items) {
+	/**
+	 * @param $items
+	 * @return string
+	 */
+	public function renderItems($items) {
 		$doc = new \DomDocument();
 		$this->prefixes['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 		$rdf = $doc->createElement($this->prefixedName('rdf:RDF'));
@@ -59,8 +61,7 @@ class RDFRenderer extends AbstractRenderer {
 							$object = $this->prefixes[$objectParts[0]] . $objectParts[1];
 						}
 						$predicateElement->setAttribute($this->prefixedName('rdf:resource'), $this->prefixedName($object, TRUE));
-					}
-					else {
+					} else {
 						if ($properties['language']) {
 							$predicateElement->setAttribute($this->prefixedName('xml:lang'), $properties['language']);
 						}
@@ -89,9 +90,12 @@ class RDFRenderer extends AbstractRenderer {
 		return $doc->saveXML();
 	}
 
-
-	
-	private function prefixedName ($name, $expand = FALSE) {
+	/**
+	 * @param $name
+	 * @param bool $expand
+	 * @return string
+	 */
+	protected function prefixedName($name, $expand = FALSE) {
 		$nameParts = explode(':', $name, 2);
 		if ($this->prefixes[$nameParts[0]]) {
 			$this->usedPrefixes[$nameParts[0]] = TRUE;
@@ -104,5 +108,3 @@ class RDFRenderer extends AbstractRenderer {
 	}
 
 }
-
-?>

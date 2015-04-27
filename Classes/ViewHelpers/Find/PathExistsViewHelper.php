@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Find;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,16 +25,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Find;
-
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to determine whether the given path exists in the file system.
  */
-class PathExistsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class PathExistsViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -42,14 +40,10 @@ class PathExistsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		$this->registerArgument('path', 'string', 'the path to check the existence of', TRUE);
 	}
 
-
 	/**
 	 * @return string
 	 */
 	public function render() {
 		return file_exists(PATH_site . $this->arguments['path']);
 	}
-
 }
-
-?>

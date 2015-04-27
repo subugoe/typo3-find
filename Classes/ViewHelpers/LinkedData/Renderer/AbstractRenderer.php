@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,34 +26,47 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
+/**
+ * Class AbstractRenderer
+ * @package Subugoe\Find\ViewHelpers\LinkedData\Renderer
+ */
 abstract class AbstractRenderer {
 
-	protected $prefixes = array();
-	protected $usedPrefixes = array();
+	/**
+	 * @var array
+	 */
+	protected $prefixes = [];
 
+	/**
+	 * @var array
+	 */
+	protected $usedPrefixes = [];
+
+	/**
+	 * @param $type
+	 * @return object
+	 */
 	public static function instantiateSubclassForType ($type) {
 		if ($type === 'rdf') {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpers\LinkedData\Renderer\RDFRenderer');
+			$instance = GeneralUtility::makeInstance(RDFRenderer::class);
 		}
 		else if ($type === 'json-ld') {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpers\LinkedData\Renderer\JSONLDRenderer');
+			$instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
 		}
 		else {
-			$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Subugoe\Find\ViewHelpers\LinkedData\Renderer\TurtleRenderer');
+			$instance = GeneralUtility::makeInstance(TurtleRenderer::class);
 		}
 
 		return $instance;
 	}
 
+	/**
+	 * @param $prefixes
+	 */
 	public function setPrefixes ($prefixes) {
 		$this->prefixes = $prefixes;
 	}
 
-	abstract function renderItems ($items);
 }
-
-?>

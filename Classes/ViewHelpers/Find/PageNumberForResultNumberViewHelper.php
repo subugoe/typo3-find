@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Find;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,35 +26,54 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Find;
-
-
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
  * View Helper to return the number of the page the result at position resultNumber
  * appears on with resultsPerPage items per page, i.e. returns
  * resultNumber mod resultsPerPage.
  */
-class PageNumberForResultNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface {
 
 	/**
-	 * Registers own arguments.
+	 * Avoid divisions by zero
 	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('resultNumber', 'int', 'Number of the rsult to determine the page number for', TRUE);
-		$this->registerArgument('resultsPerPage', 'int', 'Number of results per page', TRUE);
+	const DEFAULT_RESULTS_PER_PAGE = 20;
+
+	/**
+	 * @param int $resultNumber Number of the rsult to determine the page number for
+	 * @param int $resultsPerPage Number of results per page
+	 *
+	 * @return string|int|boolean|array
+	 */
+	public function render($resultNumber, $resultsPerPage = 20) {
+		return self::renderStatic(
+			[
+				'resultNumber' => $resultNumber,
+				'resultsPerPage' => $resultsPerPage
+			],
+			$this->buildRenderChildrenClosure(),
+			$this->renderingContext
+		);
 	}
 
-
 	/**
-	 * @return string
+	 * @param array $arguments
+	 * @param \Closure $renderChildrenClosure
+	 * @param RenderingContextInterface $renderingContext
+	 *
+	 * @return float
 	 */
-	public function render() {
-		return ceil($this->arguments['resultNumber'] / $this->arguments['resultsPerPage']);
+	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
+
+		if ($arguments['resultsPerPage'] === 0) {
+			$arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
+		}
+
+		$pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
+		return $pageNumber;
 	}
 
 }
-
-?>
