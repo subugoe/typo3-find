@@ -1,1 +1,0 @@
-Documentation/Manual/Readme.rst
