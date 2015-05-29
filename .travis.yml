@@ -1,0 +1,23 @@
+language: php
+php:
+  - 5.5
+  - 5.6
+  - hhvm
+  - nightly
+env:
+  matrix:
+  - DB=mysql TYPO3=TYPO3_6-2 INTEGRATION=master
+before_script:
+  - cd ..
+  - git clone --single-branch --branch $TYPO3 --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
+  - mv typo3_core/* .
+  - sudo apt-get install parallel
+  - composer self-update
+  - composer install
+  - mkdir -p uploads typo3temp typo3conf/ext
+  - mv typo3-find typo3conf/ext/find
+  - cd typo3conf/ext/find
+  - composer install
+  - cd ../../../
+script:
+  - ./bin/phpunit -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/find/Tests/Unit/;
