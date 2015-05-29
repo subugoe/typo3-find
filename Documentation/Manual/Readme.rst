@@ -1,6 +1,9 @@
 Find
 ====
 
+.. image:: https://travis-ci.org/subugoe/typo3-find.svg?branch=travis
+    :target: https://travis-ci.org/subugoe/typo3-find
+
 This TYPO3 extension aims to enable the query and display of arbitrary Solr indexes.
 
 It provides the ability to configure many aspects of the query – e.g. query fields, facets, filtering through TypoScript – and set up the display through Fluid templates. Partials for standard display features as well as a number of View Helpers that help creating those templates are included in the extension.
