@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to strip leading and trailing whitespace or other characters from a given string.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class StripViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class StripViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -44,8 +43,6 @@ class StripViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		$this->registerArgument('string', 'string', 'The string to strip leading and trailing whitespace from; If not given, the tag content is used', FALSE, NULL);
 		$this->registerArgument('strip', 'string', 'The characters to strip from the string; If not given, defaults to standard PHP whitespace setting', FALSE, NULL);
 	}
-
-
 
 	/**
 	 * @return array
@@ -67,5 +64,3 @@ class StripViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 	}
 
 }
-
-?>

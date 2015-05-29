@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,44 +26,43 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
-
-
-
-/*
- * http://www.w3.org/TR/2012/WD-turtle-20120710/
+/**
+ * @see http://www.w3.org/TR/2012/WD-turtle-20120710/
  */
-class TurtleRenderer extends AbstractRenderer {
+class TurtleRenderer extends AbstractRenderer implements RendererInterface {
 
-	public function renderItems ($items) {
+	/**
+	 * @param $items
+	 * @return string
+	 */
+	public function renderItems($items) {
+
+		$result = '';
+
 		// loop over subjects
-		$subjectArray = array();
+		$subjectArray = [];
 		foreach ($items as $subject => $subjectStatements) {
 			$subjectString = $this->turtleString($subject) . "\n\t";
 
 			// loop over predicates
-			$predicateArray = array();
+			$predicateArray = [];
 			foreach ($subjectStatements as $predicate => $objects) {
 				$predicateString = $this->turtleString($predicate) . ' ';
 
 				// loop over objects
-				$objectArray = array();
+				$objectArray = [];
 				foreach ($objects as $object => $properties) {
 					$objectString = '';
 					if ($properties === NULL) {
 						$objectString = $this->turtleString($object);
-					}
-					else {
+					} else {
 						if (strpos($object, '"') === FALSE && strpos($object, "\r") === FALSE && strpos($object, "\n") === FALSE) {
 							$objectString = '"' . $object . '"';
-						}
-						else if (strpos($object, '"""') === FALSE) {
+						} else if (strpos($object, '"""') === FALSE) {
 							$objectString = '"""' . $object . '"""';
-						}
-						else if (strpos($object, "'''") === FALSE) {
+						} else if (strpos($object, "'''") === FALSE) {
 							$objectString = "'''" . $object . "'''";
-						}
-						else {
+						} else {
 							// TODO: Error Handling for could not escape.
 						}
 						if ($properties['language']) {
@@ -80,41 +81,43 @@ class TurtleRenderer extends AbstractRenderer {
 			$subjectString .= implode(" ;\n\t", $predicateArray);
 			$subjectArray[] = $subjectString;
 		}
-		$result .= implode(" .\n\n", $subjectArray) . " .\n";
+		$result .= implode(' .' . PHP_EOL . PHP_EOL, $subjectArray) . ' .' . PHP_EOL;
 
 		// Prepend the prefixes that are used.
-		$prefixes = array();
+		$prefixes = [];
 		foreach ($this->prefixes as $acronym => $prefix) {
 			if ($this->usedPrefixes[$acronym] === TRUE) {
-				$prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . " .\n";
+				$prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . ' .' . PHP_EOL;
 			}
 		}
 
-		$result = "\n" . implode('', $prefixes) . "\n" . $result;
+		$result = PHP_EOL . implode('', $prefixes) . PHP_EOL . $result;
 
 		return $result;
 	}
 
-
-	
-	private function turtleString ($item, $usePrefixes = TRUE) {
+	/**
+	 * @param $item
+	 * @param bool $usePrefixes
+	 * @return mixed|string
+	 */
+	protected function turtleString($item, $usePrefixes = TRUE) {
 		$result = '<' . $item . '>';
 
 		$itemParts = explode(':', $item, 2);
 		$rdfTypeURI = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
 		if ($item === $rdfTypeURI
-				|| (count($itemParts) > 1 && $this->prefixes[$itemParts[0]] . $itemParts[1] === $rdfTypeURI)) {
+			|| (count($itemParts) > 1 && $this->prefixes[$itemParts[0]] . $itemParts[1] === $rdfTypeURI)
+		) {
 			$result = 'a';
-		}
-		else {
+		} else {
 			if ($usePrefixes) {
-				foreach($this->prefixes as $acronym => $prefix) {
+				foreach ($this->prefixes as $acronym => $prefix) {
 					if (strpos($item, $prefix) === 0) {
 						$result = str_replace($prefix, $acronym . ':', $item);
 						$this->usedPrefixes[$acronym] = TRUE;
 						break;
-					}
-					else if ($itemParts[0] === $acronym) {
+					} else if ($itemParts[0] === $acronym) {
 						$result = $item;
 						$this->usedPrefixes[$acronym] = TRUE;
 						break;
@@ -127,5 +130,3 @@ class TurtleRenderer extends AbstractRenderer {
 	}
 
 }
-
-?>

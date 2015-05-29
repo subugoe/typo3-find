@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to escape a string for Solr queries.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class SolrEscapeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class SolrEscapeViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -45,8 +44,6 @@ class SolrEscapeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		$this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', FALSE, FALSE);
 	}
 
-
-
 	/**
 	 * @return array
 	 */
@@ -57,7 +54,7 @@ class SolrEscapeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		}
 
 		$solariumHelper = new \Solarium\Core\Query\Helper();
-		
+
 		if ($this->arguments['phrase']) {
 			$escapedString = $solariumHelper->escapePhrase($string);
 		}
@@ -69,5 +66,3 @@ class SolrEscapeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	}
 
 }
-
-?>

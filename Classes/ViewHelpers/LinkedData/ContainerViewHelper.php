@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\LinkedData;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,8 +26,7 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\LinkedData;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to create a container for linked data output.
@@ -33,7 +34,7 @@ namespace Subugoe\Find\ViewHelpers\LinkedData;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ContainerViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -42,18 +43,15 @@ class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	public function initializeArguments () {
 		parent::initializeArguments();
 		$this->registerArgument('format', 'string', 'The linked data format to create', FALSE, 'turtle');
-		$this->registerArgument('prefixes', 'array', 'The namespace names to use', FALSE, array());
-
+		$this->registerArgument('prefixes', 'array', 'The namespace names to use', FALSE, []);
 		$this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE, 'linkedDataContainer');
 	}
-
-
 
 	/**
 	 * @return string
 	 */
 	public function render () {
-		$this->templateVariableContainer->add($this->arguments['name'], array());
+		$this->templateVariableContainer->add($this->arguments['name'], []);
 
 		$this->renderChildren();
 		$items = $this->templateVariableContainer->get($this->arguments['name']);
@@ -67,5 +65,3 @@ class ContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	}
 
 }
-
-?>

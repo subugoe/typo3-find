@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Data;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,8 +26,7 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Data;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the first element of the passed array even when not
@@ -33,8 +34,7 @@ namespace Subugoe\Find\ViewHelpers\Data;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class ArrayFirstViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -45,8 +45,6 @@ class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		$this->registerArgument('array', 'array', 'the array to return the first value of', FALSE, NULL);
 	}
 
-
-	
 	/**
 	 * @return string|int|boolean|array
 	 */
@@ -68,5 +66,3 @@ class ArrayFirstViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	}
 
 }
-
-?>

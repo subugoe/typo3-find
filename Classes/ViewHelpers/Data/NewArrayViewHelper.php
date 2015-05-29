@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Data;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,16 +26,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Data;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to create a new array with the given keys and values.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class NewArrayViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -42,17 +42,15 @@ class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	public function initializeArguments() {
 		parent::initializeArguments();
 		$this->registerArgument('name', 'string', 'name of template variable to assign the result to', FALSE, NULL);
-		$this->registerArgument('array', 'array', 'existing array to add the new keys and values to', FALSE, array());
+		$this->registerArgument('array', 'array', 'existing array to add the new keys and values to', FALSE, []);
 
 		$this->registerArgument('keys', 'array', 'array of keys', FALSE, NULL);
-		$this->registerArgument('values', 'array', 'array of values', FALSE, array());
+		$this->registerArgument('values', 'array', 'array of values', FALSE, []);
 
 		$this->registerArgument('global', 'boolean', 'whether to make the variable available to all templates coming afterwards', FALSE, FALSE);
 		$this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', FALSE, FALSE);
 	}
 
-
-	
 	/**
 	 * @return array
 	 */
@@ -67,12 +65,10 @@ class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 						$result[$key] = $value;
 					}
 				}
+			} else {
+				$result = "newArray View Helper: Number of keys and values must be the same." . PHP_EOL . print_r($this->arguments, TRUE);
 			}
-			else {
-				$result = "newArray View Helper: Number of keys and values must be the same.\n" . print_r($this->arguments, TRUE);
-			}
-		}
-		else {
+		} else {
 			foreach ($this->arguments['values'] as $value) {
 				$result[] = $value;
 			}
@@ -94,5 +90,3 @@ class NewArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	}
 
 }
-
-?>

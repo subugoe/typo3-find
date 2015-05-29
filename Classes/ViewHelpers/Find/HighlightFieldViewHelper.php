@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Find;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,8 +25,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Find;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 
 /**
@@ -41,7 +42,7 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * The highlighting tags can be configured using the highlightTagOpen and
  * highlightTagClose arguments.
  */
-class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class HighlightFieldViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -58,7 +59,6 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 		$this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', FALSE, '</em>');
 		$this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', FALSE, FALSE);
 	}
-
 
 	/**
 	 * @return string
@@ -77,8 +77,8 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 
 			return $this->highlightField($fieldContent);
 		}
+		return '';
 	}
-
 
 	/**
 	 * Returns string or array of strings with highlighted areas enclosed
@@ -87,11 +87,11 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 * @param array|string $fieldContent content of the field to highlight
 	 * @return array|string
 	 */
-	private function highlightField($fieldContent) {
+	protected function highlightField($fieldContent) {
 		$highlightInfo = $this->getHighlightInfo();
 
 		if (is_array($fieldContent)) {
-			$result = array();
+			$result = [];
 			foreach ($fieldContent as $singleField) {
 				$result[] = $this->highlightSingleField($singleField, $highlightInfo);
 			}
@@ -107,14 +107,14 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 * Returns $fieldString with highlighted areas enclosed by \ueeee and \ueeef.
 	 *
 	 * @param string $fieldString the string to highlight
-	 * @param type $highlightInfo information provided by the index’ highlighter
+	 * @param array $highlightInfo information provided by the index’ highlighter
 	 * @return string
 	 */
-	private function highlightSingleField($fieldString, $highlightInfo) {
+	protected function highlightSingleField($fieldString, $highlightInfo) {
 		$result = NULL;
 
 		foreach ($highlightInfo as $highlightItem) {
-			$highlightItemStripped = str_replace(array('\ueeee', '\ueeef'), array('', ''), $highlightItem);
+			$highlightItemStripped = str_replace(['\ueeee', '\ueeef'], ['', ''], $highlightItem);
 			if (strpos($fieldString, $highlightItemStripped) !== NULL) {
 				// HTML escape the text here if not explicitly configured to not do so.
 				// Use f:format.raw in the template to avoid double escaping the HTML tags.
@@ -123,9 +123,9 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 				}
 
 				$highlightItemMarkedUp = str_replace(
-						array('\ueeee', '\ueeef'),
-						array($this->arguments['highlightTagOpen'], $this->arguments['highlightTagClose']),
-						$highlightItem);
+					['\ueeee', '\ueeef'],
+					[$this->arguments['highlightTagOpen'], $this->arguments['highlightTagClose']],
+					$highlightItem);
 				$result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
 				break;
 			}
@@ -150,8 +150,8 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	 *
 	 * @return array
 	 */
-	private function getHighlightInfo() {
-		$highlightInfo = array();
+	protected function getHighlightInfo() {
+		$highlightInfo = [];
 		$documentID = $this->arguments['document'][$this->arguments['idKey']];
 		if ($documentID) {
 			$highlighting = $this->arguments['results']->getHighlighting();
@@ -170,5 +170,3 @@ class HighlightFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
 	}
 
 }
-
-?>

@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Data;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,16 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Data;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to rearrange an array of columns into an array of rows and.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TransposeViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Register arguments.
@@ -40,28 +40,27 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', FALSE, array());
+		$this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', FALSE, []);
 		$this->registerArgument('name', 'string', 'Variable name to assign the new array to', TRUE);
 	}
 
 
-	
 	/**
 	 * @return string Rendered string
 	 */
 	public function render() {
-		$arrays = array();
-		$iterationArray = array();
+		$arrays = [];
+		$iterationArray = [];
 		// Strip non-numeric keys in the value arrays.
 		foreach ($this->arguments['arrays'] as $key => $array) {
-			$iterationArray = ($array !== NULL) ? $array : array();
+			$iterationArray = ($array !== NULL) ? $array : [];
 			$arrays[$key] = array_values($iterationArray);
 		}
 
 		if ($iterationArray && $this->identicalLengths($arrays)) {
-			$rows = array();
-			foreach(array_keys($iterationArray) as $rowIndex) {
-				$row = array();
+			$rows = [];
+			foreach (array_keys($iterationArray) as $rowIndex) {
+				$row = [];
 				foreach ($arrays as $key => $array) {
 					$row[$key] = $array[$rowIndex];
 				}
@@ -72,9 +71,8 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 			$this->templateVariableContainer->add($variableName, $rows);
 			$output = $this->renderChildren();
 			$this->templateVariableContainer->remove($variableName);
-		}
-		else {
-			$info = array();
+		} else {
+			$info = [];
 			foreach ($this->arguments['arrays'] as $key => $array) {
 				$info[] = $key . ': ' . count($array);
 			}
@@ -82,9 +80,9 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 			$output = "The arrays passed in the »arrays« argument do not have identical numbers of values: (" . implode(', ', $info) . ')';
 		}
 
+
 		return $output;
 	}
-
 
 
 	/**
@@ -93,15 +91,14 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	 * @param array $arrays array of arrays
 	 * @return boolean
 	 */
-	private function identicalLengths ($arrays) {
+	protected function identicalLengths($arrays) {
 		$result = TRUE;
 
 		$length = NULL;
 		foreach ($arrays as $array) {
 			if ($length === NULL) {
 				$length = count($array);
-			}
-			else if ($length !== count($array)) {
+			} else if ($length !== count($array)) {
 				$result = FALSE;
 				break;
 			}
@@ -111,5 +108,3 @@ class TransposeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	}
 
 }
-
-?>

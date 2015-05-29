@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Does Search and Replace with a regular expression.
- * 
+ *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class RegexpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class RegexpViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -46,8 +45,6 @@ class RegexpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 		$this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
 		$this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()', FALSE, FALSE);
 	}
-
-
 
 	/**
 	 * @return string
@@ -75,5 +72,3 @@ class RegexpViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 	}
 
 }
-
-?>

@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Logic;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -24,16 +26,14 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-namespace Subugoe\Find\ViewHelpers\Logic;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper the truth value of all conditions joined by ||.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class NotViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class NotViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -44,8 +44,6 @@ class NotViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		$this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', TRUE);
 	}
 
-
-
 	/**
 	 * @return bool
 	 */
@@ -54,5 +52,3 @@ class NotViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	}
 
 }
-
-?>

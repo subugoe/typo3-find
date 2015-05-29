@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Format;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,17 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Format;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper for converting XML to formatted XML.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class XMLViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
@@ -43,8 +42,6 @@ class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		parent::initializeArguments();
 		$this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', FALSE, FALSE);
 	}
-
-
 
 	/**
 	 * @return string
@@ -69,5 +66,3 @@ class XMLViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	}
 
 }
-
-?>

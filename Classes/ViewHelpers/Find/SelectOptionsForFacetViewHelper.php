@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Find;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,23 +25,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Find;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * View Helper to convert an array with facet information into an array suitable
  * for use as options for f:form.select.
  */
-class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
+class SelectOptionsForFacetViewHelper extends AbstractViewHelper {
 
 	/**
 	 * Registers own arguments.
 	 */
 	public function initializeArguments() {
 		parent::initializeArguments();
-		$this->registerArgument('values', 'array', 'values array for a facet', FALSE, array());
+		$this->registerArgument('values', 'array', 'values array for a facet', FALSE, []);
 		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
 		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
 		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
@@ -47,12 +47,11 @@ class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 		$this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
 	}
 
-
 	/**
 	 * @return array
 	 */
 	public function render() {
-		$result = array();
+		$result = [];
 
 		// Start the select with a blank element?
 		if ($this->arguments['leadingBlank']) {
@@ -65,7 +64,7 @@ class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 				// Localise item name.
 				$localisationKey = $this->arguments['localisationPrefix'] . $item;
 
-				$localisedItem = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($localisationKey, $extensionName);
+				$localisedItem = LocalizationUtility::translate($localisationKey, $extensionName);
 				if (!$localisedItem) {
 					$localisedItem = $item;
 				}
@@ -82,7 +81,7 @@ class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 
 		// Strip sort prefixes.
 		if ($this->arguments['sortPrefixSeparator']) {
-			$strippedResult = array();
+			$strippedResult = [];
 			foreach ($result as $key => $value) {
 				$valueParts = explode($this->arguments['sortPrefixSeparator'], $value, 2);
 				$strippedResult[$key] = $valueParts[count($valueParts) - 1];
@@ -94,5 +93,3 @@ class SelectOptionsForFacetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 	}
 
 }
-
-?>

@@ -6,7 +6,7 @@
  *  (c) 2013 Ingo Pfennigstorf <pfennigstorf@sub-goettingen.de>
  *         & Sven-S. Porst <porst@sub.uni-goettingen.de>
  *      Göttingen State and University Library
- *  
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,34 +39,33 @@ class Tx_Find_Hooks_RealUrl {
 	 * @return array
 	 */
 	public function addRealUrlConfiguration($params, &$pObj) {
-		return array_merge_recursive($params['config'], array(
-				'postVarSets' => array(
-					'_DEFAULT' => array(
-						'id' => array(
-							array(
+		return array_merge_recursive($params['config'], [
+				'postVarSets' => [
+					'_DEFAULT' => [
+						'id' => [
+							[
 								'GETvar' => 'tx_find_find[id]',
-							),
-						),
-						'a' => array(
-							array(
+							],
+						],
+						'a' => [
+							[
 								'GETvar' => 'tx_find_find[action]',
-								'valueMap' => array(
+								'valueMap' => [
 									'data' => 'data',
 									'suggest' => 'suggest',
-								),
+								],
 								'noMatch' => 'bypass',
-							),
-						),
-						'c' => array(
-							array(
+							],
+						],
+						'c' => [
+							[
 								'GETvar' => 'tx_find_find[controller]',
 								'noMatch' => 'bypass',
-							),
-						),
-					)
-				)
-			)
+							],
+						],
+					]
+				]
+			]
 		);
 	}
-
 }

@@ -3,21 +3,21 @@
   "description": "A frontend for Solr indexes",
   "version": "1.0.1",
   "type": "typo3-cms-extension",
-  "homepage": "",
   "keywords" : ["TYPO3 CMS"],
   "license": ["GPL-2.0+"],
   "authors" : [
     {
       "name" : "Sven-S. Porst, Ingo Pfennigstorf",
-      "email" : "porst@sub.uni-goettingen.de",
+      "email" : "pfennigstorf@sub.uni-goettingen.de",
       "role" : "Developer"
     }
   ],
-  "require": {
-    "typo3/cms-core": ">=6.2.11,<8.0"
-  },
   "replace": {
     "typo3-ter/find": "*",
     "subgoe/find": "*"
+  },
+  "require-dev": {
+    "solarium/solarium": "~3.3",
+    "phpunit/phpunit": "~4.6"
   }
 }

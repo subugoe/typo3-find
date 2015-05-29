@@ -1,4 +1,6 @@
 <?php
+namespace Subugoe\Find\ViewHelpers\Page;
+
 /*******************************************************************************
  * Copyright notice
  *
@@ -23,16 +25,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
-namespace Subugoe\Find\ViewHelpers\Page;
-
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to join the elements of an array into a string.
- * 
+ *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class TitleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TitleViewHelper extends AbstractViewHelper {
 
 
 	/**
@@ -43,8 +43,6 @@ class TitleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		parent::initializeArguments();
 		$this->registerArgument('title', 'string', 'the title to set for the page', FALSE, NULL);
 	}
-
-
 
 	/**
 	 * @return string
@@ -67,12 +65,9 @@ class TitleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 		 */
 		if ($GLOBALS['TSFE']->content) {
 			$GLOBALS['TSFE']->content = preg_replace('/(<title>.*)' . $GLOBALS['TSFE']->page['title'] . '(.*<\/title>)/', '$1' . $title . '$2', $GLOBALS['TSFE']->content);
-		}
-		else {
+		} else {
 			$GLOBALS['TSFE']->page['title'] = $title;
 		}
 	}
 
 }
-
-?>
