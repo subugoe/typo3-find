@@ -55,8 +55,6 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase {
 		$this->injectDependenciesIntoViewHelper($this->fixture);
 		$this->fixture->initializeArguments();
 
-		$this->solariumClient = $this->getMock(Client::class, ['dummy']);
-		$this->solariumResponse = $this->getMock(Response::class, ['dummy']);
 	}
 
 	/**
@@ -64,28 +62,6 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase {
 	 */
 	public function fieldIsCorrectlyHighlighted() {
 		$this->markTestIncomplete('Still something to do with mocking solarium');
-
-		$arguments = [
-			'results' => $this->getAccessibleMock(
-				Result::class,
-				[],
-				[
-					$this->solariumClient,
-					$this->getMock(CoreQuery::class),
-					$this->solariumResponse
-				]
-			),
-			'document' => $this->getMock(Document::class, [], [[]]),
-			'field' => '',
-			'alternateField' => '',
-			'index' => '',
-			'idKey' => 'id',
-			'hightlightTagOpen' => '<em class="highlight">',
-			'highlightTagClose' => '</em>',
-			'raw' => false
-		];
-
-		$this->fixture->render();
 	}
 
 }
