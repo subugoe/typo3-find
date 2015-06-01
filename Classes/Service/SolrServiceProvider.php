@@ -131,7 +131,6 @@ class SolrServiceProvider implements ServiceProviderInterface {
 		return $this->getOffset() + 1;
 	}
 
-
 	/**
 	 * Returns the number of the last result on the page.
 	 *
@@ -171,6 +170,16 @@ class SolrServiceProvider implements ServiceProviderInterface {
 
 		$this->setConfigurationValue('count', $count);
 		return $count;
+	}
+
+	protected function addFeatures() {
+		if ($this->settings['features']['eDisMax']) {
+			$this->addEDisMax();
+		}
+	}
+
+	protected function addEDisMax() {
+		$this->query->getEDisMax();
 	}
 
 
@@ -552,7 +561,11 @@ class SolrServiceProvider implements ServiceProviderInterface {
 				}
 
 				ksort($queryTerms);
-				$queryPart = '_query_:' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+				if ($this->settings['features']['eDisMax']) {
+					$queryPart = $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+				} else {
+					$queryPart = '_query_:' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+				}
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;
 				}
@@ -795,6 +808,7 @@ class SolrServiceProvider implements ServiceProviderInterface {
 	 */
 	protected function createQuery() {
 		$this->query = $this->connection->createSelect();
+		$this->addFeatures();
 		$this->addTypoScriptFilters();
 
 		$this->setConfigurationValue('solarium', $this->query);

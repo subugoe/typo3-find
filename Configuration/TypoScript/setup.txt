@@ -193,6 +193,10 @@ plugin.tx_find {
 			# 1 = type:kloster
 		}
 
+		features {
+			# eDisMax = 1
+		}
+
 		paging {
 			perPage = {$plugin.tx_find.settings.count}
 			menu {

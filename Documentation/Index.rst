@@ -133,7 +133,7 @@ Solr Components
 
 When using the eDisMax feature solr offers, add
 
-* ``eDisMax = 1``
+* ``features.eDisMax = 1``
 
 
 The search form
