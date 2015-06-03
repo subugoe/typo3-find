@@ -1,18 +1,18 @@
 [submodule "Resources/Public/JavaScript/flot"]
 	path = Resources/Public/JavaScript/flot
-	url = git://github.com/flot/flot.git
+	url = git@github.com:flot/flot.git
 [submodule "Resources/Public/JavaScript/jquery.chosen"]
 	path = Resources/Public/JavaScript/jquery.chosen
-	url = git://github.com/harvesthq/chosen.git
+	url = git@github.com:harvesthq/chosen.git
 [submodule "Resources/Public/JavaScript/js-geohash"]
 	path = Resources/Public/JavaScript/js-geohash
 	url = git://github.com/y-matsuwitter/js-geohash.git
 [submodule "Projects/germania-sacra"]
 	path = Projects/germania-sacra
-	url = git://github.com/ssp/typo3-find-germania-sacra.git
+	url = git@github.com:ssp/typo3-find-germania-sacra.git
 [submodule "Projects/edfu"]
 	path = Projects/edfu
-	url = git://github.com/subugoe/typo3-find-edfu.git
+	url = git@github.com:subugoe/typo3-find-edfu.git
 [submodule "Projects/jfk-institut-zeitungen"]
 	path = Projects/jfk-institut-zeitungen
-	url = git://github.com/subugoe/typo3-find-jfk-institut-zeitungen.git
+	url = git@github.com:subugoe/typo3-find-jfk-institut-zeitungen.git
