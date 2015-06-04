@@ -87,9 +87,9 @@ A few example projects can be found on github. While you do not have the Solr in
 * `gbv <https://github.com/subugoe/typo3-find-gbv>`_: basic configuration for a big library index with multiple search fields and facets but without customised display
 * hans: simple configuration for a smaller library index with multiple search fields, facets and mildly customised templates
 * `jfk-institut-zeitungen <https://github.com/subugoe/typo3-find-jfk-institut-zeitungen>`_: simple configuration with a single search field, a non-trivial facet and a custom template without detail view
-* `Edfu <https://github.com/subugoe/edfu>`_: elaborate configuration with two search fields, two facets and highly customised display
+* `Edfu <https://github.com/subugoe/typo3-find-edfu>`_: elaborate configuration with two search fields, two facets and highly customised display
 * `GermaniaSacra <https://github.com/subugoe/typo3-find-germania-sacra>`_: elaborate configuration with many search fields, facets, data export, complex queries and highly customised display
-* test: configuration to demonstrate the settings of this Readme as well as the included View Helpers
+* `test <https://github.com/subugoe/typo3-find-test>`_: configuration to demonstrate the settings of this Readme as well as the included View Helpers
 
 These projects are structured in a common way (with potentially only a subset of the folders / files existing)
 
