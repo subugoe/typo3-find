@@ -569,7 +569,11 @@ class SolrServiceProvider implements ServiceProviderInterface {
 				}
 
 				if ($queryPart) {
-					$queryComponents[$fieldID] = $queryPart;
+					if (is_array($queryParameters[$fieldID]) && empty($queryParameters[$fieldID]['term'])) {
+						// TODO some handling
+					} else {
+						$queryComponents[$fieldID] = $queryPart;
+					}
 				}
 			}
 		}

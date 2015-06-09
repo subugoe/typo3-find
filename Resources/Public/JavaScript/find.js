@@ -377,7 +377,7 @@ var detailViewWithPaging = function (element, position) {
 
 	/**
 	 * Creates an <input> element for the given name and value.
-	 * 
+	 *
 	 * @param {string} name for name property of the <input> element
 	 * @param {string} value for value property of the <input> element
 	 * @returns DOMElement <input> element
@@ -520,7 +520,7 @@ var changeURL = function (newURL) {
 
 
 var onClickRecordNumber = function (myEvent) {
-	
+
 };
 
 
@@ -581,7 +581,7 @@ var tx_find_facetMap = (function () {
 			if (indexParts.length === 2) {
 				var geohashScale = parseInt(indexParts[0]);
 				lastZoomLevel = geohashScale;
-				
+
 				if (!zoomInfo[geohashScale]) {
 					zoomInfo[geohashScale] = {};
 				}
