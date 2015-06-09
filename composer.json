@@ -19,5 +19,8 @@
   "require-dev": {
     "solarium/solarium": "~3.3",
     "phpunit/phpunit": "~4.6"
+  },
+  "require": {
+    "elasticsearch/elasticsearch": "^1.3"
   }
 }
