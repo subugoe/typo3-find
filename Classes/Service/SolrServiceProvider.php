@@ -562,15 +562,11 @@ class SolrServiceProvider implements ServiceProviderInterface {
 
 				ksort($queryTerms);
 
-				$queryAddOn = '';
-
 				if ($this->settings['features']['eDisMax']) {
-					$queryAddOn = '{!edismax}';
+					$queryPart = '_query_:{!edismax}' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+				} else {
+					$queryPart = '_query_:' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
 				}
-
-				$queryPart = '_query_:' . $queryAddOn . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
-
-				$queryPart = str_replace('"', '', $queryPart);
 
 				if ($queryPart) {
 					$queryComponents[$fieldID] = $queryPart;

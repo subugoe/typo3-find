@@ -10,7 +10,7 @@
  * writing. "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Find',
 	'description' => 'A frontend for Solr indexes',
 	'version' => '1.0.1',
@@ -26,21 +26,19 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearcacheonload' => 1,
 	'lockType' => '',
 	'author' => 'Sven-S. Porst, Ingo Pfennigstorf',
-	'author_email' => 'porst@sub.uni-goettingen.de',
+	'author_email' => 'pfennigstorf@sub.uni-goettingen.de',
 	'author_company' => 'SUB Göttingen',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
 	'dependencies' => 't3jquery',
 	'conflicts' => '',
-	'constraints' => array(
-		'depends' => array(
+	'constraints' => [
+		'depends' => [
 			'php' => '5.5.0-5.6.99',
 			'typo3' => '6.2.0-7.99.99',
 			't3jquery' => '2.3.3-0.0.0',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+		],
+		'conflicts' => [],
+		'suggests' => [],
+	],
+];
