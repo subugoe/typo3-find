@@ -564,6 +564,7 @@ class SolrServiceProvider implements ServiceProviderInterface {
 
 				if ($this->settings['features']['eDisMax']) {
 					$queryPart = '_query_:{!edismax}' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+					$queryPart = str_replace('"', '', $queryPart);
 				} else {
 					$queryPart = '_query_:' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
 				}
