@@ -640,6 +640,8 @@ class SolrServiceProvider implements ServiceProviderInterface {
 					}
 				}
 
+				$queryWords = array_filter($queryWords);
+
 				if ($highlightConfig['useFacetTerms']) {
 					foreach ($this->getActiveFacets($arguments) as $facets) {
 						foreach (array_keys($facets) as $facetTerm) {
