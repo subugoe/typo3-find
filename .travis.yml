@@ -6,12 +6,20 @@ php:
   - nightly
 env:
   matrix:
-  - DB=mysql TYPO3=TYPO3_6-2 INTEGRATION=master
+  - DB=mysql TYPO3=TYPO3_6-2
+  - DB=mysql TYPO3=master
+  global:
+    secure: EOWpYQfg4r6lH9jkeG3IbMmAhfIFSy1tqvolzBOaA5+PwzX2nIM1t2UFA7sRRy+0r9UZK1AJuMjdeIMsHqWzhBg9rQi9LGaqh/aWZFB655jdMGTZvcuE6CV3mdh1w56oROpif0X1px4s/phUK/qO05iG5D5koLeLQ95bXqw527w=
+sudo: false
+cache:
+  directories:
+  - "$HOME/.composer/cache"
 before_script:
   - cd ..
+  - mkdir parallel && cd parallel && wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2 && tar xvf parallel-latest.tar.bz2 -C . --strip-components=1 && ./configure && make && cd ..
   - git clone --single-branch --branch $TYPO3 --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
   - mv typo3_core/* .
-  - sudo apt-get install parallel
+  - if [ "$GITHUB_COMPOSER_AUTH" ]; then composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH; fi
   - composer self-update
   - composer install
   - mkdir -p uploads typo3temp typo3conf/ext
@@ -20,4 +28,4 @@ before_script:
   - composer install
   - cd ../../../
 script:
-  - ./bin/phpunit -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/find/Tests/Unit/;
+  - "./bin/phpunit -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/find/Tests/Unit/;"
