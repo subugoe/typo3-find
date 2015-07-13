@@ -47,8 +47,12 @@ class FrontendUtility {
 			$scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
 			$scriptTag->addAttribute('type', 'text/javascript');
 
+			if (array_key_exists('underlyingQuery', $arguments)) {
+				$arguments = $arguments['underlyingQuery'];
+			}
+
 			$underlyingQuery = ['q' => $query];
-			if (!empty($arguments['facet'])) {
+			if (array_key_exists('facet', $arguments)) {
 				$underlyingQuery['facet'] = $arguments['facet'];
 			}
 			if ($position !== NULL) {
