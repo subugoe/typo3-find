@@ -25,71 +25,77 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to convert an array with facet information into an array suitable
  * for use as options for f:form.select.
  */
-class SelectOptionsForFacetViewHelper extends AbstractViewHelper {
+class SelectOptionsForFacetViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('values', 'array', 'values array for a facet', FALSE, []);
-		$this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE, FALSE);
-		$this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)', FALSE, FALSE);
-		$this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
-		$this->registerArgument('sortPrefixSeparator', 'string', 'sort the whole string but only keep the part after the separator for display', FALSE, NULL);
-		$this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
-	}
+    /**
+     * Registers own arguments.
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('values', 'array', 'values array for a facet', FALSE, []);
+        $this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE,
+            FALSE);
+        $this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)',
+            FALSE, FALSE);
+        $this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
+        $this->registerArgument('sortPrefixSeparator', 'string',
+            'sort the whole string but only keep the part after the separator for display', FALSE, NULL);
+        $this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
+    }
 
-	/**
-	 * @return array
-	 */
-	public function render() {
-		$result = [];
+    /**
+     * @return array
+     */
+    public function render()
+    {
+        $result = [];
 
-		// Start the select with a blank element?
-		if ($this->arguments['leadingBlank']) {
-			$result[''] = '';
-		}
+        // Start the select with a blank element?
+        if ($this->arguments['leadingBlank']) {
+            $result[''] = '';
+        }
 
-		$extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
-		if (!empty($this->arguments['values'])) {
-			foreach ($this->arguments['values'] as $item => $count) {
-				// Localise item name.
-				$localisationKey = $this->arguments['localisationPrefix'] . $item;
+        $extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
+        if (!empty($this->arguments['values'])) {
+            foreach ($this->arguments['values'] as $item => $count) {
+                // Localise item name.
+                $localisationKey = $this->arguments['localisationPrefix'] . $item;
 
-				$localisedItem = LocalizationUtility::translate($localisationKey, $extensionName);
-				if (!$localisedItem) {
-					$localisedItem = $item;
-				}
+                $localisedItem = LocalizationUtility::translate($localisationKey, $extensionName);
+                if (!$localisedItem) {
+                    $localisedItem = $item;
+                }
 
-				// Append count to item name?
-				$result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' (' . $count . ')' : '');
-			}
-		}
+                // Append count to item name?
+                $result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' (' . $count . ')' : '');
+            }
+        }
 
-		// Sort the array?
-		if ($this->arguments['sortByName']) {
-			ksort($result);
-		}
+        // Sort the array?
+        if ($this->arguments['sortByName']) {
+            ksort($result);
+        }
 
-		// Strip sort prefixes.
-		if ($this->arguments['sortPrefixSeparator']) {
-			$strippedResult = [];
-			foreach ($result as $key => $value) {
-				$valueParts = explode($this->arguments['sortPrefixSeparator'], $value, 2);
-				$strippedResult[$key] = $valueParts[count($valueParts) - 1];
-			}
-			$result = $strippedResult;
-		}
+        // Strip sort prefixes.
+        if ($this->arguments['sortPrefixSeparator']) {
+            $strippedResult = [];
+            foreach ($result as $key => $value) {
+                $valueParts = explode($this->arguments['sortPrefixSeparator'], $value, 2);
+                $strippedResult[$key] = $valueParts[count($valueParts) - 1];
+            }
+            $result = $strippedResult;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

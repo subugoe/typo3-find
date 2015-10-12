@@ -31,58 +31,65 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for IsArray ViewHelper
  */
-class IsArrayViewHelperTest extends ViewHelperBaseTestcase {
+class IsArrayViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(IsArrayViewHelper::class, array('renderChildren'));
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(IsArrayViewHelper::class, array('renderChildren'));
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsInterpretedAsArray() {
-		$this->fixture->setArguments(['subject' => ['hrdr']]);
-		$this->assertTrue($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function arrayIsInterpretedAsArray()
+    {
+        $this->fixture->setArguments(['subject' => ['hrdr']]);
+        $this->assertTrue($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function intIsNotInterpretedAsArray() {
-		$this->fixture->setArguments(['subject' => 667]);
-		$this->assertFalse($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function intIsNotInterpretedAsArray()
+    {
+        $this->fixture->setArguments(['subject' => 667]);
+        $this->assertFalse($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function objectsAreNotInterpretedAsArray() {
-		$this->fixture->setArguments(['subject' => $this->fixture]);
-		$this->assertFalse($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function objectsAreNotInterpretedAsArray()
+    {
+        $this->fixture->setArguments(['subject' => $this->fixture]);
+        $this->assertFalse($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function stringsAreNotInterpretedAsArray() {
-		$this->fixture->setArguments(['subject' => 'hrdr']);
-		$this->assertFalse($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function stringsAreNotInterpretedAsArray()
+    {
+        $this->fixture->setArguments(['subject' => 'hrdr']);
+        $this->assertFalse($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function nullIsNotInterpretedAsArray() {
-		$this->fixture->setArguments(['subject' => NULL]);
-		$this->assertFalse($this->fixture->render());
-	}
+    /**
+     * @test
+     */
+    public function nullIsNotInterpretedAsArray()
+    {
+        $this->fixture->setArguments(['subject' => NULL]);
+        $this->assertFalse($this->fixture->render());
+    }
 
 }

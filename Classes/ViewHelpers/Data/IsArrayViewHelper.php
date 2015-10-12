@@ -33,33 +33,36 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class IsArrayViewHelper extends AbstractViewHelper {
+class IsArrayViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Register arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
-	}
+    /**
+     * Register arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function render() {
-		$result = FALSE;
+    /**
+     * @return boolean
+     */
+    public function render()
+    {
+        $result = FALSE;
 
-		$subject = $this->arguments['subject'];
-		if ($subject === NULL) {
-			$subject = $this->renderChildren();
-		}
+        $subject = $this->arguments['subject'];
+        if ($subject === NULL) {
+            $subject = $this->renderChildren();
+        }
 
-		if ($subject !== NULL) {
-			$result = is_array($subject);
-		}
+        if ($subject !== NULL) {
+            $result = is_array($subject);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

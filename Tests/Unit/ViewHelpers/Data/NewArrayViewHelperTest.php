@@ -31,103 +31,109 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for NewArray ViewHelper
  */
-class NewArrayViewHelperTest extends ViewHelperBaseTestcase {
+class NewArrayViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, array('renderChildren'));
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, array('renderChildren'));
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function aNewArrayFromArgumentsIsCorrectlyCreated() {
-		$arguments = [
-			'array' => ['array'],
-			'keys' => ['hrdr'],
-			'values' => ['behedeti'],
-			'global' => false,
-			'omitEmptyFields' => false
-		];
+    /**
+     * @test
+     */
+    public function aNewArrayFromArgumentsIsCorrectlyCreated()
+    {
+        $arguments = [
+            'array' => ['array'],
+            'keys' => ['hrdr'],
+            'values' => ['behedeti'],
+            'global' => false,
+            'omitEmptyFields' => false
+        ];
 
-		$expected = [
-			0 => 'array',
-			'hrdr' => 'behedeti'
-		];
+        $expected = [
+            0 => 'array',
+            'hrdr' => 'behedeti'
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->assertSame($expected, $this->fixture->render());
+        $this->fixture->setArguments($arguments);
+        $this->assertSame($expected, $this->fixture->render());
 
-	}
+    }
 
-	/**
-	 * @test
-	 */
-	public function aNewArrayWithoutAnExistingOneIsCreated() {
-		$arguments = [
-			'keys' => ['hrdr'],
-			'values' => ['behedeti'],
-			'global' => false,
-			'omitEmptyFields' => false
-		];
+    /**
+     * @test
+     */
+    public function aNewArrayWithoutAnExistingOneIsCreated()
+    {
+        $arguments = [
+            'keys' => ['hrdr'],
+            'values' => ['behedeti'],
+            'global' => false,
+            'omitEmptyFields' => false
+        ];
 
-		$expected = [
-			'hrdr' => 'behedeti'
-		];
+        $expected = [
+            'hrdr' => 'behedeti'
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->assertSame($expected, $this->fixture->render());
+        $this->fixture->setArguments($arguments);
+        $this->assertSame($expected, $this->fixture->render());
 
-	}
+    }
 
-	/**
-	 * @test
-	 */
-	public function aNewArrayWithMultipleEntriesIsCreated() {
-		$arguments = [
-			'keys' => ['hrdr', 'horus'],
-			'values' => ['behedeti', 'edfu'],
-			'global' => false,
-			'omitEmptyFields' => false
-		];
+    /**
+     * @test
+     */
+    public function aNewArrayWithMultipleEntriesIsCreated()
+    {
+        $arguments = [
+            'keys' => ['hrdr', 'horus'],
+            'values' => ['behedeti', 'edfu'],
+            'global' => false,
+            'omitEmptyFields' => false
+        ];
 
-		$expected = [
-			'hrdr' => 'behedeti',
-			'horus' => 'edfu'
-		];
+        $expected = [
+            'hrdr' => 'behedeti',
+            'horus' => 'edfu'
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->assertSame($expected, $this->fixture->render());
+        $this->fixture->setArguments($arguments);
+        $this->assertSame($expected, $this->fixture->render());
 
-	}
+    }
 
-	/**
-	 * @test
-	 */
-	public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues() {
-		$arguments = [
-			'keys' => ['hrdr', 'horus', ''],
-			'values' => ['behedeti', 'edfu', ''],
-			'global' => false,
-			'omitEmptyFields' => false
-		];
+    /**
+     * @test
+     */
+    public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues()
+    {
+        $arguments = [
+            'keys' => ['hrdr', 'horus', ''],
+            'values' => ['behedeti', 'edfu', ''],
+            'global' => false,
+            'omitEmptyFields' => false
+        ];
 
-		$expected = [
-			'hrdr' => 'behedeti',
-			'horus' => 'edfu',
-			'' => ''
-		];
+        $expected = [
+            'hrdr' => 'behedeti',
+            'horus' => 'edfu',
+            '' => ''
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->assertSame($expected, $this->fixture->render());
+        $this->fixture->setArguments($arguments);
+        $this->assertSame($expected, $this->fixture->render());
 
-	}
+    }
 
 }

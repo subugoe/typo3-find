@@ -32,37 +32,39 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class SolrEscapeViewHelper extends AbstractViewHelper {
+class SolrEscapeViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'the string to escape for Solr', FALSE, NULL);
-		$this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', FALSE, FALSE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string', 'the string to escape for Solr', FALSE, NULL);
+        $this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', FALSE, FALSE);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function render() {
-		$string = $this->arguments['string'];
-		if ($string === NULL) {
-			$string = $this->renderChildren();
-		}
+    /**
+     * @return array
+     */
+    public function render()
+    {
+        $string = $this->arguments['string'];
+        if ($string === NULL) {
+            $string = $this->renderChildren();
+        }
 
-		$solariumHelper = new \Solarium\Core\Query\Helper();
+        $solariumHelper = new \Solarium\Core\Query\Helper();
 
-		if ($this->arguments['phrase']) {
-			$escapedString = $solariumHelper->escapePhrase($string);
-		}
-		else {
-			$escapedString = $solariumHelper->escapeTerm($string);
-		}
+        if ($this->arguments['phrase']) {
+            $escapedString = $solariumHelper->escapePhrase($string);
+        } else {
+            $escapedString = $solariumHelper->escapeTerm($string);
+        }
 
-		return $escapedString;
-	}
+        return $escapedString;
+    }
 
 }

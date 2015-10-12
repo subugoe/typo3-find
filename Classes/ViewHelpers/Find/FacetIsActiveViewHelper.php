@@ -32,33 +32,39 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Determines whether a facet is selected or not
  */
-class FacetIsActiveViewHelper extends AbstractViewHelper {
+class FacetIsActiveViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Register arguments.
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', TRUE);
-		$this->registerArgument('facetTerm', 'string', 'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches', FALSE, NULL);
-		$this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, []);
-		$this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
-	}
+    /**
+     * Register arguments.
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', TRUE);
+        $this->registerArgument('facetTerm', 'string',
+            'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches',
+            FALSE, NULL);
+        $this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, []);
+        $this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function render() {
-		foreach ($this->arguments['activeFacets'] as $facets) {
-			foreach ($facets as $facetInfo) {
-				if ($facetInfo['id'] === $this->arguments['facetID']
-						&& ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === NULL)) {
-					return TRUE;
-				}
-			}
-		}
+    /**
+     * @return bool
+     */
+    public function render()
+    {
+        foreach ($this->arguments['activeFacets'] as $facets) {
+            foreach ($facets as $facetInfo) {
+                if ($facetInfo['id'] === $this->arguments['facetID']
+                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === NULL)
+                ) {
+                    return TRUE;
+                }
+            }
+        }
 
-		return FALSE;
-	}
+        return FALSE;
+    }
 
 }

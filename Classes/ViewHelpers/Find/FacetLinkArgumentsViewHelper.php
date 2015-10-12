@@ -41,40 +41,44 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *       - remove: f.link.action’s »argumentsToBeExcludedFromQueryString«, removing a facet selection
  *              leaving out the facetTerm parameter removes all selected items for the facet facetID
  */
-class FacetLinkArgumentsViewHelper extends AbstractViewHelper {
+class FacetLinkArgumentsViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Create the return array required to add/remove the URL parameters by
-	 * passing it to f.link.action’s »arguments«
-	 * or »argumentsToBeExcludedFromQueryString«.
-	 *
-	 * @param string $facetID The name of the facet to create the link for
-	 * @param string $facetTerm Term of the facet item to create the link for
-	 * @param array $activeFacets Array of active facets
-	 * @param string $mode One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«
-	 * @return array
-	 */
-	public function render($facetID, $facetTerm = '', $activeFacets = [], $mode = 'add') {
-		$result = [];
+    /**
+     * Create the return array required to add/remove the URL parameters by
+     * passing it to f.link.action’s »arguments«
+     * or »argumentsToBeExcludedFromQueryString«.
+     *
+     * @param string $facetID The name of the facet to create the link for
+     * @param string $facetTerm Term of the facet item to create the link for
+     * @param array $activeFacets Array of active facets
+     * @param string $mode One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«
+     * @return array
+     */
+    public function render($facetID, $facetTerm = '', $activeFacets = [], $mode = 'add')
+    {
+        $result = [];
 
-		if ($mode === 'remove' && $activeFacets) {
+        if ($mode === 'remove' && $activeFacets) {
 
-			if (array_key_exists($facetID, $activeFacets)) {
-				$itemToRemove = 'tx_find_find[facet][' . $facetID . ']';
+            if (array_key_exists($facetID, $activeFacets)) {
+                $itemToRemove = 'tx_find_find[facet][' . $facetID . ']';
 
-				if (array_key_exists($facetTerm, $activeFacets[$facetID])) {
-					$itemToRemove .= '[' . $facetTerm . ']';
-				}
-				$result[] = $itemToRemove;
-			}
-			// Go back to page 1.
-			$result[] = 'tx_find_find[page]';
-		} else if ($mode === 'add') {
-			$result['facet'] = [
-				 $facetID => [$facetTerm => 1]
-			];
-		}
+                if (array_key_exists($facetTerm, $activeFacets[$facetID])) {
+                    $itemToRemove .= '[' . $facetTerm . ']';
+                }
+                $result[] = $itemToRemove;
+            }
+            // Go back to page 1.
+            $result[] = 'tx_find_find[page]';
+        } else {
+            if ($mode === 'add') {
+                $result['facet'] = [
+                    $facetID => [$facetTerm => 1]
+                ];
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

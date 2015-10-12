@@ -34,57 +34,62 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
 /**
  * Tests for the item viewhelper
  */
-class ItemViewHelperTest extends BaseTestCase {
+class ItemViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var ItemViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var ItemViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @var TemplateVariableContainer
-	 */
-	protected $templateVariableContainer;
+    /**
+     * @var TemplateVariableContainer
+     */
+    protected $templateVariableContainer;
 
-	/**
-	 * @return array
-	 */
-	public function linkedDataProvider() {
-		return [
-			['hrdr', 'is', 'thirsty', NULL, NULL, NULL, 'hrdr'],
-		];
-	}
+    /**
+     * @return array
+     */
+    public function linkedDataProvider()
+    {
+        return [
+            ['hrdr', 'is', 'thirsty', NULL, NULL, NULL, 'hrdr'],
+        ];
+    }
 
-	public function setUp() {
-		$this->fixture = $this->getMock(ItemViewHelper::class, ['dummy']);
-		$this->templateVariableContainer = $this->getMock(TemplateVariableContainer::class, ['add', 'get', 'remove', 'exists']);
-		$renderingContext = new RenderingContext();
-		$renderingContext->injectTemplateVariableContainer(new TemplateVariableContainer());
-		$this->fixture->setRenderingContext($renderingContext);
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(ItemViewHelper::class, ['dummy']);
+        $this->templateVariableContainer = $this->getMock(TemplateVariableContainer::class,
+            ['add', 'get', 'remove', 'exists']);
+        $renderingContext = new RenderingContext();
+        $renderingContext->injectTemplateVariableContainer(new TemplateVariableContainer());
+        $this->fixture->setRenderingContext($renderingContext);
 
-	}
+    }
 
-	/**
-	 * @test
-	 * @dataProvider linkedDataProvider
-	 */
-	public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected) {
+    /**
+     * @test
+     * @dataProvider linkedDataProvider
+     */
+    public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected)
+    {
 
-		$this->fixture->setArguments([
-			'subject' => $subject,
-			'predicate' => $predicate,
-			'object' => $object,
-			'objectType' => $objectType,
-			'language' => $language,
-			'name' => $name
-		]);
-		$this->templateVariableContainer->expects($this->once())->method('remove')->with($name);
-		$this->templateVariableContainer->expects($this->once())->method('add')->with($name)->will($this->returnValue(''));
-		ObjectAccess::setProperty($this->fixture, 'templateVariableContainer', $this->templateVariableContainer, TRUE);
+        $this->fixture->setArguments([
+            'subject' => $subject,
+            'predicate' => $predicate,
+            'object' => $object,
+            'objectType' => $objectType,
+            'language' => $language,
+            'name' => $name
+        ]);
+        $this->templateVariableContainer->expects($this->once())->method('remove')->with($name);
+        $this->templateVariableContainer->expects($this->once())->method('add')->with($name)->will($this->returnValue(''));
+        ObjectAccess::setProperty($this->fixture, 'templateVariableContainer', $this->templateVariableContainer, TRUE);
 
-		$this->fixture->render();
+        $this->fixture->render();
 
-		$this->markTestIncomplete('Todo');
-	}
+        $this->markTestIncomplete('Todo');
+    }
 
 }

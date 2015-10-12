@@ -32,43 +32,46 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class RegexpViewHelper extends AbstractViewHelper {
+class RegexpViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
-		$this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
-		$this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
-		$this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()', FALSE, FALSE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string',
+            'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
+        $this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
+        $this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
+        $this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()',
+            FALSE, FALSE);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$input = $this->arguments['string'];
-		if ($input === NULL) {
-			$input = $this->renderChildren();
-		}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $input = $this->arguments['string'];
+        if ($input === NULL) {
+            $input = $this->renderChildren();
+        }
 
-		$result = NULL;
-		if ($this->arguments['replace'] === NULL) {
-			$result = preg_match($this->arguments['match'], $input);
-		}
-		else {
-			if (!$this->arguments['useMBEreg']) {
-				$result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
-			}
-			else {
-				$result = mb_ereg_replace($this->arguments['match'], $this->arguments['replace'], $input);
-			}
-		}
+        $result = NULL;
+        if ($this->arguments['replace'] === NULL) {
+            $result = preg_match($this->arguments['match'], $input);
+        } else {
+            if (!$this->arguments['useMBEreg']) {
+                $result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+            } else {
+                $result = mb_ereg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

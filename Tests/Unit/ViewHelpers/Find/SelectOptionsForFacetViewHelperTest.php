@@ -30,36 +30,39 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for SelectOptionsForFacet ViewHelper
  */
-class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase {
+class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(SelectOptionsForFacetViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(SelectOptionsForFacetViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function returnTrueIfAPathExists() {
+    /**
+     * @test
+     */
+    public function returnTrueIfAPathExists()
+    {
 
-		$arguments = [
-			'values' => [],
-			'showCount' => false,
-			'leadingBlank' => false,
-			'sortByName' => false,
-			'sortPrefixSeparator' => null,
-			'localisationPrefix' => ''
-		];
+        $arguments = [
+            'values' => [],
+            'showCount' => false,
+            'leadingBlank' => false,
+            'sortByName' => false,
+            'sortPrefixSeparator' => null,
+            'localisationPrefix' => ''
+        ];
 
-		$this->fixture->setArguments($arguments);
+        $this->fixture->setArguments($arguments);
 
-		$this->markTestIncomplete('todo');
-	}
+        $this->markTestIncomplete('todo');
+    }
 }

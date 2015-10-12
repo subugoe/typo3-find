@@ -31,60 +31,66 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for Split ViewHelper
  */
-class SplitViewHelperTest extends ViewHelperBaseTestcase {
+class SplitViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(SplitViewHelper::class, array('renderChildren'));
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, array('renderChildren'));
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function stringIsExplodedCorrectlyWithoutPassedSeparator() {
-		$string = 'hrdr, behedeti, horus';
-		$expected = ['hrdr', 'behedeti', 'horus'];
+    /**
+     * @test
+     */
+    public function stringIsExplodedCorrectlyWithoutPassedSeparator()
+    {
+        $string = 'hrdr, behedeti, horus';
+        $expected = ['hrdr', 'behedeti', 'horus'];
 
-		$this->assertSame($expected, $this->fixture->render($string));
-	}
+        $this->assertSame($expected, $this->fixture->render($string));
+    }
 
-	/**
-	 * @test
-	 */
-	public function stringIsExplodedCorrectlyWithPassedSeparator() {
-		$string = 'hrdr, behedeti, horus';
-		$separator = ', ';
-		$expected = ['hrdr', 'behedeti', 'horus'];
+    /**
+     * @test
+     */
+    public function stringIsExplodedCorrectlyWithPassedSeparator()
+    {
+        $string = 'hrdr, behedeti, horus';
+        $separator = ', ';
+        $expected = ['hrdr', 'behedeti', 'horus'];
 
-		$this->assertSame($expected, $this->fixture->render($string, $separator));
-	}
+        $this->assertSame($expected, $this->fixture->render($string, $separator));
+    }
 
-	/**
-	 * @test
-	 */
-	public function stringIsExplodedCorrectlyWithNonDefaultSeparator() {
-		$string = 'hrdrhorus behedetihorus horus';
-		$separator = 'horus ';
-		$expected = ['hrdr', 'behedeti', 'horus'];
+    /**
+     * @test
+     */
+    public function stringIsExplodedCorrectlyWithNonDefaultSeparator()
+    {
+        $string = 'hrdrhorus behedetihorus horus';
+        $separator = 'horus ';
+        $expected = ['hrdr', 'behedeti', 'horus'];
 
-		$this->assertSame($expected, $this->fixture->render($string, $separator));
-	}
+        $this->assertSame($expected, $this->fixture->render($string, $separator));
+    }
 
-	/**
-	 * @test
-	 */
-	public function emptyArrayIsReturnedWhenPassingIt() {
-		$string = '';
-		$expected = [''];
+    /**
+     * @test
+     */
+    public function emptyArrayIsReturnedWhenPassingIt()
+    {
+        $string = '';
+        $expected = [''];
 
-		$this->assertSame($expected, $this->fixture->render($string));
-	}
+        $this->assertSame($expected, $this->fixture->render($string));
+    }
 
 }

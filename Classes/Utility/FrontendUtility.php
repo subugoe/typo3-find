@@ -32,56 +32,59 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 /**
  * Utility for JavaScripts, Views, ...
  */
-class FrontendUtility {
+class FrontendUtility
+{
 
-	/**
-	 * Stores information about the active query in the »underlyingQuery« JavaScript variable.
-	 *
-	 * @param array $query
-	 * @param int|NULL $position of the record in the result list
-	 * @param array $arguments overrides $this->requestArguments if set
-	 * @return string
-	 */
-	public static function addQueryInformationAsJavaScript($query, $position = NULL, $arguments = [], $settings) {
-		if ($settings['paging']['detailPagePaging']) {
-			$scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
-			$scriptTag->addAttribute('type', 'text/javascript');
+    /**
+     * Stores information about the active query in the »underlyingQuery« JavaScript variable.
+     *
+     * @param array $query
+     * @param int|NULL $position of the record in the result list
+     * @param array $arguments overrides $this->requestArguments if set
+     * @return string
+     */
+    public static function addQueryInformationAsJavaScript($query, $position = NULL, $arguments = [], $settings)
+    {
+        if ($settings['paging']['detailPagePaging']) {
+            $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
+            $scriptTag->addAttribute('type', 'text/javascript');
 
-			if (array_key_exists('underlyingQuery', $arguments)) {
-				$arguments = $arguments['underlyingQuery'];
-			}
+            if (array_key_exists('underlyingQuery', $arguments)) {
+                $arguments = $arguments['underlyingQuery'];
+            }
 
-			$underlyingQuery = ['q' => $query];
-			if (array_key_exists('facet', $arguments)) {
-				$underlyingQuery['facet'] = $arguments['facet'];
-			}
-			if ($position !== NULL) {
-				$underlyingQuery['position'] = $position;
-			}
-			if ($arguments['count']) {
-				$underlyingQuery['count'] = $arguments['count'];
-			}
-			if ($arguments['sort']) {
-				$underlyingQuery['sort'] = $arguments['sort'];
-			}
-			$scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
-			return $scriptTag->render();
-		}
-		return '';
-	}
+            $underlyingQuery = ['q' => $query];
+            if (array_key_exists('facet', $arguments)) {
+                $underlyingQuery['facet'] = $arguments['facet'];
+            }
+            if ($position !== NULL) {
+                $underlyingQuery['position'] = $position;
+            }
+            if ($arguments['count']) {
+                $underlyingQuery['count'] = $arguments['count'];
+            }
+            if ($arguments['sort']) {
+                $underlyingQuery['sort'] = $arguments['sort'];
+            }
+            $scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
+            return $scriptTag->render();
+        }
+        return '';
+    }
 
-	/**
-	 * @param $underlyingQueryInfo
-	 * @return array
-	 */
-	public static function getIndexes($underlyingQueryInfo) {
-		// These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
-		$index = [];
-		$index['positionIndex'] = $underlyingQueryInfo['position'] - 1;
-		$index['previousIndex'] = max([$index['positionIndex'] - 1, 0]);
-		$index['nextIndex'] = $index['positionIndex'] + 1;
-		$index['resultIndexOffset'] = ($index['positionIndex'] === 0) ? 0 : 1;
-		return $index;
-	}
+    /**
+     * @param $underlyingQueryInfo
+     * @return array
+     */
+    public static function getIndexes($underlyingQueryInfo)
+    {
+        // These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
+        $index = [];
+        $index['positionIndex'] = $underlyingQueryInfo['position'] - 1;
+        $index['previousIndex'] = max([$index['positionIndex'] - 1, 0]);
+        $index['nextIndex'] = $index['positionIndex'] + 1;
+        $index['resultIndexOffset'] = ($index['positionIndex'] === 0) ? 0 : 1;
+        return $index;
+    }
 
 }

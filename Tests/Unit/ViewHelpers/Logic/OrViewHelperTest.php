@@ -31,80 +31,84 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Tests for the NOT viewhelper
  */
-class OrViewHelperTest extends BaseTestCase {
+class OrViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var OrViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var OrViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function conditionProvider() {
-		return [
-			[
-				[
-					(TRUE === TRUE),
-					(1 === 1),
-					('hrdr' === 'hrdr'),
-					('hrdr' == 'hrdr'),
-					(TRUE == 1)
-				],
-				TRUE
-			],
-			[
-				[
-					(TRUE === TRUE),
-					(1 === 1),
-					('hrdr' === 'hrdr'),
-					('hrdr' == 'hrdr'),
-					(TRUE == 'hrdr')
-				],
-				TRUE
-			],
-			[
-				[
-					(TRUE === 3),
-					(1 === 'hrdr'),
-					('hrdr' === '3'),
-					('behedeti' == 'hrdr'),
-					(7 == 'hrdr')
-				],
-				FALSE
-			],
-			[
-				[
-					(TRUE === 3),
-				],
-				FALSE
-			]
-			,
-			[
-				[
-					(TRUE === TRUE),
-				],
-				TRUE
-			]
-		];
-	}
+    /**
+     * @return array
+     */
+    public function conditionProvider()
+    {
+        return [
+            [
+                [
+                    (TRUE === TRUE),
+                    (1 === 1),
+                    ('hrdr' === 'hrdr'),
+                    ('hrdr' == 'hrdr'),
+                    (TRUE == 1)
+                ],
+                TRUE
+            ],
+            [
+                [
+                    (TRUE === TRUE),
+                    (1 === 1),
+                    ('hrdr' === 'hrdr'),
+                    ('hrdr' == 'hrdr'),
+                    (TRUE == 'hrdr')
+                ],
+                TRUE
+            ],
+            [
+                [
+                    (TRUE === 3),
+                    (1 === 'hrdr'),
+                    ('hrdr' === '3'),
+                    ('behedeti' == 'hrdr'),
+                    (7 == 'hrdr')
+                ],
+                FALSE
+            ],
+            [
+                [
+                    (TRUE === 3),
+                ],
+                FALSE
+            ]
+            ,
+            [
+                [
+                    (TRUE === TRUE),
+                ],
+                TRUE
+            ]
+        ];
+    }
 
-	public function setUp() {
-		$this->fixture = $this->getMock(OrViewHelper::class, ['dummy']);
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(OrViewHelper::class, ['dummy']);
 
-	}
+    }
 
-	/**
-	 * @test
-	 * @dataProvider conditionProvider
-	 */
-	public function orConditionIsMet($conditions, $expected) {
+    /**
+     * @test
+     * @dataProvider conditionProvider
+     */
+    public function orConditionIsMet($conditions, $expected)
+    {
 
-		$this->fixture->setArguments([
-			'conditions' => $conditions
-		]);
+        $this->fixture->setArguments([
+            'conditions' => $conditions
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

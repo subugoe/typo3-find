@@ -25,48 +25,52 @@ namespace Subugoe\Tests\Unit\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 use Subugoe\Find\Service\SolrServiceProvider;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Solr ServiceProvider Test
  */
-class SolrServiceProviderTest extends BaseTestCase {
+class SolrServiceProviderTest extends BaseTestCase
+{
 
-	/**
-	 * @var \Subugoe\Find\Service\SolrServiceProvider
-	 */
-	protected $fixture;
+    /**
+     * @var \Subugoe\Find\Service\SolrServiceProvider
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, ['dummy'], [[]]);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, ['dummy'], [[]]);
+    }
 
-	/**
-	 * @test
-	 */
-	public function setConfigurationAddsTheValueToConfigurationArray() {
-		$key = 'foo';
-		$value = 'bar';
+    /**
+     * @test
+     */
+    public function setConfigurationAddsTheValueToConfigurationArray()
+    {
+        $key = 'foo';
+        $value = 'bar';
 
-		$this->fixture->setConfigurationValue($key, $value);
-		$this->assertArrayHasKey($key, $this->fixture->getConfiguration());
-	}
+        $this->fixture->setConfigurationValue($key, $value);
+        $this->assertArrayHasKey($key, $this->fixture->getConfiguration());
+    }
 
-	/**
-	 * @test
-	 */
-	public function setConfigurationAddsAKeyValuePairToAnExistingConfiguration() {
-		$key = 'foo';
-		$value = 'bar';
+    /**
+     * @test
+     */
+    public function setConfigurationAddsAKeyValuePairToAnExistingConfiguration()
+    {
+        $key = 'foo';
+        $value = 'bar';
 
-		$key1 = 'bar';
-		$value1 = 'baz';
+        $key1 = 'bar';
+        $value1 = 'baz';
 
-		$this->fixture->setConfigurationValue($key1, $value1);
-		$this->fixture->setConfigurationValue($key, $value);
-		$this->assertArrayHasKey($key, $this->fixture->getConfiguration());
-		$this->assertArrayHasKey($key1, $this->fixture->getConfiguration());
-	}
+        $this->fixture->setConfigurationValue($key1, $value1);
+        $this->fixture->setConfigurationValue($key, $value);
+        $this->assertArrayHasKey($key, $this->fixture->getConfiguration());
+        $this->assertArrayHasKey($key1, $this->fixture->getConfiguration());
+    }
 
 }

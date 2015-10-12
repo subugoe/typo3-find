@@ -32,44 +32,50 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * View Helper to create a container for linked data output.
  * Add data by using the linkedDataItem View Helper inside it.
  */
-class ItemViewHelper extends AbstractViewHelper {
+class ItemViewHelper extends AbstractViewHelper
+{
 
-	/**;
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('subject', 'string', 'The triple’s subject', TRUE);
-		$this->registerArgument('predicate', 'string', 'The triple’s predicate', TRUE);
-		$this->registerArgument('object', 'string', 'The triple’s object', FALSE, NULL);
-		$this->registerArgument('objectType', 'string', 'Type of the triple’s object', FALSE, NULL);
-		$this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', FALSE, NULL);
-		$this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE, 'linkedDataContainer');
-	}
+    /**;
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The triple’s subject', TRUE);
+        $this->registerArgument('predicate', 'string', 'The triple’s predicate', TRUE);
+        $this->registerArgument('object', 'string', 'The triple’s object', FALSE, NULL);
+        $this->registerArgument('objectType', 'string', 'Type of the triple’s object', FALSE, NULL);
+        $this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', FALSE, NULL);
+        $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE,
+            'linkedDataContainer');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$container = $this->templateVariableContainer->get($this->arguments['name']);
-		if (!$container[$this->arguments['subject']]) {
-			$container[$this->arguments['subject']] = [];
-		}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $container = $this->templateVariableContainer->get($this->arguments['name']);
+        if (!$container[$this->arguments['subject']]) {
+            $container[$this->arguments['subject']] = [];
+        }
 
-		if (!$container[$this->arguments['subject']][$this->arguments['predicate']]) {
-			$container[$this->arguments['subject']][$this->arguments['predicate']] = [];
-		}
+        if (!$container[$this->arguments['subject']][$this->arguments['predicate']]) {
+            $container[$this->arguments['subject']][$this->arguments['predicate']] = [];
+        }
 
-		if ($this->arguments['object'] !== NULL) {
-			$container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = NULL;
-		}
-		else {
-			$container[$this->arguments['subject']][$this->arguments['predicate']][$this->renderChildren()] = ['type' => $this->arguments['objectType'], 'language' => $this->arguments['language']];
-		}
+        if ($this->arguments['object'] !== NULL) {
+            $container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = NULL;
+        } else {
+            $container[$this->arguments['subject']][$this->arguments['predicate']][$this->renderChildren()] = [
+                'type' => $this->arguments['objectType'],
+                'language' => $this->arguments['language']
+            ];
+        }
 
-		$this->templateVariableContainer->remove($this->arguments['name']);
-		$this->templateVariableContainer->add($this->arguments['name'], $container);
-	}
+        $this->templateVariableContainer->remove($this->arguments['name']);
+        $this->templateVariableContainer->add($this->arguments['name'], $container);
+    }
 
 }

@@ -30,63 +30,69 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for PageNumberForResultNumber ViewHelper
  */
-class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase {
+class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(PageNumberForResultNumberViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(PageNumberForResultNumberViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function pageNumberIsCorrectlyCalculated() {
-		$resultNumber = 55;
-		$resultsPerPage = 20;
+    /**
+     * @test
+     */
+    public function pageNumberIsCorrectlyCalculated()
+    {
+        $resultNumber = 55;
+        $resultsPerPage = 20;
 
-		$expected = 3;
+        $expected = 3;
 
-		$this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
-	}
+        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+    }
 
-	/**
-	 * @test
-	 */
-	public function pageNumerWhenResultIsZero() {
-		$resultNumber = 0;
-		$resultsPerPage = 20;
+    /**
+     * @test
+     */
+    public function pageNumerWhenResultIsZero()
+    {
+        $resultNumber = 0;
+        $resultsPerPage = 20;
 
-		$expected = 0;
+        $expected = 0;
 
-		$this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
-	}
+        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+    }
 
-	/**
-	 * @test
-	 */
-	public function divisionByZeroIsCaught() {
-		$resultNumber = 0;
-		$resultsPerPage = 0;
+    /**
+     * @test
+     */
+    public function divisionByZeroIsCaught()
+    {
+        $resultNumber = 0;
+        $resultsPerPage = 0;
 
-		$expected = 0;
+        $expected = 0;
 
-		$this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
-	}
+        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+    }
 
-	public function pageNumberFallBackForZeroResultsPerPage() {
-		$resultNumber = 55;
-		$resultsPerPage = 0;
+    public function pageNumberFallBackForZeroResultsPerPage()
+    {
+        $resultNumber = 55;
+        $resultsPerPage = 0;
 
-		$expected = 3;
+        $expected = 3;
 
-		$this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
-	}
+        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+    }
 
 }

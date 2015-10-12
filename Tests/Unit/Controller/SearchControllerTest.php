@@ -25,28 +25,31 @@ namespace Subugoe\Find\Tests\Unit\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use Subugoe\Find\Controller\SearchController;
+use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
  * Tests for search controller
  */
-class SearchControllerTest extends UnitTestCase {
+class SearchControllerTest extends UnitTestCase
+{
 
-	/**
-	 * @var \Subugoe\Find\Controller\SearchController
-	 */
-	protected $fixture;
+    /**
+     * @var \Subugoe\Find\Controller\SearchController
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = $this->getAccessibleMock(SearchController::class, [], []);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getAccessibleMock(SearchController::class, [], []);
+    }
 
-	/**
-	 * @test
-	 */
-	public function implementTests() {
-		$this->markTestIncomplete();
-	}
+    /**
+     * @test
+     */
+    public function implementTests()
+    {
+        $this->markTestIncomplete();
+    }
 
 }

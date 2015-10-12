@@ -31,95 +31,102 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Join viewhelper test
  */
-class JoinViewHelperTest extends BaseTestCase {
+class JoinViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var JoinViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var JoinViewHelper
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = $this->getMock(JoinViewHelper::class, ['dummy']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(JoinViewHelper::class, ['dummy']);
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsJoinedAsCommaSeparatedValue() {
-		$array = ['hrdr', 'behedeti', 'chub'];
-		$separator = ',';
+    /**
+     * @test
+     */
+    public function arrayIsJoinedAsCommaSeparatedValue()
+    {
+        $array = ['hrdr', 'behedeti', 'chub'];
+        $separator = ',';
 
-		$this->fixture->setArguments([
-			'array' => $array,
-			'separator' => $separator,
-		]);
+        $this->fixture->setArguments([
+            'array' => $array,
+            'separator' => $separator,
+        ]);
 
-		$expected = 'hrdr,behedeti,chub';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr,behedeti,chub';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsJoinedWithNonAsciiCharacter() {
-		$array = ['hrdr', 'behedeti', 'chub'];
-		$separator = '€';
+    /**
+     * @test
+     */
+    public function arrayIsJoinedWithNonAsciiCharacter()
+    {
+        $array = ['hrdr', 'behedeti', 'chub'];
+        $separator = '€';
 
-		$this->fixture->setArguments([
-			'array' => $array,
-			'separator' => $separator,
-		]);
+        $this->fixture->setArguments([
+            'array' => $array,
+            'separator' => $separator,
+        ]);
 
-		$expected = 'hrdr€behedeti€chub';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr€behedeti€chub';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsJoinedWithMoreThanOneCharacter() {
-		$array = ['hrdr', 'behedeti', 'chub'];
-		$separator = '€$';
+    /**
+     * @test
+     */
+    public function arrayIsJoinedWithMoreThanOneCharacter()
+    {
+        $array = ['hrdr', 'behedeti', 'chub'];
+        $separator = '€$';
 
-		$this->fixture->setArguments([
-			'array' => $array,
-			'separator' => $separator,
-		]);
+        $this->fixture->setArguments([
+            'array' => $array,
+            'separator' => $separator,
+        ]);
 
-		$expected = 'hrdr€$behedeti€$chub';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr€$behedeti€$chub';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayWithOneElementIsNotPostfixedWithSeparator() {
-		$array = ['hrdr'];
-		$separator = '€$';
+    /**
+     * @test
+     */
+    public function arrayWithOneElementIsNotPostfixedWithSeparator()
+    {
+        $array = ['hrdr'];
+        $separator = '€$';
 
-		$this->fixture->setArguments([
-			'array' => $array,
-			'separator' => $separator,
-		]);
+        $this->fixture->setArguments([
+            'array' => $array,
+            'separator' => $separator,
+        ]);
 
-		$expected = 'hrdr';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function emptyArrayResultsInEmptyString() {
-		$array = [];
-		$separator = '€$';
+    /**
+     * @test
+     */
+    public function emptyArrayResultsInEmptyString()
+    {
+        $array = [];
+        $separator = '€$';
 
-		$this->fixture->setArguments([
-			'array' => $array,
-			'separator' => $separator,
-		]);
+        $this->fixture->setArguments([
+            'array' => $array,
+            'separator' => $separator,
+        ]);
 
-		$expected = '';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

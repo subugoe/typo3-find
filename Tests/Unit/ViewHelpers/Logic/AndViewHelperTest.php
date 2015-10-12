@@ -31,83 +31,87 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Tests for the AND viewhelper
  */
-class AndViewHelperTest extends BaseTestCase {
+class AndViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var AndViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var AndViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function conditionProvider() {
-		return [
-			[
-				[
-					(1 === 1)
-				],
-				TRUE
-			],
-			[
-				[(TRUE === TRUE)],
-				TRUE
-			],
-			[
-				[
-					(TRUE === TRUE),
-					(1 === 1),
-					('hrdr' === 'hrdr'),
-					('hrdr' == 'hrdr'),
-					(TRUE == 1)
-				],
-				TRUE
-			],
-			[
-				[
-					(TRUE === TRUE),
-					(1 === 2),
-					('hrdr' === 'hrdr'),
-					('hrdr' == 'hrdr'),
-					(TRUE == 1)
-				],
-				FALSE
-			],
-			[
-				[
-					(1 === 2)
-				],
-				FALSE
-			],
-			[
-				[
-					(TRUE === TRUE),
-					(1 === 1),
-					('hrdr' === 'hrdr'),
-					('hrdr' == 'hrdr'),
-					(TRUE == 0)
-				],
-				FALSE
-			],
-		];
-	}
+    /**
+     * @return array
+     */
+    public function conditionProvider()
+    {
+        return [
+            [
+                [
+                    (1 === 1)
+                ],
+                TRUE
+            ],
+            [
+                [(TRUE === TRUE)],
+                TRUE
+            ],
+            [
+                [
+                    (TRUE === TRUE),
+                    (1 === 1),
+                    ('hrdr' === 'hrdr'),
+                    ('hrdr' == 'hrdr'),
+                    (TRUE == 1)
+                ],
+                TRUE
+            ],
+            [
+                [
+                    (TRUE === TRUE),
+                    (1 === 2),
+                    ('hrdr' === 'hrdr'),
+                    ('hrdr' == 'hrdr'),
+                    (TRUE == 1)
+                ],
+                FALSE
+            ],
+            [
+                [
+                    (1 === 2)
+                ],
+                FALSE
+            ],
+            [
+                [
+                    (TRUE === TRUE),
+                    (1 === 1),
+                    ('hrdr' === 'hrdr'),
+                    ('hrdr' == 'hrdr'),
+                    (TRUE == 0)
+                ],
+                FALSE
+            ],
+        ];
+    }
 
-	public function setUp() {
-		$this->fixture = $this->getMock(AndViewHelper::class, ['dummy']);
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(AndViewHelper::class, ['dummy']);
 
-	}
+    }
 
-	/**
-	 * @test
-	 * @dataProvider conditionProvider
-	 */
-	public function conditionIsTrue($conditions, $expected) {
+    /**
+     * @test
+     * @dataProvider conditionProvider
+     */
+    public function conditionIsTrue($conditions, $expected)
+    {
 
-		$this->fixture->setArguments([
-			'conditions' => $conditions
-		]);
+        $this->fixture->setArguments([
+            'conditions' => $conditions
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

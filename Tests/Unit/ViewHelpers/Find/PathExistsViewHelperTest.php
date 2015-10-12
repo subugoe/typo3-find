@@ -30,43 +30,47 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for PathExists ViewHelper
  */
-class PathExistsViewHelperTest extends ViewHelperBaseTestcase {
+class PathExistsViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(PathExistsViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(PathExistsViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function returnTrueIfAPathExists() {
-		$this->fixture->setArguments(
-			[
-				'path' => 'typo3'
-			]
-		);
+    /**
+     * @test
+     */
+    public function returnTrueIfAPathExists()
+    {
+        $this->fixture->setArguments(
+            [
+                'path' => 'typo3'
+            ]
+        );
 
-		$this->assertTrue($this->fixture->render());
-	}
+        $this->assertTrue($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function returnFalseIfAPathDoesNotExist() {
-		$this->fixture->setArguments(
-			[
-				'path' => 'hrdr'
-			]
-		);
+    /**
+     * @test
+     */
+    public function returnFalseIfAPathDoesNotExist()
+    {
+        $this->fixture->setArguments(
+            [
+                'path' => 'hrdr'
+            ]
+        );
 
-		$this->assertFalse($this->fixture->render());
-	}
+        $this->assertFalse($this->fixture->render());
+    }
 }

@@ -30,71 +30,75 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for FacetIsActive ViewHelper
  */
-class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase {
+class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function activeFacetIsCorrectlyRecognized() {
-		$arguments = [
-			'facetID' => 'horus',
-			'facetTerm' => 'behedeti',
-			'activeFacets' => [
-				[
-					[
-						'id' => 'horus',
-						'term' => 'behedeti'
-					],
-					[
-						'id' => 'hrdr',
-						'term' => 'horus'
-					]
-				]
-			],
-			'type' => 'string'
-		];
+    /**
+     * @test
+     */
+    public function activeFacetIsCorrectlyRecognized()
+    {
+        $arguments = [
+            'facetID' => 'horus',
+            'facetTerm' => 'behedeti',
+            'activeFacets' => [
+                [
+                    [
+                        'id' => 'horus',
+                        'term' => 'behedeti'
+                    ],
+                    [
+                        'id' => 'hrdr',
+                        'term' => 'horus'
+                    ]
+                ]
+            ],
+            'type' => 'string'
+        ];
 
-		$this->fixture->setArguments($arguments);
+        $this->fixture->setArguments($arguments);
 
-		$this->assertTrue($this->fixture->render());
-	}
+        $this->assertTrue($this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function notActiveFacetsReturnFalse() {
-		$arguments = [
-			'facetID' => 'behedeti',
-			'facetTerm' => 'behedeti',
-			'activeFacets' => [
-				[
-					[
-						'id' => 'horus',
-						'term' => 'behedeti'
-					],
-					[
-						'id' => 'hrdr',
-						'term' => 'horus'
-					]
-				]
-			],
-			'type' => 'string'
-		];
-		$this->fixture->setArguments($arguments);
+    /**
+     * @test
+     */
+    public function notActiveFacetsReturnFalse()
+    {
+        $arguments = [
+            'facetID' => 'behedeti',
+            'facetTerm' => 'behedeti',
+            'activeFacets' => [
+                [
+                    [
+                        'id' => 'horus',
+                        'term' => 'behedeti'
+                    ],
+                    [
+                        'id' => 'hrdr',
+                        'term' => 'horus'
+                    ]
+                ]
+            ],
+            'type' => 'string'
+        ];
+        $this->fixture->setArguments($arguments);
 
-		$this->assertFalse($this->fixture->render());
-	}
+        $this->assertFalse($this->fixture->render());
+    }
 
 }

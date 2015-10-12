@@ -31,68 +31,74 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for ValueForKey ViewHelper
  */
-class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase {
+class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function keyPicksTheRightValueFromTheArray() {
-		$array = [
-			'a' => 'b',
-			'b' => 'c'
-		];
-		$key = 'a';
-		$this->assertSame('b', $this->fixture->render($array, $key));
-	}
+    /**
+     * @test
+     */
+    public function keyPicksTheRightValueFromTheArray()
+    {
+        $array = [
+            'a' => 'b',
+            'b' => 'c'
+        ];
+        $key = 'a';
+        $this->assertSame('b', $this->fixture->render($array, $key));
+    }
 
-	/**
-	 * @test
-	 */
-	public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue() {
-		$array = [
-			'a' => 'b',
-			'b' => 'c'
-		];
-		$key = 'a';
-		$this->fixture->setArguments(['format' => 'json']);
-		$this->assertSame('b', $this->fixture->render($array, $key));
-	}
+    /**
+     * @test
+     */
+    public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue()
+    {
+        $array = [
+            'a' => 'b',
+            'b' => 'c'
+        ];
+        $key = 'a';
+        $this->fixture->setArguments(['format' => 'json']);
+        $this->assertSame('b', $this->fixture->render($array, $key));
+    }
 
-	/**
-	 * @test
-	 */
-	public function resultIsCorrectlyInterpretedAsTextFromASimpleValue() {
-		$array = [
-			'a' => 'b',
-			'b' => 'c'
-		];
-		$key = 'a';
-		$this->fixture->setArguments(['format' => 'json']);
-		$this->assertSame('b', $this->fixture->render($array, $key));
-	}
+    /**
+     * @test
+     */
+    public function resultIsCorrectlyInterpretedAsTextFromASimpleValue()
+    {
+        $array = [
+            'a' => 'b',
+            'b' => 'c'
+        ];
+        $key = 'a';
+        $this->fixture->setArguments(['format' => 'json']);
+        $this->assertSame('b', $this->fixture->render($array, $key));
+    }
 
-	/**
-	 * @test
-	 */
-	public function providingANonexistingKeyReturnsNull() {
-		$array = [
-			'a' => 'b',
-			'b' => 'c'
-		];
-		$key = 'c';
-		$this->assertNull($this->fixture->render($array, $key));
-	}
+    /**
+     * @test
+     */
+    public function providingANonexistingKeyReturnsNull()
+    {
+        $array = [
+            'a' => 'b',
+            'b' => 'c'
+        ];
+        $key = 'c';
+        $this->assertNull($this->fixture->render($array, $key));
+    }
 
 }

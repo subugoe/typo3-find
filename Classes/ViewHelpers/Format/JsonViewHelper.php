@@ -32,27 +32,30 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class JsonViewHelper extends AbstractViewHelper {
+class JsonViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$data = $this->arguments['data'];
-		if ($data === NULL) {
-			$data = $this->renderChildren();
-		}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $data = $this->arguments['data'];
+        if ($data === NULL) {
+            $data = $this->renderChildren();
+        }
 
-		return json_encode($data);
-	}
+        return json_encode($data);
+    }
 
 }

@@ -35,38 +35,45 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class SplitViewHelper extends AbstractViewHelper implements CompilableInterface {
+class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
+{
 
-	/**
-	 * @param string $string The string to split into components
-	 * @param string $separator The string separating the components
-	 * @return string|int|boolean|array
-	 */
-	public function render($string, $separator = ', ') {
-		return self::renderStatic(
-			[
-				'string' => $string,
-				'separator' => $separator
-			],
-			$this->buildRenderChildrenClosure(),
-			$this->renderingContext
-		);
-	}
+    /**
+     * @param string $string The string to split into components
+     * @param string $separator The string separating the components
+     * @return string|int|boolean|array
+     */
+    public function render($string, $separator = ', ')
+    {
+        return self::renderStatic(
+            [
+                'string' => $string,
+                'separator' => $separator
+            ],
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
+    }
 
-	/**
-	 * @param array $arguments
-	 * @param \Closure $renderChildrenClosure
-	 * @param RenderingContextInterface $renderingContext
-	 *
-	 * @return string
-	 */
-	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
-		$string = $arguments['string'];
-		if ($string === NULL) {
-			$string = $renderChildrenClosure;
-		}
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return string
+     */
+    static public function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    )
+    {
+        $string = $arguments['string'];
+        if ($string === NULL) {
+            $string = $renderChildrenClosure;
+        }
 
-		return explode($arguments['separator'], $string);
-	}
+        return explode($arguments['separator'], $string);
+    }
 
 }

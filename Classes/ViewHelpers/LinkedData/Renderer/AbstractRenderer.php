@@ -32,41 +32,44 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Class AbstractRenderer
  * @package Subugoe\Find\ViewHelpers\LinkedData\Renderer
  */
-abstract class AbstractRenderer {
+abstract class AbstractRenderer
+{
 
-	/**
-	 * @var array
-	 */
-	protected $prefixes = [];
+    /**
+     * @var array
+     */
+    protected $prefixes = [];
 
-	/**
-	 * @var array
-	 */
-	protected $usedPrefixes = [];
+    /**
+     * @var array
+     */
+    protected $usedPrefixes = [];
 
-	/**
-	 * @param $type
-	 * @return object
-	 */
-	public static function instantiateSubclassForType ($type) {
-		if ($type === 'rdf') {
-			$instance = GeneralUtility::makeInstance(RDFRenderer::class);
-		}
-		else if ($type === 'json-ld') {
-			$instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
-		}
-		else {
-			$instance = GeneralUtility::makeInstance(TurtleRenderer::class);
-		}
+    /**
+     * @param $type
+     * @return object
+     */
+    public static function instantiateSubclassForType($type)
+    {
+        if ($type === 'rdf') {
+            $instance = GeneralUtility::makeInstance(RDFRenderer::class);
+        } else {
+            if ($type === 'json-ld') {
+                $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
+            } else {
+                $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
+            }
+        }
 
-		return $instance;
-	}
+        return $instance;
+    }
 
-	/**
-	 * @param $prefixes
-	 */
-	public function setPrefixes ($prefixes) {
-		$this->prefixes = $prefixes;
-	}
+    /**
+     * @param $prefixes
+     */
+    public function setPrefixes($prefixes)
+    {
+        $this->prefixes = $prefixes;
+    }
 
 }

@@ -30,20 +30,23 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * View Helper to determine whether the given path exists in the file system.
  */
-class PathExistsViewHelper extends AbstractViewHelper {
+class PathExistsViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('path', 'string', 'the path to check the existence of', TRUE);
-	}
+    /**
+     * Registers own arguments.
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('path', 'string', 'the path to check the existence of', TRUE);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return file_exists(PATH_site . $this->arguments['path']);
-	}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return file_exists(PATH_site . $this->arguments['path']);
+    }
 }

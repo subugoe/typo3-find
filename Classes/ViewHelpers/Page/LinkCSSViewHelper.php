@@ -29,40 +29,46 @@ namespace Subugoe\Find\ViewHelpers\Page;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * View Helper
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterface {
+class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterface
+{
 
-	/**
-	 * @param string $file Path to the CSS file
-	 * @return string
-	 */
-	public function render($file) {
-		return self::renderStatic(
-			[
-				'file' => $file
-			],
-			$this->buildRenderChildrenClosure(),
-			$this->renderingContext
-		);
-	}
+    /**
+     * @param string $file Path to the CSS file
+     * @return string
+     */
+    public function render($file)
+    {
+        return self::renderStatic(
+            [
+                'file' => $file
+            ],
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
+    }
 
-	/**
-	 * @param array $arguments
-	 * @param \Closure $renderChildrenClosure
-	 * @param RenderingContextInterface $renderingContext
-	 *
-	 * @return string
-	 */
-	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
-		$CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
-		if ($CSSFileName) {
-			$GLOBALS['TSFE']->getPageRenderer()->addCSSFile($CSSFileName);
-		}
-	}
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return string
+     */
+    static public function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    )
+    {
+        $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
+        if ($CSSFileName) {
+            $GLOBALS['TSFE']->getPageRenderer()->addCSSFile($CSSFileName);
+        }
+    }
 }

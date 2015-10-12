@@ -25,43 +25,40 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Solarium\QueryType\Select\Result\Document;
-use Solarium\QueryType\Select\Result\Result;
-use Solarium\Core\Client\Response;
-use Solarium\Core\Query\Query as CoreQuery;
-use Solarium\Core\Client\Client;
-
 use Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper;
 use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 
 /**
  * Test for HighlightField ViewHelper
  */
-class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase {
+class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper
+     */
+    public $fixture;
 
-	protected $solariumClient;
+    protected $solariumClient;
 
-	protected $solariumResponse;
+    protected $solariumResponse;
 
-	public function setUp() {
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-		$this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
+        $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
 
-	}
+    }
 
-	/**
-	 * @test
-	 */
-	public function fieldIsCorrectlyHighlighted() {
-		$this->markTestIncomplete('Still something to do with mocking solarium');
-	}
+    /**
+     * @test
+     */
+    public function fieldIsCorrectlyHighlighted()
+    {
+        $this->markTestIncomplete('Still something to do with mocking solarium');
+    }
 
 }

@@ -32,35 +32,38 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class CSVLineViewHelper extends AbstractViewHelper {
+class CSVLineViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('data', 'array', 'The array to output as CSV line', FALSE, NULL);
-		$this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', FALSE, ',');
-		$this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', FALSE, '"');
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('data', 'array', 'The array to output as CSV line', FALSE, NULL);
+        $this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', FALSE, ',');
+        $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', FALSE, '"');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$data = $this->arguments['data'];
-		if ($data === NULL) {
-			$data = $this->renderChildren();
-		}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $data = $this->arguments['data'];
+        if ($data === NULL) {
+            $data = $this->renderChildren();
+        }
 
-		// Write CSV to pseudo-file as PHP cannot write it directly to a string.
-		$fp = fopen('php://temp', 'r+');
-		fputcsv($fp, $data, $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
-		rewind($fp);
-		$result = fgets($fp);
-		fclose($fp);
-		return $result;
-	}
+        // Write CSV to pseudo-file as PHP cannot write it directly to a string.
+        $fp = fopen('php://temp', 'r+');
+        fputcsv($fp, $data, $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
+        rewind($fp);
+        $result = fgets($fp);
+        fclose($fp);
+        return $result;
+    }
 
 }

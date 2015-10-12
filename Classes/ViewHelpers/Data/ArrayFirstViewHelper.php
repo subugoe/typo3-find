@@ -34,35 +34,38 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class ArrayFirstViewHelper extends AbstractViewHelper {
+class ArrayFirstViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Register arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('array', 'array', 'the array to return the first value of', FALSE, NULL);
-	}
+    /**
+     * Register arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('array', 'array', 'the array to return the first value of', FALSE, NULL);
+    }
 
-	/**
-	 * @return string|int|boolean|array
-	 */
-	public function render() {
-		$result = NULL;
+    /**
+     * @return string|int|boolean|array
+     */
+    public function render()
+    {
+        $result = NULL;
 
-		$array = $this->arguments['array'];
-		if ($array === NULL) {
-			$array = $this->renderChildren();
-		}
+        $array = $this->arguments['array'];
+        if ($array === NULL) {
+            $array = $this->renderChildren();
+        }
 
-		if (is_array($array) && count($array) > 0) {
-			$arrayKeys = array_keys($array);
-			$firstKey = $arrayKeys[0];
-			$result = $array[$firstKey];
-		}
+        if (is_array($array) && count($array) > 0) {
+            $arrayKeys = array_keys($array);
+            $firstKey = $arrayKeys[0];
+            $result = $array[$firstKey];
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

@@ -31,53 +31,58 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Tests for the NOT viewhelper
  */
-class NotViewHelperTest extends BaseTestCase {
+class NotViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var NotViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var NotViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function conditionProvider() {
-		return [
-			[
-				FALSE,
-				TRUE
-			],
-			[
-				1,
-				TRUE
-			],
-			[
-				(1 === 2),
-				TRUE
-			],
-			[
-				(1 === 1),
-				TRUE
-,			],
-		];
-	}
+    /**
+     * @return array
+     */
+    public function conditionProvider()
+    {
+        return [
+            [
+                FALSE,
+                TRUE
+            ],
+            [
+                1,
+                TRUE
+            ],
+            [
+                (1 === 2),
+                TRUE
+            ],
+            [
+                (1 === 1),
+                TRUE
+                ,
+            ],
+        ];
+    }
 
-	public function setUp() {
-		$this->fixture = $this->getMock(NotViewHelper::class, ['dummy']);
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(NotViewHelper::class, ['dummy']);
 
-	}
+    }
 
-	/**
-	 * @test
-	 * @dataProvider conditionProvider
-	 */
-	public function conditionIsMet($conditions, $expected) {
+    /**
+     * @test
+     * @dataProvider conditionProvider
+     */
+    public function conditionIsMet($conditions, $expected)
+    {
 
-		$this->fixture->setArguments([
-			'conditions' => $conditions
-		]);
+        $this->fixture->setArguments([
+            'conditions' => $conditions
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

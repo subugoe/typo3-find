@@ -35,40 +35,47 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInterface {
+class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInterface
+{
 
-	/**
-	 * @param array $array The array to extract the value from
-	 * @param string $key The key to extract the value for
-	 * @return string|int|boolean|array
-	 */
-	public function render($array, $key) {
-		return self::renderStatic(
-			[
-				'key' => $key,
-				'array' => $array
-			],
-			$this->buildRenderChildrenClosure(),
-			$this->renderingContext
-		);
-	}
+    /**
+     * @param array $array The array to extract the value from
+     * @param string $key The key to extract the value for
+     * @return string|int|boolean|array
+     */
+    public function render($array, $key)
+    {
+        return self::renderStatic(
+            [
+                'key' => $key,
+                'array' => $array
+            ],
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
+    }
 
-	/**
-	 * @param array $arguments
-	 * @param \Closure $renderChildrenClosure
-	 * @param RenderingContextInterface $renderingContext
-	 *
-	 * @return string
-	 */
-	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
-		$result = NULL;
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return string
+     */
+    static public function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    )
+    {
+        $result = NULL;
 
-		if ($arguments['array']) {
-			if (array_key_exists($arguments['key'], $arguments['array'])) {
-				$result = $arguments['array'][$arguments['key']];
-			}
-		}
+        if ($arguments['array']) {
+            if (array_key_exists($arguments['key'], $arguments['array'])) {
+                $result = $arguments['array'][$arguments['key']];
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

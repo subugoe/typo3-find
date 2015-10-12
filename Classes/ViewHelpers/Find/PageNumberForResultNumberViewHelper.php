@@ -35,45 +35,52 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  * appears on with resultsPerPage items per page, i.e. returns
  * resultNumber mod resultsPerPage.
  */
-class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface {
+class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface
+{
 
-	/**
-	 * Avoid divisions by zero
-	 */
-	const DEFAULT_RESULTS_PER_PAGE = 20;
+    /**
+     * Avoid divisions by zero
+     */
+    const DEFAULT_RESULTS_PER_PAGE = 20;
 
-	/**
-	 * @param int $resultNumber Number of the rsult to determine the page number for
-	 * @param int $resultsPerPage Number of results per page
-	 *
-	 * @return string|int|boolean|array
-	 */
-	public function render($resultNumber, $resultsPerPage = 20) {
-		return self::renderStatic(
-			[
-				'resultNumber' => $resultNumber,
-				'resultsPerPage' => $resultsPerPage
-			],
-			$this->buildRenderChildrenClosure(),
-			$this->renderingContext
-		);
-	}
+    /**
+     * @param int $resultNumber Number of the rsult to determine the page number for
+     * @param int $resultsPerPage Number of results per page
+     *
+     * @return string|int|boolean|array
+     */
+    public function render($resultNumber, $resultsPerPage = 20)
+    {
+        return self::renderStatic(
+            [
+                'resultNumber' => $resultNumber,
+                'resultsPerPage' => $resultsPerPage
+            ],
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
+    }
 
-	/**
-	 * @param array $arguments
-	 * @param \Closure $renderChildrenClosure
-	 * @param RenderingContextInterface $renderingContext
-	 *
-	 * @return float
-	 */
-	static public function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return float
+     */
+    static public function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    )
+    {
 
-		if ($arguments['resultsPerPage'] === 0) {
-			$arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
-		}
+        if ($arguments['resultsPerPage'] === 0) {
+            $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
+        }
 
-		$pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
-		return $pageNumber;
-	}
+        $pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
+        return $pageNumber;
+    }
 
 }

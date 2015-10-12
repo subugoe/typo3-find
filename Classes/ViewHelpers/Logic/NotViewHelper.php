@@ -33,22 +33,25 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class NotViewHelper extends AbstractViewHelper {
+class NotViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', TRUE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', TRUE);
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function render() {
-		return !($this->arguments['condition'] == TRUE);
-	}
+    /**
+     * @return bool
+     */
+    public function render()
+    {
+        return !($this->arguments['condition'] == TRUE);
+    }
 
 }

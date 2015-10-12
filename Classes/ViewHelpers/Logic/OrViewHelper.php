@@ -32,27 +32,30 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class OrViewHelper extends AbstractViewHelper {
+class OrViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function render() {
-		$result = FALSE;
-		foreach ($this->arguments['conditions'] as $condition) {
-			$result |= ($condition == TRUE);
-		}
+    /**
+     * @return bool
+     */
+    public function render()
+    {
+        $result = FALSE;
+        foreach ($this->arguments['conditions'] as $condition) {
+            $result |= ($condition == TRUE);
+        }
 
-		return (bool)$result;
-	}
+        return (bool)$result;
+    }
 
 }

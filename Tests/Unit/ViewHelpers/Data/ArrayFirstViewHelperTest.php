@@ -31,68 +31,75 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for ArrayFirst ViewHelper
  */
-class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase {
+class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, array('renderChildren'));
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, array('renderChildren'));
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function isFirstElementOfAnArrayReturned() {
-		$array = ['hrdr', 'horus', 'behedeti'];
-		$this->fixture->setArguments(['array' => $array]);
+    /**
+     * @test
+     */
+    public function isFirstElementOfAnArrayReturned()
+    {
+        $array = ['hrdr', 'horus', 'behedeti'];
+        $this->fixture->setArguments(['array' => $array]);
 
-		$this->assertSame('hrdr', $this->fixture->render());
-	}
+        $this->assertSame('hrdr', $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function nullIsReturnedOnNullValue() {
-		$array = null;
-		$this->fixture->setArguments(['array' => $array]);
+    /**
+     * @test
+     */
+    public function nullIsReturnedOnNullValue()
+    {
+        $array = null;
+        $this->fixture->setArguments(['array' => $array]);
 
-		$this->assertSame(null, $this->fixture->render());
-	}
+        $this->assertSame(null, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function nullIsReturnedWhenPassingAStringInsteadOfAnArray() {
-		$array = 'hrdr';
-		$this->fixture->setArguments(['array' => $array]);
+    /**
+     * @test
+     */
+    public function nullIsReturnedWhenPassingAStringInsteadOfAnArray()
+    {
+        $array = 'hrdr';
+        $this->fixture->setArguments(['array' => $array]);
 
-		$this->assertSame(null, $this->fixture->render());
-	}
+        $this->assertSame(null, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function theValueFromTheFirstArrayIsReturnedOnMultidimensionalArrays() {
-		$array = ['hrdr' => 'horus', 'behedeti'];
-		$this->fixture->setArguments(['array' => $array]);
+    /**
+     * @test
+     */
+    public function theValueFromTheFirstArrayIsReturnedOnMultidimensionalArrays()
+    {
+        $array = ['hrdr' => 'horus', 'behedeti'];
+        $this->fixture->setArguments(['array' => $array]);
 
-		$this->assertSame('horus', $this->fixture->render());
-	}
+        $this->assertSame('horus', $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function anEmptyArrayCausesSomething() {
-		$array = [];
-		$this->fixture->setArguments(['array' => $array]);
+    /**
+     * @test
+     */
+    public function anEmptyArrayCausesSomething()
+    {
+        $array = [];
+        $this->fixture->setArguments(['array' => $array]);
 
-		$this->assertSame(null, $this->fixture->render());
-	}
+        $this->assertSame(null, $this->fixture->render());
+    }
 
 }

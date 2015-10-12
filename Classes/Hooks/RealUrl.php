@@ -29,43 +29,45 @@
 /**
  * RealUrl Hook for automatic URL generation
  */
-class Tx_Find_Hooks_RealUrl {
+class Tx_Find_Hooks_RealUrl
+{
 
-	/**
-	 * Create automatic RealUrl Configuratoin
-	 *
-	 * @param $params
-	 * @param $pObj
-	 * @return array
-	 */
-	public function addRealUrlConfiguration($params, &$pObj) {
-		return array_merge_recursive($params['config'], [
-				'postVarSets' => [
-					'_DEFAULT' => [
-						'id' => [
-							[
-								'GETvar' => 'tx_find_find[id]',
-							],
-						],
-						'a' => [
-							[
-								'GETvar' => 'tx_find_find[action]',
-								'valueMap' => [
-									'data' => 'data',
-									'suggest' => 'suggest',
-								],
-								'noMatch' => 'bypass',
-							],
-						],
-						'c' => [
-							[
-								'GETvar' => 'tx_find_find[controller]',
-								'noMatch' => 'bypass',
-							],
-						],
-					]
-				]
-			]
-		);
-	}
+    /**
+     * Create automatic RealUrl Configuratoin
+     *
+     * @param $params
+     * @param $pObj
+     * @return array
+     */
+    public function addRealUrlConfiguration($params, &$pObj)
+    {
+        return array_merge_recursive($params['config'], [
+                'postVarSets' => [
+                    '_DEFAULT' => [
+                        'id' => [
+                            [
+                                'GETvar' => 'tx_find_find[id]',
+                            ],
+                        ],
+                        'a' => [
+                            [
+                                'GETvar' => 'tx_find_find[action]',
+                                'valueMap' => [
+                                    'data' => 'data',
+                                    'suggest' => 'suggest',
+                                ],
+                                'noMatch' => 'bypass',
+                            ],
+                        ],
+                        'c' => [
+                            [
+                                'GETvar' => 'tx_find_find[controller]',
+                                'noMatch' => 'bypass',
+                            ],
+                        ],
+                    ]
+                ]
+            ]
+        );
+    }
 }

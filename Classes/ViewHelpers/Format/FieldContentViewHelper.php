@@ -30,33 +30,36 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Formats a text field input
  */
-class FieldContentViewHelper extends AbstractViewHelper {
+class FieldContentViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('string', 'string', 'String to be examined for display', FALSE, NULL);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string', 'String to be examined for display', FALSE, NULL);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
+    /**
+     * @return string
+     */
+    public function render()
+    {
 
-		$string = $this->arguments['string'];
+        $string = $this->arguments['string'];
 
-		if (is_array($string) && array_key_exists('term', $string)) {
-			$string = $string['term'];
-		}
+        if (is_array($string) && array_key_exists('term', $string)) {
+            $string = $string['term'];
+        }
 
-		if (empty($string)) {
-			$string = NULL;
-		}
+        if (empty($string)) {
+            $string = NULL;
+        }
 
-		return $string;
-	}
+        return $string;
+    }
 
 }

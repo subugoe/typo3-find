@@ -31,47 +31,55 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Tests for the XML formatting viewhelper
  */
-class XMLViewHelperTest extends BaseTestCase {
+class XMLViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var XMLViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var XMLViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function stringProvider() {
-		return [
-			['<a><b><c/></b><b>d</b></a>', FALSE, '<?xml version="1.0"?>
+    /**
+     * @return array
+     */
+    public function stringProvider()
+    {
+        return [
+            [
+                '<a><b><c/></b><b>d</b></a>',
+                FALSE,
+                '<?xml version="1.0"?>
 <a>
   <b>
     <c/>
   </b>
   <b>d</b>
-</a>' . PHP_EOL],
-			['<a><b><c/></b><b>d</b></a>', TRUE, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
-		];
-	}
+</a>' . PHP_EOL
+            ],
+            ['<a><b><c/></b><b>d</b></a>', TRUE, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
+        ];
+    }
 
 
-	public function setUp() {
-		$this->fixture = $this->getMock(XMLViewHelper::class, ['renderChildren']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(XMLViewHelper::class, ['renderChildren']);
+    }
 
-	/**
-	 * @test
-	 * @dataProvider stringProvider
-	 */
-	public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected) {
+    /**
+     * @test
+     * @dataProvider stringProvider
+     */
+    public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected)
+    {
 
-		$this->fixture->method('renderChildren')->willReturn($string);
+        $this->fixture->method('renderChildren')->willReturn($string);
 
-		$this->fixture->setArguments([
-			'htmloutput' => $htmloutput
-		]);
+        $this->fixture->setArguments([
+            'htmloutput' => $htmloutput
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

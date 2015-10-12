@@ -33,28 +33,31 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class AndViewHelper extends AbstractViewHelper {
+class AndViewHelper extends AbstractViewHelper
+{
 
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('conditions', 'array', 'the array of conditions to AND', TRUE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('conditions', 'array', 'the array of conditions to AND', TRUE);
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function render() {
-		$result = TRUE;
-		foreach ($this->arguments['conditions'] as $condition) {
-			$result &= ($condition == TRUE);
-		}
+    /**
+     * @return bool
+     */
+    public function render()
+    {
+        $result = TRUE;
+        foreach ($this->arguments['conditions'] as $condition) {
+            $result &= ($condition == TRUE);
+        }
 
-		return (bool)$result;
-	}
+        return (bool)$result;
+    }
 
 }

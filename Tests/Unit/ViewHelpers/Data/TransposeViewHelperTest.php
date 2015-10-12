@@ -31,62 +31,67 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for Transpose ViewHelper
  */
-class TransposeViewHelperTest extends ViewHelperBaseTestcase {
+class TransposeViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, array('renderChildren'));
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, array('renderChildren'));
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsTransposed() {
-		$arguments = [
-			'arrays' => [
-				'horus' => ['b:ehedeti', 'h:rdr'],
-				'behedeti' => ['h:orus', 'h:rdr']
-			],
-			'name' => 'hrdr'
-		];
-		$expected = [
-			[
-				'horus' => 'b:ehedeti',
-				'behedeti' => 'h:orus'
-			],
-			[
-				'horus' => 'h:rdr',
-				'behedeti' => 'h:rdr'
-			]
-		];
+    /**
+     * @test
+     */
+    public function arrayIsTransposed()
+    {
+        $arguments = [
+            'arrays' => [
+                'horus' => ['b:ehedeti', 'h:rdr'],
+                'behedeti' => ['h:orus', 'h:rdr']
+            ],
+            'name' => 'hrdr'
+        ];
+        $expected = [
+            [
+                'horus' => 'b:ehedeti',
+                'behedeti' => 'h:orus'
+            ],
+            [
+                'horus' => 'h:rdr',
+                'behedeti' => 'h:rdr'
+            ]
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->templateVariableContainer->expects($this->at(0))->method('add')->with('hrdr', $expected);
-		$this->templateVariableContainer->expects($this->at(1))->method('remove')->with('hrdr');
+        $this->fixture->setArguments($arguments);
+        $this->templateVariableContainer->expects($this->at(0))->method('add')->with('hrdr', $expected);
+        $this->templateVariableContainer->expects($this->at(1))->method('remove')->with('hrdr');
 
-		$this->fixture->render();
-	}
+        $this->fixture->render();
+    }
 
-	/**
-	 * @test
-	 */
-	public function anErrorIsReportedWhenArraysDoNotMatchInLength() {
-		$arguments = [
-			'arrays' => [
-				'horus' => ['behedeti'],
-				'behedeti' => ['hrdr', 'horus']
-			]
-		];
+    /**
+     * @test
+     */
+    public function anErrorIsReportedWhenArraysDoNotMatchInLength()
+    {
+        $arguments = [
+            'arrays' => [
+                'horus' => ['behedeti'],
+                'behedeti' => ['hrdr', 'horus']
+            ]
+        ];
 
-		$this->fixture->setArguments($arguments);
-		$this->assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values', $this->fixture->render());
-	}
+        $this->fixture->setArguments($arguments);
+        $this->assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
+            $this->fixture->render());
+    }
 
 }

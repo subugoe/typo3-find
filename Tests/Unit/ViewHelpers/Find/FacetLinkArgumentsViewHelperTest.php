@@ -30,35 +30,39 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
 /**
  * Test for FacetLinkArguments ViewHelper
  */
-class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase {
+class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
+{
 
-	/**
-	 * @var \Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper
-	 */
-	public $fixture;
+    /**
+     * @var \Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper
+     */
+    public $fixture;
 
-	public function setUp() {
-		parent::setUp();
-		$this->fixture = $this->getAccessibleMock(FacetLinkArgumentsViewHelper::class, ['renderChildren']);
-		$this->injectDependenciesIntoViewHelper($this->fixture);
-		$this->fixture->initializeArguments();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->fixture = $this->getAccessibleMock(FacetLinkArgumentsViewHelper::class, ['renderChildren']);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture->initializeArguments();
+    }
 
-	/**
-	 * @test
-	 */
-	public function filterIsCorrectlyRemovedOnTextQueries() {
-		$result = $this->fixture->render('title', 'hrdr', ['title' => ['hrdr'], 'horus' => 'behedeti'], 'remove');
-		$this->assertEquals("tx_find_find[facet][title]", $result[0]);
-	}
+    /**
+     * @test
+     */
+    public function filterIsCorrectlyRemovedOnTextQueries()
+    {
+        $result = $this->fixture->render('title', 'hrdr', ['title' => ['hrdr'], 'horus' => 'behedeti'], 'remove');
+        $this->assertEquals("tx_find_find[facet][title]", $result[0]);
+    }
 
-	/**
-	 * @test
-	 */
-	public function filterIsCorrectlyAddedOnTextQueries() {
-		$result = $this->fixture->render('title', 'hrdr', [], 'add');
-		$resultValue = array_keys($result['facet']['title']);
-		$this->assertEquals('hrdr', $resultValue[0]);
-	}
+    /**
+     * @test
+     */
+    public function filterIsCorrectlyAddedOnTextQueries()
+    {
+        $result = $this->fixture->render('title', 'hrdr', [], 'add');
+        $resultValue = array_keys($result['facet']['title']);
+        $this->assertEquals('hrdr', $resultValue[0]);
+    }
 
 }

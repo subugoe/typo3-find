@@ -32,37 +32,39 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class XMLViewHelper extends AbstractViewHelper {
+class XMLViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * Registers own arguments.
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', FALSE, FALSE);
-	}
+    /**
+     * Registers own arguments.
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', FALSE, FALSE);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$input = $this->renderChildren();
-		$XML = new \DOMDocument();
-		$XML->preserveWhiteSpace = FALSE;
-		$XML->formatOutput = TRUE;
-		$XML->encoding = 'UTF-8';
-		$XML->loadXML($input);
-		if ($this->arguments['htmloutput']) {
-			$result = $XML->saveHTML();
-		}
-		else {
-			$result = $XML->saveXML();
-		}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $input = $this->renderChildren();
+        $XML = new \DOMDocument();
+        $XML->preserveWhiteSpace = FALSE;
+        $XML->formatOutput = TRUE;
+        $XML->encoding = 'UTF-8';
+        $XML->loadXML($input);
+        if ($this->arguments['htmloutput']) {
+            $result = $XML->saveHTML();
+        } else {
+            $result = $XML->saveXML();
+        }
 
-		// TODO: Error handling?
+        // TODO: Error handling?
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

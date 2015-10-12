@@ -31,87 +31,93 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * CSV line viewhelper test
  */
-class CSVLineViewHelperTest extends BaseTestCase {
+class CSVLineViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var CSVLineViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var CSVLineViewHelper
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = $this->getMock(CSVLineViewHelper::class, ['dummy']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(CSVLineViewHelper::class, ['dummy']);
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsRenderedAsCommaSeparatedValue() {
-		$data = ['hrdr', 'behedeti', 'chub'];
-		$fieldDelimiter = ',';
-		$fieldEnclosure = '""';
+    /**
+     * @test
+     */
+    public function arrayIsRenderedAsCommaSeparatedValue()
+    {
+        $data = ['hrdr', 'behedeti', 'chub'];
+        $fieldDelimiter = ',';
+        $fieldEnclosure = '""';
 
-		$this->fixture->setArguments([
-			'data' => $data,
-			'fieldDelimiter' => $fieldDelimiter,
-			'fieldEnclosure' => $fieldEnclosure
-		]);
+        $this->fixture->setArguments([
+            'data' => $data,
+            'fieldDelimiter' => $fieldDelimiter,
+            'fieldEnclosure' => $fieldEnclosure
+        ]);
 
-		$expected = 'hrdr,behedeti,chub' . PHP_EOL;
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr,behedeti,chub' . PHP_EOL;
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function specifyingADelimiterWorks() {
-		$data = ['hrdr', 'behedeti', 'chub'];
-		$fieldDelimiter = ';';
-		$fieldEnclosure = '""';
+    /**
+     * @test
+     */
+    public function specifyingADelimiterWorks()
+    {
+        $data = ['hrdr', 'behedeti', 'chub'];
+        $fieldDelimiter = ';';
+        $fieldEnclosure = '""';
 
-		$this->fixture->setArguments([
-			'data' => $data,
-			'fieldDelimiter' => $fieldDelimiter,
-			'fieldEnclosure' => $fieldEnclosure
-		]);
+        $this->fixture->setArguments([
+            'data' => $data,
+            'fieldDelimiter' => $fieldDelimiter,
+            'fieldEnclosure' => $fieldEnclosure
+        ]);
 
-		$expected = 'hrdr;behedeti;chub' . PHP_EOL;
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = 'hrdr;behedeti;chub' . PHP_EOL;
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function valuesWithSpacesAreEnclosed() {
-		$data = ['hrdr horus', 'behedeti', 'chub budan'];
-		$fieldDelimiter = ';';
-		$fieldEnclosure = '""';
+    /**
+     * @test
+     */
+    public function valuesWithSpacesAreEnclosed()
+    {
+        $data = ['hrdr horus', 'behedeti', 'chub budan'];
+        $fieldDelimiter = ';';
+        $fieldEnclosure = '""';
 
-		$this->fixture->setArguments([
-			'data' => $data,
-			'fieldDelimiter' => $fieldDelimiter,
-			'fieldEnclosure' => $fieldEnclosure
-		]);
+        $this->fixture->setArguments([
+            'data' => $data,
+            'fieldDelimiter' => $fieldDelimiter,
+            'fieldEnclosure' => $fieldEnclosure
+        ]);
 
-		$expected = '"hrdr horus";behedeti;"chub budan"' . PHP_EOL;
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '"hrdr horus";behedeti;"chub budan"' . PHP_EOL;
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function specifyingAnEnclosureWrapsTheElements() {
-		$data = ['hrdr horus', 'behedeti', 'chub budan'];
-		$fieldDelimiter = ';';
-		$fieldEnclosure = '//';
+    /**
+     * @test
+     */
+    public function specifyingAnEnclosureWrapsTheElements()
+    {
+        $data = ['hrdr horus', 'behedeti', 'chub budan'];
+        $fieldDelimiter = ';';
+        $fieldEnclosure = '//';
 
-		$this->fixture->setArguments([
-			'data' => $data,
-			'fieldDelimiter' => $fieldDelimiter,
-			'fieldEnclosure' => $fieldEnclosure
-		]);
+        $this->fixture->setArguments([
+            'data' => $data,
+            'fieldDelimiter' => $fieldDelimiter,
+            'fieldEnclosure' => $fieldEnclosure
+        ]);
 
-		$expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

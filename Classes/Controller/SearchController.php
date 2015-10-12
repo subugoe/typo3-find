@@ -37,122 +37,132 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 /**
  * Search Controller
  */
-class SearchController extends ActionController {
+class SearchController extends ActionController
+{
 
-	/**
-	 * @var array
-	 */
-	protected $requestArguments;
+    /**
+     * @var array
+     */
+    protected $requestArguments;
 
-	/**
-	 * @var \Subugoe\Find\Service\ServiceProviderInterface
-	 */
-	protected $searchProvider;
+    /**
+     * @var \Subugoe\Find\Service\ServiceProviderInterface
+     */
+    protected $searchProvider;
 
-	/**
-	 * Initialisation and setup.
-	 */
-	public function initializeAction() {
+    /**
+     * Initialisation and setup.
+     */
+    public function initializeAction()
+    {
 
-		ksort($this->settings['queryFields']);
+        ksort($this->settings['queryFields']);
 
-		// TODO make search engine (solr, elasticsearch, ...) configurable. This is just a stub
-		$this->initializeSearchEngine('solr');
+        // TODO make search engine (solr, elasticsearch, ...) configurable. This is just a stub
+        $this->initializeSearchEngine('solr');
 
-		$this->requestArguments = $this->request->getArguments();
-		$this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
-		$this->searchProvider->setRequestArguments($this->requestArguments);
-		$this->searchProvider->setAction($this->request->getControllerActionName());
-		$this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());
-	}
+        $this->requestArguments = $this->request->getArguments();
+        $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
+        $this->searchProvider->setRequestArguments($this->requestArguments);
+        $this->searchProvider->setAction($this->request->getControllerActionName());
+        $this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());
+    }
 
-	/**
-	 * @param string $engine
-	 */
-	protected function initializeSearchEngine($engine) {
+    /**
+     * @param string $engine
+     */
+    protected function initializeSearchEngine($engine)
+    {
 
-		$engine = ucfirst($engine);
+        $engine = ucfirst($engine);
 
-		$className = sprintf('Subugoe\\Find\\Service\\%sServiceProvider', $engine);
+        $className = sprintf('Subugoe\\Find\\Service\\%sServiceProvider', $engine);
 
-		/** @var \Subugoe\Find\Service\ServiceProviderInterface $searchProvider */
-		$this->searchProvider = GeneralUtility::makeInstance($className, $this->settings);
-		$this->searchProvider->connect();
-	}
+        /** @var \Subugoe\Find\Service\ServiceProviderInterface $searchProvider */
+        $this->searchProvider = GeneralUtility::makeInstance($className, $this->settings);
+        $this->searchProvider->connect();
+    }
 
-	/**
-	 * Index Action.
-	 */
-	public function indexAction() {
+    /**
+     * Index Action.
+     */
+    public function indexAction()
+    {
 
-		if (array_key_exists('id', $this->requestArguments)) {
-			$this->forward('detail');
-		} else {
-			$this->searchProvider->setCounter();
-			$this->response->addAdditionalHeaderData(
-				FrontendUtility::addQueryInformationAsJavaScript($this->requestArguments['q'], NULL, $this->searchProvider->getRequestArguments(), $this->settings)
-			);
-			$this->addStandardAssignments();
-			$defaultQuery = $this->searchProvider->getDefaultQuery();
+        if (array_key_exists('id', $this->requestArguments)) {
+            $this->forward('detail');
+        } else {
+            $this->searchProvider->setCounter();
+            $this->response->addAdditionalHeaderData(
+                FrontendUtility::addQueryInformationAsJavaScript($this->requestArguments['q'], NULL,
+                    $this->searchProvider->getRequestArguments(), $this->settings)
+            );
+            $this->addStandardAssignments();
+            $defaultQuery = $this->searchProvider->getDefaultQuery();
 
-			$viewValues = [
-				'arguments' => $this->searchProvider->getRequestArguments(),
-				'config' => $this->searchProvider->getConfiguration()
-			];
+            $viewValues = [
+                'arguments' => $this->searchProvider->getRequestArguments(),
+                'config' => $this->searchProvider->getConfiguration()
+            ];
 
-			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
-			$this->view->assignMultiple($viewValues);
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+            $this->view->assignMultiple($viewValues);
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * Single Item View action.
-	 */
-	public function detailAction() {
+    /**
+     * Single Item View action.
+     */
+    public function detailAction()
+    {
 
-		$arguments = $this->searchProvider->getRequestArguments();
-		if (array_key_exists('id', $arguments) && !empty($arguments['id'])) {
+        $arguments = $this->searchProvider->getRequestArguments();
+        if (array_key_exists('id', $arguments) && !empty($arguments['id'])) {
 
-			$detail = $this->searchProvider->getDetail();
+            $detail = $this->searchProvider->getDetail();
 
-			if ($this->request->hasArgument('underlyingQuery')) {
-				$underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-				$this->response->addAdditionalHeaderData(
-					FrontendUtility::addQueryInformationAsJavaScript($underlyingQueryInfo['q'], (int)$underlyingQueryInfo['position'], $arguments, $this->settings)
-				);
-			}
-			$this->addStandardAssignments();
+            if ($this->request->hasArgument('underlyingQuery')) {
+                $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+                $this->response->addAdditionalHeaderData(
+                    FrontendUtility::addQueryInformationAsJavaScript($underlyingQueryInfo['q'],
+                        (int)$underlyingQueryInfo['position'], $arguments, $this->settings)
+                );
+            }
+            $this->addStandardAssignments();
 
-			$this->view->assignMultiple($detail);
-			$this->view->assign('arguments', $arguments);
+            $this->view->assignMultiple($detail);
+            $this->view->assign('arguments', $arguments);
 
-		} else {
-			// id argument missing or empty
-			LoggerUtility::logError(
-				'find: Non-empty argument »id« is required for action »detail«.',
-				['arguments' => $arguments]
-			);
-			$this->forward('index');
-		}
-	}
+        } else {
+            // id argument missing or empty
+            LoggerUtility::logError(
+                'find: Non-empty argument »id« is required for action »detail«.',
+                ['arguments' => $arguments]
+            );
+            $this->forward('index');
+        }
+    }
 
-	/**
-	 * Suggest/Autocomplete action.
-	 */
-	public function suggestAction() {
-		$results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
-		$this->view->assign('suggestions', $results);
-	}
+    /**
+     * Suggest/Autocomplete action.
+     */
+    public function suggestAction()
+    {
+        $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
+        $this->view->assign('suggestions', $results);
+    }
 
-	/**
-	 * Assigns standard variables to the view.
-	 */
-	protected function addStandardAssignments() {
-		$this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
-		$this->searchProvider->setConfigurationValue('uid', $this->configurationManager->getContentObject()->data['uid']);
-		$this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
-		$this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
-	}
+    /**
+     * Assigns standard variables to the view.
+     */
+    protected function addStandardAssignments()
+    {
+        $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
+        $this->searchProvider->setConfigurationValue('uid',
+            $this->configurationManager->getContentObject()->data['uid']);
+        $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
+        $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
+    }
 
 }

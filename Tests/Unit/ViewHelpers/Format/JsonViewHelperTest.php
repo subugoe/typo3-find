@@ -31,71 +31,77 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Json viewhelper test
  */
-class JsonViewHelperTest extends BaseTestCase {
+class JsonViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var JsonViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var JsonViewHelper
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = $this->getMock(JsonViewHelper::class, ['dummy']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(JsonViewHelper::class, ['dummy']);
+    }
 
-	/**
-	 * @test
-	 */
-	public function arrayIsRenderedAsJsonString() {
-		$data = ['hrdr', 'behedeti', 'chub'];
+    /**
+     * @test
+     */
+    public function arrayIsRenderedAsJsonString()
+    {
+        $data = ['hrdr', 'behedeti', 'chub'];
 
-		$this->fixture->setArguments([
-			'data' => $data
-		]);
+        $this->fixture->setArguments([
+            'data' => $data
+        ]);
 
-		$expected = '["hrdr","behedeti","chub"]';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '["hrdr","behedeti","chub"]';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function integerIsRenderedAsJson() {
-		$data = 667;
+    /**
+     * @test
+     */
+    public function integerIsRenderedAsJson()
+    {
+        $data = 667;
 
-		$this->fixture->setArguments([
-			'data' => $data
-		]);
+        $this->fixture->setArguments([
+            'data' => $data
+        ]);
 
-		$expected = '667';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '667';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function stringIsRenderedAsJson() {
-		$data = 'hrdr behedeti mate';
+    /**
+     * @test
+     */
+    public function stringIsRenderedAsJson()
+    {
+        $data = 'hrdr behedeti mate';
 
-		$this->fixture->setArguments([
-			'data' => $data
-		]);
+        $this->fixture->setArguments([
+            'data' => $data
+        ]);
 
-		$expected = '"hrdr behedeti mate"';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '"hrdr behedeti mate"';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
-	/**
-	 * @test
-	 */
-	public function floatIsRenderedAsJson() {
-		$data = 667.67;
+    /**
+     * @test
+     */
+    public function floatIsRenderedAsJson()
+    {
+        $data = 667.67;
 
-		$this->fixture->setArguments([
-			'data' => $data
-		]);
+        $this->fixture->setArguments([
+            'data' => $data
+        ]);
 
-		$expected = '667.67';
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $expected = '667.67';
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

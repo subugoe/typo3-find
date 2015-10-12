@@ -31,58 +31,62 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Regexp viewhelper test
  */
-class RegexpViewHelperTest extends BaseTestCase {
+class RegexpViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var RegexpViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var RegexpViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function regexProvider() {
-		return [
-			['behedeti', '/hed/', 'hrdr', FALSE, 'behrdreti'],
-			['behedeti', '/beh/', 'hrdr', FALSE, 'hrdredeti'],
-			['horus', '|ho|', 'sy', FALSE, 'syrus'],
-			['ClubMate667', '/[a-zA-Z]*[0-9]*/', 'Cola', FALSE, 'ColaCola'],
-			['ClubMate667', '/\w*/', 'Cola', FALSE, 'ColaCola'],
+    /**
+     * @return array
+     */
+    public function regexProvider()
+    {
+        return [
+            ['behedeti', '/hed/', 'hrdr', FALSE, 'behrdreti'],
+            ['behedeti', '/beh/', 'hrdr', FALSE, 'hrdredeti'],
+            ['horus', '|ho|', 'sy', FALSE, 'syrus'],
+            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', 'Cola', FALSE, 'ColaCola'],
+            ['ClubMate667', '/\w*/', 'Cola', FALSE, 'ColaCola'],
 
-			['ClubMate667', '\w*', 'Cola', TRUE, 'ColaCola'],
-			['behedeti', 'hed', 'hrdr', TRUE, 'behrdreti'],
-			['behedeti', 'beh', 'hrdr', TRUE, 'hrdredeti'],
-			['horus', 'ho', 'sy', TRUE, 'syrus'],
-			['ClubMate667', '[a-zA-Z]*[0-9]*', 'Cola', TRUE, 'ColaCola'],
-			['behedeti', 'hed', '', TRUE, 'beeti'],
-			['beあdeti', 'あ', '', TRUE, 'bedeti'],
+            ['ClubMate667', '\w*', 'Cola', TRUE, 'ColaCola'],
+            ['behedeti', 'hed', 'hrdr', TRUE, 'behrdreti'],
+            ['behedeti', 'beh', 'hrdr', TRUE, 'hrdredeti'],
+            ['horus', 'ho', 'sy', TRUE, 'syrus'],
+            ['ClubMate667', '[a-zA-Z]*[0-9]*', 'Cola', TRUE, 'ColaCola'],
+            ['behedeti', 'hed', '', TRUE, 'beeti'],
+            ['beあdeti', 'あ', '', TRUE, 'bedeti'],
 
-			['behedeti', '/hed/', NULL, FALSE, 1],
-			['behedeti', '/beh/', NULL, FALSE, 1],
-			['horus', '|ho|', NULL, FALSE, 1],
-			['ClubMate667', '/[a-zA-Z]*[0-9]*/', NULL, FALSE, 1],
-			['ClubMate667', '/\w*/', NULL, FALSE, 1]
-		];
-	}
+            ['behedeti', '/hed/', NULL, FALSE, 1],
+            ['behedeti', '/beh/', NULL, FALSE, 1],
+            ['horus', '|ho|', NULL, FALSE, 1],
+            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', NULL, FALSE, 1],
+            ['ClubMate667', '/\w*/', NULL, FALSE, 1]
+        ];
+    }
 
 
-	public function setUp() {
-		$this->fixture = $this->getMock(RegexpViewHelper::class, ['dummy']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(RegexpViewHelper::class, ['dummy']);
+    }
 
-	/**
-	 * @test
-	 * @dataProvider regexProvider
-	 */
-	public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected) {
-		$this->fixture->setArguments([
-			'string' => $string,
-			'match' => $match,
-			'replace' => $replace,
-			'useMBEreg' => $useMBEreg
-		]);
+    /**
+     * @test
+     * @dataProvider regexProvider
+     */
+    public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected)
+    {
+        $this->fixture->setArguments([
+            'string' => $string,
+            'match' => $match,
+            'replace' => $replace,
+            'useMBEreg' => $useMBEreg
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }

@@ -31,41 +31,45 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 /**
  * Tests for the whitespace stripping viewhelper
  */
-class StripViewHelperTest extends BaseTestCase {
+class StripViewHelperTest extends BaseTestCase
+{
 
-	/**
-	 * @var StripViewHelper
-	 */
-	protected $fixture;
+    /**
+     * @var StripViewHelper
+     */
+    protected $fixture;
 
-	/**
-	 * @return array
-	 */
-	public function stringProvider() {
-		return [
-			['a', FALSE, 'a'],
-			['  *spacious text*	', NULL, '*spacious text*'],
-			['  *spacious text*	', ' ', '*spacious text*	'],
-			['  *spacious text*	', '	', '  *spacious text*']
-		];
-	}
+    /**
+     * @return array
+     */
+    public function stringProvider()
+    {
+        return [
+            ['a', FALSE, 'a'],
+            ['  *spacious text*	', NULL, '*spacious text*'],
+            ['  *spacious text*	', ' ', '*spacious text*	'],
+            ['  *spacious text*	', '	', '  *spacious text*']
+        ];
+    }
 
 
-	public function setUp() {
-		$this->fixture = $this->getMock(StripViewHelper::class, ['dummy']);
-	}
+    public function setUp()
+    {
+        $this->fixture = $this->getMock(StripViewHelper::class, ['dummy']);
+    }
 
-	/**
-	 * @test
-	 * @dataProvider stringProvider
-	 */
-	public function whitespaceIsCorrectlyRemovedFromString($string, $strip, $expected) {
-		$this->fixture->setArguments([
-			'string' => $string,
-			'strip' => $strip,
-		]);
+    /**
+     * @test
+     * @dataProvider stringProvider
+     */
+    public function whitespaceIsCorrectlyRemovedFromString($string, $strip, $expected)
+    {
+        $this->fixture->setArguments([
+            'string' => $string,
+            'strip' => $strip,
+        ]);
 
-		$this->assertSame($expected, $this->fixture->render());
-	}
+        $this->assertSame($expected, $this->fixture->render());
+    }
 
 }
