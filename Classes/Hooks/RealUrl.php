@@ -1,5 +1,7 @@
 <?php
 
+namespace Subugoe\Find\Hooks;
+
 /* * *************************************************************
  *  Copyright notice
  *
@@ -29,7 +31,7 @@
 /**
  * RealUrl Hook for automatic URL generation
  */
-class Tx_Find_Hooks_RealUrl
+class RealUrl
 {
 
     /**

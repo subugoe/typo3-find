@@ -17,4 +17,4 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('find')
 );
 
 // RealURL autoconfiguration
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['find'] = 'EXT:find/Classes/Hooks/RealUrl.php:Tx_Find_Hooks_RealUrl->addRealUrlConfiguration';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['find'] = 'EXT:find/Classes/Hooks/RealUrl.php:Subugoe\\Find\\Hooks\\RealUrl->addRealUrlConfiguration';
