@@ -35,7 +35,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class TitleViewHelper extends AbstractViewHelper
 {
 
-
     /**
      * Registers own arguments.
      * @return void

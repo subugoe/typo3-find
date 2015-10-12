@@ -687,6 +687,7 @@ Prerequisites
 -------------
 
 * TYPO3 6.2 or higher
+* PHP 5.5 or higher
 * t3jquery Extension
 
 
