@@ -154,8 +154,8 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     /**
      * Returns the number of results per page using the first of:
-     * * query parameter »count«
-     * * TypoScript setting »paging.perPage«
+     * query parameter »count«
+     * TypoScript setting »paging.perPage«
      * limited by the setting »paging.maximumPerPage«
      *
      * @param array $arguments overrides $this->requestArguments if set
@@ -191,7 +191,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     {
         $this->query->getEDisMax();
     }
-
 
     /**
      * @return \Solarium\Client
@@ -603,11 +602,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                 }
 
                 if ($queryPart) {
-                    if (is_array($queryParameters[$fieldID]) && empty($queryParameters[$fieldID]['term'])) {
-                        // TODO some handling
-                    } else {
-                        $queryComponents[$fieldID] = $queryPart;
-                    }
+                    $queryComponents[$fieldID] = $queryPart;
                 }
             }
         }
@@ -631,7 +626,6 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     protected function addHighlighting($arguments)
     {
-
         $highlightConfig = SettingsUtility::getMergedSettings('highlight', $this->settings);
 
         if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
@@ -744,7 +738,6 @@ class SolrServiceProvider implements ServiceProviderInterface
                             continue;
                         }
                     }
-
                     $this->query->addSort($sortCriterionParts[0], $sortDirection);
                 } else {
                     $message = sprintf('find: sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.',
@@ -756,7 +749,34 @@ class SolrServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Main starting point for blank index action
+     * Returns request arguments which are set.
+     * @return array
+     */
+    protected function getFilteredRequestArguments()
+    {
+        $filteredQueryParameters = [];
+        $requestArguments = $this->getRequestArguments();
+        if (array_key_exists('q', $requestArguments)) {
+            $queryParameters = $requestArguments['q'];
+            foreach ($queryParameters as $argumentsKey => $arguments) {
+                if (is_array($arguments) && !empty($arguments)) {
+                    foreach ($arguments as $argumentKey => $argument) {
+                        if (!empty($argument)) {
+                            $filteredQueryParameters[$argumentsKey][$argumentKey] = $argument;
+                        }
+                    }
+                } else {
+                    if (!empty($arguments)) {
+                        $filteredQueryParameters[$argumentsKey] = $arguments;
+                    }
+                }
+            }
+        }
+        return $filteredQueryParameters;
+    }
+
+    /**
+     * Main starting point for blank index action.
      * @return array
      */
     public function getDefaultQuery()
@@ -764,11 +784,9 @@ class SolrServiceProvider implements ServiceProviderInterface
         $this->createQueryForArguments($this->getRequestArguments());
         $error = NULL;
         $resultSet = NULL;
-
         try {
             $resultSet = $this->connection->execute($this->query);
         } catch (HttpException $exception) {
-
             LoggerUtility::logError(
                 'find: Solr Exception (Timeout?)',
                 [
@@ -776,9 +794,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                     'exception' => LoggerUtility::exceptionToArray($exception)
                 ]
             );
-
             $error = ['solr' => $exception];
-
         }
 
         return [
@@ -796,13 +812,7 @@ class SolrServiceProvider implements ServiceProviderInterface
     protected function createQueryForArguments($arguments)
     {
         $this->createQuery();
-
-        // Build query string.
-        $queryParameters = [];
-        if (array_key_exists('q', $arguments)) {
-            $queryParameters = $arguments['q'];
-        }
-
+        $queryParameters = $this->getFilteredRequestArguments();
         $queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
         $queryString = implode(' ' . Query::QUERY_OPERATOR_AND . ' ', $queryComponents);
         $this->query->setQuery($queryString);
@@ -866,7 +876,6 @@ class SolrServiceProvider implements ServiceProviderInterface
         $this->query = $this->connection->createSelect();
         $this->addFeatures();
         $this->addTypoScriptFilters();
-
         $this->setConfigurationValue('solarium', $this->query);
     }
 
@@ -929,7 +938,6 @@ class SolrServiceProvider implements ServiceProviderInterface
 
         $this->setConfigurationValue('resultCountOptions', $resultCountOptions);
     }
-
 
     /**
      * Sets up $query’s sort order from URL arguments or the TypoScript default.
