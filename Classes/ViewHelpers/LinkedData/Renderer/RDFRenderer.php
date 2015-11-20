@@ -32,7 +32,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  */
 class RDFRenderer extends AbstractRenderer implements RendererInterface
 {
-
     /**
      * @param $items
      * @return string
@@ -47,7 +46,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
         // loop over subjects
         foreach ($items as $subjectURI => $subjectStatements) {
             $subjectDescription = $doc->createElement($this->prefixedName('rdf:Description'));
-            $subjectDescription->setAttribute($this->prefixedName('rdf:about'), $this->prefixedName($subjectURI, TRUE));
+            $subjectDescription->setAttribute($this->prefixedName('rdf:about'), $this->prefixedName($subjectURI, true));
 
             // loop over predicates
             foreach ($subjectStatements as $predicate => $objects) {
@@ -57,20 +56,20 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
                     $predicateElement = $doc->createElement($this->prefixedName($predicate));
                     $subjectDescription->appendChild($predicateElement);
 
-                    if ($properties === NULL) {
+                    if ($properties === null) {
                         $objectParts = explode(':', $object, 2);
                         if ($this->prefixes[$objectParts[0]] && count($objectParts) === 2) {
                             $object = $this->prefixes[$objectParts[0]] . $objectParts[1];
                         }
                         $predicateElement->setAttribute($this->prefixedName('rdf:resource'),
-                            $this->prefixedName($object, TRUE));
+                            $this->prefixedName($object, true));
                     } else {
                         if ($properties['language']) {
                             $predicateElement->setAttribute($this->prefixedName('xml:lang'), $properties['language']);
                         }
                         if ($properties['type']) {
                             $predicateElement->setAttribute($this->prefixedName('rdf:datatype'),
-                                $this->prefixedName($properties['type'], TRUE));
+                                $this->prefixedName($properties['type'], true));
                         }
 
                         $predicateElement->appendChild($doc->createTextNode($object));
@@ -90,7 +89,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
             }
         }
 
-        $doc->formatOutput = TRUE;
+        $doc->formatOutput = true;
         return $doc->saveXML();
     }
 
@@ -99,11 +98,11 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
      * @param bool $expand
      * @return string
      */
-    protected function prefixedName($name, $expand = FALSE)
+    protected function prefixedName($name, $expand = false)
     {
         $nameParts = explode(':', $name, 2);
         if ($this->prefixes[$nameParts[0]]) {
-            $this->usedPrefixes[$nameParts[0]] = TRUE;
+            $this->usedPrefixes[$nameParts[0]] = true;
             if ($expand && count($nameParts) > 1) {
                 $name = $this->prefixes[$nameParts[0]] . $nameParts[1];
             }
@@ -111,5 +110,4 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
 
         return $name;
     }
-
 }

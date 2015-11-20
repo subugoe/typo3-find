@@ -35,7 +35,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class NewArrayViewHelper extends AbstractViewHelper
 {
-
     /**
      * Register arguments.
      * @return void
@@ -43,15 +42,15 @@ class NewArrayViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('name', 'string', 'name of template variable to assign the result to', FALSE, NULL);
-        $this->registerArgument('array', 'array', 'existing array to add the new keys and values to', FALSE, []);
+        $this->registerArgument('name', 'string', 'name of template variable to assign the result to', false, null);
+        $this->registerArgument('array', 'array', 'existing array to add the new keys and values to', false, []);
 
-        $this->registerArgument('keys', 'array', 'array of keys', FALSE, NULL);
-        $this->registerArgument('values', 'array', 'array of values', FALSE, []);
+        $this->registerArgument('keys', 'array', 'array of keys', false, null);
+        $this->registerArgument('values', 'array', 'array of values', false, []);
 
         $this->registerArgument('global', 'boolean',
-            'whether to make the variable available to all templates coming afterwards', FALSE, FALSE);
-        $this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', FALSE, FALSE);
+            'whether to make the variable available to all templates coming afterwards', false, false);
+        $this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', false, false);
     }
 
     /**
@@ -71,7 +70,7 @@ class NewArrayViewHelper extends AbstractViewHelper
                 }
             } else {
                 $result = "newArray View Helper: Number of keys and values must be the same." . PHP_EOL . print_r($this->arguments,
-                        TRUE);
+                        true);
             }
         } else {
             foreach ($this->arguments['values'] as $value) {
@@ -80,18 +79,17 @@ class NewArrayViewHelper extends AbstractViewHelper
         }
 
         $variableName = $this->arguments['name'];
-        if ($variableName !== NULL) {
+        if ($variableName !== null) {
             if ($this->templateVariableContainer->exists($variableName)) {
                 $this->templateVariableContainer->remove($variableName);
             }
             $this->templateVariableContainer->add($variableName, $result);
             $result = $this->renderChildren();
-            if ($this->arguments['global'] !== TRUE) {
+            if ($this->arguments['global'] !== true) {
                 $this->templateVariableContainer->remove($variableName);
             }
         }
 
         return $result;
     }
-
 }

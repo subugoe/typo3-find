@@ -32,18 +32,17 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class PageListViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('currentPage', 'int', 'number of the current page', FALSE, 1);
-        $this->registerArgument('resultCount', 'int', 'total number of results', TRUE);
-        $this->registerArgument('perPage', 'int', 'number of results per page', FALSE, 10);
-        $this->registerArgument('adjacentPages', 'int', 'number of neighbours of the current page to show', FALSE, 3);
-        $this->registerArgument('minimumGapSize', 'int', 'gaps of fewer items than this are filles', FALSE, 2);
+        $this->registerArgument('currentPage', 'int', 'number of the current page', false, 1);
+        $this->registerArgument('resultCount', 'int', 'total number of results', true);
+        $this->registerArgument('perPage', 'int', 'number of results per page', false, 10);
+        $this->registerArgument('adjacentPages', 'int', 'number of neighbours of the current page to show', false, 3);
+        $this->registerArgument('minimumGapSize', 'int', 'gaps of fewer items than this are filles', false, 2);
     }
 
     /**
@@ -60,11 +59,11 @@ class PageListViewHelper extends AbstractViewHelper
 
         $pageIndex = 1;
         while ($pageIndex <= $numberOfPages) {
-            $pageInfo = ['number' => $pageIndex, 'current' => FALSE, 'gap' => FALSE];
+            $pageInfo = ['number' => $pageIndex, 'current' => false, 'gap' => false];
 
             if ($pageIndex === $currentPage) {
                 $pageInfo['status'] = 'current';
-                $pageInfo['current'] = TRUE;
+                $pageInfo['current'] = true;
             } else {
                 if ($pageIndex === 1 | $pageIndex === $numberOfPages) {
                     $pageInfo['status'] = 'edge';
@@ -78,7 +77,7 @@ class PageListViewHelper extends AbstractViewHelper
                             $pageInfo['status'] = 'gapfiller';
                         } else {
                             $pageInfo['status'] = 'gap';
-                            $pageInfo['gap'] = TRUE;
+                            $pageInfo['gap'] = true;
                         }
                     }
                 }
@@ -104,9 +103,8 @@ class PageListViewHelper extends AbstractViewHelper
         return [
             'pages' => $pages,
             'current' => $currentPage,
-            'previous' => ($currentPage === 1) ? NULL : $currentPage - 1,
-            'next' => ($currentPage === $numberOfPages) ? NULL : $currentPage + 1
+            'previous' => ($currentPage === 1) ? null : $currentPage - 1,
+            'next' => ($currentPage === $numberOfPages) ? null : $currentPage + 1
         ];
     }
-
 }

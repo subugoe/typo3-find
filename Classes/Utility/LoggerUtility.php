@@ -33,14 +33,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LoggerUtility
 {
-
     /**
      * Returns an array that can be handled by devLog with the information from an exception.
      *
      * @param \Exception $exception
      * @return array
      */
-    public static function exceptionToArray($exception, $includePrevious = FALSE)
+    public static function exceptionToArray($exception, $includePrevious = false)
     {
         $array = [
             'message' => $exception->getMessage(),
@@ -51,7 +50,7 @@ class LoggerUtility
         ];
 
         if ($includePrevious) {
-            $array['previous'] = self::exceptionToArray($exception->getPrevious(), TRUE);
+            $array['previous'] = self::exceptionToArray($exception->getPrevious(), true);
         }
 
         return $array;
@@ -63,7 +62,7 @@ class LoggerUtility
      * @param string $message the message to display
      * @param array $extraInfo additional data to pass to devLog
      */
-    public static function logError($message, $extraInfo = NULL)
+    public static function logError($message, $extraInfo = null)
     {
         GeneralUtility::devLog($message, 'find', FlashMessage::ERROR, $extraInfo);
     }
@@ -72,7 +71,7 @@ class LoggerUtility
      * @param $message
      * @param array $extraInfo
      */
-    public static function logWarning($message, $extraInfo = NULL)
+    public static function logWarning($message, $extraInfo = null)
     {
         GeneralUtility::devLog($message, 'find', FlashMessage::WARNING, $extraInfo);
     }
@@ -81,9 +80,8 @@ class LoggerUtility
      * @param $message
      * @param array $extraInfo
      */
-    public static function logInfo($message, $extraInfo = NULL)
+    public static function logInfo($message, $extraInfo = null)
     {
         GeneralUtility::devLog($message, 'find', FlashMessage::INFO, $extraInfo);
     }
-
 }

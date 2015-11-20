@@ -38,7 +38,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class SolrServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * @var \Solarium\Client
      */
@@ -84,7 +83,6 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     public function connect()
     {
-
         $configuration = [
             'endpoint' => [
                 'localhost' => [
@@ -161,9 +159,9 @@ class SolrServiceProvider implements ServiceProviderInterface
      * @param array $arguments overrides $this->requestArguments if set
      * @return int
      */
-    protected function getCount($arguments = NULL)
+    protected function getCount($arguments = null)
     {
-        if ($arguments === NULL) {
+        if ($arguments === null) {
             $arguments = $this->getRequestArguments();
         }
 
@@ -273,7 +271,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                     $facet = array_merge($this->settings['facetDefaults'], $facet);
                     $facetConfiguration[$key] = $facet;
 
-                    $queryForFacet = NULL;
+                    $queryForFacet = null;
                     if (array_key_exists('facetQuery', $facet)) {
                         $queryForFacet = $facetSet->createFacetMultiQuery($facetID);
                         foreach ($facet['facetQuery'] as $facetQueryIndex => $facetQuery) {
@@ -388,7 +386,7 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     protected function getFacetConfig($ID)
     {
-        $config = NULL;
+        $config = null;
 
         foreach ($this->settings['facets'] as $facet) {
             if (array_key_exists('id', $facet)) {
@@ -412,7 +410,7 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     protected function getFacetQuery($facetConfig, $queryTerm)
     {
-        $queryString = NULL;
+        $queryString = null;
 
         if ($facetConfig) {
             if (array_key_exists('facetQuery', $facetConfig)) {
@@ -423,7 +421,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                         break;
                     }
                 }
-                if ($queryString === NULL) {
+                if ($queryString === null) {
                     LoggerUtility::logInfo(
                         sprintf('find: Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.',
                             $facetConfig['id'], $queryTerm),
@@ -436,7 +434,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                 }
             }
 
-            if ($queryString === NULL) {
+            if ($queryString === null) {
                 // No Facet queries applicable: build the query.
                 if (array_key_exists('query', $facetConfig)) {
                     $queryPattern = $facetConfig['query'];
@@ -466,9 +464,9 @@ class SolrServiceProvider implements ServiceProviderInterface
      * @param array $arguments overrides $this->requestArguments if set
      * @return int
      */
-    protected function getOffset($arguments = NULL)
+    protected function getOffset($arguments = null)
     {
-        if ($arguments === NULL) {
+        if ($arguments === null) {
             $arguments = $this->requestArguments;
         }
 
@@ -493,11 +491,11 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     public function isExtendedSearch()
     {
-        $result = FALSE;
+        $result = false;
 
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
-            $result = ($this->requestArguments['extended'] == TRUE);
+            $result = ($this->requestArguments['extended'] == true);
         } else {
             // Show extended search when any of the »extended« fields are used.
             if (array_key_exists('q', $this->requestArguments)) {
@@ -506,7 +504,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                         && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
                         && $this->requestArguments['q'][$fieldInfo['id']]
                     ) {
-                        $result = TRUE;
+                        $result = true;
                         break;
                     }
                 }
@@ -537,7 +535,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                 // b) array of strings (e.g. date range field)
                 // c) single field with additional configuration (e.g. text field with alternate query)
                 $queryArguments = $queryParameters[$fieldID];
-                $queryAlternate = NULL;
+                $queryAlternate = null;
                 if (is_array($queryArguments) && array_key_exists('alternate',
                         $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
                 ) {
@@ -631,7 +629,6 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     protected function addHighlighting($arguments)
     {
-
         $highlightConfig = SettingsUtility::getMergedSettings('highlight', $this->settings);
 
         if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
@@ -646,7 +643,7 @@ class SolrServiceProvider implements ServiceProviderInterface
                         $fieldID = $fieldInfo['id'];
                         if ($fieldID && $queryParameters[$fieldID]) {
                             $queryArguments = $queryParameters[$fieldID];
-                            $queryAlternate = NULL;
+                            $queryAlternate = null;
                             if (is_array($queryArguments) && array_key_exists('alternate',
                                     $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
@@ -712,7 +709,6 @@ class SolrServiceProvider implements ServiceProviderInterface
             // Set up prefix and postfix.
             $highlight->setSimplePrefix('\ueeee');
             $highlight->setSimplePostfix('\ueeef');
-
         }
 
         $this->setConfigurationValue('highlight', $highlightConfig);
@@ -762,13 +758,12 @@ class SolrServiceProvider implements ServiceProviderInterface
     public function getDefaultQuery()
     {
         $this->createQueryForArguments($this->getRequestArguments());
-        $error = NULL;
-        $resultSet = NULL;
+        $error = null;
+        $resultSet = null;
 
         try {
             $resultSet = $this->connection->execute($this->query);
         } catch (HttpException $exception) {
-
             LoggerUtility::logError(
                 'find: Solr Exception (Timeout?)',
                 [
@@ -778,7 +773,6 @@ class SolrServiceProvider implements ServiceProviderInterface
             );
 
             $error = ['solr' => $exception];
-
         }
 
         return [
@@ -1215,5 +1209,4 @@ class SolrServiceProvider implements ServiceProviderInterface
         }
         return $assignments;
     }
-
 }

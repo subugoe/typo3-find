@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JoinViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,9 +41,9 @@ class JoinViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('array', 'array', 'the array to join the elements of', FALSE, NULL);
+        $this->registerArgument('array', 'array', 'the array to join the elements of', false, null);
         $this->registerArgument('separator', 'string', 'the separator string placed between the elements of the array',
-            FALSE, ', ');
+            false, ', ');
     }
 
     /**
@@ -53,11 +52,10 @@ class JoinViewHelper extends AbstractViewHelper
     public function render()
     {
         $array = $this->arguments['array'];
-        if ($array === NULL) {
+        if ($array === null) {
             $array = $this->renderChildren();
         }
 
         return implode($array, $this->arguments['separator']);
     }
-
 }

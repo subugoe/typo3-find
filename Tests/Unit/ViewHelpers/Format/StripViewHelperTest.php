@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class StripViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var StripViewHelper
      */
@@ -45,8 +44,8 @@ class StripViewHelperTest extends BaseTestCase
     public function stringProvider()
     {
         return [
-            ['a', FALSE, 'a'],
-            ['  *spacious text*	', NULL, '*spacious text*'],
+            ['a', false, 'a'],
+            ['  *spacious text*	', null, '*spacious text*'],
             ['  *spacious text*	', ' ', '*spacious text*	'],
             ['  *spacious text*	', '	', '  *spacious text*']
         ];
@@ -71,5 +70,4 @@ class StripViewHelperTest extends BaseTestCase
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

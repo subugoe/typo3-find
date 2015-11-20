@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class SplitViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
      */
@@ -42,7 +41,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, array('renderChildren'));
+        $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
@@ -92,5 +91,4 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
 
         $this->assertSame($expected, $this->fixture->render($string));
     }
-
 }

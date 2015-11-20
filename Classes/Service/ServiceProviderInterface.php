@@ -31,7 +31,6 @@ namespace Subugoe\Find\Service;
  */
 interface ServiceProviderInterface
 {
-
     public function connect();
 
     /**
@@ -82,5 +81,4 @@ interface ServiceProviderInterface
      * @return mixed
      */
     public function setRequestArguments($requestArguments);
-
 }

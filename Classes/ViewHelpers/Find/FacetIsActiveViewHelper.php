@@ -34,19 +34,18 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FacetIsActiveViewHelper extends AbstractViewHelper
 {
-
     /**
      * Register arguments.
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', TRUE);
+        $this->registerArgument('facetID', 'string', 'ID of the facet to determine the selection status of', true);
         $this->registerArgument('facetTerm', 'string',
             'Term of the facet item to determine the selection status of; if NULL any facet with the given facetID matches',
-            FALSE, NULL);
-        $this->registerArgument('activeFacets', 'array', 'Array of active facets', FALSE, []);
-        $this->registerArgument('type', 'string', 'Query type [string, range]', FALSE, 'string');
+            false, null);
+        $this->registerArgument('activeFacets', 'array', 'Array of active facets', false, []);
+        $this->registerArgument('type', 'string', 'Query type [string, range]', false, 'string');
     }
 
     /**
@@ -57,14 +56,13 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
         foreach ($this->arguments['activeFacets'] as $facets) {
             foreach ($facets as $facetInfo) {
                 if ($facetInfo['id'] === $this->arguments['facetID']
-                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === NULL)
+                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === null)
                 ) {
-                    return TRUE;
+                    return true;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
-
 }

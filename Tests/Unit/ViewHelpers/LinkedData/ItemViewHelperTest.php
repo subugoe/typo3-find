@@ -36,7 +36,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
  */
 class ItemViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var ItemViewHelper
      */
@@ -53,7 +52,7 @@ class ItemViewHelperTest extends BaseTestCase
     public function linkedDataProvider()
     {
         return [
-            ['hrdr', 'is', 'thirsty', NULL, NULL, NULL, 'hrdr'],
+            ['hrdr', 'is', 'thirsty', null, null, null, 'hrdr'],
         ];
     }
 
@@ -65,7 +64,6 @@ class ItemViewHelperTest extends BaseTestCase
         $renderingContext = new RenderingContext();
         $renderingContext->injectTemplateVariableContainer(new TemplateVariableContainer());
         $this->fixture->setRenderingContext($renderingContext);
-
     }
 
     /**
@@ -74,7 +72,6 @@ class ItemViewHelperTest extends BaseTestCase
      */
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected)
     {
-
         $this->fixture->setArguments([
             'subject' => $subject,
             'predicate' => $predicate,
@@ -85,11 +82,10 @@ class ItemViewHelperTest extends BaseTestCase
         ]);
         $this->templateVariableContainer->expects($this->once())->method('remove')->with($name);
         $this->templateVariableContainer->expects($this->once())->method('add')->with($name)->will($this->returnValue(''));
-        ObjectAccess::setProperty($this->fixture, 'templateVariableContainer', $this->templateVariableContainer, TRUE);
+        ObjectAccess::setProperty($this->fixture, 'templateVariableContainer', $this->templateVariableContainer, true);
 
         $this->fixture->render();
 
         $this->markTestIncomplete('Todo');
     }
-
 }

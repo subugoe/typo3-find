@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SolrEscapeViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,8 +41,8 @@ class SolrEscapeViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('string', 'string', 'the string to escape for Solr', FALSE, NULL);
-        $this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', FALSE, FALSE);
+        $this->registerArgument('string', 'string', 'the string to escape for Solr', false, null);
+        $this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', false, false);
     }
 
     /**
@@ -52,7 +51,7 @@ class SolrEscapeViewHelper extends AbstractViewHelper
     public function render()
     {
         $string = $this->arguments['string'];
-        if ($string === NULL) {
+        if ($string === null) {
             $string = $this->renderChildren();
         }
 
@@ -66,5 +65,4 @@ class SolrEscapeViewHelper extends AbstractViewHelper
 
         return $escapedString;
     }
-
 }

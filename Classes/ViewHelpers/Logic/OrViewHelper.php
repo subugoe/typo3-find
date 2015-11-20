@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class OrViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,7 +41,7 @@ class OrViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('conditions', 'array', 'the array of conditions to OR', TRUE);
+        $this->registerArgument('conditions', 'array', 'the array of conditions to OR', true);
     }
 
     /**
@@ -50,12 +49,11 @@ class OrViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $result = FALSE;
+        $result = false;
         foreach ($this->arguments['conditions'] as $condition) {
-            $result |= ($condition == TRUE);
+            $result |= ($condition == true);
         }
 
         return (bool)$result;
     }
-
 }

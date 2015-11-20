@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class IsArrayViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper
      */
@@ -42,7 +41,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(IsArrayViewHelper::class, array('renderChildren'));
+        $this->fixture = $this->getAccessibleMock(IsArrayViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
@@ -88,8 +87,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
      */
     public function nullIsNotInterpretedAsArray()
     {
-        $this->fixture->setArguments(['subject' => NULL]);
+        $this->fixture->setArguments(['subject' => null]);
         $this->assertFalse($this->fixture->render());
     }
-
 }

@@ -34,22 +34,21 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SelectOptionsForFacetViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('values', 'array', 'values array for a facet', FALSE, []);
-        $this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', FALSE,
-            FALSE);
+        $this->registerArgument('values', 'array', 'values array for a facet', false, []);
+        $this->registerArgument('showCount', 'boolean', 'include the item count for the facet in the label?', false,
+            false);
         $this->registerArgument('leadingBlank', 'boolean', 'begin the select with a blank item? (for jquery.chosen)',
-            FALSE, FALSE);
-        $this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', FALSE, FALSE);
+            false, false);
+        $this->registerArgument('sortByName', 'boolean', 'sort the items alphabetically?', false, false);
         $this->registerArgument('sortPrefixSeparator', 'string',
-            'sort the whole string but only keep the part after the separator for display', FALSE, NULL);
-        $this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', FALSE, '');
+            'sort the whole string but only keep the part after the separator for display', false, null);
+        $this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', false, '');
     }
 
     /**
@@ -97,5 +96,4 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

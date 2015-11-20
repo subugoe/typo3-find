@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TransposeViewHelper extends AbstractViewHelper
 {
-
     /**
      * Register arguments.
      * @return void
@@ -42,8 +41,8 @@ class TransposeViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', FALSE, []);
-        $this->registerArgument('name', 'string', 'Variable name to assign the new array to', TRUE);
+        $this->registerArgument('arrays', 'array', 'Array with keys: field names and values: arrays', false, []);
+        $this->registerArgument('name', 'string', 'Variable name to assign the new array to', true);
     }
 
 
@@ -56,7 +55,7 @@ class TransposeViewHelper extends AbstractViewHelper
         $iterationArray = [];
         // Strip non-numeric keys in the value arrays.
         foreach ($this->arguments['arrays'] as $key => $array) {
-            $iterationArray = ($array !== NULL) ? $array : [];
+            $iterationArray = ($array !== null) ? $array : [];
             $arrays[$key] = array_values($iterationArray);
         }
 
@@ -97,15 +96,15 @@ class TransposeViewHelper extends AbstractViewHelper
      */
     protected function identicalLengths($arrays)
     {
-        $result = TRUE;
+        $result = true;
 
-        $length = NULL;
+        $length = null;
         foreach ($arrays as $array) {
-            if ($length === NULL) {
+            if ($length === null) {
                 $length = count($array);
             } else {
                 if ($length !== count($array)) {
-                    $result = FALSE;
+                    $result = false;
                     break;
                 }
             }
@@ -113,5 +112,4 @@ class TransposeViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

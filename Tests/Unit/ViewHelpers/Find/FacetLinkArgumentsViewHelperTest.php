@@ -32,7 +32,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper
      */
@@ -64,5 +63,4 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
         $resultValue = array_keys($result['facet']['title']);
         $this->assertEquals('hrdr', $resultValue[0]);
     }
-
 }

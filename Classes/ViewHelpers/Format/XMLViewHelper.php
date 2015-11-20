@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class XMLViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,7 +41,7 @@ class XMLViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', FALSE, FALSE);
+        $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', false, false);
     }
 
     /**
@@ -52,8 +51,8 @@ class XMLViewHelper extends AbstractViewHelper
     {
         $input = $this->renderChildren();
         $XML = new \DOMDocument();
-        $XML->preserveWhiteSpace = FALSE;
-        $XML->formatOutput = TRUE;
+        $XML->preserveWhiteSpace = false;
+        $XML->formatOutput = true;
         $XML->encoding = 'UTF-8';
         $XML->loadXML($input);
         if ($this->arguments['htmloutput']) {
@@ -66,5 +65,4 @@ class XMLViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

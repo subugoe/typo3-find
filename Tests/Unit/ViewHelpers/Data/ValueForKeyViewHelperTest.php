@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper
      */
@@ -100,5 +99,4 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
         $key = 'c';
         $this->assertNull($this->fixture->render($array, $key));
     }
-
 }

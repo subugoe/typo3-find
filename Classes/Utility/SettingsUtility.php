@@ -31,7 +31,6 @@ namespace Subugoe\Find\Utility;
  */
 class SettingsUtility
 {
-
     /**
      * Returns the merged settings for the given name.
      * Uses settings.$settingName.default and adds
@@ -63,5 +62,4 @@ class SettingsUtility
 
         return $config;
     }
-
 }

@@ -32,7 +32,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper
      */
@@ -94,5 +93,4 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
 
         $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
     }
-
 }

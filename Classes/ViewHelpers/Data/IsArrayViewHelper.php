@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Data;
  ******************************************************************************/
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-
 /**
  * View Helper to return whether the variable is an array.
  *
@@ -35,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class IsArrayViewHelper extends AbstractViewHelper
 {
-
     /**
      * Register arguments.
      * @return void
@@ -43,7 +41,7 @@ class IsArrayViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', FALSE, NULL);
+        $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', false, null);
     }
 
     /**
@@ -51,18 +49,17 @@ class IsArrayViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $result = FALSE;
+        $result = false;
 
         $subject = $this->arguments['subject'];
-        if ($subject === NULL) {
+        if ($subject === null) {
             $subject = $this->renderChildren();
         }
 
-        if ($subject !== NULL) {
+        if ($subject !== null) {
             $result = is_array($subject);
         }
 
         return $result;
     }
-
 }

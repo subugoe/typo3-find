@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class AndViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var AndViewHelper
      */
@@ -49,47 +48,47 @@ class AndViewHelperTest extends BaseTestCase
                 [
                     (1 === 1)
                 ],
-                TRUE
+                true
             ],
             [
-                [(TRUE === TRUE)],
-                TRUE
+                [(true === true)],
+                true
             ],
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (TRUE == 1)
+                    (true == 1)
                 ],
-                TRUE
+                true
             ],
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                     (1 === 2),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (TRUE == 1)
+                    (true == 1)
                 ],
-                FALSE
+                false
             ],
             [
                 [
                     (1 === 2)
                 ],
-                FALSE
+                false
             ],
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (TRUE == 0)
+                    (true == 0)
                 ],
-                FALSE
+                false
             ],
         ];
     }
@@ -97,7 +96,6 @@ class AndViewHelperTest extends BaseTestCase
     public function setUp()
     {
         $this->fixture = $this->getMock(AndViewHelper::class, ['dummy']);
-
     }
 
     /**
@@ -106,12 +104,10 @@ class AndViewHelperTest extends BaseTestCase
      */
     public function conditionIsTrue($conditions, $expected)
     {
-
         $this->fixture->setArguments([
             'conditions' => $conditions
         ]);
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

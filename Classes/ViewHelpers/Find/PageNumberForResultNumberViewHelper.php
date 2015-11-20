@@ -37,7 +37,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  */
 class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface
 {
-
     /**
      * Avoid divisions by zero
      */
@@ -68,13 +67,11 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
      *
      * @return float
      */
-    static public function renderStatic(
+    public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    )
-    {
-
+    ) {
         if ($arguments['resultsPerPage'] === 0) {
             $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
         }
@@ -82,5 +79,4 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
         $pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
         return $pageNumber;
     }
-
 }

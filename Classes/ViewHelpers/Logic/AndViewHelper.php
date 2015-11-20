@@ -35,8 +35,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class AndViewHelper extends AbstractViewHelper
 {
-
-
     /**
      * Registers own arguments.
      * @return void
@@ -44,7 +42,7 @@ class AndViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('conditions', 'array', 'the array of conditions to AND', TRUE);
+        $this->registerArgument('conditions', 'array', 'the array of conditions to AND', true);
     }
 
     /**
@@ -52,12 +50,11 @@ class AndViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $result = TRUE;
+        $result = true;
         foreach ($this->arguments['conditions'] as $condition) {
-            $result &= ($condition == TRUE);
+            $result &= ($condition == true);
         }
 
         return (bool)$result;
     }
-
 }

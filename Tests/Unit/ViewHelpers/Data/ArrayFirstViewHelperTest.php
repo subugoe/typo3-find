@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper
      */
@@ -42,7 +41,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, array('renderChildren'));
+        $this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
@@ -101,5 +100,4 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
 
         $this->assertSame(null, $this->fixture->render());
     }
-
 }

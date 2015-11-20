@@ -36,7 +36,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ContainerViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -44,9 +43,9 @@ class ContainerViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('format', 'string', 'The linked data format to create', FALSE, 'turtle');
-        $this->registerArgument('prefixes', 'array', 'The namespace names to use', FALSE, []);
-        $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE,
+        $this->registerArgument('format', 'string', 'The linked data format to create', false, 'turtle');
+        $this->registerArgument('prefixes', 'array', 'The namespace names to use', false, []);
+        $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', false,
             'linkedDataContainer');
     }
 
@@ -67,5 +66,4 @@ class ContainerViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

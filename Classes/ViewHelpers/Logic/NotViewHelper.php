@@ -35,7 +35,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class NotViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -43,7 +42,7 @@ class NotViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', TRUE);
+        $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', true);
     }
 
     /**
@@ -51,7 +50,6 @@ class NotViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        return !($this->arguments['condition'] == TRUE);
+        return !($this->arguments['condition'] == true);
     }
-
 }

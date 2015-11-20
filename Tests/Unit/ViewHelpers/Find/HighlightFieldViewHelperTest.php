@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper
      */
@@ -50,7 +49,6 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
         $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
-
     }
 
     /**
@@ -60,5 +58,4 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
     {
         $this->markTestIncomplete('Still something to do with mocking solarium');
     }
-
 }

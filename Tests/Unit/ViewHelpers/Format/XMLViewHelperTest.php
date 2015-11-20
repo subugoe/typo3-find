@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class XMLViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var XMLViewHelper
      */
@@ -47,7 +46,7 @@ class XMLViewHelperTest extends BaseTestCase
         return [
             [
                 '<a><b><c/></b><b>d</b></a>',
-                FALSE,
+                false,
                 '<?xml version="1.0"?>
 <a>
   <b>
@@ -56,7 +55,7 @@ class XMLViewHelperTest extends BaseTestCase
   <b>d</b>
 </a>' . PHP_EOL
             ],
-            ['<a><b><c/></b><b>d</b></a>', TRUE, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
+            ['<a><b><c/></b><b>d</b></a>', true, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
         ];
     }
 
@@ -72,7 +71,6 @@ class XMLViewHelperTest extends BaseTestCase
      */
     public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected)
     {
-
         $this->fixture->method('renderChildren')->willReturn($string);
 
         $this->fixture->setArguments([
@@ -81,5 +79,4 @@ class XMLViewHelperTest extends BaseTestCase
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

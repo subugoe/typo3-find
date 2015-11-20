@@ -32,14 +32,13 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class PathExistsViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('path', 'string', 'the path to check the existence of', TRUE);
+        $this->registerArgument('path', 'string', 'the path to check the existence of', true);
     }
 
     /**

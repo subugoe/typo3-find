@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class RegexpViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -43,11 +42,11 @@ class RegexpViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('string', 'string',
-            'The string to work on; if not given, the content of the tag is used', FALSE, NULL);
-        $this->registerArgument('match', 'string', 'The regular expression used for matching', TRUE);
-        $this->registerArgument('replace', 'string', 'The regular expression replacement string', FALSE, NULL);
+            'The string to work on; if not given, the content of the tag is used', false, null);
+        $this->registerArgument('match', 'string', 'The regular expression used for matching', true);
+        $this->registerArgument('replace', 'string', 'The regular expression replacement string', false, null);
         $this->registerArgument('useMBEreg', 'boolean', 'Whether to use mb_ereg_replace() instead of preg_replace()',
-            FALSE, FALSE);
+            false, false);
     }
 
     /**
@@ -56,12 +55,12 @@ class RegexpViewHelper extends AbstractViewHelper
     public function render()
     {
         $input = $this->arguments['string'];
-        if ($input === NULL) {
+        if ($input === null) {
             $input = $this->renderChildren();
         }
 
-        $result = NULL;
-        if ($this->arguments['replace'] === NULL) {
+        $result = null;
+        if ($this->arguments['replace'] === null) {
             $result = preg_match($this->arguments['match'], $input);
         } else {
             if (!$this->arguments['useMBEreg']) {
@@ -73,5 +72,4 @@ class RegexpViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

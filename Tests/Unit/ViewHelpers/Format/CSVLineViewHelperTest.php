@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class CSVLineViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var CSVLineViewHelper
      */
@@ -119,5 +118,4 @@ class CSVLineViewHelperTest extends BaseTestCase
         $expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

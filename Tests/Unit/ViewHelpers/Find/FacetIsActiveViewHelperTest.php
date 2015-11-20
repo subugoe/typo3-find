@@ -32,7 +32,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper
      */
@@ -100,5 +99,4 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
 
         $this->assertFalse($this->fixture->render());
     }
-
 }

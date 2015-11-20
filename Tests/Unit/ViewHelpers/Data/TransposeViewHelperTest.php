@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class TransposeViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper
      */
@@ -42,7 +41,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, array('renderChildren'));
+        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
@@ -93,5 +92,4 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         $this->assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
             $this->fixture->render());
     }
-
 }

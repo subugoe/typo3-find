@@ -37,7 +37,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  */
 class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInterface
 {
-
     /**
      * @param array $array The array to extract the value from
      * @param string $key The key to extract the value for
@@ -62,13 +61,12 @@ class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInte
      *
      * @return string
      */
-    static public function renderStatic(
+    public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    )
-    {
-        $result = NULL;
+    ) {
+        $result = null;
 
         if ($arguments['array']) {
             if (array_key_exists($arguments['key'], $arguments['array'])) {

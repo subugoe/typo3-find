@@ -36,7 +36,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayFirstViewHelper extends AbstractViewHelper
 {
-
     /**
      * Register arguments.
      * @return void
@@ -44,7 +43,7 @@ class ArrayFirstViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('array', 'array', 'the array to return the first value of', FALSE, NULL);
+        $this->registerArgument('array', 'array', 'the array to return the first value of', false, null);
     }
 
     /**
@@ -52,10 +51,10 @@ class ArrayFirstViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $result = NULL;
+        $result = null;
 
         $array = $this->arguments['array'];
-        if ($array === NULL) {
+        if ($array === null) {
             $array = $this->renderChildren();
         }
 
@@ -67,5 +66,4 @@ class ArrayFirstViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

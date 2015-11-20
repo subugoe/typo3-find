@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
  */
 class SearchControllerTest extends UnitTestCase
 {
-
     /**
      * @var \Subugoe\Find\Controller\SearchController
      */
@@ -51,5 +50,4 @@ class SearchControllerTest extends UnitTestCase
     {
         $this->markTestIncomplete();
     }
-
 }

@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class StripViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -43,11 +42,11 @@ class StripViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('string', 'string',
-            'The string to strip leading and trailing whitespace from; If not given, the tag content is used', FALSE,
-            NULL);
+            'The string to strip leading and trailing whitespace from; If not given, the tag content is used', false,
+            null);
         $this->registerArgument('strip', 'string',
-            'The characters to strip from the string; If not given, defaults to standard PHP whitespace setting', FALSE,
-            NULL);
+            'The characters to strip from the string; If not given, defaults to standard PHP whitespace setting', false,
+            null);
     }
 
     /**
@@ -56,11 +55,11 @@ class StripViewHelper extends AbstractViewHelper
     public function render()
     {
         $string = $this->arguments['string'];
-        if ($string === NULL) {
+        if ($string === null) {
             $string = $this->renderChildren();
         }
 
-        if ($this->arguments['strip'] === NULL) {
+        if ($this->arguments['strip'] === null) {
             $string = trim($string);
         } else {
             $string = trim($string, $this->arguments['strip']);
@@ -68,5 +67,4 @@ class StripViewHelper extends AbstractViewHelper
 
         return $string;
     }
-
 }

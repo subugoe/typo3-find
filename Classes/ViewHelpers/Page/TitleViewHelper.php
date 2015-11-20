@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TitleViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,7 +41,7 @@ class TitleViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('title', 'string', 'the title to set for the page', FALSE, NULL);
+        $this->registerArgument('title', 'string', 'the title to set for the page', false, null);
     }
 
     /**
@@ -51,7 +50,7 @@ class TitleViewHelper extends AbstractViewHelper
     public function render()
     {
         $title = $this->arguments['title'];
-        if ($title === NULL) {
+        if ($title === null) {
             $title = $this->renderChildren();
         }
 
@@ -72,5 +71,4 @@ class TitleViewHelper extends AbstractViewHelper
             $GLOBALS['TSFE']->page['title'] = $title;
         }
     }
-
 }

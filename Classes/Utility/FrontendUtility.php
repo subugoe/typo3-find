@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
  */
 class FrontendUtility
 {
-
     /**
      * Stores information about the active query in the »underlyingQuery« JavaScript variable.
      *
@@ -43,7 +42,7 @@ class FrontendUtility
      * @param array $arguments overrides $this->requestArguments if set
      * @return string
      */
-    public static function addQueryInformationAsJavaScript($query, $position = NULL, $arguments = [], $settings)
+    public static function addQueryInformationAsJavaScript($query, $position = null, $arguments = [], $settings)
     {
         if ($settings['paging']['detailPagePaging']) {
             $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
@@ -57,7 +56,7 @@ class FrontendUtility
             if (array_key_exists('facet', $arguments)) {
                 $underlyingQuery['facet'] = $arguments['facet'];
             }
-            if ($position !== NULL) {
+            if ($position !== null) {
                 $underlyingQuery['position'] = $position;
             }
             if ($arguments['count']) {
@@ -86,5 +85,4 @@ class FrontendUtility
         $index['resultIndexOffset'] = ($index['positionIndex'] === 0) ? 0 : 1;
         return $index;
     }
-
 }

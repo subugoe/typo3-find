@@ -43,7 +43,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FacetLinkArgumentsViewHelper extends AbstractViewHelper
 {
-
     /**
      * Create the return array required to add/remove the URL parameters by
      * passing it to f.link.action’s »arguments«
@@ -60,7 +59,6 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
         $result = [];
 
         if ($mode === 'remove' && $activeFacets) {
-
             if (array_key_exists($facetID, $activeFacets)) {
                 $itemToRemove = 'tx_find_find[facet][' . $facetID . ']';
 

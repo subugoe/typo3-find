@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class JsonViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var JsonViewHelper
      */
@@ -103,5 +102,4 @@ class JsonViewHelperTest extends BaseTestCase
         $expected = '667.67';
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

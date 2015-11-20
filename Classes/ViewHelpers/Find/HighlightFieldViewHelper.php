@@ -27,7 +27,6 @@ namespace Subugoe\Find\ViewHelpers\Find;
  ******************************************************************************/
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-
 /**
  * View Helper for styling the content of index document’s result fields.
  * Requires the query result object for finding the information as well as the
@@ -44,27 +43,26 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class HighlightFieldViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      */
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('results', '\Solarium\QueryType\Select\Result\Result', 'Query results', TRUE);
+        $this->registerArgument('results', '\Solarium\QueryType\Select\Result\Result', 'Query results', true);
         $this->registerArgument('document', '\Solarium\QueryType\Select\Result\Document', 'Result document to work on',
-            TRUE);
-        $this->registerArgument('field', 'string', 'name of field in document to highlight', TRUE);
+            true);
+        $this->registerArgument('field', 'string', 'name of field in document to highlight', true);
         $this->registerArgument('alternateField', 'string',
-            'name of alternate field in document to use for highlighting', FALSE, NULL);
+            'name of alternate field in document to use for highlighting', false, null);
         $this->registerArgument('index', 'int', 'if the field is an array: index of the single element to highlight',
-            FALSE);
-        $this->registerArgument('idKey', 'string', 'name of the field in document that is its ID', FALSE, 'id');
-        $this->registerArgument('highlightTagOpen', 'string', 'opening tag to insert to begin highlighting', FALSE,
+            false);
+        $this->registerArgument('idKey', 'string', 'name of the field in document that is its ID', false, 'id');
+        $this->registerArgument('highlightTagOpen', 'string', 'opening tag to insert to begin highlighting', false,
             '<em class="highlight">');
-        $this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', FALSE,
+        $this->registerArgument('highlightTagClose', 'string', 'closing tag to insert to end highlighting', false,
             '</em>');
-        $this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', FALSE, FALSE);
+        $this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', false, false);
     }
 
     /**
@@ -75,7 +73,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         if ($this->arguments['document']) {
             $fields = $this->arguments['document']->getFields();
             $fieldContent = $fields[$this->arguments['field']];
-            if ($this->arguments['index'] !== NULL) {
+            if ($this->arguments['index'] !== null) {
                 if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
                     $fieldContent = $fieldContent[$this->arguments['index']];
                 } else {
@@ -125,7 +123,6 @@ class HighlightFieldViewHelper extends AbstractViewHelper
             $highlighting = $this->arguments['results']->getHighlighting();
 
             if ($highlighting) {
-
                 if ($this->arguments['alternateField']) {
                     $highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['alternateField']);
                 } else {
@@ -146,11 +143,11 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      */
     protected function highlightSingleField($fieldString, $highlightInfo)
     {
-        $result = NULL;
+        $result = null;
 
         foreach ($highlightInfo as $highlightItem) {
             $highlightItemStripped = str_replace(['\ueeee', '\ueeef'], ['', ''], $highlightItem);
-            if (strpos($fieldString, $highlightItemStripped) !== NULL) {
+            if (strpos($fieldString, $highlightItemStripped) !== null) {
                 // HTML escape the text here if not explicitly configured to not do so.
                 // Use f:format.raw in the template to avoid double escaping the HTML tags.
                 if (!$this->arguments['raw']) {
@@ -167,7 +164,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         }
 
         // If no highlighted string is present, use the original one.
-        if ($result === NULL) {
+        if ($result === null) {
             if ($this->arguments['raw']) {
                 $result = $fieldString;
             } else {
@@ -177,5 +174,4 @@ class HighlightFieldViewHelper extends AbstractViewHelper
 
         return $result;
     }
-
 }

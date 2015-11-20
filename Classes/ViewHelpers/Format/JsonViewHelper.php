@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JsonViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,7 +41,7 @@ class JsonViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', FALSE, NULL);
+        $this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', false, null);
     }
 
     /**
@@ -51,11 +50,10 @@ class JsonViewHelper extends AbstractViewHelper
     public function render()
     {
         $data = $this->arguments['data'];
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->renderChildren();
         }
 
         return json_encode($data);
     }
-
 }

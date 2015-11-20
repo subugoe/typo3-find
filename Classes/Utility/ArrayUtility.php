@@ -31,7 +31,6 @@ namespace Subugoe\Find\Utility;
  */
 class ArrayUtility
 {
-
     /**
      * Removes all values from $array whose
      * * keys begin with __
@@ -56,5 +55,4 @@ class ArrayUtility
         }
         return $array;
     }
-
 }

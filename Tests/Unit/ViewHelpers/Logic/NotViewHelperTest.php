@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class NotViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var NotViewHelper
      */
@@ -46,20 +45,20 @@ class NotViewHelperTest extends BaseTestCase
     {
         return [
             [
-                FALSE,
-                TRUE
+                false,
+                true
             ],
             [
                 1,
-                TRUE
+                true
             ],
             [
                 (1 === 2),
-                TRUE
+                true
             ],
             [
                 (1 === 1),
-                TRUE
+                true
                 ,
             ],
         ];
@@ -68,7 +67,6 @@ class NotViewHelperTest extends BaseTestCase
     public function setUp()
     {
         $this->fixture = $this->getMock(NotViewHelper::class, ['dummy']);
-
     }
 
     /**
@@ -77,12 +75,10 @@ class NotViewHelperTest extends BaseTestCase
      */
     public function conditionIsMet($conditions, $expected)
     {
-
         $this->fixture->setArguments([
             'conditions' => $conditions
         ]);
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

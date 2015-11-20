@@ -37,7 +37,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  */
 class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
 {
-
     /**
      * @param string $string The string to split into components
      * @param string $separator The string separating the components
@@ -62,18 +61,16 @@ class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
      *
      * @return string
      */
-    static public function renderStatic(
+    public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    )
-    {
+    ) {
         $string = $arguments['string'];
-        if ($string === NULL) {
+        if ($string === null) {
             $string = $renderChildrenClosure;
         }
 
         return explode($arguments['separator'], $string);
     }
-
 }

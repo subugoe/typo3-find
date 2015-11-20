@@ -31,7 +31,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  */
 class JSONLDRenderer extends AbstractRenderer implements RendererInterface
 {
-
     /**
      * @param $items
      * @return string
@@ -49,7 +48,7 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
 
                 // loop over objects
                 foreach ($objects as $objectString => $properties) {
-                    if ($properties === NULL) {
+                    if ($properties === null) {
                         $object = $this->prefixedName($objectString);
                     } else {
                         $object = ['@value' => $objectString];
@@ -101,11 +100,11 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
         foreach ($this->prefixes as $acronym => $URI) {
             if (strpos($name, $URI) === 0) {
                 $name = str_replace($URI, $acronym . ':', $name);
-                $this->usedPrefixes[$acronym] = TRUE;
+                $this->usedPrefixes[$acronym] = true;
                 break;
             } else {
                 if (strpos($name, $acronym . ':') === 0) {
-                    $this->usedPrefixes[$acronym] = TRUE;
+                    $this->usedPrefixes[$acronym] = true;
                     break;
                 }
             }
@@ -113,5 +112,4 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
 
         return $name;
     }
-
 }

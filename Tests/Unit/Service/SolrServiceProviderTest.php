@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class SolrServiceProviderTest extends BaseTestCase
 {
-
     /**
      * @var \Subugoe\Find\Service\SolrServiceProvider
      */
@@ -72,5 +71,4 @@ class SolrServiceProviderTest extends BaseTestCase
         $this->assertArrayHasKey($key, $this->fixture->getConfiguration());
         $this->assertArrayHasKey($key1, $this->fixture->getConfiguration());
     }
-
 }

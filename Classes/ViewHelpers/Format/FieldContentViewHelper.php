@@ -32,7 +32,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FieldContentViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -40,7 +39,7 @@ class FieldContentViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('string', 'string', 'String to be examined for display', FALSE, NULL);
+        $this->registerArgument('string', 'string', 'String to be examined for display', false, null);
     }
 
     /**
@@ -48,7 +47,6 @@ class FieldContentViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-
         $string = $this->arguments['string'];
 
         if (is_array($string) && array_key_exists('term', $string)) {
@@ -56,10 +54,9 @@ class FieldContentViewHelper extends AbstractViewHelper
         }
 
         if (empty($string)) {
-            $string = NULL;
+            $string = null;
         }
 
         return $string;
     }
-
 }

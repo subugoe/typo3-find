@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class OrViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var OrViewHelper
      */
@@ -47,46 +46,46 @@ class OrViewHelperTest extends BaseTestCase
         return [
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (TRUE == 1)
+                    (true == 1)
                 ],
-                TRUE
+                true
             ],
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (TRUE == 'hrdr')
+                    (true == 'hrdr')
                 ],
-                TRUE
+                true
             ],
             [
                 [
-                    (TRUE === 3),
+                    (true === 3),
                     (1 === 'hrdr'),
                     ('hrdr' === '3'),
                     ('behedeti' == 'hrdr'),
                     (7 == 'hrdr')
                 ],
-                FALSE
+                false
             ],
             [
                 [
-                    (TRUE === 3),
+                    (true === 3),
                 ],
-                FALSE
+                false
             ]
             ,
             [
                 [
-                    (TRUE === TRUE),
+                    (true === true),
                 ],
-                TRUE
+                true
             ]
         ];
     }
@@ -94,7 +93,6 @@ class OrViewHelperTest extends BaseTestCase
     public function setUp()
     {
         $this->fixture = $this->getMock(OrViewHelper::class, ['dummy']);
-
     }
 
     /**
@@ -103,12 +101,10 @@ class OrViewHelperTest extends BaseTestCase
      */
     public function orConditionIsMet($conditions, $expected)
     {
-
         $this->fixture->setArguments([
             'conditions' => $conditions
         ]);
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class JoinViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var JoinViewHelper
      */
@@ -128,5 +127,4 @@ class JoinViewHelperTest extends BaseTestCase
         $expected = '';
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

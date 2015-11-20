@@ -39,7 +39,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class SearchController extends ActionController
 {
-
     /**
      * @var array
      */
@@ -55,7 +54,6 @@ class SearchController extends ActionController
      */
     public function initializeAction()
     {
-
         ksort($this->settings['queryFields']);
 
         // TODO make search engine (solr, elasticsearch, ...) configurable. This is just a stub
@@ -73,7 +71,6 @@ class SearchController extends ActionController
      */
     protected function initializeSearchEngine($engine)
     {
-
         $engine = ucfirst($engine);
 
         $className = sprintf('Subugoe\\Find\\Service\\%sServiceProvider', $engine);
@@ -88,13 +85,12 @@ class SearchController extends ActionController
      */
     public function indexAction()
     {
-
         if (array_key_exists('id', $this->requestArguments)) {
             $this->forward('detail');
         } else {
             $this->searchProvider->setCounter();
             $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript($this->requestArguments['q'], NULL,
+                FrontendUtility::addQueryInformationAsJavaScript($this->requestArguments['q'], null,
                     $this->searchProvider->getRequestArguments(), $this->settings)
             );
             $this->addStandardAssignments();
@@ -107,7 +103,6 @@ class SearchController extends ActionController
 
             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
             $this->view->assignMultiple($viewValues);
-
         }
     }
 
@@ -116,10 +111,8 @@ class SearchController extends ActionController
      */
     public function detailAction()
     {
-
         $arguments = $this->searchProvider->getRequestArguments();
         if (array_key_exists('id', $arguments) && !empty($arguments['id'])) {
-
             $detail = $this->searchProvider->getDetail();
 
             if ($this->request->hasArgument('underlyingQuery')) {
@@ -133,7 +126,6 @@ class SearchController extends ActionController
 
             $this->view->assignMultiple($detail);
             $this->view->assign('arguments', $arguments);
-
         } else {
             // id argument missing or empty
             LoggerUtility::logError(
@@ -159,10 +151,11 @@ class SearchController extends ActionController
     protected function addStandardAssignments()
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
-        $this->searchProvider->setConfigurationValue('uid',
-            $this->configurationManager->getContentObject()->data['uid']);
+        $this->searchProvider->setConfigurationValue(
+            'uid',
+            $this->configurationManager->getContentObject()->data['uid']
+        );
         $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
         $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
     }
-
 }

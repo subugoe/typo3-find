@@ -33,7 +33,6 @@ namespace Subugoe\Find\Hooks;
  */
 class RealUrl
 {
-
     /**
      * Create automatic RealUrl Configuratoin
      *

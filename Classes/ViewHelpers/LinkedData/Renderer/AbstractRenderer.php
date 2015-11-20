@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractRenderer
 {
-
     /**
      * @var array
      */
@@ -71,5 +70,4 @@ abstract class AbstractRenderer
     {
         $this->prefixes = $prefixes;
     }
-
 }

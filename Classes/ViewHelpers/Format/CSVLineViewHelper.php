@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CSVLineViewHelper extends AbstractViewHelper
 {
-
     /**
      * Registers own arguments.
      * @return void
@@ -42,9 +41,9 @@ class CSVLineViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('data', 'array', 'The array to output as CSV line', FALSE, NULL);
-        $this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', FALSE, ',');
-        $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', FALSE, '"');
+        $this->registerArgument('data', 'array', 'The array to output as CSV line', false, null);
+        $this->registerArgument('fieldDelimiter', 'string', 'The string to use as a column separator', false, ',');
+        $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', false, '"');
     }
 
     /**
@@ -53,7 +52,7 @@ class CSVLineViewHelper extends AbstractViewHelper
     public function render()
     {
         $data = $this->arguments['data'];
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->renderChildren();
         }
 
@@ -65,5 +64,4 @@ class CSVLineViewHelper extends AbstractViewHelper
         fclose($fp);
         return $result;
     }
-
 }

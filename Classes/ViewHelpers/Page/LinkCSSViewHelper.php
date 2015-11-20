@@ -37,7 +37,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
  */
 class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterface
 {
-
     /**
      * @param string $file Path to the CSS file
      * @return string
@@ -60,12 +59,11 @@ class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterfac
      *
      * @return string
      */
-    static public function renderStatic(
+    public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    )
-    {
+    ) {
         $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
         if ($CSSFileName) {
             $GLOBALS['TSFE']->getPageRenderer()->addCSSFile($CSSFileName);

@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
  */
 class RegexpViewHelperTest extends BaseTestCase
 {
-
     /**
      * @var RegexpViewHelper
      */
@@ -45,25 +44,25 @@ class RegexpViewHelperTest extends BaseTestCase
     public function regexProvider()
     {
         return [
-            ['behedeti', '/hed/', 'hrdr', FALSE, 'behrdreti'],
-            ['behedeti', '/beh/', 'hrdr', FALSE, 'hrdredeti'],
-            ['horus', '|ho|', 'sy', FALSE, 'syrus'],
-            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', 'Cola', FALSE, 'ColaCola'],
-            ['ClubMate667', '/\w*/', 'Cola', FALSE, 'ColaCola'],
+            ['behedeti', '/hed/', 'hrdr', false, 'behrdreti'],
+            ['behedeti', '/beh/', 'hrdr', false, 'hrdredeti'],
+            ['horus', '|ho|', 'sy', false, 'syrus'],
+            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', 'Cola', false, 'ColaCola'],
+            ['ClubMate667', '/\w*/', 'Cola', false, 'ColaCola'],
 
-            ['ClubMate667', '\w*', 'Cola', TRUE, 'ColaCola'],
-            ['behedeti', 'hed', 'hrdr', TRUE, 'behrdreti'],
-            ['behedeti', 'beh', 'hrdr', TRUE, 'hrdredeti'],
-            ['horus', 'ho', 'sy', TRUE, 'syrus'],
-            ['ClubMate667', '[a-zA-Z]*[0-9]*', 'Cola', TRUE, 'ColaCola'],
-            ['behedeti', 'hed', '', TRUE, 'beeti'],
-            ['beあdeti', 'あ', '', TRUE, 'bedeti'],
+            ['ClubMate667', '\w*', 'Cola', true, 'ColaCola'],
+            ['behedeti', 'hed', 'hrdr', true, 'behrdreti'],
+            ['behedeti', 'beh', 'hrdr', true, 'hrdredeti'],
+            ['horus', 'ho', 'sy', true, 'syrus'],
+            ['ClubMate667', '[a-zA-Z]*[0-9]*', 'Cola', true, 'ColaCola'],
+            ['behedeti', 'hed', '', true, 'beeti'],
+            ['beあdeti', 'あ', '', true, 'bedeti'],
 
-            ['behedeti', '/hed/', NULL, FALSE, 1],
-            ['behedeti', '/beh/', NULL, FALSE, 1],
-            ['horus', '|ho|', NULL, FALSE, 1],
-            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', NULL, FALSE, 1],
-            ['ClubMate667', '/\w*/', NULL, FALSE, 1]
+            ['behedeti', '/hed/', null, false, 1],
+            ['behedeti', '/beh/', null, false, 1],
+            ['horus', '|ho|', null, false, 1],
+            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', null, false, 1],
+            ['ClubMate667', '/\w*/', null, false, 1]
         ];
     }
 
@@ -88,5 +87,4 @@ class RegexpViewHelperTest extends BaseTestCase
 
         $this->assertSame($expected, $this->fixture->render());
     }
-
 }

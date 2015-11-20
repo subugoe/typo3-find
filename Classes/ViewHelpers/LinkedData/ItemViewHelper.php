@@ -34,7 +34,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ItemViewHelper extends AbstractViewHelper
 {
-
     /**;
      * Registers own arguments.
      * @return void
@@ -42,12 +41,12 @@ class ItemViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('subject', 'string', 'The triple’s subject', TRUE);
-        $this->registerArgument('predicate', 'string', 'The triple’s predicate', TRUE);
-        $this->registerArgument('object', 'string', 'The triple’s object', FALSE, NULL);
-        $this->registerArgument('objectType', 'string', 'Type of the triple’s object', FALSE, NULL);
-        $this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', FALSE, NULL);
-        $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', FALSE,
+        $this->registerArgument('subject', 'string', 'The triple’s subject', true);
+        $this->registerArgument('predicate', 'string', 'The triple’s predicate', true);
+        $this->registerArgument('object', 'string', 'The triple’s object', false, null);
+        $this->registerArgument('objectType', 'string', 'Type of the triple’s object', false, null);
+        $this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', false, null);
+        $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', false,
             'linkedDataContainer');
     }
 
@@ -65,8 +64,8 @@ class ItemViewHelper extends AbstractViewHelper
             $container[$this->arguments['subject']][$this->arguments['predicate']] = [];
         }
 
-        if ($this->arguments['object'] !== NULL) {
-            $container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = NULL;
+        if ($this->arguments['object'] !== null) {
+            $container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = null;
         } else {
             $container[$this->arguments['subject']][$this->arguments['predicate']][$this->renderChildren()] = [
                 'type' => $this->arguments['objectType'],
@@ -77,5 +76,4 @@ class ItemViewHelper extends AbstractViewHelper
         $this->templateVariableContainer->remove($this->arguments['name']);
         $this->templateVariableContainer->add($this->arguments['name'], $container);
     }
-
 }

@@ -33,7 +33,6 @@ use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
  */
 class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 {
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper
      */
@@ -42,7 +41,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, array('renderChildren'));
+        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
@@ -67,7 +66,6 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
         $this->assertSame($expected, $this->fixture->render());
-
     }
 
     /**
@@ -88,7 +86,6 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
         $this->assertSame($expected, $this->fixture->render());
-
     }
 
     /**
@@ -110,7 +107,6 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
         $this->assertSame($expected, $this->fixture->render());
-
     }
 
     /**
@@ -133,7 +129,5 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
         $this->assertSame($expected, $this->fixture->render());
-
     }
-
 }

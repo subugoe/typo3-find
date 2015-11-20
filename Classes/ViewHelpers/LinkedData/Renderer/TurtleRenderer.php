@@ -31,14 +31,12 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  */
 class TurtleRenderer extends AbstractRenderer implements RendererInterface
 {
-
     /**
      * @param $items
      * @return string
      */
     public function renderItems($items)
     {
-
         $result = '';
 
         // loop over subjects
@@ -55,18 +53,18 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                 $objectArray = [];
                 foreach ($objects as $object => $properties) {
                     $objectString = '';
-                    if ($properties === NULL) {
+                    if ($properties === null) {
                         $objectString = $this->turtleString($object);
                     } else {
-                        if (strpos($object, '"') === FALSE && strpos($object, "\r") === FALSE && strpos($object,
-                                "\n") === FALSE
+                        if (strpos($object, '"') === false && strpos($object, "\r") === false && strpos($object,
+                                "\n") === false
                         ) {
                             $objectString = '"' . $object . '"';
                         } else {
-                            if (strpos($object, '"""') === FALSE) {
+                            if (strpos($object, '"""') === false) {
                                 $objectString = '"""' . $object . '"""';
                             } else {
-                                if (strpos($object, "'''") === FALSE) {
+                                if (strpos($object, "'''") === false) {
                                     $objectString = "'''" . $object . "'''";
                                 } else {
                                     // TODO: Error Handling for could not escape.
@@ -94,8 +92,8 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
         // Prepend the prefixes that are used.
         $prefixes = [];
         foreach ($this->prefixes as $acronym => $prefix) {
-            if ($this->usedPrefixes[$acronym] === TRUE) {
-                $prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, FALSE) . ' .' . PHP_EOL;
+            if ($this->usedPrefixes[$acronym] === true) {
+                $prefixes[] = '@prefix ' . $acronym . ': ' . $this->turtleString($prefix, false) . ' .' . PHP_EOL;
             }
         }
 
@@ -109,7 +107,7 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
      * @param bool $usePrefixes
      * @return mixed|string
      */
-    protected function turtleString($item, $usePrefixes = TRUE)
+    protected function turtleString($item, $usePrefixes = true)
     {
         $result = '<' . $item . '>';
 
@@ -124,12 +122,12 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                 foreach ($this->prefixes as $acronym => $prefix) {
                     if (strpos($item, $prefix) === 0) {
                         $result = str_replace($prefix, $acronym . ':', $item);
-                        $this->usedPrefixes[$acronym] = TRUE;
+                        $this->usedPrefixes[$acronym] = true;
                         break;
                     } else {
                         if ($itemParts[0] === $acronym) {
                             $result = $item;
-                            $this->usedPrefixes[$acronym] = TRUE;
+                            $this->usedPrefixes[$acronym] = true;
                             break;
                         }
                     }
@@ -139,5 +137,4 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
 
         return $result;
     }
-
 }
