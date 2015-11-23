@@ -56,13 +56,11 @@ interface ServiceProviderInterface
 
     /**
      * @param string $key
-     * @return void
      */
     public function setControllerExtensionKey($key);
 
     /**
      * @param string $actionName
-     * @return void
      */
     public function setAction($actionName);
 

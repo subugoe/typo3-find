@@ -40,7 +40,7 @@ class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInte
     /**
      * @param array $array The array to extract the value from
      * @param string $key The key to extract the value for
-     * @return string|int|boolean|array
+     * @return string|int|bool|array
      */
     public function render($array, $key)
     {

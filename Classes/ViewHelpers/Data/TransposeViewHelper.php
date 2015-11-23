@@ -36,7 +36,6 @@ class TransposeViewHelper extends AbstractViewHelper
 {
     /**
      * Register arguments.
-     * @return void
      */
     public function initializeArguments()
     {
@@ -92,7 +91,7 @@ class TransposeViewHelper extends AbstractViewHelper
      * Returns TRUE if all elements of $arrays have the same count(), FALSE otherwise.
      *
      * @param array $arrays array of arrays
-     * @return boolean
+     * @return bool
      */
     protected function identicalLengths($arrays)
     {

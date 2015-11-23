@@ -37,7 +37,6 @@ class NewArrayViewHelper extends AbstractViewHelper
 {
     /**
      * Register arguments.
-     * @return void
      */
     public function initializeArguments()
     {

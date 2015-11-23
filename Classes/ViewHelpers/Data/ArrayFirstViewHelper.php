@@ -38,7 +38,6 @@ class ArrayFirstViewHelper extends AbstractViewHelper
 {
     /**
      * Register arguments.
-     * @return void
      */
     public function initializeArguments()
     {
@@ -47,7 +46,7 @@ class ArrayFirstViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return string|int|boolean|array
+     * @return string|int|bool|array
      */
     public function render()
     {

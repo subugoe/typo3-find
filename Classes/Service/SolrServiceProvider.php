@@ -785,7 +785,6 @@ class SolrServiceProvider implements ServiceProviderInterface
      * Creates a query configured with all parameters set in the request’s arguments.
      *
      * @param array $arguments request arguments
-     * @return void
      */
     protected function createQueryForArguments($arguments)
     {
@@ -853,7 +852,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     /**
      * Creates a blank query, sets up TypoScript filters and adds it to the view.
      *
-     * @return void
      */
     protected function createQuery()
     {
@@ -1007,7 +1005,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     /**
      * @param mixed $key
      * @param mixed $value
-     * @return void
      */
     public function setConfigurationValue($key, $value)
     {
@@ -1048,7 +1045,6 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     /**
      * @param array $requestArguments
-     * @return void
      */
     public function setRequestArguments($requestArguments)
     {

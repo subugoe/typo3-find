@@ -37,7 +37,6 @@ class NotViewHelper extends AbstractViewHelper
 {
     /**
      * Registers own arguments.
-     * @return void
      */
     public function initializeArguments()
     {

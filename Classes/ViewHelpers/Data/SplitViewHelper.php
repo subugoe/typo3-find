@@ -40,7 +40,7 @@ class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
     /**
      * @param string $string The string to split into components
      * @param string $separator The string separating the components
-     * @return string|int|boolean|array
+     * @return string|int|bool|array
      */
     public function render($string, $separator = ', ')
     {

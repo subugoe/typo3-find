@@ -36,7 +36,6 @@ class IsArrayViewHelper extends AbstractViewHelper
 {
     /**
      * Register arguments.
-     * @return void
      */
     public function initializeArguments()
     {
@@ -45,7 +44,7 @@ class IsArrayViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function render()
     {

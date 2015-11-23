@@ -46,7 +46,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
      * @param int $resultNumber Number of the rsult to determine the page number for
      * @param int $resultsPerPage Number of results per page
      *
-     * @return string|int|boolean|array
+     * @return string|int|bool|array
      */
     public function render($resultNumber, $resultsPerPage = 20)
     {

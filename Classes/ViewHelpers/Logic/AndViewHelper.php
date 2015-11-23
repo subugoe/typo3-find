@@ -37,7 +37,6 @@ class AndViewHelper extends AbstractViewHelper
 {
     /**
      * Registers own arguments.
-     * @return void
      */
     public function initializeArguments()
     {

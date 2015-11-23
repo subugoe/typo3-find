@@ -30,7 +30,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class AbstractRenderer
- * @package Subugoe\Find\ViewHelpers\LinkedData\Renderer
  */
 abstract class AbstractRenderer
 {

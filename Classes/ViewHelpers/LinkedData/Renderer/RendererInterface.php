@@ -28,7 +28,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 
 /**
  * Interface RendererInterface
- * @package Subugoe\Find\ViewHelpers\LinkedData\Renderer
  */
 interface RendererInterface
 {
