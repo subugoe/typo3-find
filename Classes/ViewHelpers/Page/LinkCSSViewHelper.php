@@ -26,6 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * THE SOFTWARE.
  ******************************************************************************/
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
@@ -66,7 +68,8 @@ class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterfac
     ) {
         $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
         if ($CSSFileName) {
-            $GLOBALS['TSFE']->getPageRenderer()->addCSSFile($CSSFileName);
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer->addCSSFile($CSSFileName);
         }
     }
 }
