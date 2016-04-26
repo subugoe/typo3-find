@@ -13,8 +13,8 @@
     }
   ],
   "replace": {
-    "typo3-ter/find": "*",
-    "subgoe/find": "*"
+    "typo3-ter/find": "self.version",
+    "subugoe/find": "self.version"
   },
   "require-dev": {
     "solarium/solarium": "~3.3",

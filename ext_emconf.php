@@ -13,7 +13,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Find',
     'description' => 'A frontend for Solr indexes',
-    'version' => '2.0.2',
+    'version' => '3.0.0',
     'state' => 'stable',
     'category' => 'frontend',
     'shy' => 0,
@@ -28,15 +28,12 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Sven-S. Porst, Ingo Pfennigstorf',
     'author_email' => 'pfennigstorf@sub.uni-goettingen.de',
     'author_company' => 'SUB Göttingen',
-    'CGLcompliance' => '',
-    'CGLcompliance_note' => '',
     'dependencies' => 't3jquery',
     'conflicts' => '',
     'constraints' => [
         'depends' => [
-            'php' => '5.5.0-5.6.99',
-            'typo3' => '6.2.0-7.99.99',
-            't3jquery' => '2.3.3-0.0.0',
+            'php' => '5.5.0-7.0.99',
+            'typo3' => '6.2.0-8.99.99',
         ],
         'conflicts' => [],
         'suggests' => [],
