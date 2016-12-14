@@ -1,7 +1,6 @@
 {
   "name": "subugoe/find",
   "description": "A frontend for Solr indexes",
-  "version": "1.0.1",
   "type": "typo3-cms-extension",
   "keywords" : ["TYPO3 CMS"],
   "license": ["GPL-2.0+"],
@@ -12,6 +11,11 @@
       "role" : "Developer"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Subugoe\\Find\\": "Classes/"
+    }
+  },
   "replace": {
     "typo3-ter/find": "self.version",
     "subugoe/find": "self.version"
@@ -19,5 +23,8 @@
   "require-dev": {
     "solarium/solarium": "~3.3",
     "phpunit/phpunit": "~4.6"
+  },
+  "suggest": {
+    "solarium/solarium": "Allows using the SolrServiceProvider"
   }
 }
