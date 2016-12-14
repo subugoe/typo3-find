@@ -11,6 +11,11 @@
       "role" : "Developer"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Subugoe\\Find\\": "Classes/"
+    }
+  },
   "replace": {
     "typo3-ter/find": "self.version",
     "subugoe/find": "self.version"
