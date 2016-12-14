@@ -23,5 +23,8 @@
   "require-dev": {
     "solarium/solarium": "~3.3",
     "phpunit/phpunit": "~4.6"
+  },
+  "suggest": {
+    "solarium/solarium": "Allows using the SolrServiceProvider"
   }
 }
