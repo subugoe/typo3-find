@@ -1,245 +1,253 @@
 plugin.tx_find {
-	settings {
-		connection {
-			host = {$plugin.tx_find.settings.connection.host}
-			port = {$plugin.tx_find.settings.connection.port}
-			path = {$plugin.tx_find.settings.connection.path}
-			timeout = {$plugin.tx_find.settings.connection.timeout}
-			scheme = {$plugin.tx_find.settings.connection.scheme}
-		}
+    settings {
+        activeConnection = {$plugin.tx_find.settings.activeConnection}
+        connections {
+            default {
+                provider = {$plugin.tx_find.settings.connections.default.provider}
+                options {
+                    host = {$plugin.tx_find.settings.connections.default.options.host}
+                    port = {$plugin.tx_find.settings.connections.default.options.port}
+                    path = {$plugin.tx_find.settings.connections.default.options.path}
+                    timeout = {$plugin.tx_find.settings.connections.default.options.timeout}
+                    scheme = {$plugin.tx_find.settings.connections.default.options.scheme}
+                }
+            }
+        }
 
-		queryFields {
-			0 {
-				id = default
-				query = %s
-				type = Text
-				#    autocomplete = 1
-				#    autocompleteDictionary =
-			}
+        queryFields {
+            0 {
+                id = default
+                query = %s
+                type = Text
+                #    autocomplete = 1
+                #    autocompleteDictionary =
+            }
 
-			#10 {
-			#    id = person
-			#    extended = 1
-			#    type = Text
-			#}
-			#11 {
-			#    id = notperson
-			#    extended = 1
-			#    query = NOT person:%s
-			#    type = Text
-			#}
-			#12 {
-			#    id = personlastname
-			#    extended = 1
-			#    query = person:%s
-			#    queryAlternate.1 = lastname:%s
-			#    type = Text
-			#}
-			#30 {
-			#    id = country
-			#    extended = 1
-			#    type = Select
-			#    options {
-			#        blank =
-			#        key = value
-			#        key2 = value2
-			#    }
-			#    default = key
-			#}
-			#40 {
-			#    id = version
-			#    extended = 1
-			#    type = Radio
-			#    options {
-			#        1 = Steak
-			#        2 = Chicken
-			#        3 = Pancake
-			#    }
-			#    default = 1
-			#}
-			#50 {
-			#    id = dateRange
-			#    type = Range
-			#    query = year_from:[* TO %2$s] AND year_to:[%1$s TO *]
-			#    default.0 = *
-			#    default.1 = *
-			#    noescape = 1
-			#    extended = 1
-			#}
-			#60 {
-			#    id = status
-			#    type = SelectFacet
-			#    facetID = status
-			#    extended = 1
-			#}
-			10001 {
-				id = extended
-				type = Hidden
-			}
+            #10 {
+            #    id = person
+            #    extended = 1
+            #    type = Text
+            #}
+            #11 {
+            #    id = notperson
+            #    extended = 1
+            #    query = NOT person:%s
+            #    type = Text
+            #}
+            #12 {
+            #    id = personlastname
+            #    extended = 1
+            #    query = person:%s
+            #    queryAlternate.1 = lastname:%s
+            #    type = Text
+            #}
+            #30 {
+            #    id = country
+            #    extended = 1
+            #    type = Select
+            #    options {
+            #        blank =
+            #        key = value
+            #        key2 = value2
+            #    }
+            #    default = key
+            #}
+            #40 {
+            #    id = version
+            #    extended = 1
+            #    type = Radio
+            #    options {
+            #        1 = Steak
+            #        2 = Chicken
+            #        3 = Pancake
+            #    }
+            #    default = 1
+            #}
+            #50 {
+            #    id = dateRange
+            #    type = Range
+            #    query = year_from:[* TO %2$s] AND year_to:[%1$s TO *]
+            #    default.0 = *
+            #    default.1 = *
+            #    noescape = 1
+            #    extended = 1
+            #}
+            #60 {
+            #    id = status
+            #    type = SelectFacet
+            #    facetID = status
+            #    extended = 1
+            #}
+            10001 {
+                id = extended
+                type = Hidden
+            }
 
-			10002 {
-				id = raw
-				query = %s
-				noescape = 1
-				hidden = 1
-				type = Text
-			}
-		}
+            10002 {
+                id = raw
+                query = %s
+                noescape = 1
+                hidden = 1
+                type = Text
+            }
+        }
 
-		defaultQuery = *:*
-		dataFields {
-			default {
-				default {
-					# when setting the fields explicitly, do not forget including the id field if you need to do anything related to the document
-					# f0 = id
-					# f1 = name
-				}
+        defaultQuery = *:*
+        dataFields {
+            default {
+                default {
+                    # when setting the fields explicitly, do not forget including the id field if you need to do anything related to the document
+                    # f0 = id
+                    # f1 = name
+                }
 
-				allow {
+                allow {
 
-				}
+                }
 
-				disallow {
+                disallow {
 
-				}
-			}
+                }
+            }
 
-			# index {
-			#    default {
-			#    }
-			#    allow {
-			#    }
-			#    disallow {
-			#    }
-			# }
-		}
+            # index {
+            #    default {
+            #    }
+            #    allow {
+            #    }
+            #    disallow {
+            #    }
+            # }
+        }
 
-		# Map data field id -> query field id to set up specific searches of field contents
-		queryFieldForDataField {
+        # Map data field id -> query field id to set up specific searches of field contents
+        queryFieldForDataField {
 
-		}
+        }
 
-		sort {
-			#1 {
-			#    id = default
-			#    sortCriteria = year desc,name asc
-			#}
-		}
+        sort {
+            #1 {
+            #    id = default
+            #    sortCriteria = year desc,name asc
+            #}
+        }
 
-		standardFields {
-			title = title
-			snippet = snippet
-		}
+        standardFields {
+            title = title
+            snippet = snippet
+        }
 
-		facets {
-			#10 {
-			#    id = type
-			#    autocomplete = 0
-			#    hidden = 1
-			#}
-			#20 {
-			#    id = year
-			#    field = year_facet
-			#    type = Histogram
-			#    fetchMaximum = 1000
-			#    displayDefault = 1000
-			#    sortOrder = index
-			#    query = year:%s
-			#}
-			#100 {
-			#    id = status
-			#    field = status_facet
-			#    hidden = 1
-			#    fetchMinimum = 0
-			#    fetchMaximum = 1000
-			#}
-		}
+        facets {
+            #10 {
+            #    id = type
+            #    autocomplete = 0
+            #    hidden = 1
+            #}
+            #20 {
+            #    id = year
+            #    field = year_facet
+            #    type = Histogram
+            #    fetchMaximum = 1000
+            #    displayDefault = 1000
+            #    sortOrder = index
+            #    query = year:%s
+            #}
+            #100 {
+            #    id = status
+            #    field = status_facet
+            #    hidden = 1
+            #    fetchMinimum = 0
+            #    fetchMaximum = 1000
+            #}
+        }
 
-		facetDefaults {
-			queryStyle = filter
-			# queryStyle = and
-			fetchMinimum = 1
-			fetchMaximum = 100
-			displayDefault = 6
-			sortOrder = count
-		}
+        facetDefaults {
+            queryStyle = filter
+            # queryStyle = and
+            fetchMinimum = 1
+            fetchMaximum = 100
+            displayDefault = 6
+            sortOrder = count
+        }
 
-		highlight {
-			default {
-				fields.f1 = *
-				fragsize = 100
-				# query = %s
-				# useQueryTerms = 0
-				# useFacetTerms = 0
-				# alternateFields {
-				#    transliteration = transliterationHiglight
-				# }
-			}
+        highlight {
+            default {
+                fields.f1 = *
+                fragsize = 100
+                # query = %s
+                # useQueryTerms = 0
+                # useFacetTerms = 0
+                # alternateFields {
+                #    transliteration = transliterationHiglight
+                # }
+            }
 
-			index {
+            index {
 
-			}
+            }
 
-			detail {
+            detail {
 
-			}
+            }
 
-			data {
+            data {
 
-			}
-		}
+            }
+        }
 
-		additionalFilters {
-			# 1 = type:kloster
-		}
+        additionalFilters {
+            # 1 = type:kloster
+        }
 
-		features {
-			# eDisMax = 1
-		}
+        features {
+            # eDisMax = 1
+        }
 
-		paging {
-			perPage = {$plugin.tx_find.settings.count}
-			menu {
-				#    1 = 10
-				#    2 = 20
-				#    3 = 50
-				#    4 = 100
-			}
+        paging {
+            perPage = {$plugin.tx_find.settings.count}
+            menu {
+                #    1 = 10
+                #    2 = 20
+                #    3 = 50
+                #    4 = 100
+            }
 
-			maximumPerPage = 1000
-			detailPagePaging = 1
-		}
+            maximumPerPage = 1000
+            detailPagePaging = 1
+        }
 
-		jumpToID = tx_find
+        jumpToID = tx_find
 
-		CSSPaths.10 = {$plugin.tx_find.settings.CSSPath}
-		CSSPaths.20 = EXT:find/Resources/Public/CSS/fontello/css/fontello.css
-		JSPaths.10 = {$plugin.tx_find.settings.JSPath}
+        CSSPaths.10 = {$plugin.tx_find.settings.CSSPath}
+        CSSPaths.20 = EXT:find/Resources/Public/CSS/fontello/css/fontello.css
+        JSPaths.10 = {$plugin.tx_find.settings.JSPath}
 
-		languageRootPath = {$plugin.tx_find.settings.languageRootPath}
-	}
+        languageRootPath = {$plugin.tx_find.settings.languageRootPath}
+    }
 
-	view {
-		templateRootPaths {
-			10 = {$plugin.tx_find.view.templateRootPath}
-		}
+    view {
+        templateRootPaths {
+            10 = {$plugin.tx_find.view.templateRootPath}
+        }
 
-		partialRootPaths {
-			10 = {$plugin.tx_find.view.partialRootPath}
-		}
+        partialRootPaths {
+            10 = {$plugin.tx_find.view.partialRootPath}
+        }
 
-		layoutRootPaths {
-			10 = {$plugin.tx_find.view.layoutRootPath}
-		}
-	}
+        layoutRootPaths {
+            10 = {$plugin.tx_find.view.layoutRootPath}
+        }
+    }
 }
+
+module.tx_find.settings < plugin.tx_find.settings
 
 tx_find_page = PAGE
 tx_find_page {
-	typeNum = 1369315139
-	10 < tt_content.list.20.find_find
-	config {
-		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:application/json;charset=utf-8
-	}
+    typeNum = 1369315139
+    10 < tt_content.list.20.find_find
+    config {
+        disableAllHeaderCode = 1
+        additionalHeaders = Content-type:application/json;charset=utf-8
+    }
 }

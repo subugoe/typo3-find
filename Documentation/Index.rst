@@ -32,13 +32,17 @@ For the most basic example you need to:
 
 #. include the find plug-in’s template in your site/page’s template
 
-#. configure your index information in the TypoScript template for that page. At minimum you should set the address of your Solr index and the fields to display in the result list::
+#. configure your index information in the TypoScript template for that page. At minimum you should set the address of your default Solr index and the fields to display in the result list::
 
 	plugin.tx_find.settings {
-		connection {
-			host = solr.local
-			port = 8080
-			path = /solr/myIndex
+		connections {
+			default {
+				options {
+					host = solr.local
+					port = 8080
+					path = /solr/myIndex
+				}
+			}
 		}
 		standardFields {
 			title = title
@@ -119,7 +123,11 @@ All settings discussed in this section are inside the ``plugin.tx_find.settings`
 Connection to the Solr index
 ::::::::::::::::::::::::::::
 
-The ``connection`` settings array is used to configure access to the Solr index. It contains:
+You can have multiple Solr connections. Every connection needs to use a provider and an options array.
+
+The ``plugin.tx_find.settings.activeConnection`` determines the currently used connection. The default value is ``default``.
+
+The ``options`` settings array in a connection definition is used to configure access to the Solr index. It contains:
 
 * ``host`` [127.0.0.1]: hostname of the server running the index
 * ``port`` [8080]: port of the Solr service on the server
@@ -127,6 +135,22 @@ The ``connection`` settings array is used to configure access to the Solr index.
 * ``timeout`` [5]: number of seconds before a Solr request times out
 * ``scheme`` [http]: URI scheme of the connection
 
+#. Example::
+
+	plugin.tx_find.settings {
+		connections {
+			default {
+				provider = Subugoe\Find\Service\SolrServiceProvider
+				options {
+					host = 127.0.0.1
+					port = 8080
+					path = /solr/
+					timeout = 5
+					scheme = http
+				}
+			}
+		}
+	}
 
 Solr Components
 :::::::::::::::

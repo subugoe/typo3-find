@@ -1,26 +1,42 @@
 plugin.tx_find {
-	settings {
-		connection {
-			host = 127.0.0.1
-			port = 8080
-			path = /solr/
-			timeout = 5
-			scheme = http
-		}
-		count = 20
-		 # cat=plugin.tx_find/file; type=string; label=Path to CSS file (FE)
-		CSSPath = EXT:find/Resources/Public/CSS/find.css
-		 # cat=plugin.tx_find/file; type=string; label=Path to JavaScript file (FE)
-		JSPath = EXT:find/Resources/Public/JavaScript/find.js
-		 # cat=plugin.tx_find/file; type=string; label=Path to template localisation files (FE)
-		languageRootPath = EXT:find/Resources/Private/Language/
-	}
-	view {
-		 # cat=plugin.tx_find/file; type=string; label=Path to template root (FE)
-		templateRootPath = EXT:find/Resources/Private/Templates/
-		 # cat=plugin.tx_find/file; type=string; label=Path to template partials (FE)
-		partialRootPath = EXT:find/Resources/Private/Partials/
-		 # cat=plugin.tx_find/file; type=string; label=Path to template layouts (FE)
-		layoutRootPath = EXT:find/Resources/Private/Layouts/
-	}
+    settings {
+        # cat=plugin.tx_find/provider; type=string; label=Active search connection
+        activeConnection = default
+
+        connections {
+            default {
+                # cat=plugin.tx_find/connections/default; type=string; label=Default Service Provider
+                provider = Subugoe\Find\Service\SolrServiceProvider
+                options {
+                    # cat=plugin.tx_find/connections/default; type=string; label=Solr Host
+                    host = 127.0.0.1
+                    # cat=plugin.tx_find/connections/default; type=int+; label=Solr Port
+                    port = 8080
+                    # cat=plugin.tx_find/connections/default; type=string; label=Path to the solr core in use
+                    path = /solr/mycore
+                    # cat=plugin.tx_find/connections/default; type=int+; label=Solr Connection Timeout
+                    timeout = 5
+                    # cat=plugin.tx_find/connections/default; type=string; label=Solr Connection Scheme
+                    scheme = http
+                }
+            }
+        }
+
+        count = 20
+        # cat=plugin.tx_find/file; type=string; label=Path to CSS file (FE)
+        CSSPath = EXT:find/Resources/Public/CSS/find.css
+        # cat=plugin.tx_find/file; type=string; label=Path to JavaScript file (FE)
+        JSPath = EXT:find/Resources/Public/JavaScript/find.js
+        # cat=plugin.tx_find/file; type=string; label=Path to template localisation files (FE)
+        languageRootPath = EXT:find/Resources/Private/Language/
+    }
+
+    view {
+        # cat=plugin.tx_find/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:find/Resources/Private/Templates/
+        # cat=plugin.tx_find/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:find/Resources/Private/Partials/
+        # cat=plugin.tx_find/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:find/Resources/Private/Layouts/
+    }
 }

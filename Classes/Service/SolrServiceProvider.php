@@ -26,6 +26,7 @@ namespace Subugoe\Find\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Solarium\Client;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
 use Subugoe\Find\Utility\FrontendUtility;
@@ -36,27 +37,17 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * Service provider for solr
  */
-class SolrServiceProvider implements ServiceProviderInterface
+class SolrServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @var \Solarium\Client
+     * @var Client
      */
     protected $connection;
 
     /**
      * @var array
      */
-    protected $settings;
-
-    /**
-     * @var array
-     */
     protected $configuration = [];
-
-    /**
-     * @var array
-     */
-    protected $requestArguments;
 
     /**
      * @var \Solarium\QueryType\Select\Query\Query
@@ -73,29 +64,22 @@ class SolrServiceProvider implements ServiceProviderInterface
      */
     protected $controllerExtensionKey;
 
-    /**
-     * @param $settings
-     */
-    public function __construct($settings)
-    {
-        $this->settings = $settings;
-    }
-
     public function connect()
     {
-        $configuration = [
+        $currentConnectionSettings = $this->settings['connections'][$this->connectionName]['options'];
+        $connectionSettings = [
             'endpoint' => [
                 'localhost' => [
-                    'host' => $this->settings['connection']['host'],
-                    'port' => intval($this->settings['connection']['port']),
-                    'path' => $this->settings['connection']['path'],
-                    'timeout' => $this->settings['connection']['timeout'],
-                    'scheme' => $this->settings['connection']['scheme']
+                    'host' => $currentConnectionSettings['host'],
+                    'port' => intval($currentConnectionSettings['port']),
+                    'path' => $currentConnectionSettings['path'],
+                    'timeout' => $currentConnectionSettings['timeout'],
+                    'scheme' => $currentConnectionSettings['scheme']
                 ]
             ]
         ];
 
-        $this->setConnection(new \Solarium\Client($configuration));
+        $this->setConnection(new Client($connectionSettings));
     }
 
     /**
@@ -192,7 +176,7 @@ class SolrServiceProvider implements ServiceProviderInterface
 
 
     /**
-     * @return \Solarium\Client
+     * @return Client
      */
     protected function getConnection()
     {
@@ -624,7 +608,6 @@ class SolrServiceProvider implements ServiceProviderInterface
      * the highlight to better deal with field contents that contain markup
      * themselves.
      *
-     * @param \Solarium\QueryType\Select\Query\Query $query
      * @param array $arguments request arguments
      */
     protected function addHighlighting($arguments)
@@ -720,7 +703,6 @@ class SolrServiceProvider implements ServiceProviderInterface
      * Adds feedback about invalid sort string format to the page.
      *
      * @param string $sortString
-     * @param $query
      */
     protected function addSortStringForQuery($sortString)
     {
@@ -753,6 +735,7 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     /**
      * Main starting point for blank index action
+     *
      * @return array
      */
     public function getDefaultQuery()
@@ -865,7 +848,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     /**
      * Adds filter queries configured in TypoScript to $query.
      *
-     * @param \Solarium\QueryType\Select\Query\Query $query
      * @return $this
      */
     protected function addTypoScriptFilters()
@@ -1036,22 +1018,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @return array
-     */
-    public function getRequestArguments()
-    {
-        return $this->requestArguments;
-    }
-
-    /**
-     * @param array $requestArguments
-     */
-    public function setRequestArguments($requestArguments)
-    {
-        $this->requestArguments = $requestArguments;
-    }
-
-    /**
      * @return string
      */
     protected function getAction()
@@ -1118,7 +1084,6 @@ class SolrServiceProvider implements ServiceProviderInterface
     /**
      * @param $id
      * @param $assignments
-     * @param $arguments
      * @return mixed
      */
     protected function getTheRecordSpecified($id, $assignments)
