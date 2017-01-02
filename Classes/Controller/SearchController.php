@@ -28,15 +28,14 @@ namespace Subugoe\Find\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
-/**
- * Search Controller
- */
 class SearchController extends ActionController
 {
     /**
@@ -45,7 +44,7 @@ class SearchController extends ActionController
     protected $requestArguments;
 
     /**
-     * @var \Subugoe\Find\Service\ServiceProviderInterface
+     * @var ServiceProviderInterface
      */
     protected $searchProvider;
 
@@ -56,8 +55,7 @@ class SearchController extends ActionController
     {
         ksort($this->settings['queryFields']);
 
-        // TODO make search engine (solr, elasticsearch, ...) configurable. This is just a stub
-        $this->initializeSearchEngine('solr');
+        $this->initializeConnection($this->settings['activeConnection']);
 
         $this->requestArguments = $this->request->getArguments();
         $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
@@ -67,16 +65,14 @@ class SearchController extends ActionController
     }
 
     /**
-     * @param string $engine
+     * @param string $activeConnection
      */
-    protected function initializeSearchEngine($engine)
+    protected function initializeConnection($activeConnection)
     {
-        $engine = ucfirst($engine);
+        $connectionConfiguration = $this->settings['connections'][$activeConnection];
 
-        $className = sprintf('Subugoe\\Find\\Service\\%sServiceProvider', $engine);
-
-        /** @var \Subugoe\Find\Service\ServiceProviderInterface $searchProvider */
-        $this->searchProvider = GeneralUtility::makeInstance($className, $this->settings);
+        /** @var ServiceProviderInterface $searchProvider */
+        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection, $this->settings);
         $this->searchProvider->connect();
     }
 
@@ -90,8 +86,12 @@ class SearchController extends ActionController
         } else {
             $this->searchProvider->setCounter();
             $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript($this->requestArguments['q'], null,
-                    $this->searchProvider->getRequestArguments(), $this->settings)
+                FrontendUtility::addQueryInformationAsJavaScript(
+                    $this->requestArguments['q'],
+                    null,
+                    $this->searchProvider->getRequestArguments(),
+                    $this->settings
+                )
             );
             $this->addStandardAssignments();
             $defaultQuery = $this->searchProvider->getDefaultQuery();
@@ -101,7 +101,7 @@ class SearchController extends ActionController
                 'config' => $this->searchProvider->getConfiguration()
             ];
 
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+            CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
             $this->view->assignMultiple($viewValues);
         }
     }
