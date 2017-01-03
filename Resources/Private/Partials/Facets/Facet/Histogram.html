@@ -1,13 +1,15 @@
 {namespace s=Subugoe\Find\ViewHelpers}
-{namespace t3jquery=Tx_T3jquery_ViewHelpers}
+
 <f:comment>
 	Uses facet data to draw a histogram of the distribution of the (numeric) facet terms.
 	Includes the required JavaScript libraries (jQuery.flot) and hooks up the script
 	functions to enable interaction.
 	Adds a link to deselect the date range used for faceting if there is a selection.
 </f:comment>
-<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.js"/>
-<t3jquery:addJQueryAndScript jsfile="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.selection.js"/>
+
+<s:page.script file="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.js" name="find-flot-selection"/>
+<s:page.script file="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.selection.js" name="find-flot-selection"/>
+
 <div class="facetHistogram-container">
 	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, activeFacets:config.activeFacets)}">
 		<f:for each="{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}" as="termInfo" key="term">

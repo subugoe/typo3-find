@@ -606,6 +606,14 @@ Settings include the ``JSPaths`` and ``CSSPaths`` arrays which can be used to co
 		JSPaths.20 = EXT:find/Projects/test/Resources/test.js
 	}
 
+jQuery has to be included manually on your TypoScript ``PAGE``-object of choice. Example::
+
+	page.includeJSFooterlibs.jquery = https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
+	page.includeJSFooterlibs.jquery.external = 1
+	page.includeJSFooterlibs.jquery.integrity = sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=
+	page.includeJSFooterlibs.jqueryUi = https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js
+	page.includeJSFooterlibs.jqueryUi.external = 1
+	page.includeJSFooterlibs.jqueryUi.integrity = sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=
 
 Localisation
 ::::::::::::
@@ -712,8 +720,6 @@ Prerequisites
 
 * TYPO3 6.2 or higher
 * PHP 5.5 or higher
-* t3jquery Extension
-
 
 Contact
 -------

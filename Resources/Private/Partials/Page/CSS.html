@@ -1,7 +1,9 @@
 {namespace s=Subugoe\Find\ViewHelpers}
+
 <f:comment>
 	Adds the CSS files configured in the CSSPaths settings to the page’s head.
 </f:comment>
+
 <f:for each="{settings.CSSPaths}" as="CSSPath">
 	<s:page.linkCSS file="{CSSPath}"/>
 </f:for>
