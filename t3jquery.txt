@@ -1,2 +1,0 @@
-script=Resources/Public/JavaScript/find.js
-components=jQuery,Autocomplete,Menu,Position
