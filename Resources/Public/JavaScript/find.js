@@ -115,6 +115,7 @@ var showAllFacetsOfType = function (myEvent) {
 	var containingList = jLink.parents('ol')[0];
 	// Fade in the hidden elemens and hide the Show All link.
 	jQuery('.hidden', containingList).slideDown(300);
+    jQuery('.hidden', containingList).removeClass('hidden');
 	jLink.parent().fadeOut(200);
 	return false;
 };
