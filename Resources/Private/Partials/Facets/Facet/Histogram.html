@@ -7,8 +7,8 @@
 	Adds a link to deselect the date range used for faceting if there is a selection.
 </f:comment>
 
-<s:page.script file="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.js" name="find-flot-selection"/>
-<s:page.script file="EXT:find/Resources/Public/JavaScript/flot/jquery.flot.selection.js" name="find-flot-selection"/>
+<s:page.script file="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js" name="find-flot-selection"/>
+<s:page.script file="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.selection.js" name="find-flot-selection"/>
 
 <div class="facetHistogram-container">
 	<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, activeFacets:config.activeFacets)}">

@@ -1,9 +1,0 @@
-[submodule "Resources/Public/JavaScript/flot"]
-	path = Resources/Public/JavaScript/flot
-	url = https://github.com/flot/flot.git
-[submodule "Resources/Public/JavaScript/jquery.chosen"]
-	path = Resources/Public/JavaScript/jquery.chosen
-	url = https://github.com/harvesthq/chosen.git
-[submodule "Resources/Public/JavaScript/js-geohash"]
-	path = Resources/Public/JavaScript/js-geohash
-	url = https://github.com/y-matsuwitter/js-geohash.git
