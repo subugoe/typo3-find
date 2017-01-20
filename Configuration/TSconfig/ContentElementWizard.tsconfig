@@ -1,0 +1,13 @@
+mod.wizards.newContentElement.wizardItems.plugins {
+    elements {
+        find {
+            iconIdentifier = ext-find-ce-wizard
+            title = LLL:EXT:find/Resources/Private/Language/locallang_be.xml:ce.title
+            description = LLL:EXT:find/Resources/Private/Language/locallang_be.xml:ce.description
+            tt_content_defValues {
+                CType = list
+                list_type = find_find
+            }
+        }
+    }
+}
