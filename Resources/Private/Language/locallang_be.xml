@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+
+	<meta type="array">
+		<type>module</type>
+		<description>Backend language labels for the »find« extension</description>
+	</meta>
+
+	<data type="array">
+
+		<languageKey index="default" type="array">
+			<label index="ce.title">TYPO3 Find</label>
+			<label index="ce.description">A frontend for Solr indexes.</label>
+
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="ce.title">TYPO3 Find</label>
+			<label index="ce.description">Ein frontend für Solr Indices.</label>
+		</languageKey>
+
+	</data>
+</T3locallang>
