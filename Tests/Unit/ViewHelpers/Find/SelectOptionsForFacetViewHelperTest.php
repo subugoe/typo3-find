@@ -25,12 +25,12 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for SelectOptionsForFacet ViewHelper
  */
-class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
+class SelectOptionsForFacetViewHelperTest extends BaseTestCase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper
@@ -41,7 +41,6 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(SelectOptionsForFacetViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
 

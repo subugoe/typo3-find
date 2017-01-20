@@ -25,12 +25,12 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for FacetLinkArguments ViewHelper
  */
-class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
+class FacetLinkArgumentsViewHelperTest extends BaseTestCase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper
@@ -41,7 +41,6 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(FacetLinkArgumentsViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
 

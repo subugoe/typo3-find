@@ -1,5 +1,5 @@
 <?php
-namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -26,12 +26,12 @@ namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for ArrayFirst ViewHelper
  */
-class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
+class ArrayFirstViewHelperTest extends BaseTestCase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper
@@ -42,7 +42,6 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -25,14 +25,17 @@ namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for ValueForKey ViewHelper
  */
-class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
+class ValueForKeyViewHelperTest extends BaseTestCase
 {
+    use MockRenderingContextTrait;
+
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper
      */
@@ -41,9 +44,12 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
+
         $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
+
+        $this->createRenderingContextMock();
+        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
 
     /**

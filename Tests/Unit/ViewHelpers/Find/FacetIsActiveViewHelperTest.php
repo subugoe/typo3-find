@@ -25,12 +25,12 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for FacetIsActive ViewHelper
  */
-class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
+class FacetIsActiveViewHelperTest extends BaseTestCase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper
@@ -41,7 +41,6 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
 

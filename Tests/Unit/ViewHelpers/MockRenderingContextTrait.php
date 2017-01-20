@@ -1,5 +1,6 @@
 <?php
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
+
+namespace Subugoe\Find\Tests\Unit\ViewHelpers;
 
 /* * *************************************************************
  *  Copyright notice
@@ -25,36 +26,23 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Test for HighlightField ViewHelper
+ * Convenience trait to retrieve a RenderingContext.
  */
-class HighlightFieldViewHelperTest extends BaseTestCase
+trait MockRenderingContextTrait
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper
+     * @var RenderingContextInterface
      */
-    public $fixture;
+    protected $renderingContextMock;
 
-    protected $solariumClient;
-
-    protected $solariumResponse;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
-    }
-
-    /**
-     * @test
-     */
-    public function fieldIsCorrectlyHighlighted()
-    {
-        $this->markTestIncomplete('Still something to do with mocking solarium');
+    protected function createRenderingContextMock() {
+        if (interface_exists('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface')) {
+            $this->renderingContextMock = $this->getMock('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface');
+        } else {
+            $this->renderingContextMock = $this->getMock(RenderingContextInterface::class);
+        }
     }
 }

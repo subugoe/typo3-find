@@ -25,10 +25,10 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
-use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
 
 /**
@@ -36,6 +36,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
  */
 class ItemViewHelperTest extends BaseTestCase
 {
+    use MockRenderingContextTrait;
+
     /**
      * @var ItemViewHelper
      */
@@ -59,11 +61,13 @@ class ItemViewHelperTest extends BaseTestCase
     public function setUp()
     {
         $this->fixture = $this->getMock(ItemViewHelper::class, ['dummy']);
-        $this->templateVariableContainer = $this->getMock(TemplateVariableContainer::class,
-            ['add', 'get', 'remove', 'exists']);
-        $renderingContext = new RenderingContext();
-        $renderingContext->injectTemplateVariableContainer(new TemplateVariableContainer());
-        $this->fixture->setRenderingContext($renderingContext);
+        $this->templateVariableContainer = $this->getMock(
+            TemplateVariableContainer::class,
+            ['add', 'get', 'remove', 'exists']
+        );
+
+        $this->createRenderingContextMock();
+        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
 
     /**
@@ -72,17 +76,21 @@ class ItemViewHelperTest extends BaseTestCase
      */
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected)
     {
-        $this->fixture->setArguments([
-            'subject' => $subject,
-            'predicate' => $predicate,
-            'object' => $object,
-            'objectType' => $objectType,
-            'language' => $language,
-            'name' => $name
-        ]);
+        $this->fixture->setArguments(
+            [
+                'subject'    => $subject,
+                'predicate'  => $predicate,
+                'object'     => $object,
+                'objectType' => $objectType,
+                'language'   => $language,
+                'name'       => $name,
+            ]
+        );
         $this->templateVariableContainer->expects($this->once())->method('remove')->with($name);
-        $this->templateVariableContainer->expects($this->once())->method('add')->with($name)->will($this->returnValue(''));
-        ObjectAccess::setProperty($this->fixture, 'templateVariableContainer', $this->templateVariableContainer, true);
+        $this->templateVariableContainer->expects($this->once())->method('add')->with($name)->will(
+            $this->returnValue('')
+        );
+        $this->inject($this->fixture, 'templateVariableContainer', $this->templateVariableContainer);
 
         $this->fixture->render();
 

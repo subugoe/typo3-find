@@ -1,5 +1,5 @@
 <?php
-namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -26,13 +26,16 @@ namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
+use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 
 /**
  * Test for Split ViewHelper
  */
-class SplitViewHelperTest extends ViewHelperBaseTestcase
+class SplitViewHelperTest extends BaseTestCase
 {
+    use MockRenderingContextTrait;
+
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
      */
@@ -41,9 +44,12 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
+
         $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
+
+        $this->createRenderingContextMock();
+        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
 
     /**
