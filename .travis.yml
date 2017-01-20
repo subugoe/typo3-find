@@ -57,7 +57,7 @@ script:
     echo "Running unit tests";
     if [[ "$TYPO3_VERSION" == "dev-master" ]];
     then
-      .Build/bin/phpunit --colors  -c components/testing_framework/core/Build/UnitTests.xml Tests/Unit/
+      .Build/bin/phpunit --colors  -c .Build/vendor/typo3/cms/components/testing_framework/core/Build/UnitTests.xml Tests/Unit/
     else
       .Build/bin/phpunit --colors  -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTests.xml Tests/Unit/
     fi
