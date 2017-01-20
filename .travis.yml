@@ -1,31 +1,63 @@
 language: php
-php:
-  - 5.5
-  - 5.6
-  - hhvm
-  - nightly
-env:
-  matrix:
-  - DB=mysql TYPO3=TYPO3_6-2
-  - DB=mysql TYPO3=master
-  global:
-    secure: EOWpYQfg4r6lH9jkeG3IbMmAhfIFSy1tqvolzBOaA5+PwzX2nIM1t2UFA7sRRy+0r9UZK1AJuMjdeIMsHqWzhBg9rQi9LGaqh/aWZFB655jdMGTZvcuE6CV3mdh1w56oROpif0X1px4s/phUK/qO05iG5D5koLeLQ95bXqw527w=
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.5
+      env: TYPO3_VERSION=^7.6
+    - php: 5.6
+      env: TYPO3_VERSION=^7.6
+    - php: 7.0
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^8
+    - php: 7.0
+      env: TYPO3_VERSION=^8
+    - php: 7.1
+      env: TYPO3_VERSION=dev-master
+    - php: 7.0
+      env: TYPO3_VERSION=dev-master
+    - php: nightly
+      env: TYPO3_VERSION=dev-master
+  allow_failures:
+    - env: TYPO3_VERSION=dev-master
+    - php: nightly
+
+addons:
+  apt:
+    packages:
+      - parallel
+
 sudo: false
+
 cache:
   directories:
   - "$HOME/.composer/cache"
-before_script:
-  - cd ..
-  - mkdir parallel && cd parallel && wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2 && tar xvf parallel-latest.tar.bz2 -C . --strip-components=1 && ./configure && make && cd ..
-  - git clone --single-branch --branch $TYPO3 --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
-  - mv typo3_core/* .
-  - if [ "$GITHUB_COMPOSER_AUTH" ]; then composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH; fi
+
+before_install:
   - composer self-update
-  - composer install
-  - mkdir -p uploads typo3temp typo3conf/ext
-  - mv typo3-find typo3conf/ext/find
-  - cd typo3conf/ext/find
-  - composer install
-  - cd ../../../
+  - composer --version
+
+install:
+  - composer require --no-update "typo3/cms:$TYPO3_VERSION"
+  - composer require --no-update "solarium/solarium"
+  - if [[ "$TYPO3_VERSION" == "^8" ]]; then composer require --no-update "phpunit/phpunit:^5.0"; fi
+  - composer install --prefer-dist
+  - export TYPO3_PATH_WEB=$PWD/.Build/Web
+
 script:
-  - "./bin/phpunit -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/find/Tests/Unit/;"
+  - >
+      echo;
+      echo "Running php lint";
+      find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+  - >
+    echo;
+    echo "Running unit tests";
+    if [[ "$TYPO3_VERSION" == "dev-master" ]];
+    then
+      .Build/bin/phpunit --colors  -c .Build/vendor/typo3/cms/components/testing_framework/core/Build/UnitTests.xml Tests/Unit/
+    else
+      .Build/bin/phpunit --colors  -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTests.xml Tests/Unit/
+    fi

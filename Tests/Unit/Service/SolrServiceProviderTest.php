@@ -40,7 +40,7 @@ class SolrServiceProviderTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, ['dummy'], [[]]);
+        $this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, ['dummy'], ['default', []]);
     }
 
     /**

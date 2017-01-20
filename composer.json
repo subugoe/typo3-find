@@ -16,15 +16,39 @@
       "Subugoe\\Find\\": "Classes/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Subugoe\\Find\\Tests\\": "Tests/"
+    }
+  },
   "replace": {
     "typo3-ter/find": "self.version",
     "subugoe/find": "self.version"
+  },
+  "require": {
+    "typo3/cms-core": "^7.6.13 || ^8.5"
   },
   "require-dev": {
     "solarium/solarium": "~3.3",
     "phpunit/phpunit": "~4.6"
   },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+    ]
+  },
   "suggest": {
     "solarium/solarium": "Allows using the SolrServiceProvider"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
   }
 }

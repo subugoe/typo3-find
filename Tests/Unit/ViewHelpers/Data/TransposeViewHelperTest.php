@@ -1,5 +1,5 @@
 <?php
-namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
  *  Copyright notice
@@ -26,23 +26,28 @@ namespace Subugoe\find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
-use TYPO3\CMS\Fluid\Tests\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use TYPO3\CMS\Core\Tests\BaseTestCase;
+use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
 
 /**
  * Test for Transpose ViewHelper
  */
-class TransposeViewHelperTest extends ViewHelperBaseTestcase
+class TransposeViewHelperTest extends BaseTestCase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper
      */
     public $fixture;
 
+    /**
+     * @var TemplateVariableContainer
+     */
+    public $templateVariableContainer;
+
     public function setUp()
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->fixture->initializeArguments();
     }
 
@@ -70,8 +75,10 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
+        $this->templateVariableContainer = $this->getAccessibleMock(TemplateVariableContainer::class, ['add', 'remove']);
         $this->templateVariableContainer->expects($this->at(0))->method('add')->with('hrdr', $expected);
         $this->templateVariableContainer->expects($this->at(1))->method('remove')->with('hrdr');
+        $this->inject($this->fixture, 'templateVariableContainer', $this->templateVariableContainer);
 
         $this->fixture->render();
     }
