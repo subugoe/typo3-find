@@ -26,7 +26,7 @@
     "subugoe/find": "self.version"
   },
   "require": {
-    "typo3/cms-core": "^7.6.13 || ^8.5"
+    "typo3/cms": "^7.6.15 || ^8.5"
   },
   "require-dev": {
     "solarium/solarium": "~3.3",
