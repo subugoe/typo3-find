@@ -251,3 +251,5 @@ tx_find_page {
         additionalHeaders = Content-type:application/json;charset=utf-8
     }
 }
+
+plugin.tx_find.features.requireCHashArgumentForActionArguments = 0
