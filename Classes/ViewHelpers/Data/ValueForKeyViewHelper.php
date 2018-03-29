@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -38,8 +39,9 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInterface
 {
     /**
-     * @param array $array The array to extract the value from
-     * @param string $key The key to extract the value for
+     * @param array  $array The array to extract the value from
+     * @param string $key   The key to extract the value for
+     *
      * @return string|int|bool|array
      */
     public function render($array, $key)
@@ -47,7 +49,7 @@ class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInte
         return self::renderStatic(
             [
                 'key' => $key,
-                'array' => $array
+                'array' => $array,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
@@ -55,8 +57,8 @@ class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInte
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
+     * @param array                     $arguments
+     * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      *
      * @return string

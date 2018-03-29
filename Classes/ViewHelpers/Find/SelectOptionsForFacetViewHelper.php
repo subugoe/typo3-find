@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /*******************************************************************************
@@ -67,7 +68,7 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
         if (!empty($this->arguments['values'])) {
             foreach ($this->arguments['values'] as $item => $count) {
                 // Localise item name.
-                $localisationKey = $this->arguments['localisationPrefix'] . $item;
+                $localisationKey = $this->arguments['localisationPrefix'].$item;
 
                 $localisedItem = LocalizationUtility::translate($localisationKey, $extensionName);
                 if (!$localisedItem) {
@@ -75,7 +76,7 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
                 }
 
                 // Append count to item name?
-                $result[$item] = $localisedItem . ($this->arguments['showCount'] ? ' (' . $count . ')' : '');
+                $result[$item] = $localisedItem.($this->arguments['showCount'] ? ' ('.$count.')' : '');
             }
         }
 

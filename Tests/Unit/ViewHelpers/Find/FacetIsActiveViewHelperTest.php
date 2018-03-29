@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -28,7 +29,7 @@ use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for FacetIsActive ViewHelper
+ * Test for FacetIsActive ViewHelper.
  */
 class FacetIsActiveViewHelperTest extends BaseTestCase
 {
@@ -56,15 +57,15 @@ class FacetIsActiveViewHelperTest extends BaseTestCase
                 [
                     [
                         'id' => 'horus',
-                        'term' => 'behedeti'
+                        'term' => 'behedeti',
                     ],
                     [
                         'id' => 'hrdr',
-                        'term' => 'horus'
-                    ]
-                ]
+                        'term' => 'horus',
+                    ],
+                ],
             ],
-            'type' => 'string'
+            'type' => 'string',
         ];
 
         $this->fixture->setArguments($arguments);
@@ -84,15 +85,15 @@ class FacetIsActiveViewHelperTest extends BaseTestCase
                 [
                     [
                         'id' => 'horus',
-                        'term' => 'behedeti'
+                        'term' => 'behedeti',
                     ],
                     [
                         'id' => 'hrdr',
-                        'term' => 'horus'
-                    ]
-                ]
+                        'term' => 'horus',
+                    ],
+                ],
             ],
-            'type' => 'string'
+            'type' => 'string',
         ];
         $this->fixture->setArguments($arguments);
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\JoinViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Join viewhelper test
+ * Join viewhelper test.
  */
 class JoinViewHelperTest extends BaseTestCase
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -51,7 +52,7 @@ class CSVLineViewHelper extends AbstractViewHelper
     public function render()
     {
         $data = $this->arguments['data'];
-        if ($data === null) {
+        if (null === $data) {
             $data = $this->renderChildren();
         }
 
@@ -61,6 +62,7 @@ class CSVLineViewHelper extends AbstractViewHelper
         rewind($fp);
         $result = fgets($fp);
         fclose($fp);
+
         return $result;
     }
 }

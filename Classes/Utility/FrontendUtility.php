@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Utility;
 
 /* * *************************************************************
@@ -37,9 +38,10 @@ class FrontendUtility
     /**
      * Stores information about the active query in the »underlyingQuery« JavaScript variable.
      *
-     * @param array $query
-     * @param int|NULL $position of the record in the result list
-     * @param array $arguments overrides $this->requestArguments if set
+     * @param array    $query
+     * @param int|null $position  of the record in the result list
+     * @param array    $arguments overrides $this->requestArguments if set
+     *
      * @return string
      */
     public static function addQueryInformationAsJavaScript($query, $position = null, $arguments = [], $settings)
@@ -56,7 +58,7 @@ class FrontendUtility
             if (array_key_exists('facet', $arguments)) {
                 $underlyingQuery['facet'] = $arguments['facet'];
             }
-            if ($position !== null) {
+            if (null !== $position) {
                 $underlyingQuery['position'] = $position;
             }
             if ($arguments['count']) {
@@ -65,14 +67,17 @@ class FrontendUtility
             if ($arguments['sort']) {
                 $underlyingQuery['sort'] = $arguments['sort'];
             }
-            $scriptTag->setContent('var underlyingQuery = ' . json_encode($underlyingQuery) . ';');
+            $scriptTag->setContent('var underlyingQuery = '.json_encode($underlyingQuery).';');
+
             return $scriptTag->render();
         }
+
         return '';
     }
 
     /**
      * @param $underlyingQueryInfo
+     *
      * @return array
      */
     public static function getIndexes($underlyingQueryInfo)
@@ -82,7 +87,8 @@ class FrontendUtility
         $index['positionIndex'] = $underlyingQueryInfo['position'] - 1;
         $index['previousIndex'] = max([$index['positionIndex'] - 1, 0]);
         $index['nextIndex'] = $index['positionIndex'] + 1;
-        $index['resultIndexOffset'] = ($index['positionIndex'] === 0) ? 0 : 1;
+        $index['resultIndexOffset'] = (0 === $index['positionIndex']) ? 0 : 1;
+
         return $index;
     }
 }

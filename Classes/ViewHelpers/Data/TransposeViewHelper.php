@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -44,7 +45,6 @@ class TransposeViewHelper extends AbstractViewHelper
         $this->registerArgument('name', 'string', 'Variable name to assign the new array to', true);
     }
 
-
     /**
      * @return string Rendered string
      */
@@ -54,7 +54,7 @@ class TransposeViewHelper extends AbstractViewHelper
         $iterationArray = [];
         // Strip non-numeric keys in the value arrays.
         foreach ($this->arguments['arrays'] as $key => $array) {
-            $iterationArray = ($array !== null) ? $array : [];
+            $iterationArray = (null !== $array) ? $array : [];
             $arrays[$key] = array_values($iterationArray);
         }
 
@@ -75,22 +75,21 @@ class TransposeViewHelper extends AbstractViewHelper
         } else {
             $info = [];
             foreach ($this->arguments['arrays'] as $key => $array) {
-                $info[] = $key . ': ' . count($array);
+                $info[] = $key.': '.count($array);
             }
 
-            $output = "The arrays passed in the »arrays« argument do not have identical numbers of values: (" . implode(', ',
-                    $info) . ')';
+            $output = 'The arrays passed in the »arrays« argument do not have identical numbers of values: ('.implode(', ',
+                    $info).')';
         }
-
 
         return $output;
     }
-
 
     /**
      * Returns TRUE if all elements of $arrays have the same count(), FALSE otherwise.
      *
      * @param array $arrays array of arrays
+     *
      * @return bool
      */
     protected function identicalLengths($arrays)
@@ -99,7 +98,7 @@ class TransposeViewHelper extends AbstractViewHelper
 
         $length = null;
         foreach ($arrays as $array) {
-            if ($length === null) {
+            if (null === $length) {
                 $length = count($array);
             } else {
                 if ($length !== count($array)) {

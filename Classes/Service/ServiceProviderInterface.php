@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Service;
 
 /* * *************************************************************
@@ -27,13 +28,13 @@ namespace Subugoe\Find\Service;
  * ************************************************************* */
 
 /**
- * Interface for search engine provider
+ * Interface for search engine provider.
  */
 interface ServiceProviderInterface
 {
     /**
      * @param string $connectionName
-     * @param array $settings
+     * @param array  $settings
      */
     public function __construct($connectionName, $settings);
 
@@ -41,12 +42,14 @@ interface ServiceProviderInterface
 
     /**
      * @param $query
+     *
      * @return mixed
      */
     public function search($query);
 
     /**
      * @param $settings
+     *
      * @return mixed
      */
     public function suggestQuery($settings);
@@ -54,6 +57,7 @@ interface ServiceProviderInterface
     /**
      * @param $key
      * @param $value
+     *
      * @return mixed
      */
     public function setConfigurationValue($key, $value);
@@ -82,6 +86,7 @@ interface ServiceProviderInterface
 
     /**
      * @param array $requestArguments
+     *
      * @return mixed
      */
     public function setRequestArguments($requestArguments);

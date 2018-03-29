@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /*******************************************************************************
@@ -46,6 +47,6 @@ class PathExistsViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        return file_exists(PATH_site . $this->arguments['path']);
+        return file_exists(PATH_site.$this->arguments['path']);
     }
 }

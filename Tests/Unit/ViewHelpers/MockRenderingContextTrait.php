@@ -38,7 +38,8 @@ trait MockRenderingContextTrait
      */
     protected $renderingContextMock;
 
-    protected function createRenderingContextMock() {
+    protected function createRenderingContextMock()
+    {
         if (interface_exists('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface')) {
             $this->renderingContextMock = $this->getMock('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface');
         } else {

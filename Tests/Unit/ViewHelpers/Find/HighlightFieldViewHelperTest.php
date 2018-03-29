@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for HighlightField ViewHelper
+ * Test for HighlightField ViewHelper.
  */
 class HighlightFieldViewHelperTest extends BaseTestCase
 {

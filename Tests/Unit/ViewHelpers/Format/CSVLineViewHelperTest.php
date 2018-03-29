@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\CSVLineViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * CSV line viewhelper test
+ * CSV line viewhelper test.
  */
 class CSVLineViewHelperTest extends BaseTestCase
 {
@@ -55,10 +56,10 @@ class CSVLineViewHelperTest extends BaseTestCase
         $this->fixture->setArguments([
             'data' => $data,
             'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure
+            'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = 'hrdr,behedeti,chub' . PHP_EOL;
+        $expected = 'hrdr,behedeti,chub'.PHP_EOL;
         $this->assertSame($expected, $this->fixture->render());
     }
 
@@ -74,10 +75,10 @@ class CSVLineViewHelperTest extends BaseTestCase
         $this->fixture->setArguments([
             'data' => $data,
             'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure
+            'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = 'hrdr;behedeti;chub' . PHP_EOL;
+        $expected = 'hrdr;behedeti;chub'.PHP_EOL;
         $this->assertSame($expected, $this->fixture->render());
     }
 
@@ -93,10 +94,10 @@ class CSVLineViewHelperTest extends BaseTestCase
         $this->fixture->setArguments([
             'data' => $data,
             'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure
+            'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = '"hrdr horus";behedeti;"chub budan"' . PHP_EOL;
+        $expected = '"hrdr horus";behedeti;"chub budan"'.PHP_EOL;
         $this->assertSame($expected, $this->fixture->render());
     }
 
@@ -112,10 +113,10 @@ class CSVLineViewHelperTest extends BaseTestCase
         $this->fixture->setArguments([
             'data' => $data,
             'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure
+            'fieldEnclosure' => $fieldEnclosure,
         ]);
 
-        $expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
+        $expected = '/hrdr horus/;behedeti;/chub budan/'.PHP_EOL;
         $this->assertSame($expected, $this->fixture->render());
     }
 }

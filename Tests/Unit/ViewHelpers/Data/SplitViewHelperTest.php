@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -30,7 +31,7 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 
 /**
- * Test for Split ViewHelper
+ * Test for Split ViewHelper.
  */
 class SplitViewHelperTest extends BaseTestCase
 {

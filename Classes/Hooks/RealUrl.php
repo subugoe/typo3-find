@@ -29,15 +29,16 @@ namespace Subugoe\Find\Hooks;
  * ************************************************************* */
 
 /**
- * RealUrl Hook for automatic URL generation
+ * RealUrl Hook for automatic URL generation.
  */
 class RealUrl
 {
     /**
-     * Create automatic RealUrl Configuratoin
+     * Create automatic RealUrl Configuratoin.
      *
      * @param $params
      * @param $pObj
+     *
      * @return array
      */
     public function addRealUrlConfiguration($params, &$pObj)
@@ -66,8 +67,8 @@ class RealUrl
                                 'noMatch' => 'bypass',
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

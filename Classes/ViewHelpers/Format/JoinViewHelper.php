@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -51,7 +52,7 @@ class JoinViewHelper extends AbstractViewHelper
     public function render()
     {
         $array = $this->arguments['array'];
-        if ($array === null) {
+        if (null === $array) {
             $array = $this->renderChildren();
         }
 

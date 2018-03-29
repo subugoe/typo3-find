@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -54,12 +55,12 @@ class RegexpViewHelper extends AbstractViewHelper
     public function render()
     {
         $input = $this->arguments['string'];
-        if ($input === null) {
+        if (null === $input) {
             $input = $this->renderChildren();
         }
 
         $result = null;
-        if ($this->arguments['replace'] === null) {
+        if (null === $this->arguments['replace']) {
             $result = preg_match($this->arguments['match'], $input);
         } else {
             if (!$this->arguments['useMBEreg']) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /*******************************************************************************
@@ -50,12 +51,12 @@ class PageListViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $currentPage = ($this->arguments['currentPage'] ? (int)$this->arguments['currentPage'] : 1);
-        $numberOfPages = (int)ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
-        $adjacentPages = (int)$this->arguments['adjacentPages'];
+        $currentPage = ($this->arguments['currentPage'] ? (int) $this->arguments['currentPage'] : 1);
+        $numberOfPages = (int) ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
+        $adjacentPages = (int) $this->arguments['adjacentPages'];
         $adjacentFirst = max($currentPage - $adjacentPages, 1);
         $adjacentLast = min($currentPage + $adjacentPages, $numberOfPages);
-        $minimumGapSize = (int)$this->arguments['minimumGapSize'];
+        $minimumGapSize = (int) $this->arguments['minimumGapSize'];
 
         $pageIndex = 1;
         while ($pageIndex <= $numberOfPages) {
@@ -65,7 +66,7 @@ class PageListViewHelper extends AbstractViewHelper
                 $pageInfo['status'] = 'current';
                 $pageInfo['current'] = true;
             } else {
-                if ($pageIndex === 1 | $pageIndex === $numberOfPages) {
+                if (1 === $pageIndex | $pageIndex === $numberOfPages) {
                     $pageInfo['status'] = 'edge';
                 } else {
                     if (abs($pageIndex - $currentPage) <= $adjacentPages) {
@@ -83,7 +84,7 @@ class PageListViewHelper extends AbstractViewHelper
                 }
             }
 
-            if ($pageInfo['status'] === 'gap') {
+            if ('gap' === $pageInfo['status']) {
                 $pageInfo['text'] = '…';
                 if ($pageIndex < $currentPage) {
                     $pageIndex = $currentPage - $adjacentPages;
@@ -93,8 +94,8 @@ class PageListViewHelper extends AbstractViewHelper
                     }
                 }
             } else {
-                $pageInfo['text'] = (string)$pageIndex;
-                $pageIndex++;
+                $pageInfo['text'] = (string) $pageIndex;
+                ++$pageIndex;
             }
 
             $pages[] = $pageInfo;
@@ -103,8 +104,8 @@ class PageListViewHelper extends AbstractViewHelper
         return [
             'pages' => $pages,
             'current' => $currentPage,
-            'previous' => ($currentPage === 1) ? null : $currentPage - 1,
-            'next' => ($currentPage === $numberOfPages) ? null : $currentPage + 1
+            'previous' => (1 === $currentPage) ? null : $currentPage - 1,
+            'next' => ($currentPage === $numberOfPages) ? null : $currentPage + 1,
         ];
     }
 }

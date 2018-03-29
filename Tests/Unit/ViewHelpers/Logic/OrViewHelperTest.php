@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Tests for the NOT viewhelper
+ * Tests for the NOT viewhelper.
  */
 class OrViewHelperTest extends BaseTestCase
 {
@@ -50,9 +51,9 @@ class OrViewHelperTest extends BaseTestCase
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (true == 1)
+                    (true == 1),
                 ],
-                true
+                true,
             ],
             [
                 [
@@ -60,9 +61,9 @@ class OrViewHelperTest extends BaseTestCase
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (true == 'hrdr')
+                    (true == 'hrdr'),
                 ],
-                true
+                true,
             ],
             [
                 [
@@ -70,23 +71,22 @@ class OrViewHelperTest extends BaseTestCase
                     (1 === 'hrdr'),
                     ('hrdr' === '3'),
                     ('behedeti' == 'hrdr'),
-                    (7 == 'hrdr')
+                    (7 == 'hrdr'),
                 ],
-                false
+                false,
             ],
             [
                 [
                     (true === 3),
                 ],
-                false
-            ]
-            ,
+                false,
+            ],
             [
                 [
                     (true === true),
                 ],
-                true
-            ]
+                true,
+            ],
         ];
     }
 
@@ -102,7 +102,7 @@ class OrViewHelperTest extends BaseTestCase
     public function orConditionIsMet($conditions, $expected)
     {
         $this->fixture->setArguments([
-            'conditions' => $conditions
+            'conditions' => $conditions,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

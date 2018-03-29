@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Controller;
 
 /* * *************************************************************
@@ -71,7 +72,7 @@ class SearchController extends ActionController
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 
-        /** @var ServiceProviderInterface $searchProvider */
+        /* @var ServiceProviderInterface $searchProvider */
         $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection, $this->settings);
         $this->searchProvider->connect();
     }
@@ -98,7 +99,7 @@ class SearchController extends ActionController
 
             $viewValues = [
                 'arguments' => $this->searchProvider->getRequestArguments(),
-                'config' => $this->searchProvider->getConfiguration()
+                'config' => $this->searchProvider->getConfiguration(),
             ];
 
             CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
@@ -119,7 +120,7 @@ class SearchController extends ActionController
                 $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
                 $this->response->addAdditionalHeaderData(
                     FrontendUtility::addQueryInformationAsJavaScript($underlyingQueryInfo['q'],
-                        (int)$underlyingQueryInfo['position'], $arguments, $this->settings)
+                        (int) $underlyingQueryInfo['position'], $arguments, $this->settings)
                 );
             }
             $this->addStandardAssignments();

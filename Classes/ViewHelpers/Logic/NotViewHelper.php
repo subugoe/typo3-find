@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Logic;
 
 /*******************************************************************************
@@ -49,6 +50,6 @@ class NotViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        return !($this->arguments['condition'] == true);
+        return !(true == $this->arguments['condition']);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -28,7 +29,7 @@ use Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for PathExists ViewHelper
+ * Test for PathExists ViewHelper.
  */
 class PathExistsViewHelperTest extends BaseTestCase
 {
@@ -51,7 +52,7 @@ class PathExistsViewHelperTest extends BaseTestCase
     {
         $this->fixture->setArguments(
             [
-                'path' => 'typo3'
+                'path' => 'typo3',
             ]
         );
 
@@ -65,7 +66,7 @@ class PathExistsViewHelperTest extends BaseTestCase
     {
         $this->fixture->setArguments(
             [
-                'path' => 'hrdr'
+                'path' => 'hrdr',
             ]
         );
 

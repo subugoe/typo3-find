@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Page;
 
 /*******************************************************************************
@@ -49,7 +50,7 @@ class TitleViewHelper extends AbstractViewHelper
     public function render()
     {
         $title = $this->arguments['title'];
-        if ($title === null) {
+        if (null === $title) {
             $title = $this->renderChildren();
         }
 
@@ -64,8 +65,8 @@ class TitleViewHelper extends AbstractViewHelper
          * appearing once inside the <title> tag. Otherwise the order of the components in the page title will be wrong.
          */
         if ($GLOBALS['TSFE']->content) {
-            $GLOBALS['TSFE']->content = preg_replace('/(<title>.*)' . $GLOBALS['TSFE']->page['title'] . '(.*<\/title>)/',
-                '$1' . $title . '$2', $GLOBALS['TSFE']->content);
+            $GLOBALS['TSFE']->content = preg_replace('/(<title>.*)'.$GLOBALS['TSFE']->page['title'].'(.*<\/title>)/',
+                '$1'.$title.'$2', $GLOBALS['TSFE']->content);
         } else {
             $GLOBALS['TSFE']->page['title'] = $title;
         }

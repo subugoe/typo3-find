@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -28,7 +29,7 @@ use Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for SelectOptionsForFacet ViewHelper
+ * Test for SelectOptionsForFacet ViewHelper.
  */
 class SelectOptionsForFacetViewHelperTest extends BaseTestCase
 {
@@ -55,7 +56,7 @@ class SelectOptionsForFacetViewHelperTest extends BaseTestCase
             'leadingBlank' => false,
             'sortByName' => false,
             'sortPrefixSeparator' => null,
-            'localisationPrefix' => ''
+            'localisationPrefix' => '',
         ];
 
         $this->fixture->setArguments($arguments);

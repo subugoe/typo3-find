@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -28,7 +29,7 @@ namespace Subugoe\Find\ViewHelpers\Format;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Formats a text field input
+ * Formats a text field input.
  */
 class FieldContentViewHelper extends AbstractViewHelper
 {

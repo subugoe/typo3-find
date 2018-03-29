@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\XMLViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Tests for the XML formatting viewhelper
+ * Tests for the XML formatting viewhelper.
  */
 class XMLViewHelperTest extends BaseTestCase
 {
@@ -53,12 +54,11 @@ class XMLViewHelperTest extends BaseTestCase
     <c/>
   </b>
   <b>d</b>
-</a>' . PHP_EOL
+</a>'.PHP_EOL,
             ],
-            ['<a><b><c/></b><b>d</b></a>', true, '<a><b><c></c></b><b>d</b></a>' . PHP_EOL],
+            ['<a><b><c/></b><b>d</b></a>', true, '<a><b><c></c></b><b>d</b></a>'.PHP_EOL],
         ];
     }
-
 
     public function setUp()
     {
@@ -74,7 +74,7 @@ class XMLViewHelperTest extends BaseTestCase
         $this->fixture->method('renderChildren')->willReturn($string);
 
         $this->fixture->setArguments([
-            'htmloutput' => $htmloutput
+            'htmloutput' => $htmloutput,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

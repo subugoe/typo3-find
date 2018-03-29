@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\Controller;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\Controller\SearchController;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
- * Tests for search controller
+ * Tests for search controller.
  */
 class SearchControllerTest extends UnitTestCase
 {

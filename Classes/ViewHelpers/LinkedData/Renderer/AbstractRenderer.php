@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 
 /*******************************************************************************
@@ -29,7 +30,7 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class AbstractRenderer
+ * Class AbstractRenderer.
  */
 abstract class AbstractRenderer
 {
@@ -45,14 +46,15 @@ abstract class AbstractRenderer
 
     /**
      * @param $type
+     *
      * @return object
      */
     public static function instantiateSubclassForType($type)
     {
-        if ($type === 'rdf') {
+        if ('rdf' === $type) {
             $instance = GeneralUtility::makeInstance(RDFRenderer::class);
         } else {
-            if ($type === 'json-ld') {
+            if ('json-ld' === $type) {
                 $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
             } else {
                 $instance = GeneralUtility::makeInstance(TurtleRenderer::class);

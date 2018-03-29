@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for IsArray ViewHelper
+ * Test for IsArray ViewHelper.
  */
 class IsArrayViewHelperTest extends BaseTestCase
 {

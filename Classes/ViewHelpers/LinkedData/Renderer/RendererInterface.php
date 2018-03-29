@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 
 /* * *************************************************************
@@ -27,12 +28,13 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  * ************************************************************* */
 
 /**
- * Interface RendererInterface
+ * Interface RendererInterface.
  */
 interface RendererInterface
 {
     /**
      * @param $items
+     *
      * @return mixed
      */
     public function renderItems($items);

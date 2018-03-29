@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -28,7 +29,7 @@ use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for FacetLinkArguments ViewHelper
+ * Test for FacetLinkArguments ViewHelper.
  */
 class FacetLinkArgumentsViewHelperTest extends BaseTestCase
 {
@@ -50,7 +51,7 @@ class FacetLinkArgumentsViewHelperTest extends BaseTestCase
     public function filterIsCorrectlyRemovedOnTextQueries()
     {
         $result = $this->fixture->render('title', 'hrdr', ['title' => ['hrdr'], 'horus' => 'behedeti'], 'remove');
-        $this->assertEquals("tx_find_find[facet][title]", $result[0]);
+        $this->assertEquals('tx_find_find[facet][title]', $result[0]);
     }
 
     /**

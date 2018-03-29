@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Tests\Unit\Service;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\Service\SolrServiceProvider;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Solr ServiceProvider Test
+ * Solr ServiceProvider Test.
  */
 class SolrServiceProviderTest extends BaseTestCase
 {

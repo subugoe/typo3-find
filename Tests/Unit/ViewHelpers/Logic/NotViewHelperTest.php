@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Tests for the NOT viewhelper
+ * Tests for the NOT viewhelper.
  */
 class NotViewHelperTest extends BaseTestCase
 {
@@ -46,20 +47,19 @@ class NotViewHelperTest extends BaseTestCase
         return [
             [
                 false,
-                true
+                true,
             ],
             [
                 1,
-                true
+                true,
             ],
             [
                 (1 === 2),
-                true
+                true,
             ],
             [
                 (1 === 1),
-                true
-                ,
+                true,
             ],
         ];
     }
@@ -76,7 +76,7 @@ class NotViewHelperTest extends BaseTestCase
     public function conditionIsMet($conditions, $expected)
     {
         $this->fixture->setArguments([
-            'conditions' => $conditions
+            'conditions' => $conditions,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

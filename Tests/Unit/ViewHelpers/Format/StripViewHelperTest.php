@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\StripViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Tests for the whitespace stripping viewhelper
+ * Tests for the whitespace stripping viewhelper.
  */
 class StripViewHelperTest extends BaseTestCase
 {
@@ -47,10 +48,9 @@ class StripViewHelperTest extends BaseTestCase
             ['a', false, 'a'],
             ['  *spacious text*	', null, '*spacious text*'],
             ['  *spacious text*	', ' ', '*spacious text*	'],
-            ['  *spacious text*	', '	', '  *spacious text*']
+            ['  *spacious text*	', '	', '  *spacious text*'],
         ];
     }
-
 
     public function setUp()
     {

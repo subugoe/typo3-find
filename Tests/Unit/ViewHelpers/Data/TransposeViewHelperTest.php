@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -30,7 +31,7 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
 
 /**
- * Test for Transpose ViewHelper
+ * Test for Transpose ViewHelper.
  */
 class TransposeViewHelperTest extends BaseTestCase
 {
@@ -59,19 +60,19 @@ class TransposeViewHelperTest extends BaseTestCase
         $arguments = [
             'arrays' => [
                 'horus' => ['b:ehedeti', 'h:rdr'],
-                'behedeti' => ['h:orus', 'h:rdr']
+                'behedeti' => ['h:orus', 'h:rdr'],
             ],
-            'name' => 'hrdr'
+            'name' => 'hrdr',
         ];
         $expected = [
             [
                 'horus' => 'b:ehedeti',
-                'behedeti' => 'h:orus'
+                'behedeti' => 'h:orus',
             ],
             [
                 'horus' => 'h:rdr',
-                'behedeti' => 'h:rdr'
-            ]
+                'behedeti' => 'h:rdr',
+            ],
         ];
 
         $this->fixture->setArguments($arguments);
@@ -91,8 +92,8 @@ class TransposeViewHelperTest extends BaseTestCase
         $arguments = [
             'arrays' => [
                 'horus' => ['behedeti'],
-                'behedeti' => ['hrdr', 'horus']
-            ]
+                'behedeti' => ['hrdr', 'horus'],
+            ],
         ];
 
         $this->fixture->setArguments($arguments);

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Regexp viewhelper test
+ * Regexp viewhelper test.
  */
 class RegexpViewHelperTest extends BaseTestCase
 {
@@ -62,10 +63,9 @@ class RegexpViewHelperTest extends BaseTestCase
             ['behedeti', '/beh/', null, false, 1],
             ['horus', '|ho|', null, false, 1],
             ['ClubMate667', '/[a-zA-Z]*[0-9]*/', null, false, 1],
-            ['ClubMate667', '/\w*/', null, false, 1]
+            ['ClubMate667', '/\w*/', null, false, 1],
         ];
     }
-
 
     public function setUp()
     {
@@ -82,7 +82,7 @@ class RegexpViewHelperTest extends BaseTestCase
             'string' => $string,
             'match' => $match,
             'replace' => $replace,
-            'useMBEreg' => $useMBEreg
+            'useMBEreg' => $useMBEreg,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
@@ -32,7 +33,7 @@ use TYPO3\CMS\Core\Tests\BaseTestCase;
 use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
 
 /**
- * Tests for the item viewhelper
+ * Tests for the item viewhelper.
  */
 class ItemViewHelperTest extends BaseTestCase
 {
@@ -78,12 +79,12 @@ class ItemViewHelperTest extends BaseTestCase
     {
         $this->fixture->setArguments(
             [
-                'subject'    => $subject,
-                'predicate'  => $predicate,
-                'object'     => $object,
+                'subject' => $subject,
+                'predicate' => $predicate,
+                'object' => $object,
                 'objectType' => $objectType,
-                'language'   => $language,
-                'name'       => $name,
+                'language' => $language,
+                'name' => $name,
             ]
         );
         $this->templateVariableContainer->expects($this->once())->method('remove')->with($name);

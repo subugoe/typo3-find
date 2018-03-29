@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for NewArray ViewHelper
+ * Test for NewArray ViewHelper.
  */
 class NewArrayViewHelperTest extends BaseTestCase
 {
@@ -55,12 +56,12 @@ class NewArrayViewHelperTest extends BaseTestCase
             'keys' => ['hrdr'],
             'values' => ['behedeti'],
             'global' => false,
-            'omitEmptyFields' => false
+            'omitEmptyFields' => false,
         ];
 
         $expected = [
             0 => 'array',
-            'hrdr' => 'behedeti'
+            'hrdr' => 'behedeti',
         ];
 
         $this->fixture->setArguments($arguments);
@@ -76,11 +77,11 @@ class NewArrayViewHelperTest extends BaseTestCase
             'keys' => ['hrdr'],
             'values' => ['behedeti'],
             'global' => false,
-            'omitEmptyFields' => false
+            'omitEmptyFields' => false,
         ];
 
         $expected = [
-            'hrdr' => 'behedeti'
+            'hrdr' => 'behedeti',
         ];
 
         $this->fixture->setArguments($arguments);
@@ -96,12 +97,12 @@ class NewArrayViewHelperTest extends BaseTestCase
             'keys' => ['hrdr', 'horus'],
             'values' => ['behedeti', 'edfu'],
             'global' => false,
-            'omitEmptyFields' => false
+            'omitEmptyFields' => false,
         ];
 
         $expected = [
             'hrdr' => 'behedeti',
-            'horus' => 'edfu'
+            'horus' => 'edfu',
         ];
 
         $this->fixture->setArguments($arguments);
@@ -117,13 +118,13 @@ class NewArrayViewHelperTest extends BaseTestCase
             'keys' => ['hrdr', 'horus', ''],
             'values' => ['behedeti', 'edfu', ''],
             'global' => false,
-            'omitEmptyFields' => false
+            'omitEmptyFields' => false,
         ];
 
         $expected = [
             'hrdr' => 'behedeti',
             'horus' => 'edfu',
-            '' => ''
+            '' => '',
         ];
 
         $this->fixture->setArguments($arguments);

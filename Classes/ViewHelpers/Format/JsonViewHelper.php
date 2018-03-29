@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -49,7 +50,7 @@ class JsonViewHelper extends AbstractViewHelper
     public function render()
     {
         $data = $this->arguments['data'];
-        if ($data === null) {
+        if (null === $data) {
             $data = $this->renderChildren();
         }
 

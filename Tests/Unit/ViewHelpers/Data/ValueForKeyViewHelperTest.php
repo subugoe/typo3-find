@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -30,7 +31,7 @@ use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for ValueForKey ViewHelper
+ * Test for ValueForKey ViewHelper.
  */
 class ValueForKeyViewHelperTest extends BaseTestCase
 {
@@ -59,7 +60,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
     {
         $array = [
             'a' => 'b',
-            'b' => 'c'
+            'b' => 'c',
         ];
         $key = 'a';
         $this->assertSame('b', $this->fixture->render($array, $key));
@@ -72,7 +73,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
     {
         $array = [
             'a' => 'b',
-            'b' => 'c'
+            'b' => 'c',
         ];
         $key = 'a';
         $this->fixture->setArguments(['format' => 'json']);
@@ -86,7 +87,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
     {
         $array = [
             'a' => 'b',
-            'b' => 'c'
+            'b' => 'c',
         ];
         $key = 'a';
         $this->fixture->setArguments(['format' => 'json']);
@@ -100,7 +101,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
     {
         $array = [
             'a' => 'b',
-            'b' => 'c'
+            'b' => 'c',
         ];
         $key = 'c';
         $this->assertNull($this->fixture->render($array, $key));

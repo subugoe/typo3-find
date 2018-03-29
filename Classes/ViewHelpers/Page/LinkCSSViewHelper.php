@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Page;
 
 /*******************************************************************************
@@ -33,7 +34,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
- * View Helper
+ * View Helper.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
@@ -41,13 +42,14 @@ class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterfac
 {
     /**
      * @param string $file Path to the CSS file
+     *
      * @return string
      */
     public function render($file)
     {
         return self::renderStatic(
             [
-                'file' => $file
+                'file' => $file,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
@@ -55,8 +57,8 @@ class LinkCSSViewHelper extends AbstractViewHelper implements CompilableInterfac
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
+     * @param array                     $arguments
+     * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      *
      * @return string

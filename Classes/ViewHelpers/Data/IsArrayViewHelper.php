@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -51,11 +52,11 @@ class IsArrayViewHelper extends AbstractViewHelper
         $result = false;
 
         $subject = $this->arguments['subject'];
-        if ($subject === null) {
+        if (null === $subject) {
             $subject = $this->renderChildren();
         }
 
-        if ($subject !== null) {
+        if (null !== $subject) {
             $result = is_array($subject);
         }
 

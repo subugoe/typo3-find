@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -30,7 +31,7 @@ namespace Subugoe\Find\ViewHelpers\Find;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Determines whether a facet is selected or not
+ * Determines whether a facet is selected or not.
  */
 class FacetIsActiveViewHelper extends AbstractViewHelper
 {
@@ -56,7 +57,7 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
         foreach ($this->arguments['activeFacets'] as $facets) {
             foreach ($facets as $facetInfo) {
                 if ($facetInfo['id'] === $this->arguments['facetID']
-                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || $this->arguments['facetTerm'] === null)
+                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || null === $this->arguments['facetTerm'])
                 ) {
                     return true;
                 }

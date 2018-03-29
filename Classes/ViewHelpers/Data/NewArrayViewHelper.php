@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -35,6 +36,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class NewArrayViewHelper extends AbstractViewHelper
 {
+    protected $escapeOutput = false;
+
     /**
      * Register arguments.
      */
@@ -68,7 +71,7 @@ class NewArrayViewHelper extends AbstractViewHelper
                     }
                 }
             } else {
-                $result = "newArray View Helper: Number of keys and values must be the same." . PHP_EOL . print_r($this->arguments,
+                $result = 'newArray View Helper: Number of keys and values must be the same.'.PHP_EOL.print_r($this->arguments,
                         true);
             }
         } else {
@@ -78,13 +81,13 @@ class NewArrayViewHelper extends AbstractViewHelper
         }
 
         $variableName = $this->arguments['name'];
-        if ($variableName !== null) {
+        if (null !== $variableName) {
             if ($this->templateVariableContainer->exists($variableName)) {
                 $this->templateVariableContainer->remove($variableName);
             }
             $this->templateVariableContainer->add($variableName, $result);
             $result = $this->renderChildren();
-            if ($this->arguments['global'] !== true) {
+            if (true !== $this->arguments['global']) {
                 $this->templateVariableContainer->remove($variableName);
             }
         }

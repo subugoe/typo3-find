@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Logic;
 
 /*******************************************************************************
@@ -51,9 +52,9 @@ class AndViewHelper extends AbstractViewHelper
     {
         $result = true;
         foreach ($this->arguments['conditions'] as $condition) {
-            $result &= ($condition == true);
+            $result &= (true == $condition);
         }
 
-        return (bool)$result;
+        return (bool) $result;
     }
 }

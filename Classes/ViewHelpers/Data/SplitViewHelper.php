@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -38,8 +39,9 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
 {
     /**
-     * @param string $string The string to split into components
+     * @param string $string    The string to split into components
      * @param string $separator The string separating the components
+     *
      * @return string|int|bool|array
      */
     public function render($string, $separator = ', ')
@@ -47,7 +49,7 @@ class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
         return self::renderStatic(
             [
                 'string' => $string,
-                'separator' => $separator
+                'separator' => $separator,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
@@ -55,8 +57,8 @@ class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
+     * @param array                     $arguments
+     * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      *
      * @return string
@@ -67,7 +69,7 @@ class SplitViewHelper extends AbstractViewHelper implements CompilableInterface
         RenderingContextInterface $renderingContext
     ) {
         $string = $arguments['string'];
-        if ($string === null) {
+        if (null === $string) {
             $string = $renderChildrenClosure;
         }
 

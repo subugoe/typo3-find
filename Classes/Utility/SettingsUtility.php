@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Utility;
 
 /* * *************************************************************
@@ -27,7 +28,7 @@ namespace Subugoe\Find\Utility;
  * ************************************************************* */
 
 /**
- * Configurations and settings
+ * Configurations and settings.
  */
 class SettingsUtility
 {
@@ -39,8 +40,9 @@ class SettingsUtility
      * Settings array keys need to be non-numeric if they are supposed to be overriden.
      *
      * @param string $settingName the key of the subarray of $this->settings to work on
-     * @param array $settings
+     * @param array  $settings
      * @param string $actionName
+     *
      * @return array highlight configuration
      */
     public static function getMergedSettings($settingName, $settings, $actionName = 'index')

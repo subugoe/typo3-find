@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -53,7 +54,7 @@ class ArrayFirstViewHelper extends AbstractViewHelper
         $result = null;
 
         $array = $this->arguments['array'];
-        if ($array === null) {
+        if (null === $array) {
             $array = $this->renderChildren();
         }
 

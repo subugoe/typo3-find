@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Test for ArrayFirst ViewHelper
+ * Test for ArrayFirst ViewHelper.
  */
 class ArrayFirstViewHelperTest extends BaseTestCase
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -54,11 +55,11 @@ class StripViewHelper extends AbstractViewHelper
     public function render()
     {
         $string = $this->arguments['string'];
-        if ($string === null) {
+        if (null === $string) {
             $string = $this->renderChildren();
         }
 
-        if ($this->arguments['strip'] === null) {
+        if (null === $this->arguments['strip']) {
             $string = trim($string);
         } else {
             $string = trim($string, $this->arguments['strip']);

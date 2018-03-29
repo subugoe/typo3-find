@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Tests for the AND viewhelper
+ * Tests for the AND viewhelper.
  */
 class AndViewHelperTest extends BaseTestCase
 {
@@ -46,13 +47,13 @@ class AndViewHelperTest extends BaseTestCase
         return [
             [
                 [
-                    (1 === 1)
+                    (1 === 1),
                 ],
-                true
+                true,
             ],
             [
                 [(true === true)],
-                true
+                true,
             ],
             [
                 [
@@ -60,9 +61,9 @@ class AndViewHelperTest extends BaseTestCase
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (true == 1)
+                    (true == 1),
                 ],
-                true
+                true,
             ],
             [
                 [
@@ -70,15 +71,15 @@ class AndViewHelperTest extends BaseTestCase
                     (1 === 2),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (true == 1)
+                    (true == 1),
                 ],
-                false
+                false,
             ],
             [
                 [
-                    (1 === 2)
+                    (1 === 2),
                 ],
-                false
+                false,
             ],
             [
                 [
@@ -86,9 +87,9 @@ class AndViewHelperTest extends BaseTestCase
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
                     ('hrdr' == 'hrdr'),
-                    (true == 0)
+                    (true == 0),
                 ],
-                false
+                false,
             ],
         ];
     }
@@ -105,7 +106,7 @@ class AndViewHelperTest extends BaseTestCase
     public function conditionIsTrue($conditions, $expected)
     {
         $this->fixture->setArguments([
-            'conditions' => $conditions
+            'conditions' => $conditions,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

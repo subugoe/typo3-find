@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Page;
 
 /*******************************************************************************
@@ -52,9 +53,6 @@ class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
         return $GLOBALS['TSFE']->tmpl;
     }
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('file', 'string', 'File to append as script');

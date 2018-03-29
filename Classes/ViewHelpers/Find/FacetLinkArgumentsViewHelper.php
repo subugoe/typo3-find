@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -48,31 +49,32 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
      * passing it to f.link.action’s »arguments«
      * or »argumentsToBeExcludedFromQueryString«.
      *
-     * @param string $facetID The name of the facet to create the link for
-     * @param string $facetTerm Term of the facet item to create the link for
-     * @param array $activeFacets Array of active facets
-     * @param string $mode One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«
+     * @param string $facetID      The name of the facet to create the link for
+     * @param string $facetTerm    Term of the facet item to create the link for
+     * @param array  $activeFacets Array of active facets
+     * @param string $mode         One of »add« or »remove« depending on whether the result is used with »arguments« or with »argumentsToBeExcludedFromQueryString«
+     *
      * @return array
      */
     public function render($facetID, $facetTerm = '', $activeFacets = [], $mode = 'add')
     {
         $result = [];
 
-        if ($mode === 'remove' && $activeFacets) {
+        if ('remove' === $mode && $activeFacets) {
             if (array_key_exists($facetID, $activeFacets)) {
-                $itemToRemove = 'tx_find_find[facet][' . $facetID . ']';
+                $itemToRemove = 'tx_find_find[facet]['.$facetID.']';
 
                 if (array_key_exists($facetTerm, $activeFacets[$facetID])) {
-                    $itemToRemove .= '[' . $facetTerm . ']';
+                    $itemToRemove .= '['.$facetTerm.']';
                 }
                 $result[] = $itemToRemove;
             }
             // Go back to page 1.
             $result[] = 'tx_find_find[page]';
         } else {
-            if ($mode === 'add') {
+            if ('add' === $mode) {
                 $result['facet'] = [
-                    $facetID => [$facetTerm => 1]
+                    $facetID => [$facetTerm => 1],
                 ];
             }
         }

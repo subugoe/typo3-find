@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use Subugoe\Find\ViewHelpers\Format\JsonViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
- * Json viewhelper test
+ * Json viewhelper test.
  */
 class JsonViewHelperTest extends BaseTestCase
 {
@@ -51,7 +52,7 @@ class JsonViewHelperTest extends BaseTestCase
         $data = ['hrdr', 'behedeti', 'chub'];
 
         $this->fixture->setArguments([
-            'data' => $data
+            'data' => $data,
         ]);
 
         $expected = '["hrdr","behedeti","chub"]';
@@ -66,7 +67,7 @@ class JsonViewHelperTest extends BaseTestCase
         $data = 667;
 
         $this->fixture->setArguments([
-            'data' => $data
+            'data' => $data,
         ]);
 
         $expected = '667';
@@ -81,7 +82,7 @@ class JsonViewHelperTest extends BaseTestCase
         $data = 'hrdr behedeti mate';
 
         $this->fixture->setArguments([
-            'data' => $data
+            'data' => $data,
         ]);
 
         $expected = '"hrdr behedeti mate"';
@@ -96,7 +97,7 @@ class JsonViewHelperTest extends BaseTestCase
         $data = 667.67;
 
         $this->fixture->setArguments([
-            'data' => $data
+            'data' => $data,
         ]);
 
         $expected = '667.67';

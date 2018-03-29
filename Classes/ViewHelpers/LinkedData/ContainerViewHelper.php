@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\LinkedData;
 
 /*******************************************************************************

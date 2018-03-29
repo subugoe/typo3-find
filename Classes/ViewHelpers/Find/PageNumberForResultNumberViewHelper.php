@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /*******************************************************************************
@@ -38,12 +39,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface
 {
     /**
-     * Avoid divisions by zero
+     * Avoid divisions by zero.
      */
     const DEFAULT_RESULTS_PER_PAGE = 20;
 
     /**
-     * @param int $resultNumber Number of the rsult to determine the page number for
+     * @param int $resultNumber   Number of the rsult to determine the page number for
      * @param int $resultsPerPage Number of results per page
      *
      * @return string|int|bool|array
@@ -53,7 +54,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
         return self::renderStatic(
             [
                 'resultNumber' => $resultNumber,
-                'resultsPerPage' => $resultsPerPage
+                'resultsPerPage' => $resultsPerPage,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
@@ -61,8 +62,8 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
+     * @param array                     $arguments
+     * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      *
      * @return float
@@ -72,11 +73,12 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements 
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        if ($arguments['resultsPerPage'] === 0) {
+        if (0 === $arguments['resultsPerPage']) {
             $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
         }
 
         $pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
+
         return $pageNumber;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\LinkedData;
 
 /*******************************************************************************
@@ -64,12 +65,12 @@ class ItemViewHelper extends AbstractViewHelper
             $container[$this->arguments['subject']][$this->arguments['predicate']] = [];
         }
 
-        if ($this->arguments['object'] !== null) {
+        if (null !== $this->arguments['object']) {
             $container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = null;
         } else {
             $container[$this->arguments['subject']][$this->arguments['predicate']][$this->renderChildren()] = [
                 'type' => $this->arguments['objectType'],
-                'language' => $this->arguments['language']
+                'language' => $this->arguments['language'],
             ];
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Service;
 
 /* * *************************************************************
@@ -35,7 +36,7 @@ use Subugoe\Find\Utility\SettingsUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Service provider for solr
+ * Service provider for solr.
  */
 class SolrServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
@@ -74,9 +75,9 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     'port' => intval($currentConnectionSettings['port']),
                     'path' => $currentConnectionSettings['path'],
                     'timeout' => $currentConnectionSettings['timeout'],
-                    'scheme' => $currentConnectionSettings['scheme']
-                ]
-            ]
+                    'scheme' => $currentConnectionSettings['scheme'],
+                ],
+            ],
         ];
 
         $this->setConnection(new Client($connectionSettings));
@@ -84,6 +85,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
     /**
      * @param array $arguments
+     *
      * @return array
      */
     public function suggestQuery($arguments)
@@ -138,14 +140,15 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Returns the number of results per page using the first of:
      * * query parameter »count«
      * * TypoScript setting »paging.perPage«
-     * limited by the setting »paging.maximumPerPage«
+     * limited by the setting »paging.maximumPerPage«.
      *
      * @param array $arguments overrides $this->requestArguments if set
+     *
      * @return int
      */
     protected function getCount($arguments = null)
     {
-        if ($arguments === null) {
+        if (null === $arguments) {
             $arguments = $this->getRequestArguments();
         }
 
@@ -159,6 +162,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $count = min([$count, $maxCount]);
 
         $this->setConfigurationValue('count', $count);
+
         return $count;
     }
 
@@ -173,7 +177,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     {
         $this->query->getEDisMax();
     }
-
 
     /**
      * @return Client
@@ -195,6 +198,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Adds filter queries for active facets to $query.
      *
      * @param array $arguments request arguments
+     *
      * @return array
      */
     protected function addFacetFilters($arguments)
@@ -211,7 +215,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     // records instead of the joined ones.
                     $queryString = $this->query->getQuery();
                     if ($queryString) {
-                        $queryString = $queryString . ' ' . Query::QUERY_OPERATOR_AND . ' ';
+                        $queryString = $queryString.' '.Query::QUERY_OPERATOR_AND.' ';
                     }
                     $queryString .= $facetQuery;
                     $this->query->setQuery($queryString);
@@ -221,7 +225,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     // Add tag/key when configured to excludeOwnFilter for this facet.
                     // Do not add it otherwise as the additional {!tag …} prepended to the Solr query
                     // will break usage of {!join …} in the query.
-                    $queryInfo = ['key' => 'facet-' . $facetID . '-' . $facetTerm];
+                    $queryInfo = ['key' => 'facet-'.$facetID.'-'.$facetTerm];
                     if ($facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
                         $queryInfo['tag'] = $this->tagForFacet($facetID);
                     }
@@ -267,7 +271,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                                         $facetID, $facetQueryIndex),
                                     [
                                         'facetQuery' => $facetQuery,
-                                        'facetConfiguration' => $facetConfiguration
+                                        'facetConfiguration' => $facetConfiguration,
                                     ]
                                 );
                             }
@@ -280,7 +284,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                             ->setSort($facet['sortOrder']);
                     }
 
-                    if ($facet['excludeOwnFilter'] == 1) {
+                    if (1 == $facet['excludeOwnFilter']) {
                         $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
                 } else {
@@ -289,7 +293,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                             $key),
                         [
                             'facet' => $facet,
-                            'facetConfiguration' => $facetConfiguration
+                            'facetConfiguration' => $facetConfiguration,
                         ]
                     );
                 }
@@ -303,17 +307,19 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Returns the facet/filter key for the given $facetID.
      *
      * @param string $facetID
+     *
      * @return string
      */
     protected function tagForFacet($facetID)
     {
-        return 'facet-' . $facetID;
+        return 'facet-'.$facetID;
     }
 
     /**
      * Returns array with information about active facets.
      *
      * @param array $arguments request arguments
+     *
      * @return array of arrays with information about active facets
      */
     protected function getActiveFacets($arguments)
@@ -338,11 +344,11 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Adds information about the selected items for a given facet to $activeFacets
+     * Adds information about the selected items for a given facet to $activeFacets.
      *
-     * @param array $activeFacets
-     * @param string $facetID ID of the facet to set
-     * @param array $facetSelection array of selected items for the facet
+     * @param array  $activeFacets
+     * @param string $facetID        ID of the facet to set
+     * @param array  $facetSelection array of selected items for the facet
      */
     protected function setActiveFacetSelectionForID(&$activeFacets, $facetID, $facetSelection)
     {
@@ -353,7 +359,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 'id' => $facetID,
                 'config' => $facetConfig,
                 'term' => $facetTerm,
-                'query' => $this->getFacetQuery($facetConfig, $facetTerm)
+                'query' => $this->getFacetQuery($facetConfig, $facetTerm),
             ];
             $facetQueries[$facetTerm] = $facetInfo;
         }
@@ -366,6 +372,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Returns the facet configuration for the given $ID.
      *
      * @param string $ID
+     *
      * @return array
      */
     protected function getFacetConfig($ID)
@@ -388,8 +395,9 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Returns query for the given facet $ID and $term based on the facet’s
      * configuration.
      *
-     * @param array $facetConfig
+     * @param array  $facetConfig
      * @param string $queryTerm
+     *
      * @return string query string
      */
     protected function getFacetQuery($facetConfig, $queryTerm)
@@ -405,25 +413,25 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         break;
                     }
                 }
-                if ($queryString === null) {
+                if (null === $queryString) {
                     LoggerUtility::logInfo(
                         sprintf('find: Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.',
                             $facetConfig['id'], $queryTerm),
                         [
                             'requestArguments' => $this->requestArguments,
                             'facetConfig' => $facetConfig,
-                            'queryTerm' => $queryTerm
+                            'queryTerm' => $queryTerm,
                         ]
                     );
                 }
             }
 
-            if ($queryString === null) {
+            if (null === $queryString) {
                 // No Facet queries applicable: build the query.
                 if (array_key_exists('query', $facetConfig)) {
                     $queryPattern = $facetConfig['query'];
                 } else {
-                    $queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']) . ':' . '%s';
+                    $queryPattern = ($facetConfig['field'] ? $facetConfig['field'] : $facetConfig['id']).':'.'%s';
                 }
 
                 // Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
@@ -446,11 +454,12 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * Returns the index of the first row to return.
      *
      * @param array $arguments overrides $this->requestArguments if set
+     *
      * @return int
      */
     protected function getOffset($arguments = null)
     {
-        if ($arguments === null) {
+        if (null === $arguments) {
             $arguments = $this->requestArguments;
         }
 
@@ -465,13 +474,14 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         }
 
         $this->setConfigurationValue('offset', $offset);
+
         return $offset;
     }
 
     /**
      * Returns whether extended search should be used or not.
      *
-     * @return Boolean
+     * @return bool
      */
     public function isExtendedSearch()
     {
@@ -479,7 +489,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
-            $result = ($this->requestArguments['extended'] == true);
+            $result = (true == $this->requestArguments['extended']);
         } else {
             // Show extended search when any of the »extended« fields are used.
             if (array_key_exists('q', $this->requestArguments)) {
@@ -504,6 +514,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * These search strings need to be ANDed together for the complete query.
      *
      * @param array $queryParameters
+     *
      * @return array
      */
     protected function queryComponentsForQueryParameters($queryParameters)
@@ -570,17 +581,17 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     }
                 }
                 if (!$queryFormat) {
-                    $queryFormat = $fieldID . ':%s';
+                    $queryFormat = $fieldID.':%s';
                 }
 
                 ksort($queryTerms);
 
                 if ($this->settings['features']['eDisMax']) {
-                    $queryPart = '_query_:{!edismax}' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
+                    $queryPart = '_query_:{!edismax}'.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
                             $queryTerms));
                     $queryPart = str_replace('"', '', $queryPart);
                 } else {
-                    $queryPart = '_query_:' . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
+                    $queryPart = '_query_:'.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
                             $queryTerms));
                 }
 
@@ -595,7 +606,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         }
 
         // Ask for all results if there is no query.
-        if (count($queryComponents) === 0) {
+        if (0 === count($queryComponents)) {
             $queryComponents[] = $this->settings['defaultQuery'];
         }
 
@@ -668,7 +679,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
                 $queryComponents = [];
                 foreach ($queryWords as $queryWord) {
-                    $queryComponents[] = '(' . sprintf($highlightConfig['query'], $queryWord) . ')';
+                    $queryComponents[] = '('.sprintf($highlightConfig['query'], $queryWord).')';
                 }
                 $queryString = implode(' OR ', $queryComponents);
 
@@ -710,12 +721,12 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
             $sortCriteria = explode(',', $sortString);
             foreach ($sortCriteria as $sortCriterion) {
                 $sortCriterionParts = explode(' ', $sortCriterion);
-                if (count($sortCriterionParts) === 2) {
+                if (2 === count($sortCriterionParts)) {
                     $sortDirection = Query::SORT_ASC;
-                    if ($sortCriterionParts[1] === 'desc') {
+                    if ('desc' === $sortCriterionParts[1]) {
                         $sortDirection = Query::SORT_DESC;
                     } else {
-                        if ($sortCriterionParts[1] !== 'asc') {
+                        if ('asc' !== $sortCriterionParts[1]) {
                             $message = sprintf('find: sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.',
                                 $sortCriterion, $sortCriterionParts[1]);
                             LoggerUtility::logWarning($message);
@@ -734,7 +745,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Main starting point for blank index action
+     * Main starting point for blank index action.
      *
      * @return array
      */
@@ -751,7 +762,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 'find: Solr Exception (Timeout?)',
                 [
                     'requestArguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception)
+                    'exception' => LoggerUtility::exceptionToArray($exception),
                 ]
             );
 
@@ -760,7 +771,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
         return [
             'results' => $resultSet,
-            'error' => $error
+            'error' => $error,
         ];
     }
 
@@ -780,7 +791,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         }
 
         $queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
-        $queryString = implode(' ' . Query::QUERY_OPERATOR_AND . ' ', $queryComponents);
+        $queryString = implode(' '.Query::QUERY_OPERATOR_AND.' ', $queryComponents);
         $this->query->setQuery($queryString);
 
         $this->setConfigurationValue('query', $queryParameters);
@@ -834,7 +845,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
     /**
      * Creates a blank query, sets up TypoScript filters and adds it to the view.
-     *
      */
     protected function createQuery()
     {
@@ -854,10 +864,11 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     {
         if (!empty($this->settings['additionalFilters'])) {
             foreach ($this->settings['additionalFilters'] as $key => $filterQuery) {
-                $this->query->createFilterQuery('additionalFilter-' . $key)
+                $this->query->createFilterQuery('additionalFilter-'.$key)
                     ->setQuery($filterQuery);
             }
         }
+
         return $this;
     }
 
@@ -904,7 +915,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $this->setConfigurationValue('resultCountOptions', $resultCountOptions);
     }
 
-
     /**
      * Sets up $query’s sort order from URL arguments or the TypoScript default.
      *
@@ -918,7 +928,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         } else {
             if (!empty($this->settings['sort'])) {
                 foreach ($this->settings['sort'] as $sortSetting) {
-                    if ($sortSetting['id'] === 'default') {
+                    if ('default' === $sortSetting['id']) {
                         $sortString = $sortSetting['sortCriteria'];
                         break;
                     }
@@ -949,7 +959,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
             ksort($this->settings['sort']);
             foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
                 if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
-                    $localisationKey = 'LLL:' . $this->settings['languageRootPath'] . 'locallang-form.xml:input.sort-' . $sortOption['id'];
+                    $localisationKey = 'LLL:'.$this->settings['languageRootPath'].'locallang-form.xml:input.sort-'.$sortOption['id'];
                     $localisedLabel = LocalizationUtility::translate(
                         $localisationKey,
                         $this->getControllerExtensionKey()
@@ -959,7 +969,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     }
                     $sortOptions['menu'][$sortOption['sortCriteria']] = $localisedLabel;
 
-                    if ($sortOption['id'] === 'default') {
+                    if ('default' === $sortOption['id']) {
                         $sortOptions['default'] = $sortOption['sortCriteria'];
                     }
                 } else {
@@ -968,7 +978,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     LoggerUtility::logWarning(
                         $message,
                         [
-                            'sortOption' => $sortOption
+                            'sortOption' => $sortOption,
                         ]
                     );
                 }
@@ -1051,6 +1061,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
     /**
      * @return array
+     *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function getDetail()
@@ -1084,6 +1095,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     /**
      * @param $id
      * @param $assignments
+     *
      * @return mixed
      */
     protected function getTheRecordSpecified($id, $assignments)
@@ -1092,7 +1104,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
 
         $this->createQuery();
         $escapedID = $this->query->getHelper()->escapeTerm($id);
-        $this->query->setQuery('id:' . $escapedID);
+        $this->query->setQuery('id:'.$escapedID);
         try {
             /** @var \Solarium\Core\Query\Result\ResultInterface $selectResults */
             $selectResults = $connection->execute($this->query);
@@ -1111,10 +1123,11 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 $message,
                 [
                     'arguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception)
+                    'exception' => LoggerUtility::exceptionToArray($exception),
                 ]
             );
         }
+
         return $assignments;
     }
 
@@ -1123,6 +1136,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      * @param array $index
      * @param $id
      * @param $arguments
+     *
      * @return mixed
      */
     protected function getRecordsWithUnderlyingQuery($assignments, $index, $id, $arguments)
@@ -1140,7 +1154,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 $document = $resultSet[$index['resultIndexOffset']];
                 if ($document['id'] === $id) {
                     $assignments['document'] = $document;
-                    if ($index['resultIndexOffset'] !== 0) {
+                    if (0 !== $index['resultIndexOffset']) {
                         $assignments['document-previous'] = $resultSet[0];
                         $assignments['document-previous-number'] = $index['previousIndex'] + 1;
                     }
@@ -1164,10 +1178,11 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 $message,
                 [
                     'arguments' => $arguments,
-                    'exception' => LoggerUtility::exceptionToArray($exception)
+                    'exception' => LoggerUtility::exceptionToArray($exception),
                 ]
             );
         }
+
         return $assignments;
     }
 }

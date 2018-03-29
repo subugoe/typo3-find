@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 
 /*******************************************************************************
@@ -34,6 +35,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * @param $items
+     *
      * @return string
      */
     public function renderItems($items)
@@ -50,16 +52,15 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
 
             // loop over predicates
             foreach ($subjectStatements as $predicate => $objects) {
-
                 // loop over objects
                 foreach ($objects as $object => $properties) {
                     $predicateElement = $doc->createElement($this->prefixedName($predicate));
                     $subjectDescription->appendChild($predicateElement);
 
-                    if ($properties === null) {
+                    if (null === $properties) {
                         $objectParts = explode(':', $object, 2);
-                        if ($this->prefixes[$objectParts[0]] && count($objectParts) === 2) {
-                            $object = $this->prefixes[$objectParts[0]] . $objectParts[1];
+                        if ($this->prefixes[$objectParts[0]] && 2 === count($objectParts)) {
+                            $object = $this->prefixes[$objectParts[0]].$objectParts[1];
                         }
                         $predicateElement->setAttribute($this->prefixedName('rdf:resource'),
                             $this->prefixedName($object, true));
@@ -85,17 +86,19 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
         // Add the prefixes that are used as xmlns.
         foreach (array_keys($this->usedPrefixes) as $prefix) {
             if ($this->prefixes[$prefix]) {
-                $doc->firstChild->setAttribute('xmlns:' . $prefix, $this->prefixes[$prefix]);
+                $doc->firstChild->setAttribute('xmlns:'.$prefix, $this->prefixes[$prefix]);
             }
         }
 
         $doc->formatOutput = true;
+
         return $doc->saveXML();
     }
 
     /**
      * @param $name
      * @param bool $expand
+     *
      * @return string
      */
     protected function prefixedName($name, $expand = false)
@@ -104,7 +107,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
         if ($this->prefixes[$nameParts[0]]) {
             $this->usedPrefixes[$nameParts[0]] = true;
             if ($expand && count($nameParts) > 1) {
-                $name = $this->prefixes[$nameParts[0]] . $nameParts[1];
+                $name = $this->prefixes[$nameParts[0]].$nameParts[1];
             }
         }
 

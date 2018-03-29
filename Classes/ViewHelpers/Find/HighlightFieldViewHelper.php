@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /*******************************************************************************
@@ -73,7 +74,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         if ($this->arguments['document']) {
             $fields = $this->arguments['document']->getFields();
             $fieldContent = $fields[$this->arguments['field']];
-            if ($this->arguments['index'] !== null) {
+            if (null !== $this->arguments['index']) {
                 if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
                     $fieldContent = $fieldContent[$this->arguments['index']];
                 } else {
@@ -83,6 +84,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
 
             return $this->highlightField($fieldContent);
         }
+
         return '';
     }
 
@@ -91,6 +93,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      * by \ueeee and \ueeef.
      *
      * @param array|string $fieldContent content of the field to highlight
+     *
      * @return array|string
      */
     protected function highlightField($fieldContent)
@@ -137,8 +140,9 @@ class HighlightFieldViewHelper extends AbstractViewHelper
     /**
      * Returns $fieldString with highlighted areas enclosed by \ueeee and \ueeef.
      *
-     * @param string $fieldString the string to highlight
-     * @param array $highlightInfo information provided by the index’ highlighter
+     * @param string $fieldString   the string to highlight
+     * @param array  $highlightInfo information provided by the index’ highlighter
+     *
      * @return string
      */
     protected function highlightSingleField($fieldString, $highlightInfo)
@@ -147,7 +151,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
 
         foreach ($highlightInfo as $highlightItem) {
             $highlightItemStripped = str_replace(['\ueeee', '\ueeef'], ['', ''], $highlightItem);
-            if (strpos($fieldString, $highlightItemStripped) !== null) {
+            if (null !== strpos($fieldString, $highlightItemStripped)) {
                 // HTML escape the text here if not explicitly configured to not do so.
                 // Use f:format.raw in the template to avoid double escaping the HTML tags.
                 if (!$this->arguments['raw']) {
@@ -164,7 +168,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         }
 
         // If no highlighted string is present, use the original one.
-        if ($result === null) {
+        if (null === $result) {
             if ($this->arguments['raw']) {
                 $result = $fieldString;
             } else {

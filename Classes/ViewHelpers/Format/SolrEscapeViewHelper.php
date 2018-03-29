@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Format;
 
 /*******************************************************************************
@@ -50,7 +51,7 @@ class SolrEscapeViewHelper extends AbstractViewHelper
     public function render()
     {
         $string = $this->arguments['string'];
-        if ($string === null) {
+        if (null === $string) {
             $string = $this->renderChildren();
         }
 

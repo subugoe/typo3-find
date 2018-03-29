@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\Utility;
 
 /* * *************************************************************
@@ -29,7 +30,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Utility for logging purposes
+ * Utility for logging purposes.
  */
 class LoggerUtility
 {
@@ -37,6 +38,7 @@ class LoggerUtility
      * Returns an array that can be handled by devLog with the information from an exception.
      *
      * @param \Exception $exception
+     *
      * @return array
      */
     public static function exceptionToArray($exception, $includePrevious = false)
@@ -46,7 +48,7 @@ class LoggerUtility
             'code' => $exception->getCode(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
-            'trace' => $exception->getTraceAsString()
+            'trace' => $exception->getTraceAsString(),
         ];
 
         if ($includePrevious) {
@@ -59,8 +61,8 @@ class LoggerUtility
     /**
      * Logs errors to both flashMessages and devLog.
      *
-     * @param string $message the message to display
-     * @param array $extraInfo additional data to pass to devLog
+     * @param string $message   the message to display
+     * @param array  $extraInfo additional data to pass to devLog
      */
     public static function logError($message, $extraInfo = null)
     {
