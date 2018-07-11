@@ -93,7 +93,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $this->query = $this->getConnection()->createSuggester();
         $results = [];
         if (array_key_exists('q', $arguments)) {
-            // appwerft: ['q'] was missing:
             $this->query->setQuery($arguments['q']);
             if ($arguments['dictionary']) {
                 $this->query->setDictionary($arguments['dictionary']);
