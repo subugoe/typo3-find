@@ -915,7 +915,7 @@ depending on the `id` s used for fields and facets.
 Prerequisites
 -------------
 
--   TYPO3 6.2 or higher
+-   TYPO3 7.6 or higher
 -   PHP 5.5 or higher
 
 Contact
