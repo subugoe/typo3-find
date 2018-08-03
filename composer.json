@@ -30,7 +30,8 @@
   },
   "require-dev": {
     "solarium/solarium": "~3.3",
-    "phpunit/phpunit": "~4.6"
+    "phpunit/phpunit": "~4.6",
+    "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0"
   },
   "config": {
     "vendor-dir": ".Build/vendor",

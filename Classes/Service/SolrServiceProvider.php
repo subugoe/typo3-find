@@ -208,7 +208,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         foreach ($activeFacets as $facetID => $facets) {
             foreach ($facets as $facetTerm => $facetInfo) {
                 $facetQuery = $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
-                if ($facetInfo['config']['queryStyle'] === 'and') {
+                if ('and' === $facetInfo['config']['queryStyle']) {
                     // TODO: Do we really use this part of the condition? Can it be removed?
                     // Alternative query style: adding a conjunction to the main query.
                     // Can be useful when using {!join} to filter on the underlying
