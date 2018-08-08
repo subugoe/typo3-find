@@ -527,9 +527,8 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 // c) single field with additional configuration (e.g. text field with alternate query)
                 $queryArguments = $queryParameters[$fieldID];
                 $queryAlternate = null;
-                if (is_array($queryArguments) && array_key_exists('alternate',
-                        $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
-                ) {
+                $queryTerms = null;
+                if (is_array($queryArguments) && array_key_exists('alternate', $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)) {
                     $queryAlternate = $queryArguments['alternate'];
                     if (array_key_exists('term', $queryArguments)) {
                         $queryTerms = $queryArguments['term'];
@@ -558,17 +557,20 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 // Escape all arguments unless told not to do so.
                 if (!$fieldInfo['noescape']) {
                     $escapedQueryTerms = [];
-                    foreach ($queryTerms as $key => $term) {
-                        if ($fieldInfo['phrase']) {
-                            $escapedQueryTerms[$key] = $this->query->getHelper()->escapePhrase($term);
-                        } else {
-                            $escapedQueryTerms[$key] = $this->query->getHelper()->escapeTerm($term);
+                    if (is_array($queryTerms) && $queryTerms !== []) {
+                        foreach ($queryTerms as $key => $term) {
+                            if ($fieldInfo['phrase']) {
+                                $escapedQueryTerms[$key] = $this->query->getHelper()->escapePhrase($term);
+                            } else {
+                                $escapedQueryTerms[$key] = $this->query->getHelper()->escapeTerm($term);
+                            }
                         }
+                        $queryTerms = $escapedQueryTerms;
                     }
-                    $queryTerms = $escapedQueryTerms;
                 }
 
                 // Get the query format and insert the query term.
+                $queryFormat = '';
                 if (!$queryAlternate) {
                     $queryFormat = $fieldInfo['query'];
                 } else {
@@ -576,7 +578,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $queryFormat = $fieldInfo['queryAlternate'][$queryAlternate];
                     }
                 }
-                if (!$queryFormat) {
+                if (empty($queryFormat)) {
                     $queryFormat = $fieldID.':%s';
                 }
 
@@ -590,11 +592,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 }
 
                 if ($queryPart) {
-                    if (is_array($queryParameters[$fieldID]) && empty($queryParameters[$fieldID]['term'])) {
-                        // TODO some handling
-                    } else {
-                        $queryComponents[$fieldID] = $queryPart;
-                    }
+                    $queryComponents[$fieldID] = $queryPart;
                 }
             }
         }
@@ -631,11 +629,10 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $fieldID = $fieldInfo['id'];
                         if ($fieldID && $queryParameters[$fieldID]) {
                             $queryArguments = $queryParameters[$fieldID];
-                            $queryAlternate = null;
+                            $queryTerms = null;
                             if (is_array($queryArguments) && array_key_exists('alternate',
                                     $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
-                                $queryAlternate = $queryArguments['alternate'];
                                 if (array_key_exists('term', $queryArguments)) {
                                     $queryTerms = $queryArguments['term'];
                                 }
@@ -777,13 +774,26 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $this->createQuery();
 
         // Build query string.
-        $queryParameters = [];
+        $rawQueryParameters = [];
         if (array_key_exists('q', $arguments)) {
-            $queryParameters = $arguments['q'];
+            $rawQueryParameters = $arguments['q'];
+        }
+
+        // Process parameters to eliminate empty values
+        $queryParameters = [];
+        if (is_array($rawQueryParameters) && $rawQueryParameters !== []) {
+            foreach ($rawQueryParameters as $key => $value) {
+                if (is_array($value) && count(array_filter($value)) > 0) {
+                    $queryParameters[$key] = array_filter($value);
+                } elseif (!empty($value) && !is_array($value)) {
+                    $queryParameters[$key] = $value;
+                }
+            }
         }
 
         $queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
         $queryString = implode(' '.Query::QUERY_OPERATOR_AND.' ', $queryComponents);
+
         $this->query->setQuery($queryString);
 
         $this->setConfigurationValue('query', $queryParameters);
@@ -1097,10 +1107,10 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $escapedID = $this->query->getHelper()->escapeTerm($id);
         $this->query->setQuery('id:'.$escapedID);
         try {
-            /** @var \Solarium\Core\Query\Result\ResultInterface $selectResults */
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
-            if (count($selectResults) > 0) {
+            if ($selectResults->getNumFound() > 0) {
                 $assignments['results'] = $selectResults;
                 $resultSet = $selectResults->getDocuments();
                 $assignments['document'] = $resultSet[0];
@@ -1133,9 +1143,10 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         try {
-            /** @var \Solarium\Core\Query\Result\ResultInterface $selectResults */
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
             $selectResults = $connection->execute($this->query);
-            if (count($selectResults) > 0) {
+
+            if ($selectResults->getNumFound() > 0) {
                 $assignments['results'] = $selectResults;
                 $resultSet = $selectResults->getDocuments();
 
