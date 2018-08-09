@@ -1,5 +1,4 @@
-Find
-====
+# Find
 
 [![image](https://travis-ci.org/subugoe/typo3-find.svg?branch=travis)](https://travis-ci.org/subugoe/typo3-find)
 
@@ -12,14 +11,12 @@ display through Fluid templates. Partials for standard display features
 as well as a number of View Helpers that help creating those templates
 are included in the extension.
 
-Installation
-------------
+## Installation
 
 For developing this extension clone this repository and install the
 dependencies via composer with `composer install`.
 
-Aims
-----
+## Aims
 
 The extensions aims are to provide:
 
@@ -27,8 +24,7 @@ The extensions aims are to provide:
 -   minimal configuration for a basic display
 -   rich templating abilities for creating complex displays
 
-Basic Example
--------------
+## Basic Example
 
 For the most basic example you need to:
 
@@ -97,8 +93,7 @@ There are many more TypoScript configuration options. Please refer to
 the rest of this document and the example configurations provided in the
 `Projects` folder to learn about them.
 
-Example projects
-----------------
+## Example projects
 
 A few example projects can be found on github. While you do not have the
 Solr indexes they are made for, they may give you an idea what more
@@ -146,8 +141,7 @@ subset of the folders / files existing)
 -   Language: localisation files or symlinks to the extension’s localisation files
 -   Resources: JavaScript, CSS, images used by the project’s templates and partials
 
-TypoScript configuration options
---------------------------------
+## TypoScript configuration options
 
 All settings discussed in this section are inside the
 `plugin.tx_find.settings` array of the TypoScript configuration.
@@ -839,8 +833,7 @@ Please refer to the initial comments in those files for the conventions
 used to create the localisation keys based on the `id` s of the
 respective query fields, facets or fields.
 
-Templating
-----------
+## Templating
 
 You probably want to create your own templates and partials to tailor
 the display of your search results for your index content. To do that
@@ -857,8 +850,7 @@ Most of the View Helpers come with usage examples in the `Test` partial
 of the `test` project and appear on its start page (the search interface
 appears after those examples) once you have it set up.
 
-Actions
--------
+## Actions
 
 The extension provides three actions:
 
@@ -867,8 +859,7 @@ The extension provides three actions:
     triggered if the `id` argument is present)
 - `suggest`: used for the autocomplete setup of Text query fields
 
-Data export
------------
+## Data export
 
 Creating data exports requires the following setup:
 
@@ -894,8 +885,7 @@ Creating data exports requires the following setup:
 Example output formats, e.g. for JSON, are available in the extension.
 The germania-sacra project contains additional ones.
 
-Query String Arguments
-----------------------
+## Query String Arguments
 
 The plug-in’s query parameters are of the form
 `tx_find_find[parameterName]`.
@@ -941,8 +931,7 @@ can be found under the component-key `find` in the TYPO3 log, i.e.:
 
 `06 Jun 2016 06:36:06 +0000 [ERROR] request="e2737b83ada7d" component="find": Solr Exception (Timeout?)`
 
-RealURL
--------
+## RealURL
 
 The extension includes a hook for RealURL autoconfiguration. It mainly
 handles the parameter name for the detail view by using a
@@ -952,8 +941,7 @@ URLs for queries and faceting are not prettified and – if required –
 will need to be manually configured due to the query parameter names
 depending on the `id` s used for fields and facets.
 
-Prerequisites
--------------
+## Prerequisites
 
 - TYPO3 7.6 or higher
 - PHP 5.5 or higher
