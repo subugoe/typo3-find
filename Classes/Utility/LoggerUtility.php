@@ -26,7 +26,8 @@ namespace Subugoe\Find\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -56,34 +57,5 @@ class LoggerUtility
         }
 
         return $array;
-    }
-
-    /**
-     * Logs errors to both flashMessages and devLog.
-     *
-     * @param string $message   the message to display
-     * @param array  $extraInfo additional data to pass to devLog
-     */
-    public static function logError($message, $extraInfo = null)
-    {
-        GeneralUtility::devLog($message, 'find', FlashMessage::ERROR, $extraInfo);
-    }
-
-    /**
-     * @param $message
-     * @param array $extraInfo
-     */
-    public static function logWarning($message, $extraInfo = null)
-    {
-        GeneralUtility::devLog($message, 'find', FlashMessage::WARNING, $extraInfo);
-    }
-
-    /**
-     * @param $message
-     * @param array $extraInfo
-     */
-    public static function logInfo($message, $extraInfo = null)
-    {
-        GeneralUtility::devLog($message, 'find', FlashMessage::INFO, $extraInfo);
     }
 }

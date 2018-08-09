@@ -33,6 +33,7 @@ use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -129,10 +130,9 @@ class SearchController extends ActionController
             $this->view->assign('arguments', $arguments);
         } else {
             // id argument missing or empty
-            LoggerUtility::logError(
-                'find: Non-empty argument »id« is required for action »detail«.',
-                ['arguments' => $arguments]
-            );
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
+            $logger->error('Non-empty argument »id« is required for action »detail«.', ['arguments' => $arguments]);
+
             $this->forward('index');
         }
     }
