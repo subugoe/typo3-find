@@ -901,6 +901,13 @@ the data action.
     the POST body when `paging.detailPagePaging` is turned on; it may
     contain the keys `q`, `facet`, `position`, `count` and `sort`.
 
+### Logging
+
+The [TYPO3 Log Manager](https://docs.typo3.org/typo3cms/CoreApiReference/7.6/ApiOverview/Logging/Index.html) is used. If no special configuration for the find-logging is applied, log entries 
+can be found under the component-key `find` in the TYPO3 log, i.e.:
+
+`06 Jun 2016 06:36:06 +0000 [ERROR] request="e2737b83ada7d" component="find": Solr Exception (Timeout?)`
+
 RealURL
 -------
 
