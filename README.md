@@ -37,22 +37,23 @@ For the most basic example you need to:
 3.  configure your index information in the TypoScript template for that
     page. At minimum you should set the address of your default Solr
     index and the fields to display in the result list:
-
-        plugin.tx_find.settings {
-            connections {
-                default {
-                    options {
-                        host = solr.local
-                        port = 8080
-                        path = /solr/myIndex
-                    }
+    ```
+    plugin.tx_find.settings {
+        connections {
+            default {
+                options {
+                    host = solr.local
+                    port = 8080
+                    path = /solr/myIndex
                 }
             }
-            standardFields {
-                title = title
-                snippet = publisher
-            }
         }
+        standardFields {
+            title = title
+            snippet = publisher
+        }
+    }
+    ```
 
     With this setup, find will give you a search form for your index’
     default search field and display a result list with the document’s
@@ -63,33 +64,34 @@ For the most basic example you need to:
 
 4.  you can then add facets for text fields and numeric range selection,
     e.g.:
-
-        plugin.tx_find.settings {
-            facets {
-                10 {
-                    id = format
-                    field = format
-                }
-                20 {
-                    id = year
-                    type = Histogram
-                    field = publishDateSort
-                }
+    ```
+    plugin.tx_find.settings {
+        facets {
+            10 {
+                id = format
+                field = format
+            }
+            20 {
+                id = year
+                type = Histogram
+                field = publishDateSort
             }
         }
-
+    }
+    ```
 5.  additional query fields for an extended search option can also be
     added:
-
-        plugin.tx_find.settings {
-            queryFields {
-                10 {
-                    id = title
-                    type = Text
-                    extended = 1
-                }
+    ```
+    plugin.tx_find.settings {
+        queryFields {
+            10 {
+                id = title
+                type = Text
+                extended = 1
             }
         }
+    }
+    ```
 
 There are many more TypoScript configuration options. Please refer to
 the rest of this document and the example configurations provided in the
@@ -103,23 +105,22 @@ Solr indexes they are made for, they may give you an idea what more
 elaborate configurations may look like and how their templates are set
 up. The projects are:
 
--   [gbv](https://github.com/subugoe/typo3-find-gbv): basic
+- [gbv](https://github.com/subugoe/typo3-find-gbv): basic
     configuration for a big library index with multiple search fields
     and facets but without customised display
--   hans: simple configuration for a smaller library index with multiple
+- hans: simple configuration for a smaller library index with multiple
     search fields, facets and mildly customised templates
--   [jfk-institut-zeitungen](https://github.com/subugoe/typo3-find-jfk-institut-zeitungen):
+- [jfk-institut-zeitungen](https://github.com/subugoe/typo3-find-jfk-institut-zeitungen):
     simple configuration with a single search field, a non-trivial facet
     and a custom template without detail view
--   [Edfu](https://github.com/subugoe/typo3-find-edfu): elaborate
+- [Edfu](https://github.com/subugoe/typo3-find-edfu): elaborate
     configuration with two search fields, two facets and highly
     customised display
--   [GermaniaSacra](https://github.com/subugoe/typo3-find-germania-sacra):
+- [GermaniaSacra](https://github.com/subugoe/typo3-find-germania-sacra):
     elaborate configuration with many search fields, facets, data
     export, complex queries and highly customised display
--   [test](https://github.com/subugoe/typo3-find-test): configuration to
-    demonstrate the settings of this Readme as well as the included View
-    Helpers
+- [test](https://github.com/subugoe/typo3-find-test): configuration to
+  demonstrate the settings of this Readme as well as the included View Helpers
 
 These projects are structured in a common way (with potentially only a
 subset of the folders / files existing)
@@ -129,29 +130,21 @@ subset of the folders / files existing)
     this is used as a scheme to link the extension’s partials and
     templates into the custom configuration so they can be used in the
     custom configuration
--   
+-   Templates/Search: typically some of these are symlinked to the originals:
+    -   Index.html and Detail.html for the display
+    -   Index.data and Detail.data for loading data
+    -   Suggest.data for autocomplete / suggest responses
 
-    Templates/Search: typically some of these are symlinked to the originals
+-   Partials: Contains symlinks to the folders inside the extension’s »Partials« folder. If the default partials are to be overridden, a an actual folder with partials can be placed here. You can also add your own partials / folder of partials here. The standard partials provided by the extension are in the folders:
+    -   Components: elements used to create the page
+    -   Display: create markup for fields in the document
+    -   Facets: create facets
+    -   Formats: various output formats used by the data format
+    -   Page: standard elements to add to the page
+    -   Pager: creates the pager for result lists
 
-    :   -   Index.html and Detail.html for the display
-        -   Index.data and Detail.data for loading data
-        -   Suggest.data for autocomplete / suggest responses
-
--   
-
-    Partials: Contains symlinks to the folders inside the extension’s »Partials« folder. If the default partials are to be overridden, a an actual folder with partials can be placed here. You can also add your own partials / folder of partials here. The standard partials provided by the extension are in the folders
-
-    :   -   Components: elements used to create the page
-        -   Display: create markup for fields in the document
-        -   Facets: create facets
-        -   Formats: various output formats used by the data format
-        -   Page: standard elements to add to the page
-        -   Pager: creates the pager for result lists
-
--   Language: localisation files or symlinks to the extension’s
-    localisation files
--   Resources: JavaScript, CSS, images used by the project’s templates
-    and partials
+-   Language: localisation files or symlinks to the extension’s localisation files
+-   Resources: JavaScript, CSS, images used by the project’s templates and partials
 
 TypoScript configuration options
 --------------------------------
@@ -177,21 +170,22 @@ configure access to the Solr index. It contains:
 -   `scheme` \[http\]: URI scheme of the connection
 
 1.  Example:
-
-        plugin.tx_find.settings {
-            connections {
-                default {
-                    provider = Subugoe\Find\Service\SolrServiceProvider
-                    options {
-                        host = 127.0.0.1
-                        port = 8080
-                        path = /solr/
-                        timeout = 5
-                        scheme = http
-                    }
+    ```
+    plugin.tx_find.settings {
+        connections {
+            default {
+                provider = Subugoe\Find\Service\SolrServiceProvider
+                options {
+                    host = 127.0.0.1
+                    port = 8080
+                    path = /solr/
+                    timeout = 5
+                    scheme = http
                 }
             }
         }
+    }
+    ```
 
 ### Solr Components
 
@@ -265,25 +259,27 @@ alternate query style.
 
 Examples:
 
-    plugin.tx_find.settings.queryFields {
-        10 {
-            id = name
-            type = Text
-        }
-        11 {
-            id = name2
-            type = Text
-            query = name:%1$s
-            queryAlternate.1 = name:%1$s~0.7
-            noescape = 1
-        }
-        12 {
-            id = name3
-            type = Text
-            autocomplete = 1
-            autocompleteDictionary = name
-        }
+```
+plugin.tx_find.settings.queryFields {
+    10 {
+        id = name
+        type = Text
     }
+    11 {
+        id = name2
+        type = Text
+        query = name:%1$s
+        queryAlternate.1 = name:%1$s~0.7
+        noescape = 1
+    }
+    12 {
+        id = name3
+        type = Text
+        autocomplete = 1
+        autocompleteDictionary = name
+    }
+}
+```
 
 #### Range
 
@@ -292,40 +288,46 @@ q.{fieldInfo.id}.0 and q.{fieldInfo.id}.1. This can be used with a query
 like `from:[* TO %2$s] AND to:[%1$s TO *]` if your index has `from` and
 `to` fields. E.g.:
 
-    plugin.tx_find.settings.queryFields.20 {
-        id = year
-        type = Range
-        query = from:[* TO %2$s] AND to:[%1$s TO *]
-        default.0 = *
-        default.1 = *
-    }
+```
+plugin.tx_find.settings.queryFields.20 {
+    id = year
+    type = Range
+    query = from:[* TO %2$s] AND to:[%1$s TO *]
+    default.0 = *
+    default.1 = *
+}
+```
 
 #### Hidden
 
 The Hidden field creates an input element of type `hidden` to pass
 additional parameters through the form. E.g.:
 
-    plugin.tx_find.settings.queryFields.30 {
-        id = hidden
-        type = Hidden
-        default = surprise
-    }
+```
+plugin.tx_find.settings.queryFields.30 {
+    id = hidden
+    type = Hidden
+    default = surprise
+}
+```
 
 #### Select
 
 The Select field creates a popup menu. The popup menu is set up using
 `options`, with the default selection‘s key in the `key`. E.g.:
 
-    plugin.tx_find.settings.queryFields.40 {
-        id = country
-        type = Select
-        options {
-            blank =
-            key = value
-            key2 = value2
-        }
-        default = key
+```
+plugin.tx_find.settings.queryFields.40 {
+    id = country
+    type = Select
+    options {
+        blank =
+        key = value
+        key2 = value2
     }
+    default = key
+}
+```
 
 #### SelectFacet
 
@@ -333,38 +335,42 @@ The SelectFacet field creates a popup menu using the data from a facet
 that has been loaded. For this to work the facet needs to have been
 configured and its `id` has to be set as the `facetID` parameter. E.g.:
 
-    plugin.tx_find.settings {
-        queryFields.50 {
-            id = status
-            type = SelectFacet
-            facetID = status
-            query = status_facet:%s
-        }
-        facets.50 {
-            id = status
-            field = status_facet
-            hidden = 1
-            fetchMinimum = 0
-        }
+```
+plugin.tx_find.settings {
+    queryFields.50 {
+        id = status
+        type = SelectFacet
+        facetID = status
+        query = status_facet:%s
     }
+    facets.50 {
+        id = status
+        field = status_facet
+        hidden = 1
+        fetchMinimum = 0
+    }
+}
+```
 
 #### Radio
 
 Creates radio buttons for the array set in the `options` array. E.g.:
 
-    plugin.tx_find.settings {
-        60 {
-            id = version
-            extended = 1
-            type = Radio
-            options {
-                1 = Steak
-                2 = Chicken
-                3 = Pancake
-            }
-            default = 2
+```
+plugin.tx_find.settings {
+    60 {
+        id = version
+        extended = 1
+        type = Radio
+        options {
+            1 = Steak
+            2 = Chicken
+            3 = Pancake
         }
+        default = 2
     }
+}
+```
 
 ### Default Display Fields
 
@@ -374,13 +380,14 @@ enable a simple initial configuration and should have many cases
 covered. If you need to display more complex information in the result
 list, that can be achieved by replacing the `Display/Result` partial or
 – the `Index` template.:
-
-    plugin.tx_find.settings {
-        standardFields {
-            title = title
-            snippet = detail
-        }
+```
+plugin.tx_find.settings {
+    standardFields {
+        title = title
+        snippet = detail
     }
+}
+```
 
 ### Default Query
 
@@ -388,9 +395,11 @@ By default all records in the index will be displayed when no search
 term is given: the query `*:*` is used for this. You can change this
 default query (e.g. to a query with no results):
 
-    plugin.tx_find.settings {
-        defaultQuery = *:*
-    }
+```
+plugin.tx_find.settings {
+    defaultQuery = *:*
+}
+```
 
 ### Facets
 
@@ -451,20 +460,22 @@ needed.
 
 Examples:
 
-    plugin.tx_find.settings.facets {
-        10 {
-            id = orden
-            field = orden_facet
-            autocomplete = 1
-        }
-        20 {
-            id = band
-            field = band_facet
-            sortOrder = index
-            displayDefault = 8
-            sortPrefixSeparator = ####
-        }
+```
+plugin.tx_find.settings.facets {
+    10 {
+        id = orden
+        field = orden_facet
+        autocomplete = 1
     }
+    20 {
+        id = band
+        field = band_facet
+        sortOrder = index
+        displayDefault = 8
+        sortPrefixSeparator = ####
+    }
+}
+```
 
 #### Tabs
 
@@ -484,35 +495,37 @@ currently selected.
 Example: a Tabs facet with facet queries for four specific document
 »typ« values, selecting the »formular« option by default:
 
-    plugin.tx_find.settings.facets {
-        30 {
-            id = typ
-            excludeOwnFilter = 1
-            type = Tabs
-            hidden = 1
-            selectedByDefault {
-                formular = 1
+```
+plugin.tx_find.settings.facets {
+    30 {
+        id = typ
+        excludeOwnFilter = 1
+        type = Tabs
+        hidden = 1
+        selectedByDefault {
+            formular = 1
+        }
+        facetQuery {
+            10 {
+                id = formular
+                query = typ:formular
             }
-            facetQuery {
-                10 {
-                    id = formular
-                    query = typ:formular
-                }
-                20 {
-                    id = wort
-                    query = typ:wort
-                }
-                30 {
-                    id = gott
-                    query = typ:gott
-                }
-                40 {
-                    id = ort
-                    query = typ:ort
-                }
+            20 {
+                id = wort
+                query = typ:wort
+            }
+            30 {
+                id = gott
+                query = typ:gott
+            }
+            40 {
+                id = ort
+                query = typ:ort
             }
         }
     }
+}
+```
 
 #### Histogram
 
@@ -529,16 +542,18 @@ way to visualise a »year« facet. You typically want a high
 
 Example:
 
-    plugin.tx_find.settings.facets {
-        40 {
-            id = decade
-            field = decade
-            type = Histogram
-            sortOrder = index
-            fetchMaximum = 1000
-            barWidth = 10
-        }
+```
+plugin.tx_find.settings.facets {
+    40 {
+        id = decade
+        field = decade
+        type = Histogram
+        sortOrder = index
+        fetchMaximum = 1000
+        barWidth = 10
     }
+}
+```
 
 #### Map
 
@@ -549,15 +564,17 @@ improved in many ways.)
 
 Example:
 
-    plugin.tx_find.settings.facets {
-        50 {
-            id = map
-            field = geohash
-            type = Map
-            sortOrder = index
-            fetchMaximum = 1000
-        }
+```
+plugin.tx_find.settings.facets {
+    50 {
+        id = map
+        field = geohash
+        type = Map
+        sortOrder = index
+        fetchMaximum = 1000
     }
+}
+```
 
 ### Sorting
 
@@ -572,12 +589,14 @@ order is added to the user interface.
 
 Example:
 
-    plugin.tx_find.settings.sort {
-        1 {
-            id = default
-            sortCriteria = year desc,name asc
-        }
+```
+plugin.tx_find.settings.sort {
+    1 {
+        id = default
+        sortCriteria = year desc,name asc
     }
+}
+```
 
 ### Paging
 
@@ -594,11 +613,13 @@ array you can set:
 
 Example:
 
-    plugin.tx_find.settings.paging {
-        perPage = 100
-        maximumPerPage = 1000
-        detailPagePaging = 1
-    }
+```
+plugin.tx_find.settings.paging {
+    perPage = 100
+    maximumPerPage = 1000
+    detailPagePaging = 1
+}
+```
 
 #### Detail Page Paging
 
@@ -627,9 +648,11 @@ search but `{!join}` them to other documents for display), you can add
 filter queries using the `additionalFilters` setting. The setting is an
 array with the filter queries as values:
 
-    plugin.tx_find.settings.additionalFilters {
-        1 = published:true
-    }
+```
+plugin.tx_find.settings.additionalFilters {
+    1 = published:true
+}
+```
 
 ### Choosing the fields to fetch
 
@@ -654,22 +677,24 @@ just be a number (e.g. use `f1` instead of `1`).
 Example configuration to only load minimal fields by default and load
 all fields for the `detail` and `data` actions:
 
-    plugin.tx_find.settings {
-        dataFields {
+```
+plugin.tx_find.settings {
+    dataFields {
+        default {
             default {
-                default {
-                    f0 = id
-                    f1 = kloster
-                }
+                f0 = id
+                f1 = kloster
             }
-            detail {
-                default {
-                    f0 = *
-                }
-            }
-            data < plugin.tx_find.settings.dataFields.detail
         }
+        detail {
+            default {
+                f0 = *
+            }
+        }
+        data < plugin.tx_find.settings.dataFields.detail
     }
+}
+```
 
 ### Highlighting
 
@@ -700,25 +725,27 @@ fields for the `detail` action. As it is used with `{!join}` queries,
 the terms from queries and facets are explicitly added again for
 highligh queries:
 
-    plugin.tx_find.settings.highlight {
-        default {
-            fields {
-                f1 = kloster
-            }
-            useQueryTerms = 1
-            useFacetTerms = 1
+```
+plugin.tx_find.settings.highlight {
+    default {
+        fields {
+            f1 = kloster
         }
-        detail {
-            fields {
-                f2 = patrozinium
-                f3 = ort
-                f4 = bistum
-                f5 = land
-                f6 = orden
-                f7 = bemerkung_kloster
-            }
+        useQueryTerms = 1
+        useFacetTerms = 1
+    }
+    detail {
+        fields {
+            f2 = patrozinium
+            f3 = ort
+            f4 = bistum
+            f5 = land
+            f6 = orden
+            f7 = bemerkung_kloster
         }
     }
+}
+```
 
 ### Linking to data fields
 
@@ -737,19 +764,21 @@ for creating those queries.
 
 Example:
 
-    plugin.tx_find.settings {
-        queryFields {
-            100 {
-                id = city
-                type = Text
-                hidden = 1
-                phrase = 1
-            }
-
-        queryFieldForDataField {
-            city = city
+```
+plugin.tx_find.settings {
+    queryFields {
+        100 {
+            id = city
+            type = Text
+            hidden = 1
+            phrase = 1
         }
+
+    queryFieldForDataField {
+        city = city
     }
+}
+```
 
 ### Jumping to the content
 
@@ -760,7 +789,7 @@ page’s head. You can remove the anchor to jump to or pick another one on
 your page (e.g. to leave site navigation visible) with the `jumpToID`
 setting:
 
-    plugin.tx_find.settings.jumpToID = menu
+`plugin.tx_find.settings.jumpToID = menu`
 
 ### JavaScript and CSS resources
 
@@ -769,20 +798,24 @@ to configure JavaScript and CSS files to be added to the page. The
 default setup configures files at positions `10` and `20` of `CSSPaths`
 and at position `10` of `JSPaths`. E.g.:
 
-    plugin.tx_find.settings {
-        CSSPaths.30 = EXT:find/Projects/test/Resources/test.css
-        JSPaths.20 = EXT:find/Projects/test/Resources/test.js
-    }
+```
+plugin.tx_find.settings {
+    CSSPaths.30 = EXT:find/Projects/test/Resources/test.css
+    JSPaths.20 = EXT:find/Projects/test/Resources/test.js
+}
+```
 
 jQuery has to be included manually on your TypoScript `PAGE`-object of
 choice. Example:
 
-    page.includeJSFooterlibs.jquery = https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
-    page.includeJSFooterlibs.jquery.external = 1
-    page.includeJSFooterlibs.jquery.integrity = sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=
-    page.includeJSFooterlibs.jqueryUi = https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js
-    page.includeJSFooterlibs.jqueryUi.external = 1
-    page.includeJSFooterlibs.jqueryUi.integrity = sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=
+```
+page.includeJSFooterlibs.jquery = https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
+page.includeJSFooterlibs.jquery.external = 1
+page.includeJSFooterlibs.jquery.integrity = sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=
+page.includeJSFooterlibs.jqueryUi = https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js
+page.includeJSFooterlibs.jqueryUi.external = 1
+page.includeJSFooterlibs.jqueryUi.integrity = sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=
+```
 
 ### Localisation
 
@@ -792,15 +825,15 @@ when accessing their localisation files. As with the partials and
 templates it can be handy to symlink some of the default localisation
 files and just override or add the additional terminology you need:
 
-    plugin.tx_find.settings.languageRootPath = EXT:find/Projects/test/Language/
+`plugin.tx_find.settings.languageRootPath = EXT:find/Projects/test/Language/`
 
 Localisation files used by the included partials are:
 
--   locallang.xml: general terminology for the search interface (the
+- locallang.xml: general terminology for the search interface (the
     default file)
--   locallang-form.xml: labels and placeholders for the search form
--   locallang-facets.xml: facet names and facet item names
--   locallang-fields.xml: field labels
+- locallang-form.xml: labels and placeholders for the search form
+- locallang-facets.xml: facet names and facet item names
+- locallang-fields.xml: field labels
 
 Please refer to the initial comments in those files for the conventions
 used to create the localisation keys based on the `id` s of the
@@ -829,10 +862,10 @@ Actions
 
 The extension provides three actions:
 
--   `index`: the default action that performs searches
--   `detail`: the action to display a single document (automatically
+- `index`: the default action that performs searches
+- `detail`: the action to display a single document (automatically
     triggered if the `id` argument is present)
--   `suggest`: used for the autocomplete setup of Text query fields
+- `suggest`: used for the autocomplete setup of Text query fields
 
 Data export
 -----------
@@ -841,17 +874,17 @@ Creating data exports requires the following setup:
 
 -   set up a TYPO3 page type without HTML and the MIME Type you need;
     the extension provides type `1369315139` one for JSON:
-
-        tx_find_page = PAGE
-        tx_find_page {
-            typeNum = 1369315139
-            10 < tt_content.list.20.find_find
-            config {
-                disableAllHeaderCode = 1
-                additionalHeaders = Content-type:application/json;charset=utf-8
-            }
+    ```
+    tx_find_page = PAGE
+    tx_find_page {
+        typeNum = 1369315139
+        10 < tt_content.list.20.find_find
+        config {
+            disableAllHeaderCode = 1
+            additionalHeaders = Content-type:application/json;charset=utf-8
         }
-
+    }
+    ```
 -   create a link with `f:link.action` using the `pageType` you need,
     `format="data"` and add the argument `data-format` with the name of
     the format you want to the query
@@ -871,17 +904,17 @@ The plug-in’s query parameters are of the form
 
 Built-in parameter names are
 
--   `id`: the Solr document ID of the document to show in the detail
+- `id`: the Solr document ID of the document to show in the detail
     action; having the id argument will always trigger the detail action
--   `q`: for the query; this is an array with keys the queryField IDs,
+- `q`: for the query; this is an array with keys the queryField IDs,
     e.g. `tx_find_find[q][default]=term`; some query field types (e.g.
     Range) use an array as their value to cover both their input values
--   `facet`: for selected facets; this is an array with keys the facet
+- `facet`: for selected facets; this is an array with keys the facet
     IDs, and values arrays; those arrays have keys the facet term and
     value 1, e.g. `tx_find_find[facet][typ][formular]=1`
--   `page`: the page of results to show (1-based)
--   `extended`: whether to show the extended search form
--   `sort`: the sort order to use
+- `page`: the page of results to show (1-based)
+- `extended`: whether to show the extended search form
+- `sort`: the sort order to use
 
 ### Special arguments
 
@@ -889,11 +922,11 @@ These arguments are not typically exposed but can be useful when
 providing data exports through the extension, specifically when using
 the data action.
 
--   `start`: the document index to start at in the result set
--   `count`: the number of documents to ask Solr for (limited by the
-    `paging.maximumPerPage` setting)
--   `data-format`: when using the `data` format, this file in
-    `Partials/Formats` will be used to create the output
+- `start`: the document index to start at in the result set
+- `count`: the number of documents to ask Solr for (limited by the
+  `paging.maximumPerPage` setting)
+- `data-format`: when using the `data` format, this file in
+  `Partials/Formats` will be used to create the output
 
 ### POST arguments
 
@@ -922,14 +955,14 @@ depending on the `id` s used for fields and facets.
 Prerequisites
 -------------
 
--   TYPO3 7.6 or higher
--   PHP 5.5 or higher
+- TYPO3 7.6 or higher
+- PHP 5.5 or higher
 
 Contact
 -------
 
--   [Sven-S. Porst](https://github.com/ssp/), SUB Göttingen
--   [Ingo Pfennigstorf](https://github.com/ipf/), SUB Göttingen
+- [Sven-S. Porst](https://github.com/ssp/)
+- [Ingo Pfennigstorf](https://github.com/ipf/), SUB Göttingen
 
 Acknowledgements
 ----------------
