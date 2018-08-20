@@ -12,471 +12,456 @@ $tabSelected: #263476;
 
 .tx_find {
 
-	.clear {
-		clear: both;
-		display: block;
-		overflow: hidden;
-		visibility: hidden;
-		width: 0;
-		height: 0;
-	}
+    .clear {
+        clear: both;
+        display: block;
+        overflow: hidden;
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
 
-	.hidden {
-		display: none;
-	}
+    .hidden {
+        display: none;
+    }
 
-	article.detail {
-		clear: both;
-	}
+    article.detail {
+        clear: both;
+    }
 
-	em.highlight {
-		font-weight: bold;
-		color: $highlight;
-	}
+    em.highlight {
+        font-weight: bold;
+        color: $highlight;
+    }
 
+    /* error message */
 
-	/* error message */
-	
-	section.error {
-		margin-bottom: 1em;
-		padding: 1em;
-		border: 2px solid red;
-	}
-	
-	/* search form */
+    section.error {
+        margin-bottom: 1em;
+        padding: 1em;
+        border: 2px solid red;
+    }
 
-	form {
-		$borderA1: #b3b3b3;
-		$borderA2: #d2d2d2;
-		$backgroundA: #f3f5f9;
-		$textA: #333;
-		$borderB1: #d4d4d4;
-		$borderB2: #b4b4b4;
-		$backgroundB: #f3f6fb;
-		$backgroundBActive: #e7e9ed;
-		$textB: #555;
-		
-		
-		position: relative;
-		line-height: 150%;
+    /* search form */
 
-		.formFields {
-			float: left;
-		}
+    form {
+        $borderA1: #b3b3b3;
+        $borderA2: #d2d2d2;
+        $backgroundA: #f3f5f9;
+        $textA: #333;
+        $borderB1: #d4d4d4;
+        $borderB2: #b4b4b4;
+        $backgroundB: #f3f6fb;
+        $backgroundBActive: #e7e9ed;
+        $textB: #555;
 
-		.fieldContainer {
-			float: left;
-			clear: left;
+        position: relative;
+        line-height: 150%;
 
-			.fieldLabel {
-				display: block;
-				float: left;
-				width: 110px;
-				text-align: right;
-			}
-			
-			.inputContainer {
-				display: block;
-				margin-left: 125px;
-				margin-bottom: 2px;
-				line-height: 133%;
-			}
-			
-			input {
-				padding: 2px;
-				border-color: $borderA1 $borderA2 $borderA2 $borderA1;
-				border-style: solid;
-				border-width: 1px;
-				color: $textA;
-				background: $backgroundA;				
-			}
-			
-			input.noleftmargin {
-				margin-left: 0;
-			}
-			
-			select {
-				position: relative;
-				top: 2px;
-			}
-		}
-		
-		.field-default {
-			.fieldLabel {
-				display: none;
-			}
+        .formFields {
+            float: left;
+        }
 
-			input {
-				width: 400px;
-				height: 30px;
-				margin: 0px 6px 2px 0px;
-				padding: 4px;
-				font-size: 100%;				
-			}
-		}
-		
-		.fieldType-Text {
-			.alternate label {
-				display: inline-block;
-				float: none;
-				width: auto;
-				text-align: left;
-			}
-		}
-		
-		.fieldType-Range {
-			input {
-				width: 6em;
-			}
-		}
+        .fieldContainer {
+            float: left;
+            clear: left;
 
-		.controls {
-			float: left;
-			bottom: 0px;
-		}
+            .fieldLabel {
+                display: block;
+                float: left;
+                width: 110px;
+                text-align: right;
+            }
 
-		.fieldType-search input:-moz-placeholder {
-			color: #999;
-		}
+            .inputContainer {
+                display: block;
+                margin-left: 125px;
+                margin-bottom: 2px;
+                line-height: 133%;
+            }
 
-		.submit {
-			display: block;
-			float: left;
-			height: 30px;
-			background: url(../button_shade_large.png) repeat-x scroll 0 100% $backgroundB;
-			border-style: solid;
-			border-width: 1px;
-			border-color:  $borderB1 $borderB2 $borderB2 $borderB1;
-			border-radius: 3px 3px 3px 3px;
-			border-right: 1px solid $borderB2;
-			color: $textB;
-			font-weight: bold;
-			line-height: 100%;
-			padding: 3px 12px;
-			margin-top: -1px;
-			text-align: center;
-			text-decoration: none;
-			text-shadow: 0 1px rgba(255, 255, 255, 0.75);
-			text-transform: uppercase;
-		}
+            input {
+                padding: 2px;
+                border-color: $borderA1 $borderA2 $borderA2 $borderA1;
+                border-style: solid;
+                border-width: 1px;
+                color: $textA;
+                background: $backgroundA;
+            }
 
-		.submit:active {
-			background-image: url(../button_shade_large_click.png);
-			background-color: $backgroundBActive;
-		}
+            input.noleftmargin {
+                margin-left: 0;
+            }
 
-		a.extendedSearch {
-			line-height: 30px;
-			margin-left: 0.5em;
-		}
+            select {
+                position: relative;
+                top: 2px;
+            }
+        }
 
-		.field-mode-extended {
-			 display: none;
-		}
+        .field-default {
+            .fieldLabel {
+                display: none;
+            }
 
-		.sortOrder, .resultCountPicker {
-			float: right;
-			margin: 5px 0 0 0.5em;
-		
-			label {
-				width: auto;
-			}
-			
-			select {
-				position: relative;
-				top: 2px;
-				margin-left: 3px;
-			}
-		}
-	}
-	
-	form.search-extended .field-mode-extended {
-		display: block;
-	}
+            input {
+                width: 400px;
+                height: 30px;
+                margin: 0 6px 2px 0;
+                padding: 4px;
+                font-size: 100%;
+            }
+        }
 
+        .fieldType-Text {
+            .alternate label {
+                display: inline-block;
+                float: none;
+                width: auto;
+                text-align: left;
+            }
+        }
 
-	
-	/* result list */
+        .fieldType-Range {
+            input {
+                width: 6em;
+            }
+        }
 
-	.results {
-		position: relative;
-		clear: left;
-		padding-top: 2em;
-		
-		.navigation {
-			margin-bottom: 2em;
-			clear: both;
-		}
-		
-		ol.resultList {
-			margin: 0 220px 0 0;
-			padding-left: 3em;
+        .controls {
+            float: left;
+            bottom: 0;
+        }
 
-			h1 {
-				margin: 0;
-				font-size: 133%;
-				line-height: 133%;
-			}
-			
-			li:target {
-				background: $backgroundActive;
-				border-radius: 7px;
-				transition: background .5s ease-in-out;
-			}
-		}
-	}
+        .fieldType-search input:-moz-placeholder {
+            color: #999;
+        }
 
+        .submit {
+            display: block;
+            float: left;
+            height: 30px;
+            background: url(../button_shade_large.png) repeat-x scroll 0 100% $backgroundB;
+            border-style: solid;
+            border-width: 1px;
+            border-color: $borderB1 $borderB2 $borderB2 $borderB1;
+            border-radius: 3px 3px 3px 3px;
+            border-right: 1px solid $borderB2;
+            color: $textB;
+            font-weight: bold;
+            line-height: 100%;
+            padding: 3px 12px;
+            margin-top: -1px;
+            text-align: center;
+            text-decoration: none;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+        }
 
+        .submit:active {
+            background-image: url(../button_shade_large_click.png);
+            background-color: $backgroundBActive;
+        }
 
-	/* facets */
+        a.extendedSearch {
+            line-height: 30px;
+            margin-left: 0.5em;
+        }
 
-	.facets {
-		float: right;
-		clear: right;
-		width: 200px;
-	}
+        .field-mode-extended {
+            display: none;
+        }
 
-	article.facet {
-		margin-bottom: 2em;
+        .sortOrder, .resultCountPicker {
+            float: right;
+            margin: 5px 0 0 0.5em;
 
-		h1 {
-			margin: 0;
-			font-size: 100%;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
+            label {
+                width: auto;
+            }
 
-		.facetSearch {
-			margin: 1em 0 0 0;
-		}
-		
-		ol {
-			list-style-type: none;
-			margin: 1em 0 0 0;
-			padding-left: 0;
-			line-height: 150%;
-		}
-		
-		ol.autocomplete {
-			margin: 0.5em 0 0 0;
-		}
+            select {
+                position: relative;
+                top: 2px;
+                margin-left: 3px;
+            }
+        }
+    }
 
-		.facetList li {
-			margin: 0;
-			padding-left: 1em;
-			text-indent: -1em;
-		}
+    form.search-extended .field-mode-extended {
+        display: block;
+    }
 
-		a {
-			display: block;
-		}
+    /* result list */
 
-		.facetCount {
-			color: $downlight;
-			font-size: 80%;
-		}
+    .results {
+        position: relative;
+        clear: left;
+        padding-top: 2em;
 
-		.facetActive {
-			display: block;
-			background: $highlight;
-			border-radius: 5px;
-			border: 1px solid $highlightBorder;
-			line-height: 150%;
-			font-weight: bold;
-			text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-		}
+        .navigation {
+            margin-bottom: 2em;
+            clear: both;
+        }
 
-		.facetList .facetActive {
-			padding: 0;
-			text-indent: 0;
-			margin-bottom: 0.25em;
-		}
+        ol.resultList {
+            margin: 0 220px 0 0;
+            padding-left: 3em;
 
-		.facetActive {
-			a {
-				padding-left: 0.2em;
-				color: $textInverted;
-			}
+            h1 {
+                margin: 0;
+                font-size: 133%;
+                line-height: 133%;
+            }
 
-			a:before {
-				margin-right: 0.3em;
-				margin-left: 0.1em;
-			}
-		}
-		
-		.facetShowAll {
-			a {
-				font-style: italic;
-				color: $downlight;
-			}
-			
-			a:hover {
-				color: $current;
-			}
-		}
+            li:target {
+                background: $backgroundActive;
+                border-radius: 7px;
+                transition: background .5s ease-in-out;
+            }
+        }
+    }
 
-		.facetHistogram-container .facetActive {
-			margin-bottom: 0.5em;
-		}
+    /* facets */
 
-		.histogram {
-			position: relative;
-			left: -13px;
-		}
+    .facets {
+        float: right;
+        clear: right;
+        width: 200px;
+    }
 
-		.flot-x-axis .flot-tick-label:first-child {
-			left: 13px!important;
-		}
-	}
-	
-	.facet-type-Map {
-		.mapContainer {
-			height: 150px;
-		}
-	}
-	
-	.facet-type-Tabs {
-		@extend article.facet;
+    article.facet {
+        margin-bottom: 2em;
 
-		h1 {
-			display: none;
-		}
+        h1 {
+            margin: 0;
+            font-size: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-		ol {
-			border-bottom: 1px solid $inactive;
+        .facetSearch {
+            margin: 1em 0 0 0;
+        }
 
-			li {
-				display: inline-block;
-				margin: 0;
-				border-radius: 10px 10px 0 0;
-				border: 0px none;
+        ol {
+            list-style-type: none;
+            margin: 1em 0 0 0;
+            padding-left: 0;
+            line-height: 150%;
+        }
 
-				a {
-					padding: 1em 0.5em 0em 0.5em;
-					display: inline-block;
-				}
-			}
+        ol.autocomplete {
+            margin: 0.5em 0 0 0;
+        }
 
-			li.facetActive {
-				@extend li;
-				background: $tabSelected;
-				color: $textInverted;
+        .facetList li {
+            margin: 0;
+            padding-left: 1em;
+            text-indent: -1em;
+        }
 
-				.facetCount {
-					color: $downlightInverted;
-				}
-			}
-		}	
-	}
+        a {
+            display: block;
+        }
 
-	
+        .facetCount {
+            color: $downlight;
+            font-size: 80%;
+        }
 
-	/* page browser list view */
+        .facetActive {
+            display: block;
+            background: $highlight;
+            border-radius: 5px;
+            border: 1px solid $highlightBorder;
+            line-height: 150%;
+            font-weight: bold;
+            text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+        }
 
-	.listPager {
-		margin-right: 220px;
-		text-align: center;
+        .facetList .facetActive {
+            padding: 0;
+            text-indent: 0;
+            margin-bottom: 0.25em;
+        }
 
+        .facetActive {
+            a {
+                padding-left: 0.2em;
+                color: $textInverted;
+            }
 
-		* {
-			margin: 0;
-			padding: 0;
-		}
+            a:before {
+                margin-right: 0.3em;
+                margin-left: 0.1em;
+            }
+        }
 
-		ol {
-			display: inline;
-			list-style-type: none;
-			
-			li {
-				display: inline;
+        .facetShowAll {
+            a {
+                font-style: italic;
+                color: $downlight;
+            }
 
-				a {
-					padding: 0.4em;
-				}			
-			}
-		}
-	
-		.current {
-			font-weight: bold;
-			color: $current;
-		}
-		
-		.resultCount {
-			margin-bottom: 2em;
-		}
-	}
+            a:hover {
+                color: $current;
+            }
+        }
 
-	
-	
-	/* result count */
+        .facetHistogram-container .facetActive {
+            margin-bottom: 0.5em;
+        }
 
-	.resultCount {
-		float: right;
-		width: 200px;
-		text-align: right;
-	}
+        .histogram {
+            position: relative;
+            left: -13px;
+        }
 
+        .flot-x-axis .flot-tick-label:first-child {
+            left: 13px !important;
+        }
+    }
 
-	
-	/* page browser single item view */
+    .facet-type-Map {
+        .mapContainer {
+            height: 150px;
+        }
+    }
 
-	.queryAndPager {
-		margin: 1em 0 2em 0;
-		
-		.query {
-			display: none;
-		}
+    .facet-type-Tabs {
+        @extend article.facet;
 
-		.resultPager {
-			display: block;
-			float: right;
-			
-			.pager {
-				color: $inactive;
-				
-				.icon-right-dir:before,
-				.icon-left-dir:before {
-					position:relative;
-					top: 1px;
-					width: auto;
-					padding: 0 4px;
-					font-size: 133%;
-				}
+        h1 {
+            display: none;
+        }
 
-				[class^="icon-"]:hover,
-				[class*=" icon-"]:hover {
-					text-decoration: none;
-				}
-			}
-		}
-	}
+        ol {
+            border-bottom: 1px solid $inactive;
 
-	
+            li {
+                display: inline-block;
+                margin: 0;
+                border-radius: 10px 10px 0 0;
+                border: 0 none;
 
-	/* field list on single item view */
+                a {
+                    padding: 1em 0.5em 0 0.5em;
+                    display: inline-block;
+                }
+            }
 
-	.detail h1 {
-		margin-bottom: 1em;
-	}
-	
-	dl {
-		margin: 0;
-	}
+            li.facetActive {
+                @extend li;
+                background: $tabSelected;
+                color: $textInverted;
 
-	dt {
-		font-weight: bold;
-	}
+                .facetCount {
+                    color: $downlightInverted;
+                }
+            }
+        }
+    }
 
-	dd {
-		margin: 0.2em 0 1em 2em;
-		ul {
-			margin: 0;
-		}
-	}
+    /* page browser list view */
+
+    .listPager {
+        margin-right: 220px;
+        text-align: center;
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ol {
+            display: inline;
+            list-style-type: none;
+
+            li {
+                display: inline;
+
+                a {
+                    padding: 0.4em;
+                }
+            }
+        }
+
+        .current {
+            font-weight: bold;
+            color: $current;
+        }
+
+        .resultCount {
+            margin-bottom: 2em;
+        }
+    }
+
+    /* result count */
+
+    .resultCount {
+        float: right;
+        width: 200px;
+        text-align: right;
+    }
+
+    /* page browser single item view */
+
+    .queryAndPager {
+        margin: 1em 0 2em 0;
+
+        .query {
+            display: none;
+        }
+
+        .resultPager {
+            display: block;
+            float: right;
+
+            .pager {
+                color: $inactive;
+
+                .icon-right-dir:before,
+                .icon-left-dir:before {
+                    position: relative;
+                    top: 1px;
+                    width: auto;
+                    padding: 0 4px;
+                    font-size: 133%;
+                }
+
+                [class^="icon-"]:hover,
+                [class*=" icon-"]:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    /* field list on single item view */
+
+    .detail h1 {
+        margin-bottom: 1em;
+    }
+
+    dl {
+        margin: 0;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dd {
+        margin: 0.2em 0 1em 2em;
+        ul {
+            margin: 0;
+        }
+    }
 }
 
 #tx_find-histogram-tooltip {
-	display: none;
-	position: absolute;
-	background: #fff;
+    display: none;
+    position: absolute;
+    background: #fff;
 }

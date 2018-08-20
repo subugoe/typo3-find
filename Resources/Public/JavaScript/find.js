@@ -15,7 +15,6 @@ var tx_find = (function () {
   var URLParameterPrefix = 'tx_find_find';
   var container;
 
-
   /**
    * Initialise. Set up:
    * * container element variable
