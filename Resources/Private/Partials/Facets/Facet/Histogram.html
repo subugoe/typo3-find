@@ -44,7 +44,7 @@
 		/>
 		<div class="histogram" id="c-{config.uid}-histogram-{facetInfo.id}">
 			<script type="text/javascript">
-			(function () {
+			jQuery(function () {
 				var histogramConfiguration = {
 					'facetID': <s:format.json data="{facetInfo.id}"/>,
 					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
@@ -56,7 +56,7 @@
 				var facetData = <s:format.json data="{facetData.values}"/>;
 
 				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{config.uid}-histogram-{facetInfo.id}'), histogramConfiguration);
-			})();
+			});
 			</script>
 		</div>
 	</f:alias>
