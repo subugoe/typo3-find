@@ -957,4 +957,3 @@ Acknowledgements
 
 The extension’s Solr connectivity is provided by the
 [Solarium](http://www.solarium-project.org/) PHP Solr client
-[(github)](https://github.com/basdenooijer/solarium%5D).
