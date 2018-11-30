@@ -27,16 +27,15 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
  * View Helper to return the value of a key in an array.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
-class ValueForKeyViewHelper extends AbstractViewHelper implements CompilableInterface
+class ValueForKeyViewHelper extends AbstractViewHelper
 {
     /**
      * @param array  $array The array to extract the value from

@@ -27,16 +27,15 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 
 /**
  * View Helper to return the number of the page the result at position resultNumber
  * appears on with resultsPerPage items per page, i.e. returns
  * resultNumber mod resultsPerPage.
  */
-class PageNumberForResultNumberViewHelper extends AbstractViewHelper implements CompilableInterface
+class PageNumberForResultNumberViewHelper extends AbstractViewHelper
 {
     /**
      * Avoid divisions by zero.
