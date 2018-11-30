@@ -64,13 +64,12 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
             $result[''] = '';
         }
 
-        $extensionName = $this->controllerContext->getRequest()->getControllerExtensionName();
         if (!empty($this->arguments['values'])) {
             foreach ($this->arguments['values'] as $item => $count) {
                 // Localise item name.
                 $localisationKey = $this->arguments['localisationPrefix'].$item;
 
-                $localisedItem = LocalizationUtility::translate($localisationKey, $extensionName);
+                $localisedItem = LocalizationUtility::translate($localisationKey, $this->extensionName);
                 if (!$localisedItem) {
                     $localisedItem = $item;
                 }
