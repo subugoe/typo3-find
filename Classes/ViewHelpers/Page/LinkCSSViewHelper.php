@@ -1,5 +1,4 @@
 <?php
-
 namespace Subugoe\Find\ViewHelpers\Page;
 
 /*******************************************************************************
@@ -33,23 +32,29 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View Helper.
+ * View Helper
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
 class LinkCSSViewHelper extends AbstractViewHelper
 {
+
     /**
-     * @param string $file Path to the CSS file
-     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('file', 'string', 'File to add a CSS header for');
+    }
+
+    /**
      * @return string
      */
-    public function render($file)
+    public function render()
     {
         return self::renderStatic(
-            [
-                'file' => $file,
-            ],
+            $this->arguments,
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
         );

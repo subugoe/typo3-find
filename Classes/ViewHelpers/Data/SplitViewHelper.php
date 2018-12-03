@@ -38,29 +38,29 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class SplitViewHelper extends AbstractViewHelper
 {
     /**
-     * @param string $string    The string to split into components
-     * @param string $separator The string separating the components
-     *
-     * @return string|int|bool|array
+     * Register arguments.
      */
-    public function render($string, $separator = ', ')
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string', 'The string to split into components', false, null);
+        $this->registerArgument('separator', 'string', 'The string separating the components', false, ', ');
+    }
+
+    /**
+     * @return array
+     */
+    public function render()
     {
         return self::renderStatic(
-            [
-                'string' => $string,
-                'separator' => $separator,
-            ],
+            $this->arguments,
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
         );
     }
 
     /**
-     * @param array                     $arguments
-     * @param \Closure                  $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     *
-     * @return string
+     * @return array
      */
     public static function renderStatic(
         array $arguments,

@@ -1,5 +1,4 @@
 <?php
-
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -37,30 +36,31 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ValueForKeyViewHelper extends AbstractViewHelper
 {
+
     /**
-     * @param array  $array The array to extract the value from
-     * @param string $key   The key to extract the value for
-     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('array', 'array', 'The array to extract the value from', true);
+        $this->registerArgument('key', 'string', 'The key to extract the value for', true);
+    }
+
+    /**
      * @return string|int|bool|array
      */
-    public function render($array, $key)
+    public function render()
     {
         return self::renderStatic(
-            [
-                'key' => $key,
-                'array' => $array,
-            ],
+            $this->arguments,
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
         );
     }
 
     /**
-     * @param array                     $arguments
-     * @param \Closure                  $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     *
-     * @return string
+     * @return string|int|bool|array
      */
     public static function renderStatic(
         array $arguments,

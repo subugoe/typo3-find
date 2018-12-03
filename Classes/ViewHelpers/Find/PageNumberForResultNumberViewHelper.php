@@ -43,18 +43,23 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
     const DEFAULT_RESULTS_PER_PAGE = 20;
 
     /**
-     * @param int $resultNumber   Number of the rsult to determine the page number for
-     * @param int $resultsPerPage Number of results per page
-     *
-     * @return string|int|bool|array
+     * Registers own arguments.
      */
-    public function render($resultNumber, $resultsPerPage = 20)
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('resultNumber', 'int', 'number of the result to determine the page number for', true);
+        $this->registerArgument('resultsPerPage', 'int', 'number of results per page', false, self::DEFAULT_RESULTS_PER_PAGE);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function render()
     {
         return self::renderStatic(
-            [
-                'resultNumber' => $resultNumber,
-                'resultsPerPage' => $resultsPerPage,
-            ],
+            $this->arguments,
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
         );
@@ -65,7 +70,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
      * @param \Closure                  $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      *
-     * @return float
+     * @return int
      */
     public static function renderStatic(
         array $arguments,
