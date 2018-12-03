@@ -90,8 +90,8 @@ For the most basic example you need to:
     ```
 
 There are many more TypoScript configuration options. Please refer to
-the rest of this document and the example configurations provided in the
-`Projects` folder to learn about them.
+the rest of this document and the linked example configurations to
+learn about them.
 
 ## Example projects
 
@@ -100,37 +100,34 @@ Solr indexes they are made for, they may give you an idea what more
 elaborate configurations may look like and how their templates are set
 up. The projects are:
 
+- [test](https://github.com/ssp/typo3-find-test): configuration to
+    demonstrate the settings of this Readme as well as the included View Helpers
 - [gbv](https://github.com/subugoe/typo3-find-gbv): basic
     configuration for a big library index with multiple search fields
     and facets but without customised display
-- hans: simple configuration for a smaller library index with multiple
-    search fields, facets and mildly customised templates
+- [hans](https://github.com/subugoe/typo3-find-hans): simple configuration
+    for a smaller library index with multiple search fields, facets and
+    mildly customised templates
 - [jfk-institut-zeitungen](https://github.com/subugoe/typo3-find-jfk-institut-zeitungen):
     simple configuration with a single search field, a non-trivial facet
     and a custom template without detail view
 - [Edfu](https://github.com/subugoe/typo3-find-edfu): elaborate
     configuration with two search fields, two facets and highly
     customised display
-- [GermaniaSacra](https://github.com/subugoe/typo3-find-germania-sacra):
+- [Germania Sacra](https://github.com/subugoe/typo3-find-germania-sacra):
     elaborate configuration with many search fields, facets, data
     export, complex queries and highly customised display
-- [test](https://github.com/subugoe/typo3-find-test): configuration to
-  demonstrate the settings of this Readme as well as the included View Helpers
 
 These projects are structured in a common way (with potentially only a
 subset of the folders / files existing)
 
 -   projectname.ts: TypoScript configuration for the setup
--   EXT-Private: symlink to the extension’s Resources/Private folder;
-    this is used as a scheme to link the extension’s partials and
-    templates into the custom configuration so they can be used in the
-    custom configuration
--   Templates/Search: typically some of these are symlinked to the originals:
+-   Templates/Search:
     -   Index.html and Detail.html for the display
     -   Index.data and Detail.data for loading data
     -   Suggest.data for autocomplete / suggest responses
 
--   Partials: Contains symlinks to the folders inside the extension’s »Partials« folder. If the default partials are to be overridden, a an actual folder with partials can be placed here. You can also add your own partials / folder of partials here. The standard partials provided by the extension are in the folders:
+-   Partials: You can also add your own partials here. The extension can be configured to override the built-in Partials by putting the replacemnts at the same paths in here. The extension Partials are in the folders:
     -   Components: elements used to create the page
     -   Display: create markup for fields in the document
     -   Facets: create facets
@@ -957,4 +954,3 @@ Acknowledgements
 
 The extension’s Solr connectivity is provided by the
 [Solarium](http://www.solarium-project.org/) PHP Solr client
-[(github)](https://github.com/basdenooijer/solarium%5D).
