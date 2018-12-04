@@ -32,7 +32,6 @@ before_install:
 install:
   - composer require --no-update "typo3/cms:$TYPO3_VERSION"
   - composer require --no-update "solarium/solarium"
-  - if [[ "$TYPO3_VERSION" == "^8" ]]; then composer require --no-update "phpunit/phpunit:^5.0"; fi
   - composer install --prefer-dist
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
 
