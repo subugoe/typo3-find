@@ -30,7 +30,7 @@
   },
   "require-dev": {
     "solarium/solarium": "~3.3",
-    "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0",
+    "nimut/testing-framework": "^4.1",
     "friendsofphp/php-cs-fixer": "^2.13"
   },
   "config": {
