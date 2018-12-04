@@ -940,8 +940,14 @@ depending on the `id` s used for fields and facets.
 
 ## Prerequisites
 
-- TYPO3 7.6 or higher
-- PHP 5.5 or higher
+- TYPO3 8.7
+- PHP 7.1 or higher
+
+## Testing
+
+To run the unit tests, clone this repository, and run
+* `composer install`
+* `.Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/`
 
 Contact
 -------
