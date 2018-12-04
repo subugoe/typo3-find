@@ -43,8 +43,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)->setMethods(['renderChildren'])->getMock();
-        $this->fixture->initializeArguments();
+        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)->setMethods(['dummy'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -55,13 +54,11 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     {
         $string = 'hrdr, behedeti, horus';
         $expected = ['hrdr', 'behedeti', 'horus'];
-
-        $this->fixture->setArguments([
-            'string' => $string,
-        ]);
-
-        $this->fixture->handleAdditionalArguments(['string' => $string,
-        ]);
+        $this->fixture->setArguments(
+            [
+                'string' => $string,
+            ]
+        );
 
         $this->assertSame($expected, $this->fixture->render());
     }
@@ -95,6 +92,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'string' => $string,
             'separator' => $separator,
         ]);
+
         $this->assertSame($expected, $this->fixture->render());
     }
 
@@ -108,6 +106,9 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
         $this->fixture->setArguments([
             'string' => $string,
         ]);
-        $this->assertSame($expected, $this->fixture->render());
+
+        $actual = $this->fixture->render();
+
+        $this->assertSame($expected, $actual);
     }
 }

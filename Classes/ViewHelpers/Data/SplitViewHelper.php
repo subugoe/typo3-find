@@ -37,6 +37,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SplitViewHelper extends AbstractViewHelper
 {
+    const DEFAULT_SEPARATOR = ', ';
+
     /**
      * Register arguments.
      */
@@ -44,7 +46,7 @@ class SplitViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('string', 'string', 'The string to split into components', false, null);
-        $this->registerArgument('separator', 'string', 'The string separating the components', false, ', ');
+        $this->registerArgument('separator', 'string', 'The string separating the components', false, self::DEFAULT_SEPARATOR);
     }
 
     /**
@@ -70,6 +72,10 @@ class SplitViewHelper extends AbstractViewHelper
         $string = $arguments['string'];
         if (null === $string) {
             $string = $renderChildrenClosure;
+        }
+
+        if (empty($arguments['separator'])) {
+            $arguments['separator'] = self::DEFAULT_SEPARATOR;
         }
 
         return explode($arguments['separator'], $string);
