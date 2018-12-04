@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Page;
 
 /*******************************************************************************
@@ -32,16 +33,12 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View Helper
+ * View Helper.
  *
  * Usage examples are available in Private/Partials/Test.html.
  */
 class LinkCSSViewHelper extends AbstractViewHelper
 {
-
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();

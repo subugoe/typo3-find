@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -36,10 +37,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ValueForKeyViewHelper extends AbstractViewHelper
 {
-
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();

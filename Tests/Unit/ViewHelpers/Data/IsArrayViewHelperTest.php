@@ -42,7 +42,7 @@ class IsArrayViewHelperTest extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(IsArrayViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)->setMethods(['renderChildren'])->getMock();
         $this->fixture->initializeArguments();
     }
 

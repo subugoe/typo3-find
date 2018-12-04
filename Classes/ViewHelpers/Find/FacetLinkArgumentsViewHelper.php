@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Find;
 
 /* * *************************************************************
@@ -83,11 +84,12 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
             }
             // Go back to page 1.
             $result[] = 'tx_find_find[page]';
-        } else if ('add' === $mode) {
+        } elseif ('add' === $mode) {
             $result['facet'] = [
                 $facetID => [$facetTerm => 1],
             ];
         }
+
         return $result;
     }
 }

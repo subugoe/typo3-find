@@ -50,7 +50,14 @@ class FacetLinkArgumentsViewHelperTest extends BaseTestCase
      */
     public function filterIsCorrectlyRemovedOnTextQueries()
     {
-        $result = $this->fixture->render('title', 'hrdr', ['title' => ['hrdr'], 'horus' => 'behedeti'], 'remove');
+        $this->fixture->setArguments([
+            'facetId' => 'title',
+            'facetTerm' => 'hrdr',
+            'activeFacets' => ['title' => ['hrdr'], 'horus' => 'behedeti'],
+            'mode' => 'remove',
+        ]);
+
+        $result = $this->fixture->render();
         $this->assertEquals('tx_find_find[facet][title]', $result[0]);
     }
 
@@ -59,7 +66,14 @@ class FacetLinkArgumentsViewHelperTest extends BaseTestCase
      */
     public function filterIsCorrectlyAddedOnTextQueries()
     {
-        $result = $this->fixture->render('title', 'hrdr', [], 'add');
+        $this->fixture->setArguments([
+            'facetId' => 'title',
+            'facetTerm' => 'hrdr',
+            'activeFacets' => [],
+            'mode' => 'add',
+        ]);
+
+        $result = $this->fixture->render();
         $resultValue = array_keys($result['facet']['title']);
         $this->assertEquals('hrdr', $resultValue[0]);
     }

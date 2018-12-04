@@ -92,7 +92,7 @@ class OrViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(OrViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(OrViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

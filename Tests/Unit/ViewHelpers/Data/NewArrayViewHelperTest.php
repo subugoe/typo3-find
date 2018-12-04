@@ -42,7 +42,7 @@ class NewArrayViewHelperTest extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)->setMethods(['renderChildren'])->getMock();
         $this->fixture->initializeArguments();
     }
 

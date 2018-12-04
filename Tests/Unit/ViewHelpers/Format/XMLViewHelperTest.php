@@ -62,7 +62,7 @@ class XMLViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(XMLViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(XMLViewHelper::class)->setMethods(['renderChildren'])->getMock();
     }
 
     /**

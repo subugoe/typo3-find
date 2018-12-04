@@ -54,7 +54,7 @@ class StripViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(StripViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(StripViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

@@ -30,7 +30,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3\CMS\Core\Tests\BaseTestCase;
-use TYPO3\CMS\Fluid\Core\ViewHelper\TemplateVariableContainer;
+use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Tests for the item viewhelper.
@@ -45,7 +45,7 @@ class ItemViewHelperTest extends BaseTestCase
     protected $fixture;
 
     /**
-     * @var TemplateVariableContainer
+     * @var StandardVariableProvider
      */
     protected $templateVariableContainer;
 
@@ -61,11 +61,11 @@ class ItemViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(ItemViewHelper::class, ['dummy']);
-        $this->templateVariableContainer = $this->getMock(
-            TemplateVariableContainer::class,
+        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->templateVariableContainer = $this->getMockBuilder(
+            StandardVariableProvider::class)->setMethods(
             ['add', 'get', 'remove', 'exists']
-        );
+        )->getMock();
 
         $this->createRenderingContextMock();
         $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);

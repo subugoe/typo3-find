@@ -63,7 +63,13 @@ class ValueForKeyViewHelperTest extends BaseTestCase
             'b' => 'c',
         ];
         $key = 'a';
-        $this->assertSame('b', $this->fixture->render($array, $key));
+
+        $this->fixture->setArguments([
+            'array' => $array,
+            'key' => $key,
+        ]);
+
+        $this->assertSame('b', $this->fixture->render());
     }
 
     /**
@@ -76,8 +82,14 @@ class ValueForKeyViewHelperTest extends BaseTestCase
             'b' => 'c',
         ];
         $key = 'a';
-        $this->fixture->setArguments(['format' => 'json']);
-        $this->assertSame('b', $this->fixture->render($array, $key));
+
+        $this->fixture->setArguments([
+            'array' => $array,
+            'key' => $key,
+            'format' => 'json',
+        ]);
+
+        $this->assertSame('b', $this->fixture->render());
     }
 
     /**
@@ -90,8 +102,14 @@ class ValueForKeyViewHelperTest extends BaseTestCase
             'b' => 'c',
         ];
         $key = 'a';
-        $this->fixture->setArguments(['format' => 'json']);
-        $this->assertSame('b', $this->fixture->render($array, $key));
+
+        $this->fixture->setArguments([
+            'array' => $array,
+            'key' => $key,
+            'format' => 'json',
+        ]);
+
+        $this->assertSame('b', $this->fixture->render());
     }
 
     /**
@@ -104,6 +122,12 @@ class ValueForKeyViewHelperTest extends BaseTestCase
             'b' => 'c',
         ];
         $key = 'c';
-        $this->assertNull($this->fixture->render($array, $key));
+
+        $this->fixture->setArguments([
+            'array' => $array,
+            'key' => $key,
+        ]);
+
+        $this->assertNull($this->fixture->render());
     }
 }

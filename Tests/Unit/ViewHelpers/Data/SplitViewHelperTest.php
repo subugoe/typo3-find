@@ -46,7 +46,7 @@ class SplitViewHelperTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)->setMethods(['renderChildren'])->getMock();
         $this->fixture->initializeArguments();
 
         $this->createRenderingContextMock();
@@ -61,7 +61,11 @@ class SplitViewHelperTest extends BaseTestCase
         $string = 'hrdr, behedeti, horus';
         $expected = ['hrdr', 'behedeti', 'horus'];
 
-        $this->assertSame($expected, $this->fixture->render($string));
+        $this->fixture->setArguments([
+            'string' => $string,
+        ]);
+
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     /**
@@ -73,7 +77,12 @@ class SplitViewHelperTest extends BaseTestCase
         $separator = ', ';
         $expected = ['hrdr', 'behedeti', 'horus'];
 
-        $this->assertSame($expected, $this->fixture->render($string, $separator));
+        $this->fixture->setArguments([
+            'string' => $string,
+            'separator' => $separator,
+        ]);
+
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     /**
@@ -84,8 +93,11 @@ class SplitViewHelperTest extends BaseTestCase
         $string = 'hrdrhorus behedetihorus horus';
         $separator = 'horus ';
         $expected = ['hrdr', 'behedeti', 'horus'];
-
-        $this->assertSame($expected, $this->fixture->render($string, $separator));
+        $this->fixture->setArguments([
+            'string' => $string,
+            'separator' => $separator,
+        ]);
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     /**
@@ -95,7 +107,9 @@ class SplitViewHelperTest extends BaseTestCase
     {
         $string = '';
         $expected = [''];
-
-        $this->assertSame($expected, $this->fixture->render($string));
+        $this->fixture->setArguments([
+            'string' => $string,
+        ]);
+        $this->assertSame($expected, $this->fixture->render());
     }
 }

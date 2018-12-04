@@ -41,7 +41,7 @@ class JsonViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(JsonViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(JsonViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

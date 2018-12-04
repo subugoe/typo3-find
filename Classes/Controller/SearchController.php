@@ -32,7 +32,6 @@ namespace Subugoe\Find\Controller;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
-use Subugoe\Find\Utility\LoggerUtility;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

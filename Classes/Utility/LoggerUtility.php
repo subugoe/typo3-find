@@ -27,9 +27,6 @@ namespace Subugoe\Find\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * Utility for logging purposes.
  */

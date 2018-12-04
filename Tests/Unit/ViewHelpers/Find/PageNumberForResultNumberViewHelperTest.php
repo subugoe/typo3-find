@@ -45,7 +45,7 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->fixture = $this->getAccessibleMock(PageNumberForResultNumberViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(PageNumberForResultNumberViewHelper::class)->setMethods(['renderChildren'])->getMock();
         $this->fixture->initializeArguments();
 
         $this->createRenderingContextMock();
@@ -61,8 +61,12 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         $resultsPerPage = 20;
 
         $expected = 3;
+        $this->fixture->setArguments([
+            'resultNumber' => $resultNumber,
+            'resultsPerPage' => $resultsPerPage,
+        ]);
 
-        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     /**
@@ -75,7 +79,12 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
 
         $expected = 0;
 
-        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+        $this->fixture->setArguments([
+            'resultNumber' => $resultNumber,
+            'resultsPerPage' => $resultsPerPage,
+        ]);
+
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     /**
@@ -87,8 +96,12 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         $resultsPerPage = 0;
 
         $expected = 0;
+        $this->fixture->setArguments([
+            'resultNumber' => $resultNumber,
+            'resultsPerPage' => $resultsPerPage,
+        ]);
 
-        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+        $this->assertSame($expected, $this->fixture->render());
     }
 
     public function pageNumberFallBackForZeroResultsPerPage()
@@ -97,7 +110,11 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         $resultsPerPage = 0;
 
         $expected = 3;
+        $this->fixture->setArguments([
+            'resultNumber' => $resultNumber,
+            'resultsPerPage' => $resultsPerPage,
+        ]);
 
-        $this->assertSame($expected, $this->fixture->render($resultNumber, $resultsPerPage));
+        $this->assertSame($expected, $this->fixture->render());
     }
 }

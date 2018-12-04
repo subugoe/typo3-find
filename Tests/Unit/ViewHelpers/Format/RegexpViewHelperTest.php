@@ -69,7 +69,7 @@ class RegexpViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(RegexpViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(RegexpViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

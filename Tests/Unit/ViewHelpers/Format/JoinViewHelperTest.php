@@ -41,7 +41,7 @@ class JoinViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(JoinViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(JoinViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

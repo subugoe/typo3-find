@@ -976,7 +976,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $sortOptions['default'] = $sortOption['sortCriteria'];
                     }
                 } else {
-                   $logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
+                    $logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
                         [
                             'sortOption' => $sortOption,
                         ]

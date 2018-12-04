@@ -66,7 +66,7 @@ class NotViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(NotViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(NotViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

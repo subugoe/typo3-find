@@ -41,7 +41,7 @@ class CSVLineViewHelperTest extends BaseTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMock(CSVLineViewHelper::class, ['dummy']);
+        $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)->setMethods(['dummy'])->getMock();
     }
 
     /**

@@ -26,7 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Convenience trait to retrieve a RenderingContext.
@@ -40,10 +40,6 @@ trait MockRenderingContextTrait
 
     protected function createRenderingContextMock()
     {
-        if (interface_exists('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface')) {
-            $this->renderingContextMock = $this->getMock('TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface');
-        } else {
-            $this->renderingContextMock = $this->getMock(RenderingContextInterface::class);
-        }
+        $this->renderingContextMock = $this->getMockBuilder(RenderingContextInterface::class)->getMock();
     }
 }
