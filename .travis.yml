@@ -4,10 +4,13 @@ matrix:
   fast_finish: true
   include:
     - php: 7.2
+      env: TYPO3_VERSION=^9
+    - php: 7.2
       env: TYPO3_VERSION=^8
     - php: 7.1
       env: TYPO3_VERSION=^8
-
+    - php: 7.0
+      env: TYPO3_VERSION=^8
 addons:
   apt:
     packages:
@@ -24,7 +27,13 @@ before_install:
   - composer --version
 
 install:
-  - composer require --no-update "typo3/cms:$TYPO3_VERSION"
+  - >
+    if [[ "$TYPO3_VERSION" == "^8" ]];
+    then
+      composer require --no-update "typo3/cms:$TYPO3_VERSION"
+    else
+      composer require --no-update "typo3/minimal:$TYPO3_VERSION"
+    fi
   - composer require --no-update "solarium/solarium"
   - composer install --prefer-dist
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
@@ -37,9 +46,4 @@ script:
   - >
     echo;
     echo "Running unit tests";
-    if [[ "$TYPO3_VERSION" == "^8" ]];
-    then
-      .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
-    else
-      .Build/bin/phpunit --colors -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTests.xml Tests/Unit/
-    fi
+    .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
