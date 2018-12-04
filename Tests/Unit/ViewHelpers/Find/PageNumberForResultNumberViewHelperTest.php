@@ -25,14 +25,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for PageNumberForResultNumber ViewHelper.
  */
-class PageNumberForResultNumberViewHelperTest extends BaseTestCase
+class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
 {
     use MockRenderingContextTrait;
 

@@ -1,4 +1,5 @@
 <?php
+
 $finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
     ->exclude('node_modules')
@@ -10,4 +11,5 @@ $config
         'array_syntax' => ['syntax' => 'short'],
     ])
     ->setFinder($finder);
+
 return $config;

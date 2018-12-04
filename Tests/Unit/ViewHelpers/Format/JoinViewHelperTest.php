@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Format\JoinViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Join viewhelper test.
  */
-class JoinViewHelperTest extends BaseTestCase
+class JoinViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var JoinViewHelper

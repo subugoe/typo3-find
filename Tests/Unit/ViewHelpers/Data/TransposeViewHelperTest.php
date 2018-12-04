@@ -26,14 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Test for Transpose ViewHelper.
  */
-class TransposeViewHelperTest extends BaseTestCase
+class TransposeViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper

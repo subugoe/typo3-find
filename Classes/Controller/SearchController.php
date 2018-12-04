@@ -73,7 +73,8 @@ class SearchController extends ActionController
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 
         /* @var ServiceProviderInterface $searchProvider */
-        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection, $this->settings);
+        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection,
+            $this->settings);
         $this->searchProvider->connect();
     }
 

@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Format\XMLViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Tests for the XML formatting viewhelper.
  */
-class XMLViewHelperTest extends BaseTestCase
+class XMLViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var XMLViewHelper

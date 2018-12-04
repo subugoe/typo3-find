@@ -25,13 +25,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for PathExists ViewHelper.
  */
-class PathExistsViewHelperTest extends BaseTestCase
+class PathExistsViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper

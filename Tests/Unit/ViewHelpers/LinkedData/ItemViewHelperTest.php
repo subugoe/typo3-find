@@ -27,15 +27,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Tests for the item viewhelper.
  */
-class ItemViewHelperTest extends BaseTestCase
+class ItemViewHelperTest extends ViewHelperBaseTestcase
 {
     use MockRenderingContextTrait;
 

@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Tests for the NOT viewhelper.
  */
-class NotViewHelperTest extends BaseTestCase
+class NotViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var NotViewHelper

@@ -26,17 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 
 /**
  * Test for Split ViewHelper.
  */
-class SplitViewHelperTest extends BaseTestCase
+class SplitViewHelperTest extends ViewHelperBaseTestcase
 {
-    use MockRenderingContextTrait;
-
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
      */
@@ -48,9 +45,7 @@ class SplitViewHelperTest extends BaseTestCase
 
         $this->fixture = $this->getMockBuilder(SplitViewHelper::class)->setMethods(['renderChildren'])->getMock();
         $this->fixture->initializeArguments();
-
-        $this->createRenderingContextMock();
-        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -63,6 +58,9 @@ class SplitViewHelperTest extends BaseTestCase
 
         $this->fixture->setArguments([
             'string' => $string,
+        ]);
+
+        $this->fixture->handleAdditionalArguments(['string' => $string,
         ]);
 
         $this->assertSame($expected, $this->fixture->render());

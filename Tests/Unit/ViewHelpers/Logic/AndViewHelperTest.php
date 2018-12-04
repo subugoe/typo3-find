@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Tests for the AND viewhelper.
  */
-class AndViewHelperTest extends BaseTestCase
+class AndViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var AndViewHelper

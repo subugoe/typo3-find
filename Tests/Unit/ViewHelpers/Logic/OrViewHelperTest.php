@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Tests for the NOT viewhelper.
  */
-class OrViewHelperTest extends BaseTestCase
+class OrViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var OrViewHelper

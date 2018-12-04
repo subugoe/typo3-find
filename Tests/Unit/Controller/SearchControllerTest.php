@@ -27,12 +27,11 @@ namespace Subugoe\Find\Tests\Unit\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Subugoe\Find\Controller\SearchController;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
  * Tests for search controller.
  */
-class SearchControllerTest extends UnitTestCase
+class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
     /**
      * @var \Subugoe\Find\Controller\SearchController

@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Format\StripViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Tests for the whitespace stripping viewhelper.
  */
-class StripViewHelperTest extends BaseTestCase
+class StripViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var StripViewHelper

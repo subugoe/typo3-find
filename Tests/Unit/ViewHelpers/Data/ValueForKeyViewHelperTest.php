@@ -26,14 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for ValueForKey ViewHelper.
  */
-class ValueForKeyViewHelperTest extends BaseTestCase
+class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
 {
     use MockRenderingContextTrait;
 

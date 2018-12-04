@@ -26,13 +26,13 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for NewArray ViewHelper.
  */
-class NewArrayViewHelperTest extends BaseTestCase
+class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper

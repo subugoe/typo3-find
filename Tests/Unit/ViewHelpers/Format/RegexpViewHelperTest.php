@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Regexp viewhelper test.
  */
-class RegexpViewHelperTest extends BaseTestCase
+class RegexpViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var RegexpViewHelper

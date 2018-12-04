@@ -25,13 +25,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Test for SelectOptionsForFacet ViewHelper.
  */
-class SelectOptionsForFacetViewHelperTest extends BaseTestCase
+class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var \Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper

@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Format\CSVLineViewHelper;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * CSV line viewhelper test.
  */
-class CSVLineViewHelperTest extends BaseTestCase
+class CSVLineViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * @var CSVLineViewHelper

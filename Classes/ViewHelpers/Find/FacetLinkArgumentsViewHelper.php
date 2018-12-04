@@ -29,6 +29,7 @@ namespace Subugoe\Find\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Returns additional parameters needed to create links for facets.
@@ -67,12 +68,27 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
      */
     public function render()
     {
+        return self::renderStatic(
+            $this->arguments,
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $result = [];
 
-        $facetID = $this->arguments['facetID'];
-        $facetTerm = $this->arguments['facetTerm'];
-        $activeFacets = $this->arguments['activeFacets'];
-        $mode = $this->arguments['mode'];
+        $facetID = $arguments['facetID'];
+        $facetTerm = $arguments['facetTerm'];
+        $activeFacets = $arguments['activeFacets'];
+        $mode = $arguments['mode'];
         if ('remove' === $mode && $activeFacets) {
             if (array_key_exists($facetID, $activeFacets)) {
                 $itemToRemove = 'tx_find_find[facet]['.$facetID.']';

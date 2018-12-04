@@ -26,13 +26,14 @@ namespace Subugoe\Tests\Unit\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Subugoe\Find\Service\SolrServiceProvider;
-use TYPO3\CMS\Core\Tests\BaseTestCase;
 
 /**
  * Solr ServiceProvider Test.
  */
-class SolrServiceProviderTest extends BaseTestCase
+class SolrServiceProviderTest extends UnitTestCase
 {
     /**
      * @var \Subugoe\Find\Service\SolrServiceProvider
