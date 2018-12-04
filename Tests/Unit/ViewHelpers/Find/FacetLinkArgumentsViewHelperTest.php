@@ -57,7 +57,7 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     public function filterIsCorrectlyRemovedOnTextQueries()
     {
         $this->fixture->setArguments([
-            'facetId' => 'title',
+            'facetID' => 'title',
             'facetTerm' => 'hrdr',
             'activeFacets' => ['title' => ['hrdr'], 'horus' => 'behedeti'],
             'mode' => 'remove',
@@ -73,7 +73,7 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     public function filterIsCorrectlyAddedOnTextQueries()
     {
         $this->fixture->setArguments([
-            'facetId' => 'title',
+            'facetID' => 'title',
             'facetTerm' => 'hrdr',
             'activeFacets' => [],
             'mode' => 'add',
