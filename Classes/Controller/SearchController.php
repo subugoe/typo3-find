@@ -147,7 +147,10 @@ class SearchController extends ActionController
         $this->addStandardAssignments();
 
         $this->view->assignMultiple($detail);
-        $this->view->assign('arguments', $arguments);
+        $this->view->assignMultiple([
+            'arguments' => $arguments,
+            'config' => $this->searchProvider->getConfiguration(),
+        ]);
     }
 
     /**
