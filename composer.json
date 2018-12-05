@@ -26,6 +26,7 @@
     "subugoe/find": "self.version"
   },
   "require": {
+    "ext-json": "*",
     "typo3/cms-core": "^8.7 || ^9.5"
   },
   "require-dev": {

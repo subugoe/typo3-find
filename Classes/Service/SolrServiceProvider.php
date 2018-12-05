@@ -27,14 +27,12 @@ namespace Subugoe\Find\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Solarium\Client;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
-use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -250,7 +248,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     protected function addFacetQueries()
     {
         $facetConfiguration = $this->settings['facets'];
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         if ($facetConfiguration) {
             $facetSet = $this->query->getFacetSet();
@@ -269,7 +266,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                             if (array_key_exists('id', $facetQuery) && array_key_exists('query', $facetQuery)) {
                                 $queryForFacet->createQuery($facetQuery['id'], $facetQuery['query']);
                             } else {
-                                $logger->error(sprintf('TypoScript facet »%s«, facetQuery %s does not have the required keys »id« and »query«. Ignoring this facetQuery.', $facetID, $facetQueryIndex),
+                                $this->logger->error(sprintf('TypoScript facet »%s«, facetQuery %s does not have the required keys »id« and »query«. Ignoring this facetQuery.', $facetID, $facetQueryIndex),
                                     [
                                         'facetQuery' => $facetQuery,
                                         'facetConfiguration' => $facetConfiguration,
@@ -289,7 +286,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
                 } else {
-                    $logger->warning(sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
+                    $this->logger->warning(sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
                         [
                             'facet' => $facet,
                             'facetConfiguration' => $facetConfiguration,
@@ -402,7 +399,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     protected function getFacetQuery($facetConfig, $queryTerm)
     {
         $queryString = null;
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         if ($facetConfig) {
             if (array_key_exists('facetQuery', $facetConfig)) {
@@ -414,7 +410,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                     }
                 }
                 if (null === $queryString) {
-                    $logger->info(sprintf('Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.', $facetConfig['id'], $queryTerm),
+                    $this->logger->info(sprintf('Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.', $facetConfig['id'], $queryTerm),
                         [
                             'requestArguments' => $this->requestArguments,
                             'facetConfig' => $facetConfig,
@@ -438,7 +434,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 $queryString = sprintf($queryPattern, $queryTerm);
             }
         } else {
-            $logger->warning('A non-configured facet was selected. Ignoring it.',
+            $this->logger->warning('A non-configured facet was selected. Ignoring it.',
                 ['requestArguments' => $this->requestArguments]
             );
         }
@@ -709,8 +705,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     protected function addSortStringForQuery($sortString)
     {
         if (!empty($sortString)) {
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
-
             $sortCriteria = explode(',', $sortString);
             foreach ($sortCriteria as $sortCriterion) {
                 $sortCriterionParts = explode(' ', $sortCriterion);
@@ -720,14 +714,14 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $sortDirection = Query::SORT_DESC;
                     } else {
                         if ('asc' !== $sortCriterionParts[1]) {
-                            $logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
+                            $this->logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
                             continue;
                         }
                     }
 
                     $this->query->addSort($sortCriterionParts[0], $sortDirection);
                 } else {
-                    $logger->warning('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion);
+                    $this->logger->warning('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion);
                 }
             }
         }
@@ -743,12 +737,11 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $this->createQueryForArguments($this->getRequestArguments());
         $error = null;
         $resultSet = null;
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         try {
             $resultSet = $this->connection->execute($this->query);
         } catch (HttpException $exception) {
-            $logger->error('Solr Exception (Timeout?)',
+            $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'requestArguments' => $this->getRequestArguments(),
                     'exception' => LoggerUtility::exceptionToArray($exception),
@@ -956,7 +949,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     protected function addSortOrdersToTemplate($arguments)
     {
         $sortOptions = ['menu' => []];
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         if (is_array($this->settings['sort'])) {
             ksort($this->settings['sort']);
@@ -976,7 +968,7 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $sortOptions['default'] = $sortOption['sortCriteria'];
                     }
                 } else {
-                    $logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
+                    $this->logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
                         [
                             'sortOption' => $sortOption,
                         ]
@@ -1064,10 +1056,10 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function getDetail()
+    public function getDocumentById(string $id)
     {
         $arguments = $this->getRequestArguments();
-        $id = $arguments['id'];
+
         $assignments = [];
         if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $arguments)) {
             // If underlying query has been sent, fetch more data to enable paging arrows.
@@ -1101,7 +1093,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     protected function getTheRecordSpecified($id, $assignments)
     {
         $connection = $this->getConnection();
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         $this->createQuery();
         $escapedID = $this->query->getHelper()->escapeTerm($id);
@@ -1115,10 +1106,10 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                 $resultSet = $selectResults->getDocuments();
                 $assignments['document'] = $resultSet[0];
             } else {
-                $logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
+                $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
             }
         } catch (HttpException $exception) {
-            $logger->error('Solr Exception (Timeout?)',
+            $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $this->getRequestArguments(),
                     'exception' => LoggerUtility::exceptionToArray($exception),
@@ -1137,10 +1128,9 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
      *
      * @return mixed
      */
-    protected function getRecordsWithUnderlyingQuery($assignments, $index, $id, $arguments)
+    protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments)
     {
         $connection = $this->getConnection();
-        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
 
         try {
             /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
@@ -1164,15 +1154,15 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         $assignments['document-next-number'] = $index['nextIndex'] + 1;
                     }
                 } else {
-                    $logger->error(sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
+                    $this->logger->error(sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
                         ['arguments' => $arguments]
                     );
                 }
             } else {
-                $logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
+                $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
             }
         } catch (HttpException $exception) {
-            $logger->error('Solr Exception (Timeout?)',
+            $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $arguments,
                     'exception' => LoggerUtility::exceptionToArray($exception),

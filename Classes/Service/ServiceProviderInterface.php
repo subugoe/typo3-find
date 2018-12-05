@@ -82,7 +82,7 @@ interface ServiceProviderInterface
 
     public function getDefaultQuery();
 
-    public function getDetail();
+    public function getDocumentById(string $id);
 
     /**
      * @param array $requestArguments

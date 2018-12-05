@@ -32,7 +32,7 @@ namespace Subugoe\Find\Controller;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
-use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -48,6 +48,17 @@ class SearchController extends ActionController
      * @var ServiceProviderInterface
      */
     protected $searchProvider;
+
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LogManagerInterface $logManager)
+    {
+        parent::__construct();
+        $this->logger = $logManager->getLogger('find');
+    }
 
     /**
      * Initialisation and setup.
@@ -89,12 +100,15 @@ class SearchController extends ActionController
             $this->searchProvider->setCounter();
             $this->response->addAdditionalHeaderData(
                 FrontendUtility::addQueryInformationAsJavaScript(
-                    $this->requestArguments['q'],
+                    $this->searchProvider->getRequestArguments()['q'],
+                    $this->settings,
                     null,
-                    $this->searchProvider->getRequestArguments(),
-                    $this->settings
-                )
+                    $this->searchProvider->getRequestArguments()
+                ),
+            false,
+            true
             );
+
             $this->addStandardAssignments();
             $defaultQuery = $this->searchProvider->getDefaultQuery();
 
@@ -109,32 +123,31 @@ class SearchController extends ActionController
     }
 
     /**
-     * Single Item View action.
+     * @param string $id
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function detailAction()
+    public function detailAction(string $id)
     {
         $arguments = $this->searchProvider->getRequestArguments();
-        if (array_key_exists('id', $arguments) && !empty($arguments['id'])) {
-            $detail = $this->searchProvider->getDetail();
+        $detail = $this->searchProvider->getDocumentById($id);
 
-            if ($this->request->hasArgument('underlyingQuery')) {
-                $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-                $this->response->addAdditionalHeaderData(
-                    FrontendUtility::addQueryInformationAsJavaScript($underlyingQueryInfo['q'],
-                        (int) $underlyingQueryInfo['position'], $arguments, $this->settings)
+        if ($this->request->hasArgument('underlyingQuery')) {
+            $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+            $this->response->addAdditionalHeaderData(
+                    FrontendUtility::addQueryInformationAsJavaScript(
+                        $underlyingQueryInfo['q'],
+                        $this->settings,
+                        (int) $underlyingQueryInfo['position'],
+                        $arguments
+                    )
                 );
-            }
-            $this->addStandardAssignments();
-
-            $this->view->assignMultiple($detail);
-            $this->view->assign('arguments', $arguments);
-        } else {
-            // id argument missing or empty
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
-            $logger->error('Non-empty argument »id« is required for action »detail«.', ['arguments' => $arguments]);
-
-            $this->forward('index');
         }
+        $this->addStandardAssignments();
+
+        $this->view->assignMultiple($detail);
+        $this->view->assign('arguments', $arguments);
     }
 
     /**

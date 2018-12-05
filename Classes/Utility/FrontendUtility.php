@@ -28,7 +28,7 @@ namespace Subugoe\Find\Utility;
  * ************************************************************* */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Utility for JavaScripts, Views, ...
@@ -39,12 +39,13 @@ class FrontendUtility
      * Stores information about the active query in the »underlyingQuery« JavaScript variable.
      *
      * @param array    $query
+     * @param array    $settings
      * @param int|null $position  of the record in the result list
      * @param array    $arguments overrides $this->requestArguments if set
      *
      * @return string
      */
-    public static function addQueryInformationAsJavaScript($query, $position = null, $arguments = [], $settings)
+    public static function addQueryInformationAsJavaScript($query, array $settings, ?int $position, $arguments = [])
     {
         if ($settings['paging']['detailPagePaging']) {
             $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
