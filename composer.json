@@ -30,7 +30,7 @@
     "typo3/cms-core": "^8.7 || ^9.5"
   },
   "require-dev": {
-    "solarium/solarium": "~3.3",
+    "solarium/solarium": "~4.2",
     "nimut/testing-framework": "^4.1",
     "friendsofphp/php-cs-fixer": "^2.13"
   },
