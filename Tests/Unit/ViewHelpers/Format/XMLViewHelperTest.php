@@ -63,7 +63,9 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(XMLViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -78,6 +80,6 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
             'htmloutput' => $htmloutput,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

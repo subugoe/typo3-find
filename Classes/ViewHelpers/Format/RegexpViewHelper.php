@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Does Search and Replace with a regular expression.
@@ -52,21 +53,24 @@ class RegexpViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $input = $this->arguments['string'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $input = $arguments['string'];
         if (null === $input) {
-            $input = $this->renderChildren();
+            $input = $renderChildrenClosure();
         }
 
         $result = null;
-        if (null === $this->arguments['replace']) {
-            $result = preg_match($this->arguments['match'], $input);
+        if (null === $arguments['replace']) {
+            $result = preg_match($arguments['match'], $input);
         } else {
-            if (!$this->arguments['useMBEreg']) {
-                $result = preg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+            if (!$arguments['useMBEreg']) {
+                $result = preg_replace($arguments['match'], $arguments['replace'], $input);
             } else {
-                $result = mb_ereg_replace($this->arguments['match'], $this->arguments['replace'], $input);
+                $result = mb_ereg_replace($arguments['match'], $arguments['replace'], $input);
             }
         }
 

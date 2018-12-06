@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * THE SOFTWARE.
  ******************************************************************************/
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to convert an array with facet information into an array suitable
@@ -55,40 +56,43 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $result = [];
 
         // Start the select with a blank element?
-        if ($this->arguments['leadingBlank']) {
+        if ($arguments['leadingBlank']) {
             $result[''] = '';
         }
 
-        if (!empty($this->arguments['values'])) {
-            foreach ($this->arguments['values'] as $item => $count) {
+        if (!empty($arguments['values'])) {
+            foreach ($arguments['values'] as $item => $count) {
                 // Localise item name.
-                $localisationKey = $this->arguments['localisationPrefix'].$item;
+                $localisationKey = $arguments['localisationPrefix'].$item;
 
-                $localisedItem = LocalizationUtility::translate($localisationKey, $this->extensionName);
+                $localisedItem = LocalizationUtility::translate($localisationKey, 'find');
                 if (!$localisedItem) {
                     $localisedItem = $item;
                 }
 
                 // Append count to item name?
-                $result[$item] = $localisedItem.($this->arguments['showCount'] ? ' ('.$count.')' : '');
+                $result[$item] = $localisedItem.($arguments['showCount'] ? ' ('.$count.')' : '');
             }
         }
 
         // Sort the array?
-        if ($this->arguments['sortByName']) {
+        if ($arguments['sortByName']) {
             ksort($result);
         }
 
         // Strip sort prefixes.
-        if ($this->arguments['sortPrefixSeparator']) {
+        if ($arguments['sortPrefixSeparator']) {
             $strippedResult = [];
             foreach ($result as $key => $value) {
-                $valueParts = explode($this->arguments['sortPrefixSeparator'], $value, 2);
+                $valueParts = explode($arguments['sortPrefixSeparator'], $value, 2);
                 $strippedResult[$key] = $valueParts[count($valueParts) - 1];
             }
             $result = $strippedResult;

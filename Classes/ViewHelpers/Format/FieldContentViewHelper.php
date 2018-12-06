@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Formats a text field input.
@@ -45,9 +46,12 @@ class FieldContentViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $string = $this->arguments['string'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $string = $arguments['string'];
 
         if (is_array($string) && array_key_exists('term', $string)) {
             $string = $string['term'];

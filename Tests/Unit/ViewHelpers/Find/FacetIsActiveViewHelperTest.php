@@ -43,7 +43,7 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -71,7 +71,7 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
 
-        $this->assertTrue($this->fixture->render());
+        $this->assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -98,6 +98,6 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
         ];
         $this->fixture->setArguments($arguments);
 
-        $this->assertFalse($this->fixture->render());
+        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 }

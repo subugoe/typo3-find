@@ -49,7 +49,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)->setMethods(['renderChildren'])->getMock();
-        $this->fixture->initializeArguments();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -76,12 +76,10 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->templateVariableContainer = $this->getAccessibleMock(StandardVariableProvider::class, ['add', 'remove']);
-        $this->templateVariableContainer->expects($this->at(0))->method('add')->with('hrdr', $expected);
-        $this->templateVariableContainer->expects($this->at(1))->method('remove')->with('hrdr');
-        $this->inject($this->fixture, 'templateVariableContainer', $this->templateVariableContainer);
+        $this->renderingContext->getVariableProvider()->expects($this->at(0))->method('add')->with('hrdr', $expected);
+        $this->renderingContext->getVariableProvider()->expects($this->at(1))->method('remove')->with('hrdr');
 
-        $this->fixture->render();
+        $this->fixture->initializeArgumentsAndRender();
     }
 
     /**
@@ -98,6 +96,6 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
         $this->assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
-            $this->fixture->render());
+            $this->fixture->initializeArgumentsAndRender());
     }
 }

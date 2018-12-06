@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\Logic;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper the truth value of all conditions joined by &&.
@@ -48,10 +49,13 @@ class AndViewHelper extends AbstractViewHelper
     /**
      * @return bool
      */
-    public function render()
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $result = true;
-        foreach ($this->arguments['conditions'] as $condition) {
+        foreach ($arguments['conditions'] as $condition) {
             $result &= (true == $condition);
         }
 

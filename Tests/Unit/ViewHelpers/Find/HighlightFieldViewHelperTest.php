@@ -48,7 +48,7 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**

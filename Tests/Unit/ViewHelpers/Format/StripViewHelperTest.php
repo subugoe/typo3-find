@@ -55,7 +55,9 @@ class StripViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(StripViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -69,6 +71,6 @@ class StripViewHelperTest extends ViewHelperBaseTestcase
             'strip' => $strip,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

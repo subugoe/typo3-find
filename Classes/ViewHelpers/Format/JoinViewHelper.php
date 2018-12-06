@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to join the elements of an array into a string.
@@ -49,13 +50,16 @@ class JoinViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $array = $this->arguments['array'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $array = $arguments['array'];
         if (null === $array) {
-            $array = $this->renderChildren();
+            $array = $renderChildrenClosure();
         }
 
-        return implode($array, $this->arguments['separator']);
+        return implode($array, $arguments['separator']);
     }
 }

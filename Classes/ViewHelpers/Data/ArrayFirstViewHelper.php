@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the first element of the passed array even when not
@@ -43,19 +44,19 @@ class ArrayFirstViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('array', 'array', 'the array to return the first value of', false, null);
+        $this->registerArgument('array', 'array|string', 'the array to return the first value of', false, null);
     }
 
     /**
      * @return string|int|bool|array
      */
-    public function render()
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $result = null;
 
-        $array = $this->arguments['array'];
+        $array = $arguments['array'];
         if (null === $array) {
-            $array = $this->renderChildren();
+            $array = $renderChildrenClosure();
         }
 
         if (is_array($array) && count($array) > 0) {

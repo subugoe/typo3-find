@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to join the elements of an array into a string.
@@ -47,11 +48,14 @@ class TitleViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $title = $this->arguments['title'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $title = $arguments['title'];
         if (null === $title) {
-            $title = $this->renderChildren();
+            $title = $renderChildrenClosure();
         }
 
         /*

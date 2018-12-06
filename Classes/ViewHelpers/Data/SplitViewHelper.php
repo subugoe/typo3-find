@@ -28,7 +28,7 @@ namespace Subugoe\Find\ViewHelpers\Data;
  ******************************************************************************/
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to split a string into an array of strings at the given separator.
@@ -47,18 +47,6 @@ class SplitViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('string', 'string', 'The string to split into components', false, null);
         $this->registerArgument('separator', 'string', 'The string separating the components', false, self::DEFAULT_SEPARATOR);
-    }
-
-    /**
-     * @return array
-     */
-    public function render()
-    {
-        return self::renderStatic(
-            $this->arguments,
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
     }
 
     /**

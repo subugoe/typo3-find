@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to create a new array with the given keys and values.
@@ -58,37 +59,37 @@ class NewArrayViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        $result = $this->arguments['array'];
+        $result = $arguments['array'];
 
-        if ($this->arguments['keys']) {
-            if (count($this->arguments['keys']) === count($this->arguments['values'])) {
-                foreach ($this->arguments['keys'] as $index => $key) {
-                    $value = $this->arguments['values'][$index];
-                    if (!$this->arguments['omitEmptyFields'] || $value) {
+        if ($arguments['keys']) {
+            if (count($arguments['keys']) === count($arguments['values'])) {
+                foreach ($arguments['keys'] as $index => $key) {
+                    $value = $arguments['values'][$index];
+                    if (!$arguments['omitEmptyFields'] || $value) {
                         $result[$key] = $value;
                     }
                 }
             } else {
-                $result = 'newArray View Helper: Number of keys and values must be the same.'.PHP_EOL.print_r($this->arguments,
+                $result = 'newArray View Helper: Number of keys and values must be the same.'.PHP_EOL.print_r($arguments,
                         true);
             }
         } else {
-            foreach ($this->arguments['values'] as $value) {
+            foreach ($arguments['values'] as $value) {
                 $result[] = $value;
             }
         }
 
-        $variableName = $this->arguments['name'];
+        $variableName = $arguments['name'];
         if (null !== $variableName) {
-            if ($this->templateVariableContainer->exists($variableName)) {
-                $this->templateVariableContainer->remove($variableName);
+            if ($renderingContext->getVariableProvider()->exists($variableName)) {
+                $renderingContext->getVariableProvider()->remove($variableName);
             }
-            $this->templateVariableContainer->add($variableName, $result);
-            $result = $this->renderChildren();
-            if (true !== $this->arguments['global']) {
-                $this->templateVariableContainer->remove($variableName);
+            $renderingContext->getVariableProvider()->add($variableName, $result);
+            $result = $renderChildrenClosure();
+            if (true !== $arguments['global']) {
+                $renderingContext->getVariableProvider()->remove($variableName);
             }
         }
 

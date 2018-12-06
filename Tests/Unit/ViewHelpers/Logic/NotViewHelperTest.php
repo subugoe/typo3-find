@@ -67,7 +67,9 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(NotViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -80,6 +82,6 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
             'conditions' => $conditions,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

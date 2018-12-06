@@ -70,7 +70,9 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(RegexpViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -86,6 +88,6 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
             'useMBEreg' => $useMBEreg,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

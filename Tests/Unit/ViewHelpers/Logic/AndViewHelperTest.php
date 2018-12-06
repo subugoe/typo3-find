@@ -97,7 +97,9 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(AndViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -110,6 +112,6 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
             'conditions' => $conditions,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

@@ -43,7 +43,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)->setMethods(['renderChildren'])->getMock();
-        $this->fixture->initializeArguments();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -65,7 +65,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -85,7 +85,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -106,7 +106,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -128,6 +128,6 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to strip leading and trailing whitespace or other characters from a given string.
@@ -52,17 +53,20 @@ class StripViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
-    {
-        $string = $this->arguments['string'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $string = $arguments['string'];
         if (null === $string) {
-            $string = $this->renderChildren();
+            $string = $renderChildrenClosure();
         }
 
-        if (null === $this->arguments['strip']) {
+        if (null === $arguments['strip']) {
             $string = trim($string);
         } else {
-            $string = trim($string, $this->arguments['strip']);
+            $string = trim($string, $arguments['strip']);
         }
 
         return $string;

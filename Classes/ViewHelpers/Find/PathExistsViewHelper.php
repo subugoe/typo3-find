@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to determine whether the given path exists in the file system.
@@ -45,8 +46,11 @@ class PathExistsViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        return file_exists(PATH_site.$this->arguments['path']);
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        return file_exists(PATH_site.$arguments['path']);
     }
 }

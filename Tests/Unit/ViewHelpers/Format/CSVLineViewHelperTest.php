@@ -42,7 +42,10 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -61,7 +64,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr,behedeti,chub'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -80,7 +83,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr;behedeti;chub'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -99,7 +102,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '"hrdr horus";behedeti;"chub budan"'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -118,6 +121,6 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '/hrdr horus/;behedeti;/chub budan/'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

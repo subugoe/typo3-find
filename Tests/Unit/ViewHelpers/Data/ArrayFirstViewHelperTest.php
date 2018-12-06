@@ -42,8 +42,8 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(ArrayFirstViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
+        $this->fixture = $this->getMockBuilder(ArrayFirstViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -54,7 +54,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = ['hrdr', 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame('hrdr', $this->fixture->render());
+        $this->assertSame('hrdr', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -65,7 +65,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = null;
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->render());
+        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -76,7 +76,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = 'hrdr';
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->render());
+        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -87,7 +87,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = ['hrdr' => 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame('horus', $this->fixture->render());
+        $this->assertSame('horus', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -98,6 +98,6 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = [];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->render());
+        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
     }
 }

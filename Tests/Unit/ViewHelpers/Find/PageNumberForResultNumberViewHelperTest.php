@@ -47,8 +47,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(PageNumberForResultNumberViewHelper::class)->setMethods(['renderChildren'])->getMock();
-        $this->fixture->initializeArguments();
-
+        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->createRenderingContextMock();
         $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
@@ -67,7 +66,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
             'resultsPerPage' => $resultsPerPage,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -85,7 +84,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
             'resultsPerPage' => $resultsPerPage,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -102,7 +101,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
             'resultsPerPage' => $resultsPerPage,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     public function pageNumberFallBackForZeroResultsPerPage()
@@ -116,6 +115,6 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
             'resultsPerPage' => $resultsPerPage,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

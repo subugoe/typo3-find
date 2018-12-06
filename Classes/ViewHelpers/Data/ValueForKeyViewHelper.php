@@ -28,7 +28,7 @@ namespace Subugoe\Find\ViewHelpers\Data;
  ******************************************************************************/
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the value of a key in an array.
@@ -42,18 +42,6 @@ class ValueForKeyViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('array', 'array', 'The array to extract the value from', true);
         $this->registerArgument('key', 'string', 'The key to extract the value for', true);
-    }
-
-    /**
-     * @return string|int|bool|array
-     */
-    public function render()
-    {
-        return self::renderStatic(
-            $this->arguments,
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
     }
 
     /**

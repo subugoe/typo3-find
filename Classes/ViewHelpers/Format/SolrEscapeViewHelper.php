@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to escape a string for Solr queries.
@@ -46,18 +47,21 @@ class SolrEscapeViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function render()
-    {
-        $string = $this->arguments['string'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $string = $arguments['string'];
         if (null === $string) {
-            $string = $this->renderChildren();
+            $string = $renderChildrenClosure();
         }
 
         $solariumHelper = new \Solarium\Core\Query\Helper();
 
-        if ($this->arguments['phrase']) {
+        if ($arguments['phrase']) {
             $escapedString = $solariumHelper->escapePhrase($string);
         } else {
             $escapedString = $solariumHelper->escapeTerm($string);

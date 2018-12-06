@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper for styling the content of index document’s result fields.
@@ -69,20 +70,23 @@ class HighlightFieldViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        if ($this->arguments['document']) {
-            $fields = $this->arguments['document']->getFields();
-            $fieldContent = $fields[$this->arguments['field']];
-            if (null !== $this->arguments['index']) {
-                if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
-                    $fieldContent = $fieldContent[$this->arguments['index']];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        if ($arguments['document']) {
+            $fields = $arguments['document']->getFields();
+            $fieldContent = $fields[$arguments['field']];
+            if (null !== $arguments['index']) {
+                if (is_array($fieldContent) && count($fieldContent) > $arguments['index']) {
+                    $fieldContent = $fieldContent[$arguments['index']];
                 } else {
                     // TODO: error message
                 }
             }
 
-            return $this->highlightField($fieldContent);
+            return self::highlightField($fieldContent, $arguments);
         }
 
         return '';
@@ -93,20 +97,21 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      * by \ueeee and \ueeef.
      *
      * @param array|string $fieldContent content of the field to highlight
+     * @param array        $arguments
      *
      * @return array|string
      */
-    protected function highlightField($fieldContent)
+    protected static function highlightField($fieldContent, $arguments)
     {
-        $highlightInfo = $this->getHighlightInfo();
+        $highlightInfo = self::getHighlightInfo($arguments);
 
         if (is_array($fieldContent)) {
             $result = [];
             foreach ($fieldContent as $singleField) {
-                $result[] = $this->highlightSingleField($singleField, $highlightInfo);
+                $result[] = self::highlightSingleField($singleField, $highlightInfo, $arguments);
             }
         } else {
-            $result = $this->highlightSingleField($fieldContent, $highlightInfo);
+            $result = self::highlightSingleField($fieldContent, $highlightInfo, $arguments);
         }
 
         return $result;
@@ -118,18 +123,18 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      *
      * @return array
      */
-    protected function getHighlightInfo()
+    protected static function getHighlightInfo($arguments)
     {
         $highlightInfo = [];
-        $documentID = $this->arguments['document'][$this->arguments['idKey']];
+        $documentID = $arguments['document'][$arguments['idKey']];
         if ($documentID) {
-            $highlighting = $this->arguments['results']->getHighlighting();
+            $highlighting = $arguments['results']->getHighlighting();
 
             if ($highlighting) {
-                if ($this->arguments['alternateField']) {
-                    $highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['alternateField']);
+                if ($arguments['alternateField']) {
+                    $highlightInfo += $highlighting->getResult($documentID)->getField($arguments['alternateField']);
                 } else {
-                    $highlightInfo += $highlighting->getResult($documentID)->getField($this->arguments['field']);
+                    $highlightInfo += $highlighting->getResult($documentID)->getField($arguments['field']);
                 }
             }
         }
@@ -142,10 +147,11 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      *
      * @param string $fieldString   the string to highlight
      * @param array  $highlightInfo information provided by the index’ highlighter
+     * @param array  $arguments
      *
      * @return string
      */
-    protected function highlightSingleField($fieldString, $highlightInfo)
+    protected static function highlightSingleField($fieldString, $highlightInfo, $arguments)
     {
         $result = null;
 
@@ -154,13 +160,13 @@ class HighlightFieldViewHelper extends AbstractViewHelper
             if (null !== strpos($fieldString, $highlightItemStripped)) {
                 // HTML escape the text here if not explicitly configured to not do so.
                 // Use f:format.raw in the template to avoid double escaping the HTML tags.
-                if (!$this->arguments['raw']) {
+                if (!$arguments['raw']) {
                     $highlightItem = htmlspecialchars($highlightItem);
                 }
 
                 $highlightItemMarkedUp = str_replace(
                     ['\ueeee', '\ueeef'],
-                    [$this->arguments['highlightTagOpen'], $this->arguments['highlightTagClose']],
+                    [$arguments['highlightTagOpen'], $arguments['highlightTagClose']],
                     $highlightItem);
                 $result = str_replace($highlightItemStripped, $highlightItemMarkedUp, $fieldString);
                 break;
@@ -169,7 +175,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
 
         // If no highlighted string is present, use the original one.
         if (null === $result) {
-            if ($this->arguments['raw']) {
+            if ($arguments['raw']) {
                 $result = $fieldString;
             } else {
                 $result = htmlspecialchars($fieldString);

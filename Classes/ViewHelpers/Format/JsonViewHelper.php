@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the passed array, string or number as JSON.
@@ -47,11 +48,14 @@ class JsonViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $data = $this->arguments['data'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $data = $arguments['data'];
         if (null === $data) {
-            $data = $this->renderChildren();
+            $data = $renderChildrenClosure();
         }
 
         return json_encode($data);

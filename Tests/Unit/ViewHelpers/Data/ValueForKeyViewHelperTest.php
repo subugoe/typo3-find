@@ -47,8 +47,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
-
+        $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->createRenderingContextMock();
         $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
     }
@@ -69,7 +68,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'key' => $key,
         ]);
 
-        $this->assertSame('b', $this->fixture->render());
+        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -89,7 +88,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'format' => 'json',
         ]);
 
-        $this->assertSame('b', $this->fixture->render());
+        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -109,7 +108,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'format' => 'json',
         ]);
 
-        $this->assertSame('b', $this->fixture->render());
+        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -128,6 +127,6 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'key' => $key,
         ]);
 
-        $this->assertNull($this->fixture->render());
+        $this->assertNull($this->fixture->initializeArgumentsAndRender());
     }
 }

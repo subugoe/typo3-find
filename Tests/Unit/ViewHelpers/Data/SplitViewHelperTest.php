@@ -60,7 +60,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             ]
         );
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -77,7 +77,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'separator' => $separator,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -93,7 +93,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'separator' => $separator,
         ]);
 
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -107,7 +107,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'string' => $string,
         ]);
 
-        $actual = $this->fixture->render();
+        $actual = $this->fixture->initializeArgumentsAndRender();
 
         $this->assertSame($expected, $actual);
     }

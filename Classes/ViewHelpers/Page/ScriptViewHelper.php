@@ -27,7 +27,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to dynamically add script resources to the output.
@@ -56,21 +56,6 @@ class ScriptViewHelper extends AbstractViewHelper
     {
         $this->registerArgument('file', 'string', 'File to append as script');
         $this->registerArgument('name', 'string', 'Name to use', true);
-    }
-
-    /**
-     * @return string
-     */
-    public function render()
-    {
-        return self::renderStatic(
-            [
-                'file' => $this->arguments['file'],
-                'name' => $this->arguments['name'],
-            ],
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
     }
 
     /**

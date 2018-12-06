@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the passed array, string or number as JSON.
@@ -49,16 +50,19 @@ class CSVLineViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $data = $this->arguments['data'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $data = $arguments['data'];
         if (null === $data) {
-            $data = $this->renderChildren();
+            $data = $renderChildrenClosure();
         }
 
         // Write CSV to pseudo-file as PHP cannot write it directly to a string.
         $fp = fopen('php://temp', 'r+');
-        fputcsv($fp, $data, $this->arguments['fieldDelimiter'], $this->arguments['fieldEnclosure']);
+        fputcsv($fp, $data, $arguments['fieldDelimiter'], $arguments['fieldEnclosure']);
         rewind($fp);
         $result = fgets($fp);
         fclose($fp);

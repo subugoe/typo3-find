@@ -42,8 +42,8 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(SelectOptionsForFacetViewHelper::class, ['renderChildren']);
-        $this->fixture->initializeArguments();
+        $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**

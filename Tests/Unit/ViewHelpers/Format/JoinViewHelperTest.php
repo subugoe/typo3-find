@@ -42,7 +42,10 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->fixture = $this->getMockBuilder(JoinViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -59,7 +62,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr,behedeti,chub';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -76,7 +79,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr€behedeti€chub';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -93,7 +96,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr€$behedeti€$chub';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -110,7 +113,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -127,6 +130,6 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

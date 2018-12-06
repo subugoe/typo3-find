@@ -26,7 +26,9 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to rearrange an array of columns into an array of rows and.
@@ -48,17 +50,20 @@ class TransposeViewHelper extends AbstractViewHelper
     /**
      * @return string Rendered string
      */
-    public function render()
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
         $arrays = [];
         $iterationArray = [];
         // Strip non-numeric keys in the value arrays.
-        foreach ($this->arguments['arrays'] as $key => $array) {
+        foreach ($arguments['arrays'] as $key => $array) {
             $iterationArray = (null !== $array) ? $array : [];
             $arrays[$key] = array_values($iterationArray);
         }
 
-        if ($iterationArray && $this->identicalLengths($arrays)) {
+        if ($iterationArray && static::identicalLengths($arrays)) {
             $rows = [];
             foreach (array_keys($iterationArray) as $rowIndex) {
                 $row = [];
@@ -68,13 +73,13 @@ class TransposeViewHelper extends AbstractViewHelper
                 $rows[] = $row;
             }
 
-            $variableName = $this->arguments['name'];
-            $this->templateVariableContainer->add($variableName, $rows);
-            $output = $this->renderChildren();
-            $this->templateVariableContainer->remove($variableName);
+            $variableName = $arguments['name'];
+            $renderingContext->getVariableProvider()->add($variableName, $rows);
+            $output = $renderChildrenClosure();
+            $renderingContext->getVariableProvider()->remove($variableName);
         } else {
             $info = [];
-            foreach ($this->arguments['arrays'] as $key => $array) {
+            foreach ($arguments['arrays'] as $key => $array) {
                 $info[] = $key.': '.count($array);
             }
 
@@ -92,7 +97,7 @@ class TransposeViewHelper extends AbstractViewHelper
      *
      * @return bool
      */
-    protected function identicalLengths($arrays)
+    protected static function identicalLengths($arrays)
     {
         $result = true;
 

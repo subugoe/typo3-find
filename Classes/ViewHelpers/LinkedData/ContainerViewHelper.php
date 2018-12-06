@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\LinkedData;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to create a container for linked data output.
@@ -52,16 +53,19 @@ class ContainerViewHelper extends AbstractViewHelper
     /**
      * @return string
      */
-    public function render()
-    {
-        $this->templateVariableContainer->add($this->arguments['name'], []);
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $renderingContext->getVariableProvider()->add($arguments['name'], []);
 
-        $this->renderChildren();
-        $items = $this->templateVariableContainer->get($this->arguments['name']);
-        $this->templateVariableContainer->remove($this->arguments['name']);
+        $renderChildrenClosure();
+        $items = $renderingContext->getVariableProvider()->get($arguments['name']);
+        $renderingContext->getVariableProvider()->remove($arguments['name']);
 
-        $LDRenderer = Renderer\AbstractRenderer::instantiateSubclassForType($this->arguments['format']);
-        $LDRenderer->setPrefixes($this->arguments['prefixes']);
+        $LDRenderer = Renderer\AbstractRenderer::instantiateSubclassForType($arguments['format']);
+        $LDRenderer->setPrefixes($arguments['prefixes']);
         $result = $LDRenderer->renderItems($items);
 
         return $result;

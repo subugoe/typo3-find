@@ -28,7 +28,7 @@ namespace Subugoe\Find\ViewHelpers\Find;
  ******************************************************************************/
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper to return the number of the page the result at position resultNumber
@@ -50,18 +50,6 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('resultNumber', 'int', 'number of the result to determine the page number for', true);
         $this->registerArgument('resultsPerPage', 'int', 'number of results per page', false, self::DEFAULT_RESULTS_PER_PAGE);
-    }
-
-    /**
-     * @return int
-     */
-    public function render()
-    {
-        return self::renderStatic(
-            $this->arguments,
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
     }
 
     /**

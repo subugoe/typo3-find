@@ -28,8 +28,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns additional parameters needed to create links for facets.
@@ -64,18 +64,6 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
      * passing it to f.link.action’s »arguments«
      * or »argumentsToBeExcludedFromQueryString«.
      *
-     * @return array
-     */
-    public function render()
-    {
-        return self::renderStatic(
-            $this->arguments,
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
-    }
-
-    /**
      * @return array
      */
     public static function renderStatic(

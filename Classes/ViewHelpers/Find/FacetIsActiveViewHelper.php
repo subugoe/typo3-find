@@ -28,7 +28,9 @@ namespace Subugoe\Find\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Determines whether a facet is selected or not.
@@ -52,12 +54,19 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
     /**
      * @return bool
      */
-    public function render()
-    {
-        foreach ($this->arguments['activeFacets'] as $facets) {
+
+    /**
+     * @return string|int|bool|array
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        foreach ($arguments['activeFacets'] as $facets) {
             foreach ($facets as $facetInfo) {
-                if ($facetInfo['id'] === $this->arguments['facetID']
-                    && ($facetInfo['term'] === $this->arguments['facetTerm'] || null === $this->arguments['facetTerm'])
+                if ($facetInfo['id'] === $arguments['facetID']
+                    && ($facetInfo['term'] === $arguments['facetTerm'] || null === $arguments['facetTerm'])
                 ) {
                     return true;
                 }

@@ -42,7 +42,9 @@ class JsonViewHelperTest extends ViewHelperBaseTestcase
 
     public function setUp()
     {
+        parent::setUp();
         $this->fixture = $this->getMockBuilder(JsonViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
@@ -57,7 +59,7 @@ class JsonViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '["hrdr","behedeti","chub"]';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -72,7 +74,7 @@ class JsonViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '667';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -87,7 +89,7 @@ class JsonViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '"hrdr behedeti mate"';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -102,6 +104,6 @@ class JsonViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '667.67';
-        $this->assertSame($expected, $this->fixture->render());
+        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

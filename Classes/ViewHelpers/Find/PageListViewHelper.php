@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper returning an array of data needed to create a page list with templates.
@@ -49,14 +50,17 @@ class PageListViewHelper extends AbstractViewHelper
     /**
      * @return array
      */
-    public function render()
-    {
-        $currentPage = ($this->arguments['currentPage'] ? (int) $this->arguments['currentPage'] : 1);
-        $numberOfPages = (int) ceil($this->arguments['resultCount'] / $this->arguments['perPage']);
-        $adjacentPages = (int) $this->arguments['adjacentPages'];
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $currentPage = ($arguments['currentPage'] ? (int) $arguments['currentPage'] : 1);
+        $numberOfPages = (int) ceil($arguments['resultCount'] / $arguments['perPage']);
+        $adjacentPages = (int) $arguments['adjacentPages'];
         $adjacentFirst = max($currentPage - $adjacentPages, 1);
         $adjacentLast = min($currentPage + $adjacentPages, $numberOfPages);
-        $minimumGapSize = (int) $this->arguments['minimumGapSize'];
+        $minimumGapSize = (int) $arguments['minimumGapSize'];
 
         $pageIndex = 1;
         while ($pageIndex <= $numberOfPages) {

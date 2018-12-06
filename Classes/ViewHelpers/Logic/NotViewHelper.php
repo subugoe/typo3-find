@@ -27,7 +27,8 @@ namespace Subugoe\Find\ViewHelpers\Logic;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper the truth value of all conditions joined by ||.
@@ -48,8 +49,11 @@ class NotViewHelper extends AbstractViewHelper
     /**
      * @return bool
      */
-    public function render()
-    {
-        return !(true == $this->arguments['condition']);
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        return !(true == $arguments['condition']);
     }
 }
