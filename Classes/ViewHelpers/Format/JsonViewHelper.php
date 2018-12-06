@@ -42,7 +42,7 @@ class JsonViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('data', 'array|string|int|float', 'The data to output as JSON', false, null);
+        $this->registerArgument('data', 'mixed', 'The data to output as JSON', false, null);
     }
 
     /**
@@ -58,6 +58,6 @@ class JsonViewHelper extends AbstractViewHelper
             $data = $renderChildrenClosure();
         }
 
-        return json_encode($data);
+        return json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP);
     }
 }
