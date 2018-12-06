@@ -200,7 +200,7 @@ var tx_find = (function () {
     var plot = jQuery.plot(jGraphDiv, [{'data': graphData, 'color': graphColour}], graphOptions);
 
     // Create tooltip.
-    var jTooltip = jQuery('#tx_pazpar2-histogram-tooltip');
+    var jTooltip = jQuery('#tx_find-histogram-tooltip');
     if (jTooltip.length === 0) {
       var tooltipDiv = document.createElement('div');
       tooltipDiv.setAttribute('id', 'tx_find-histogram-tooltip');
