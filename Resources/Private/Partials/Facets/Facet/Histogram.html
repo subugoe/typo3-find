@@ -42,22 +42,13 @@
 			noCacheHash="1"
 			class="link-template hidden internal"
 		/>
-		<div class="histogram" id="c-{config.uid}-histogram-{facetInfo.id}">
-			<script type="text/javascript">
-			jQuery(function () {
-				var histogramConfiguration = {
-					'facetID': <s:format.json data="{facetInfo.id}"/>,
-					'barWidth': {f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)},
-					'activeFacets': [],
-				}
-				<f:for each="{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}" as="termInfo" key="term">
-					histogramConfiguration.activeFacets.push({s:format.json(data:term)});
-				</f:for>
-				var facetData = <s:format.json data="{facetData.values}"/>;
-
-				tx_find.createHistogramForTermsInContainer(facetData, document.getElementById('c-{config.uid}-histogram-{facetInfo.id}'), histogramConfiguration);
-			});
-			</script>
-		</div>
+		<div id="c-{config.uid}-histogram-{facetInfo.id}"
+			class="histogram"
+			data-facet-config="{f:format.json(value: '{
+				id: facetInfo.id,
+				data: facetData.values,
+				barWidth: \'{f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)}\',
+				activeFacets: config.activeFacets
+			}')}"/>
 	</f:alias>
 </div>

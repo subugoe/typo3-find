@@ -8,7 +8,7 @@
  *  * histogram facet selection
  *  * showing facet overflow items
  *
- * 2013 Sven-S. Porst, SUB Göttingen <porst@sub.uni-goettingen.de>
+ * 2013-2018 Sven-S. Porst <ssp-web@earthlingsoft.net>
  */
 var tx_find = (function () {
 
@@ -23,7 +23,7 @@ var tx_find = (function () {
    * * event handlers
    */
   var initialise = function () {
-    jQuery(document).ready(function () {
+    jQuery(function () {
       container = jQuery('.tx_find');
 
       if (jQuery.ui && jQuery.ui.autocomplete) {
@@ -49,6 +49,8 @@ var tx_find = (function () {
       jQuery('a.extendedSearch', container).click(toggleExtendedSearch);
 
       jQuery('.position .resultPosition', container).click(onClickRecordNumber);
+
+      initializeHistogramFacets();
     });
   };
 
@@ -115,16 +117,28 @@ var tx_find = (function () {
   };
 
 
+
   /**
-   * Uses jQuery.flot to create a histogram for »terms« with configuration »config«
-   * in »container.
-   *
-   * @param {object} terms (keys: year numbers, values: result counts)
-   * @param {DOMElement} histogramContainer
-   * @param {object} config
+   * Finds all histogram facets and draws them.
    */
-  var createHistogramForTermsInContainer = function (terms, histogramContainer, config) {
+  var initializeHistogramFacets = function () {
+    jQuery('.facetHistogram-container .histogram').each(function () {
+      createHistogramForTermsInContainer(this);
+    });
+  };
+
+
+
+  /**
+   * Uses jQuery.flot to create a histogram in »container« using the
+   * configuration provided by the data-facet-config attribute.
+   *
+   * @param {DOMElement} histogramContainer
+   */
+  var createHistogramForTermsInContainer = function (histogramContainer) {
     var jGraphDiv = jQuery(histogramContainer);
+    var facetConfig = jGraphDiv.data('facet-config');
+
     var graphWidth = jGraphDiv.parents('.facets').width();
     var canvasHeight = 150;
     jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
@@ -136,6 +150,7 @@ var tx_find = (function () {
       window.location.href = facetLink;
     };
 
+    var terms = facetConfig.data;
     var graphData = [];
     for (var yearName in terms) {
       var year = parseInt(yearName, 10);
@@ -167,7 +182,7 @@ var tx_find = (function () {
           'show': true,
           'fill': true,
           'lineWidth': 0,
-          'barWidth': config.barWidth,
+          'barWidth': facetConfig.barWidth,
           // 'fillColor': graphColour
           'fillColor': 'grey'
         }
@@ -207,8 +222,8 @@ var tx_find = (function () {
       jTooltip = jQuery(tooltipDiv).appendTo(document.body);
     }
 
-    for (var termIndex in config.activeFacets) {
-      var term = config.activeFacets[termIndex];
+    var activeFacets = facetConfig.activeFacets;
+    for (var term in activeFacets) {
       var matches = term.match(/RANGE (.*) TO (.*)/);
       if (matches) {
         var selection = {};
@@ -220,7 +235,7 @@ var tx_find = (function () {
 
 
     /**
-     * Rounds the passed range to the next multiple of config.barWidth
+     * Rounds the passed range to the next multiple of facetConfig.barWidth
      * below and above.
      *
      * @param {object} range
@@ -230,10 +245,10 @@ var tx_find = (function () {
       var outputRange = {};
 
       var from = Math.floor(range.from);
-      outputRange.from = from - (from % config.barWidth);
+      outputRange.from = from - (from % facetConfig.barWidth);
 
       var to = Math.ceil(range.to);
-      outputRange.to = to - (to % config.barWidth) + config.barWidth;
+      outputRange.to = to - (to % facetConfig.barWidth) + facetConfig.barWidth;
 
       return outputRange;
     };
@@ -302,7 +317,7 @@ var tx_find = (function () {
         }
         else {
           var year = Math.floor(ranges.xaxis.from);
-          year = year - (year % config.barWidth);
+          year = year - (year % facetConfig.barWidth);
           if (terms[year]) {
             var hitCount = terms[year];
             var displayString = year.toString() + ': ' + hitCount + ' ' + localise('Treffer');
@@ -520,7 +535,6 @@ var tx_find = (function () {
 
   return {
     'showAllFacetsOfType': showAllFacetsOfType,
-    'createHistogramForTermsInContainer': createHistogramForTermsInContainer,
     'detailViewWithPaging': detailViewWithPaging,
     'toggleExtendedSearch': toggleExtendedSearch,
     'googleMapsLoader': googleMapsLoader,
