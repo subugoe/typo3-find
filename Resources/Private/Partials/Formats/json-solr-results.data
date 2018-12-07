@@ -1,1 +1,1 @@
-{namespace s=Subugoe\Find\ViewHelpers}<s:format.json data="{results.data.response.docs}"/>
+<f:format.json value="{results.data.response.docs}"/>

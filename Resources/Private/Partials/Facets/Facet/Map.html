@@ -42,7 +42,7 @@
 <s:page.script name="find_geohash">
 	tx_find_facetMap.init ({
 		container: jQuery('.facet-id-{facetInfo.id} .mapContainer')[0],
-		queryURLTemplate: {s:format.json(data:"{f:uri.action(
+		queryURLTemplate: {f:format.json(value:"{f:uri.action(
 			addQueryString:TRUE,
 			arguments:'{
 				q:\'{raw:\"###TERM###\"}\',
@@ -53,7 +53,7 @@
 			format:'data',
 			noCacheHash:'1'
 		)}")},
-		facetData: {s:format.json(data:facetData.values)},
+		facetData: {f:format.json(value:facetData.values)},
 		facetFetchMaximum: {facetInfo.fetchMaximum}
 	});
 </s:page.script>
