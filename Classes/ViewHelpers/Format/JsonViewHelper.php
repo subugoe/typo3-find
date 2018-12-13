@@ -33,8 +33,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * View Helper to return the passed array, string or number as JSON.
  *
  * Usage examples are available in Private/Partials/Test.html.
- * 
- * @deprecated Please use f:format.json instead
+ *
+ * @deprecated Please use f:format.json instead. This ViewHelper only acts as bridge to the Core ViewHelper.
  */
 class JsonViewHelper extends AbstractViewHelper
 {
@@ -55,11 +55,16 @@ class JsonViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $data = $arguments['data'];
-        if (null === $data) {
-            $data = $renderChildrenClosure();
-        }
+        @trigger_error('Please use f:format.json instead', E_USER_DEPRECATED);
 
-        return json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP);
+        // Transform arguments for being compatible to the core ViewHelper arguments
+        $data = [];
+        $data['value'] = $arguments['data'];
+        $data['forceObject'] = false;
+
+        // Call the Core ViewHelper
+        $jsonViewHelper = new \TYPO3\CMS\Fluid\ViewHelpers\Format\JsonViewHelper();
+
+        return $jsonViewHelper::renderStatic($data, $renderChildrenClosure, $renderingContext);
     }
 }

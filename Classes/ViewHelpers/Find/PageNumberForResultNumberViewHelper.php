@@ -68,7 +68,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
             $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
         }
 
-        $pageNumber = intval(ceil($arguments['resultNumber'] / $arguments['resultsPerPage']));
+        $pageNumber = (int) ceil($arguments['resultNumber'] / $arguments['resultsPerPage']);
 
         return $pageNumber;
     }

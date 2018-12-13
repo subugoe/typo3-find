@@ -45,9 +45,6 @@ class TitleViewHelper extends AbstractViewHelper
         $this->registerArgument('title', 'string', 'the title to set for the page', false, null);
     }
 
-    /**
-     * @return string
-     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
