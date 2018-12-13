@@ -33,6 +33,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * View Helper to return the passed array, string or number as JSON.
  *
  * Usage examples are available in Private/Partials/Test.html.
+ * 
+ * @deprecated Please use f:format.json instead
  */
 class JsonViewHelper extends AbstractViewHelper
 {
