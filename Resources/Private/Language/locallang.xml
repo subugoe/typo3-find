@@ -41,6 +41,7 @@
 			<label index="remove filter">remove filter</label>
 			<label index="remove filter %s">remove filter “%s”</label>
 			<label index="show all">show all</label>
+			<label index="hide hidden">collapse list</label>
 
 			<label index="Show Detail Page">Details</label>
 
