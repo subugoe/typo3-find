@@ -230,7 +230,14 @@
   font-style: italic;
   color: #666666;
 }
+.tx_find article.facet .facetHideHidden a, .tx_find .facet-type-Tabs .facetHideHidden a {
+  font-style: italic;
+  color: #666666;
+}
 .tx_find article.facet .facetShowAll a:hover, .tx_find .facet-type-Tabs .facetShowAll a:hover {
+  color: black;
+}
+.tx_find article.facet .facetHideHidden a:hover, .tx_find .facet-type-Tabs .facetHideHidden a:hover {
   color: black;
 }
 .tx_find article.facet .facetHistogram-container .facetActive, .tx_find .facet-type-Tabs .facetHistogram-container .facetActive {
