@@ -309,6 +309,17 @@ $tabSelected: #263476;
             }
         }
 
+        .facetHideHidden {
+            a {
+                font-style: italic;
+                color: $downlight;
+            }
+
+            a:hover {
+                color: $current;
+            }
+        }
+
         .facetHistogram-container .facetActive {
             margin-bottom: 0.5em;
         }
