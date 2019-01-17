@@ -107,12 +107,23 @@ var tx_find = (function () {
    * @param {Event} myEvent click event
    * @returns {Boolean} false
    */
+   */
   var showAllFacetsOfType = function (myEvent) {
-    var jLink = jQuery(myEvent.toElement);
+    var jLink = jQuery(myEvent.target);
     var containingList = jLink.parents('ol')[0];
+    var linkShowAll = jQuery('.facetShowAll', containingList);
+    var linkHideHidden = jQuery('.facetHideHidden', containingList);
     // Fade in the hidden elemens and hide the Show All link.
-    jQuery('.hidden', containingList).slideDown(300);
-    jLink.parent().fadeOut(200);
+    jQuery('.hidden', containingList).slideToggle(500);
+    // Check links to show all or hide previously hidden elements and toggle css style attribute 'display'
+    if ( $(linkShowAll).is(":hidden") ) {
+      jQuery(linkShowAll).show();
+      jQuery(linkHideHidden).hide();
+    }
+    else {
+      jQuery(linkShowAll).hide();
+      jQuery(linkHideHidden).show();
+    }
     return false;
   };
 

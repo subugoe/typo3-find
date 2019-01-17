@@ -30,9 +30,14 @@
 		</f:alias>
 	</f:for>
 	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
-		<li class="facetShowAll">
+		<li class="facetShowAll" style="display: list-item;">
 			<a href="#" onclick="return tx_find.showAllFacetsOfType(event)">
 				<f:translate key="show all"/>
+			</a>
+		</li>
+		<li class="facetHideHidden" style="display: none;">
+			<a href="#" onclick="return tx_find.showAllFacetsOfType(event)">
+				<f:translate key="hide hidden"/>
 			</a>
 		</li>
 	</f:if>
