@@ -107,7 +107,7 @@ var tx_find = (function () {
    * @param {Event} myEvent click event
    * @returns {Boolean} false
    */
-   */
+*/
   var showAllFacetsOfType = function (myEvent) {
     var jLink = jQuery(myEvent.target);
     var containingList = jLink.parents('ol')[0];
@@ -116,17 +116,15 @@ var tx_find = (function () {
     // Fade in the hidden elemens and hide the Show All link.
     jQuery('.hidden', containingList).slideToggle(500);
     // Check links to show all or hide previously hidden elements and toggle css style attribute 'display'
-    if ( $(linkShowAll).is(":hidden") ) {
+    if ($(linkShowAll).is(":hidden")) {
       jQuery(linkShowAll).show();
       jQuery(linkHideHidden).hide();
-    }
-    else {
+    } else {
       jQuery(linkShowAll).hide();
       jQuery(linkHideHidden).show();
     }
     return false;
   };
-
 
 
   /**
@@ -137,7 +135,6 @@ var tx_find = (function () {
       createHistogramForTermsInContainer(this);
     });
   };
-
 
 
   /**
@@ -325,8 +322,7 @@ var tx_find = (function () {
         if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
           var range = roundedRange(ranges.xaxis);
           displayString = range.from.toString() + '-' + range.to.toString();
-        }
-        else {
+        } else {
           var year = Math.floor(ranges.xaxis.from);
           year = year - (year % facetConfig.barWidth);
           if (terms[year]) {
@@ -338,8 +334,7 @@ var tx_find = (function () {
 
       if (displayString) {
         showTooltip(pageX, tooltipY, displayString);
-      }
-      else {
+      } else {
         hideTooltip();
       }
     };
@@ -385,10 +380,9 @@ var tx_find = (function () {
       for (var key in object) {
         var prefixWithKey = prefix + '[' + key + ']';
         var value = object[key];
-        if (typeof(value) === 'object') {
+        if (typeof (value) === 'object') {
           inputs = inputs.concat(inputsWithPrefixForObject(prefixWithKey, value));
-        }
-        else {
+        } else {
           inputs.push(inputWithNameAndValue(prefixWithKey, value));
         }
       }
@@ -418,8 +412,7 @@ var tx_find = (function () {
       var jOL = jLI.parents('ol');
       if (position) {
         underlyingQuery.position = position;
-      }
-      else if (jOL) {
+      } else if (jOL) {
         underlyingQuery.position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
       }
 
@@ -465,8 +458,7 @@ var tx_find = (function () {
       jThis.text(this.getAttribute('extendedstring'));
       jQuery('.field-mode-extended', jForm).slideDown('fast');
       changeURLParameterForPage('extended', 1);
-    }
-    else {
+    } else {
       jThis.text(this.getAttribute('simplestring'));
       jQuery('.field-mode-extended', jForm).slideUp('fast');
       changeURLParameterForPage('extended');
@@ -491,8 +483,7 @@ var tx_find = (function () {
     jQuery('a:not(.no-change)', container).each(function () {
       if (value !== undefined) {
         this.href = addURLParameter(this.href, parameterName, value);
-      }
-      else {
+      } else {
         this.href = removeURLParameter(this.href, parameterName);
       }
     });
@@ -501,8 +492,7 @@ var tx_find = (function () {
     jQuery('input.' + parameterName, container).each(function () {
       if (value !== undefined) {
         this.setAttribute('name', URLParameterPrefix + '[' + parameterName + ']');
-      }
-      else {
+      } else {
         this.setAttribute('name', '');
       }
     });
@@ -576,8 +566,7 @@ var tx_find_facetMap = (function () {
     interface.config = config;
     if (document.google !== undefined && google.maps) {
       mapsLoadedCallback();
-    }
-    else {
+    } else {
       jQuery(document).bind('tx_find.mapsLoaded', mapsLoadedCallback);
       tx_find.googleMapsLoader.load();
     }
