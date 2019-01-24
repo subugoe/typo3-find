@@ -107,7 +107,6 @@ var tx_find = (function () {
    * @param {Event} myEvent click event
    * @returns {Boolean} false
    */
-*/
   var showAllFacetsOfType = function (myEvent) {
     var jLink = jQuery(myEvent.target);
     var containingList = jLink.parents('ol')[0];
