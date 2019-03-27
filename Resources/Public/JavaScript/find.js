@@ -150,9 +150,9 @@ var tx_find = (function () {
     var canvasHeight = 150;
     jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
 
-    var startSearchWithNewFacet = function (range) {
+    var startSearchWithNewFacet = function (event, range) {
+      var linkTemplate = $(event.target).closest('.histogram').data('link');
       var facetQueryString = 'RANGE%20' + range.from + '%20TO%20' + range.to;
-      var linkTemplate = jQuery('.link-template', jQuery(histogramContainer).parent())[0].href;
       var facetLink = linkTemplate.replace('%25%25%25%25', facetQueryString);
       window.location.href = facetLink;
     };
@@ -229,8 +229,8 @@ var tx_find = (function () {
       jTooltip = jQuery(tooltipDiv).appendTo(document.body);
     }
 
-    var activeFacets = facetConfig.activeFacets;
-    for (var term in activeFacets) {
+    var selectedHistogramFacets = facetConfig.activeFacets[facetConfig.id];
+    for (var term in selectedHistogramFacets) {
       var matches = term.match(/RANGE (.*) TO (.*)/);
       if (matches) {
         var selection = {};
@@ -267,11 +267,11 @@ var tx_find = (function () {
      *
      * @param {object} ranges
      */
-    var selectRanges = function (ranges) {
+    var selectRanges = function (event, ranges) {
       var newRange = roundedRange(ranges.xaxis);
       plot.setSelection({'xaxis': newRange}, true);
       hideTooltip();
-      startSearchWithNewFacet(newRange);
+      startSearchWithNewFacet(event, newRange);
     };
 
     jGraphDiv.bind('plotclick', function (event, pos, item) {
@@ -279,7 +279,7 @@ var tx_find = (function () {
     });
 
     jGraphDiv.bind('plotselected', function (event, ranges) {
-      selectRanges(ranges);
+      selectRanges(event, ranges);
     });
 
     jGraphDiv.bind('plotunselected', function () {
