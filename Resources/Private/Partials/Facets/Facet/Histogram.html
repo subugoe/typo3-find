@@ -29,7 +29,7 @@
 	<f:alias map="{
 		addArguments:'{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:config.activeFacets)}',
 		removeArguments:'{f:if(
-			condition:\"{s:data.valueForKey(array:config.arguments.facet, key:facetInfo.id)}\",
+			condition:\"{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}\",
 			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:config.activeFacets)}\",
 			else:\"{0:\'{config.prefixID}[page]\'}\"
 		)}'
