@@ -278,7 +278,7 @@ var tx_find = (function () {
       return true;
     });
 
-    jGraphDiv.bind('plotselected', function (event, ranges) {
+    jGraphDiv.one('plotselected', function (event, ranges) {
       selectRanges(event, ranges);
     });
 
