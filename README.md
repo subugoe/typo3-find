@@ -522,8 +522,12 @@ plugin.tx_find.settings.facets {
 
 This facet is made for numeric fields. It will draw a histogram to
 visualise the number of results per number in the index. It is a nice
-way to visualise a »year« facet. You typically want a high
-`fetchMaximum` setting for the histogram facet.
+way to visualise a »year« facet.
+
+You typically want a high `fetchMaximum` setting for the histogram
+facet. Setting `excludeOwnFilter = 1` will not remove the filtered
+values from the facet as usual but keep the previous hustogram and
+highlight the selected range.
 
 -   `barWidth`: the »width« of each of the bars in the histogram; if you
     cover a wide number range it can be worthwhile to group the bars in
@@ -539,6 +543,7 @@ plugin.tx_find.settings.facets {
         id = decade
         field = decade
         type = Histogram
+        excludeOwnFilter = 1
         sortOrder = index
         fetchMaximum = 1000
         barWidth = 10
