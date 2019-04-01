@@ -29,19 +29,11 @@
 	<f:alias map="{
 		addArguments:'{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:\"%%%%\", mode:\"add\", activeFacets:config.activeFacets)}',
 		removeArguments:'{f:if(
-			condition:\"{s:data.valueForKey(array:config.arguments.facet, key:facetInfo.id)}\",
+			condition:\"{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}\",
 			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:config.activeFacets)}\",
 			else:\"{0:\'{config.prefixID}[page]\'}\"
 		)}'
 	}">
-		<f:link.action
-			addQueryString="TRUE"
-			arguments="{addArguments}"
-			argumentsToBeExcludedFromQueryString="{removeArguments}"
-			section="{settings.jumpToID}"
-			noCacheHash="1"
-			class="link-template hidden internal"
-		/>
 		<div id="c-{config.uid}-histogram-{facetInfo.id}"
 			class="histogram"
 			data-facet-config="{f:format.json(value: '{
@@ -49,6 +41,13 @@
 				data: facetData.values,
 				barWidth: \'{f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)}\',
 				activeFacets: config.activeFacets
-			}')}"/>
+			}')}"
+			data-link="{f:uri.action(
+				addQueryString:'TRUE',
+				arguments:'{addArguments}',
+				argumentsToBeExcludedFromQueryString:'{removeArguments}',
+				section:'{settings.jumpToID}',
+				noCacheHash:'1'
+			)}"/>
 	</f:alias>
 </div>
