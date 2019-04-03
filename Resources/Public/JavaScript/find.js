@@ -8,7 +8,7 @@
  *  * histogram facet selection
  *  * showing facet overflow items
  *
- * 2013-2018 Sven-S. Porst <ssp-web@earthlingsoft.net>
+ * 2013-2019 Sven-S. Porst <ssp-web@earthlingsoft.net>
  */
 var tx_find = (function () {
 
@@ -151,10 +151,18 @@ var tx_find = (function () {
     jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
 
     var startSearchWithNewFacet = function (event, range) {
-      var linkTemplate = $(event.target).closest('.histogram').data('link');
-      var facetQueryString = 'RANGE%20' + range.from + '%20TO%20' + range.to;
-      var facetLink = linkTemplate.replace('%25%25%25%25', facetQueryString);
-      window.location.href = facetLink;
+      var jHistogram = $(event.target).closest('.histogram');
+      var linkTemplate = jHistogram.data('link');
+      var facetQueryString = 'RANGE ' + range.from + ' TO ' + (range.to - 1); // TODO off-by-one
+
+      var facetConfig = jHistogram.data('facet-config');
+      // only change the location if the facet selection has changed
+      var myFacetData = facetConfig.activeFacets[facetConfig.id] || {};
+      var firstActiveFacetValue = Object.keys(myFacetData)[0];
+      if (firstActiveFacetValue !== facetQueryString) {
+        var facetLink = linkTemplate.replace('%25%25%25%25', escape(facetQueryString));
+        window.location.href = facetLink;
+      }
     };
 
     var terms = facetConfig.data;
@@ -233,9 +241,10 @@ var tx_find = (function () {
     for (var term in selectedHistogramFacets) {
       var matches = term.match(/RANGE (.*) TO (.*)/);
       if (matches) {
-        var selection = {};
-        selection.from = parseInt(matches[1]);
-        selection.to = parseInt(matches[2]);
+        var selection = {
+          from: parseInt(matches[1], 10),
+          to: parseInt(matches[2], 10)
+        };
         plot.setSelection({'xaxis': selection});
       }
     }
@@ -259,7 +268,6 @@ var tx_find = (function () {
 
       return outputRange;
     };
-
 
     /**
      * Rounds the xaxis range of the passed ranges, selects the resulting
@@ -412,7 +420,7 @@ var tx_find = (function () {
       if (position) {
         underlyingQuery.position = position;
       } else if (jOL) {
-        underlyingQuery.position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
+        underlyingQuery.position = parseInt(jOL.attr('start'), 10) + parseInt(jLI.index(), 10);
       }
 
       var form = document.createElement('form');
@@ -581,7 +589,7 @@ var tx_find_facetMap = (function () {
     for (var facetIndex in config.facetData) {
       var indexParts = facetIndex.split('-');
       if (indexParts.length === 2) {
-        var geohashScale = parseInt(indexParts[0]);
+        var geohashScale = parseInt(indexParts[0], 10);
         lastZoomLevel = geohashScale;
 
         if (!zoomInfo[geohashScale]) {
