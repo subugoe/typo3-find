@@ -551,6 +551,12 @@ plugin.tx_find.settings.facets {
 }
 ```
 
+The Histogram facet uses the jQuery.flot and jQuery.flot.selection
+[0.8.3](https://github.com/flot/flot/releases/tag/v0.8.3) libraries
+from [flotcharts](https://www.flotcharts.org). Be sure to download
+them and serve them with your page, e.g. by adding the paths to the
+files to `page.includeJS` in TypoScript after jQuery.
+
 #### Map
 
 This face creates a tiny Google map from a Solr field containing
