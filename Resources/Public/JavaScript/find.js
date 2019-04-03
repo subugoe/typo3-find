@@ -145,25 +145,11 @@ var tx_find = (function () {
   var createHistogramForTermsInContainer = function (histogramContainer) {
     var jGraphDiv = jQuery(histogramContainer);
     var facetConfig = jGraphDiv.data('facet-config');
+    var selectedHistogramFacets = facetConfig.activeFacets[facetConfig.id] || {};
 
     var graphWidth = jGraphDiv.parents('.facets').width();
     var canvasHeight = 150;
     jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
-
-    var startSearchWithNewFacet = function (event, range) {
-      var jHistogram = $(event.target).closest('.histogram');
-      var linkTemplate = jHistogram.data('link');
-      var facetQueryString = 'RANGE ' + range.from + ' TO ' + (range.to - 1); // TODO off-by-one
-
-      var facetConfig = jHistogram.data('facet-config');
-      // only change the location if the facet selection has changed
-      var myFacetData = facetConfig.activeFacets[facetConfig.id] || {};
-      var firstActiveFacetValue = Object.keys(myFacetData)[0];
-      if (firstActiveFacetValue !== facetQueryString) {
-        var facetLink = linkTemplate.replace('%25%25%25%25', escape(facetQueryString));
-        window.location.href = facetLink;
-      }
-    };
 
     var terms = facetConfig.data;
     var graphData = [];
@@ -237,13 +223,12 @@ var tx_find = (function () {
       jTooltip = jQuery(tooltipDiv).appendTo(document.body);
     }
 
-    var selectedHistogramFacets = facetConfig.activeFacets[facetConfig.id];
     for (var term in selectedHistogramFacets) {
       var matches = term.match(/RANGE (.*) TO (.*)/);
       if (matches) {
         var selection = {
           from: parseInt(matches[1], 10),
-          to: parseInt(matches[2], 10)
+          to: parseInt(matches[2], 10) + 1
         };
         plot.setSelection({'xaxis': selection});
       }
@@ -258,16 +243,29 @@ var tx_find = (function () {
      * @returns {object}
      */
     var roundedRange = function (range) {
-      var outputRange = {};
-
-      var from = Math.floor(range.from);
-      outputRange.from = from - (from % facetConfig.barWidth);
-
-      var to = Math.ceil(range.to);
-      outputRange.to = to - (to % facetConfig.barWidth) + facetConfig.barWidth;
-
-      return outputRange;
+      var fromFloor = range.from - (range.from % facetConfig.barWidth);
+      var toCeil = range.to + facetConfig.barWidth - (range.to % facetConfig.barWidth)
+      return {
+        from: fromFloor,
+        to: toCeil
+      };
     };
+
+    var startSearchWithNewFacet = function (event, range) {
+      var jHistogram = $(event.target).closest('.histogram');
+      var linkTemplate = jHistogram.data('link');
+
+      var activeFacetValues = Object.keys(selectedHistogramFacets);
+      var facetQueryString = 'RANGE ' + range.from + ' TO ' + (range.to - 1);
+      
+      // Only change the location if the facet selection has changed.
+      if (!(facetQueryString in activeFacetValues)) {
+        var facetLink = linkTemplate.replace('%25%25%25%25', escape(facetQueryString));
+        window.location.href = facetLink;
+      }
+    };
+
+    var hideTooltip = jTooltip.hide;
 
     /**
      * Rounds the xaxis range of the passed ranges, selects the resulting
@@ -296,14 +294,6 @@ var tx_find = (function () {
 
 
     /**
-     * Hides the tooltip.
-     */
-    var hideTooltip = function () {
-      jTooltip.hide();
-    };
-
-
-    /**
      * Updates the tooltip visiblity, position and text.
      *
      * @param {event} event
@@ -328,7 +318,7 @@ var tx_find = (function () {
       if (ranges) {
         if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
           var range = roundedRange(ranges.xaxis);
-          displayString = range.from.toString() + '-' + range.to.toString();
+          displayString = range.from.toString() + '-' + (range.to - 1).toString();
         } else {
           var year = Math.floor(ranges.xaxis.from);
           year = year - (year % facetConfig.barWidth);
