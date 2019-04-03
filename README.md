@@ -444,6 +444,10 @@ needed.
     by the user)
 -   `autocomplete`: whether to offer an autocompletion search field
     above the facet items (helpful for facets with many items)
+    The autocomplete feature uses the
+    [`jQuery.chosen`](https://harvesthq.github.io/chosen/) library
+    Be sure to download it and serve them with your page, e.g. by adding
+    the paths to the files to `page.includeJS` in TypoScript after jQuery.
 -   `sortPrefixSeparator`: this string is used to split the facet’s name
     into two parts and only display the second part; this way you can
     sort by the first part (e.g. with zero-padded numbers) and still
