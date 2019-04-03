@@ -32,14 +32,15 @@
 			condition:\"{s:data.valueForKey(array:config.activeFacets, key:facetInfo.id)}\",
 			then:\"{s:find.facetLinkArguments(facetID:facetInfo.id, mode:\'remove\', activeFacets:config.activeFacets)}\",
 			else:\"{0:\'{config.prefixID}[page]\'}\"
-		)}'
+		)}',
+		barWidthInt:'{facetInfo.barWidth + 0}'
 	}">
 		<div id="c-{config.uid}-histogram-{facetInfo.id}"
 			class="histogram"
 			data-facet-config="{f:format.json(value: '{
 				id: facetInfo.id,
 				data: facetData.values,
-				barWidth: \'{f:if(condition:facetInfo.barWidth, then:facetInfo.barWidth else:1)}\',
+				barWidth: \'{f:if(condition:barWidthInt, then:barWidthInt, else:1)}\',
 				activeFacets: config.activeFacets
 			}')}"
 			data-link="{f:uri.action(
