@@ -155,11 +155,21 @@ class SearchController extends ActionController
 
     /**
      * Suggest/Autocomplete action.
+     * 
+     * Technique to make TYPO3 output JSON with application/json Content-Type
+     * and without extraneous escaping taken from:
+     * https://gist.github.com/arnekolja/ee9152e15e8f440773ad
      */
     public function suggestAction()
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
-        $this->view->assign('suggestions', $results);
+
+        $theView = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Mvc\\View\\JsonView');
+        $theView->setControllerContext($this->controllerContext);
+        $theView->setVariablesToRender(array('suggestions'));
+        $theView->assign('suggestions', $results);
+
+        return $theView->render();
     }
 
     /**

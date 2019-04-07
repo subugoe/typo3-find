@@ -125,7 +125,6 @@ subset of the folders / files existing)
 -   Templates/Search:
     -   Index.html and Detail.html for the display
     -   Index.data and Detail.data for loading data
-    -   Suggest.data for autocomplete / suggest responses
 
 -   Partials: You can also add your own partials here. The extension can be configured to override the built-in Partials by putting the replacemnts at the same paths in here. The extension Partials are in the folders:
     -   Components: elements used to create the page
