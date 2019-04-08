@@ -1,1 +1,1 @@
-<f:format.json value="{suggestions}"/>
+<f:format.raw><f:format.json value="{suggestions}"/></f:format.raw>
