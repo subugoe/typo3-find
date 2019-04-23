@@ -712,8 +712,8 @@ following fields:
 -   `fields` \[{f1 = \*}\]: an array of field names; its keys should
     begin with a letter for technical reasons (i.e `f1` instead of `1`
 -   `fragsize` \[100\]: the maximum length of the highlighted fragment
--   `query`: a custom sprintf-style query templat to use for
-    highlighting
+-   `query`: a custom sprintf-style query template to use for
+    highlighting, e.g. in the simplest case \[%s]
 -   `useQueryTerms` \[0\]: set to 1 to create highlight queries for each
     query term from the search form
 -   `useFacetTerms` \[0\]: set to 1 to create highlight queries for each
@@ -737,6 +737,7 @@ plugin.tx_find.settings.highlight {
         fields {
             f1 = kloster
         }
+        query = %s
         useQueryTerms = 1
         useFacetTerms = 1
     }
@@ -757,7 +758,7 @@ plugin.tx_find.settings.highlight {
 
 When displaying field content with the `Partials/Display/Field/Content`
 partial (or its siblings who use it) the `linkFieldContent` argument can
-be give to not just display the field content but insert a link to
+be given to not just display the field content but insert a link to
 search all documents with the same value in that field. Without further
 configuration this will create a `raw` query where the user may see the
 Solr query. It can be desirable to instead hide the Solr query syntax
