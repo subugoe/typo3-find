@@ -8,7 +8,7 @@
  *  * histogram facet selection
  *  * showing facet overflow items
  *
- * 2013-2018 Sven-S. Porst <ssp-web@earthlingsoft.net>
+ * 2013-2019 Sven-S. Porst <ssp-web@earthlingsoft.net>
  */
 var tx_find = (function () {
 
@@ -145,17 +145,11 @@ var tx_find = (function () {
   var createHistogramForTermsInContainer = function (histogramContainer) {
     var jGraphDiv = jQuery(histogramContainer);
     var facetConfig = jGraphDiv.data('facet-config');
+    var selectedHistogramFacets = facetConfig.activeFacets[facetConfig.id] || {};
 
     var graphWidth = jGraphDiv.parents('.facets').width();
     var canvasHeight = 150;
     jGraphDiv.css({'width': graphWidth + 'px', 'height': canvasHeight + 'px', 'position': 'relative'});
-
-    var startSearchWithNewFacet = function (range) {
-      var facetQueryString = 'RANGE%20' + range.from + '%20TO%20' + range.to;
-      var linkTemplate = jQuery('.link-template', jQuery(histogramContainer).parent())[0].href;
-      var facetLink = linkTemplate.replace('%25%25%25%25', facetQueryString);
-      window.location.href = facetLink;
-    };
 
     var terms = facetConfig.data;
     var graphData = [];
@@ -229,13 +223,13 @@ var tx_find = (function () {
       jTooltip = jQuery(tooltipDiv).appendTo(document.body);
     }
 
-    var activeFacets = facetConfig.activeFacets;
-    for (var term in activeFacets) {
+    for (var term in selectedHistogramFacets) {
       var matches = term.match(/RANGE (.*) TO (.*)/);
       if (matches) {
-        var selection = {};
-        selection.from = parseInt(matches[1]);
-        selection.to = parseInt(matches[2]);
+        var selection = {
+          from: parseInt(matches[1], 10),
+          to: parseInt(matches[2], 10) + 1
+        };
         plot.setSelection({'xaxis': selection});
       }
     }
@@ -249,17 +243,29 @@ var tx_find = (function () {
      * @returns {object}
      */
     var roundedRange = function (range) {
-      var outputRange = {};
-
-      var from = Math.floor(range.from);
-      outputRange.from = from - (from % facetConfig.barWidth);
-
-      var to = Math.ceil(range.to);
-      outputRange.to = to - (to % facetConfig.barWidth) + facetConfig.barWidth;
-
-      return outputRange;
+      var fromFloor = range.from - (range.from % facetConfig.barWidth);
+      var toCeil = range.to + facetConfig.barWidth - (range.to % facetConfig.barWidth)
+      return {
+        from: fromFloor,
+        to: toCeil
+      };
     };
 
+    var startSearchWithNewFacet = function (event, range) {
+      var jHistogram = $(event.target).closest('.histogram');
+      var linkTemplate = jHistogram.data('link');
+
+      var activeFacetValues = Object.keys(selectedHistogramFacets);
+      var facetQueryString = 'RANGE ' + range.from + ' TO ' + (range.to - 1);
+      
+      // Only change the location if the facet selection has changed.
+      if (!(facetQueryString in activeFacetValues)) {
+        var facetLink = linkTemplate.replace('%25%25%25%25', escape(facetQueryString));
+        window.location.href = facetLink;
+      }
+    };
+
+    var hideTooltip = jTooltip.hide;
 
     /**
      * Rounds the xaxis range of the passed ranges, selects the resulting
@@ -267,32 +273,24 @@ var tx_find = (function () {
      *
      * @param {object} ranges
      */
-    var selectRanges = function (ranges) {
+    var selectRanges = function (event, ranges) {
       var newRange = roundedRange(ranges.xaxis);
       plot.setSelection({'xaxis': newRange}, true);
       hideTooltip();
-      startSearchWithNewFacet(newRange);
+      startSearchWithNewFacet(event, newRange);
     };
 
     jGraphDiv.bind('plotclick', function (event, pos, item) {
       return true;
     });
 
-    jGraphDiv.bind('plotselected', function (event, ranges) {
-      selectRanges(ranges);
+    jGraphDiv.one('plotselected', function (event, ranges) {
+      selectRanges(event, ranges);
     });
 
     jGraphDiv.bind('plotunselected', function () {
       return false;
     });
-
-
-    /**
-     * Hides the tooltip.
-     */
-    var hideTooltip = function () {
-      jTooltip.hide();
-    };
 
 
     /**
@@ -320,7 +318,7 @@ var tx_find = (function () {
       if (ranges) {
         if (histogramContainer.currentSelection && histogramContainer.currentSelection.xaxis) {
           var range = roundedRange(ranges.xaxis);
-          displayString = range.from.toString() + '-' + range.to.toString();
+          displayString = range.from.toString() + '-' + (range.to - 1).toString();
         } else {
           var year = Math.floor(ranges.xaxis.from);
           year = year - (year % facetConfig.barWidth);
@@ -412,7 +410,7 @@ var tx_find = (function () {
       if (position) {
         underlyingQuery.position = position;
       } else if (jOL) {
-        underlyingQuery.position = parseInt(jOL.attr('start')) + parseInt(jLI.index());
+        underlyingQuery.position = parseInt(jOL.attr('start'), 10) + parseInt(jLI.index(), 10);
       }
 
       var form = document.createElement('form');
@@ -581,7 +579,7 @@ var tx_find_facetMap = (function () {
     for (var facetIndex in config.facetData) {
       var indexParts = facetIndex.split('-');
       if (indexParts.length === 2) {
-        var geohashScale = parseInt(indexParts[0]);
+        var geohashScale = parseInt(indexParts[0], 10);
         lastZoomLevel = geohashScale;
 
         if (!zoomInfo[geohashScale]) {

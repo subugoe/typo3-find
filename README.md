@@ -444,6 +444,10 @@ needed.
     by the user)
 -   `autocomplete`: whether to offer an autocompletion search field
     above the facet items (helpful for facets with many items)
+    The autocomplete feature uses the
+    [`jQuery.chosen`](https://harvesthq.github.io/chosen/) library
+    Be sure to download it and serve them with your page, e.g. by adding
+    the paths to the files to `page.includeJS` in TypoScript after jQuery.
 -   `sortPrefixSeparator`: this string is used to split the facet’s name
     into two parts and only display the second part; this way you can
     sort by the first part (e.g. with zero-padded numbers) and still
@@ -522,8 +526,12 @@ plugin.tx_find.settings.facets {
 
 This facet is made for numeric fields. It will draw a histogram to
 visualise the number of results per number in the index. It is a nice
-way to visualise a »year« facet. You typically want a high
-`fetchMaximum` setting for the histogram facet.
+way to visualise a »year« facet.
+
+You typically want a high `fetchMaximum` setting for the histogram
+facet. Setting `excludeOwnFilter = 1` will not remove the filtered
+values from the facet as usual but keep the previous hustogram and
+highlight the selected range.
 
 -   `barWidth`: the »width« of each of the bars in the histogram; if you
     cover a wide number range it can be worthwhile to group the bars in
@@ -539,12 +547,19 @@ plugin.tx_find.settings.facets {
         id = decade
         field = decade
         type = Histogram
+        excludeOwnFilter = 1
         sortOrder = index
         fetchMaximum = 1000
         barWidth = 10
     }
 }
 ```
+
+The Histogram facet uses the jQuery.flot and jQuery.flot.selection
+[0.8.3](https://github.com/flot/flot/releases/tag/v0.8.3) libraries
+from [flotcharts](https://www.flotcharts.org). Be sure to download
+them and serve them with your page, e.g. by adding the paths to the
+files to `page.includeJS` in TypoScript after jQuery.
 
 #### Map
 
@@ -697,8 +712,8 @@ following fields:
 -   `fields` \[{f1 = \*}\]: an array of field names; its keys should
     begin with a letter for technical reasons (i.e `f1` instead of `1`
 -   `fragsize` \[100\]: the maximum length of the highlighted fragment
--   `query`: a custom sprintf-style query templat to use for
-    highlighting
+-   `query`: a custom sprintf-style query template to use for
+    highlighting, e.g. in the simplest case \[%s]
 -   `useQueryTerms` \[0\]: set to 1 to create highlight queries for each
     query term from the search form
 -   `useFacetTerms` \[0\]: set to 1 to create highlight queries for each
@@ -722,6 +737,7 @@ plugin.tx_find.settings.highlight {
         fields {
             f1 = kloster
         }
+        query = %s
         useQueryTerms = 1
         useFacetTerms = 1
     }
@@ -742,7 +758,7 @@ plugin.tx_find.settings.highlight {
 
 When displaying field content with the `Partials/Display/Field/Content`
 partial (or its siblings who use it) the `linkFieldContent` argument can
-be give to not just display the field content but insert a link to
+be given to not just display the field content but insert a link to
 search all documents with the same value in that field. Without further
 configuration this will create a `raw` query where the user may see the
 Solr query. It can be desirable to instead hide the Solr query syntax

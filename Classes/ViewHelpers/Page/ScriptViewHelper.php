@@ -26,6 +26,7 @@ namespace Subugoe\Find\ViewHelpers\Page;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -70,18 +71,18 @@ class ScriptViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $scriptPath = static::getTypoScriptTemplateService()->getFileName($arguments['file']);
         $name = $arguments['name'];
-
         $pageRenderer = self::getPageRenderer();
-        if ($scriptPath) {
+        
+        $fileNameFromArguments = $arguments['file'];
+        if ($fileNameFromArguments) {
+            $scriptPath = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
             $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-
-            return '';
         }
-
-        $content = $renderChildrenClosure();
-        $pageRenderer->addJsFooterInlineCode($name, $content);
+        else {
+            $content = $renderChildrenClosure();
+            $pageRenderer->addJsFooterInlineCode($name, $content);
+        }
 
         return '';
     }
