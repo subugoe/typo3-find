@@ -83,6 +83,7 @@
 			<label index="remove filter">Filter aufheben</label>
 			<label index="remove filter %s">Filter „%s“ aufheben</label>
 			<label index="show all">alle zeigen</label>
+			<label index="hide hidden">Liste einklappen</label>
 
 			<label index="Show Detail Page">Details</label>
 
