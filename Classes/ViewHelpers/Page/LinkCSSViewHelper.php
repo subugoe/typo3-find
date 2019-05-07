@@ -29,6 +29,7 @@ namespace Subugoe\Find\ViewHelpers\Page;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -58,11 +59,21 @@ class LinkCSSViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $fileNameFromArguments = $arguments['file'];
-        if ($fileNameFromArguments) {
-            $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->addCSSFile($CSSFileName);
+        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '<');
+
+        if ($typo3VersionConstraint) {
+            $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
+            if ($CSSFileName) {
+                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+                $pageRenderer->addCSSFile($CSSFileName);
+            }
+        } else {
+            $fileNameFromArguments = $arguments['file'];
+            if ($fileNameFromArguments) {
+                $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
+                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+                $pageRenderer->addCSSFile($CSSFileName);
+            }
         }
     }
 }
