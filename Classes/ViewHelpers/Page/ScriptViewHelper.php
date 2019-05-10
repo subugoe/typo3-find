@@ -75,18 +75,22 @@ class ScriptViewHelper extends AbstractViewHelper
         $name = $arguments['name'];
         $pageRenderer = self::getPageRenderer();
 
-        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '<');
+        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
 
         if ($typo3VersionConstraint) {
             $scriptPath = static::getTypoScriptTemplateService()->getFileName($arguments['file']);
+
             if ($scriptPath) {
                 $pageRenderer->addJsFooterLibrary($name, $scriptPath);
                 return '';
             }
+
             $content = $renderChildrenClosure();
             $pageRenderer->addJsFooterInlineCode($name, $content);
+
             return '';
         } else {
+            $fileNameFromArguments = $arguments['file'];
             if ($fileNameFromArguments) {
                 $scriptPath = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
                 $pageRenderer->addJsFooterLibrary($name, $scriptPath);

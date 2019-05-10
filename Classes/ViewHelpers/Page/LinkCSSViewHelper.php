@@ -59,21 +59,20 @@ class LinkCSSViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '<');
+        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
 
         if ($typo3VersionConstraint) {
             $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
-            if ($CSSFileName) {
-                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-                $pageRenderer->addCSSFile($CSSFileName);
-            }
         } else {
             $fileNameFromArguments = $arguments['file'];
             if ($fileNameFromArguments) {
                 $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
-                $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-                $pageRenderer->addCSSFile($CSSFileName);
             }
+        }
+
+        if ($CSSFileName) {
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer->addCSSFile($CSSFileName);
         }
     }
 }
