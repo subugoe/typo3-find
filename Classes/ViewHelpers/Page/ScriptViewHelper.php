@@ -27,7 +27,6 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -92,7 +91,7 @@ class ScriptViewHelper extends AbstractViewHelper
         } else {
             $fileNameFromArguments = $arguments['file'];
             if ($fileNameFromArguments) {
-                $scriptPath = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
+                $scriptPath = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
                 $pageRenderer->addJsFooterLibrary($name, $scriptPath);
             }
             else {
