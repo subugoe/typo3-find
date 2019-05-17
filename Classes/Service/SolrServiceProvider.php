@@ -490,8 +490,18 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
                         && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
                         && $this->requestArguments['q'][$fieldInfo['id']]
                     ) {
-                        $result = true;
-                        break;
+                        // Check if the request argument is an array itself (appies to field type "Range")
+                        if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
+                            foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
+                                if ($value !== "") {
+                                    $result = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            $result = true;
+                            break;
+                        }
                     }
                 }
             }
