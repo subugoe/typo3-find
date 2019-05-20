@@ -81,6 +81,7 @@ class ScriptViewHelper extends AbstractViewHelper
 
             if ($scriptPath) {
                 $pageRenderer->addJsFooterLibrary($name, $scriptPath);
+
                 return '';
             }
 
@@ -93,11 +94,11 @@ class ScriptViewHelper extends AbstractViewHelper
             if ($fileNameFromArguments) {
                 $scriptPath = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
                 $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-            }
-            else {
+            } else {
                 $content = $renderChildrenClosure();
                 $pageRenderer->addJsFooterInlineCode($name, $content);
             }
+
             return '';
         }
     }
