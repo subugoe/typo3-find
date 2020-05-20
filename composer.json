@@ -27,7 +27,7 @@
   },
   "require": {
     "ext-json": "*",
-    "typo3/cms-core": "^8.7 || ^9.5"
+    "typo3/cms-core": "^9.5 || ^10.4"
   },
   "require-dev": {
     "solarium/solarium": "~4.2",
