@@ -38,32 +38,31 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * Service provider for solr.
  */
-class SolrServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class SolrServiceProvider extends AbstractServiceProvider
 {
-    /**
-     * @var Client
-     */
-    protected $connection;
-
-    /**
-     * @var array
-     */
-    protected $configuration = [];
-
-    /**
-     * @var \Solarium\QueryType\Select\Query\Query
-     */
-    protected $query;
-
     /**
      * @var string
      */
     protected $action;
 
     /**
+     * @var array
+     */
+    protected $configuration = [];
+    /**
+     * @var Client
+     */
+    protected $connection;
+
+    /**
      * @var string
      */
     protected $controllerExtensionKey;
+
+    /**
+     * @var \Solarium\QueryType\Select\Query\Query
+     */
+    protected $query;
 
     public function connect()
     {
@@ -81,6 +80,164 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         ];
 
         $this->setConnection(new Client($connectionSettings));
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Main starting point for blank index action.
+     *
+     * @return array
+     */
+    public function getDefaultQuery()
+    {
+        $this->createQueryForArguments($this->getRequestArguments());
+        $error = null;
+        $resultSet = null;
+
+        try {
+            $resultSet = $this->connection->execute($this->query);
+        } catch (HttpException $exception) {
+            $this->logger->error('Solr Exception (Timeout?)',
+                [
+                    'requestArguments' => $this->getRequestArguments(),
+                    'exception' => LoggerUtility::exceptionToArray($exception),
+                ]
+            );
+
+            $error = ['solr' => $exception];
+        }
+
+        return [
+            'results' => $resultSet,
+            'error' => $error,
+        ];
+    }
+
+    /**
+     * @return array
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
+    public function getDocumentById(string $id)
+    {
+        $arguments = $this->getRequestArguments();
+
+        $assignments = [];
+        if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $arguments)) {
+            // If underlying query has been sent, fetch more data to enable paging arrows.
+            $underlyingQueryInfo = $arguments['underlyingQuery'];
+
+            $index = FrontendUtility::getIndexes($underlyingQueryInfo);
+
+            foreach ($arguments['underlyingQuery'] as $key => $value) {
+                $arguments[$key] = $value;
+            }
+
+            $this->createQueryForArguments($arguments);
+            $this->query->setStart($index['previousIndex']);
+            $this->query->setRows($index['nextIndex'] - $index['previousIndex'] + 1);
+
+            $assignments = $this->getRecordsWithUnderlyingQuery($assignments, $index, $id, $arguments);
+        } else {
+            // Without underlying query information, just get the record specified.
+            $assignments = $this->getTheRecordSpecified($id, $assignments);
+        }
+
+        return $assignments;
+    }
+
+    /**
+     * Returns whether extended search should be used or not.
+     *
+     * @return bool
+     */
+    public function isExtendedSearch()
+    {
+        $result = false;
+
+        if (array_key_exists('extended', $this->requestArguments)) {
+            // Show extended search when told so by the »extended« argument.
+            $result = (true == $this->requestArguments['extended']);
+        } else {
+            // Show extended search when any of the »extended« fields are used.
+            if (array_key_exists('q', $this->requestArguments)) {
+                foreach ($this->settings['queryFields'] as $fieldInfo) {
+                    if ($fieldInfo['extended']
+                        && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
+                        && $this->requestArguments['q'][$fieldInfo['id']]
+                    ) {
+                        // Check if the request argument is an array itself (appies to field type "Range")
+                        if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
+                            foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
+                                if ('' !== $value) {
+                                    $result = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            $result = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $query
+     */
+    public function search($query)
+    {
+        // TODO: Implement search() method.
+    }
+
+    /**
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * @param array $configuration
+     */
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public function setConfigurationValue($key, $value)
+    {
+        $this->configuration[$key] = $value;
+    }
+
+    /**
+     * @param string $controllerExtensionKey
+     */
+    public function setControllerExtensionKey($controllerExtensionKey)
+    {
+        $this->controllerExtensionKey = $controllerExtensionKey;
+    }
+
+    public function setCounter()
+    {
+        $this->setConfigurationValue('counterStart', $this->counterStart());
+        $this->setConfigurationValue('counterEnd', $this->counterEnd());
     }
 
     /**
@@ -110,88 +267,9 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         return $results;
     }
 
-    /**
-     * Returns the number of the first result on the page.
-     *
-     * @return int
-     */
-    protected function counterStart()
-    {
-        return $this->getOffset() + 1;
-    }
-
-    /**
-     * Returns the number of the last result on the page.
-     *
-     * @return int
-     */
-    protected function counterEnd()
-    {
-        return $this->getOffset() + $this->getCount();
-    }
-
-    public function setCounter()
-    {
-        $this->setConfigurationValue('counterStart', $this->counterStart());
-        $this->setConfigurationValue('counterEnd', $this->counterEnd());
-    }
-
-    /**
-     * Returns the number of results per page using the first of:
-     * * query parameter »count«
-     * * TypoScript setting »paging.perPage«
-     * limited by the setting »paging.maximumPerPage«.
-     *
-     * @param array $arguments overrides $this->requestArguments if set
-     *
-     * @return int
-     */
-    protected function getCount($arguments = null)
-    {
-        if (null === $arguments) {
-            $arguments = $this->getRequestArguments();
-        }
-
-        $count = (int) ($this->settings['paging']['perPage']);
-
-        if (array_key_exists('count', $arguments)) {
-            $count = (int) $this->requestArguments['count'];
-        }
-
-        $maxCount = (int) $this->settings['paging']['maximumPerPage'];
-        $count = min([$count, $maxCount]);
-
-        $this->setConfigurationValue('count', $count);
-
-        return $count;
-    }
-
-    protected function addFeatures()
-    {
-        if ($this->settings['features']['eDisMax']) {
-            $this->addEDisMax();
-        }
-    }
-
     protected function addEDisMax()
     {
         $this->query->getEDisMax();
-    }
-
-    /**
-     * @return Client
-     */
-    protected function getConnection()
-    {
-        return $this->connection;
-    }
-
-    /**
-     * @param mixed $connection
-     */
-    protected function setConnection($connection)
-    {
-        $this->connection = $connection;
     }
 
     /**
@@ -299,16 +377,321 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
         $this->setConfigurationValue('facets', $facetConfiguration);
     }
 
+    protected function addFeatures()
+    {
+        if ($this->settings['features']['eDisMax']) {
+            $this->addEDisMax();
+        }
+    }
+
     /**
-     * Returns the facet/filter key for the given $facetID.
+     * Sets up $query’s highlighting according to TypoScript settings.
+     * Unicode Private Use Area Codepoints U+EEEE and U+EEEF are used to mark
+     * the highlight to better deal with field contents that contain markup
+     * themselves.
      *
-     * @param string $facetID
+     * @param array $arguments request arguments
+     */
+    protected function addHighlighting($arguments)
+    {
+        $highlightConfig = SettingsUtility::getMergedSettings('highlight', $this->settings);
+
+        if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
+            $highlight = $this->query->getHighlighting();
+
+            // Configure highlight queries.
+            if ($highlightConfig['query']) {
+                $queryWords = [];
+                if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
+                    $queryParameters = $arguments['q'];
+                    foreach ($this->settings['queryFields'] as $fieldInfo) {
+                        $fieldID = $fieldInfo['id'];
+                        if ($fieldID && $queryParameters[$fieldID]) {
+                            $queryArguments = $queryParameters[$fieldID];
+                            $queryTerms = null;
+                            if (is_array($queryArguments) && array_key_exists('alternate',
+                                    $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
+                            ) {
+                                if (array_key_exists('term', $queryArguments)) {
+                                    $queryTerms = $queryArguments['term'];
+                                }
+                            } else {
+                                $queryTerms = $queryArguments;
+                            }
+
+                            if (!is_array($queryTerms)) {
+                                $queryTerms = [$queryTerms];
+                            }
+
+                            foreach ($queryTerms as $queryTerm) {
+                                if (!$fieldInfo['noescape']) {
+                                    if ($fieldInfo['phrase']) {
+                                        $queryTerm = $this->query->getHelper()->escapePhrase($queryTerm);
+                                    } else {
+                                        $queryTerm = $this->query->getHelper()->escapeTerm($queryTerm);
+                                    }
+                                }
+                                $queryWords[] = $queryTerm;
+                            }
+                        }
+                    }
+                }
+
+                $queryWords = array_filter($queryWords);
+
+                if ($highlightConfig['useFacetTerms']) {
+                    foreach ($this->getActiveFacets($arguments) as $facets) {
+                        foreach (array_keys($facets) as $facetTerm) {
+                            $queryWords[] = $this->query->getHelper()->escapePhrase($facetTerm);
+                        }
+                    }
+                }
+
+                $queryComponents = [];
+                foreach ($queryWords as $queryWord) {
+                    $queryComponents[] = '('.sprintf($highlightConfig['query'], $queryWord).')';
+                }
+                $queryString = implode(' OR ', $queryComponents);
+
+                $highlight->setQuery($queryString);
+            }
+
+            // Configure highlight fields.
+            $highlight->addFields(implode(',', $highlightConfig['fields']));
+
+            // Configure the fragement length.
+            $highlight->setFragSize($highlightConfig['fragsize']);
+
+            // Set up alternative fields.
+            if ($highlightConfig['alternateFields']) {
+                foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
+                    $highlightField = $highlight->getField($fieldName);
+                    $highlightField->setAlternateField($alternateFieldName);
+                }
+            }
+
+            // Set up prefix and postfix.
+            $highlight->setSimplePrefix('\ueeee');
+            $highlight->setSimplePostfix('\ueeef');
+        }
+
+        $this->setConfigurationValue('highlight', $highlightConfig);
+    }
+
+    /**
+     * Provides result count information in the configuration »resultCountOptions«.
      *
+     * For the key »menu« it contains an array with keys and values the result count
+     * that is suitable for use in the f:form.select View Helper’s options argument.
+     * For the key »default« it contains the default number of results.
+     * For the key »selected« it contains the the selected number of results.
+     *
+     * @param array $arguments request arguments
+     */
+    protected function addResultCountOptionsToTemplate($arguments)
+    {
+        $resultCountOptions = ['menu' => []];
+
+        if (is_array($this->settings['paging']['menu'])) {
+            ksort($this->settings['paging']['menu']);
+            foreach ($this->settings['paging']['menu'] as $resultCount) {
+                $resultCountOptions['menu'][$resultCount] = $resultCount;
+            }
+
+            $resultCountOptions['default'] = $this->settings['paging']['perPage'];
+
+            if ($arguments['count'] && array_key_exists($arguments['count'], $resultCountOptions['menu'])) {
+                $resultCountOptions['selected'] = $arguments['count'];
+            } else {
+                $resultCountOptions['selected'] = $resultCountOptions['default'];
+            }
+        }
+
+        $this->setConfigurationValue('resultCountOptions', $resultCountOptions);
+    }
+
+    /**
+     * Provides sorting information in the template variable »sortOptions«.
+     *
+     * For the key »menu« it contains an array with keys: sort criteria and
+     * values: localised labels that is suitable for use in the f:form.select
+     * View Helper’s options argument.
+     * For the key »default« it contains the default sort order string.
+     * For the key »selected« it contains the selected sort order string.
+     *
+     * @param array $arguments request arguments
+     */
+    protected function addSortOrdersToTemplate($arguments)
+    {
+        $sortOptions = ['menu' => []];
+
+        if (is_array($this->settings['sort'])) {
+            ksort($this->settings['sort']);
+            foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
+                if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
+                    $localisationKey = 'LLL:'.$this->settings['languageRootPath'].'locallang-form.xml:input.sort-'.$sortOption['id'];
+                    $localisedLabel = LocalizationUtility::translate(
+                        $localisationKey,
+                        $this->getControllerExtensionKey()
+                    );
+                    if (!$localisedLabel) {
+                        $localisedLabel = $sortOption['id'];
+                    }
+                    $sortOptions['menu'][$sortOption['sortCriteria']] = $localisedLabel;
+
+                    if ('default' === $sortOption['id']) {
+                        $sortOptions['default'] = $sortOption['sortCriteria'];
+                    }
+                } else {
+                    $this->logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
+                        [
+                            'sortOption' => $sortOption,
+                        ]
+                    );
+                }
+            }
+
+            if ($arguments['sort'] && array_key_exists($arguments['sort'], $sortOptions['menu'])) {
+                $sortOptions['selected'] = $arguments['sort'];
+            } else {
+                $sortOptions['selected'] = $sortOptions['default'];
+            }
+        }
+
+        $this->setConfigurationValue('sortOptions', $sortOptions);
+    }
+
+    /**
+     * Checks that $sortString is well-formatted and adds the sort conidition
+     * defined by it to $query.
+     * Adds feedback about invalid sort string format to the page.
+     *
+     * @param string $sortString
+     */
+    protected function addSortStringForQuery($sortString)
+    {
+        if (!empty($sortString)) {
+            $sortCriteria = explode(',', $sortString);
+            foreach ($sortCriteria as $sortCriterion) {
+                $sortCriterionParts = explode(' ', $sortCriterion);
+                if (2 === count($sortCriterionParts)) {
+                    $sortDirection = Query::SORT_ASC;
+                    if ('desc' === $sortCriterionParts[1]) {
+                        $sortDirection = Query::SORT_DESC;
+                    } else {
+                        if ('asc' !== $sortCriterionParts[1]) {
+                            $this->logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
+                            continue;
+                        }
+                    }
+
+                    $this->query->addSort($sortCriterionParts[0], $sortDirection);
+                } else {
+                    $this->logger->warning('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion);
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds filter queries configured in TypoScript to $query.
+     *
+     * @return $this
+     */
+    protected function addTypoScriptFilters()
+    {
+        if (!empty($this->settings['additionalFilters'])) {
+            foreach ($this->settings['additionalFilters'] as $key => $filterQuery) {
+                $this->query->createFilterQuery('additionalFilter-'.$key)
+                    ->setQuery($filterQuery);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of the last result on the page.
+     *
+     * @return int
+     */
+    protected function counterEnd()
+    {
+        return $this->getOffset() + $this->getCount();
+    }
+
+    /**
+     * Returns the number of the first result on the page.
+     *
+     * @return int
+     */
+    protected function counterStart()
+    {
+        return $this->getOffset() + 1;
+    }
+
+    /**
+     * Creates a blank query, sets up TypoScript filters and adds it to the view.
+     */
+    protected function createQuery()
+    {
+        $this->query = $this->connection->createSelect();
+        $this->addFeatures();
+        $this->addTypoScriptFilters();
+
+        $this->setConfigurationValue('solarium', $this->query);
+    }
+
+    /**
+     * Creates a query configured with all parameters set in the request’s arguments.
+     *
+     * @param array $arguments request arguments
+     */
+    protected function createQueryForArguments($arguments)
+    {
+        $this->createQuery();
+
+        // Build query string.
+        $rawQueryParameters = [];
+        if (array_key_exists('q', $arguments)) {
+            $rawQueryParameters = $arguments['q'];
+        }
+
+        // Process parameters to eliminate empty values
+        $queryParameters = [];
+        if (is_array($rawQueryParameters) && $rawQueryParameters !== []) {
+            foreach ($rawQueryParameters as $key => $value) {
+                if (is_array($value) && count(array_filter($value)) > 0) {
+                    $queryParameters[$key] = array_filter($value);
+                } elseif (!empty($value) && !is_array($value)) {
+                    $queryParameters[$key] = $value;
+                }
+            }
+        }
+
+        $queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
+        $queryString = implode(' '.Query::QUERY_OPERATOR_AND.' ', $queryComponents);
+
+        $this->query->setQuery($queryString);
+
+        $this->setConfigurationValue('query', $queryParameters);
+        $this->setConfigurationValue('queryString', $queryString);
+
+        $this->setFields($arguments);
+        $this->setRange($arguments);
+        $this->setSortOrder($arguments);
+
+        $this->addHighlighting($arguments);
+        $this->setConfigurationValue('activeFacets', $this->addFacetFilters($arguments));
+        $this->addFacetQueries();
+    }
+
+    /**
      * @return string
      */
-    protected function tagForFacet($facetID)
+    protected function getAction()
     {
-        return 'facet-'.$facetID;
+        return $this->action;
     }
 
     /**
@@ -340,28 +723,49 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Adds information about the selected items for a given facet to $activeFacets.
-     *
-     * @param array  $activeFacets
-     * @param string $facetID        ID of the facet to set
-     * @param array  $facetSelection array of selected items for the facet
+     * @return Client
      */
-    protected function setActiveFacetSelectionForID(&$activeFacets, $facetID, $facetSelection)
+    protected function getConnection()
     {
-        $facetQueries = [];
-        $facetConfig = $this->getFacetConfig($facetID);
-        foreach ($facetSelection as $facetTerm => $facetStatus) {
-            $facetInfo = [
-                'id' => $facetID,
-                'config' => $facetConfig,
-                'term' => $facetTerm,
-                'query' => $this->getFacetQuery($facetConfig, $facetTerm),
-            ];
-            $facetQueries[$facetTerm] = $facetInfo;
+        return $this->connection;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getControllerExtensionKey()
+    {
+        return $this->controllerExtensionKey;
+    }
+
+    /**
+     * Returns the number of results per page using the first of:
+     * * query parameter »count«
+     * * TypoScript setting »paging.perPage«
+     * limited by the setting »paging.maximumPerPage«.
+     *
+     * @param array $arguments overrides $this->requestArguments if set
+     *
+     * @return int
+     */
+    protected function getCount($arguments = null)
+    {
+        if (null === $arguments) {
+            $arguments = $this->getRequestArguments();
         }
-        if (count($facetQueries) > 0) {
-            $activeFacets[$facetID] = $facetQueries;
+
+        $count = (int) ($this->settings['paging']['perPage']);
+
+        if (array_key_exists('count', $arguments)) {
+            $count = (int) $this->requestArguments['count'];
         }
+
+        $maxCount = (int) $this->settings['paging']['maximumPerPage'];
+        $count = min([$count, $maxCount]);
+
+        $this->setConfigurationValue('count', $count);
+
+        return $count;
     }
 
     /**
@@ -471,43 +875,91 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Returns whether extended search should be used or not.
+     * @param $assignments
+     * @param $id
+     * @param $arguments
      *
-     * @return bool
+     * @return mixed
      */
-    public function isExtendedSearch()
+    protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments)
     {
-        $result = false;
+        $connection = $this->getConnection();
 
-        if (array_key_exists('extended', $this->requestArguments)) {
-            // Show extended search when told so by the »extended« argument.
-            $result = (true == $this->requestArguments['extended']);
-        } else {
-            // Show extended search when any of the »extended« fields are used.
-            if (array_key_exists('q', $this->requestArguments)) {
-                foreach ($this->settings['queryFields'] as $fieldInfo) {
-                    if ($fieldInfo['extended']
-                        && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
-                        && $this->requestArguments['q'][$fieldInfo['id']]
-                    ) {
-                        // Check if the request argument is an array itself (appies to field type "Range")
-                        if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
-                            foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
-                                if ('' !== $value) {
-                                    $result = true;
-                                    break;
-                                }
-                            }
-                        } else {
-                            $result = true;
-                            break;
-                        }
+        try {
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            $selectResults = $connection->execute($this->query);
+
+            if ($selectResults->getNumFound() > 0) {
+                $assignments['results'] = $selectResults;
+                $resultSet = $selectResults->getDocuments();
+
+                // the actual result is at position 0 (for the first document) or 1 (otherwise).
+                $document = $resultSet[$index['resultIndexOffset']];
+                if ($document['id'] === $id) {
+                    $assignments['document'] = $document;
+                    if (0 !== $index['resultIndexOffset']) {
+                        $assignments['document-previous'] = $resultSet[0];
+                        $assignments['document-previous-number'] = $index['previousIndex'] + 1;
                     }
+                    $nextResultIndex = 1 + $index['resultIndexOffset'];
+                    if (count($resultSet) > $nextResultIndex) {
+                        $assignments['document-next'] = $resultSet[$nextResultIndex];
+                        $assignments['document-next-number'] = $index['nextIndex'] + 1;
+                    }
+                } else {
+                    $this->logger->error(sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
+                        ['arguments' => $arguments]
+                    );
                 }
+            } else {
+                $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
             }
+        } catch (HttpException $exception) {
+            $this->logger->error('Solr Exception (Timeout?)',
+                [
+                    'arguments' => $arguments,
+                    'exception' => LoggerUtility::exceptionToArray($exception),
+                ]
+            );
         }
 
-        return $result;
+        return $assignments;
+    }
+
+    /**
+     * @param $id
+     * @param $assignments
+     *
+     * @return mixed
+     */
+    protected function getTheRecordSpecified($id, $assignments)
+    {
+        $connection = $this->getConnection();
+
+        $this->createQuery();
+        $escapedID = $this->query->getHelper()->escapeTerm($id);
+        $this->query->setQuery('id:'.$escapedID);
+        try {
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            $selectResults = $connection->execute($this->query);
+
+            if ($selectResults->getNumFound() > 0) {
+                $assignments['results'] = $selectResults;
+                $resultSet = $selectResults->getDocuments();
+                $assignments['document'] = $resultSet[0];
+            } else {
+                $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
+            }
+        } catch (HttpException $exception) {
+            $this->logger->error('Solr Exception (Timeout?)',
+                [
+                    'arguments' => $this->getRequestArguments(),
+                    'exception' => LoggerUtility::exceptionToArray($exception),
+                ]
+            );
+        }
+
+        return $assignments;
     }
 
     /**
@@ -612,203 +1064,36 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Sets up $query’s highlighting according to TypoScript settings.
-     * Unicode Private Use Area Codepoints U+EEEE and U+EEEF are used to mark
-     * the highlight to better deal with field contents that contain markup
-     * themselves.
+     * Adds information about the selected items for a given facet to $activeFacets.
      *
-     * @param array $arguments request arguments
+     * @param array  $activeFacets
+     * @param string $facetID        ID of the facet to set
+     * @param array  $facetSelection array of selected items for the facet
      */
-    protected function addHighlighting($arguments)
+    protected function setActiveFacetSelectionForID(&$activeFacets, $facetID, $facetSelection)
     {
-        $highlightConfig = SettingsUtility::getMergedSettings('highlight', $this->settings);
-
-        if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
-            $highlight = $this->query->getHighlighting();
-
-            // Configure highlight queries.
-            if ($highlightConfig['query']) {
-                $queryWords = [];
-                if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
-                    $queryParameters = $arguments['q'];
-                    foreach ($this->settings['queryFields'] as $fieldInfo) {
-                        $fieldID = $fieldInfo['id'];
-                        if ($fieldID && $queryParameters[$fieldID]) {
-                            $queryArguments = $queryParameters[$fieldID];
-                            $queryTerms = null;
-                            if (is_array($queryArguments) && array_key_exists('alternate',
-                                    $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
-                            ) {
-                                if (array_key_exists('term', $queryArguments)) {
-                                    $queryTerms = $queryArguments['term'];
-                                }
-                            } else {
-                                $queryTerms = $queryArguments;
-                            }
-
-                            if (!is_array($queryTerms)) {
-                                $queryTerms = [$queryTerms];
-                            }
-
-                            foreach ($queryTerms as $queryTerm) {
-                                if (!$fieldInfo['noescape']) {
-                                    if ($fieldInfo['phrase']) {
-                                        $queryTerm = $this->query->getHelper()->escapePhrase($queryTerm);
-                                    } else {
-                                        $queryTerm = $this->query->getHelper()->escapeTerm($queryTerm);
-                                    }
-                                }
-                                $queryWords[] = $queryTerm;
-                            }
-                        }
-                    }
-                }
-
-                $queryWords = array_filter($queryWords);
-
-                if ($highlightConfig['useFacetTerms']) {
-                    foreach ($this->getActiveFacets($arguments) as $facets) {
-                        foreach (array_keys($facets) as $facetTerm) {
-                            $queryWords[] = $this->query->getHelper()->escapePhrase($facetTerm);
-                        }
-                    }
-                }
-
-                $queryComponents = [];
-                foreach ($queryWords as $queryWord) {
-                    $queryComponents[] = '('.sprintf($highlightConfig['query'], $queryWord).')';
-                }
-                $queryString = implode(' OR ', $queryComponents);
-
-                $highlight->setQuery($queryString);
-            }
-
-            // Configure highlight fields.
-            $highlight->addFields(implode(',', $highlightConfig['fields']));
-
-            // Configure the fragement length.
-            $highlight->setFragSize($highlightConfig['fragsize']);
-
-            // Set up alternative fields.
-            if ($highlightConfig['alternateFields']) {
-                foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
-                    $highlightField = $highlight->getField($fieldName);
-                    $highlightField->setAlternateField($alternateFieldName);
-                }
-            }
-
-            // Set up prefix and postfix.
-            $highlight->setSimplePrefix('\ueeee');
-            $highlight->setSimplePostfix('\ueeef');
+        $facetQueries = [];
+        $facetConfig = $this->getFacetConfig($facetID);
+        foreach ($facetSelection as $facetTerm => $facetStatus) {
+            $facetInfo = [
+                'id' => $facetID,
+                'config' => $facetConfig,
+                'term' => $facetTerm,
+                'query' => $this->getFacetQuery($facetConfig, $facetTerm),
+            ];
+            $facetQueries[$facetTerm] = $facetInfo;
         }
-
-        $this->setConfigurationValue('highlight', $highlightConfig);
-    }
-
-    /**
-     * Checks that $sortString is well-formatted and adds the sort conidition
-     * defined by it to $query.
-     * Adds feedback about invalid sort string format to the page.
-     *
-     * @param string $sortString
-     */
-    protected function addSortStringForQuery($sortString)
-    {
-        if (!empty($sortString)) {
-            $sortCriteria = explode(',', $sortString);
-            foreach ($sortCriteria as $sortCriterion) {
-                $sortCriterionParts = explode(' ', $sortCriterion);
-                if (2 === count($sortCriterionParts)) {
-                    $sortDirection = Query::SORT_ASC;
-                    if ('desc' === $sortCriterionParts[1]) {
-                        $sortDirection = Query::SORT_DESC;
-                    } else {
-                        if ('asc' !== $sortCriterionParts[1]) {
-                            $this->logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
-                            continue;
-                        }
-                    }
-
-                    $this->query->addSort($sortCriterionParts[0], $sortDirection);
-                } else {
-                    $this->logger->warning('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion);
-                }
-            }
+        if (count($facetQueries) > 0) {
+            $activeFacets[$facetID] = $facetQueries;
         }
     }
 
     /**
-     * Main starting point for blank index action.
-     *
-     * @return array
+     * @param mixed $connection
      */
-    public function getDefaultQuery()
+    protected function setConnection($connection)
     {
-        $this->createQueryForArguments($this->getRequestArguments());
-        $error = null;
-        $resultSet = null;
-
-        try {
-            $resultSet = $this->connection->execute($this->query);
-        } catch (HttpException $exception) {
-            $this->logger->error('Solr Exception (Timeout?)',
-                [
-                    'requestArguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception),
-                ]
-            );
-
-            $error = ['solr' => $exception];
-        }
-
-        return [
-            'results' => $resultSet,
-            'error' => $error,
-        ];
-    }
-
-    /**
-     * Creates a query configured with all parameters set in the request’s arguments.
-     *
-     * @param array $arguments request arguments
-     */
-    protected function createQueryForArguments($arguments)
-    {
-        $this->createQuery();
-
-        // Build query string.
-        $rawQueryParameters = [];
-        if (array_key_exists('q', $arguments)) {
-            $rawQueryParameters = $arguments['q'];
-        }
-
-        // Process parameters to eliminate empty values
-        $queryParameters = [];
-        if (is_array($rawQueryParameters) && $rawQueryParameters !== []) {
-            foreach ($rawQueryParameters as $key => $value) {
-                if (is_array($value) && count(array_filter($value)) > 0) {
-                    $queryParameters[$key] = array_filter($value);
-                } elseif (!empty($value) && !is_array($value)) {
-                    $queryParameters[$key] = $value;
-                }
-            }
-        }
-
-        $queryComponents = $this->queryComponentsForQueryParameters($queryParameters);
-        $queryString = implode(' '.Query::QUERY_OPERATOR_AND.' ', $queryComponents);
-
-        $this->query->setQuery($queryString);
-
-        $this->setConfigurationValue('query', $queryParameters);
-        $this->setConfigurationValue('queryString', $queryString);
-
-        $this->setFields($arguments);
-        $this->setRange($arguments);
-        $this->setSortOrder($arguments);
-
-        $this->addHighlighting($arguments);
-        $this->setConfigurationValue('activeFacets', $this->addFacetFilters($arguments));
-        $this->addFacetQueries();
+        $this->connection = $connection;
     }
 
     /**
@@ -849,35 +1134,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Creates a blank query, sets up TypoScript filters and adds it to the view.
-     */
-    protected function createQuery()
-    {
-        $this->query = $this->connection->createSelect();
-        $this->addFeatures();
-        $this->addTypoScriptFilters();
-
-        $this->setConfigurationValue('solarium', $this->query);
-    }
-
-    /**
-     * Adds filter queries configured in TypoScript to $query.
-     *
-     * @return $this
-     */
-    protected function addTypoScriptFilters()
-    {
-        if (!empty($this->settings['additionalFilters'])) {
-            foreach ($this->settings['additionalFilters'] as $key => $filterQuery) {
-                $this->query->createFilterQuery('additionalFilter-'.$key)
-                    ->setQuery($filterQuery);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Sets up the range of documents to be fetches by $query.
      *
      * @param array $arguments request arguments
@@ -886,38 +1142,6 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     {
         $this->query->setStart($this->getOffset($arguments));
         $this->query->setRows($this->getCount($arguments));
-    }
-
-    /**
-     * Provides result count information in the configuration »resultCountOptions«.
-     *
-     * For the key »menu« it contains an array with keys and values the result count
-     * that is suitable for use in the f:form.select View Helper’s options argument.
-     * For the key »default« it contains the default number of results.
-     * For the key »selected« it contains the the selected number of results.
-     *
-     * @param array $arguments request arguments
-     */
-    protected function addResultCountOptionsToTemplate($arguments)
-    {
-        $resultCountOptions = ['menu' => []];
-
-        if (is_array($this->settings['paging']['menu'])) {
-            ksort($this->settings['paging']['menu']);
-            foreach ($this->settings['paging']['menu'] as $resultCount) {
-                $resultCountOptions['menu'][$resultCount] = $resultCount;
-            }
-
-            $resultCountOptions['default'] = $this->settings['paging']['perPage'];
-
-            if ($arguments['count'] && array_key_exists($arguments['count'], $resultCountOptions['menu'])) {
-                $resultCountOptions['selected'] = $arguments['count'];
-            } else {
-                $resultCountOptions['selected'] = $resultCountOptions['default'];
-            }
-        }
-
-        $this->setConfigurationValue('resultCountOptions', $resultCountOptions);
     }
 
     /**
@@ -946,240 +1170,14 @@ class SolrServiceProvider extends AbstractServiceProvider implements ServiceProv
     }
 
     /**
-     * Provides sorting information in the template variable »sortOptions«.
+     * Returns the facet/filter key for the given $facetID.
      *
-     * For the key »menu« it contains an array with keys: sort criteria and
-     * values: localised labels that is suitable for use in the f:form.select
-     * View Helper’s options argument.
-     * For the key »default« it contains the default sort order string.
-     * For the key »selected« it contains the selected sort order string.
+     * @param string $facetID
      *
-     * @param array $arguments request arguments
-     */
-    protected function addSortOrdersToTemplate($arguments)
-    {
-        $sortOptions = ['menu' => []];
-
-        if (is_array($this->settings['sort'])) {
-            ksort($this->settings['sort']);
-            foreach ($this->settings['sort'] as $sortOptionIndex => $sortOption) {
-                if (array_key_exists('id', $sortOption) && array_key_exists('sortCriteria', $sortOption)) {
-                    $localisationKey = 'LLL:'.$this->settings['languageRootPath'].'locallang-form.xml:input.sort-'.$sortOption['id'];
-                    $localisedLabel = LocalizationUtility::translate(
-                        $localisationKey,
-                        $this->getControllerExtensionKey()
-                    );
-                    if (!$localisedLabel) {
-                        $localisedLabel = $sortOption['id'];
-                    }
-                    $sortOptions['menu'][$sortOption['sortCriteria']] = $localisedLabel;
-
-                    if ('default' === $sortOption['id']) {
-                        $sortOptions['default'] = $sortOption['sortCriteria'];
-                    }
-                } else {
-                    $this->logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
-                        [
-                            'sortOption' => $sortOption,
-                        ]
-                    );
-                }
-            }
-
-            if ($arguments['sort'] && array_key_exists($arguments['sort'], $sortOptions['menu'])) {
-                $sortOptions['selected'] = $arguments['sort'];
-            } else {
-                $sortOptions['selected'] = $sortOptions['default'];
-            }
-        }
-
-        $this->setConfigurationValue('sortOptions', $sortOptions);
-    }
-
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function setConfigurationValue($key, $value)
-    {
-        $this->configuration[$key] = $value;
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * @param array $configuration
-     */
-    public function setConfiguration($configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    /**
-     * @param $query
-     */
-    public function search($query)
-    {
-        // TODO: Implement search() method.
-    }
-
-    /**
      * @return string
      */
-    protected function getAction()
+    protected function tagForFacet($facetID)
     {
-        return $this->action;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getControllerExtensionKey()
-    {
-        return $this->controllerExtensionKey;
-    }
-
-    /**
-     * @param string $controllerExtensionKey
-     */
-    public function setControllerExtensionKey($controllerExtensionKey)
-    {
-        $this->controllerExtensionKey = $controllerExtensionKey;
-    }
-
-    /**
-     * @return array
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     */
-    public function getDocumentById(string $id)
-    {
-        $arguments = $this->getRequestArguments();
-
-        $assignments = [];
-        if ($this->settings['paging']['detailPagePaging'] && array_key_exists('underlyingQuery', $arguments)) {
-            // If underlying query has been sent, fetch more data to enable paging arrows.
-            $underlyingQueryInfo = $arguments['underlyingQuery'];
-
-            $index = FrontendUtility::getIndexes($underlyingQueryInfo);
-
-            foreach ($arguments['underlyingQuery'] as $key => $value) {
-                $arguments[$key] = $value;
-            }
-
-            $this->createQueryForArguments($arguments);
-            $this->query->setStart($index['previousIndex']);
-            $this->query->setRows($index['nextIndex'] - $index['previousIndex'] + 1);
-
-            $assignments = $this->getRecordsWithUnderlyingQuery($assignments, $index, $id, $arguments);
-        } else {
-            // Without underlying query information, just get the record specified.
-            $assignments = $this->getTheRecordSpecified($id, $assignments);
-        }
-
-        return $assignments;
-    }
-
-    /**
-     * @param $id
-     * @param $assignments
-     *
-     * @return mixed
-     */
-    protected function getTheRecordSpecified($id, $assignments)
-    {
-        $connection = $this->getConnection();
-
-        $this->createQuery();
-        $escapedID = $this->query->getHelper()->escapeTerm($id);
-        $this->query->setQuery('id:'.$escapedID);
-        try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
-            $selectResults = $connection->execute($this->query);
-
-            if ($selectResults->getNumFound() > 0) {
-                $assignments['results'] = $selectResults;
-                $resultSet = $selectResults->getDocuments();
-                $assignments['document'] = $resultSet[0];
-            } else {
-                $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
-            }
-        } catch (HttpException $exception) {
-            $this->logger->error('Solr Exception (Timeout?)',
-                [
-                    'arguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception),
-                ]
-            );
-        }
-
-        return $assignments;
-    }
-
-    /**
-     * @param $assignments
-     * @param array $index
-     * @param $id
-     * @param $arguments
-     *
-     * @return mixed
-     */
-    protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments)
-    {
-        $connection = $this->getConnection();
-
-        try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
-            $selectResults = $connection->execute($this->query);
-
-            if ($selectResults->getNumFound() > 0) {
-                $assignments['results'] = $selectResults;
-                $resultSet = $selectResults->getDocuments();
-
-                // the actual result is at position 0 (for the first document) or 1 (otherwise).
-                $document = $resultSet[$index['resultIndexOffset']];
-                if ($document['id'] === $id) {
-                    $assignments['document'] = $document;
-                    if (0 !== $index['resultIndexOffset']) {
-                        $assignments['document-previous'] = $resultSet[0];
-                        $assignments['document-previous-number'] = $index['previousIndex'] + 1;
-                    }
-                    $nextResultIndex = 1 + $index['resultIndexOffset'];
-                    if (count($resultSet) > $nextResultIndex) {
-                        $assignments['document-next'] = $resultSet[$nextResultIndex];
-                        $assignments['document-next-number'] = $index['nextIndex'] + 1;
-                    }
-                } else {
-                    $this->logger->error(sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
-                        ['arguments' => $arguments]
-                    );
-                }
-            } else {
-                $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
-            }
-        } catch (HttpException $exception) {
-            $this->logger->error('Solr Exception (Timeout?)',
-                [
-                    'arguments' => $arguments,
-                    'exception' => LoggerUtility::exceptionToArray($exception),
-                ]
-            );
-        }
-
-        return $assignments;
+        return 'facet-'.$facetID;
     }
 }

@@ -14,9 +14,9 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     protected $connectionName;
 
     /**
-     * @var array
+     * @var LogManagerInterface
      */
-    protected $settings;
+    protected $logger;
 
     /**
      * @var array
@@ -24,9 +24,9 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     protected $requestArguments;
 
     /**
-     * @var LogManagerInterface
+     * @var array
      */
-    protected $logger;
+    protected $settings;
 
     /**
      * @param string $connectionName

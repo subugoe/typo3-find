@@ -56,37 +56,36 @@ class SearchController extends ActionController
 
     public function __construct(LogManagerInterface $logManager)
     {
-        parent::__construct();
         $this->logger = $logManager->getLogger('find');
     }
 
     /**
-     * Initialisation and setup.
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function initializeAction()
+    public function detailAction(string $id)
     {
-        ksort($this->settings['queryFields']);
+        $arguments = $this->searchProvider->getRequestArguments();
+        $detail = $this->searchProvider->getDocumentById($id);
 
-        $this->initializeConnection($this->settings['activeConnection']);
+        if ($this->request->hasArgument('underlyingQuery')) {
+            $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+            $this->response->addAdditionalHeaderData(
+                    FrontendUtility::addQueryInformationAsJavaScript(
+                        $underlyingQueryInfo['q'],
+                        $this->settings,
+                        (int) $underlyingQueryInfo['position'],
+                        $arguments
+                    )
+                );
+        }
+        $this->addStandardAssignments();
 
-        $this->requestArguments = $this->request->getArguments();
-        $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
-        $this->searchProvider->setRequestArguments($this->requestArguments);
-        $this->searchProvider->setAction($this->request->getControllerActionName());
-        $this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());
-    }
-
-    /**
-     * @param string $activeConnection
-     */
-    protected function initializeConnection($activeConnection)
-    {
-        $connectionConfiguration = $this->settings['connections'][$activeConnection];
-
-        /* @var ServiceProviderInterface $searchProvider */
-        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection,
-            $this->settings);
-        $this->searchProvider->connect();
+        $this->view->assignMultiple($detail);
+        $this->view->assignMultiple([
+            'arguments' => $arguments,
+            'config' => $this->searchProvider->getConfiguration(),
+        ]);
     }
 
     /**
@@ -123,34 +122,19 @@ class SearchController extends ActionController
     }
 
     /**
-     * @param string $id
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * Initialisation and setup.
      */
-    public function detailAction(string $id)
+    public function initializeAction()
     {
-        $arguments = $this->searchProvider->getRequestArguments();
-        $detail = $this->searchProvider->getDocumentById($id);
+        ksort($this->settings['queryFields']);
 
-        if ($this->request->hasArgument('underlyingQuery')) {
-            $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-            $this->response->addAdditionalHeaderData(
-                    FrontendUtility::addQueryInformationAsJavaScript(
-                        $underlyingQueryInfo['q'],
-                        $this->settings,
-                        (int) $underlyingQueryInfo['position'],
-                        $arguments
-                    )
-                );
-        }
-        $this->addStandardAssignments();
+        $this->initializeConnection($this->settings['activeConnection']);
 
-        $this->view->assignMultiple($detail);
-        $this->view->assignMultiple([
-            'arguments' => $arguments,
-            'config' => $this->searchProvider->getConfiguration(),
-        ]);
+        $this->requestArguments = $this->request->getArguments();
+        $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
+        $this->searchProvider->setRequestArguments($this->requestArguments);
+        $this->searchProvider->setAction($this->request->getControllerActionName());
+        $this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());
     }
 
     /**
@@ -174,5 +158,18 @@ class SearchController extends ActionController
         );
         $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
         $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
+    }
+
+    /**
+     * @param string $activeConnection
+     */
+    protected function initializeConnection($activeConnection)
+    {
+        $connectionConfiguration = $this->settings['connections'][$activeConnection];
+
+        /* @var ServiceProviderInterface $searchProvider */
+        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection,
+            $this->settings);
+        $this->searchProvider->connect();
     }
 }

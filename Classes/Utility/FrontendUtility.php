@@ -45,7 +45,7 @@ class FrontendUtility
      *
      * @return string
      */
-    public static function addQueryInformationAsJavaScript($query, array $settings, $position = null, $arguments = [])
+    public static function addQueryInformationAsJavaScript($query, array $settings, $position = null, $arguments = []): string
     {
         if ($settings['paging']['detailPagePaging']) {
             $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');

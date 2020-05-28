@@ -49,10 +49,8 @@ class ArrayUtility
         foreach ($array as $key => &$value) {
             if (0 === strpos($key, '__') || '' === $value) {
                 unset($array[$key]);
-            } else {
-                if (is_array($value)) {
-                    self::cleanArgumentsArray($value);
-                }
+            } elseif (is_array($value)) {
+                self::cleanArgumentsArray($value);
             }
         }
 

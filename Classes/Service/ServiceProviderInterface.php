@@ -40,6 +40,16 @@ interface ServiceProviderInterface
 
     public function connect();
 
+    public function getConfiguration();
+
+    public function getDefaultQuery();
+
+    public function getDocumentById(string $id);
+
+    public function getRequestArguments();
+
+    public function isExtendedSearch();
+
     /**
      * @param $query
      *
@@ -48,11 +58,9 @@ interface ServiceProviderInterface
     public function search($query);
 
     /**
-     * @param $settings
-     *
-     * @return mixed
+     * @param string $actionName
      */
-    public function suggestQuery($settings);
+    public function setAction($actionName);
 
     /**
      * @param $key
@@ -62,27 +70,12 @@ interface ServiceProviderInterface
      */
     public function setConfigurationValue($key, $value);
 
-    public function getConfiguration();
-
     /**
      * @param string $key
      */
     public function setControllerExtensionKey($key);
 
-    /**
-     * @param string $actionName
-     */
-    public function setAction($actionName);
-
-    public function getRequestArguments();
-
-    public function isExtendedSearch();
-
     public function setCounter();
-
-    public function getDefaultQuery();
-
-    public function getDocumentById(string $id);
 
     /**
      * @param array $requestArguments
@@ -90,4 +83,11 @@ interface ServiceProviderInterface
      * @return mixed
      */
     public function setRequestArguments($requestArguments);
+
+    /**
+     * @param $settings
+     *
+     * @return mixed
+     */
+    public function suggestQuery($settings);
 }
