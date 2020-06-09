@@ -26,6 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
+
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -51,6 +53,6 @@ class PathExistsViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return file_exists(PATH_site.$arguments['path']);
+        return file_exists(Environment::getPublicPath().$arguments['path']);
     }
 }
