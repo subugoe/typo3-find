@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-06-15T09:00:11Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="Missing type in configuration for queryField %s." xml:space="preserve" approved="yes">
+				<source>Error: Missing type in configuration for queryField »%s«.</source>
+				<target>Fehler: Fehlender type in der Konfiguration für queryField »%s«.</target>
+			</trans-unit>
+			<trans-unit id="extended Search" xml:space="preserve" approved="yes">
+				<source>extended Search</source>
+				<target>erweiterte Suche</target>
+			</trans-unit>
+			<trans-unit id="basic Search" xml:space="preserve" approved="yes">
+				<source>basic Search</source>
+				<target>einfache Suche</target>
+			</trans-unit>
+			<trans-unit id="Search" xml:space="preserve" approved="yes">
+				<source>Search</source>
+				<target>Suchen</target>
+			</trans-unit>
+			<trans-unit id="jump to results" xml:space="preserve" approved="yes">
+				<source>jump to results</source>
+				<target>zu den Suchergebnissen springen</target>
+			</trans-unit>
+			<trans-unit id="no results" xml:space="preserve" approved="yes">
+				<source>no results</source>
+				<target>keine Treffer</target>
+			</trans-unit>
+			<trans-unit id="1 result" xml:space="preserve" approved="yes">
+				<source>1 result</source>
+				<target>1 Treffer</target>
+			</trans-unit>
+			<trans-unit id="results" xml:space="preserve" approved="yes">
+				<source>results</source>
+				<target>Treffer</target>
+			</trans-unit>
+			<trans-unit id="Error" xml:space="preserve" approved="yes">
+				<source>Error</source>
+				<target>Fehler</target>
+			</trans-unit>
+			<trans-unit id="of" xml:space="preserve" approved="yes">
+				<source>of</source>
+				<target>von</target>
+			</trans-unit>
+			<trans-unit id="Go to previous page of results. (Page %s)" xml:space="preserve" approved="yes">
+				<source>Go to previous page of results. (Page %s)</source>
+				<target>Zur vorigen Ergebnisseite gehen. (Seite %s)</target>
+			</trans-unit>
+			<trans-unit id="Go to next page of results. (Page %s)" xml:space="preserve" approved="yes">
+				<source>Go to next page of results. (Page %s)</source>
+				<target>Zur folgenden Ergebnisseite gehen. (Seite %s)</target>
+			</trans-unit>
+			<trans-unit id="Filter by %s" xml:space="preserve" approved="yes">
+				<source>Filter by %s</source>
+				<target>Filtern nach %s</target>
+			</trans-unit>
+			<trans-unit id="Alle Datensätze mit %1$s »%2$s« zeigen." xml:space="preserve" approved="yes">
+				<source>Show all records with %1$s »%2$s«.</source>
+				<target>Alle Datensätze mit %1$s »%2$s« zeigen.</target>
+			</trans-unit>
+			<trans-unit id="All records" xml:space="preserve" approved="yes">
+				<source>All records</source>
+				<target>Alle Datensätze</target>
+			</trans-unit>
+			<trans-unit id="Query" xml:space="preserve" approved="yes">
+				<source>Query</source>
+				<target>Abfrage</target>
+			</trans-unit>
+			<trans-unit id="restricted to" xml:space="preserve" approved="yes">
+				<source>with</source>
+				<target>mit</target>
+			</trans-unit>
+			<trans-unit id="AND" xml:space="preserve" approved="yes">
+				<source>and</source>
+				<target>und</target>
+			</trans-unit>
+			<trans-unit id="and" xml:space="preserve" approved="yes">
+				<source>and</source>
+				<target>und</target>
+			</trans-unit>
+			<trans-unit id="result" xml:space="preserve" approved="yes">
+				<source>result</source>
+				<target>Treffer</target>
+			</trans-unit>
+			<trans-unit id="previous" xml:space="preserve" approved="yes">
+				<source>previous</source>
+				<target>voriger Treffer</target>
+			</trans-unit>
+			<trans-unit id="next" xml:space="preserve" approved="yes">
+				<source>next</source>
+				<target>nächster Treffer</target>
+			</trans-unit>
+			<trans-unit id="Return to results list" xml:space="preserve" approved="yes">
+				<source>Return to results list</source>
+				<target>Zurück zur Ergebnisliste</target>
+			</trans-unit>
+			<trans-unit id="Facets" xml:space="preserve" approved="yes">
+				<source>Facets</source>
+				<target>Facetten</target>
+			</trans-unit>
+			<trans-unit id="remove filter" xml:space="preserve" approved="yes">
+				<source>remove filter</source>
+				<target>Filter aufheben</target>
+			</trans-unit>
+			<trans-unit id="remove filter %s" xml:space="preserve" approved="yes">
+				<source>remove filter “%s”</source>
+				<target>Filter „%s“ aufheben</target>
+			</trans-unit>
+			<trans-unit id="show all" xml:space="preserve" approved="yes">
+				<source>show all</source>
+				<target>alle zeigen</target>
+			</trans-unit>
+			<trans-unit id="hide hidden" xml:space="preserve" approved="yes">
+				<source>collapse list</source>
+				<target>Liste einklappen</target>
+			</trans-unit>
+			<trans-unit id="Show Detail Page" xml:space="preserve" approved="yes">
+				<source>Details</source>
+				<target>Details</target>
+			</trans-unit>
+			<trans-unit id="Your query could not be executed." xml:space="preserve" approved="yes">
+				<source>Your query could not be executed.</source>
+				<target>Ihre Abfrage konnte nicht ausgeführt werden.</target>
+			</trans-unit>
+			<trans-unit id="Re-run the query with escaped terms." xml:space="preserve" approved="yes">
+				<source>Re-run the query with escaped terms.</source>
+				<target>Abfrage mit maskierten Steuerzeichen wiederholen.</target>
+			</trans-unit>
+			<trans-unit id="Your query took too long." xml:space="preserve" approved="yes">
+				<source>Your query took too long and was cancelled. Try re-running the query or using a simpler one. If your query is simple already, please get in touch with us and tell us what you tried to do.</source>
+				<target>Ihre Abfrage dauerte zu lange und wurde abgebrochen. Bitte versuchen Sie, die Seite neuzuladen oder stellen Sie eine einfachere Abfrage. Falls Ihre Abfrage bereits einfach war, schicken Sie uns bitte eine Nachricht mit der Abfrage, damit wir das Problem lösen können.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

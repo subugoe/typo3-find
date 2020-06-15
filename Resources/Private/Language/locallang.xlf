@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-06-15T09:00:11Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="Missing type in configuration for queryField %s." xml:space="preserve">
+				<source>Error: Missing type in configuration for queryField »%s«.</source>
+			</trans-unit>
+			<trans-unit id="extended Search" xml:space="preserve">
+				<source>extended Search</source>
+			</trans-unit>
+			<trans-unit id="basic Search" xml:space="preserve">
+				<source>basic Search</source>
+			</trans-unit>
+			<trans-unit id="Search" xml:space="preserve">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="jump to results" xml:space="preserve">
+				<source>jump to results</source>
+			</trans-unit>
+			<trans-unit id="no results" xml:space="preserve">
+				<source>no results</source>
+			</trans-unit>
+			<trans-unit id="1 result" xml:space="preserve">
+				<source>1 result</source>
+			</trans-unit>
+			<trans-unit id="results" xml:space="preserve">
+				<source>results</source>
+			</trans-unit>
+			<trans-unit id="Error" xml:space="preserve">
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="of" xml:space="preserve">
+				<source>of</source>
+			</trans-unit>
+			<trans-unit id="Go to previous page of results. (Page %s)" xml:space="preserve">
+				<source>Go to previous page of results. (Page %s)</source>
+			</trans-unit>
+			<trans-unit id="Go to next page of results. (Page %s)" xml:space="preserve">
+				<source>Go to next page of results. (Page %s)</source>
+			</trans-unit>
+			<trans-unit id="Filter by %s" xml:space="preserve">
+				<source>Filter by %s</source>
+			</trans-unit>
+			<trans-unit id="Alle Datensätze mit %1$s »%2$s« zeigen." xml:space="preserve">
+				<source>Show all records with %1$s »%2$s«.</source>
+			</trans-unit>
+			<trans-unit id="All records" xml:space="preserve">
+				<source>All records</source>
+			</trans-unit>
+			<trans-unit id="Query" xml:space="preserve">
+				<source>Query</source>
+			</trans-unit>
+			<trans-unit id="restricted to" xml:space="preserve">
+				<source>with</source>
+			</trans-unit>
+			<trans-unit id="AND" xml:space="preserve">
+				<source>and</source>
+			</trans-unit>
+			<trans-unit id="and" xml:space="preserve">
+				<source>and</source>
+			</trans-unit>
+			<trans-unit id="result" xml:space="preserve">
+				<source>result</source>
+			</trans-unit>
+			<trans-unit id="previous" xml:space="preserve">
+				<source>previous</source>
+			</trans-unit>
+			<trans-unit id="next" xml:space="preserve">
+				<source>next</source>
+			</trans-unit>
+			<trans-unit id="Return to results list" xml:space="preserve">
+				<source>Return to results list</source>
+			</trans-unit>
+			<trans-unit id="Facets" xml:space="preserve">
+				<source>Facets</source>
+			</trans-unit>
+			<trans-unit id="remove filter" xml:space="preserve">
+				<source>remove filter</source>
+			</trans-unit>
+			<trans-unit id="remove filter %s" xml:space="preserve">
+				<source>remove filter “%s”</source>
+			</trans-unit>
+			<trans-unit id="show all" xml:space="preserve">
+				<source>show all</source>
+			</trans-unit>
+			<trans-unit id="hide hidden" xml:space="preserve">
+				<source>collapse list</source>
+			</trans-unit>
+			<trans-unit id="Show Detail Page" xml:space="preserve">
+				<source>Details</source>
+			</trans-unit>
+			<trans-unit id="Your query could not be executed." xml:space="preserve">
+				<source>Your query could not be executed.</source>
+			</trans-unit>
+			<trans-unit id="Re-run the query with escaped terms." xml:space="preserve">
+				<source>Re-run the query with escaped terms.</source>
+			</trans-unit>
+			<trans-unit id="Your query took too long." xml:space="preserve">
+				<source>Your query took too long and was cancelled. Try re-running the query or using a simpler one. If your query is simple already, please get in touch with us and tell us what you tried to do.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

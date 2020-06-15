@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-06-15T09:00:06Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="field.typ" xml:space="preserve" approved="yes">
+				<source>Type</source>
+				<target>Typ</target>
+			</trans-unit>
+			<trans-unit id="field.name" xml:space="preserve" approved="yes">
+				<source>Name</source>
+				<target>Name</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

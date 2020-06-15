@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-06-15T08:59:49Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="facet.typ" xml:space="preserve" approved="yes">
+				<source>Type</source>
+				<target>Typ</target>
+			</trans-unit>
+			<trans-unit id="facet.typ.formular" xml:space="preserve" approved="yes">
+				<source>Text</source>
+				<target>Text</target>
+			</trans-unit>
+			<trans-unit id="facet.typ.gott" xml:space="preserve" approved="yes">
+				<source>God</source>
+				<target>Gott</target>
+			</trans-unit>
+			<trans-unit id="facet.typ.ort" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Ort</target>
+			</trans-unit>
+			<trans-unit id="facet.typ.word" xml:space="preserve" approved="yes">
+				<source>Word</source>
+				<target>Wort</target>
+			</trans-unit>
+			<trans-unit id="facet.band" xml:space="preserve" approved="yes">
+				<source>Volume</source>
+				<target>Band</target>
+			</trans-unit>
+			<trans-unit id="facet.band.1" xml:space="preserve" approved="yes">
+				<source>I</source>
+				<target>I</target>
+			</trans-unit>
+			<trans-unit id="facet.band.2" xml:space="preserve" approved="yes">
+				<source>II</source>
+				<target>II</target>
+			</trans-unit>
+			<trans-unit id="facet.band.3" xml:space="preserve" approved="yes">
+				<source>III</source>
+				<target>III</target>
+			</trans-unit>
+			<trans-unit id="facet.band.4" xml:space="preserve" approved="yes">
+				<source>IV</source>
+				<target>IV</target>
+			</trans-unit>
+			<trans-unit id="facet.band.5" xml:space="preserve" approved="yes">
+				<source>V</source>
+				<target>V</target>
+			</trans-unit>
+			<trans-unit id="facet.band.6" xml:space="preserve" approved="yes">
+				<source>VI</source>
+				<target>VI</target>
+			</trans-unit>
+			<trans-unit id="facet.band.7" xml:space="preserve" approved="yes">
+				<source>VII</source>
+				<target>VII</target>
+			</trans-unit>
+			<trans-unit id="facet.band.8" xml:space="preserve" approved="yes">
+				<source>VIII</source>
+				<target>VIII</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
