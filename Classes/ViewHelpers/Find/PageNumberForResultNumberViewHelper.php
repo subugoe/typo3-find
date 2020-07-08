@@ -53,10 +53,6 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array                     $arguments
-     * @param \Closure                  $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     *
      * @return int
      */
     public static function renderStatic(
