@@ -1,6 +1,11 @@
 language: php
 
-matrix:
+os:
+  - linux
+
+dist: "xenial"
+
+jobs:
   fast_finish: true
   include:
     - php: 7.4
@@ -15,8 +20,6 @@ addons:
   apt:
     packages:
       - parallel
-
-sudo: false
 
 cache:
   directories:
