@@ -60,6 +60,6 @@ class JoinViewHelper extends AbstractViewHelper
             $array = $renderChildrenClosure();
         }
 
-        return implode($array, $arguments['separator']);
+        return implode($arguments['separator'], $array);
     }
 }
