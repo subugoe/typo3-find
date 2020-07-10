@@ -67,7 +67,7 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     {
         $this->fixture->setArguments(
             [
-                'path' => '/typo3',
+                'path' => 'typo3',
             ]
         );
 

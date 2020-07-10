@@ -53,6 +53,6 @@ class PathExistsViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return file_exists(Environment::getPublicPath().$arguments['path']);
+        return file_exists(Environment::getPublicPath().'/'.$arguments['path']);
     }
 }
