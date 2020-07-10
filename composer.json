@@ -3,7 +3,7 @@
   "description": "A frontend for Solr indexes",
   "type": "typo3-cms-extension",
   "keywords" : ["TYPO3 CMS"],
-  "license": ["GPL-2.0+"],
+  "license": ["GPL-2.0-or-later"],
   "authors" : [
     {
       "name" : "Sven-S. Porst, Ingo Pfennigstorf",
