@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-06-15T08:59:49Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="facet.typ" xml:space="preserve">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="facet.typ.formular" xml:space="preserve">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="facet.typ.gott" xml:space="preserve">
+				<source>God</source>
+			</trans-unit>
+			<trans-unit id="facet.typ.ort" xml:space="preserve">
+				<source>Location</source>
+			</trans-unit>
+			<trans-unit id="facet.typ.word" xml:space="preserve">
+				<source>Word</source>
+			</trans-unit>
+			<trans-unit id="facet.band" xml:space="preserve">
+				<source>Volume</source>
+			</trans-unit>
+			<trans-unit id="facet.band.1" xml:space="preserve">
+				<source>I</source>
+			</trans-unit>
+			<trans-unit id="facet.band.2" xml:space="preserve">
+				<source>II</source>
+			</trans-unit>
+			<trans-unit id="facet.band.3" xml:space="preserve">
+				<source>III</source>
+			</trans-unit>
+			<trans-unit id="facet.band.4" xml:space="preserve">
+				<source>IV</source>
+			</trans-unit>
+			<trans-unit id="facet.band.5" xml:space="preserve">
+				<source>V</source>
+			</trans-unit>
+			<trans-unit id="facet.band.6" xml:space="preserve">
+				<source>VI</source>
+			</trans-unit>
+			<trans-unit id="facet.band.7" xml:space="preserve">
+				<source>VII</source>
+			</trans-unit>
+			<trans-unit id="facet.band.8" xml:space="preserve">
+				<source>VIII</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

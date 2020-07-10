@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-06-15T09:00:09Z" product-name="find">
+		<header/>
+		<body>
+			<trans-unit id="input.default" xml:space="preserve" approved="yes">
+				<source>All Fields</source>
+				<target>Alle Felder</target>
+			</trans-unit>
+			<trans-unit id="input.raw" xml:space="preserve" approved="yes">
+				<source>Solr Query</source>
+				<target>Solr Abfrage</target>
+			</trans-unit>
+			<trans-unit id="input.sort" xml:space="preserve" approved="yes">
+				<source>Sort By</source>
+				<target>Sortierung</target>
+			</trans-unit>
+			<trans-unit id="input.sort-default" xml:space="preserve" approved="yes">
+				<source>Default</source>
+				<target>Standard</target>
+			</trans-unit>
+			<trans-unit id="input.count" xml:space="preserve" approved="yes">
+				<source>Results</source>
+				<target>Trefferzahl</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
