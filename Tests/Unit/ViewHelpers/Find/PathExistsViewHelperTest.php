@@ -49,20 +49,6 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function returnTrueIfAPathExists()
-    {
-        $this->fixture->setArguments(
-            [
-                'path' => 'typo3',
-            ]
-        );
-
-        $this->assertTrue($this->fixture->initializeArgumentsAndRender());
-    }
-
-    /**
-     * @test
-     */
     public function returnFalseIfAPathDoesNotExist()
     {
         $this->fixture->setArguments(
@@ -71,6 +57,20 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
             ]
         );
 
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
+    }
+
+    /**
+     * @test
+     */
+    public function returnTrueIfAPathExists()
+    {
+        $this->fixture->setArguments(
+            [
+                'path' => 'typo3',
+            ]
+        );
+
+        self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 }
