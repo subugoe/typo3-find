@@ -35,7 +35,7 @@ use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
 class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper
+     * @var FacetIsActiveViewHelper
      */
     public $fixture;
 
@@ -71,7 +71,7 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
 
-        $this->assertTrue($this->fixture->initializeArgumentsAndRender());
+        self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -98,6 +98,6 @@ class FacetIsActiveViewHelperTest extends ViewHelperBaseTestcase
         ];
         $this->fixture->setArguments($arguments);
 
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 }

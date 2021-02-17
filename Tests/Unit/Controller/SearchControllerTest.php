@@ -40,7 +40,9 @@ class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 
     public function setUp()
     {
-        $this->fixture = $this->getMockBuilder(SearchController::class)->disableOriginalConstructor()->getMock();
+        $this->fixture = $this->getMockBuilder(SearchController::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -48,6 +50,6 @@ class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
      */
     public function implementTests()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

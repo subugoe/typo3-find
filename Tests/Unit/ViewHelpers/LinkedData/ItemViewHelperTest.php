@@ -62,11 +62,12 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)->setMethods(['dummy'])->getMock();
-        $this->templateVariableContainer = $this->getMockBuilder(
-            StandardVariableProvider::class)->setMethods(
-            ['add', 'get', 'remove', 'exists']
-        )->getMock();
+        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)
+            ->setMethods(['dummy'])
+            ->getMock();
+        $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
+            ->setMethods(['add', 'get', 'remove', 'exists'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -86,14 +87,12 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
                 'name' => $name,
             ]
         );
-        $this->renderingContext->getVariableProvider()->expects($this->once())->method('remove')->with($name);
-        $this->renderingContext->getVariableProvider()->expects($this->once())->method('add')->with($name)->will(
-            $this->returnValue('')
-        );
+        $this->renderingContext->getVariableProvider()->expects(self::once())->method('remove')->with($name);
+        $this->renderingContext->getVariableProvider()->expects(self::once())->method('add')->with($name)->willReturn('');
         $this->inject($this->fixture, 'templateVariableContainer', $this->renderingContext->getVariableProvider());
 
         $this->fixture->initializeArgumentsAndRender();
 
-        $this->markTestIncomplete('Todo');
+        self::markTestIncomplete('Todo');
     }
 }

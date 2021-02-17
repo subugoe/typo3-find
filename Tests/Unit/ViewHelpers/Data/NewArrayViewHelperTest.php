@@ -35,14 +35,16 @@ use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
 class NewArrayViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper
+     * @var NewArrayViewHelper
      */
     public $fixture;
 
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)
+            ->setMethods(['renderChildren'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -65,7 +67,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -85,7 +87,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -106,7 +108,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -128,6 +130,6 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

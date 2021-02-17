@@ -38,7 +38,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
     use MockRenderingContextTrait;
 
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper
+     * @var ValueForKeyViewHelper
      */
     public $fixture;
 
@@ -68,7 +68,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'key' => $key,
         ]);
 
-        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -88,7 +88,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'format' => 'json',
         ]);
 
-        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -108,7 +108,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'format' => 'json',
         ]);
 
-        $this->assertSame('b', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -127,6 +127,6 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
             'key' => $key,
         ]);
 
-        $this->assertNull($this->fixture->initializeArgumentsAndRender());
+        self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 }

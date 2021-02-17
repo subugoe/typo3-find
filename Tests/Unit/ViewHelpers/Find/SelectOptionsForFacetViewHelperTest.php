@@ -35,14 +35,16 @@ use Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper;
 class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\SelectOptionsForFacetViewHelper
+     * @var SelectOptionsForFacetViewHelper
      */
     public $fixture;
 
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)
+            ->setMethods(['renderChildren'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -62,6 +64,6 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
 
         $this->fixture->setArguments($arguments);
 
-        $this->markTestIncomplete('todo');
+        self::markTestIncomplete('todo');
     }
 }

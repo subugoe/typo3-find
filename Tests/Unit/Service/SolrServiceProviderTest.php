@@ -36,13 +36,16 @@ use Subugoe\Find\Service\SolrServiceProvider;
 class SolrServiceProviderTest extends UnitTestCase
 {
     /**
-     * @var \Subugoe\Find\Service\SolrServiceProvider
+     * @var SolrServiceProvider
      */
     protected $fixture;
 
     public function setUp()
     {
-        $this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, ['dummy'], ['default', []]);
+        $this->fixture = $this->getMockBuilder(SolrServiceProvider::class)
+            ->setMethods(['dummy'])
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -54,7 +57,7 @@ class SolrServiceProviderTest extends UnitTestCase
         $value = 'bar';
 
         $this->fixture->setConfigurationValue($key, $value);
-        $this->assertArrayHasKey($key, $this->fixture->getConfiguration());
+        self::assertArrayHasKey($key, $this->fixture->getConfiguration());
     }
 
     /**
@@ -70,7 +73,7 @@ class SolrServiceProviderTest extends UnitTestCase
 
         $this->fixture->setConfigurationValue($key1, $value1);
         $this->fixture->setConfigurationValue($key, $value);
-        $this->assertArrayHasKey($key, $this->fixture->getConfiguration());
-        $this->assertArrayHasKey($key1, $this->fixture->getConfiguration());
+        self::assertArrayHasKey($key, $this->fixture->getConfiguration());
+        self::assertArrayHasKey($key1, $this->fixture->getConfiguration());
     }
 }

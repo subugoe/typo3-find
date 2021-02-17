@@ -35,14 +35,16 @@ use Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper;
 class IsArrayViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper
+     * @var IsArrayViewHelper
      */
     public $fixture;
 
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)
+            ->setMethods(['renderChildren'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -52,7 +54,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     public function arrayIsInterpretedAsArray()
     {
         $this->fixture->setArguments(['subject' => ['hrdr']]);
-        $this->assertTrue($this->fixture->initializeArgumentsAndRender());
+        self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -61,17 +63,17 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     public function intIsNotInterpretedAsArray()
     {
         $this->fixture->setArguments(['subject' => 667]);
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function objectsAreNotInterpretedAsArray()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->fixture->setArguments(['subject' => $this->fixture]);
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -80,7 +82,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     public function stringsAreNotInterpretedAsArray()
     {
         $this->fixture->setArguments(['subject' => 'hrdr']);
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -89,6 +91,6 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     public function nullIsNotInterpretedAsArray()
     {
         $this->fixture->setArguments(['subject' => null]);
-        $this->assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->fixture->initializeArgumentsAndRender());
     }
 }

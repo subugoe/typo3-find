@@ -35,14 +35,16 @@ use Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper;
 class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper
+     * @var ArrayFirstViewHelper
      */
     public $fixture;
 
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ArrayFirstViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->fixture = $this->getMockBuilder(ArrayFirstViewHelper::class)
+            ->setMethods(['renderChildren'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -54,7 +56,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = ['hrdr', 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame('hrdr', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -65,7 +67,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = null;
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
+        self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -76,7 +78,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = 'hrdr';
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
+        self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -87,7 +89,7 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = ['hrdr' => 'horus', 'behedeti'];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame('horus', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('horus', $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -98,6 +100,6 @@ class ArrayFirstViewHelperTest extends ViewHelperBaseTestcase
         $array = [];
         $this->fixture->setArguments(['array' => $array]);
 
-        $this->assertSame(null, $this->fixture->initializeArgumentsAndRender());
+        self::assertNull($this->fixture->initializeArgumentsAndRender());
     }
 }

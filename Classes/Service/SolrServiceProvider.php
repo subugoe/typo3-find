@@ -659,7 +659,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         // Process parameters to eliminate empty values
         $queryParameters = [];
-        if (is_array($rawQueryParameters) && $rawQueryParameters !== []) {
+        if (is_array($rawQueryParameters) && [] !== $rawQueryParameters) {
             foreach ($rawQueryParameters as $key => $value) {
                 if (is_array($value) && count(array_filter($value)) > 0) {
                     $queryParameters[$key] = array_filter($value);
@@ -1015,7 +1015,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 // Escape all arguments unless told not to do so.
                 if (!$fieldInfo['noescape']) {
                     $escapedQueryTerms = [];
-                    if (is_array($queryTerms) && $queryTerms !== []) {
+                    if (is_array($queryTerms) && [] !== $queryTerms) {
                         foreach ($queryTerms as $key => $term) {
                             if ($fieldInfo['phrase']) {
                                 $escapedQueryTerms[$key] = $this->query->getHelper()->escapePhrase($term);

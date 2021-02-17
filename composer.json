@@ -1,57 +1,61 @@
 {
-	"name": "subugoe/find",
-	"description": "A frontend for Solr indexes",
-	"type": "typo3-cms-extension",
-	"keywords" : ["TYPO3 CMS"],
-	"license": ["GPL-2.0-or-later"],
-	"authors" : [
-		{
-			"name" : "Sven-S. Porst, Ingo Pfennigstorf",
-			"email" : "pfennigstorf@sub.uni-goettingen.de",
-			"role" : "Developer"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Subugoe\\Find\\": "Classes/"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Subugoe\\Find\\Tests\\": "Tests/"
-		}
-	},
-	"replace": {
-		"typo3-ter/find": "self.version",
-		"subugoe/find": "self.version"
-	},
-	"require": {
-		"ext-json": "*",
-		"typo3/cms-core": "^9.5 || ^10.4",
-		"typo3/cms-felogin": "^9.5 || ^10.4"
-	},
-	"require-dev": {
-		"solarium/solarium": "~4.2 || ^5.1",
-		"nimut/testing-framework": "^5.1",
-		"friendsofphp/php-cs-fixer": "^2.13"
-	},
-	"config": {
-		"vendor-dir": ".Build/vendor",
-		"bin-dir": ".Build/bin"
-	},
-	"scripts": {
-		"post-autoload-dump": [
-			"mkdir -p .Build/Web/typo3conf/ext/",
-			"[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
-		]
-	},
-	"suggest": {
-		"solarium/solarium": "Allows using the SolrServiceProvider"
-	},
-	"extra": {
-		"typo3/cms": {
-			"cms-package-dir": "{$vendor-dir}/typo3/cms",
-			"web-dir": ".Build/Web"
-		}
-	}
+  "name": "subugoe/find",
+  "description": "A frontend for Solr indexes",
+  "type": "typo3-cms-extension",
+  "keywords": [
+    "TYPO3 CMS"
+  ],
+  "license": [
+    "GPL-2.0-or-later"
+  ],
+  "authors": [
+    {
+      "name": "Sven-S. Porst, Ingo Pfennigstorf",
+      "email": "pfennigstorf@sub.uni-goettingen.de",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Subugoe\\Find\\": "Classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Subugoe\\Find\\Tests\\": "Tests/"
+    }
+  },
+  "replace": {
+    "typo3-ter/find": "self.version",
+    "subugoe/find": "self.version"
+  },
+  "require": {
+    "ext-json": "*",
+    "typo3/cms-core": "^9.5 || ^10.4",
+    "typo3/cms-felogin": "^9.5 || ^10.4"
+  },
+  "require-dev": {
+    "solarium/solarium": "~4.2 || ^5.1",
+    "nimut/testing-framework": "^5.1",
+    "friendsofphp/php-cs-fixer": "^2.13"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+    ]
+  },
+  "suggest": {
+    "solarium/solarium": "Allows using the SolrServiceProvider"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
 }

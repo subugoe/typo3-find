@@ -44,7 +44,9 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)
+            ->setMethods(['dummy'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -64,7 +66,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr,behedeti,chub'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -83,7 +85,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = 'hrdr;behedeti;chub'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -102,7 +104,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '"hrdr horus";behedeti;"chub budan"'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -121,6 +123,6 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $expected = '/hrdr horus/;behedeti;/chub budan/'.PHP_EOL;
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 }

@@ -35,7 +35,7 @@ use Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper;
 class PathExistsViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\PathExistsViewHelper
+     * @var PathExistsViewHelper
      */
     public $fixture;
 

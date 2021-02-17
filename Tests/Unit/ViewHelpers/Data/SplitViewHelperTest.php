@@ -43,7 +43,9 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)
+            ->setMethods(['dummy'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -60,7 +62,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             ]
         );
 
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -77,7 +79,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'separator' => $separator,
         ]);
 
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -93,7 +95,7 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
             'separator' => $separator,
         ]);
 
-        $this->assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
     /**
@@ -109,6 +111,6 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
 
         $actual = $this->fixture->initializeArgumentsAndRender();
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 }

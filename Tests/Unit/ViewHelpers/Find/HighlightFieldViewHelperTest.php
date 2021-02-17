@@ -35,7 +35,7 @@ use Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper;
 class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper
+     * @var HighlightFieldViewHelper
      */
     public $fixture;
 
@@ -56,6 +56,6 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
      */
     public function fieldIsCorrectlyHighlighted()
     {
-        $this->markTestIncomplete('Still something to do with mocking solarium');
+        self::markTestIncomplete('Still something to do with mocking solarium');
     }
 }

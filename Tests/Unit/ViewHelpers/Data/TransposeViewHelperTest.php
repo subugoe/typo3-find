@@ -36,7 +36,7 @@ use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 class TransposeViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\TransposeViewHelper
+     * @var TransposeViewHelper
      */
     public $fixture;
 
@@ -48,7 +48,9 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)->setMethods(['renderChildren'])->getMock();
+        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
+            ->setMethods(['renderChildren'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -76,8 +78,8 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->renderingContext->getVariableProvider()->expects($this->at(0))->method('add')->with('hrdr', $expected);
-        $this->renderingContext->getVariableProvider()->expects($this->at(1))->method('remove')->with('hrdr');
+        $this->renderingContext->getVariableProvider()->expects(self::at(0))->method('add')->with('hrdr', $expected);
+        $this->renderingContext->getVariableProvider()->expects(self::at(1))->method('remove')->with('hrdr');
 
         $this->fixture->initializeArgumentsAndRender();
     }
@@ -95,7 +97,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
+        self::assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
             $this->fixture->initializeArgumentsAndRender());
     }
 }

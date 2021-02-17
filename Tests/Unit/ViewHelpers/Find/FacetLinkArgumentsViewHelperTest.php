@@ -38,14 +38,16 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     use MockRenderingContextTrait;
 
     /**
-     * @var \Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper
+     * @var FacetLinkArgumentsViewHelper
      */
     public $fixture;
 
     public function setUp()
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(FacetLinkArgumentsViewHelper::class)->setMethods(['dummy'])->getMock();
+        $this->fixture = $this->getMockBuilder(FacetLinkArgumentsViewHelper::class)
+            ->setMethods(['dummy'])
+            ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -62,7 +64,7 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
         ]);
 
         $result = $this->fixture->initializeArgumentsAndRender();
-        $this->assertEquals('tx_find_find[facet][title]', $result[0]);
+        self::assertEquals('tx_find_find[facet][title]', $result[0]);
     }
 
     /**
@@ -79,6 +81,6 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
 
         $result = $this->fixture->initializeArgumentsAndRender();
         $resultValue = array_keys($result['facet']['title']);
-        $this->assertEquals('hrdr', $resultValue[0]);
+        self::assertEquals('hrdr', $resultValue[0]);
     }
 }
