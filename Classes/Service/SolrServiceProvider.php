@@ -1042,10 +1042,10 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                 ksort($queryTerms);
 
-                if ($this->settings['luceneMatchVersion'] < 8) {
+                $magicFieldPrefix = '';
+
+                if ((int) $this->settings['luceneMatchVersion'] < 8) {
                     $magicFieldPrefix = '_query_:';
-                } else {
-                    $magicFieldPrefix = '';
                 }
 
                 if ($this->settings['features']['eDisMax']) {

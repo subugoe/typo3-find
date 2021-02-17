@@ -1,5 +1,6 @@
 plugin.tx_find {
     settings {
+        luceneMatchVersion = 8
         activeConnection = {$plugin.tx_find.settings.activeConnection}
         connections {
             default {
