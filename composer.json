@@ -31,8 +31,8 @@
   },
   "require": {
     "ext-json": "*",
-    "typo3/cms-core": "^9.5 || ^10.4",
-    "typo3/cms-felogin": "^9.5 || ^10.4"
+    "typo3/cms-core": "^9.5 || ^10.4.10",
+    "typo3/cms-felogin": "^9.5 || ^10.4.10"
   },
   "require-dev": {
     "solarium/solarium": "~4.2 || ^5.1",
