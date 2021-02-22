@@ -1044,7 +1044,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                 $magicFieldPrefix = '';
 
-                if (array_key_exists('luceneMatchVersion', $this->settings) && (int) $this->settings['luceneMatchVersion'] < 8) {
+                if ( (array_key_exists('luceneMatchVersionNumber', $this->settings) && (int) $this->settings['luceneMatchVersionNumber'] < 8) || (!array_key_exists('luceneMatchVersionNumber', $this->settings)) ) {
                     $magicFieldPrefix = '_query_:';
                 }
 
