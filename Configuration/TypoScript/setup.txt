@@ -12,6 +12,8 @@ plugin.tx_find {
                     path = {$plugin.tx_find.settings.connections.default.options.path}
                     timeout = {$plugin.tx_find.settings.connections.default.options.timeout}
                     scheme = {$plugin.tx_find.settings.connections.default.options.scheme}
+                    username = {$plugin.tx_find.settings.connections.default.options.username}
+                    password = {$plugin.tx_find.settings.connections.default.options.password}
                 }
             }
         }

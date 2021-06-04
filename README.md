@@ -159,6 +159,8 @@ configure access to the Solr index. It contains:
 -   `path` \[/solr/\]: path of the Index on the Solr server
 -   `timeout` \[5\]: number of seconds before a Solr request times out
 -   `scheme` \[http\]: URI scheme of the connection
+-   `username` \[]: Username in case you Basic Auth secured your Solr via .htaccess
+-   `password` \[]: Password in case you Basic Auth secured your Solr via .htaccess
 
 1.  Example:
     ```
@@ -172,6 +174,8 @@ configure access to the Solr index. It contains:
                     path = /solr/
                     timeout = 5
                     scheme = http
+                    username =
+                    password =
                 }
             }
         }

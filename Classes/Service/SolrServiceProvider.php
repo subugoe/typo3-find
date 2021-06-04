@@ -79,7 +79,11 @@ class SolrServiceProvider extends AbstractServiceProvider
             ],
         ];
 
-        $this->setConnection(new Client($connectionSettings));
+        $client = new Client($connectionSettings);
+        if ($currentConnectionSettings['username'] && $currentConnectionSettings['password']) {
+            $client->getEndpoint()->setAuthentication($currentConnectionSettings['username'], $currentConnectionSettings['password']);
+        }
+        $this->setConnection($client);
     }
 
     /**
