@@ -1,6 +1,7 @@
 plugin.tx_find {
     settings {
-        luceneMatchVersion = 8
+        # Uncomment / set the following to your actual luceneMatchVersion number to be found in solrconfig.xml) if you are using a Solr version >= 8
+        #    luceneMatchVersionNumber = 8
         activeConnection = {$plugin.tx_find.settings.activeConnection}
         connections {
             default {
