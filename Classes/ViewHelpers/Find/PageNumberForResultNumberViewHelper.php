@@ -40,7 +40,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
     /**
      * Avoid divisions by zero.
      */
-    const DEFAULT_RESULTS_PER_PAGE = 20;
+    public const DEFAULT_RESULTS_PER_PAGE = 20;
 
     /**
      * Registers own arguments.

@@ -31,13 +31,13 @@
   },
   "require": {
     "ext-json": "*",
-    "typo3/cms-core": "^9.5 || ^10.4.10",
-    "typo3/cms-felogin": "^9.5 || ^10.4.10"
+    "typo3/cms-core": "^10.4.10 || ^11.5.3",
+    "typo3/cms-felogin": "^10.4.10 || ^11.5.3"
   },
   "require-dev": {
-    "solarium/solarium": "~4.2 || ^5.1",
+    "solarium/solarium": "^5.1",
     "nimut/testing-framework": "^5.1",
-    "friendsofphp/php-cs-fixer": "^2.13"
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
