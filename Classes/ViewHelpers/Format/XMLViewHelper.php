@@ -59,11 +59,7 @@ class XMLViewHelper extends AbstractViewHelper
         $XML->formatOutput = true;
         $XML->encoding = 'UTF-8';
         $XML->loadXML($input);
-        if ($arguments['htmloutput']) {
-            $result = $XML->saveHTML();
-        } else {
-            $result = $XML->saveXML();
-        }
+        $result = $arguments['htmloutput'] ? $XML->saveHTML() : $XML->saveXML();
 
         // TODO: Error handling?
 

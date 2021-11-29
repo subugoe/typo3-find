@@ -51,6 +51,6 @@ class NotViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ): bool {
-        return !(true == $arguments['condition']);
+        return true != $arguments['condition'];
     }
 }

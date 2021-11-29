@@ -106,11 +106,9 @@ class TransposeViewHelper extends AbstractViewHelper
         foreach ($arrays as $array) {
             if (null === $length) {
                 $length = count($array);
-            } else {
-                if ($length !== count($array)) {
-                    $result = false;
-                    break;
-                }
+            } elseif ($length !== count($array)) {
+                $result = false;
+                break;
             }
         }
 

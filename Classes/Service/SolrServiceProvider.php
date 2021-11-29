@@ -157,26 +157,23 @@ class SolrServiceProvider extends AbstractServiceProvider
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
             $result = (true == $this->requestArguments['extended']);
-        } else {
-            // Show extended search when any of the »extended« fields are used.
-            if (array_key_exists('q', $this->requestArguments)) {
-                foreach ($this->settings['queryFields'] as $fieldInfo) {
-                    if ($fieldInfo['extended']
-                        && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
-                        && $this->requestArguments['q'][$fieldInfo['id']]
-                    ) {
-                        // Check if the request argument is an array itself (appies to field type "Range")
-                        if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
-                            foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
-                                if ('' !== $value) {
-                                    $result = true;
-                                    break;
-                                }
+        } elseif (array_key_exists('q', $this->requestArguments)) {
+            foreach ($this->settings['queryFields'] as $fieldInfo) {
+                if ($fieldInfo['extended']
+                    && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
+                    && $this->requestArguments['q'][$fieldInfo['id']]
+                ) {
+                    // Check if the request argument is an array itself (appies to field type "Range")
+                    if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
+                        foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
+                            if ('' !== $value) {
+                                $result = true;
+                                break;
                             }
-                        } else {
-                            $result = true;
-                            break;
                         }
+                    } else {
+                        $result = true;
+                        break;
                     }
                 }
             }
@@ -575,11 +572,9 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $sortDirection = Query::SORT_ASC;
                     if ('desc' === $sortCriterionParts[1]) {
                         $sortDirection = Query::SORT_DESC;
-                    } else {
-                        if ('asc' !== $sortCriterionParts[1]) {
-                            $this->logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
-                            continue;
-                        }
+                    } elseif ('asc' !== $sortCriterionParts[1]) {
+                        $this->logger->warning(sprintf('sort criterion »%s«’s sort direction is »%s« It should be »asc« or »desc«. Ignoring it.', $sortCriterion, $sortCriterionParts[1]));
+                        continue;
                     }
 
                     $this->query->addSort($sortCriterionParts[0], $sortDirection);
@@ -658,7 +653,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $queryParameters = [];
         if (is_array($rawQueryParameters) && [] !== $rawQueryParameters) {
             foreach ($rawQueryParameters as $key => $value) {
-                if (is_array($value) && count(array_filter($value)) > 0) {
+                if (is_array($value) && [] !== array_filter($value)) {
                     $queryParameters[$key] = array_filter($value);
                 } elseif (!empty($value) && !is_array($value)) {
                     $queryParameters[$key] = $value;
@@ -777,11 +772,9 @@ class SolrServiceProvider extends AbstractServiceProvider
         $config = null;
 
         foreach ($this->settings['facets'] as $facet) {
-            if (array_key_exists('id', $facet)) {
-                if ($facet['id'] === $id) {
-                    $config = $facet;
-                    break;
-                }
+            if (array_key_exists('id', $facet) && $facet['id'] === $id) {
+                $config = $facet;
+                break;
             }
         }
 
@@ -801,7 +794,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     {
         $queryString = null;
 
-        if ($facetConfig) {
+        if ([] !== $facetConfig) {
             if (array_key_exists('facetQuery', $facetConfig)) {
                 // Facet queries are configured: use one of them.
                 foreach ($facetConfig['facetQuery'] as $facetQueryConfig) {
@@ -861,10 +854,8 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         if (array_key_exists('start', $arguments)) {
             $offset = (int) $arguments['start'];
-        } else {
-            if (array_key_exists('page', $arguments)) {
-                $offset = ((int) $arguments['page'] - 1) * $this->getCount();
-            }
+        } elseif (array_key_exists('page', $arguments)) {
+            $offset = ((int) $arguments['page'] - 1) * $this->getCount();
         }
 
         $this->setConfigurationValue('offset', $offset);
@@ -1032,10 +1023,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                 $queryFormat = '';
                 if (!$queryAlternate) {
                     $queryFormat = $fieldInfo['query'];
-                } else {
-                    if (array_key_exists($queryAlternate, $fieldInfo['queryAlternate'])) {
-                        $queryFormat = $fieldInfo['queryAlternate'][$queryAlternate];
-                    }
+                } elseif (array_key_exists($queryAlternate, $fieldInfo['queryAlternate'])) {
+                    $queryFormat = $fieldInfo['queryAlternate'][$queryAlternate];
                 }
 
                 if (empty($queryFormat)) {
@@ -1057,14 +1046,14 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
                 }
 
-                if ($queryPart) {
+                if ('' !== $queryPart && '0' !== $queryPart) {
                     $queryComponents[$fieldID] = $queryPart;
                 }
             }
         }
 
         // Ask for all results if there is no query.
-        if (0 === count($queryComponents)) {
+        if ([] === $queryComponents) {
             $queryComponents[] = $this->settings['defaultQuery'];
         }
 
@@ -1082,7 +1071,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     {
         $facetQueries = [];
         $facetConfig = $this->getFacetConfig($facetID);
-        foreach ($facetSelection as $facetTerm => $facetStatus) {
+        foreach (array_keys($facetSelection) as $facetTerm) {
             $facetInfo = [
                 'id' => $facetID,
                 'config' => $facetConfig,
@@ -1092,7 +1081,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             $facetQueries[$facetTerm] = $facetInfo;
         }
 
-        if (count($facetQueries) > 0) {
+        if ([] !== $facetQueries) {
             $activeFacets[$facetID] = $facetQueries;
         }
     }
@@ -1118,10 +1107,8 @@ class SolrServiceProvider extends AbstractServiceProvider
         // Use field list from query parameters or from defaults.
         if (array_key_exists('data-fields', $arguments) && $arguments['data-fields']) {
             $fields = explode(',', $arguments['data-fields']);
-        } else {
-            if ($fieldsConfig['default']) {
-                $fields = array_values($fieldsConfig['default']);
-            }
+        } elseif ($fieldsConfig['default']) {
+            $fields = array_values($fieldsConfig['default']);
         }
 
         // If allowed fields are configured, keep only those.
@@ -1137,7 +1124,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         }
 
         // Only set fields of the query if there is a result. Otherwise use the default setting.
-        if ($fields) {
+        if ([] !== $fields) {
             $this->query->setFields($fields);
         }
     }
@@ -1163,13 +1150,11 @@ class SolrServiceProvider extends AbstractServiceProvider
         $sortString = '';
         if (!empty($arguments['sort'])) {
             $sortString = $arguments['sort'];
-        } else {
-            if (!empty($this->settings['sort'])) {
-                foreach ($this->settings['sort'] as $sortSetting) {
-                    if ('default' === $sortSetting['id']) {
-                        $sortString = $sortSetting['sortCriteria'];
-                        break;
-                    }
+        } elseif (!empty($this->settings['sort'])) {
+            foreach ($this->settings['sort'] as $sortSetting) {
+                if ('default' === $sortSetting['id']) {
+                    $sortString = $sortSetting['sortCriteria'];
+                    break;
                 }
             }
         }

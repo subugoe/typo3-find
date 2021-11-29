@@ -66,12 +66,10 @@ class RegexpViewHelper extends AbstractViewHelper
         $result = null;
         if (null === $arguments['replace']) {
             $result = preg_match($arguments['match'], $input);
+        } elseif (!$arguments['useMBEreg']) {
+            $result = preg_replace($arguments['match'], $arguments['replace'], $input);
         } else {
-            if (!$arguments['useMBEreg']) {
-                $result = preg_replace($arguments['match'], $arguments['replace'], $input);
-            } else {
-                $result = mb_ereg_replace($arguments['match'], $arguments['replace'], $input);
-            }
+            $result = mb_ereg_replace($arguments['match'], $arguments['replace'], $input);
         }
 
         return $result;

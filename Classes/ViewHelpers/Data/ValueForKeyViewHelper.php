@@ -54,10 +54,8 @@ class ValueForKeyViewHelper extends AbstractViewHelper
     ) {
         $result = null;
 
-        if ($arguments['array']) {
-            if (array_key_exists($arguments['key'], $arguments['array'])) {
-                $result = $arguments['array'][$arguments['key']];
-            }
+        if ($arguments['array'] && array_key_exists($arguments['key'], $arguments['array'])) {
+            $result = $arguments['array'][$arguments['key']];
         }
 
         return $result;

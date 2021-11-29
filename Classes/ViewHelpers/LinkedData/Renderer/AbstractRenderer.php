@@ -47,12 +47,10 @@ abstract class AbstractRenderer
     {
         if ('rdf' === $type) {
             $instance = GeneralUtility::makeInstance(RDFRenderer::class);
+        } elseif ('json-ld' === $type) {
+            $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
         } else {
-            if ('json-ld' === $type) {
-                $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
-            } else {
-                $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
-            }
+            $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
         }
 
         return $instance;

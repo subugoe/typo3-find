@@ -69,33 +69,24 @@ class PageListViewHelper extends AbstractViewHelper
             if ($pageIndex === $currentPage) {
                 $pageInfo['status'] = 'current';
                 $pageInfo['current'] = true;
+            } elseif ((1 === $pageIndex | $pageIndex === $numberOfPages) !== 0) {
+                $pageInfo['status'] = 'edge';
+            } elseif (abs($pageIndex - $currentPage) <= $adjacentPages) {
+                $pageInfo['status'] = 'adjacent';
+            } elseif (($pageIndex < $adjacentFirst && $adjacentFirst <= 1 + $minimumGapSize)
+                || ($pageIndex > $adjacentLast && $numberOfPages - $adjacentLast <= $minimumGapSize)) {
+                $pageInfo['status'] = 'gapfiller';
             } else {
-                if (1 === $pageIndex | $pageIndex === $numberOfPages) {
-                    $pageInfo['status'] = 'edge';
-                } else {
-                    if (abs($pageIndex - $currentPage) <= $adjacentPages) {
-                        $pageInfo['status'] = 'adjacent';
-                    } else {
-                        if (($pageIndex < $adjacentFirst && $adjacentFirst <= 1 + $minimumGapSize)
-                            || ($pageIndex > $adjacentLast && $numberOfPages - $adjacentLast <= $minimumGapSize)
-                        ) {
-                            $pageInfo['status'] = 'gapfiller';
-                        } else {
-                            $pageInfo['status'] = 'gap';
-                            $pageInfo['gap'] = true;
-                        }
-                    }
-                }
+                $pageInfo['status'] = 'gap';
+                $pageInfo['gap'] = true;
             }
 
             if ('gap' === $pageInfo['status']) {
                 $pageInfo['text'] = '…';
                 if ($pageIndex < $currentPage) {
                     $pageIndex = $currentPage - $adjacentPages;
-                } else {
-                    if ($pageIndex > $currentPage) {
-                        $pageIndex = $numberOfPages;
-                    }
+                } elseif ($pageIndex > $currentPage) {
+                    $pageIndex = $numberOfPages;
                 }
             } else {
                 $pageInfo['text'] = (string) $pageIndex;

@@ -63,11 +63,7 @@ class StripViewHelper extends AbstractViewHelper
             $string = $renderChildrenClosure();
         }
 
-        if (null === $arguments['strip']) {
-            $string = trim($string);
-        } else {
-            $string = trim($string, $arguments['strip']);
-        }
+        $string = null === $arguments['strip'] ? trim($string) : trim($string, $arguments['strip']);
 
         return $string;
     }

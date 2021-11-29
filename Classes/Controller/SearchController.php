@@ -95,9 +95,7 @@ class SearchController extends ActionController
                     $this->settings,
                     null,
                     $this->searchProvider->getRequestArguments()
-                ),
-            false,
-            true
+                )
             );
 
             $this->addStandardAssignments();

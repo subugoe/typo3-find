@@ -59,19 +59,14 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                         $objectString = $this->turtleString($object);
                     } else {
                         if (false === strpos($object, '"') && false === strpos($object, "\r") && false === strpos($object,
-                                "\n")
-                        ) {
+                                "\n")) {
                             $objectString = '"'.$object.'"';
+                        } elseif (false === strpos($object, '"""')) {
+                            $objectString = '"""'.$object.'"""';
+                        } elseif (false === strpos($object, "'''")) {
+                            $objectString = "'''".$object."'''";
                         } else {
-                            if (false === strpos($object, '"""')) {
-                                $objectString = '"""'.$object.'"""';
-                            } else {
-                                if (false === strpos($object, "'''")) {
-                                    $objectString = "'''".$object."'''";
-                                } else {
-                                    // TODO: Error Handling for could not escape.
-                                }
-                            }
+                            // TODO: Error Handling for could not escape.
                         }
 
                         if ($properties['language']) {
@@ -104,9 +99,7 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
             }
         }
 
-        $result = PHP_EOL.implode('', $prefixes).PHP_EOL.$result;
-
-        return $result;
+        return PHP_EOL.implode('', $prefixes).PHP_EOL.$result;
     }
 
     /**
@@ -122,23 +115,18 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
         $itemParts = explode(':', $item, 2);
         $rdfTypeURI = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
         if ($item === $rdfTypeURI
-            || (count($itemParts) > 1 && $this->prefixes[$itemParts[0]].$itemParts[1] === $rdfTypeURI)
-        ) {
+            || (count($itemParts) > 1 && $this->prefixes[$itemParts[0]].$itemParts[1] === $rdfTypeURI)) {
             $result = 'a';
-        } else {
-            if ($usePrefixes) {
-                foreach ($this->prefixes as $acronym => $prefix) {
-                    if (0 === strpos($item, $prefix)) {
-                        $result = str_replace($prefix, $acronym.':', $item);
-                        $this->usedPrefixes[$acronym] = true;
-                        break;
-                    } else {
-                        if ($itemParts[0] === $acronym) {
-                            $result = $item;
-                            $this->usedPrefixes[$acronym] = true;
-                            break;
-                        }
-                    }
+        } elseif ($usePrefixes) {
+            foreach ($this->prefixes as $acronym => $prefix) {
+                if (0 === strpos($item, $prefix)) {
+                    $result = str_replace($prefix, $acronym.':', $item);
+                    $this->usedPrefixes[$acronym] = true;
+                    break;
+                } elseif ($itemParts[0] === $acronym) {
+                    $result = $item;
+                    $this->usedPrefixes[$acronym] = true;
+                    break;
                 }
             }
         }
