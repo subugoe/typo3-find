@@ -15,6 +15,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__.'/Tests',
         __DIR__.'/Configuration',
         __DIR__.'/Resources',
+        __DIR__.'/*.php',
+    ]);
+    $parameters->set(Option::SKIP, [
+        __DIR__.'/.Build/vendor',
+        __DIR__.'/var',
+        __DIR__.'/*.cache',
     ]);
 
     // Define what rule sets will be applied

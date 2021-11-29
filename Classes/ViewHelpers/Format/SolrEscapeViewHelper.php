@@ -61,8 +61,6 @@ class SolrEscapeViewHelper extends AbstractViewHelper
 
         $solariumHelper = new \Solarium\Core\Query\Helper();
 
-        $escapedString = $arguments['phrase'] ? $solariumHelper->escapePhrase($string) : $solariumHelper->escapeTerm($string);
-
-        return $escapedString;
+        return $arguments['phrase'] ? $solariumHelper->escapePhrase($string) : $solariumHelper->escapeTerm($string);
     }
 }
