@@ -73,15 +73,19 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                                 }
                             }
                         }
+
                         if ($properties['language']) {
                             $objectString .= '@'.$properties['language'];
                         }
+
                         if ($properties['type']) {
                             $objectString .= '^^'.$this->turtleString($properties['type']);
                         }
                     }
+
                     $objectArray[] = $objectString;
                 }
+
                 $predicateString .= implode(', ', $objectArray);
                 $predicateArray[] = $predicateString;
             }
@@ -89,6 +93,7 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
             $subjectString .= implode(" ;\n\t", $predicateArray);
             $subjectArray[] = $subjectString;
         }
+
         $result .= implode(' .'.PHP_EOL.PHP_EOL, $subjectArray).' .'.PHP_EOL;
 
         // Prepend the prefixes that are used.

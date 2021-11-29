@@ -39,7 +39,7 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
      */
     public $fixture;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getAccessibleMock(PathExistsViewHelper::class, ['renderChildren']);

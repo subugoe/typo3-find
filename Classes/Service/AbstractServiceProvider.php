@@ -8,25 +8,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @var string
-     */
-    protected $connectionName;
+    protected string $connectionName;
 
     /**
      * @var LogManagerInterface
      */
     protected $logger;
 
-    /**
-     * @var array
-     */
-    protected $requestArguments;
+    protected array $requestArguments = [];
 
-    /**
-     * @var array
-     */
-    protected $settings;
+    protected array $settings = [];
 
     /**
      * @param string $connectionName

@@ -51,8 +51,8 @@ class HighlightFieldViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('results', '\Solarium\QueryType\Select\Result\Result', 'Query results', true);
-        $this->registerArgument('document', '\Solarium\QueryType\Select\Result\Document', 'Result document to work on',
+        $this->registerArgument('results', \Solarium\QueryType\Select\Result\Result::class, 'Query results', true);
+        $this->registerArgument('document', \Solarium\QueryType\Select\Result\Document::class, 'Result document to work on',
             true);
         $this->registerArgument('field', 'string', 'name of field in document to highlight', true);
         $this->registerArgument('alternateField', 'string',

@@ -34,15 +34,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractRenderer
 {
-    /**
-     * @var array
-     */
-    protected $prefixes = [];
+    protected array $prefixes = [];
 
-    /**
-     * @var array
-     */
-    protected $usedPrefixes = [];
+    protected array $usedPrefixes = [];
 
     /**
      * @param $type

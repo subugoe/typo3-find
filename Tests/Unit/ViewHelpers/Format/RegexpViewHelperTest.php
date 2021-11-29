@@ -68,7 +68,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
         ];
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(RegexpViewHelper::class)

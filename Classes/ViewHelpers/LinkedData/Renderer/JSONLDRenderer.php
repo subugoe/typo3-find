@@ -57,6 +57,7 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
                         if ($properties['language']) {
                             $object['@language'] = $properties['language'];
                         }
+
                         if ($properties['type']) {
                             $object['@type'] = $properties['type'];
                         }

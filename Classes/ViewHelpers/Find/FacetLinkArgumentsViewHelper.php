@@ -84,8 +84,10 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
                 if (array_key_exists($facetTerm, $activeFacets[$facetID])) {
                     $itemToRemove .= '['.$facetTerm.']';
                 }
+
                 $result[] = $itemToRemove;
             }
+
             // Go back to page 1.
             $result[] = 'tx_find_find[page]';
         } elseif ('add' === $mode) {

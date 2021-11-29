@@ -86,6 +86,7 @@ class NewArrayViewHelper extends AbstractViewHelper
             if ($renderingContext->getVariableProvider()->exists($variableName)) {
                 $renderingContext->getVariableProvider()->remove($variableName);
             }
+
             $renderingContext->getVariableProvider()->add($variableName, $result);
             $result = $renderChildrenClosure();
             if (true !== $arguments['global']) {

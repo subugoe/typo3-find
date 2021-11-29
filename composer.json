@@ -31,13 +31,15 @@
   },
   "require": {
     "ext-json": "*",
-    "typo3/cms-core": "^10.4.10 || ^11.5.3",
-    "typo3/cms-felogin": "^10.4.10 || ^11.5.3"
+    "typo3/cms-core": "^10.4.10",
+    "typo3/cms-felogin": "^10.4.10"
   },
   "require-dev": {
     "solarium/solarium": "^5.1",
-    "nimut/testing-framework": "^5.1",
-    "friendsofphp/php-cs-fixer": "^3.0"
+    "nimut/testing-framework": "^6.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpunit/phpunit": "^8.5",
+    "rector/rector": "^0.12.5"
   },
   "config": {
     "vendor-dir": ".Build/vendor",

@@ -39,20 +39,11 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class SearchController extends ActionController
 {
-    /**
-     * @var array
-     */
-    protected $requestArguments;
+    protected array $requestArguments = [];
 
-    /**
-     * @var ServiceProviderInterface
-     */
-    protected $searchProvider;
+    protected ?object $searchProvider = null;
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
+    private \Psr\Log\LoggerInterface $logger;
 
     public function __construct(LogManagerInterface $logManager)
     {
@@ -79,6 +70,7 @@ class SearchController extends ActionController
                     )
                 );
         }
+
         $this->addStandardAssignments();
 
         $this->view->assignMultiple($detail);
@@ -124,7 +116,7 @@ class SearchController extends ActionController
     /**
      * Initialisation and setup.
      */
-    public function initializeAction()
+    protected function initializeAction()
     {
         ksort($this->settings['queryFields']);
 
@@ -132,6 +124,7 @@ class SearchController extends ActionController
 
         $this->requestArguments = $this->request->getArguments();
         $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
+
         $this->searchProvider->setRequestArguments($this->requestArguments);
         $this->searchProvider->setAction($this->request->getControllerActionName());
         $this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());

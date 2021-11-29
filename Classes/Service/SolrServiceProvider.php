@@ -40,24 +40,16 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class SolrServiceProvider extends AbstractServiceProvider
 {
-    /**
-     * @var string
-     */
-    protected $action;
+    protected ?string $action = null;
 
-    /**
-     * @var array
-     */
-    protected $configuration = [];
+    protected array $configuration = [];
+
     /**
      * @var Client
      */
     protected $connection;
 
-    /**
-     * @var string
-     */
-    protected $controllerExtensionKey;
+    protected ?string $controllerExtensionKey = null;
 
     /**
      * @var \Solarium\QueryType\Select\Query\Query
@@ -103,15 +95,15 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         try {
             $resultSet = $this->connection->execute($this->query);
-        } catch (HttpException $exception) {
+        } catch (HttpException $httpException) {
             $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'requestArguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception),
+                    'exception' => LoggerUtility::exceptionToArray($httpException),
                 ]
             );
 
-            $error = ['solr' => $exception];
+            $error = ['solr' => $httpException];
         }
 
         return [
@@ -295,6 +287,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     if ($queryString) {
                         $queryString = $queryString.' '.Query::QUERY_OPERATOR_AND.' ';
                     }
+
                     $queryString .= $facetQuery;
                     $this->query->setQuery($queryString);
                 } else {
@@ -311,6 +304,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $this->query->createFilterQuery($queryInfo)
                         ->setQuery($facetQuery);
                 }
+
                 $activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
             }
         }
@@ -431,6 +425,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                                         $queryTerm = $this->query->getHelper()->escapeTerm($queryTerm);
                                     }
                                 }
+
                                 $queryWords[] = $queryTerm;
                             }
                         }
@@ -451,6 +446,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 foreach ($queryWords as $queryWord) {
                     $queryComponents[] = '('.sprintf($highlightConfig['query'], $queryWord).')';
                 }
+
                 $queryString = implode(' OR ', $queryComponents);
 
                 $highlight->setQuery($queryString);
@@ -537,6 +533,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     if (!$localisedLabel) {
                         $localisedLabel = $sortOption['id'];
                     }
+
                     $sortOptions['menu'][$sortOption['sortCriteria']] = $localisedLabel;
 
                     if ('default' === $sortOption['id']) {
@@ -813,6 +810,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                         break;
                     }
                 }
+
                 if (null === $queryString) {
                     $this->logger->info(sprintf('Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.', $facetConfig['id'], $queryTerm),
                         [
@@ -834,7 +832,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                 // Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
                 // (because PHP loses ] in array keys during URL parsing)
-                $queryTerm = preg_replace('/RANGE (.*) TO (.*)/', '[\1 TO \2]', $queryTerm);
+                $queryTerm = preg_replace('#RANGE (.*) TO (.*)#', '[\1 TO \2]', $queryTerm);
                 $queryString = sprintf($queryPattern, $queryTerm);
             }
         } else {
@@ -901,6 +899,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                         $assignments['document-previous'] = $resultSet[0];
                         $assignments['document-previous-number'] = $index['previousIndex'] + 1;
                     }
+
                     $nextResultIndex = 1 + $index['resultIndexOffset'];
                     if (count($resultSet) > $nextResultIndex) {
                         $assignments['document-next'] = $resultSet[$nextResultIndex];
@@ -1005,6 +1004,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     if (!is_array($defaults)) {
                         $defaults = [$defaults];
                     }
+
                     foreach ($defaults as $defaultKey => $default) {
                         if (!array_key_exists($defaultKey, $queryTerms)) {
                             $queryTerms[$defaultKey] = $default;
@@ -1023,6 +1023,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                                 $escapedQueryTerms[$key] = $this->query->getHelper()->escapeTerm($term);
                             }
                         }
+
                         $queryTerms = $escapedQueryTerms;
                     }
                 }
@@ -1036,6 +1037,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                         $queryFormat = $fieldInfo['queryAlternate'][$queryAlternate];
                     }
                 }
+
                 if (empty($queryFormat)) {
                     $queryFormat = $fieldID.':%s';
                 }
@@ -1089,6 +1091,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             ];
             $facetQueries[$facetTerm] = $facetInfo;
         }
+
         if (count($facetQueries) > 0) {
             $activeFacets[$facetID] = $facetQueries;
         }

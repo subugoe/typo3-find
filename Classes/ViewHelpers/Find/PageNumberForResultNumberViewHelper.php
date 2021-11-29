@@ -39,6 +39,8 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
 {
     /**
      * Avoid divisions by zero.
+     *
+     * @var int
      */
     public const DEFAULT_RESULTS_PER_PAGE = 20;
 

@@ -70,6 +70,7 @@ class TransposeViewHelper extends AbstractViewHelper
                 foreach ($arrays as $key => $array) {
                     $row[$key] = $array[$rowIndex];
                 }
+
                 $rows[] = $row;
             }
 

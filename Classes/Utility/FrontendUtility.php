@@ -56,15 +56,19 @@ class FrontendUtility
             if (array_key_exists('facet', $arguments)) {
                 $underlyingQuery['facet'] = $arguments['facet'];
             }
+
             if (null !== $position) {
                 $underlyingQuery['position'] = $position;
             }
+
             if ($arguments['count']) {
                 $underlyingQuery['count'] = $arguments['count'];
             }
+
             if ($arguments['sort']) {
                 $underlyingQuery['sort'] = $arguments['sort'];
             }
+
             $scriptTag->setContent('var underlyingQuery = '.json_encode($underlyingQuery).';');
 
             return $scriptTag->render();

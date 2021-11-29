@@ -91,6 +91,7 @@ class LocalizedFacetDataViewHelper extends AbstractViewHelper
                     $localizationsForFacet[$facetEntryID] = $localizedFacetEntryName;
                 }
             }
+
             if (count($localizationsForFacet) > 0) {
                 $facetEntryNames[$facetID] = $localizationsForFacet;
             }
