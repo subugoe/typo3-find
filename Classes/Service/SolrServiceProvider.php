@@ -34,6 +34,7 @@ use Solarium\QueryType\Select\Query\Query;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
+use Subugoe\Find\Utility\UpgradeUtility;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -43,22 +44,14 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class SolrServiceProvider extends AbstractServiceProvider
 {
     protected ?string $action = null;
+
     protected array $configuration = [];
+
     protected Client $connection;
+
     protected ?string $controllerExtensionKey = null;
+
     protected $query;
-
-    private function handleSolariumUpgrade(array $connectionSettings): array
-    {
-        if (false !== strpos($connectionSettings['path'], '/solr')) {
-            trigger_error('Please read the upgrading instructions at https://github.com/subugoe/typo3-find/blob/main/UPGRADING.md', E_USER_DEPRECATED);
-        }
-
-        $connectionSettings['collection'] = str_replace('/solr/', '', $connectionSettings['path']);
-        $connectionSettings['path'] = '/';
-
-        return $connectionSettings;
-    }
 
     public function connect()
     {
@@ -66,7 +59,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         // Upgrading to Solarium >= 5
         if (!array_key_exists('collection', $currentConnectionSettings)) {
-            $currentConnectionSettings = $this->handleSolariumUpgrade($currentConnectionSettings);
+            $currentConnectionSettings = UpgradeUtility::handleSolariumUpgrade($currentConnectionSettings);
         }
 
         $connectionSettings = [
@@ -75,7 +68,6 @@ class SolrServiceProvider extends AbstractServiceProvider
                     'host' => $currentConnectionSettings['host'],
                     'port' => (int) $currentConnectionSettings['port'],
                     'path' => $currentConnectionSettings['path'],
-                    'timeout' => $currentConnectionSettings['timeout'],
                     'scheme' => $currentConnectionSettings['scheme'],
                     'collection' => $currentConnectionSettings['collection'],
                 ],
@@ -85,8 +77,8 @@ class SolrServiceProvider extends AbstractServiceProvider
         // create an HTTP adapter instance
         $adapter = new Http();
         $eventDispatcher = new EventDispatcher();
-        // create a client instance
         $adapter->setTimeout((int) $currentConnectionSettings['timeout']);
+        // create a client instance
         $client = new Client($adapter, $eventDispatcher, $connectionSettings);
 
         $this->setConnection($client);
