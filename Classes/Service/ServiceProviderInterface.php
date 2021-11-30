@@ -34,9 +34,9 @@ interface ServiceProviderInterface
 {
     /**
      * @param string $connectionName
-     * @param array  $settings
+     * @param array $settings
      */
-    public function __construct($connectionName, $settings);
+    public function __construct(string $connectionName, array $settings);
 
     public function connect();
 

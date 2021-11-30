@@ -40,7 +40,8 @@ For the most basic example you need to:
                 options {
                     host = solr.local
                     port = 8080
-                    path = /solr/myIndex
+                    path = /
+                    collection = myIndex
                 }
             }
         }
