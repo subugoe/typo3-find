@@ -31,11 +31,11 @@
   },
   "require": {
     "ext-json": "*",
+    "solarium/solarium": "^5.1",
     "typo3/cms-core": "^10.4.10",
     "typo3/cms-felogin": "^10.4.10"
   },
   "require-dev": {
-    "solarium/solarium": "^5.1",
     "nimut/testing-framework": "^6.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "^8.5",
