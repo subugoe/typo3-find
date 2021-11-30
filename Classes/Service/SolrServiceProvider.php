@@ -31,7 +31,6 @@ use Solarium\Client;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\Result\Result;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
@@ -44,14 +43,10 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class SolrServiceProvider extends AbstractServiceProvider
 {
     protected ?string $action = null;
-
     protected array $configuration = [];
-
     protected Client $connection;
-
     protected ?string $controllerExtensionKey = null;
-
-    protected Query $query;
+    protected $query;
 
     private function handleSolariumUpgrade(array $connectionSettings): array
     {
@@ -863,7 +858,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $connection = $this->getConnection();
 
         try {
-            /** @var Result $selectResults */
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {
@@ -918,7 +913,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $escapedID = $this->query->getHelper()->escapeTerm($id);
         $this->query->setQuery('id:'.$escapedID);
         try {
-            /** @var Result $selectResults */
+            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {
