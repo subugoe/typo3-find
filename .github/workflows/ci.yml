@@ -1,0 +1,49 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    continue-on-error: ${{ matrix.env.experimental == true }}
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - { php: 7.4 }
+
+    env: ${{ matrix.env }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.env.php }}
+          tools: composer
+          extensions: pdo, sqlite3
+
+      # composer
+      - name: Update Composer
+        run: |
+          sudo composer self-update
+          composer --version
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run Unit Tests
+        run: |
+          echo "Running unit tests with $(which php)";
+          .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/;
