@@ -44,15 +44,19 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class SolrServiceProvider extends AbstractServiceProvider
 {
     protected ?string $action = null;
+
     protected array $configuration = [];
+
     protected Client $connection;
+
     protected ?string $controllerExtensionKey = null;
+
     protected Query $query;
 
     private function handleSolariumUpgrade(array $connectionSettings): array
     {
-        if (strpos($connectionSettings['path'], '/solr') !== false) {
-              trigger_error('Please read the upgrading instructions at https://github.com/subugoe/typo3-find/blob/main/UPGRADING.md', E_USER_DEPRECATED);
+        if (false !== strpos($connectionSettings['path'], '/solr')) {
+            trigger_error('Please read the upgrading instructions at https://github.com/subugoe/typo3-find/blob/main/UPGRADING.md', E_USER_DEPRECATED);
         }
 
         $connectionSettings['collection'] = str_replace('/solr/', '', $connectionSettings['path']);
@@ -67,7 +71,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         // Upgrading to Solarium >= 5
         if (!array_key_exists('collection', $currentConnectionSettings)) {
-           $currentConnectionSettings =  $this->handleSolariumUpgrade($currentConnectionSettings);
+            $currentConnectionSettings = $this->handleSolariumUpgrade($currentConnectionSettings);
         }
 
         $connectionSettings = [
@@ -78,11 +82,10 @@ class SolrServiceProvider extends AbstractServiceProvider
                     'path' => $currentConnectionSettings['path'],
                     'timeout' => $currentConnectionSettings['timeout'],
                     'scheme' => $currentConnectionSettings['scheme'],
-                    'collection' => $currentConnectionSettings['collection']
+                    'collection' => $currentConnectionSettings['collection'],
                 ],
             ],
         ];
-
 
         // create an HTTP adapter instance
         $adapter = new Http();
@@ -94,9 +97,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->setConnection($client);
     }
 
-    /**
-     * @return array
-     */
     public function getConfiguration(): array
     {
         return $this->configuration;
@@ -104,8 +104,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Main starting point for blank index action.
-     *
-     * @return array
      */
     public function getDefaultQuery(): array
     {
@@ -246,8 +244,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * @param array $arguments
-     *
-     * @return array
      */
     public function suggestQuery($arguments): array
     {
@@ -280,8 +276,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * Adds filter queries for active facets to $query.
      *
      * @param array $arguments request arguments
-     *
-     * @return array
      */
     protected function addFacetFilters(array $arguments): array
     {
@@ -574,8 +568,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * Checks that $sortString is well-formatted and adds the sort conidition
      * defined by it to $query.
      * Adds feedback about invalid sort string format to the page.
-     *
-     * @param string $sortString
      */
     protected function addSortStringForQuery(string $sortString): void
     {
@@ -619,8 +611,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns the number of the last result on the page.
-     *
-     * @return int
      */
     protected function counterEnd(): int
     {
@@ -629,8 +619,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns the number of the first result on the page.
-     *
-     * @return int
      */
     protected function counterStart(): int
     {
@@ -729,9 +717,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $activeFacets;
     }
 
-    /**
-     * @return Client
-     */
     protected function getConnection(): Client
     {
         return $this->connection;
@@ -752,8 +737,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * limited by the setting »paging.maximumPerPage«.
      *
      * @param array|null $arguments overrides $this->requestArguments if set
-     *
-     * @return int
      */
     protected function getCount(?array $arguments = null): int
     {
@@ -778,8 +761,6 @@ class SolrServiceProvider extends AbstractServiceProvider
     /**
      * Returns the facet configuration for the given $id.
      *
-     * @param string $id
-     *
      * @return array
      */
     protected function getFacetConfig(string $id): ?array
@@ -799,9 +780,6 @@ class SolrServiceProvider extends AbstractServiceProvider
     /**
      * Returns query for the given facet $ID and $term based on the facet’s
      * configuration.
-     *
-     * @param array $facetConfig
-     * @param string $queryTerm
      *
      * @return string query string
      */
@@ -856,8 +834,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * Returns the index of the first row to return.
      *
      * @param array|null $arguments overrides $this->requestArguments if set
-     *
-     * @return int
      */
     protected function getOffset(?array $arguments = null): int
     {
@@ -879,12 +855,8 @@ class SolrServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * @param array $assignments
-     * @param array $index
      * @param $id
      * @param $arguments
-     *
-     * @return array
      */
     protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments): array
     {
@@ -972,10 +944,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * Takes the array of search query parameters and builds an array of Solr
      * search strings from it, using the »queryFields« configuration from TypoScript.
      * These search strings need to be ANDed together for the complete query.
-     *
-     * @param array $queryParameters
-     *
-     * @return array
      */
     protected function queryComponentsForQueryParameters(array $queryParameters): array
     {
@@ -1079,9 +1047,8 @@ class SolrServiceProvider extends AbstractServiceProvider
     /**
      * Adds information about the selected items for a given facet to $activeFacets.
      *
-     * @param array $activeFacets
      * @param string $facetID        ID of the facet to set
-     * @param array $facetSelection array of selected items for the facet
+     * @param array  $facetSelection array of selected items for the facet
      */
     protected function setActiveFacetSelectionForID(array &$activeFacets, string $facetID, array $facetSelection): void
     {
@@ -1181,10 +1148,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns the facet/filter key for the given $facetID.
-     *
-     * @param string $facetID
-     *
-     * @return string
      */
     protected function tagForFacet(string $facetID): string
     {
