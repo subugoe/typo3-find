@@ -28,36 +28,36 @@ class UpgradeUtilityTest extends TestCase
                 ],
             ],
             [
-                          [
-                              'host' => 'solr',
-                              'port' => 8983,
-                              'path' => '/solr/core_en/',
-                              'scheme' => 'http',
-                          ],
-                          [
-                              'host' => 'solr',
-                              'port' => 8983,
-                              'path' => '/',
-                              'scheme' => 'http',
-                              'collection' => 'core_en',
-                          ],
-                      ],
+                [
+                    'host' => 'solr',
+                    'port' => 8983,
+                    'path' => '/solr/core_en/',
+                    'scheme' => 'http',
+                ],
+                [
+                    'host' => 'solr',
+                    'port' => 8983,
+                    'path' => '/',
+                    'scheme' => 'http',
+                    'collection' => 'core_en',
+                ],
+            ],
             [
-                          [
-                              'host' => 'solr.local',
-                              'port' => 8983,
-                              'path' => '/',
-                              'scheme' => 'http',
-                              'collection' => 'core_en',
-                          ],
-                          [
-                              'host' => 'solr.local',
-                              'port' => 8983,
-                              'path' => '/',
-                              'scheme' => 'http',
-                              'collection' => 'core_en',
-                          ],
-                      ],
+                [
+                    'host' => 'solr.local',
+                    'port' => 8983,
+                    'path' => '/',
+                    'scheme' => 'http',
+                    'collection' => 'core_en',
+                ],
+                [
+                    'host' => 'solr.local',
+                    'port' => 8983,
+                    'path' => '/',
+                    'scheme' => 'http',
+                    'collection' => 'core_en',
+                ],
+            ],
         ];
     }
 
