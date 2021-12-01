@@ -28,6 +28,7 @@ namespace Subugoe\Find\Service;
  * ************************************************************* */
 
 use Solarium\Client;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
@@ -74,7 +75,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         ];
 
         // create an HTTP adapter instance
-        $adapter = new Http();
+        $adapter = new Curl();
         $eventDispatcher = new EventDispatcher();
         $adapter->setTimeout((int) $currentConnectionSettings['timeout']);
         // create a client instance

@@ -30,6 +30,7 @@
     "subugoe/find": "self.version"
   },
   "require": {
+    "ext-curl": "*",
     "ext-json": "*",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^10.4.10",
