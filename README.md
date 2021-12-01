@@ -41,7 +41,7 @@ For the most basic example you need to:
                     host = solr.local
                     port = 8080
                     path = /
-                    collection = myIndex
+                    core = myIndex
                 }
             }
         }

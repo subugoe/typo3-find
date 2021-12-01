@@ -56,20 +56,19 @@ class SolrServiceProvider extends AbstractServiceProvider
     public function connect()
     {
         $currentConnectionSettings = $this->settings['connections'][$this->connectionName]['options'];
-
         // Upgrading to Solarium >= 5
-        if (!array_key_exists('collection', $currentConnectionSettings)) {
+        if (!array_key_exists('core', $currentConnectionSettings)) {
             $currentConnectionSettings = UpgradeUtility::handleSolariumUpgrade($currentConnectionSettings);
         }
 
         $connectionSettings = [
             'endpoint' => [
-                'localhost' => [
+                $this->connectionName => [
                     'host' => $currentConnectionSettings['host'],
                     'port' => (int) $currentConnectionSettings['port'],
                     'path' => $currentConnectionSettings['path'],
                     'scheme' => $currentConnectionSettings['scheme'],
-                    'collection' => $currentConnectionSettings['collection'],
+                    'core' => $currentConnectionSettings['core'],
                 ],
             ],
         ];
@@ -82,6 +81,13 @@ class SolrServiceProvider extends AbstractServiceProvider
         $client = new Client($adapter, $eventDispatcher, $connectionSettings);
 
         $this->setConnection($client);
+        $this->testConnection();
+    }
+
+    private function testConnection(): void
+    {
+        $ping = $this->connection->createPing();
+        $this->connection->ping($ping);
     }
 
     public function getConfiguration(): array

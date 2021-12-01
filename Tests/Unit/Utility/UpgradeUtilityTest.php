@@ -24,7 +24,7 @@ class UpgradeUtilityTest extends TestCase
                     'port' => 8983,
                     'path' => '/',
                     'scheme' => 'http',
-                    'collection' => 'core_en',
+                    'core' => 'core_en',
                 ],
             ],
             [
@@ -39,7 +39,7 @@ class UpgradeUtilityTest extends TestCase
                     'port' => 8983,
                     'path' => '/',
                     'scheme' => 'http',
-                    'collection' => 'core_en',
+                    'core' => 'core_en',
                 ],
             ],
             [
@@ -48,14 +48,14 @@ class UpgradeUtilityTest extends TestCase
                     'port' => 8983,
                     'path' => '/',
                     'scheme' => 'http',
-                    'collection' => 'core_en',
+                    'core' => 'core_en',
                 ],
                 [
                     'host' => 'solr.local',
                     'port' => 8983,
                     'path' => '/',
                     'scheme' => 'http',
-                    'collection' => 'core_en',
+                    'core' => 'core_en',
                 ],
             ],
         ];

@@ -18,7 +18,7 @@ plugin.tx_find.settings {
                 port = 8983
                 path = /
                 scheme = http
-                collection = myIndex
+                core = myIndex
             }
         }
     }
