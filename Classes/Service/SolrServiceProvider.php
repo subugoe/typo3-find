@@ -1018,10 +1018,24 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 if ($this->settings['features']['eDisMax']) {
-                    $queryPart = $magicFieldPrefix.'{!edismax}'.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
-                    $queryPart = str_replace('"', '', $queryPart);
+                    $magicFieldPrefix = $magicFieldPrefix . '{!edismax}';
+                }
+
+                if ($fieldInfo["noescape"] == 2) {
+                    $chars = explode(',',$fieldInfo["escapechar"]);
+                    foreach ($queryTerms as $key => $term) {
+                        foreach ($chars as $char) {
+                            $queryTerms[$key] = str_replace($char, "\\".$char, $term);
+                        }
+                    }
+                    $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
                 } else {
-                    $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
+                    if ($fieldInfo["noescape"]) {
+                        $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
+                    } else {
+                        $queryPart = $magicFieldPrefix . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
+                            $queryTerms));
+                    }
                 }
 
                 if ('' !== $queryPart && '0' !== $queryPart) {
