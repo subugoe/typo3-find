@@ -34,12 +34,8 @@ class LoggerUtility
 {
     /**
      * Returns an array that can be handled by devLog with the information from an exception.
-     *
-     * @param \Exception $exception
-     *
-     * @return array
      */
-    public static function exceptionToArray($exception, $includePrevious = false)
+    public static function exceptionToArray(\Throwable $exception, $includePrevious = false): array
     {
         $array = [
             'message' => $exception->getMessage(),

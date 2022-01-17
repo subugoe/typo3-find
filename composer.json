@@ -29,6 +29,7 @@
     "typo3-ter/find": "self.version"
   },
   "require": {
+    "php": "^7.4 || ^8.0",
     "ext-curl": "*",
     "ext-json": "*",
     "solarium/solarium": ">=6.0 <7.0",

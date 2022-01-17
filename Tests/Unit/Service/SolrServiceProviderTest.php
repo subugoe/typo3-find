@@ -51,7 +51,7 @@ class SolrServiceProviderTest extends UnitTestCase
     /**
      * @test
      */
-    public function setConfigurationAddsTheValueToConfigurationArray()
+    public function setConfigurationAddsTheValueToConfigurationArray(): void
     {
         $key = 'foo';
         $value = 'bar';
@@ -63,7 +63,7 @@ class SolrServiceProviderTest extends UnitTestCase
     /**
      * @test
      */
-    public function setConfigurationAddsAKeyValuePairToAnExistingConfiguration()
+    public function setConfigurationAddsAKeyValuePairToAnExistingConfiguration(): void
     {
         $key = 'foo';
         $value = 'bar';

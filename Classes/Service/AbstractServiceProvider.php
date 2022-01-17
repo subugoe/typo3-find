@@ -26,18 +26,12 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
     }
 
-    /**
-     * @return array
-     */
-    public function getRequestArguments()
+    public function getRequestArguments(): array
     {
         return $this->requestArguments;
     }
 
-    /**
-     * @param array $requestArguments
-     */
-    public function setRequestArguments($requestArguments)
+    public function setRequestArguments(array $requestArguments): void
     {
         $this->requestArguments = $requestArguments;
     }

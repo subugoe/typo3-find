@@ -32,7 +32,6 @@ namespace Subugoe\Find\Controller;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
-use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -43,18 +42,11 @@ class SearchController extends ActionController
 
     protected ?object $searchProvider = null;
 
-    private \Psr\Log\LoggerInterface $logger;
-
-    public function __construct(LogManagerInterface $logManager)
-    {
-        $this->logger = $logManager->getLogger('find');
-    }
-
     /**
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function detailAction(string $id)
+    public function detailAction(string $id): string
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
@@ -78,12 +70,16 @@ class SearchController extends ActionController
             'arguments' => $arguments,
             'config' => $this->searchProvider->getConfiguration(),
         ]);
+
+        return $this->view->render();
     }
 
     /**
      * Index Action.
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    public function indexAction()
+    public function indexAction(): string
     {
         if (array_key_exists('id', $this->requestArguments)) {
             $this->forward('detail');
@@ -109,10 +105,12 @@ class SearchController extends ActionController
             CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
             $this->view->assignMultiple($viewValues);
         }
+
+        return $this->view->render();
     }
 
     /**
-     * Initialisation and setup.
+     * Initialization and setup.
      */
     protected function initializeAction()
     {
@@ -131,16 +129,18 @@ class SearchController extends ActionController
     /**
      * Suggest/Autocomplete action.
      */
-    public function suggestAction()
+    public function suggestAction(): string
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
         $this->view->assign('suggestions', $results);
+
+        return $this->view->render();
     }
 
     /**
      * Assigns standard variables to the view.
      */
-    protected function addStandardAssignments()
+    protected function addStandardAssignments(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
@@ -151,10 +151,7 @@ class SearchController extends ActionController
         $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
     }
 
-    /**
-     * @param string $activeConnection
-     */
-    protected function initializeConnection($activeConnection)
+    protected function initializeConnection(string $activeConnection): void
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 

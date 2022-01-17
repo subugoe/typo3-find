@@ -54,7 +54,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     protected $query;
 
-    public function connect()
+    public function connect(): void
     {
         $currentConnectionSettings = $this->settings['connections'][$this->connectionName]['options'];
         // Upgrading to Solarium >= 5
@@ -154,16 +154,14 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns whether extended search should be used or not.
-     *
-     * @return bool
      */
-    public function isExtendedSearch()
+    public function isExtendedSearch(): bool
     {
         $result = false;
 
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
-            $result = (true == $this->requestArguments['extended']);
+            $result = ((bool) $this->requestArguments['extended']);
         } elseif (array_key_exists('q', $this->requestArguments)) {
             foreach ($this->settings['queryFields'] as $fieldInfo) {
                 if ($fieldInfo['extended']
@@ -197,59 +195,43 @@ class SolrServiceProvider extends AbstractServiceProvider
         // TODO: Implement search() method.
     }
 
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
+    public function setAction(string $actionName): void
     {
-        $this->action = $action;
+        $this->action = $actionName;
     }
 
-    /**
-     * @param array $configuration
-     */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration = $configuration;
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function setConfigurationValue($key, $value)
+    public function setConfigurationValue(string $key, $value): void
     {
         $this->configuration[$key] = $value;
     }
 
-    /**
-     * @param string $controllerExtensionKey
-     */
-    public function setControllerExtensionKey($controllerExtensionKey)
+    public function setControllerExtensionKey(string $controllerExtensionKey): void
     {
         $this->controllerExtensionKey = $controllerExtensionKey;
     }
 
-    public function setCounter()
+    public function setCounter(): void
     {
         $this->setConfigurationValue('counterStart', $this->counterStart());
         $this->setConfigurationValue('counterEnd', $this->counterEnd());
     }
 
-    /**
-     * @param array $arguments
-     */
-    public function suggestQuery($arguments): array
+    public function suggestQuery(array $settings): array
     {
         $this->query = $this->getConnection()->createSuggester();
         $results = [];
-        if (array_key_exists('q', $arguments)) {
-            $this->query->setQuery($arguments['q']);
-            if ($arguments['dictionary']) {
-                $this->query->setDictionary($arguments['dictionary']);
+        if (array_key_exists('q', $settings)) {
+            $this->query->setQuery($settings['q']);
+            if ($settings['dictionary']) {
+                $this->query->setDictionary($settings['dictionary']);
             }
 
-            $this->addFacetFilters($arguments);
+            $this->addFacetFilters($settings);
             $solrResults = $this->getConnection()->execute($this->query)->getResults();
             foreach ($solrResults as $suggestions) {
                 $results = array_merge($results, $suggestions->getSuggestions());
@@ -285,7 +267,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     // records instead of the joined ones.
                     $queryString = $this->query->getQuery();
                     if ($queryString) {
-                        $queryString = $queryString.' '.Query::QUERY_OPERATOR_AND.' ';
+                        $queryString .= ' '.Query::QUERY_OPERATOR_AND.' ';
                     }
 
                     $queryString .= $facetQuery;
@@ -354,7 +336,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                             ->setSort($facet['sortOrder']);
                     }
 
-                    if (1 == $facet['excludeOwnFilter']) {
+                    if (1 === (int) $facet['excludeOwnFilter']) {
                         $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
                 } else {
