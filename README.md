@@ -403,34 +403,36 @@ plugin.tx_find.settings {
 Faceting can be configured in TypoScript using the `facets` setting. It
 is a numbered list of arrays. Each array can have the keys:
 
--   `id` (required): ID used to identify the facet
--   `type` \[List\]: the type of facet to use (see below for the types
+- `id` (required): ID used to identify the facet
+- `type` \[List\]: the type of facet to use (see below for the types
     provided by the extension)
--   `field`: the Solr field to use for the facet, if not given the field
+- `field`: the Solr field to use for the facet, if not given the field
     given by the `id` will be used
--   `sortOrder` \[count\]: using `index` gives alphabetically sorted
+- `sortOrder` \[count\]: using `index` gives alphabetically sorted
     facet entries, by default facet items are sorted by the number of
     results
--   `fetchMinimum` \[1\]: the minimum number of facet entries needed to
+- `fetchMinimum` \[1\]: the minimum number of facet entries needed to
     display the facet; the facet will not be shown at all if there are
     fewer entries than this
--   `fetchMaximum` \[100\]: the maximum number of facet entries to load
--   `query`: sprintf style formatted string to use as a filter query if
+- `fetchMaximum` \[100\]: the maximum number of facet entries to load
+- `query`: sprintf style formatted string to use as a filter query if
     the facet is selected; by default the facet’s field is used with the
     selected term
--   `facetQuery`: array of facet query configuration arrays to use for
+- `facetQuery`: array of facet query configuration arrays to use for
     creating specific facets; each of the arrays has the keys `id` to
     identify the facet query and `query` the Solr query to create the
     facet for
--   `selectedByDefault`: array with keys field value and values 1 to
+- `selectedByDefault`: array with keys field value and values 1 to
     indicate facet terms that should be selected when no facet selection
     is given (especially useful with the `Tabs` facet type.
--   `excludeOwnFilter` \[0\]: if set to 1 the filters created by the
+- `excludeOwnFilter` \[0\]: if set to 1 the filters created by the
     facet itself will not be used when computing the result count for
     its items
--   `hidden` \[0\]: whether to hide the facet from display (e.g. to use
+- `hidden` \[0\]: whether to hide the facet from display (e.g. to use
     the facet data in some other part of the page like a `SelectFacet`
     query field)
+- `showMissing`\[0\]: If set to 1 the facet shows an item for documents with missing values
+- `labelMissing`: Set own label for the missing facet item
 
 To change the defaults for these fields you can use the `facetsDefaults`
 setting and set your preferred default values there.
