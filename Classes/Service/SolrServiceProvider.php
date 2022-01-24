@@ -627,7 +627,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->query = $this->connection->createSelect();
         $this->addFeatures();
         $this->addTypoScriptFilters();
-        $this->addMainQueryOperator();
+        $this->addDefaultQueryOperator();
 
         $this->setConfigurationValue('solarium', $this->query);
     }
@@ -1152,12 +1152,12 @@ class SolrServiceProvider extends AbstractServiceProvider
     /*
      * Set configured main query operator. Defaults to 'AND'.
      */
-    private function addMainQueryOperator()
+    private function addDefaultQueryOperator()
     {
-        $mainQueryOperator = 'AND';
-        if (isset($this->settings['mainQueryOperator'])) {
-            $mainQueryOperator = $this->settings['mainQueryOperator'];
+        if (isset($this->settings['defaultQueryOperator'])) {
+            $defaultQueryOperator = $this->settings['defaultQueryOperator'];
+            $this->query->setQueryDefaultOperator($defaultQueryOperator);
         }
-        $this->query->setQueryDefaultOperator($mainQueryOperator);
+
     }
 }
