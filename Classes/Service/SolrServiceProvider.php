@@ -1021,16 +1021,16 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $magicFieldPrefix = $magicFieldPrefix . '{!edismax}';
                 }
 
-                if ($fieldInfo["noescape"] == 2) {
-                    $chars = explode(',',$fieldInfo["escapechar"]);
+                if ($fieldInfo['noescape'] === 2) {
+                    $chars = explode(',', $fieldInfo['escapechar']);
                     foreach ($queryTerms as $key => $term) {
                         foreach ($chars as $char) {
-                            $queryTerms[$key] = str_replace($char, "\\".$char, $term);
+                            $queryTerms[$key] = str_replace($char, '\\'.$char, $term);
                         }
                     }
                     $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
                 } else {
-                    if ($fieldInfo["noescape"]) {
+                    if ($fieldInfo['noescape']) {
                         $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
                     } else {
                         $queryPart = $magicFieldPrefix . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
