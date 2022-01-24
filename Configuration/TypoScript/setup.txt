@@ -95,6 +95,7 @@ plugin.tx_find {
         }
 
         defaultQuery = *:*
+        # defaultQueryOperator = AND
         dataFields {
             default {
                 default {
