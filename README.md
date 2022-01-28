@@ -259,18 +259,21 @@ The Text field can be the simplest field available. It also allows
 advanced behaviour by adding autocomplete or a checkbox to select an
 alternate query style.
 
--   `queryAlternate`: an array of alternative queries that can be
+- `queryAlternate`: an array of alternative queries that can be
     configured for the Text type; it creates a checkbox next to the
     input field which toggles between the provided `query` and the first
     `queryAlternate`
--   `autocomplete` \[0\]: if true, a field of Text type will be hooked
+- `autocomplete` \[0\]: if true, a field of Text type will be hooked
     up for autocompletion using Solr suggest query
--   `autocompleteDictionary`: name of the dictionary the Solr suggest
+- `autocompleteDictionary`: name of the dictionary the Solr suggest
     query should use
--   `default`: default values to use in the query if no value is
+- `default`: default values to use in the query if no value is
     provided by the user (yet); may be a single value string (e.g. for
     the default state of checkboxes) or an array (especially useful for
     range queries)
+- `entityAutocomplete`[0]: if true, activates the autocomplete 
+- `entity`[0]: if true, activates the entity search
+- `entityReplacement`: the string that should be replaced for an entity (e.g. id:%s)
 
 Examples:
 
@@ -292,6 +295,13 @@ plugin.tx_find.settings.queryFields {
         type = Text
         autocomplete = 1
         autocompleteDictionary = name
+    }
+    13 {
+        id = entity
+        type = Text
+        entityAutocomplete = 1
+        entity = 1
+        entityReplacement = id:%s
     }
 }
 ```

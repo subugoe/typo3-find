@@ -4,6 +4,6 @@
 	Adds the JavaScript files configured in the CSSPaths settings to the page’s head.
 </f:comment>
 
-<f:for each="{settings.JSPaths}" as="JSPath">
-	<s:page.script name="findJs{idx}" file="{JSPath}"/>
+<f:for each="{settings.JSPaths}" as="JSPath" iteration="idx">
+	<s:page.script name="findJs{idx.index}" file="{JSPath}"/>
 </f:for>
