@@ -271,8 +271,8 @@ alternate query style.
     provided by the user (yet); may be a single value string (e.g. for
     the default state of checkboxes) or an array (especially useful for
     range queries)
-- `entityAutocomplete`[0]: if true, activates the autocomplete 
-- `entity`[0]: if true, activates the entity search
+- `entityAutocomplete`[0]: if true, activates the autocomplete (solr dictionary: autocompleteSuggester)
+- `entity`[0]: if true, activates the entity search (solr dictionary: entitySuggester)
 - `entityReplacement`: the string that should be replaced for an entity (e.g. id:%s)
 
 Examples:
