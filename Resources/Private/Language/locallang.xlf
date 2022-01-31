@@ -99,6 +99,12 @@
 			<trans-unit id="Your query took too long." xml:space="preserve">
 				<source>Your query took too long and was cancelled. Try re-running the query or using a simpler one. If your query is simple already, please get in touch with us and tell us what you tried to do.</source>
 			</trans-unit>
+			<trans-unit id="Active facets" xml:space="preserve" approved="yes">
+				<source>Active facets</source>
+			</trans-unit>
+			<trans-unit id="Reset all facets" xml:space="preserve" approved="yes">
+				<source>Reset all facets</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

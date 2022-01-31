@@ -1,7 +1,7 @@
 <f:if condition="{arguments.facet} || {arguments.q} && {dla:isNull(variable:'{arguments.q.default}')}">
 	<section class="ctg-facet active-facets">
 		<h3>
-			Aktive Facetten
+			<f:translate key="Active facets"/>
 			<a title="schließen" data-facet-toggle="1">
 				<span class="icon bel-pfeil-o01"></span>
 			</a>
@@ -19,7 +19,7 @@
 								class=""
 								title="alle Filter zurücksetzen">
 								<span class="icon bel-ende01"></span>
-								alle Filter zurücksetzen
+								<f:translate key="Reset all facets"/>
 							</f:link.action>
 						</f:then>
 						<f:else>
@@ -29,9 +29,9 @@
 								section="{settings.jumpToID}"
 								noCacheHash="1"
 								class=""
-								title="alle Filter zurücksetzen">
+								title="{f:translate(key:'Reset all facets')}">
 								<span class="icon bel-ende01"></span>
-								alle Filter zurücksetzen
+								<f:translate key="Reset all facets"/>
 							</f:link.action>
 						</f:else>
 					</f:if>
