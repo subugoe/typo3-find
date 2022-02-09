@@ -163,7 +163,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
-            $result = (true === (bool) $this->requestArguments['extended']);
+            $result = ((bool) $this->requestArguments['extended']);
         } elseif (array_key_exists('q', $this->requestArguments)) {
             foreach ($this->settings['queryFields'] as $fieldInfo) {
                 if ($fieldInfo['extended']
@@ -346,6 +346,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                                 );
                             }
                         }
+
                         if (1 === (int) $facet['excludeOwnFilter']) {
                             $queryForFacet->addExclude($this->tagForFacet($facetID));
                         }
@@ -461,7 +462,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    if ($highlightField) {
+                    if ($highlightField !== null) {
                         $highlightField->setAlternateField($alternateFieldName);
                     }
                 }
@@ -887,11 +888,11 @@ class SolrServiceProvider extends AbstractServiceProvider
             } else {
                 $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
             }
-        } catch (HttpException $exception) {
+        } catch (HttpException $httpException) {
             $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $arguments,
-                    'exception' => LoggerUtility::exceptionToArray($exception),
+                    'exception' => LoggerUtility::exceptionToArray($httpException),
                 ]
             );
         }
@@ -923,11 +924,11 @@ class SolrServiceProvider extends AbstractServiceProvider
             } else {
                 $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
             }
-        } catch (HttpException $exception) {
+        } catch (HttpException $httpException) {
             $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception),
+                    'exception' => LoggerUtility::exceptionToArray($httpException),
                 ]
             );
         }
