@@ -37,7 +37,6 @@ class RealUrl
      * Create automatic RealUrl Configuratoin.
      *
      * @param $params
-     * @param $pObj
      *
      * @return array
      */

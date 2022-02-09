@@ -52,7 +52,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     protected ?string $controllerExtensionKey = null;
 
-    protected $query;
+    protected Query $query;
 
     public function connect()
     {
@@ -163,7 +163,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
         if (array_key_exists('extended', $this->requestArguments)) {
             // Show extended search when told so by the »extended« argument.
-            $result = (true == $this->requestArguments['extended']);
+            $result = (true === (bool) $this->requestArguments['extended']);
         } elseif (array_key_exists('q', $this->requestArguments)) {
             foreach ($this->settings['queryFields'] as $fieldInfo) {
                 if ($fieldInfo['extended']
@@ -241,16 +241,16 @@ class SolrServiceProvider extends AbstractServiceProvider
      */
     public function suggestQuery($arguments): array
     {
-        $this->query = $this->getConnection()->createSuggester();
+        $query = $this->getConnection()->createSuggester();
         $results = [];
         if (array_key_exists('q', $arguments)) {
-            $this->query->setQuery($arguments['q']);
+            $query->setQuery($arguments['q']);
             if ($arguments['dictionary']) {
-                $this->query->setDictionary($arguments['dictionary']);
+                $query->setDictionary($arguments['dictionary']);
             }
 
             $this->addFacetFilters($arguments);
-            $solrResults = $this->getConnection()->execute($this->query)->getResults();
+            $solrResults = $this->getConnection()->execute($query)->getResults();
             foreach ($solrResults as $suggestions) {
                 $results = array_merge($results, $suggestions->getSuggestions());
             }
@@ -285,7 +285,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     // records instead of the joined ones.
                     $queryString = $this->query->getQuery();
                     if ($queryString) {
-                        $queryString = $queryString.' '.Query::QUERY_OPERATOR_AND.' ';
+                        $queryString .= ' '.Query::QUERY_OPERATOR_AND.' ';
                     }
 
                     $queryString .= $facetQuery;
@@ -346,16 +346,15 @@ class SolrServiceProvider extends AbstractServiceProvider
                                 );
                             }
                         }
+                        if (1 === (int) $facet['excludeOwnFilter']) {
+                            $queryForFacet->addExclude($this->tagForFacet($facetID));
+                        }
                     } else {
                         $queryForFacet = $facetSet->createFacetField($facetID);
-                        $queryForFacet->setField($facet['field'] ? $facet['field'] : $facetID)
+                        $queryForFacet->setField($facet['field'] ?: $facetID)
                             ->setMinCount($facet['fetchMinimum'])
                             ->setLimit($facet['fetchMaximum'])
                             ->setSort($facet['sortOrder']);
-                    }
-
-                    if (1 == $facet['excludeOwnFilter']) {
-                        $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
                 } else {
                     $this->logger->warning(sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
@@ -455,14 +454,16 @@ class SolrServiceProvider extends AbstractServiceProvider
             // Configure highlight fields.
             $highlight->addFields(implode(',', $highlightConfig['fields']));
 
-            // Configure the fragement length.
-            $highlight->setFragSize($highlightConfig['fragsize']);
+            // Configure the fragment length.
+            $highlight->setFragSize((int) $highlightConfig['fragsize']);
 
             // Set up alternative fields.
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    $highlightField->setAlternateField($alternateFieldName);
+                    if ($highlightField) {
+                        $highlightField->setAlternateField($alternateFieldName);
+                    }
                 }
             }
 
