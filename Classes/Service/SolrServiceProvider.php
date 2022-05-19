@@ -52,7 +52,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     protected ?string $controllerExtensionKey = null;
 
-    protected $query;
+    protected Query $query;
 
     public function connect(): void
     {
@@ -223,7 +223,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     public function suggestQuery(array $settings): array
     {
-        $this->query = $this->getConnection()->createSuggester();
+        $query = $this->getConnection()->createSuggester();
         $results = [];
         if (array_key_exists('q', $settings)) {
             $this->query->setQuery($settings['q']);
@@ -328,16 +328,16 @@ class SolrServiceProvider extends AbstractServiceProvider
                                 );
                             }
                         }
+
+                        if (1 === (int) $facet['excludeOwnFilter']) {
+                            $queryForFacet->addExclude($this->tagForFacet($facetID));
+                        }
                     } else {
                         $queryForFacet = $facetSet->createFacetField($facetID);
-                        $queryForFacet->setField($facet['field'] ? $facet['field'] : $facetID)
+                        $queryForFacet->setField($facet['field'] ?: $facetID)
                             ->setMinCount($facet['fetchMinimum'])
                             ->setLimit($facet['fetchMaximum'])
                             ->setSort($facet['sortOrder']);
-                    }
-
-                    if (1 === (int) $facet['excludeOwnFilter']) {
-                        $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
                 } else {
                     $this->logger->warning(sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
@@ -437,14 +437,16 @@ class SolrServiceProvider extends AbstractServiceProvider
             // Configure highlight fields.
             $highlight->addFields(implode(',', $highlightConfig['fields']));
 
-            // Configure the fragement length.
-            $highlight->setFragSize($highlightConfig['fragsize']);
+            // Configure the fragment length.
+            $highlight->setFragSize((int) $highlightConfig['fragsize']);
 
             // Set up alternative fields.
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    $highlightField->setAlternateField($alternateFieldName);
+                    if (null !== $highlightField) {
+                        $highlightField->setAlternateField($alternateFieldName);
+                    }
                 }
             }
 
@@ -868,11 +870,11 @@ class SolrServiceProvider extends AbstractServiceProvider
             } else {
                 $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
             }
-        } catch (HttpException $exception) {
+        } catch (HttpException $httpException) {
             $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $arguments,
-                    'exception' => LoggerUtility::exceptionToArray($exception),
+                    'exception' => LoggerUtility::exceptionToArray($httpException),
                 ]
             );
         }
@@ -904,11 +906,11 @@ class SolrServiceProvider extends AbstractServiceProvider
             } else {
                 $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
             }
-        } catch (HttpException $exception) {
+        } catch (HttpException $httpException) {
             $this->logger->error('Solr Exception (Timeout?)',
                 [
                     'arguments' => $this->getRequestArguments(),
-                    'exception' => LoggerUtility::exceptionToArray($exception),
+                    'exception' => LoggerUtility::exceptionToArray($httpException),
                 ]
             );
         }

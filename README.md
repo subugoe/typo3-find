@@ -971,6 +971,13 @@ To run the unit tests, clone this repository, and run
 * `composer install`
 * `.Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/`
 
+## Contributing
+
+Open a pull request on Github.
+
+Make sure to run `composer lint` before to see, if the coding style is met.
+If not, this can be automatically fixed with `composer fix`.
+
 Contact
 -------
 

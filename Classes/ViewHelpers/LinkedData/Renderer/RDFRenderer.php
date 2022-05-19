@@ -40,7 +40,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
      */
     public function renderItems($items)
     {
-        $doc = new \DomDocument();
+        $doc = new \DOMDocument();
         $this->prefixes['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         $rdf = $doc->createElement($this->prefixedName('rdf:RDF'));
         $doc->appendChild($rdf);

@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: composer install
 
+      - name: Check coding style
+        run: composer lint
+
       - name: Run Unit Tests
         run: |
           echo "Running unit tests with $(which php)";
