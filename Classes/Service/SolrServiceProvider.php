@@ -85,12 +85,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->testConnection();
     }
 
-    private function testConnection(): void
-    {
-        $ping = $this->connection->createPing();
-        $this->connection->ping($ping);
-    }
-
     public function getConfiguration(): array
     {
         return $this->configuration;
@@ -1160,6 +1154,12 @@ class SolrServiceProvider extends AbstractServiceProvider
             $defaultQueryOperator = $this->settings['defaultQueryOperator'];
             $this->query->setQueryDefaultOperator($defaultQueryOperator);
         }
+    }
 
+    private function testConnection(): void
+    {
+        $ping = $this->connection->createPing();
+        $this->connection->ping($ping);
     }
 }
+
