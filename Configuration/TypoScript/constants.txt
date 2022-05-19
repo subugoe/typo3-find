@@ -18,10 +18,6 @@ plugin.tx_find {
                     timeout = 5
                     # cat=plugin.tx_find/connections/default; type=string; label=Solr Connection Scheme
                     scheme = http
-                    # cat=plugin.tx_find/connections/default; type=string; label=Solr Connection Username
-                    username =
-                    # cat=plugin.tx_find/connections/default; type=string; label=Solr Connection Password
-                    password =
                 }
             }
         }
