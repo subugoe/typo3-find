@@ -54,6 +54,18 @@
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+    ],
+    "rector-lint": ".Build/bin/rector process --dry-run",
+    "rector-fix": ".Build/bin/rector process",
+    "php-cs-lint": ".Build/bin/php-cs-fixer fix --dry-run",
+    "php-cs-fix": ".Build/bin/php-cs-fixer fix",
+    "lint":  [
+      "@php-cs-lint",
+      "@rector-lint"
+    ],
+    "fix":  [
+      "@php-cs-fix",
+      "@rector-fix"
     ]
   },
   "suggest": {
