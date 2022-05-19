@@ -1162,4 +1162,3 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->connection->ping($ping);
     }
 }
-
