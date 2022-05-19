@@ -27,6 +27,8 @@ namespace Subugoe\Find\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Subugoe\Find\Domain\Model\Connection;
+
 /**
  * Interface for search engine provider.
  */
@@ -37,6 +39,8 @@ interface ServiceProviderInterface
     public function connect();
 
     public function getConfiguration();
+
+    public function getConnectionSettings(): Connection;
 
     public function getDefaultQuery();
 
