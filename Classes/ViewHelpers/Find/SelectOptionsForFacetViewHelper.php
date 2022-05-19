@@ -95,6 +95,7 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
                 $valueParts = explode($arguments['sortPrefixSeparator'], $value, 2);
                 $strippedResult[$key] = $valueParts[count($valueParts) - 1];
             }
+
             $result = $strippedResult;
         }
 

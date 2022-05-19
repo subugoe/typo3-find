@@ -40,7 +40,8 @@ For the most basic example you need to:
                 options {
                     host = solr.local
                     port = 8080
-                    path = /solr/myIndex
+                    path = /
+                    core = myIndex
                 }
             }
         }
@@ -965,14 +966,21 @@ depending on the `id` s used for fields and facets.
 
 ## Prerequisites
 
-- TYPO3 8.7
-- PHP 7.1 or higher
+- TYPO3 10.4
+- PHP 7.4 or higher
 
 ## Testing
 
 To run the unit tests, clone this repository, and run
 * `composer install`
 * `.Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/`
+
+## Contributing
+
+Open a pull request on Github.
+
+Make sure to run `composer lint` before to see, if the coding style is met.
+If not, this can be automatically fixed with `composer fix`.
 
 Contact
 -------

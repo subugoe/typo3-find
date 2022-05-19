@@ -51,7 +51,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
                     (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
-                    ('hrdr' == 'hrdr'),
+                    ('hrdr' === 'hrdr'),
                     (true == 1),
                 ],
                 true,
@@ -61,7 +61,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
                     (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
-                    ('hrdr' == 'hrdr'),
+                    ('hrdr' === 'hrdr'),
                     (true == 'hrdr'),
                 ],
                 true,
@@ -91,7 +91,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
         ];
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(OrViewHelper::class)

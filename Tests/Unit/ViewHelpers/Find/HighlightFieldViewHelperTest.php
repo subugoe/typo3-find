@@ -43,7 +43,7 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
 
     protected $solariumResponse;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

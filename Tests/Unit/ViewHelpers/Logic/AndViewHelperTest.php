@@ -61,7 +61,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
                     (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
-                    ('hrdr' == 'hrdr'),
+                    ('hrdr' === 'hrdr'),
                     (true == 1),
                 ],
                 true,
@@ -71,7 +71,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
                     (true === true),
                     (1 === 2),
                     ('hrdr' === 'hrdr'),
-                    ('hrdr' == 'hrdr'),
+                    ('hrdr' === 'hrdr'),
                     (true == 1),
                 ],
                 false,
@@ -87,7 +87,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
                     (true === true),
                     (1 === 1),
                     ('hrdr' === 'hrdr'),
-                    ('hrdr' == 'hrdr'),
+                    ('hrdr' === 'hrdr'),
                     (true == 0),
                 ],
                 false,
@@ -95,7 +95,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
         ];
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(AndViewHelper::class)

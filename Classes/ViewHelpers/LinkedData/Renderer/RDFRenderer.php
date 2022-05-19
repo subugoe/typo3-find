@@ -40,7 +40,7 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
      */
     public function renderItems($items)
     {
-        $doc = new \DomDocument();
+        $doc = new \DOMDocument();
         $this->prefixes['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         $rdf = $doc->createElement($this->prefixedName('rdf:RDF'));
         $doc->appendChild($rdf);
@@ -62,12 +62,14 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
                         if ($this->prefixes[$objectParts[0]] && 2 === count($objectParts)) {
                             $object = $this->prefixes[$objectParts[0]].$objectParts[1];
                         }
+
                         $predicateElement->setAttribute($this->prefixedName('rdf:resource'),
                             $this->prefixedName($object, true));
                     } else {
                         if ($properties['language']) {
                             $predicateElement->setAttribute($this->prefixedName('xml:lang'), $properties['language']);
                         }
+
                         if ($properties['type']) {
                             $predicateElement->setAttribute($this->prefixedName('rdf:datatype'),
                                 $this->prefixedName($properties['type'], true));

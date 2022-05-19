@@ -40,7 +40,7 @@ class SolrServiceProviderTest extends UnitTestCase
      */
     protected $fixture;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->fixture = $this->getMockBuilder(SolrServiceProvider::class)
             ->setMethods(['dummy'])

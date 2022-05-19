@@ -26,27 +26,46 @@
     }
   },
   "replace": {
-    "typo3-ter/find": "self.version",
-    "subugoe/find": "self.version"
+    "typo3-ter/find": "self.version"
   },
   "require": {
+    "php": "^7.4",
+    "ext-curl": "*",
     "ext-json": "*",
-    "typo3/cms-core": "^9.5 || ^10.4.10",
-    "typo3/cms-felogin": "^9.5 || ^10.4.10"
+    "solarium/solarium": ">=6.0 <7.0",
+    "typo3/cms-core": "^10.4.10",
+    "typo3/cms-felogin": "^10.4.10"
   },
   "require-dev": {
-    "solarium/solarium": "~4.2 || ^5.1",
-    "nimut/testing-framework": "^5.1",
-    "friendsofphp/php-cs-fixer": "^2.13"
+    "nimut/testing-framework": "^6.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpunit/phpunit": "^8.5",
+    "rector/rector": "^0.12.5"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
   },
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+    ],
+    "rector-lint": ".Build/bin/rector process --dry-run",
+    "rector-fix": ".Build/bin/rector process",
+    "php-cs-lint": ".Build/bin/php-cs-fixer fix --dry-run",
+    "php-cs-fix": ".Build/bin/php-cs-fixer fix",
+    "lint":  [
+      "@php-cs-lint",
+      "@rector-lint"
+    ],
+    "fix":  [
+      "@php-cs-fix",
+      "@rector-fix"
     ]
   },
   "suggest": {

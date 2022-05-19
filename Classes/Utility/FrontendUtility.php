@@ -56,15 +56,19 @@ class FrontendUtility
             if (array_key_exists('facet', $arguments)) {
                 $underlyingQuery['facet'] = $arguments['facet'];
             }
+
             if (null !== $position) {
                 $underlyingQuery['position'] = $position;
             }
+
             if ($arguments['count']) {
                 $underlyingQuery['count'] = $arguments['count'];
             }
+
             if ($arguments['sort']) {
                 $underlyingQuery['sort'] = $arguments['sort'];
             }
+
             $scriptTag->setContent('var underlyingQuery = '.json_encode($underlyingQuery).';');
 
             return $scriptTag->render();
@@ -80,13 +84,6 @@ class FrontendUtility
      */
     public static function getIndexes($underlyingQueryInfo)
     {
-        // These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
-        $index = [];
-        $index['positionIndex'] = $underlyingQueryInfo['position'] - 1;
-        $index['previousIndex'] = max([$index['positionIndex'] - 1, 0]);
-        $index['nextIndex'] = $index['positionIndex'] + 1;
-        $index['resultIndexOffset'] = (0 === $index['positionIndex']) ? 0 : 1;
-
-        return $index;
+        return ['positionIndex' => $underlyingQueryInfo['position'] - 1, 'previousIndex' => max([$index['positionIndex'] - 1, 0]), 'nextIndex' => $index['positionIndex'] + 1, 'resultIndexOffset' => (0 === $index['positionIndex']) ? 0 : 1];
     }
 }

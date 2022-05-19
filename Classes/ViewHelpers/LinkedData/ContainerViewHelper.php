@@ -66,8 +66,7 @@ class ContainerViewHelper extends AbstractViewHelper
 
         $LDRenderer = Renderer\AbstractRenderer::instantiateSubclassForType($arguments['format']);
         $LDRenderer->setPrefixes($arguments['prefixes']);
-        $result = $LDRenderer->renderItems($items);
 
-        return $result;
+        return $LDRenderer->renderItems($items);
     }
 }

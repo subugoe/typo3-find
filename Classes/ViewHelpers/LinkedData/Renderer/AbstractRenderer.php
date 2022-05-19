@@ -34,15 +34,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractRenderer
 {
-    /**
-     * @var array
-     */
-    protected $prefixes = [];
+    protected array $prefixes = [];
 
-    /**
-     * @var array
-     */
-    protected $usedPrefixes = [];
+    protected array $usedPrefixes = [];
 
     /**
      * @param $type
@@ -53,12 +47,10 @@ abstract class AbstractRenderer
     {
         if ('rdf' === $type) {
             $instance = GeneralUtility::makeInstance(RDFRenderer::class);
+        } elseif ('json-ld' === $type) {
+            $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
         } else {
-            if ('json-ld' === $type) {
-                $instance = GeneralUtility::makeInstance(JSONLDRenderer::class);
-            } else {
-                $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
-            }
+            $instance = GeneralUtility::makeInstance(TurtleRenderer::class);
         }
 
         return $instance;

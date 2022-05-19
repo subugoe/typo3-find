@@ -42,7 +42,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
      */
     public $fixture;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

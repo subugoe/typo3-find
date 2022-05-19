@@ -39,8 +39,10 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
 {
     /**
      * Avoid divisions by zero.
+     *
+     * @var int
      */
-    const DEFAULT_RESULTS_PER_PAGE = 20;
+    public const DEFAULT_RESULTS_PER_PAGE = 20;
 
     /**
      * Registers own arguments.
@@ -64,8 +66,6 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
             $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;
         }
 
-        $pageNumber = (int) ceil($arguments['resultNumber'] / $arguments['resultsPerPage']);
-
-        return $pageNumber;
+        return (int) ceil($arguments['resultNumber'] / $arguments['resultsPerPage']);
     }
 }

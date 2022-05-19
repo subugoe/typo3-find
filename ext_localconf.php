@@ -1,17 +1,17 @@
 <?php
 
-if (!defined('TYPO3_COMPOSER_MODE') || TYPO3_COMPOSER_MODE === false) {
+if (!defined('TYPO3_COMPOSER_MODE') || !TYPO3_COMPOSER_MODE) {
     require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('find').'.Build/vendor/autoload.php';
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Subugoe.find',
+    'Find',
     'Find',
     [
-        'Search' => 'index, detail, suggest',
+        \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
     ],
     [
-        'Search' => 'index, detail, suggest',
+        \Subugoe\Find\Controller\SearchController::class => 'index, detail, suggest',
     ]
 );
 

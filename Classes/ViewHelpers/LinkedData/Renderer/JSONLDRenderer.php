@@ -57,6 +57,7 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
                         if ($properties['language']) {
                             $object['@language'] = $properties['language'];
                         }
+
                         if ($properties['type']) {
                             $object['@type'] = $properties['type'];
                         }
@@ -104,11 +105,9 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
                 $name = str_replace($URI, $acronym.':', $name);
                 $this->usedPrefixes[$acronym] = true;
                 break;
-            } else {
-                if (0 === strpos($name, $acronym.':')) {
-                    $this->usedPrefixes[$acronym] = true;
-                    break;
-                }
+            } elseif (0 === strpos($name, $acronym.':')) {
+                $this->usedPrefixes[$acronym] = true;
+                break;
             }
         }
 

@@ -45,7 +45,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
      */
     public $templateVariableContainer;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
@@ -97,7 +97,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        self::assertContains('The arrays passed in the »arrays« argument do not have identical numbers of values',
+        self::assertStringContainsStringIgnoringCase('The arrays passed in the »arrays« argument do not have identical numbers of values',
             $this->fixture->initializeArgumentsAndRender());
     }
 }

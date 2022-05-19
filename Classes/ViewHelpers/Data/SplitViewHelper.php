@@ -37,7 +37,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SplitViewHelper extends AbstractViewHelper
 {
-    const DEFAULT_SEPARATOR = ', ';
+    /**
+     * @var string
+     */
+    public const DEFAULT_SEPARATOR = ', ';
 
     /**
      * Register arguments.

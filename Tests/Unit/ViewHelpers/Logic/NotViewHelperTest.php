@@ -40,10 +40,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function conditionProvider()
+    public function conditionProvider(): array
     {
         return [
             [
@@ -51,7 +48,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
                 true,
             ],
             [
-                1,
+                (bool) 1,
                 true,
             ],
             [
@@ -65,7 +62,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
         ];
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(NotViewHelper::class)
@@ -78,7 +75,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider conditionProvider
      */
-    public function conditionIsMet(bool $conditions, bool $expected)
+    public function conditionIsMet(bool $conditions, bool $expected): void
     {
         $this->fixture->setArguments([
             'conditions' => $conditions,

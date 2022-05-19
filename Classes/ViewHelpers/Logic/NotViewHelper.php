@@ -46,14 +46,11 @@ class NotViewHelper extends AbstractViewHelper
         $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', true);
     }
 
-    /**
-     * @return bool
-     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
-        return !(true == $arguments['condition']);
+    ): bool {
+        return true != $arguments['condition'];
     }
 }
