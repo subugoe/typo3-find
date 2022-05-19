@@ -462,7 +462,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    if ($highlightField !== null) {
+                    if (null !== $highlightField) {
                         $highlightField->setAlternateField($alternateFieldName);
                     }
                 }
