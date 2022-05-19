@@ -84,6 +84,6 @@ class FrontendUtility
      */
     public static function getIndexes($underlyingQueryInfo)
     {
-        return ['positionIndex' => $underlyingQueryInfo['position'] - 1, 'previousIndex' => max([$index['positionIndex'] - 1, 0]), 'nextIndex' => $index['positionIndex'] + 1, 'resultIndexOffset' => (0 === $index['positionIndex']) ? 0 : 1];
+        return ['positionIndex' => $underlyingQueryInfo['position'] - 1, 'previousIndex' => max([$underlyingQueryInfo['position'] - 2, 0]), 'nextIndex' => $underlyingQueryInfo['position'], 'resultIndexOffset' => (0 === $underlyingQueryInfo['position'] - 1) ? 0 : 1];
     }
 }
