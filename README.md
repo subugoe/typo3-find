@@ -398,6 +398,16 @@ plugin.tx_find.settings {
 }
 ```
 
+### Default search operator
+
+If you want to change the default search operator you can use the following configuration:
+
+```
+plugin.tx_find.settings {
+    defaultQueryOperator = OR
+}
+```
+
 ### Facets
 
 Faceting can be configured in TypoScript using the `facets` setting. It

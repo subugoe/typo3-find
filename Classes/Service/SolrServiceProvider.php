@@ -629,6 +629,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->query = $this->connection->createSelect();
         $this->addFeatures();
         $this->addTypoScriptFilters();
+        $this->addDefaultQueryOperator();
 
         $this->setConfigurationValue('solarium', $this->query);
     }
@@ -1148,5 +1149,17 @@ class SolrServiceProvider extends AbstractServiceProvider
     protected function tagForFacet(string $facetID): string
     {
         return 'facet-'.$facetID;
+    }
+
+    /*
+     * Set configured main query operator. Defaults to 'AND'.
+     */
+    private function addDefaultQueryOperator()
+    {
+        if (isset($this->settings['defaultQueryOperator'])) {
+            $defaultQueryOperator = $this->settings['defaultQueryOperator'];
+            $this->query->setQueryDefaultOperator($defaultQueryOperator);
+        }
+
     }
 }
