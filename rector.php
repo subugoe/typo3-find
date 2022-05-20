@@ -6,22 +6,24 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 
-return static function (RectorConfig $containerConfigurator): void {
-    $containerConfigurator->paths([
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
         __DIR__.'/Classes',
         __DIR__.'/Tests',
         __DIR__.'/Configuration',
         __DIR__.'/Resources',
         __DIR__.'/*.php',
     ]);
-    $containerConfigurator->skip([
+
+    $rectorConfig->skip([
         __DIR__.'/.Build/vendor',
         __DIR__.'/var',
         __DIR__.'/*.cache',
+        Ssch\TYPO3Rector\FileProcessor\TypoScript\Rector\ExtbasePersistenceTypoScriptRector::class,
     ]);
 
     // Define what rule sets will be applied
-    $containerConfigurator->sets([
+    $rectorConfig->sets([
         SetList::CODING_STYLE,
         SetList::CODE_QUALITY,
         SetList::PHP_74,

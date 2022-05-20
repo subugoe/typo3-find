@@ -55,10 +55,10 @@
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
     ],
-    "rector-lint": ".Build/bin/rector process --dry-run",
-    "rector-fix": ".Build/bin/rector process",
-    "php-cs-lint": ".Build/bin/php-cs-fixer fix --dry-run",
-    "php-cs-fix": ".Build/bin/php-cs-fixer fix",
+    "rector-lint": "rector process --dry-run",
+    "rector-fix": "rector process",
+    "php-cs-lint": "php-cs-fixer fix --dry-run",
+    "php-cs-fix": "php-cs-fixer fix",
     "lint":  [
       "@php-cs-lint",
       "@rector-lint"
