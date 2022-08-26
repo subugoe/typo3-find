@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') || exit();
+defined('TYPO3_MODE') || exit;
 
 $autoexec = static function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(

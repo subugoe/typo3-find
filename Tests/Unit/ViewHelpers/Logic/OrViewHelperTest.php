@@ -40,51 +40,48 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function conditionProvider()
+    public function conditionProvider(): array
     {
         return [
             [
                 [
-                    (true === true),
-                    (1 === 1),
-                    ('hrdr' === 'hrdr'),
-                    ('hrdr' === 'hrdr'),
-                    (true == 1),
+                    true === true,
+                    1 === 1,
+                    'hrdr' === 'hrdr',
+                    'hrdr' === 'hrdr',
+                    true == 1,
                 ],
                 true,
             ],
             [
                 [
-                    (true === true),
-                    (1 === 1),
-                    ('hrdr' === 'hrdr'),
-                    ('hrdr' === 'hrdr'),
-                    (true == 'hrdr'),
+                    true === true,
+                    1 === 1,
+                    'hrdr' === 'hrdr',
+                    'hrdr' === 'hrdr',
+                    true == 'hrdr',
                 ],
                 true,
             ],
             [
                 [
-                    (true === 3),
-                    (1 === 'hrdr'),
-                    ('hrdr' === '3'),
-                    ('behedeti' == 'hrdr'),
-                    (7 == 'hrdr'),
+                    true === 3,
+                    1 === 'hrdr',
+                    'hrdr' === '3',
+                    'behedeti' == 'hrdr',
+                    7 == 'hrdr',
                 ],
                 false,
             ],
             [
                 [
-                    (true === 3),
+                    true === 3,
                 ],
                 false,
             ],
             [
                 [
-                    (true === true),
+                    true === true,
                 ],
                 true,
             ],
@@ -104,7 +101,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider conditionProvider
      */
-    public function orConditionIsMet($conditions, $expected)
+    public function orConditionIsMet($conditions, $expected): void
     {
         $this->fixture->setArguments([
             'conditions' => $conditions,
