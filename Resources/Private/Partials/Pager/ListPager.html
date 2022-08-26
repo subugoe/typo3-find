@@ -24,6 +24,7 @@
 					<f:if condition="{current:page.current, gap:page.gap} == {current:FALSE , gap:FALSE}">
 						<f:then>
 							<f:link.action
+								title="{f:translate(key:'Go to page %s of the search results.', arguments:'{1:page.number}')}"
 								arguments="{page:page.number}"
 								addQueryString="TRUE"
 								section="{settings.jumpToID}"
