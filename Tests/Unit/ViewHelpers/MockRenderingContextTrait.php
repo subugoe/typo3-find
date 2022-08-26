@@ -38,7 +38,7 @@ trait MockRenderingContextTrait
      */
     protected $renderingContextMock;
 
-    protected function createRenderingContextMock()
+    protected function createRenderingContextMock(): void
     {
         $this->renderingContextMock = $this->getMockBuilder(RenderingContextInterface::class)->getMock();
     }

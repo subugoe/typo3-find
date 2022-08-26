@@ -40,7 +40,8 @@
     "nimut/testing-framework": "^6.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "^8.5",
-    "rector/rector": "^0.12.5"
+    "ssch/typo3-rector": "^1.0",
+    "phpspec/prophecy": "^1.15"
   },
   "config": {
     "vendor-dir": ".Build/vendor",

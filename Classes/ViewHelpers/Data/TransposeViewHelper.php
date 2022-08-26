@@ -85,7 +85,7 @@ class TransposeViewHelper extends AbstractViewHelper
             }
 
             $output = 'The arrays passed in the »arrays« argument do not have identical numbers of values: ('.implode(', ',
-                    $info).')';
+                $info).')';
         }
 
         return $output;
