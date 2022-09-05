@@ -84,13 +84,6 @@ class FrontendUtility
      */
     public static function getIndexes($underlyingQueryInfo)
     {
-        // These indexes are 0-based for Solr & PHP. The user visible numbering is 1-based.
-        $index = [];
-        $index['positionIndex'] = $underlyingQueryInfo['position'] - 1;
-        $index['previousIndex'] = max([$index['positionIndex'] - 1, 0]);
-        $index['nextIndex'] = $index['positionIndex'] + 1;
-        $index['resultIndexOffset'] = (0 === $index['positionIndex']) ? 0 : 1;
-
-        return $index;
+        return ['positionIndex' => $underlyingQueryInfo['position'] - 1, 'previousIndex' => max([$underlyingQueryInfo['position'] - 2, 0]), 'nextIndex' => $underlyingQueryInfo['position'], 'resultIndexOffset' => (0 === $underlyingQueryInfo['position'] - 1) ? 0 : 1];
     }
 }

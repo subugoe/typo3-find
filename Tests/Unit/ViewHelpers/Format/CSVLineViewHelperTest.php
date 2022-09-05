@@ -53,7 +53,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function arrayIsRenderedAsCommaSeparatedValue()
+    public function arrayIsRenderedAsCommaSeparatedValue(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ',';
@@ -72,7 +72,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function specifyingADelimiterWorks()
+    public function specifyingADelimiterWorks(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ';';
@@ -91,7 +91,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function valuesWithSpacesAreEnclosed()
+    public function valuesWithSpacesAreEnclosed(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
@@ -110,7 +110,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function specifyingAnEnclosureWrapsTheElements()
+    public function specifyingAnEnclosureWrapsTheElements(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';

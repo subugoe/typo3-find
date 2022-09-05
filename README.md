@@ -398,6 +398,16 @@ plugin.tx_find.settings {
 }
 ```
 
+### Default search operator
+
+If you want to change the default search operator you can use the following configuration:
+
+```
+plugin.tx_find.settings {
+    defaultQueryOperator = OR
+}
+```
+
 ### Facets
 
 Faceting can be configured in TypoScript using the `facets` setting. It
@@ -972,6 +982,13 @@ depending on the `id` s used for fields and facets.
 To run the unit tests, clone this repository, and run
 * `composer install`
 * `.Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/`
+
+## Contributing
+
+Open a pull request on Github.
+
+Make sure to run `composer lint` before to see, if the coding style is met.
+If not, this can be automatically fixed with `composer fix`.
 
 Contact
 -------

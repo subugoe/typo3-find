@@ -40,10 +40,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function regexProvider()
+    public function regexProvider(): array
     {
         return [
             ['behedeti', '/hed/', 'hrdr', false, 'behrdreti'],
@@ -81,7 +78,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider regexProvider
      */
-    public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected)
+    public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected): void
     {
         $this->fixture->setArguments([
             'string' => $string,

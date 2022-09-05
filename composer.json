@@ -26,10 +26,10 @@
     }
   },
   "replace": {
-    "typo3-ter/find": "self.version",
-    "subugoe/find": "self.version"
+    "typo3-ter/find": "self.version"
   },
   "require": {
+    "php": "^7.4",
     "ext-curl": "*",
     "ext-json": "*",
     "solarium/solarium": ">=6.0 <7.0",
@@ -40,16 +40,33 @@
     "nimut/testing-framework": "^6.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "^8.5",
-    "rector/rector": "^0.12.5"
+    "ssch/typo3-rector": "^1.0",
+    "phpspec/prophecy": "^1.15"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
   },
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+    ],
+    "rector-lint": "rector process --dry-run",
+    "rector-fix": "rector process",
+    "php-cs-lint": "php-cs-fixer fix --dry-run",
+    "php-cs-fix": "php-cs-fixer fix",
+    "lint":  [
+      "@php-cs-lint",
+      "@rector-lint"
+    ],
+    "fix":  [
+      "@php-cs-fix",
+      "@rector-fix"
     ]
   },
   "suggest": {

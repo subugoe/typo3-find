@@ -73,7 +73,7 @@ class NewArrayViewHelper extends AbstractViewHelper
                 }
             } else {
                 $result = 'newArray View Helper: Number of keys and values must be the same.'.PHP_EOL.print_r($arguments,
-                        true);
+                    true);
             }
         } else {
             foreach ($arguments['values'] as $value) {

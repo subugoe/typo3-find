@@ -40,55 +40,52 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
      */
     protected $fixture;
 
-    /**
-     * @return array
-     */
-    public function conditionProvider()
+    public function conditionProvider(): array
     {
         return [
             [
                 [
-                    (1 === 1),
+                    1 === 1,
                 ],
                 true,
             ],
             [
-                [(true === true)],
+                [true === true],
                 true,
             ],
             [
                 [
-                    (true === true),
-                    (1 === 1),
-                    ('hrdr' === 'hrdr'),
-                    ('hrdr' === 'hrdr'),
-                    (true == 1),
+                    true === true,
+                    1 === 1,
+                    'hrdr' === 'hrdr',
+                    'hrdr' === 'hrdr',
+                    true == 1,
                 ],
                 true,
             ],
             [
                 [
-                    (true === true),
-                    (1 === 2),
-                    ('hrdr' === 'hrdr'),
-                    ('hrdr' === 'hrdr'),
-                    (true == 1),
+                    true === true,
+                    1 === 2,
+                    'hrdr' === 'hrdr',
+                    'hrdr' === 'hrdr',
+                    true == 1,
                 ],
                 false,
             ],
             [
                 [
-                    (1 === 2),
+                    1 === 2,
                 ],
                 false,
             ],
             [
                 [
-                    (true === true),
-                    (1 === 1),
-                    ('hrdr' === 'hrdr'),
-                    ('hrdr' === 'hrdr'),
-                    (true == 0),
+                    true === true,
+                    1 === 1,
+                    'hrdr' === 'hrdr',
+                    'hrdr' === 'hrdr',
+                    true == 0,
                 ],
                 false,
             ],
