@@ -102,7 +102,8 @@ class SolrServiceProvider extends AbstractServiceProvider
         try {
             $resultSet = $this->connection->execute($this->query);
         } catch (HttpException $httpException) {
-            $this->logger->error('Solr Exception (Timeout?)',
+            $this->logger->error(
+                'Solr Exception (Timeout?)',
                 [
                     'requestArguments' => $this->getRequestArguments(),
                     'exception' => LoggerUtility::exceptionToArray($httpException),
@@ -299,12 +300,11 @@ class SolrServiceProvider extends AbstractServiceProvider
                     // set solr query to exclude all known facet values
                     if ($facetTerm === $facetInfo['config']['labelMissing']) {
                         $this->query->createFilterQuery($queryInfo)
-                            ->setQuery("-".str_replace('("%s")','[* TO *]', $facetInfo['config']['query']));
+                            ->setQuery("-".str_replace('("%s")', '[* TO *]', $facetInfo['config']['query']));
                     } else {
                         $this->query->createFilterQuery($queryInfo)
                             ->setQuery($facetQuery);
                     }
-
                 }
 
                 $activeFacetsForTemplate[$facetID][$facetTerm] = $facetInfo;
@@ -339,7 +339,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                             if (array_key_exists('id', $facetQuery) && array_key_exists('query', $facetQuery)) {
                                 $queryForFacet->createQuery($facetQuery['id'], $facetQuery['query']);
                             } else {
-                                $this->logger->error(sprintf('TypoScript facet »%s«, facetQuery %s does not have the required keys »id« and »query«. Ignoring this facetQuery.', $facetID, $facetQueryIndex),
+                                $this->logger->error(
+                                    sprintf('TypoScript facet »%s«, facetQuery %s does not have the required keys »id« and »query«. Ignoring this facetQuery.', $facetID, $facetQueryIndex),
                                     [
                                         'facetQuery' => $facetQuery,
                                         'facetConfiguration' => $facetConfiguration,
@@ -366,9 +367,9 @@ class SolrServiceProvider extends AbstractServiceProvider
                     if ($facet['showMissing'] === 1) {
                         $queryForFacet->setMissing(true);
                     }
-
                 } else {
-                    $this->logger->warning(sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
+                    $this->logger->warning(
+                        sprintf('TypoScript facet %s does not have the required key »id«. Ignoring this facet.', $key),
                         [
                             'facet' => $facet,
                             'facetConfiguration' => $facetConfiguration,
@@ -413,8 +414,10 @@ class SolrServiceProvider extends AbstractServiceProvider
                         if ($fieldID && $queryParameters[$fieldID]) {
                             $queryArguments = $queryParameters[$fieldID];
                             $queryTerms = null;
-                            if (is_array($queryArguments) && array_key_exists('alternate',
-                                $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
+                            if (is_array($queryArguments) && array_key_exists(
+                                'alternate',
+                                $queryArguments
+                            ) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
                                 if (array_key_exists('term', $queryArguments)) {
                                     $queryTerms = $queryArguments['term'];
@@ -552,7 +555,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                         $sortOptions['default'] = $sortOption['sortCriteria'];
                     }
                 } else {
-                    $this->logger->warning(sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
+                    $this->logger->warning(
+                        sprintf('TypoScript sort option »%s« does not have the required keys »id« and »sortCriteria. Ignoring this setting.', $sortOptionIndex),
                         [
                             'sortOption' => $sortOption,
                         ]
@@ -805,7 +809,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 if (null === $queryString) {
-                    $this->logger->info(sprintf('Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.', $facetConfig['id'], $queryTerm),
+                    $this->logger->info(
+                        sprintf('Results for Facet »%s« with facetQuery ID »%s« were requested, but this facetQuery is not configured. Building a generic facet query instead.', $facetConfig['id'], $queryTerm),
                         [
                             'requestArguments' => $this->requestArguments,
                             'facetConfig' => $facetConfig,
@@ -829,7 +834,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                 $queryString = sprintf($queryPattern, $queryTerm);
             }
         } else {
-            $this->logger->warning('A non-configured facet was selected. Ignoring it.',
+            $this->logger->warning(
+                'A non-configured facet was selected. Ignoring it.',
                 ['requestArguments' => $this->requestArguments]
             );
         }
@@ -892,7 +898,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                         $assignments['document-next-number'] = $index['nextIndex'] + 1;
                     }
                 } else {
-                    $this->logger->error(sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
+                    $this->logger->error(
+                        sprintf('»detail« action query with underlying query could not retrieve record id »%d«.', $id),
                         ['arguments' => $arguments]
                     );
                 }
@@ -900,7 +907,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                 $this->logger->error('»detail« action query with underlying query returned no results.', ['arguments' => $arguments]);
             }
         } catch (HttpException $httpException) {
-            $this->logger->error('Solr Exception (Timeout?)',
+            $this->logger->error(
+                'Solr Exception (Timeout?)',
                 [
                     'arguments' => $arguments,
                     'exception' => LoggerUtility::exceptionToArray($httpException),
@@ -936,7 +944,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                 $this->logger->error(sprintf('»detail« action query for id »%d« returned no results.', $id), ['arguments' => $this->getRequestArguments()]);
             }
         } catch (HttpException $httpException) {
-            $this->logger->error('Solr Exception (Timeout?)',
+            $this->logger->error(
+                'Solr Exception (Timeout?)',
                 [
                     'arguments' => $this->getRequestArguments(),
                     'exception' => LoggerUtility::exceptionToArray($httpException),
