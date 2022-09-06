@@ -1,4 +1,5 @@
 <?php
+
 namespace Subugoe\Find\ViewHelpers\Solr;
 
 /***************************************************************
@@ -22,55 +23,54 @@ namespace Subugoe\Find\ViewHelpers\Solr;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Solarium\QueryType\Select\Result\Result;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use Solarium\Client;
-
+use Solarium\QueryType\Select\Result\Result;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * CountFromSolrViewHelper
+ * CountFromSolrViewHelper.
  *
  * View Helper to return the number of documents for a specific query
- *
  */
-class CountFromSolrViewHelper extends AbstractViewHelper {
-
+class CountFromSolrViewHelper extends AbstractViewHelper
+{
+    public array $configuration;
     /**
      * @var Client
      */
     protected $solr;
 
-    public function initialize() {
-        $configuration = array(
-            'endpoint' => array(
-                'localhost' => array(
+    public function initialize()
+    {
+        $configuration = [
+            'endpoint' => [
+                'localhost' => [
                     'host' => $this->templateVariableContainer->get('settings')['connection']['host'],
-                    'port' => intval($this->templateVariableContainer->get('settings')['connection']['port']),
+                    'port' => (int) $this->templateVariableContainer->get('settings')['connection']['port'],
                     'path' => $this->templateVariableContainer->get('settings')['connection']['path'],
                     'timeout' => $this->templateVariableContainer->get('settings')['connection']['timeout'],
-                    'scheme' => $this->templateVariableContainer->get('settings')['connection']['scheme']
-                )
-            )
-        );
+                    'scheme' => $this->templateVariableContainer->get('settings')['connection']['scheme'],
+                ],
+            ],
+        ];
 
         $this->solr = new Client($configuration);
     }
 
     /**
      * Register arguments.
+     *
      * @return void
      */
-    public function initializeArguments() {
+    public function initializeArguments()
+    {
         parent::initializeArguments();
-        $this->registerArgument('query', 'string|array', 'Solr querystring or array of query fields and their query values.', TRUE);
-        $this->registerArgument('activeFacets',  'array', 'Array with active facets', FALSE);
+        $this->registerArgument('query', 'string|array', 'Solr querystring or array of query fields and their query values.', true);
+        $this->registerArgument('activeFacets', 'array', 'Array with active facets', false);
     }
 
-    /**
-     */
-    public function render() {
-
+    public function render()
+    {
         $findParameter = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_find_find');
 
         $activeFacets = $this->arguments['activeFacets'];
@@ -79,52 +79,49 @@ class CountFromSolrViewHelper extends AbstractViewHelper {
         $newQuery = $this->arguments['query'];
 
         if ($findParameter['q']['default']) {
-            $newQuery = $newQuery . ' AND ' . $findParameter['q']['default'];
+            $newQuery = $newQuery.' AND '.$findParameter['q']['default'];
         }
 
         if ($activeFacets) {
             foreach ($activeFacets as $facetInfo) {
                 foreach ($facetInfo as $facet) {
-                    $newQuery = $newQuery . " AND " . $facet['query'];
+                    $newQuery = $newQuery.' AND '.$facet['query'];
                 }
             }
         }
 
         if ($queryConcat) {
-            $newQuery .= " AND " . $queryConcat;
+            $newQuery .= ' AND '.$queryConcat;
         }
 
         $query = $this->createQuery($newQuery);
 
         $query->setRows(0);
 
-
         /** @var Result $resultSet */
         $resultSet = $this->solr->select($query);
 
         $resultValue = $resultSet->getNumFound();
 
-        if ($this->templateVariableContainer->exists("solrcount")) {
-            $this->templateVariableContainer->remove("solrcount");
+        if ($this->templateVariableContainer->exists('solrcount')) {
+            $this->templateVariableContainer->remove('solrcount');
         }
-        $this->templateVariableContainer->add("solrcount", $resultValue);
 
+        $this->templateVariableContainer->add('solrcount', $resultValue);
     }
 
     /**
-     * Check configuration for shards and when found create Distributed Search
+     * Check configuration for shards and when found create Distributed Search.
      *
      * @param \Solarium\QueryType\Select\Query\Query $query
      */
-    private function createQueryComponents(&$query) {
-
+    private function createQueryComponents(&$query)
+    {
         // Shards
-        if ($this->templateVariableContainer->get('settings')['shards']) {
-            if(count($this->templateVariableContainer->get('settings')['shards'])) {
-                $distributedSearch = $query->getDistributedSearch();
-                foreach($this->templateVariableContainer->get('settings')['shards'] as $name => $shard) {
-                    $distributedSearch->addShard($name, $shard);
-                }
+        if ($this->templateVariableContainer->get('settings')['shards'] && count($this->templateVariableContainer->get('settings')['shards'])) {
+            $distributedSearch = $query->getDistributedSearch();
+            foreach ($this->templateVariableContainer->get('settings')['shards'] as $name => $shard) {
+                $distributedSearch->addShard($name, $shard);
             }
         }
     }
@@ -134,24 +131,26 @@ class CountFromSolrViewHelper extends AbstractViewHelper {
      *
      * @param \Solarium\QueryType\Select\Query\Query $query
      */
-    private function addTypoScriptFilters ($query) {
+    private function addTypoScriptFilters($query)
+    {
         if (!empty($this->templateVariableContainer->get('settings')['additionalFilters'])) {
-            foreach($this->templateVariableContainer->get('settings')['additionalFilters'] as $key => $filterQuery) {
-                $query->createFilterQuery('additionalFilter-' . $key)
+            foreach ($this->templateVariableContainer->get('settings')['additionalFilters'] as $key => $filterQuery) {
+                $query->createFilterQuery('additionalFilter-'.$key)
                     ->setQuery($filterQuery);
             }
         }
     }
 
     /**
-     * Creates a query for a document
+     * Creates a query for a document.
      *
-     * @param string $id the document id
+     * @param string $id      the document id
      * @param string $idfield the document id field
+     *
      * @return \Solarium\QueryType\Select\Query\Query
      */
-    private function createQuery ($query) {
-
+    private function createQuery($query)
+    {
         $queryObject = $this->solr->createSelect();
         $this->addTypoScriptFilters($queryObject);
 

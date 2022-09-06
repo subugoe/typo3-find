@@ -62,13 +62,13 @@ class SearchController extends ActionController
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
             $this->response->addAdditionalHeaderData(
-                    FrontendUtility::addQueryInformationAsJavaScript(
-                        $underlyingQueryInfo['q'],
-                        $this->settings,
-                        (int) $underlyingQueryInfo['position'],
-                        $arguments
-                    )
-                );
+                FrontendUtility::addQueryInformationAsJavaScript(
+                    $underlyingQueryInfo['q'],
+                    $this->settings,
+                    (int) $underlyingQueryInfo['position'],
+                    $arguments
+                )
+            );
         }
 
         $this->addStandardAssignments();
