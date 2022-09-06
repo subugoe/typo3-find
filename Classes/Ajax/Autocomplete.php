@@ -6,12 +6,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Http\Response;
 
 class Autocomplete implements MiddlewareInterface
 {
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
@@ -21,10 +20,10 @@ class Autocomplete implements MiddlewareInterface
             return $response;
         }
 
-        include_once 'EidSettings.php';
+        include_once __DIR__.'/EidSettings.php';
 
         // Configuration options
-        $solrSuggestUrl = $HOST . $CORE . '/suggest';
+        $solrSuggestUrl = $HOST.$CORE.'/suggest';
 
         // Autocomplete dictionary
         $solrAutocompleteDictionary = 'autocompleteSuggester';
@@ -51,43 +50,43 @@ class Autocomplete implements MiddlewareInterface
         $dictionaryUrlParams = '';
 
         if ($entity) {
-            $dictionaryUrlParams .= '&suggest.dictionary=' . $solrEntityDictionary;
+            $dictionaryUrlParams .= '&suggest.dictionary='.$solrEntityDictionary;
         }
+
         if ($autocomplete) {
-            $dictionaryUrlParams .= '&suggest.dictionary=' . $solrAutocompleteDictionary;
+            $dictionaryUrlParams .= '&suggest.dictionary='.$solrAutocompleteDictionary;
         }
 
         if (!$entity && !$autocomplete) {
             return $response;
         }
 
-
         // Get Solr suggestions
         $response = file_get_contents(
-            $solrSuggestUrl . '?suggest=true' . $dictionaryUrlParams . '&suggest.q=' . urlencode($query),
-            FALSE,
+            $solrSuggestUrl.'?suggest=true'.$dictionaryUrlParams.'&suggest.q='.urlencode($query),
+            false,
             stream_context_create([
                 'http' => [
                     'method' => 'GET',
                     'follow_location' => 0,
-                    'timeout' => 1.0
-                ]
+                    'timeout' => 1.0,
+                ],
             ])
         );
 
         // Parse JSON response
-        if ($response !== FALSE) {
-            $json = json_decode($response, TRUE);
+        if (false !== $response) {
+            $json = json_decode($response, true);
 
             if ($autocomplete) {
                 // get autocomplete
                 foreach ($json['suggest'][$solrAutocompleteDictionary][$query]['suggestions'] as $suggestion) {
-                    list ($id, $normalized) = explode('␝', $suggestion['payload']);
+                    list($id, $normalized) = explode('␝', $suggestion['payload']);
                     $suggests[] = [
                         'id' => htmlspecialchars($suggestion['term']),
                         'term' => htmlspecialchars($suggestion['term']),
                         'normalized' => htmlspecialchars($suggestion['term']),
-                        'autocomplete' => '1'
+                        'autocomplete' => '1',
                     ];
                 }
             }
@@ -95,7 +94,7 @@ class Autocomplete implements MiddlewareInterface
             if ($entity && $autocomplete) {
                 // Add break between autocomplete and entity list
                 $suggests[] = [
-                    'id' => 'br'
+                    'id' => 'br',
                 ];
             }
 
@@ -104,16 +103,17 @@ class Autocomplete implements MiddlewareInterface
 
                 // get entities
                 foreach ($json['suggest'][$solrEntityDictionary][$query]['suggestions'] as $suggestion) {
-                    list ($id, $normalized) = explode('␝', $suggestion['payload']);
+                    list($id, $normalized) = explode('␝', $suggestion['payload']);
                     if (!in_array($id, $idDeduping)) {
                         if (empty($normalized)) {
                             $normalized = $suggestion['term'];
                         }
+
                         $suggests[] = [
                             'id' => str_replace('%s', $id, $entityReplacement),
                             'term' => htmlspecialchars($suggestion['term']),
                             'normalized' => htmlspecialchars($normalized),
-                            'autocomplete' => '0'
+                            'autocomplete' => '0',
                         ];
                         $idDeduping[] = $id;
                     }
