@@ -1018,7 +1018,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 if ($this->settings['features']['eDisMax']) {
-                    $magicFieldPrefix = $magicFieldPrefix.'{!edismax}';
+                    $magicFieldPrefix .= '{!edismax}';
                 }
 
                 if (2 === $fieldInfo['noescape']) {
@@ -1028,14 +1028,12 @@ class SolrServiceProvider extends AbstractServiceProvider
                             $queryTerms[$key] = str_replace($char, '\\'.$char, $term);
                         }
                     }
+
+                    $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
+                } elseif ($fieldInfo['noescape']) {
                     $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
                 } else {
-                    if ($fieldInfo['noescape']) {
-                        $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
-                    } else {
-                        $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
-                            $queryTerms));
-                    }
+                    $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
                 }
 
                 if ('' !== $queryPart && '0' !== $queryPart) {
