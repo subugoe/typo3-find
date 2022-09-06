@@ -35,6 +35,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class CountFromSolrViewHelper extends AbstractViewHelper
 {
     public array $configuration;
+
     /**
      * @var Client
      */
