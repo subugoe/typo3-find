@@ -404,7 +404,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                             $queryArguments = $queryParameters[$fieldID];
                             $queryTerms = null;
                             if (is_array($queryArguments) && array_key_exists('alternate',
-                                    $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
+                                $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
                                 if (array_key_exists('term', $queryArguments)) {
                                     $queryTerms = $queryArguments['term'];
@@ -738,7 +738,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             $arguments = $this->getRequestArguments();
         }
 
-        $count = (int) ($this->settings['paging']['perPage']);
+        $count = (int) $this->settings['paging']['perPage'];
 
         if (array_key_exists('count', $arguments)) {
             $count = (int) $this->requestArguments['count'];
@@ -1018,22 +1018,22 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 if ($this->settings['features']['eDisMax']) {
-                    $magicFieldPrefix = $magicFieldPrefix . '{!edismax}';
+                    $magicFieldPrefix = $magicFieldPrefix.'{!edismax}';
                 }
 
-                if ($fieldInfo['noescape'] === 2) {
+                if (2 === $fieldInfo['noescape']) {
                     $chars = explode(',', $fieldInfo['escapechar']);
                     foreach ($queryTerms as $key => $term) {
                         foreach ($chars as $char) {
                             $queryTerms[$key] = str_replace($char, '\\'.$char, $term);
                         }
                     }
-                    $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
+                    $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
                 } else {
                     if ($fieldInfo['noescape']) {
-                        $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
+                        $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
                     } else {
-                        $queryPart = $magicFieldPrefix . $this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
+                        $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat,
                             $queryTerms));
                     }
                 }
