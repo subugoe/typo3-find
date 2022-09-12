@@ -43,7 +43,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -51,7 +51,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function aNewArrayFromArgumentsIsCorrectlyCreated()
+    public function aNewArrayFromArgumentsIsCorrectlyCreated(): void
     {
         $arguments = [
             'array' => ['array'],
@@ -73,7 +73,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function aNewArrayWithoutAnExistingOneIsCreated()
+    public function aNewArrayWithoutAnExistingOneIsCreated(): void
     {
         $arguments = [
             'keys' => ['hrdr'],
@@ -93,7 +93,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function aNewArrayWithMultipleEntriesIsCreated()
+    public function aNewArrayWithMultipleEntriesIsCreated(): void
     {
         $arguments = [
             'keys' => ['hrdr', 'horus'],
@@ -114,7 +114,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues()
+    public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues(): void
     {
         $arguments = [
             'keys' => ['hrdr', 'horus', ''],

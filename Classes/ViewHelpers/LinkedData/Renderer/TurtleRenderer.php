@@ -59,7 +59,7 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                         $objectString = $this->turtleString($object);
                     } else {
                         if (false === strpos($object, '"') && false === strpos($object, "\r") && false === strpos($object,
-                                "\n")) {
+                            "\n")) {
                             $objectString = '"'.$object.'"';
                         } elseif (false === strpos($object, '"""')) {
                             $objectString = '"""'.$object.'"""';

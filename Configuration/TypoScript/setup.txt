@@ -95,6 +95,7 @@ plugin.tx_find {
         }
 
         defaultQuery = *:*
+        # defaultQueryOperator = AND
         dataFields {
             default {
                 default {
@@ -160,6 +161,8 @@ plugin.tx_find {
             #    hidden = 1
             #    fetchMinimum = 0
             #    fetchMaximum = 1000
+            #    showMissing = 1
+            #    labelMissing = label
             #}
         }
 
