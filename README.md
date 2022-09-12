@@ -196,32 +196,35 @@ The `queryFields` setting configures the search form. It is a numbered
 array of arrays, one for each query field that can be used. The query
 fields have a number of parameters depending on their type:
 
--   `id` (required): the id for the query field; this is used in URL
+- `id` (required): the id for the query field; this is used in URL
     parameters (`tx_find_find[q][myID]`) and to identify the localised
     label for the query field
--   `type` (required): the type of the query field; the partial with
+- `type` (required): the type of the query field; the partial with
     this name in `Partials/Form/Fields` is used to create the field for
     input form; the default set of partials provides the Text, Range,
     Hidden, Select, SelectFacet and Radio options, a few of which depend
     on specific code in the controller to create the right queries
--   `query`: a sprintf string with the Solr query for this field, e.g.
+- `query`: a sprintf string with the Solr query for this field, e.g.
     `title_search:%s`; if not given the default query `$id:%s` is used
     (where `$id` is the value of the `id` field); this lets you use more
     complex queries (e.g. querying several fields at once or adding
     `{!join}` to a query), it also supports multiple parameters (see the
     Range type);
--   `extended` \[0\]: if true, the query field will only be visible in
+- `extended` \[0\]: if true, the query field will only be visible in
     the extended search form
--   `noescape` \[0\]: if true, the extension will not escape the user
+- `noescape` \[0\]: if true, the extension will not escape the user
     input before querying the index; this allows technically inclined
     users to run their own Solr queries; but it opens the risk of users
     accidentally entering invalid queries which will cause Solr
     exceptions (which the standard setup catches and offers the user a
-    link for running an escaped query)
--   `phrase` \[0\]: if true, the string in the field will be phrase
+    link for running an escaped query). If noescape is 2 you can 
+    configure the characters that will be escaped with escapechar.
+- `escapechar` \[""\]: escapechar defines the characters with will be 
+    escaped if noescape is 2
+- `phrase` \[0\]: if true, the string in the field will be phrase
     escaped – rather than term escaped – before being placed in the Solr
     query
--   `hidden` \[0\]: if true, the input field will not be displayed;
+- `hidden` \[0\]: if true, the input field will not be displayed;
     however the field will be displayed if a term for it is passed in a
     search parameter
 
@@ -234,6 +237,21 @@ needed.
 
 Some of the search field types have custom behaviour and specific
 configuration options.
+
+Examples:
+
+```
+plugin.tx_find.settings.queryFields {
+    10 {
+        id = name
+        type = Text
+        query = %s
+        noescape = 2
+        escapechar = \,+,-,&,|,!,{,},[,],?,:
+    }
+}
+```
+
 
 #### Text
 
