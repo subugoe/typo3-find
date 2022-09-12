@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* Default SCSS for TYPO3 Extension ¬ªfind¬´ . */
+/* Default SCSS for TYPO3 Extension »find« . */
 .tx_find {
   /* error message */
   /* search form */
@@ -26,7 +26,7 @@
 }
 .tx_find em.highlight {
   font-weight: bold;
-  color: red;
+  color: #f00;
 }
 .tx_find section.error {
   margin-bottom: 1em;
@@ -61,7 +61,7 @@
   border-color: #b3b3b3 #d2d2d2 #d2d2d2 #b3b3b3;
   border-style: solid;
   border-width: 1px;
-  color: #333333;
+  color: #333;
   background: #f3f5f9;
 }
 .tx_find form .fieldContainer input.noleftmargin {
@@ -77,7 +77,7 @@
 .tx_find form .field-default input {
   width: 400px;
   height: 30px;
-  margin: 0px 6px 2px 0px;
+  margin: 0 6px 2px 0;
   padding: 4px;
   font-size: 100%;
 }
@@ -92,7 +92,7 @@
 }
 .tx_find form .controls {
   float: left;
-  bottom: 0px;
+  bottom: 0;
 }
 .tx_find form .fieldType-search input:-moz-placeholder {
   color: #999;
@@ -107,7 +107,7 @@
   border-color: #d4d4d4 #b4b4b4 #b4b4b4 #d4d4d4;
   border-radius: 3px 3px 3px 3px;
   border-right: 1px solid #b4b4b4;
-  color: #555555;
+  color: #555;
   font-weight: bold;
   line-height: 100%;
   padding: 3px 12px;
@@ -161,94 +161,94 @@
   font-size: 133%;
   line-height: 133%;
 }
-.tx_find .results ol.resultList li:target, .tx_find .results .facet-type-Tabs ol.resultList li.facetActive:target, .tx_find .facet-type-Tabs .results ol.resultList li.facetActive:target {
-  background: #eeeeff;
+.tx_find .results ol.resultList li:target {
+  background: #eef;
   border-radius: 7px;
-  transition: background .5s ease-in-out;
+  transition: background 0.5s ease-in-out;
 }
 .tx_find .facets {
   float: right;
   clear: right;
   width: 200px;
 }
-.tx_find article.facet, .tx_find .facet-type-Tabs {
+.tx_find div.facet, .tx_find .facet-type-Tabs {
   margin-bottom: 2em;
 }
-.tx_find article.facet h1, .tx_find .facet-type-Tabs h1 {
+.tx_find div.facet h1, .tx_find .facet-type-Tabs h1 {
   margin: 0;
   font-size: 100%;
   font-weight: bold;
   text-transform: uppercase;
 }
-.tx_find article.facet .facetSearch, .tx_find .facet-type-Tabs .facetSearch {
+.tx_find div.facet .facetSearch, .tx_find .facet-type-Tabs .facetSearch {
   margin: 1em 0 0 0;
 }
-.tx_find article.facet ol, .tx_find .facet-type-Tabs ol {
+.tx_find div.facet ol, .tx_find .facet-type-Tabs ol {
   list-style-type: none;
   margin: 1em 0 0 0;
   padding-left: 0;
   line-height: 150%;
 }
-.tx_find article.facet ol.autocomplete, .tx_find .facet-type-Tabs ol.autocomplete {
+.tx_find div.facet ol.autocomplete, .tx_find .facet-type-Tabs ol.autocomplete {
   margin: 0.5em 0 0 0;
 }
-.tx_find article.facet .facetList li, .tx_find .facet-type-Tabs .facetList li, .tx_find article.facet .facetList .facet-type-Tabs ol li.facetActive, .tx_find .facet-type-Tabs ol article.facet .facetList li.facetActive, .tx_find .facet-type-Tabs .facetList ol li.facetActive, .tx_find .facet-type-Tabs ol .facetList li.facetActive {
+.tx_find div.facet .facetList li, .tx_find .facet-type-Tabs .facetList li, .tx_find .facet-type-Tabs .facetList ol li.facetActive, .tx_find .facet-type-Tabs ol .facetList li.facetActive {
   margin: 0;
   padding-left: 1em;
   text-indent: -1em;
 }
-.tx_find article.facet a, .tx_find .facet-type-Tabs a {
+.tx_find div.facet a, .tx_find .facet-type-Tabs a {
   display: block;
 }
-.tx_find article.facet .facetCount, .tx_find .facet-type-Tabs .facetCount {
-  color: #666666;
+.tx_find div.facet .facetCount, .tx_find .facet-type-Tabs .facetCount {
+  color: #666;
   font-size: 80%;
 }
-.tx_find article.facet .facetActive, .tx_find .facet-type-Tabs .facetActive {
+.tx_find div.facet .facetActive, .tx_find .facet-type-Tabs .facetActive {
   display: block;
-  background: red;
+  background: #f00;
   border-radius: 5px;
-  border: 1px solid #bb0000;
+  border: 1px solid #b00;
   line-height: 150%;
   font-weight: bold;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
-.tx_find article.facet .facetList .facetActive, .tx_find .facet-type-Tabs .facetList .facetActive {
+.tx_find div.facet .facetList .facetActive, .tx_find .facet-type-Tabs .facetList .facetActive {
   padding: 0;
   text-indent: 0;
   margin-bottom: 0.25em;
 }
-.tx_find article.facet .facetActive a, .tx_find .facet-type-Tabs .facetActive a {
+.tx_find div.facet .facetActive a, .tx_find .facet-type-Tabs .facetActive a {
   padding-left: 0.2em;
-  color: white;
+  color: #fff;
 }
-.tx_find article.facet .facetActive a:before, .tx_find .facet-type-Tabs .facetActive a:before {
+.tx_find div.facet .facetActive a:before, .tx_find .facet-type-Tabs .facetActive a:before {
   margin-right: 0.3em;
   margin-left: 0.1em;
 }
-.tx_find article.facet .facetShowAll a, .tx_find .facet-type-Tabs .facetShowAll a {
+.tx_find div.facet .facetShowAll a, .tx_find .facet-type-Tabs .facetShowAll a {
   font-style: italic;
-  color: #666666;
+  color: #666;
 }
-.tx_find article.facet .facetHideHidden a, .tx_find .facet-type-Tabs .facetHideHidden a {
+.tx_find div.facet .facetShowAll a:hover, .tx_find .facet-type-Tabs .facetShowAll a:hover {
+  color: #000;
+}
+.tx_find div.facet .facetHideHidden a, .tx_find .facet-type-Tabs .facetHideHidden a {
   font-style: italic;
-  color: #666666;
+  color: #666;
 }
-.tx_find article.facet .facetShowAll a:hover, .tx_find .facet-type-Tabs .facetShowAll a:hover {
-  color: black;
+.tx_find div.facet .facetHideHidden a:hover, .tx_find .facet-type-Tabs .facetHideHidden a:hover {
+  color: #000;
 }
-.tx_find article.facet .facetHideHidden a:hover, .tx_find .facet-type-Tabs .facetHideHidden a:hover {
-  color: black;
-}
-.tx_find article.facet .facetHistogram-container .facetActive, .tx_find .facet-type-Tabs .facetHistogram-container .facetActive {
+.tx_find div.facet .facetHistogram-container .facetActive, .tx_find .facet-type-Tabs .facetHistogram-container .facetActive {
   margin-bottom: 0.5em;
 }
-.tx_find article.facet .histogram, .tx_find .facet-type-Tabs .histogram {
+.tx_find div.facet .histogram, .tx_find .facet-type-Tabs .histogram {
   position: relative;
   left: -13px;
 }
-.tx_find article.facet .flot-x-axis .flot-tick-label:first-child, .tx_find .facet-type-Tabs .flot-x-axis .flot-tick-label:first-child {
-  left: 13px!important;
+.tx_find div.facet .flot-x-axis .flot-tick-label:first-child, .tx_find .facet-type-Tabs .flot-x-axis .flot-tick-label:first-child {
+  left: 13px !important;
 }
 .tx_find .facet-type-Map .mapContainer {
   height: 150px;
@@ -257,24 +257,24 @@
   display: none;
 }
 .tx_find .facet-type-Tabs ol {
-  border-bottom: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbb;
 }
 .tx_find .facet-type-Tabs ol li, .tx_find .facet-type-Tabs ol li.facetActive {
   display: inline-block;
   margin: 0;
   border-radius: 10px 10px 0 0;
-  border: 0px none;
+  border: 0 none;
 }
 .tx_find .facet-type-Tabs ol li a, .tx_find .facet-type-Tabs ol li.facetActive a {
-  padding: 1em 0.5em 0em 0.5em;
+  padding: 1em 0.5em 0 0.5em;
   display: inline-block;
 }
-.tx_find .facet-type-Tabs ol li.facetActive, .tx_find .facet-type-Tabs ol li.facetActive {
+.tx_find .facet-type-Tabs ol li.facetActive {
   background: #263476;
-  color: white;
+  color: #fff;
 }
-.tx_find .facet-type-Tabs ol li.facetActive .facetCount, .tx_find .facet-type-Tabs ol li.facetActive .facetCount {
-  color: #dddddd;
+.tx_find .facet-type-Tabs ol li.facetActive .facetCount {
+  color: #ddd;
 }
 .tx_find .listPager {
   margin-right: 220px;
@@ -296,7 +296,7 @@
 }
 .tx_find .listPager .current {
   font-weight: bold;
-  color: black;
+  color: #000;
 }
 .tx_find .listPager .resultCount {
   margin-bottom: 2em;
@@ -317,7 +317,7 @@
   float: right;
 }
 .tx_find .queryAndPager .resultPager .pager {
-  color: #bbbbbb;
+  color: #bbb;
 }
 .tx_find .queryAndPager .resultPager .pager .icon-right-dir:before,
 .tx_find .queryAndPager .resultPager .pager .icon-left-dir:before {
@@ -327,7 +327,7 @@
   padding: 0 4px;
   font-size: 133%;
 }
-.tx_find .queryAndPager .resultPager .pager [class^="icon-"]:hover,
+.tx_find .queryAndPager .resultPager .pager [class^=icon-]:hover,
 .tx_find .queryAndPager .resultPager .pager [class*=" icon-"]:hover {
   text-decoration: none;
 }

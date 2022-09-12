@@ -1,0 +1,22 @@
+{
+  "name": "typo3-find",
+  "version": "1.0.0",
+  "description": "TYPO3-Find Frontend build",
+  "main": "index.js",
+  "scripts": {
+    "build": "sass --no-source-map Resources/Private/Scss/find.scss Resources/Public/CSS/find.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subugoe/typo3-find.git"
+  },
+  "author": "Ingo Pfennigstorf <pfennigstorf@sub.uni-goettingen.de>",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/subugoe/typo3-find/issues"
+  },
+  "homepage": "https://github.com/subugoe/typo3-find#readme",
+  "devDependencies": {
+    "sass": "^1.54.9"
+  }
+}

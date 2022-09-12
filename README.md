@@ -1008,6 +1008,11 @@ Open a pull request on Github.
 Make sure to run `composer lint` before to see, if the coding style is met.
 If not, this can be automatically fixed with `composer fix`.
 
+### Building CSS files
+
+Install Node.js (version 16 or above), run `npm install` and build the final CSS file
+with `npm run build`.
+
 Contact
 -------
 

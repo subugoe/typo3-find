@@ -7,3 +7,4 @@ vendor/*
 /.php_cs.cache
 /.php-cs-fixer.cache
 var
+node_modules

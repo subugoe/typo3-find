@@ -230,7 +230,7 @@ $tabSelected: #263476;
         width: 200px;
     }
 
-    article.facet {
+    div.facet {
         margin-bottom: 2em;
 
         h1 {
@@ -341,7 +341,7 @@ $tabSelected: #263476;
     }
 
     .facet-type-Tabs {
-        @extend article.facet;
+        @extend div, .facet;
 
         h1 {
             display: none;
