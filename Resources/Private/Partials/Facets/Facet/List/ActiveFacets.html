@@ -1,0 +1,158 @@
+<f:if condition="{arguments.facet} || {arguments.q} && {dla:isNull(variable:'{arguments.q.default}')}">
+	<section class="ctg-facet active-facets">
+		<h3>
+			<f:translate key="Active facets"/>
+			<a title="schließen" data-facet-toggle="1">
+				<span class="icon bel-pfeil-o01"></span>
+			</a>
+		</h3>
+		<div class="facetList">
+			<ul>
+				<li class="active-facet-reset">
+					<f:if condition="{arguments.q} && {dla:isNull(variable:'{arguments.q.default}')}">
+						<f:then>
+							<f:link.action
+								addQueryString="TRUE"
+								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]', 2: 'tx_find_find[q]'}"
+								section="{settings.jumpToID}"
+								noCacheHash="1"
+								class=""
+								title="alle Filter zurücksetzen">
+								<span class="icon bel-ende01"></span>
+								<f:translate key="Reset all facets"/>
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action
+								addQueryString="TRUE"
+								argumentsToBeExcludedFromQueryString="{1: 'tx_find_find[facet]'}"
+								section="{settings.jumpToID}"
+								noCacheHash="1"
+								class=""
+								title="{f:translate(key:'Reset all facets')}">
+								<span class="icon bel-ende01"></span>
+								<f:translate key="Reset all facets"/>
+							</f:link.action>
+						</f:else>
+					</f:if>
+				</li>
+				<f:for each="{arguments.facet}" as="reverseFacets" key="facetKey">
+					<f:for each="{reverseFacets}" as="reverseFacet" key="reverseFacetKey">
+						<f:if condition="{reverseFacet}=='not'">
+							<li>
+								<f:link.action
+									addQueryString="TRUE"
+									argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetKey, facetTerm:reverseFacetKey, activeFacets:config.activeFacets, mode:'remove')}"
+									section="{settings.jumpToID}"
+									noCacheHash="1"
+									class=""
+									style="text-decoration:line-through;"
+									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+									<span class="icon bel-ende01"></span>
+									<span style="opacity: 0.7;">{reverseFacetKey}</span>
+								</f:link.action>
+							</li>
+						</f:if>
+					</f:for>
+				</f:for>
+
+				<f:for each="{config.facets}" as="facetInfo" key="facetKey">
+					<f:if condition="{facetInfo.hidden}!=1 || {facetInfo.id} == 'facet_names_relations' || {facetInfo.id} == 'facet_names_roles'">
+						<v:variable.set value="{s:data.valueForKey(array:results.components.facetset.facets, key:facetInfo.id)}" name="facetData" />
+						<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
+							<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
+								<f:comment><hr class="active-facet-hr"/></f:comment>
+								<li>
+									<f:link.action
+										addQueryString="TRUE"
+										argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
+										section="{settings.jumpToID}"
+										noCacheHash="1"
+										class=""
+										title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+										<span class="icon bel-ende01"></span>
+										<f:if condition="{facetTerm} == 'true'">
+											<f:then>
+												{facetInfo.text}
+											</f:then>
+											<f:else>
+												<f:if condition="{facetInfo.id}=='facet_names_relations' || {facetInfo.id}=='facet_names_roles'">
+													<f:then>
+														<dla:activeFacet text="{facetTerm}" function="decisionTree" as="output"/>
+														{output}
+													</f:then>
+													<f:else>
+														{facetTerm}
+													</f:else>
+												</f:if>
+											</f:else>
+										</f:if>
+
+									</f:link.action>
+								</li>
+							</f:if>
+						</f:for>
+					</f:if>
+				</f:for>
+				<f:if condition="{config.activeFacets.Zeit}">
+					<f:for each="{config.activeFacets.Zeit}" as="time">
+						<li>
+							<f:link.action
+								addQueryString="TRUE"
+								argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][Zeit]'}"
+								section="{settings.jumpToID}"
+								noCacheHash="1"
+								class=""
+								title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+								<span class="icon bel-ende01"></span>
+								<dla:activeFacet text="{time.term}" as="output"/>
+								{output}
+							</f:link.action>
+						</li>
+					</f:for>
+				</f:if>
+				<f:comment>
+					<f:if condition="{config.activeFacets.NeuImKatalog}">
+						<f:for each="{config.activeFacets.NeuImKatalog}" as="newCatalogue">
+							<li>
+								<f:link.action
+									addQueryString="TRUE"
+									argumentsToBeExcludedFromQueryString="{1:'tx_find_find[facet][NeuImKatalog]'}"
+									section="{settings.jumpToID}"
+									noCacheHash="1"
+									class=""
+									title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}">
+									<span class="icon bel-ende01"></span>
+									<f:if condition="{newCatalogue.term}=='RANGE NOW-7DAYS TO NOW'">
+										<f:then>Woche</f:then>
+										<f:else>
+											<f:if condition="{newCatalogue.term}=='RANGE NOW-1MONTH TO NOW'">
+												<f:then>Monat</f:then>
+												<f:else>
+													<f:if condition="{newCatalogue.term}=='RANGE NOW-3MONTH TO NOW'">
+														<f:then>Quartal</f:then>
+														<f:else>
+															<f:if condition="{newCatalogue.term}=='RANGE NOW-6MONTH TO NOW'">
+																<f:then>Halbjahr</f:then>
+																<f:else>
+																	<f:if condition="{newCatalogue.term}=='RANGE NOW-12MONTH TO NOW'">
+																		<f:then>Jahr</f:then>
+																		<f:else> - </f:else>
+																	</f:if>
+																</f:else>
+															</f:if>
+														</f:else>
+													</f:if>
+												</f:else>
+											</f:if>
+										</f:else>
+									</f:if>
+								</f:link.action>
+							</li>
+						</f:for>
+					</f:if>
+				</f:comment>
+			</ul>
+		</div>
+	</section>
+</f:if>
