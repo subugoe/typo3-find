@@ -6,11 +6,8 @@
 	a filter.
 
 	You need to configure your page to load the required JavaScript library
-	(jQuery.chosen) to make it work. See the Readme for details.
+	(choices.js) to make it work. See the Readme for details.
 </f:comment>
-
-<s:page.linkCSS file="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.css"/>
-<s:page.script name="chosen" file="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"/>
 
 <f:alias map="{translateArguments:'{0:\"{f:translate(key:\'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}\', default:facetInfo.id)}\"}'}">
 	<form>

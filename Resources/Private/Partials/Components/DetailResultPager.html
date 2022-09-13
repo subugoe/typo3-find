@@ -5,7 +5,7 @@
 <f:if condition="{settings.paging.detailPagePaging}">
 	<f:if condition="{arguments.underlyingQuery}">
 		<p class="queryAndPager">
-			<span class="underlyingQuery">
+			<span class="underlyingQuery" data-underlying-query="{arguments.underlyingQuery}">
 				<span class="backToResultList">
 					<s:data.newArray
 						name="linkArguments"
@@ -40,7 +40,7 @@
 				</span>
 			</span>
 
-			<span class="resultPager">
+			<nav class="resultPager">
 				<span class="position">
 					<f:translate key="result"/>
 					<span class="resultPosition">{arguments.underlyingQuery.position}</span>
@@ -79,7 +79,7 @@
 						</f:else>
 					</f:if>
 				</span>
-			</span>
+			</nav>
 		</p>
 	</f:if>
 </f:if>

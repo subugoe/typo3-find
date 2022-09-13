@@ -1,4 +1,5 @@
 /* Default SCSS for TYPO3 Extension »find« . */
+@use "choices.js/public/assets/styles/choices.css";
 
 $current: #000;
 $inactive: #bbb;
@@ -141,7 +142,7 @@ $tabSelected: #263476;
             display: block;
             float: left;
             height: 30px;
-            background: url(../button_shade_large.png) repeat-x scroll 0 100% $backgroundB;
+            background: url('./../Images/button_shade_large.png') repeat-x scroll 0 100% $backgroundB;
             border-style: solid;
             border-width: 1px;
             border-color: $borderB1 $borderB2 $borderB2 $borderB1;
@@ -159,7 +160,7 @@ $tabSelected: #263476;
         }
 
         .submit:active {
-            background-image: url(../button_shade_large_click.png);
+            background-image: url('./../Images/button_shade_large_click.png');
             background-color: $backgroundBActive;
         }
 

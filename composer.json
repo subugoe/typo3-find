@@ -32,6 +32,7 @@
     "php": "^7.4",
     "ext-curl": "*",
     "ext-json": "*",
+    "psr/http-client-implementation": "^1.0",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^10.4.10",
     "typo3/cms-felogin": "^10.4.10"
@@ -41,7 +42,9 @@
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "^8.5",
     "ssch/typo3-rector": "^1.0",
-    "phpspec/prophecy": "^1.15"
+    "phpspec/prophecy": "^1.15",
+    "helhum/typo3-console": "^6.7",
+    "typo3/cms-tstemplate": "^10.4.10"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
@@ -53,8 +56,8 @@
   },
   "scripts": {
     "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/find"
+      "mkdir -p .Build/public/typo3conf/ext/",
+      "[ -L .Build/public/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/find"
     ],
     "rector-lint": "rector process --dry-run",
     "rector-fix": "rector process",
@@ -75,7 +78,7 @@
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web",
+      "web-dir": ".Build/public",
       "extension-key": "find"
     }
   }

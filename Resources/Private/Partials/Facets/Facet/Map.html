@@ -37,27 +37,15 @@
 		}
 </f:comment>
 
-<s:page.script file="https://raw.githubusercontent.com/subugoe/js-geohash/master/geohash.js" name="find_geohash"/>
-
-<s:page.script name="find_geohash">
-	tx_find_facetMap.init ({
-		container: jQuery('.facet-id-{facetInfo.id} .mapContainer')[0],
-		queryURLTemplate: {f:format.json(value:"{f:uri.action(
-			addQueryString:TRUE,
-			arguments:'{
-				q:\'{raw:\"###TERM###\"}\',
-				count:1000
-			}',
+<div class="facetMap-container"
+	data-container=".facet-id-{facetInfo.id}"
+	data-facet-data="{f:format.json(value:facetData.values)}"
+	data-facet-fetch-maximum="{facetInfo.fetchMaximum}"
+	data-query-url-template="{f:uri.action(addQueryString:TRUE, arguments:'{q:\'{raw:\"###TERM###\"}\',count:1000}',
 			action:'index',
 			pageType:'1369315139',
 			format:'data',
 			noCacheHash:'1'
-		)}")},
-		facetData: {f:format.json(value:facetData.values)},
-		facetFetchMaximum: {facetInfo.fetchMaximum}
-	});
-</s:page.script>
-
-<div class="facetMap-container">
+		)}">
 	<div class="mapContainer"></div>
 </div>

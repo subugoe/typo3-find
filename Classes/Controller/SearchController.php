@@ -36,6 +36,7 @@ use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
 class SearchController extends ActionController
 {
@@ -51,10 +52,9 @@ class SearchController extends ActionController
     }
 
     /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws NoSuchArgumentException
      */
-    public function detailAction(string $id)
+    public function detailAction(string $id): string
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
@@ -78,11 +78,10 @@ class SearchController extends ActionController
             'arguments' => $arguments,
             'config' => $this->searchProvider->getConfiguration(),
         ]);
+
+        return $this->view->render();
     }
 
-    /**
-     * Index Action.
-     */
     public function indexAction()
     {
         if (array_key_exists('id', $this->requestArguments)) {
@@ -108,6 +107,8 @@ class SearchController extends ActionController
 
             CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
             $this->view->assignMultiple($viewValues);
+
+            return $this->view->render();
         }
     }
 
@@ -131,16 +132,18 @@ class SearchController extends ActionController
     /**
      * Suggest/Autocomplete action.
      */
-    public function suggestAction()
+    public function suggestAction(): string
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
         $this->view->assign('suggestions', $results);
+
+        return $this->view->render();
     }
 
     /**
      * Assigns standard variables to the view.
      */
-    protected function addStandardAssignments()
+    protected function addStandardAssignments(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
@@ -154,7 +157,7 @@ class SearchController extends ActionController
     /**
      * @param string $activeConnection
      */
-    protected function initializeConnection($activeConnection)
+    protected function initializeConnection($activeConnection): void
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 

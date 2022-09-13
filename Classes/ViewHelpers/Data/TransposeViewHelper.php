@@ -59,7 +59,14 @@ class TransposeViewHelper extends AbstractViewHelper
         $iterationArray = [];
         // Strip non-numeric keys in the value arrays.
         foreach ($arguments['arrays'] as $key => $array) {
-            $iterationArray = (null !== $array) ? $array : [];
+            if (is_array($array)) {
+                $iterationArray = $array;
+            }
+
+            if (is_scalar($array)) {
+                $iterationArray = [$array];
+            }
+
             $arrays[$key] = array_values($iterationArray);
         }
 
@@ -95,10 +102,8 @@ class TransposeViewHelper extends AbstractViewHelper
      * Returns TRUE if all elements of $arrays have the same count(), FALSE otherwise.
      *
      * @param array $arrays array of arrays
-     *
-     * @return bool
      */
-    protected static function identicalLengths($arrays)
+    protected static function identicalLengths(array $arrays): bool
     {
         $result = true;
 
