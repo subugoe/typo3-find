@@ -33,6 +33,9 @@
 			<trans-unit id="of" xml:space="preserve">
 				<source>of</source>
 			</trans-unit>
+			<trans-unit id="Go to page %s of the search results." xml:space="preserve">
+				<source>Go to page %s of the search results.</source>
+			</trans-unit>
 			<trans-unit id="Go to previous page of results. (Page %s)" xml:space="preserve">
 				<source>Go to previous page of results. (Page %s)</source>
 			</trans-unit>
