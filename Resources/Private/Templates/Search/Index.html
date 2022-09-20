@@ -25,6 +25,8 @@
 			<f:render partial="Pager/ListPager" arguments="{_all}"/>
 		</div>
 
+		<f:render partial="Facets/Facet/List/ActiveFacets" arguments="{_all}"/>
+
 		<f:render partial="Facets/Facets" arguments="{_all}"/>
 
 		<ol id="c{config.uid}-resultList" class="resultList" start="{config.counterStart}">
