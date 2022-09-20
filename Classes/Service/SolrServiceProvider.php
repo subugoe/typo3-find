@@ -1007,7 +1007,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 // Escape all arguments unless told not to do so.
                 if (!$fieldInfo['noescape']) {
                     $escapedQueryTerms = [];
-                    if (is_array($queryTerms) && [] !== $queryTerms) {
+                    if (is_array($queryTerms) && [] !== $queryTerms && count($queryTerms) > 1) {
                         foreach ($queryTerms as $key => $term) {
                             if ($fieldInfo['phrase']) {
                                 $escapedQueryTerms[$key] = $this->query->getHelper()->escapePhrase($term);
@@ -1044,7 +1044,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $magicFieldPrefix .= '{!edismax}';
                 }
 
-                if (2 === $fieldInfo['noescape']) {
+                if (2 === (int) $fieldInfo['noescape']) {
                     $chars = explode(',', $fieldInfo['escapechar']);
                     foreach ($queryTerms as $key => $term) {
                         foreach ($chars as $char) {
@@ -1053,7 +1053,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     }
 
                     $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
-                } elseif ($fieldInfo['noescape']) {
+                } elseif (1 === (int) $fieldInfo['noescape']) {
                     $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
                 } else {
                     $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
