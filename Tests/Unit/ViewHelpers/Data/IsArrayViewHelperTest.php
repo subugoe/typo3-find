@@ -43,7 +43,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -51,7 +51,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function arrayIsInterpretedAsArray()
+    public function arrayIsInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => ['hrdr']]);
         self::assertTrue($this->fixture->initializeArgumentsAndRender());
@@ -60,7 +60,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function intIsNotInterpretedAsArray()
+    public function intIsNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => 667]);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());
@@ -69,7 +69,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function objectsAreNotInterpretedAsArray()
+    public function objectsAreNotInterpretedAsArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->fixture->setArguments(['subject' => $this->fixture]);
@@ -79,7 +79,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function stringsAreNotInterpretedAsArray()
+    public function stringsAreNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => 'hrdr']);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());
@@ -88,7 +88,7 @@ class IsArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function nullIsNotInterpretedAsArray()
+    public function nullIsNotInterpretedAsArray(): void
     {
         $this->fixture->setArguments(['subject' => null]);
         self::assertFalse($this->fixture->initializeArgumentsAndRender());

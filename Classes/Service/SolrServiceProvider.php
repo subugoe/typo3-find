@@ -26,12 +26,13 @@ namespace Subugoe\Find\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Solarium\Client;
+use Solarium\Component\Highlighting\Field;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Result;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
@@ -476,7 +477,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    if (null !== $highlightField) {
+                    if ($highlightField instanceof Field) {
                         $highlightField->setAlternateField($alternateFieldName);
                     }
                 }
@@ -605,8 +606,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Adds filter queries configured in TypoScript to $query.
-     *
-     * @return $this
      */
     protected function addTypoScriptFilters(): SolrServiceProvider
     {
@@ -877,7 +876,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $connection = $this->getConnection();
 
         try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            /** @var Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {
@@ -934,7 +933,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $escapedID = $this->query->getHelper()->escapeTerm($id);
         $this->query->setQuery('id:'.$escapedID);
         try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            /** @var Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {
@@ -1007,7 +1006,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 // Escape all arguments unless told not to do so.
                 if (!$fieldInfo['noescape']) {
                     $escapedQueryTerms = [];
-                    if (is_array($queryTerms) && [] !== $queryTerms) {
+                    if (is_array($queryTerms) && [] !== $queryTerms && count($queryTerms) > 1) {
                         foreach ($queryTerms as $key => $term) {
                             if ($fieldInfo['phrase']) {
                                 $escapedQueryTerms[$key] = $this->query->getHelper()->escapePhrase($term);
@@ -1044,7 +1043,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     $magicFieldPrefix .= '{!edismax}';
                 }
 
-                if (2 === $fieldInfo['noescape']) {
+                if (2 === (int) $fieldInfo['noescape']) {
                     $chars = explode(',', $fieldInfo['escapechar']);
                     foreach ($queryTerms as $key => $term) {
                         foreach ($chars as $char) {
@@ -1053,7 +1052,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     }
 
                     $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
-                } elseif ($fieldInfo['noescape']) {
+                } elseif (1 === (int) $fieldInfo['noescape']) {
                     $queryPart = $magicFieldPrefix.vsprintf($queryFormat, $queryTerms);
                 } else {
                     $queryPart = $magicFieldPrefix.$this->query->getHelper()->escapePhrase(vsprintf($queryFormat, $queryTerms));
@@ -1098,10 +1097,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         }
     }
 
-    /**
-     * @param mixed $connection
-     */
-    protected function setConnection($connection): void
+    protected function setConnection(mixed $connection): void
     {
         $this->connection = $connection;
     }

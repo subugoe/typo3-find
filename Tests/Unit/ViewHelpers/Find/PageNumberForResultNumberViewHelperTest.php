@@ -47,7 +47,7 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(PageNumberForResultNumberViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->createRenderingContextMock();

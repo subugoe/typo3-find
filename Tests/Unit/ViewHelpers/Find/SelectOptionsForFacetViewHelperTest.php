@@ -43,15 +43,16 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(SelectOptionsForFacetViewHelper::class)
-            ->setMethods(['renderChildren'])
+            ->onlyMethods(['renderChildren'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
-    public function returnTrueIfAPathExists()
+    public function returnTrueIfAPathExists(): void
     {
         $arguments = [
             'values' => [],

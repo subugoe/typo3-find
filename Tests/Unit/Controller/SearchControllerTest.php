@@ -26,15 +26,16 @@ namespace Subugoe\Find\Tests\Unit\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Subugoe\Find\Controller\SearchController;
 
 /**
  * Tests for search controller.
  */
-class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
+class SearchControllerTest extends UnitTestCase
 {
     /**
-     * @var \Subugoe\Find\Controller\SearchController
+     * @var SearchController
      */
     protected $fixture;
 
@@ -47,8 +48,9 @@ class SearchControllerTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
-    public function implementTests()
+    public function implementTests(): void
     {
         self::markTestIncomplete();
     }

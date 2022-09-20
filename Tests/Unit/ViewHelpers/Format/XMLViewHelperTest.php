@@ -64,9 +64,7 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(XMLViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
+        $this->fixture = $this->getMockBuilder(XMLViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -74,7 +72,7 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider stringProvider
      */
-    public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected)
+    public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected): void
     {
         $this->fixture->method('renderChildren')->willReturn($string);
 

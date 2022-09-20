@@ -38,7 +38,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @var RegexpViewHelper
      */
-    protected $fixture;
+    protected RegexpViewHelper|\PHPUnit\Framework\MockObject\MockObject $fixture;
 
     public function regexProvider(): array
     {
@@ -69,7 +69,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(RegexpViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

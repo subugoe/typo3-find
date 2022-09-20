@@ -95,9 +95,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(AndViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
+        $this->fixture = $this->getMockBuilder(AndViewHelper::class)->addMethods(['dummy'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 

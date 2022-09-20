@@ -28,22 +28,28 @@ namespace Subugoe\Find\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 
 class SearchController extends ActionController
 {
+    public $response;
+
     protected array $requestArguments = [];
 
     protected ?object $searchProvider = null;
 
-    private \Psr\Log\LoggerInterface $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LogManagerInterface $logManager)
     {
@@ -51,10 +57,10 @@ class SearchController extends ActionController
     }
 
     /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
-    public function detailAction(string $id)
+    public function detailAction(string $id): ResponseInterface
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
@@ -78,15 +84,17 @@ class SearchController extends ActionController
             'arguments' => $arguments,
             'config' => $this->searchProvider->getConfiguration(),
         ]);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Index Action.
      */
-    public function indexAction()
+    public function indexAction(): ResponseInterface
     {
         if (array_key_exists('id', $this->requestArguments)) {
-            $this->forward('detail');
+            return new ForwardResponse('detail');
         } else {
             $this->searchProvider->setCounter();
             $this->response->addAdditionalHeaderData(
@@ -109,6 +117,8 @@ class SearchController extends ActionController
             CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
             $this->view->assignMultiple($viewValues);
         }
+
+        return $this->htmlResponse();
     }
 
     /**
@@ -131,10 +141,12 @@ class SearchController extends ActionController
     /**
      * Suggest/Autocomplete action.
      */
-    public function suggestAction()
+    public function suggestAction(): ResponseInterface
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
         $this->view->assign('suggestions', $results);
+
+        return $this->htmlResponse();
     }
 
     /**

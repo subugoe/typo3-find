@@ -45,10 +45,10 @@ class NewArrayViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('name', 'string', 'name of template variable to assign the result to', false, null);
+        $this->registerArgument('name', 'string', 'name of template variable to assign the result to');
         $this->registerArgument('array', 'array', 'existing array to add the new keys and values to', false, []);
 
-        $this->registerArgument('keys', 'array', 'array of keys', false, null);
+        $this->registerArgument('keys', 'array', 'array of keys');
         $this->registerArgument('values', 'array', 'array of values', false, []);
 
         $this->registerArgument('global', 'boolean',
@@ -61,7 +61,7 @@ class NewArrayViewHelper extends AbstractViewHelper
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        $result = $arguments['array'];
+        $result = $arguments['array'] ?? [];
 
         if ($arguments['keys']) {
             if (count($arguments['keys']) === count($arguments['values'])) {
@@ -81,7 +81,7 @@ class NewArrayViewHelper extends AbstractViewHelper
             }
         }
 
-        $variableName = $arguments['name'];
+        $variableName = $arguments['name'] ?? null;
         if (null !== $variableName) {
             if ($renderingContext->getVariableProvider()->exists($variableName)) {
                 $renderingContext->getVariableProvider()->remove($variableName);

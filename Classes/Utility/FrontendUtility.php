@@ -42,7 +42,7 @@ class FrontendUtility
      * @param int|null $position  of the record in the result list
      * @param array    $arguments overrides $this->requestArguments if set
      */
-    public static function addQueryInformationAsJavaScript($query, array $settings, $position = null, $arguments = []): string
+    public static function addQueryInformationAsJavaScript($query, array $settings, ?int $position = null, $arguments = []): string
     {
         if ($settings['paging']['detailPagePaging']) {
             $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');

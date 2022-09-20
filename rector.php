@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
 use Ssch\TYPO3Rector\FileProcessor\TypoScript\Rector\v10\v0\ExtbasePersistenceTypoScriptRector;
+use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -27,8 +27,8 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         SetList::CODING_STYLE,
         SetList::CODE_QUALITY,
-        SetList::PHP_74,
-        Typo3SetList::TYPO3_104,
+        SetList::PHP_80,
+        Typo3LevelSetList::UP_TO_TYPO3_11,
         Typo3SetList::TYPOSCRIPT_CONDITIONS_104,
     ]);
 };
