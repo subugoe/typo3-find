@@ -26,6 +26,7 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
+use Solarium\Core\Query\Helper;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -59,7 +60,7 @@ class SolrEscapeViewHelper extends AbstractViewHelper
             $string = $renderChildrenClosure();
         }
 
-        $solariumHelper = new \Solarium\Core\Query\Helper();
+        $solariumHelper = new Helper();
 
         return $arguments['phrase'] ? $solariumHelper->escapePhrase($string) : $solariumHelper->escapeTerm($string);
     }

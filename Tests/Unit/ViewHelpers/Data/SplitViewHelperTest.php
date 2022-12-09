@@ -35,7 +35,7 @@ use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
 class SplitViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
-     * @var \Subugoe\Find\ViewHelpers\Data\SplitViewHelper
+     * @var SplitViewHelper
      */
     public $fixture;
 

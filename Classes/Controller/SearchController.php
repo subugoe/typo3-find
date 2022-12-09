@@ -28,7 +28,7 @@ namespace Subugoe\Find\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
+use Psr\Log\LoggerInterface;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
@@ -40,11 +40,13 @@ use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
 class SearchController extends ActionController
 {
+    public $response;
+
     protected array $requestArguments = [];
 
     protected ?object $searchProvider = null;
 
-    private \Psr\Log\LoggerInterface $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LogManagerInterface $logManager)
     {

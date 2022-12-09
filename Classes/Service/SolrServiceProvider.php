@@ -26,12 +26,12 @@ namespace Subugoe\Find\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Solarium\Client;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Select\Result\Result;
 use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
@@ -877,7 +877,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $connection = $this->getConnection();
 
         try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            /** @var Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {
@@ -934,7 +934,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $escapedID = $this->query->getHelper()->escapeTerm($id);
         $this->query->setQuery('id:'.$escapedID);
         try {
-            /** @var \Solarium\QueryType\Select\Result\Result $selectResults */
+            /** @var Result $selectResults */
             $selectResults = $connection->execute($this->query);
 
             if ($selectResults->getNumFound() > 0) {

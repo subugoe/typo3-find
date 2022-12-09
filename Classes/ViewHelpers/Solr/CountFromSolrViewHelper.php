@@ -22,9 +22,10 @@ namespace Subugoe\Find\ViewHelpers\Solr;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 use Solarium\Client;
+use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -72,7 +73,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
 
     public function render()
     {
-        $findParameter = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_find_find');
+        $findParameter = GeneralUtility::_GP('tx_find_find');
 
         $activeFacets = $this->arguments['activeFacets'];
         $queryConcat = $this->arguments['queryConcat'];
@@ -114,7 +115,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
     /**
      * Check configuration for shards and when found create Distributed Search.
      *
-     * @param \Solarium\QueryType\Select\Query\Query $query
+     * @param Query $query
      */
     private function createQueryComponents(&$query)
     {
@@ -130,7 +131,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
     /**
      * Adds filter queries configured in TypoScript to $query.
      *
-     * @param \Solarium\QueryType\Select\Query\Query $query
+     * @param Query $query
      */
     private function addTypoScriptFilters($query)
     {
@@ -148,7 +149,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
      * @param string $id      the document id
      * @param string $idfield the document id field
      *
-     * @return \Solarium\QueryType\Select\Query\Query
+     * @return Query
      */
     private function createQuery($query)
     {

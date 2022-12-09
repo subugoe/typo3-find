@@ -26,7 +26,7 @@ namespace Subugoe\Find\ViewHelpers\LinkedData;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
+use Subugoe\Find\ViewHelpers\LinkedData\Renderer\AbstractRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -64,7 +64,7 @@ class ContainerViewHelper extends AbstractViewHelper
         $items = $renderingContext->getVariableProvider()->get($arguments['name']);
         $renderingContext->getVariableProvider()->remove($arguments['name']);
 
-        $LDRenderer = Renderer\AbstractRenderer::instantiateSubclassForType($arguments['format']);
+        $LDRenderer = AbstractRenderer::instantiateSubclassForType($arguments['format']);
         $LDRenderer->setPrefixes($arguments['prefixes']);
 
         return $LDRenderer->renderItems($items);

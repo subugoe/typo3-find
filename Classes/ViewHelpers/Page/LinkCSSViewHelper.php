@@ -26,10 +26,10 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -61,7 +61,7 @@ class LinkCSSViewHelper extends AbstractViewHelper
         } else {
             $fileNameFromArguments = $arguments['file'];
             if ($fileNameFromArguments) {
-                $CSSFileName = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
+                $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
             }
         }
 

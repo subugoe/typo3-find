@@ -32,7 +32,6 @@
     "php": "^8.0",
     "ext-curl": "*",
     "ext-json": "*",
-    "psr/http-client-implementation": "^1.0",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^11.0",
     "typo3/cms-felogin": "^11.0"
@@ -43,8 +42,11 @@
     "phpunit/phpunit": "^8.5",
     "ssch/typo3-rector": "^1.0",
     "phpspec/prophecy": "^1.15",
-    "helhum/typo3-console": "^6.7",
+    "helhum/typo3-console": "^7.0",
     "typo3/cms-tstemplate": "^11.0"
+  },
+  "provide": {
+	"psr/http-client-implementation": "1.0"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
