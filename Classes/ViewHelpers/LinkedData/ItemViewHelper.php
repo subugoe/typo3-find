@@ -44,9 +44,9 @@ class ItemViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The triple’s subject', true);
         $this->registerArgument('predicate', 'string', 'The triple’s predicate', true);
-        $this->registerArgument('object', 'string', 'The triple’s object', false, null);
-        $this->registerArgument('objectType', 'string', 'Type of the triple’s object', false, null);
-        $this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object', false, null);
+        $this->registerArgument('object', 'string', 'The triple’s object');
+        $this->registerArgument('objectType', 'string', 'Type of the triple’s object');
+        $this->registerArgument('language', 'string', 'ISO 639-1 language code for the triple’s object');
         $this->registerArgument('name', 'string', 'The name of the template variable to store the data in', false,
             'linkedDataContainer');
     }
@@ -56,25 +56,27 @@ class ItemViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $container = $renderingContext->getVariableProvider()->get($arguments['name']);
-        if (!$container[$arguments['subject']]) {
-            $container[$arguments['subject']] = [];
-        }
+        if (null !== $arguments['name']) {
+            $container = $renderingContext->getVariableProvider()->get($arguments['name']);
+            if (!$container[$arguments['subject']]) {
+                $container[$arguments['subject']] = [];
+            }
 
-        if (!$container[$arguments['subject']][$arguments['predicate']]) {
-            $container[$arguments['subject']][$arguments['predicate']] = [];
-        }
+            if (!$container[$arguments['subject']][$arguments['predicate']]) {
+                $container[$arguments['subject']][$arguments['predicate']] = [];
+            }
 
-        if (null !== $arguments['object']) {
-            $container[$arguments['subject']][$arguments['predicate']][$arguments['object']] = null;
-        } else {
-            $container[$arguments['subject']][$arguments['predicate']][$renderChildrenClosure()] = [
-                'type' => $arguments['objectType'],
-                'language' => $arguments['language'],
-            ];
-        }
+            if (null !== $arguments['object']) {
+                $container[$arguments['subject']][$arguments['predicate']][$arguments['object']] = null;
+            } else {
+                $container[$arguments['subject']][$arguments['predicate']][$renderChildrenClosure()] = [
+                    'type' => $arguments['objectType'],
+                    'language' => $arguments['language'],
+                ];
+            }
 
-        $renderingContext->getVariableProvider()->remove($arguments['name']);
-        $renderingContext->getVariableProvider()->add($arguments['name'], $container);
+            $renderingContext->getVariableProvider()->remove($arguments['name']);
+            $renderingContext->getVariableProvider()->add($arguments['name'], $container);
+        }
     }
 }

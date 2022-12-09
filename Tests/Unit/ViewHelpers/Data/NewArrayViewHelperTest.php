@@ -42,9 +42,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)
-            ->onlyMethods(['renderChildren'])
-            ->getMock();
+        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 

@@ -62,12 +62,8 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
-            ->setMethods(['add', 'get', 'remove', 'exists'])
-            ->getMock();
+        $this->fixture = $this->getAccessibleMock(ItemViewHelper::class, ['dummy']);
+        $this->templateVariableContainer = $this->getAccessibleMock(StandardVariableProvider::class, ['add', 'get', 'remove', 'exists']);
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 

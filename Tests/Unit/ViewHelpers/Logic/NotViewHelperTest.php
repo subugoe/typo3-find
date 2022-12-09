@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,7 +27,9 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
 
 /**
@@ -35,10 +37,7 @@ use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
  */
 class NotViewHelperTest extends ViewHelperBaseTestcase
 {
-    /**
-     * @var NotViewHelper
-     */
-    protected $fixture;
+    protected NotViewHelper|MockObject|AccessibleMockObjectInterface $viewHelper;
 
     public function conditionProvider(): array
     {
@@ -48,7 +47,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
                 true,
             ],
             [
-                (bool) 1,
+                (bool) 0,
                 true,
             ],
             [
@@ -61,10 +60,8 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(NotViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->viewHelper = $this->getAccessibleMock(NotViewHelper::class, ['dummy']);
+        $this->injectDependenciesIntoViewHelper($this->viewHelper);
     }
 
     /**
@@ -73,10 +70,11 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
      */
     public function conditionIsMet(bool $conditions, bool $expected): void
     {
-        $this->fixture->setArguments([
-            'conditions' => $conditions,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $this->viewHelper->setArguments(
+            [
+                'condition' => $conditions,
+            ]
+        );
+        self::assertSame($expected, $this->viewHelper->render());
     }
 }
