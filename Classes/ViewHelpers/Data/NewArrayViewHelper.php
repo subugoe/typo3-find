@@ -58,7 +58,7 @@ class NewArrayViewHelper extends AbstractViewHelper
 
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        $result = $arguments['array'];
+        $result = $arguments['array'] ?? [];
 
         if ($arguments['keys']) {
             if (count($arguments['keys']) === count($arguments['values'])) {
@@ -78,16 +78,18 @@ class NewArrayViewHelper extends AbstractViewHelper
             }
         }
 
-        $variableName = $arguments['name'];
-        if (null !== $variableName) {
-            if ($renderingContext->getVariableProvider()->exists($variableName)) {
-                $renderingContext->getVariableProvider()->remove($variableName);
-            }
+        if (array_key_exists('name', $arguments)) {
+            $variableName = $arguments['name'];
+            if (null !== $variableName) {
+                if ($renderingContext->getVariableProvider()->exists($variableName)) {
+                    $renderingContext->getVariableProvider()->remove($variableName);
+                }
 
-            $renderingContext->getVariableProvider()->add($variableName, $result);
-            $result = $renderChildrenClosure();
-            if (true !== $arguments['global']) {
-                $renderingContext->getVariableProvider()->remove($variableName);
+                $renderingContext->getVariableProvider()->add($variableName, $result);
+                $result = $renderChildrenClosure();
+                if (true !== $arguments['global']) {
+                    $renderingContext->getVariableProvider()->remove($variableName);
+                }
             }
         }
 
