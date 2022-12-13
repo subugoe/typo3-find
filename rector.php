@@ -27,8 +27,8 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         SetList::CODING_STYLE,
         SetList::CODE_QUALITY,
-        SetList::PHP_74,
-        Typo3SetList::TYPO3_104,
+        SetList::PHP_80,
+        Typo3SetList::TYPO3_11,
         Typo3SetList::TYPOSCRIPT_CONDITIONS_104,
     ]);
 };

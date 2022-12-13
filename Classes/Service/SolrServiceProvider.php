@@ -28,7 +28,6 @@ namespace Subugoe\Find\Service;
  * ************************************************************* */
 use Solarium\Client;
 use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
@@ -54,7 +53,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     protected Query $query;
 
-    public function connect()
+    public function connect(): void
     {
         $currentConnectionSettings = $this->settings['connections'][$this->connectionName]['options'];
         // Upgrading to Solarium >= 5
@@ -149,10 +148,8 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns whether extended search should be used or not.
-     *
-     * @return bool
      */
-    public function isExtendedSearch()
+    public function isExtendedSearch(): bool
     {
         $result = false;
 
@@ -167,7 +164,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 ) {
                     // Check if the request argument is an array itself (appies to field type "Range")
                     if (is_array($this->requestArguments['q'][$fieldInfo['id']])) {
-                        foreach ($this->requestArguments['q'][$fieldInfo['id']] as $key => $value) {
+                        foreach ($this->requestArguments['q'][$fieldInfo['id']] as $value) {
                             if ('' !== $value) {
                                 $result = true;
                                 break;
@@ -184,26 +181,17 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $result;
     }
 
-    /**
-     * @param $query
-     */
     public function search($query)
     {
         // TODO: Implement search() method.
     }
 
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
+    public function setAction(string $actionName): void
     {
-        $this->action = $action;
+        $this->action = $actionName;
     }
 
-    /**
-     * @param array $configuration
-     */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration = $configuration;
     }
@@ -212,39 +200,33 @@ class SolrServiceProvider extends AbstractServiceProvider
      * @param mixed $key
      * @param mixed $value
      */
-    public function setConfigurationValue($key, $value)
+    public function setConfigurationValue($key, $value): void
     {
         $this->configuration[$key] = $value;
     }
 
-    /**
-     * @param string $controllerExtensionKey
-     */
-    public function setControllerExtensionKey($controllerExtensionKey)
+    public function setControllerExtensionKey(string $key): void
     {
-        $this->controllerExtensionKey = $controllerExtensionKey;
+        $this->controllerExtensionKey = $key;
     }
 
-    public function setCounter()
+    public function setCounter(): void
     {
         $this->setConfigurationValue('counterStart', $this->counterStart());
         $this->setConfigurationValue('counterEnd', $this->counterEnd());
     }
 
-    /**
-     * @param array $arguments
-     */
-    public function suggestQuery($arguments): array
+    public function suggestQuery(array $settings): array
     {
         $query = $this->getConnection()->createSuggester();
         $results = [];
-        if (array_key_exists('q', $arguments)) {
-            $query->setQuery($arguments['q']);
-            if ($arguments['dictionary']) {
-                $query->setDictionary($arguments['dictionary']);
+        if (array_key_exists('q', $settings)) {
+            $query->setQuery($settings['q']);
+            if ($settings['dictionary']) {
+                $query->setDictionary($settings['dictionary']);
             }
 
-            $this->addFacetFilters($arguments);
+            $this->addFacetFilters($settings);
             $solrResults = $this->getConnection()->execute($query)->getResults();
             foreach ($solrResults as $suggestions) {
                 $results = array_merge($results, $suggestions->getSuggestions());
@@ -476,9 +458,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             if ($highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
-                    if (null !== $highlightField) {
-                        $highlightField->setAlternateField($alternateFieldName);
-                    }
+                    $highlightField?->setAlternateField($alternateFieldName);
                 }
             }
 
@@ -597,7 +577,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                     $this->query->addSort($sortCriterionParts[0], $sortDirection);
                 } else {
-                    $this->logger->warning('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion);
+                    $this->logger->warning(sprintf('sort criterion »%s« does not have the required form »fieldName [asc|desc]«. Ignoring it.', $sortCriterion));
                 }
             }
         }
@@ -605,8 +585,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Adds filter queries configured in TypoScript to $query.
-     *
-     * @return $this
      */
     protected function addTypoScriptFilters(): SolrServiceProvider
     {
@@ -693,9 +671,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->addFacetQueries();
     }
 
-    /**
-     * @return string
-     */
     protected function getAction(): ?string
     {
         return $this->action;
@@ -734,9 +709,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $this->connection;
     }
 
-    /**
-     * @return string
-     */
     protected function getControllerExtensionKey(): ?string
     {
         return $this->controllerExtensionKey;
@@ -772,8 +744,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns the facet configuration for the given $id.
-     *
-     * @return array
      */
     protected function getFacetConfig(string $id): ?array
     {
@@ -792,8 +762,6 @@ class SolrServiceProvider extends AbstractServiceProvider
     /**
      * Returns query for the given facet $ID and $term based on the facet’s
      * configuration.
-     *
-     * @return string query string
      */
     protected function getFacetQuery(array $facetConfig, string $queryTerm): ?string
     {
@@ -868,10 +836,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $offset;
     }
 
-    /**
-     * @param $id
-     * @param $arguments
-     */
     protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments): array
     {
         $connection = $this->getConnection();
@@ -920,13 +884,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $assignments;
     }
 
-    /**
-     * @param $id
-     * @param $assignments
-     *
-     * @return mixed
-     */
-    protected function getTheRecordSpecified($id, $assignments)
+    protected function getTheRecordSpecified($id, array $assignments): array
     {
         $connection = $this->getConnection();
 
@@ -1098,9 +1056,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         }
     }
 
-    /**
-     * @param mixed $connection
-     */
     protected function setConnection($connection): void
     {
         $this->connection = $connection;
@@ -1108,8 +1063,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Sets up the fields to be fetched by the query.
-     *
-     * @param array $arguments request arguments
      */
     protected function setFields(array $arguments): void
     {
@@ -1186,7 +1139,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     /*
      * Set configured main query operator. Defaults to 'AND'.
      */
-    private function addDefaultQueryOperator()
+    private function addDefaultQueryOperator(): void
     {
         if (isset($this->settings['defaultQueryOperator'])) {
             $defaultQueryOperator = $this->settings['defaultQueryOperator'];

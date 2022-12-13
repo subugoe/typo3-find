@@ -1,5 +1,9 @@
 # Upgrading the find extension
 
+## Removed RealURL support
+
+As RealURL is not supported anymore by current TYPO3 versions, the respective hook has been removed.
+
 ## Renaming TypoScript suffixes
 
 The TypoScript Suffixes have been streamlined to be more consistent. The following changes have been made:

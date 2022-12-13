@@ -46,7 +46,7 @@
     "typo3/cms-tstemplate": "^11.0"
   },
   "provide": {
-	"psr/http-client-implementation": "1.0"
+    "psr/http-client-implementation": "1.0"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
@@ -65,11 +65,11 @@
     "rector-fix": "rector process",
     "php-cs-lint": "php-cs-fixer fix --dry-run",
     "php-cs-fix": "php-cs-fixer fix",
-    "lint":  [
+    "lint": [
       "@php-cs-lint",
       "@rector-lint"
     ],
-    "fix":  [
+    "fix": [
       "@php-cs-fix",
       "@rector-fix"
     ]

@@ -101,11 +101,11 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
     protected function prefixedName($name)
     {
         foreach ($this->prefixes as $acronym => $URI) {
-            if (0 === strpos($name, $URI)) {
+            if (str_starts_with($name, $URI)) {
                 $name = str_replace($URI, $acronym.':', $name);
                 $this->usedPrefixes[$acronym] = true;
                 break;
-            } elseif (0 === strpos($name, $acronym.':')) {
+            } elseif (str_starts_with($name, $acronym.':')) {
                 $this->usedPrefixes[$acronym] = true;
                 break;
             }

@@ -100,10 +100,8 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      *
      * @param array|string $fieldContent content of the field to highlight
      * @param array        $arguments
-     *
-     * @return array|string
      */
-    protected static function highlightField($fieldContent, $arguments)
+    protected static function highlightField(array|string $fieldContent, $arguments): array|string
     {
         $highlightInfo = self::getHighlightInfo($arguments);
 

@@ -47,9 +47,6 @@ class ArrayFirstViewHelper extends AbstractViewHelper
         $this->registerArgument('array', 'array|string', 'the array to return the first value of', false, null);
     }
 
-    /**
-     * @return string|int|bool|array
-     */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $result = null;

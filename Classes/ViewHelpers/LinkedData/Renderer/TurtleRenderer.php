@@ -58,12 +58,12 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                     if (null === $properties) {
                         $objectString = $this->turtleString($object);
                     } else {
-                        if (false === strpos($object, '"') && false === strpos($object, "\r") && false === strpos($object,
+                        if (!str_contains($object, '"') && !str_contains($object, "\r") && !str_contains($object,
                             "\n")) {
                             $objectString = '"'.$object.'"';
-                        } elseif (false === strpos($object, '"""')) {
+                        } elseif (!str_contains($object, '"""')) {
                             $objectString = '"""'.$object.'"""';
-                        } elseif (false === strpos($object, "'''")) {
+                        } elseif (!str_contains($object, "'''")) {
                             $objectString = "'''".$object."'''";
                         } else {
                             // TODO: Error Handling for could not escape.
@@ -119,7 +119,7 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
             $result = 'a';
         } elseif ($usePrefixes) {
             foreach ($this->prefixes as $acronym => $prefix) {
-                if (0 === strpos($item, $prefix)) {
+                if (str_starts_with($item, $prefix)) {
                     $result = str_replace($prefix, $acronym.':', $item);
                     $this->usedPrefixes[$acronym] = true;
                     break;
