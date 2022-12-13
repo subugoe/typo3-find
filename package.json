@@ -4,8 +4,8 @@
   "description": "TYPO3-Find Frontend build",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js --watch"
+    "build": "rollup -c rollup.config.js --bundleConfigAsCjs",
+    "dev": "rollup -c rollup.config.js --bundleConfigAsCjs --watch"
   },
   "repository": {
     "type": "git",
@@ -21,19 +21,18 @@
     "@babel/core": "^7.19.0",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/preset-env": "^7.19.0",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-eslint": "^8.0.2",
-    "@rollup/plugin-node-resolve": "^14.0.1",
+    "@rollup/plugin-babel": "^6.0",
+    "@rollup/plugin-commonjs": "^23.0",
+    "@rollup/plugin-eslint": "^9.0",
+    "@rollup/plugin-node-resolve": "^15.0",
     "autoprefixer": "^10.4.10",
     "eslint": "^8.23.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "postcss": "^8.4.16",
     "postcss-url": "^10.1.3",
-    "rollup": "^2.79.0",
-    "rollup-plugin-scss": "^3.0.0",
-    "rollup-plugin-styles": "^4.0.0",
+    "rollup": "^3.7",
+    "rollup-plugin-scss": "^4.0",
     "sass": "^1.54.9"
   },
   "dependencies": {

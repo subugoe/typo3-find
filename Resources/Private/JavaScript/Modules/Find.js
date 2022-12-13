@@ -92,11 +92,13 @@ class Find {
     // Set up Maps
     const mapContainer = Utility.getContainer().querySelector('.facetMap-container');
     if (mapContainer) {
+      // eslint-disable-next-line no-unused-vars
       const mapFacet = new MapFacet();
     }
 
     // Set up Choices for facet lists with a .facetSearch input.
     Utility.getContainer().querySelectorAll('.facetSearch').forEach((element) => {
+      // eslint-disable-next-line no-new
       new Choices(element, { allowHTML: true });
       element.addEventListener('change', FacetUtility.facetChosenSelect);
     });
