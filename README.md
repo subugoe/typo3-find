@@ -992,8 +992,8 @@ depending on the `id` s used for fields and facets.
 
 ## Prerequisites
 
-- TYPO3 10.4
-- PHP 7.4 or higher
+- TYPO3 10.4 or 11.5
+- PHP 8.0 or higher
 
 ## Testing
 

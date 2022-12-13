@@ -1,6 +1,8 @@
 <?php
 
+use Psr\Http\Message\ServerRequestInterface;
 use Subugoe\Find\Controller\SearchController;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -20,8 +22,9 @@ $autoexec = static function () {
             SearchController::class => 'index, detail, suggest',
         ]
     );
-
-    if (TYPO3_MODE === 'BE') {
+    if (($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+        && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()
+    ) {
         /*
          * Register icons
          */

@@ -1,5 +1,12 @@
 # Upgrading the find extension
 
+## Renaming TypoScript suffixes
+
+The TypoScript Suffixes have been streamlined to be more consistent. The following changes have been made:
+
+* `setup.txt` -> `setup.typoscript`
+* `constants.txt` -> `constants.typoscript`
+
 ## Solarium upgrade
 
 The underlying solarium library has been updated. Find tries so do this as smooth as possible
