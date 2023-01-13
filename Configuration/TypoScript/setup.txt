@@ -23,6 +23,16 @@ plugin.tx_find {
                 type = Text
                 #    autocomplete = 1
                 #    autocompleteDictionary =
+                # The following configuration is for a new autocomplete/entity function
+                #    noescape = 2
+                #    replaceAfterEscape {
+                #        1 {
+                #            id\: = id:
+                #        }
+                #    }
+                #    entityAutocomplete = 1
+                #    entity = 1
+                #    entityReplacement = id:%s
             }
 
             #10 {
@@ -225,7 +235,10 @@ plugin.tx_find {
 
         CSSPaths.10 = {$plugin.tx_find.settings.CSSPath}
         CSSPaths.20 = EXT:find/Resources/Public/CSS/fontello/css/fontello.css
+        CSSPaths.30 = EXT:find/Resources/Public/CSS/token-input.css
         JSPaths.10 = {$plugin.tx_find.settings.JSPath}
+        JSPaths.20 = EXT:find/Resources/Public/JavaScript/jquery.tokeninput.js
+        JSPaths.30 = EXT:find/Resources/Public/JavaScript/autocomplete.js
 
         languageRootPath = {$plugin.tx_find.settings.languageRootPath}
     }

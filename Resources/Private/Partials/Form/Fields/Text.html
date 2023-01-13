@@ -12,7 +12,7 @@
 	</label>
 	<span class="inputContainer">
 		<f:form.textfield
-			id="c{config.uid}-field-{fieldInfo.id}"
+			id="c{config.uid}-field-{fieldInfo.id} {f:if(condition: '{fieldInfo.entity} || {fieldInfo.entityAutocomplete}', then: 'entity-input-{fieldInfo.id}')}"
 			class="inputType-text"
 			name="q[{fieldInfo.id}]{f:if(
 				condition:hasAlternate,
@@ -23,6 +23,7 @@
 				then:queryParameter.term,
 				else:queryParameter
 			)}"
+			data="{entityreplacement:\"{fieldInfo.entityReplacement}\", entity:\"{fieldInfo.entity}\", entityautocomplete:\"{fieldInfo.entityAutocomplete}\"}"
 			placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}.placeholder')}"
 			additionalAttributes="<f:if condition='{fieldInfo.autocomplete}==1'><f:then>{autocompleteURL:\"{f:uri.action(
 				arguments:{dictionary:fieldInfo.autocompleteDictionary, q:'%%%%'},
