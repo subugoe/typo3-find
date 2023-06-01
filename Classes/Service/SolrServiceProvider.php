@@ -78,7 +78,9 @@ class SolrServiceProvider extends AbstractServiceProvider
         // create an HTTP adapter instance
         $adapter = new Curl();
         $eventDispatcher = new EventDispatcher();
-        $adapter->setTimeout((int) $currentConnectionSettings['timeout']);
+        if (array_key_exists('timeout', $currentConnectionSettings)) {
+            $adapter->setTimeout((int) $currentConnectionSettings['timeout']);
+        }
         // create a client instance
         $client = new Client($adapter, $eventDispatcher, $connectionSettings);
 
