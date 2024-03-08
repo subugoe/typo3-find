@@ -26,8 +26,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
 
 /**
@@ -38,7 +38,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @var RegexpViewHelper
      */
-    protected RegexpViewHelper|\PHPUnit\Framework\MockObject\MockObject $fixture;
+    protected RegexpViewHelper|MockObject $fixture;
 
     public function regexProvider(): array
     {

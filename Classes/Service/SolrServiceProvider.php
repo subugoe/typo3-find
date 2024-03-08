@@ -81,6 +81,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         if (array_key_exists('timeout', $currentConnectionSettings)) {
             $adapter->setTimeout((int) $currentConnectionSettings['timeout']);
         }
+
         // create a client instance
         $client = new Client($adapter, $eventDispatcher, $connectionSettings);
 
@@ -405,7 +406,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     {
         $highlightConfig = SettingsUtility::getMergedSettings('highlight', $this->settings);
 
-        if ($highlightConfig && $highlightConfig['fields'] && count($highlightConfig['fields']) > 0) {
+        if ($highlightConfig && $highlightConfig['fields'] && [] !== $highlightConfig['fields']) {
             $highlight = $this->query->getHighlighting();
 
             // Configure highlight queries.
@@ -585,7 +586,7 @@ class SolrServiceProvider extends AbstractServiceProvider
      */
     protected function addSortStringForQuery(string $sortString): void
     {
-        if (!empty($sortString)) {
+        if ('' !== $sortString) {
             $sortCriteria = explode(',', $sortString);
             foreach ($sortCriteria as $sortCriterion) {
                 $sortCriterionParts = explode(' ', $sortCriterion);
