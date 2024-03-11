@@ -49,7 +49,7 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function returnFalseIfAPathDoesNotExist()
+    public function returnFalseIfAPathDoesNotExist(): void
     {
         $this->fixture->setArguments(
             [
@@ -63,7 +63,7 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function returnTrueIfAPathExists()
+    public function returnTrueIfAPathExists(): void
     {
         $this->fixture->setArguments(
             [

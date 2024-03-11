@@ -19,34 +19,30 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.env.php }}
-          tools: composer
+          tools: composer:2
           extensions: pdo, sqlite3
 
-      # composer
-      - name: Update Composer
-        run: |
-          sudo composer self-update
-          composer --version
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
-          key: dependencies-composer-${{ hashFiles('composer.json') }}
+          key: dependencies-composer-${{ matrix.env.php }}-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
         run: composer install
 
       - name: Check coding style
         run: composer lint
+        if: ${{ matrix.env.php == '8.1' }}
 
       - name: Run Unit Tests
         run: |

@@ -43,8 +43,6 @@ use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 
 class SearchController extends ActionController
 {
-    public $response;
-
     protected array $requestArguments = [];
 
     protected ?object $searchProvider = null;
@@ -64,17 +62,15 @@ class SearchController extends ActionController
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
-
+        $response = $this->responseFactory->createResponse();
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-            $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $underlyingQueryInfo['q'],
-                    $this->settings,
-                    (int) $underlyingQueryInfo['position'],
-                    $arguments
-                )
-            );
+            $response->withAddedHeader('detail', FrontendUtility::addQueryInformationAsJavaScript(
+                $underlyingQueryInfo['q'],
+                $this->settings,
+                (int) $underlyingQueryInfo['position'],
+                $arguments
+            ));
         }
 
         $this->addStandardAssignments();
@@ -95,28 +91,30 @@ class SearchController extends ActionController
     {
         if (array_key_exists('id', $this->requestArguments)) {
             return new ForwardResponse('detail');
-        } else {
-            $this->searchProvider->setCounter();
-            $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $this->searchProvider->getRequestArguments()['q'],
-                    $this->settings,
-                    null,
-                    $this->searchProvider->getRequestArguments()
-                )
-            );
-
-            $this->addStandardAssignments();
-            $defaultQuery = $this->searchProvider->getDefaultQuery();
-
-            $viewValues = [
-                'arguments' => $this->searchProvider->getRequestArguments(),
-                'config' => $this->searchProvider->getConfiguration(),
-            ];
-
-            CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
-            $this->view->assignMultiple($viewValues);
         }
+
+        $this->searchProvider->setCounter();
+        $response = $this->responseFactory->createResponse();
+
+        $response->withAddedHeader('index',
+            FrontendUtility::addQueryInformationAsJavaScript(
+                $this->searchProvider->getRequestArguments()['q'],
+                $this->settings,
+                null,
+                $this->searchProvider->getRequestArguments()
+            )
+        );
+
+        $this->addStandardAssignments();
+        $defaultQuery = $this->searchProvider->getDefaultQuery();
+
+        $viewValues = [
+            'arguments' => $this->searchProvider->getRequestArguments(),
+            'config' => $this->searchProvider->getConfiguration(),
+        ];
+
+        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+        $this->view->assignMultiple($viewValues);
 
         return $this->htmlResponse();
     }
@@ -124,7 +122,7 @@ class SearchController extends ActionController
     /**
      * Initialisation and setup.
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         ksort($this->settings['queryFields']);
 
@@ -152,7 +150,7 @@ class SearchController extends ActionController
     /**
      * Assigns standard variables to the view.
      */
-    protected function addStandardAssignments()
+    protected function addStandardAssignments(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
@@ -166,7 +164,7 @@ class SearchController extends ActionController
     /**
      * @param string $activeConnection
      */
-    protected function initializeConnection($activeConnection)
+    protected function initializeConnection($activeConnection): void
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 
