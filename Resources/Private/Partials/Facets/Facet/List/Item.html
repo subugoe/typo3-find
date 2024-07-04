@@ -29,7 +29,7 @@
 				addQueryString="TRUE"
 				argumentsToBeExcludedFromQueryString="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets, mode:'remove')}"
 				section="{settings.jumpToID}"
-				noCacheHash="1"
+
 				class="icon-cancel facetRemove internal"
 				title="{f:translate(key:'remove filter %s', arguments:{0:facetTerm})}"><span class="facetName"><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}" default="{facetTermDisplay}"/></span></f:link.action>
 		</f:then>
@@ -39,7 +39,7 @@
 				arguments="{s:find.facetLinkArguments(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}"
 				argumentsToBeExcludedFromQueryString="{0:'{config.prefixID}[page]'}"
 				section="{settings.jumpToID}"
-				noCacheHash="1"
+
 				class="facetAdd internal">
 				<f:translate
 					key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.{facetTermDisplay}"
