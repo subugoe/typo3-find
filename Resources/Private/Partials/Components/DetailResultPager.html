@@ -27,7 +27,6 @@
 							action="index"
 							arguments="{linkArguments}"
 							section="c{config.uid}-result-{document.fields.id}"
-
 							class="icon-level-up internal"
 						>
 							<f:translate key="Return to results list"/>
@@ -55,7 +54,6 @@
 								action="detail"
 								arguments="{id: document-previous.fields.id}"
 								section="{settings.jumpToID}"
-
 								class="previous icon-left-dir internal no-change"
 								onclick="return tx_find.detailViewWithPaging(this, {document-previous-number});"
 								title="{f:translate(key:'previous')}: {s:data.valueForKey(array:document-previous.fields, key:settings.standardFields.title)}"/>
@@ -70,7 +68,6 @@
 								action="detail"
 								arguments="{id: document-next.fields.id}"
 								section="{settings.jumpToID}"
-
 								class="next icon-right-dir internal no-change"
 								onclick="return tx_find.detailViewWithPaging(this, {document-next-number});" title="{f:translate(key:'next')}: {s:data.valueForKey(array:document-next.fields, key:settings.standardFields.title)}"/>
 						</f:then>
