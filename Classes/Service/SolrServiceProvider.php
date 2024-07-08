@@ -1000,6 +1000,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 if (array_key_exists('default', $fieldInfo)) {
                     $defaults = $fieldInfo['default'];
                 }
+
                 if (isset($defaults)) {
                     if (!is_array($defaults)) {
                         $defaults = [$defaults];
@@ -1132,6 +1133,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         if (array_key_exists('allow', $fieldsConfig) && $fieldsConfig['allow']) {
             $allowedFields = $fieldsConfig['allow'];
         }
+
         if (isset($allowedFields)) {
             $fields = array_intersect($fields, $allowedFields);
         }
@@ -1140,6 +1142,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         if (array_key_exists('disallow', $fieldsConfig) && $fieldsConfig['disallow']) {
             $disallowedFields = $fieldsConfig['disallow'];
         }
+
         if (isset($disallowedFields)) {
             $fields = array_diff($fields, $disallowedFields);
         }
