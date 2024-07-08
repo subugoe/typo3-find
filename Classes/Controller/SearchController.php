@@ -34,6 +34,7 @@ use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
+use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -62,15 +63,17 @@ class SearchController extends ActionController
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
-        $response = $this->responseFactory->createResponse();
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-            $response->withAddedHeader('detail', FrontendUtility::addQueryInformationAsJavaScript(
+            $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
                 $underlyingQueryInfo['q'],
                 $this->settings,
                 (int) $underlyingQueryInfo['position'],
                 $arguments
-            ));
+            );
+
+            GeneralUtility::makeInstance(AssetCollector::class)
+                ->addInlineJavaScript('underlyingQueryVar', $underlyingQueryScriptTagContent, ['type' => 'text/javascript'], ['priority' => true]);
         }
 
         $this->addStandardAssignments();
@@ -94,16 +97,16 @@ class SearchController extends ActionController
         }
 
         $this->searchProvider->setCounter();
-        $response = $this->responseFactory->createResponse();
 
-        $response->withAddedHeader('index',
-            FrontendUtility::addQueryInformationAsJavaScript(
-                $this->searchProvider->getRequestArguments()['q'],
-                $this->settings,
-                null,
-                $this->searchProvider->getRequestArguments()
-            )
+        $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+            $this->searchProvider->getRequestArguments()['q'] ?? [],
+            $this->settings,
+            null,
+            $this->searchProvider->getRequestArguments()
         );
+
+        GeneralUtility::makeInstance(AssetCollector::class)
+            ->addInlineJavaScript('underlyingQueryVar', $underlyingQueryScriptTagContent, ['type' => 'text/javascript'], ['priority' => true]);
 
         $this->addStandardAssignments();
         $defaultQuery = $this->searchProvider->getDefaultQuery();
