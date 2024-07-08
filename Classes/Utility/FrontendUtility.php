@@ -64,8 +64,6 @@ class FrontendUtility
 
             if (array_key_exists('sort', $arguments)) {
                 $underlyingQuery['sort'] = $arguments['sort'];
-            } elseif (array_key_exists('sort', $settings)) {
-                $underlyingQuery['sort'] = $settings['sort'];
             }
 
             return 'var underlyingQuery = '.json_encode($underlyingQuery, JSON_THROW_ON_ERROR).';';
