@@ -165,7 +165,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             $result = ((bool) $this->requestArguments['extended']);
         } elseif (array_key_exists('q', $this->requestArguments)) {
             foreach ($this->settings['queryFields'] as $fieldInfo) {
-                if ($fieldInfo['extended']
+                if (array_key_exists('extended', $fieldInfo)
                     && array_key_exists($fieldInfo['id'], $this->requestArguments['q'])
                     && $this->requestArguments['q'][$fieldInfo['id']]
                 ) {
@@ -354,7 +354,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                             }
                         }
 
-                        if (1 === (int) $facet['excludeOwnFilter']) {
+                        if (array_key_exists('excludeOwnFilter', $facet) && 1 === (int) $facet['excludeOwnFilter']) {
                             $queryForFacet->addExclude($this->tagForFacet($facetID));
                         }
                     } else {
@@ -365,11 +365,11 @@ class SolrServiceProvider extends AbstractServiceProvider
                             ->setSort($facet['sortOrder']);
                     }
 
-                    if (1 == $facet['excludeOwnFilter']) {
+                    if (array_key_exists('excludeOwnFilter', $facet) && 1 === $facet['excludeOwnFilter']) {
                         $queryForFacet->addExclude($this->tagForFacet($facetID));
                     }
 
-                    if (1 === $facet['showMissing']) {
+                    if (array_key_exists('showMissing', $facet) && 1 === $facet['showMissing']) {
                         $queryForFacet->setMissing(true);
                     }
                 } else {
@@ -389,7 +389,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     protected function addFeatures(): void
     {
-        if ($this->settings['features']['eDisMax']) {
+        if (array_key_exists('features', $this->settings) && $this->settings['features']['eDisMax']) {
             $this->addEDisMax();
         }
     }
@@ -410,7 +410,7 @@ class SolrServiceProvider extends AbstractServiceProvider
             $highlight = $this->query->getHighlighting();
 
             // Configure highlight queries.
-            if ($highlightConfig['query']) {
+            if (array_key_exists('query', $highlightConfig) && $highlightConfig['query']) {
                 $queryWords = [];
                 if ($highlightConfig['useQueryTerms'] && array_key_exists('q', $arguments)) {
                     $queryParameters = $arguments['q'];
@@ -420,9 +420,9 @@ class SolrServiceProvider extends AbstractServiceProvider
                             $queryArguments = $queryParameters[$fieldID];
                             $queryTerms = null;
                             if (is_array($queryArguments) && array_key_exists(
-                                'alternate',
-                                $queryArguments
-                            ) && array_key_exists('queryAlternate', $fieldInfo)
+                                    'alternate',
+                                    $queryArguments
+                                ) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
                                 if (array_key_exists('term', $queryArguments)) {
                                     $queryTerms = $queryArguments['term'];
@@ -474,10 +474,12 @@ class SolrServiceProvider extends AbstractServiceProvider
             $highlight->addFields(implode(',', $highlightConfig['fields']));
 
             // Configure the fragment length.
-            $highlight->setFragSize((int) $highlightConfig['fragsize']);
+            if (array_key_exists('fragsize', $highlightConfig)) {
+                $highlight->setFragSize((int)$highlightConfig['fragsize']);
+            }
 
             // Set up alternative fields.
-            if ($highlightConfig['alternateFields']) {
+            if (array_key_exists('alternateFields', $highlightConfig) && $highlightConfig['alternateFields']) {
                 foreach ($highlightConfig['alternateFields'] as $fieldName => $alternateFieldName) {
                     $highlightField = $highlight->getField($fieldName);
                     if ($highlightField instanceof Field) {
@@ -569,10 +571,12 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
             }
 
-            if ($arguments['sort'] && array_key_exists($arguments['sort'], $sortOptions['menu'])) {
+            if (array_key_exists('sort', $arguments) && array_key_exists($arguments['sort'], $sortOptions['menu']) && $arguments['sort']) {
                 $sortOptions['selected'] = $arguments['sort'];
-            } else {
+            } else if (array_key_exists('default', $sortOptions)) {
                 $sortOptions['selected'] = $sortOptions['default'];
+            } else {
+                $sortOptions['selected'] = 'is asc';
             }
         }
 
@@ -971,7 +975,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         $queryFields = $this->settings['queryFields'];
         foreach ($queryFields as $fieldInfo) {
             $fieldID = $fieldInfo['id'];
-            if ($fieldID && $queryParameters[$fieldID]) {
+            if ($fieldID && array_key_exists($fieldID, $queryParameters) && null !== $queryParameters[$fieldID]) {
                 // Extract array of query terms from the different structures:
                 // a) just a single string (e.g. text field)
                 // b) array of strings (e.g. date range field)
@@ -993,8 +997,10 @@ class SolrServiceProvider extends AbstractServiceProvider
                 }
 
                 // Fill in pre-configured default values if they exist and the field is empty.
-                $defaults = $fieldInfo['default'];
-                if ($defaults) {
+                if (array_key_exists('default', $fieldInfo)) {
+                    $defaults = $fieldInfo['default'];
+                }
+                if (isset($defaults)) {
                     if (!is_array($defaults)) {
                         $defaults = [$defaults];
                     }
@@ -1118,19 +1124,23 @@ class SolrServiceProvider extends AbstractServiceProvider
         // Use field list from query parameters or from defaults.
         if (array_key_exists('data-fields', $arguments) && $arguments['data-fields']) {
             $fields = explode(',', $arguments['data-fields']);
-        } elseif ($fieldsConfig['default']) {
+        } elseif (array_key_exists('default', $arguments) && $fieldsConfig['default']) {
             $fields = array_values($fieldsConfig['default']);
         }
 
         // If allowed fields are configured, keep only those.
-        $allowedFields = $fieldsConfig['allow'];
-        if ($allowedFields) {
+        if (array_key_exists('allow', $fieldsConfig) && $fieldsConfig['allow']) {
+            $allowedFields = $fieldsConfig['allow'];
+        }
+        if (isset($allowedFields)) {
             $fields = array_intersect($fields, $allowedFields);
         }
 
         // If disallowed fields are configured, remove those.
-        $disallowedFields = $fieldsConfig['disallow'];
-        if ($disallowedFields) {
+        if (array_key_exists('disallow', $fieldsConfig) && $fieldsConfig['disallow']) {
+            $disallowedFields = $fieldsConfig['disallow'];
+        }
+        if (isset($disallowedFields)) {
             $fields = array_diff($fields, $disallowedFields);
         }
 
