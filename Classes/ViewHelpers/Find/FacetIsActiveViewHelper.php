@@ -51,6 +51,16 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'string', 'Query type [string, range]', false, 'string');
     }
 
+    /**
+     * @return bool
+     */
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string|int|bool|array
+     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
