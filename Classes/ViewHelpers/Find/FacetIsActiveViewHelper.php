@@ -56,9 +56,6 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
      */
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string|int|bool|array
      */
     public static function renderStatic(
