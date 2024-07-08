@@ -475,7 +475,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
             // Configure the fragment length.
             if (array_key_exists('fragsize', $highlightConfig)) {
-                $highlight->setFragSize((int)$highlightConfig['fragsize']);
+                $highlight->setFragSize((int) $highlightConfig['fragsize']);
             }
 
             // Set up alternative fields.
@@ -573,7 +573,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
             if (array_key_exists('sort', $arguments) && array_key_exists($arguments['sort'], $sortOptions['menu']) && $arguments['sort']) {
                 $sortOptions['selected'] = $arguments['sort'];
-            } else if (array_key_exists('default', $sortOptions)) {
+            } elseif (array_key_exists('default', $sortOptions)) {
                 $sortOptions['selected'] = $sortOptions['default'];
             } else {
                 $sortOptions['selected'] = 'is asc';
