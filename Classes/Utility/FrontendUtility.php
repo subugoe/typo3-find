@@ -40,7 +40,7 @@ class FrontendUtility
      *
      * @throws \JsonException
      */
-    public static function addQueryInformationAsJavaScript(array $query, array $settings, ?int $position = null, array $arguments = []): string
+    public static function addQueryInformationAsJavaScript($query, array $settings, ?int $position = null, $arguments = []): string
     {
         if ($settings['paging']['detailPagePaging']) {
             if (array_key_exists('underlyingQuery', $arguments)) {
