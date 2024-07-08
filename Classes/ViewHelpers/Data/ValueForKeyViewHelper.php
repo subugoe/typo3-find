@@ -54,7 +54,7 @@ class ValueForKeyViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ): string|int|bool|array {
+    ) {
         $result = null;
 
         if ((is_int($arguments['key']) || is_string($arguments['key'])) && ($arguments['array'] && array_key_exists($arguments['key'], $arguments['array']))) {
