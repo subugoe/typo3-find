@@ -352,3 +352,7 @@
   position: absolute;
   background: #fff;
 }
+
+.token-input-dropdown li:hover {
+	background-color: #b9b9b9;
+}
