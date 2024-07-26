@@ -28,14 +28,19 @@ namespace Subugoe\Find\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
+use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 
 class SearchController extends ActionController
 {
@@ -43,7 +48,7 @@ class SearchController extends ActionController
 
     protected ?object $searchProvider = null;
 
-    private \Psr\Log\LoggerInterface $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LogManagerInterface $logManager)
     {
@@ -51,24 +56,24 @@ class SearchController extends ActionController
     }
 
     /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
-    public function detailAction(string $id)
+    public function detailAction(string $id): ResponseInterface
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
-
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
-            $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $underlyingQueryInfo['q'],
-                    $this->settings,
-                    (int) $underlyingQueryInfo['position'],
-                    $arguments
-                )
+            $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+                $underlyingQueryInfo['q'],
+                $this->settings,
+                (int) $underlyingQueryInfo['position'],
+                $arguments
             );
+
+            GeneralUtility::makeInstance(AssetCollector::class)
+                ->addInlineJavaScript('underlyingQueryVar', $underlyingQueryScriptTagContent, ['type' => 'text/javascript'], ['priority' => true]);
         }
 
         $this->addStandardAssignments();
@@ -78,43 +83,49 @@ class SearchController extends ActionController
             'arguments' => $arguments,
             'config' => $this->searchProvider->getConfiguration(),
         ]);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Index Action.
      */
-    public function indexAction()
+    public function indexAction(): ResponseInterface
     {
         if (array_key_exists('id', $this->requestArguments)) {
-            $this->forward('detail');
-        } else {
-            $this->searchProvider->setCounter();
-            $this->response->addAdditionalHeaderData(
-                FrontendUtility::addQueryInformationAsJavaScript(
-                    $this->searchProvider->getRequestArguments()['q'],
-                    $this->settings,
-                    null,
-                    $this->searchProvider->getRequestArguments()
-                )
-            );
-
-            $this->addStandardAssignments();
-            $defaultQuery = $this->searchProvider->getDefaultQuery();
-
-            $viewValues = [
-                'arguments' => $this->searchProvider->getRequestArguments(),
-                'config' => $this->searchProvider->getConfiguration(),
-            ];
-
-            CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
-            $this->view->assignMultiple($viewValues);
+            return new ForwardResponse('detail');
         }
+
+        $this->searchProvider->setCounter();
+
+        $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+            $this->searchProvider->getRequestArguments()['q'] ?? [],
+            $this->settings,
+            null,
+            $this->searchProvider->getRequestArguments()
+        );
+
+        GeneralUtility::makeInstance(AssetCollector::class)
+            ->addInlineJavaScript('underlyingQueryVar', $underlyingQueryScriptTagContent, ['type' => 'text/javascript'], ['priority' => true]);
+
+        $this->addStandardAssignments();
+        $defaultQuery = $this->searchProvider->getDefaultQuery();
+
+        $viewValues = [
+            'arguments' => $this->searchProvider->getRequestArguments(),
+            'config' => $this->searchProvider->getConfiguration(),
+        ];
+
+        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+        $this->view->assignMultiple($viewValues);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Initialisation and setup.
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         ksort($this->settings['queryFields']);
 
@@ -131,16 +142,18 @@ class SearchController extends ActionController
     /**
      * Suggest/Autocomplete action.
      */
-    public function suggestAction()
+    public function suggestAction(): ResponseInterface
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
         $this->view->assign('suggestions', $results);
+
+        return $this->htmlResponse();
     }
 
     /**
      * Assigns standard variables to the view.
      */
-    protected function addStandardAssignments()
+    protected function addStandardAssignments(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
@@ -154,7 +167,7 @@ class SearchController extends ActionController
     /**
      * @param string $activeConnection
      */
-    protected function initializeConnection($activeConnection)
+    protected function initializeConnection($activeConnection): void
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 

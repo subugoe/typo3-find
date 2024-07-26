@@ -26,6 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Find;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
+use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\Result;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -51,8 +53,8 @@ class HighlightFieldViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('results', \Solarium\QueryType\Select\Result\Result::class, 'Query results', true);
-        $this->registerArgument('document', \Solarium\QueryType\Select\Result\Document::class, 'Result document to work on',
+        $this->registerArgument('results', Result::class, 'Query results', true);
+        $this->registerArgument('document', Document::class, 'Result document to work on',
             true);
         $this->registerArgument('field', 'string', 'name of field in document to highlight', true);
         $this->registerArgument('alternateField', 'string',
@@ -98,10 +100,8 @@ class HighlightFieldViewHelper extends AbstractViewHelper
      *
      * @param array|string $fieldContent content of the field to highlight
      * @param array        $arguments
-     *
-     * @return array|string
      */
-    protected static function highlightField($fieldContent, $arguments)
+    protected static function highlightField(array|string $fieldContent, $arguments): array|string
     {
         $highlightInfo = self::getHighlightInfo($arguments);
 

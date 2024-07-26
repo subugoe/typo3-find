@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
+namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
 
 /* * *************************************************************
  *  Copyright notice
@@ -26,8 +26,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
 
 /**
@@ -38,7 +38,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @var NotViewHelper
      */
-    protected $fixture;
+    protected NotViewHelper|MockObject $fixture;
 
     public function conditionProvider(): array
     {
@@ -48,7 +48,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
                 true,
             ],
             [
-                (bool) 1,
+                (bool) 0,
                 true,
             ],
             [
@@ -62,7 +62,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(NotViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -74,7 +74,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
     public function conditionIsMet(bool $conditions, bool $expected): void
     {
         $this->fixture->setArguments([
-            'conditions' => $conditions,
+            'condition' => $conditions,
         ]);
 
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());

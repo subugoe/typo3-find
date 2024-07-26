@@ -27,9 +27,6 @@ namespace Subugoe\Find\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
-
 /**
  * Utility for JavaScripts, Views, ...
  */
@@ -38,16 +35,14 @@ class FrontendUtility
     /**
      * Stores information about the active query in the »underlyingQuery« JavaScript variable.
      *
-     * @param array    $query
      * @param int|null $position  of the record in the result list
      * @param array    $arguments overrides $this->requestArguments if set
+     *
+     * @throws \JsonException
      */
-    public static function addQueryInformationAsJavaScript($query, array $settings, $position = null, $arguments = []): string
+    public static function addQueryInformationAsJavaScript($query, array $settings, ?int $position = null, $arguments = []): string
     {
         if ($settings['paging']['detailPagePaging']) {
-            $scriptTag = GeneralUtility::makeInstance(TagBuilder::class, 'script');
-            $scriptTag->addAttribute('type', 'text/javascript');
-
             if (array_key_exists('underlyingQuery', $arguments)) {
                 $arguments = $arguments['underlyingQuery'];
             }
@@ -61,17 +56,17 @@ class FrontendUtility
                 $underlyingQuery['position'] = $position;
             }
 
-            if ($arguments['count']) {
+            if (array_key_exists('count', $arguments)) {
                 $underlyingQuery['count'] = $arguments['count'];
+            } elseif (array_key_exists('count', $settings)) {
+                $underlyingQuery['count'] = $settings['count'];
             }
 
-            if ($arguments['sort']) {
+            if (array_key_exists('sort', $arguments)) {
                 $underlyingQuery['sort'] = $arguments['sort'];
             }
 
-            $scriptTag->setContent('var underlyingQuery = '.json_encode($underlyingQuery).';');
-
-            return $scriptTag->render();
+            return 'var underlyingQuery = '.json_encode($underlyingQuery, JSON_THROW_ON_ERROR).';';
         }
 
         return '';

@@ -42,14 +42,14 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(PathExistsViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(PathExistsViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
      * @test
      */
-    public function returnFalseIfAPathDoesNotExist()
+    public function returnFalseIfAPathDoesNotExist(): void
     {
         $this->fixture->setArguments(
             [
@@ -63,7 +63,7 @@ class PathExistsViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function returnTrueIfAPathExists()
+    public function returnTrueIfAPathExists(): void
     {
         $this->fixture->setArguments(
             [

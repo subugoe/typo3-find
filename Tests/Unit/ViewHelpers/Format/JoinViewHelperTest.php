@@ -45,7 +45,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(JoinViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

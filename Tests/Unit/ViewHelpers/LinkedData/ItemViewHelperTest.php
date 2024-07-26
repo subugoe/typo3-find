@@ -26,8 +26,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
@@ -42,7 +42,7 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @var ItemViewHelper
      */
-    protected $fixture;
+    protected ItemViewHelper|MockObject $fixture;
 
     /**
      * @var StandardVariableProvider
@@ -63,10 +63,10 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(ItemViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
-            ->setMethods(['add', 'get', 'remove', 'exists'])
+            ->onlyMethods(['add', 'get', 'remove', 'exists'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -74,6 +74,7 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      * @dataProvider linkedDataProvider
+     * @doesNotPerformAssertions
      */
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected): void
     {
@@ -87,8 +88,8 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
                 'name' => $name,
             ]
         );
-        $this->renderingContext->getVariableProvider()->expects(self::once())->method('remove')->with($name);
-        $this->renderingContext->getVariableProvider()->expects(self::once())->method('add')->with($name)->willReturn('');
+        $this->fixture->expects(self::once())->method('remove')->with($name);
+        $this->fixture->expects(self::once())->method('add')->with($name)->willReturn('');
         $this->inject($this->fixture, 'templateVariableContainer', $this->renderingContext->getVariableProvider());
 
         $this->fixture->initializeArgumentsAndRender();

@@ -46,7 +46,7 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
         $this->fixture = $this->getMockBuilder(FacetLinkArgumentsViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }

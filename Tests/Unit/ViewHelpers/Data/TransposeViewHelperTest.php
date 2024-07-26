@@ -25,8 +25,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
@@ -35,10 +35,7 @@ use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
  */
 class TransposeViewHelperTest extends ViewHelperBaseTestcase
 {
-    /**
-     * @var TransposeViewHelper
-     */
-    public $fixture;
+    public TransposeViewHelper|MockObject $fixture;
 
     /**
      * @var StandardVariableProvider
@@ -48,16 +45,15 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
-            ->setMethods(['renderChildren'])
-            ->getMock();
+        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
-    public function arrayIsTransposed()
+    public function arrayIsTransposed(): void
     {
         $arguments = [
             'arrays' => [
@@ -78,8 +74,9 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
         ];
 
         $this->fixture->setArguments($arguments);
-        $this->renderingContext->getVariableProvider()->expects(self::at(0))->method('add')->with('hrdr', $expected);
-        $this->renderingContext->getVariableProvider()->expects(self::at(1))->method('remove')->with('hrdr');
+        $variableProvider = $this->renderingContext->getVariableProvider();
+        $this->fixture->expects(self::at(0))->method('add')->with('hrdr', $expected);
+        $this->fixture->expects(self::at(1))->method('remove')->with('hrdr');
 
         $this->fixture->initializeArgumentsAndRender();
     }
@@ -87,7 +84,7 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function anErrorIsReportedWhenArraysDoNotMatchInLength()
+    public function anErrorIsReportedWhenArraysDoNotMatchInLength(): void
     {
         $arguments = [
             'arrays' => [

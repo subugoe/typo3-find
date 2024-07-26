@@ -26,10 +26,15 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidFileNameException;
+use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -57,11 +62,20 @@ class LinkCSSViewHelper extends AbstractViewHelper
         $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
 
         if ($typo3VersionConstraint) {
-            $CSSFileName = $GLOBALS['TSFE']->tmpl->getFileName($arguments['file']);
+            try {
+                $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize((string) $arguments['file']);
+            } catch (InvalidFileNameException) {
+                $CSSFileName = null;
+            } catch (InvalidPathException|FileDoesNotExistException|InvalidFileException $e) {
+                $CSSFileName = null;
+                if ($GLOBALS['TSFE']->tmpl->tt_track) {
+                    GeneralUtility::makeInstance(TimeTracker::class)->setTSlogMessage($e->getMessage(), 3);
+                }
+            }
         } else {
             $fileNameFromArguments = $arguments['file'];
             if ($fileNameFromArguments) {
-                $CSSFileName = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class)->sanitize($fileNameFromArguments);
+                $CSSFileName = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
             }
         }
 

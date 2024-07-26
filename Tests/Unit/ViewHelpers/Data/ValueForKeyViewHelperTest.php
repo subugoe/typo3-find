@@ -46,7 +46,7 @@ class ValueForKeyViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
+        $this->fixture = $this->getMockBuilder(ValueForKeyViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
         $this->createRenderingContextMock();
         $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);

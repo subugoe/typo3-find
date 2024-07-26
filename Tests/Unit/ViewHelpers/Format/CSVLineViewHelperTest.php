@@ -45,7 +45,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         parent::setUp();
 
         $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)
-            ->setMethods(['dummy'])
+            ->addMethods(['dummy'])
             ->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
@@ -57,7 +57,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ',';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -76,7 +76,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr', 'behedeti', 'chub'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -95,7 +95,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '""';
+        $fieldEnclosure = '"';
 
         $this->fixture->setArguments([
             'data' => $data,
@@ -114,7 +114,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
         $fieldDelimiter = ';';
-        $fieldEnclosure = '//';
+        $fieldEnclosure = '/';
 
         $this->fixture->setArguments([
             'data' => $data,

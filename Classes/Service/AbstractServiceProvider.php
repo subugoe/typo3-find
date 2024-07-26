@@ -8,8 +8,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractServiceProvider implements ServiceProviderInterface
 {
-    protected string $connectionName;
-
     /**
      * @var LogManagerInterface
      */
@@ -17,12 +15,8 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
 
     protected array $requestArguments = [];
 
-    protected array $settings = [];
-
-    public function __construct(string $connectionName, array $settings)
+    public function __construct(protected string $connectionName, protected array $settings)
     {
-        $this->connectionName = $connectionName;
-        $this->settings = $settings;
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger('find');
     }
 

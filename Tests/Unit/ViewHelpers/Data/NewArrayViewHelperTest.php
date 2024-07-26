@@ -27,6 +27,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
 
 /**
@@ -37,7 +38,7 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @var NewArrayViewHelper
      */
-    public $fixture;
+    public NewArrayViewHelper|MockObject $fixture;
 
     protected function setUp(): void
     {

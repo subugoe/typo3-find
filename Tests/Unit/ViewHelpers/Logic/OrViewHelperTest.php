@@ -26,8 +26,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
 
 /**
@@ -35,10 +35,7 @@ use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
  */
 class OrViewHelperTest extends ViewHelperBaseTestcase
 {
-    /**
-     * @var OrViewHelper
-     */
-    protected $fixture;
+    protected OrViewHelper|MockObject $fixture;
 
     public function conditionProvider(): array
     {
@@ -91,9 +88,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(OrViewHelper::class)
-            ->setMethods(['dummy'])
-            ->getMock();
+        $this->fixture = $this->getMockBuilder(OrViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
