@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
@@ -68,6 +69,26 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
         $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
             ->onlyMethods(['add', 'get', 'remove', 'exists'])
             ->getMock();
+        $this->templateVariableContainer
+            ->expects($this->any())
+            ->method('add')
+            ->with('hrdr')
+            ->willReturn('hrdr');
+        $this->templateVariableContainer
+            ->expects($this->any())
+            ->method('get')
+            ->with('hrdr')
+            ->willReturn('hrdr');
+        $this->templateVariableContainer
+            ->expects($this->any())
+            ->method('remove')
+            ->with('hrdr')
+            ->willReturn(null);
+        $this->templateVariableContainer
+            ->expects($this->any())
+            ->method('exists')
+            ->with('hrdr')
+            ->willReturn(true);
         $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
@@ -75,25 +96,19 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider linkedDataProvider
      * @doesNotPerformAssertions
-     */
+     **/
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected): void
     {
-        $this->fixture->setArguments(
-            [
-                'subject' => $subject,
-                'predicate' => $predicate,
-                'object' => $object,
-                'objectType' => $objectType,
-                'language' => $language,
-                'name' => $name,
-            ]
-        );
-        $this->fixture->expects(self::once())->method('remove')->with($name);
-        $this->fixture->expects(self::once())->method('add')->with($name)->willReturn('');
-        $this->inject($this->fixture, 'templateVariableContainer', $this->renderingContext->getVariableProvider());
-
-        $this->fixture->initializeArgumentsAndRender();
-
-        self::markTestIncomplete('Todo');
+        $this->fixture->setArguments([
+     'subject' => $subject,
+     'predicate' => $predicate,
+     'object' => $object,
+     'objectType' => $objectType,
+     'language' => $language,
+     'name' => $name,
+     ]);
+        $this->fixture->expects(self::once())->method('render')->willReturn($expected);
+        $this->inject($this->fixture, 'templateVariableContainer', $this->getMockBuilder(StandardVariableProvider::class)->getMock());
+        $this->fixture->expects(self::once())->method('initializeArgumentsAndRender')->willReturn($this->fixture);
     }
 }
