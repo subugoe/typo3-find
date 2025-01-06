@@ -20,18 +20,16 @@ $autoexec = static function () {
             SearchController::class => 'index, detail, suggest',
         ]
     );
-    if (TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
-        /*
-         * Register icons
-         */
-        /** @var IconRegistry $iconRegistry */
-        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-        $iconRegistry->registerIcon(
-            'ext-find-ce-wizard',
-            FontawesomeIconProvider::class,
-            ['name' => 'search']
-        );
-    }
+    /*
+     * Register icons
+     */
+    /** @var IconRegistry $iconRegistry */
+    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
+    $iconRegistry->registerIcon(
+        'ext-find-ce-wizard',
+        FontawesomeIconProvider::class,
+        ['name' => 'search']
+    );
 
     ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:find/Configuration/TSconfig/ContentElementWizard.tsconfig">');
 };
