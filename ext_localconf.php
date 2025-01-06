@@ -20,8 +20,7 @@ $autoexec = static function () {
             SearchController::class => 'index, detail, suggest',
         ]
     );
-
-    if (TYPO3_MODE === 'BE') {
+    if (TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
         /*
          * Register icons
          */
