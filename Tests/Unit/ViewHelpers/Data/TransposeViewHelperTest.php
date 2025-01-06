@@ -7,7 +7,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\TestingFramework\Core\BaseTestCase;
-use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Test for Transpose ViewHelper.
@@ -17,14 +16,14 @@ class TransposeViewHelperTest extends BaseTestCase
     public TransposeViewHelper|MockObject $fixture;
 
     /**
-     * @var StandardVariableProvider
+     * @var TransposeViewHelper
      */
     public $templateVariableContainer;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, null);
+        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, ['renderChildren']);
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
@@ -44,10 +43,10 @@ class TransposeViewHelperTest extends BaseTestCase
         ];
 
         $this->fixture->expects($this->any())
-            ->method('render')
+            ->method('renderChildren')
             ->with($arguments)
             ->willReturn(['transpose' => $expected]);
-        $result = $this->fixture->render($arguments);
+        $result = $this->fixture->renderChildren($arguments);
         $this->assertArrayHasKey('transpose', $result);
         $this->assertEquals($expected, $result['transpose']);
     }

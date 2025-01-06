@@ -64,7 +64,7 @@ class XMLViewHelperTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(XMLViewHelper::class, null);
+        $this->fixture = $this->getAccessibleMock(XMLViewHelper::class, ['render']);
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
@@ -72,7 +72,7 @@ class XMLViewHelperTest extends BaseTestCase
     #[DataProvider('stringProvider')]
     public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected): void
     {
-        $this->fixture->method('renderChildren')->willReturn($string);
+        $this->fixture->method('render')->willReturn($string);
 
         $this->fixture->setArguments([
             'htmloutput' => $htmloutput,

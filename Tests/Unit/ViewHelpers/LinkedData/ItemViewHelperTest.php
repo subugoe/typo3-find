@@ -54,10 +54,7 @@ class ItemViewHelperTest extends BaseTestCase
      */
     protected $templateVariableContainer;
 
-    /**
-     * @return array
-     */
-    public static function linkedDataProvider()
+    public static function linkedDataProvider(): array
     {
         return [
             ['hrdr', 'is', 'thirsty', null, null, null, 'hrdr'],
@@ -67,7 +64,7 @@ class ItemViewHelperTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(ItemViewHelper::class, null);
+        $this->fixture = $this->getAccessibleMock(ItemViewHelper::class, ['render']);
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
 
         $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)

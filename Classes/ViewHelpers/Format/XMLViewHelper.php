@@ -39,20 +39,17 @@ class XMLViewHelper extends AbstractViewHelper
     /**
      * Registers own arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', false, false);
     }
 
-    /**
-     * @return string
-     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext,
-    ) {
+    ): string {
         $input = $renderChildrenClosure();
         $XML = new \DOMDocument();
         $XML->preserveWhiteSpace = false;

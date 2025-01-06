@@ -31,6 +31,7 @@
   "require": {
     "php": "> 8.2.0 < 8.4.0",
     "ext-curl": "*",
+    "ext-dom": "*",
     "ext-json": "*",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^12.4",
