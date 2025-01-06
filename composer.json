@@ -34,7 +34,8 @@
     "ext-json": "*",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^12.4",
-    "typo3/cms-felogin": "^12.4"
+    "typo3/cms-felogin": "^12.4",
+    "friendsoftypo3/fontawesome-provider": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",
