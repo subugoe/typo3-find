@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Test for Split ViewHelper.
  */
-class SplitViewHelperTest extends ViewHelperBaseTestcase
+class SplitViewHelperTest extends BaseTestCase
 {
     /**
      * @var SplitViewHelper
@@ -43,10 +44,8 @@ class SplitViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(SplitViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(SplitViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
     /**

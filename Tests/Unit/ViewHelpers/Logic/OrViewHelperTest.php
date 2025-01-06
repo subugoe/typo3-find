@@ -26,18 +26,22 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Tests for the NOT viewhelper.
  */
-class OrViewHelperTest extends ViewHelperBaseTestcase
+class OrViewHelperTest extends BaseTestCase
 {
     protected OrViewHelper|MockObject $fixture;
 
-    public function conditionProvider(): array
+    public static function conditionProvider(): array
     {
         return [
             [
@@ -88,15 +92,12 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(OrViewHelper::class)->onlyMethods(['renderChildren'])->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(OrViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider conditionProvider
-     */
+    #[Test]
+    #[DataProvider('conditionProvider')]
     public function orConditionIsMet($conditions, $expected): void
     {
         $this->fixture->setArguments([

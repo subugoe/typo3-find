@@ -2,15 +2,17 @@
 
 namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\TransposeViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Test for Transpose ViewHelper.
  */
-class TransposeViewHelperTest extends ViewHelperBaseTestcase
+class TransposeViewHelperTest extends BaseTestCase
 {
     public TransposeViewHelper|MockObject $fixture;
 
@@ -22,15 +24,11 @@ class TransposeViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(TransposeViewHelper::class)
-            ->setMethods(['render'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(TransposeViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsTransposed(): void
     {
         $arguments = [

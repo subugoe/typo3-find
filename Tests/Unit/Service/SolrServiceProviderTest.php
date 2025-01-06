@@ -1,6 +1,6 @@
 <?php
 
-namespace Subugoe\Tests\Unit\Service;
+namespace Subugoe\Find\Tests\Unit\Service;
 
 /* * *************************************************************
  *  Copyright notice
@@ -27,13 +27,13 @@ namespace Subugoe\Tests\Unit\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Subugoe\Find\Service\SolrServiceProvider;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Solr ServiceProvider Test.
  */
-class SolrServiceProviderTest extends UnitTestCase
+class SolrServiceProviderTest extends BaseTestCase
 {
     /**
      * @var SolrServiceProvider

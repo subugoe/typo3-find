@@ -27,13 +27,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\CSVLineViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * CSV line viewhelper test.
  */
-class CSVLineViewHelperTest extends ViewHelperBaseTestcase
+class CSVLineViewHelperTest extends BaseTestCase
 {
     /**
      * @var CSVLineViewHelper
@@ -44,15 +46,11 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(CSVLineViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(CSVLineViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsRenderedAsCommaSeparatedValue(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
@@ -69,9 +67,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function specifyingADelimiterWorks(): void
     {
         $data = ['hrdr', 'behedeti', 'chub'];
@@ -88,9 +84,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function valuesWithSpacesAreEnclosed(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];
@@ -107,9 +101,7 @@ class CSVLineViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function specifyingAnEnclosureWrapsTheElements(): void
     {
         $data = ['hrdr horus', 'behedeti', 'chub budan'];

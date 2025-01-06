@@ -11,9 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         env:
-          - { php: 8.0 }
-          - { php: 8.1 }
-          - { php: 8.2 }
+          - { php: 8.3 }
 
     env: ${{ matrix.env }}
 
@@ -47,4 +45,4 @@ jobs:
       - name: Run Unit Tests
         run: |
           echo "Running unit tests with $(which php)";
-          .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/;
+          TYPO3_CONTEXT=Testing .Build/bin/phpunit --colors -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/Unit/;

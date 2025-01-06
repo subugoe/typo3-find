@@ -26,14 +26,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Test for FacetLinkArguments ViewHelper.
  */
-class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
+class FacetLinkArgumentsViewHelperTest extends BaseTestCase
 {
     use MockRenderingContextTrait;
 
@@ -45,10 +46,8 @@ class FacetLinkArgumentsViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(FacetLinkArgumentsViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(FacetLinkArgumentsViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
     /**

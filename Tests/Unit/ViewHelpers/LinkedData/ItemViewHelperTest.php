@@ -27,16 +27,20 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
 
 /**
  * Tests for the item viewhelper.
  */
-class ItemViewHelperTest extends ViewHelperBaseTestcase
+class ItemViewHelperTest extends BaseTestCase
 {
     use MockRenderingContextTrait;
 
@@ -53,7 +57,7 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @return array
      */
-    public function linkedDataProvider()
+    public static function linkedDataProvider()
     {
         return [
             ['hrdr', 'is', 'thirsty', null, null, null, 'hrdr'],
@@ -63,9 +67,9 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
+        $this->fixture = $this->getAccessibleMock(ItemViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
+
         $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)
             ->onlyMethods(['add', 'get', 'remove', 'exists'])
             ->getMock();
@@ -89,16 +93,11 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
             ->method('exists')
             ->with('hrdr')
             ->willReturn(true);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider linkedDataProvider
-     *
-     * @doesNotPerformAssertions
-     **/
+    #[DataProvider('linkedDataProvider')]
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected): void
     {
         $this->fixture->setArguments([

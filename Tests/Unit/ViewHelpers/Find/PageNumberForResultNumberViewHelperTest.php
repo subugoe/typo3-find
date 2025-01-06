@@ -26,14 +26,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Test for PageNumberForResultNumber ViewHelper.
  */
-class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
+class PageNumberForResultNumberViewHelperTest extends BaseTestCase
 {
     use MockRenderingContextTrait;
 
@@ -46,12 +47,8 @@ class PageNumberForResultNumberViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(PageNumberForResultNumberViewHelper::class)
-            ->onlyMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
-        $this->createRenderingContextMock();
-        $this->inject($this->fixture, 'renderingContext', $this->renderingContextMock);
+        $this->fixture = $this->getAccessibleMock(PageNumberForResultNumberViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
     /**

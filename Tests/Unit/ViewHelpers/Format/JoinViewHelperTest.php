@@ -27,13 +27,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\JoinViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Join viewhelper test.
  */
-class JoinViewHelperTest extends ViewHelperBaseTestcase
+class JoinViewHelperTest extends BaseTestCase
 {
     /**
      * @var JoinViewHelper
@@ -44,15 +46,11 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getMockBuilder(JoinViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(JoinViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsJoinedAsCommaSeparatedValue()
     {
         $array = ['hrdr', 'behedeti', 'chub'];
@@ -67,9 +65,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsJoinedWithNonAsciiCharacter()
     {
         $array = ['hrdr', 'behedeti', 'chub'];
@@ -84,9 +80,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayIsJoinedWithMoreThanOneCharacter()
     {
         $array = ['hrdr', 'behedeti', 'chub'];
@@ -101,9 +95,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayWithOneElementIsNotPostfixedWithSeparator()
     {
         $array = ['hrdr'];
@@ -118,9 +110,7 @@ class JoinViewHelperTest extends ViewHelperBaseTestcase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function emptyArrayResultsInEmptyString()
     {
         $array = [];

@@ -26,21 +26,25 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Regexp viewhelper test.
  */
-class RegexpViewHelperTest extends ViewHelperBaseTestcase
+class RegexpViewHelperTest extends BaseTestCase
 {
     /**
      * @var RegexpViewHelper
      */
     protected RegexpViewHelper|MockObject $fixture;
 
-    public function regexProvider(): array
+    public static function regexProvider(): array
     {
         return [
             ['behedeti', '/hed/', 'hrdr', false, 'behrdreti'],
@@ -68,17 +72,12 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(RegexpViewHelper::class)
-            ->addMethods(['dummy'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(RegexpViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider regexProvider
-     */
+    #[Test]
+    #[DataProvider('regexProvider')]
     public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected): void
     {
         $this->fixture->setArguments([

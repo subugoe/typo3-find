@@ -27,20 +27,23 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Tests for the AND viewhelper.
  */
-class AndViewHelperTest extends ViewHelperBaseTestcase
+class AndViewHelperTest extends BaseTestCase
 {
     /**
      * @var AndViewHelper
      */
     protected $fixture;
 
-    public function conditionProvider(): array
+    public static function conditionProvider(): array
     {
         return [
             [
@@ -95,15 +98,12 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(AndViewHelper::class)->addMethods(['dummy'])->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(AndViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider conditionProvider
-     */
+    #[Test]
+    #[DataProvider('conditionProvider')]
     public function conditionIsTrue($conditions, $expected)
     {
         $this->fixture->setArguments([

@@ -26,14 +26,15 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Test for NewArray ViewHelper.
  */
-class NewArrayViewHelperTest extends ViewHelperBaseTestcase
+class NewArrayViewHelperTest extends BaseTestCase
 {
     /**
      * @var NewArrayViewHelper
@@ -43,10 +44,8 @@ class NewArrayViewHelperTest extends ViewHelperBaseTestcase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(NewArrayViewHelper::class)
-            ->onlyMethods(['renderChildren'])
-            ->getMock();
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(NewArrayViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
     /**

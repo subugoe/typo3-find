@@ -26,13 +26,14 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use Subugoe\Find\ViewHelpers\Find\HighlightFieldViewHelper;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Test for HighlightField ViewHelper.
  */
-class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
+class HighlightFieldViewHelperTest extends BaseTestCase
 {
     /**
      * @var HighlightFieldViewHelper
@@ -47,8 +48,8 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
 
-        $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, ['renderChildren']);
-        $this->injectDependenciesIntoViewHelper($this->fixture);
+        $this->fixture = $this->getAccessibleMock(HighlightFieldViewHelper::class, null);
+        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
     /**
