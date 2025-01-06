@@ -49,7 +49,7 @@ class NotViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ): bool {
         return true != $arguments['condition'];
     }

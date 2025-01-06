@@ -65,7 +65,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
                     true === 3,
                     1 === 'hrdr',
                     'hrdr' === '3',
-                    'behedeti' == 'hrdr',
+                    'behedeti' === 'hrdr',
                     7 == 'hrdr',
                 ],
                 false,
@@ -94,6 +94,7 @@ class OrViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider conditionProvider
      */
     public function orConditionIsMet($conditions, $expected): void

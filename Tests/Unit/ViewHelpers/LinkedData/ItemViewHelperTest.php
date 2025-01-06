@@ -94,19 +94,21 @@ class ItemViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider linkedDataProvider
+     *
      * @doesNotPerformAssertions
      **/
     public function itemsAreAddedToContainer($subject, $predicate, $object, $objectType, $language, $name, $expected): void
     {
         $this->fixture->setArguments([
-     'subject' => $subject,
-     'predicate' => $predicate,
-     'object' => $object,
-     'objectType' => $objectType,
-     'language' => $language,
-     'name' => $name,
-     ]);
+            'subject' => $subject,
+            'predicate' => $predicate,
+            'object' => $object,
+            'objectType' => $objectType,
+            'language' => $language,
+            'name' => $name,
+        ]);
         $this->fixture->expects(self::once())->method('render')->willReturn($expected);
         $this->inject($this->fixture, 'templateVariableContainer', $this->getMockBuilder(StandardVariableProvider::class)->getMock());
         $this->fixture->expects(self::once())->method('initializeArgumentsAndRender')->willReturn($this->fixture);

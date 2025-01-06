@@ -32,9 +32,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  */
 class TurtleRenderer extends AbstractRenderer implements RendererInterface
 {
-    /**
-     * @param $items
-     */
     public function renderItems($items): string
     {
         $result = '';
@@ -101,7 +98,6 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
     }
 
     /**
-     * @param $item
      * @param bool $usePrefixes
      *
      * @return mixed|string

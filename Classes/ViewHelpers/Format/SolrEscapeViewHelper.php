@@ -53,7 +53,7 @@ class SolrEscapeViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $string = $arguments['string'];
         if (null === $string) {

@@ -51,7 +51,7 @@ class OrViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $result = false;
         foreach ($arguments['conditions'] as $condition) {

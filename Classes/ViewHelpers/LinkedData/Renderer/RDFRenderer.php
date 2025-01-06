@@ -34,8 +34,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 class RDFRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
-     * @param $items
-     *
      * @return string
      */
     public function renderItems($items)
@@ -98,7 +96,6 @@ class RDFRenderer extends AbstractRenderer implements RendererInterface
     }
 
     /**
-     * @param $name
      * @param bool $expand
      *
      * @return string

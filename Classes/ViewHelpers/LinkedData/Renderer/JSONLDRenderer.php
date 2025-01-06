@@ -33,8 +33,6 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
 class JSONLDRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
-     * @param $items
-     *
      * @return string
      */
     public function renderItems($items)
@@ -93,11 +91,6 @@ class JSONLDRenderer extends AbstractRenderer implements RendererInterface
         ]);
     }
 
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
     protected function prefixedName($name)
     {
         foreach ($this->prefixes as $acronym => $URI) {

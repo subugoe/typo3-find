@@ -25,7 +25,6 @@ namespace Subugoe\Find\ViewHelpers\Solr;
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -73,7 +72,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
 
     public function render()
     {
-        $findParameter = GeneralUtility::_GP('tx_find_find');
+        $findParameter = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['tx_find_find'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['tx_find_find'] ?? null;
 
         $activeFacets = $this->arguments['activeFacets'];
         $queryConcat = $this->arguments['queryConcat'];
@@ -145,9 +144,6 @@ class CountFromSolrViewHelper extends AbstractViewHelper
 
     /**
      * Creates a query for a document.
-     *
-     * @param string $id      the document id
-     * @param string $idfield the document id field
      *
      * @return Query
      */

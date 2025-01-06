@@ -63,6 +63,7 @@ class UpgradeUtilityTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider settingsProvider
      */
     public function configurationIsAutomaticallyUpgraded(array $settings, $expected): void

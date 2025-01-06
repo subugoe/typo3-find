@@ -39,8 +39,6 @@ abstract class AbstractRenderer
     protected array $usedPrefixes = [];
 
     /**
-     * @param $type
-     *
      * @return object
      */
     public static function instantiateSubclassForType($type)
@@ -56,9 +54,6 @@ abstract class AbstractRenderer
         return $instance;
     }
 
-    /**
-     * @param $prefixes
-     */
     public function setPrefixes($prefixes)
     {
         $this->prefixes = $prefixes;

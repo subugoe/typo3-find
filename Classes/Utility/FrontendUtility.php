@@ -73,8 +73,6 @@ class FrontendUtility
     }
 
     /**
-     * @param $underlyingQueryInfo
-     *
      * @return array
      */
     public static function getIndexes($underlyingQueryInfo)

@@ -60,7 +60,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         if (0 === $arguments['resultsPerPage']) {
             $arguments['resultsPerPage'] = self::DEFAULT_RESULTS_PER_PAGE;

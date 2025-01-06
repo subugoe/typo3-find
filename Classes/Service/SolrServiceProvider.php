@@ -188,9 +188,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $result;
     }
 
-    /**
-     * @param $query
-     */
     public function search($query)
     {
         // TODO: Implement search() method.
@@ -212,10 +209,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->configuration = $configuration;
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
     public function setConfigurationValue($key, $value)
     {
         $this->configuration[$key] = $value;
@@ -699,9 +692,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         $this->addFacetQueries();
     }
 
-    /**
-     * @return string
-     */
     protected function getAction(): ?string
     {
         return $this->action;
@@ -740,9 +730,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $this->connection;
     }
 
-    /**
-     * @return string
-     */
     protected function getControllerExtensionKey(): ?string
     {
         return $this->controllerExtensionKey;
@@ -778,8 +765,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns the facet configuration for the given $id.
-     *
-     * @return array
      */
     protected function getFacetConfig(string $id): ?array
     {
@@ -832,7 +817,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                 if (array_key_exists('query', $facetConfig)) {
                     $queryPattern = $facetConfig['query'];
                 } else {
-                    $queryPattern = ($facetConfig['field'] ?: $facetConfig['id']).':'.'%s';
+                    $queryPattern = ($facetConfig['field'] ?: $facetConfig['id']).':%s';
                 }
 
                 // Hack: convert strings »RANGE XX TO YY« Solr style range queries »[XX TO YY]«
@@ -874,10 +859,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $offset;
     }
 
-    /**
-     * @param $id
-     * @param $arguments
-     */
     protected function getRecordsWithUnderlyingQuery(array $assignments, array $index, $id, $arguments): array
     {
         $connection = $this->getConnection();
@@ -926,12 +907,6 @@ class SolrServiceProvider extends AbstractServiceProvider
         return $assignments;
     }
 
-    /**
-     * @param $id
-     * @param $assignments
-     *
-     * @return mixed
-     */
     protected function getTheRecordSpecified($id, $assignments)
     {
         $connection = $this->getConnection();

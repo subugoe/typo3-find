@@ -32,10 +32,5 @@ namespace Subugoe\Find\ViewHelpers\LinkedData\Renderer;
  */
 interface RendererInterface
 {
-    /**
-     * @param $items
-     *
-     * @return mixed
-     */
     public function renderItems($items);
 }

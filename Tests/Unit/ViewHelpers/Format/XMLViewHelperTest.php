@@ -70,6 +70,7 @@ class XMLViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider stringProvider
      */
     public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected): void

@@ -56,7 +56,7 @@ class RegexpViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $input = $arguments['string'];
         if (null === $input) {

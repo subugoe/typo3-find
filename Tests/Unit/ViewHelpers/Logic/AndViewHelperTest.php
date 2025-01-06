@@ -101,6 +101,7 @@ class AndViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider conditionProvider
      */
     public function conditionIsTrue($conditions, $expected)

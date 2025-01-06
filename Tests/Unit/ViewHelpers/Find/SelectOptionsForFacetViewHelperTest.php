@@ -50,6 +50,7 @@ class SelectOptionsForFacetViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      */
     public function returnTrueIfAPathExists(): void

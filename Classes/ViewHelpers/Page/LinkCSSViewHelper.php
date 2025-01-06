@@ -57,7 +57,7 @@ class LinkCSSViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
 

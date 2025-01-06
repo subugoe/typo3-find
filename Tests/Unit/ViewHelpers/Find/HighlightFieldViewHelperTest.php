@@ -53,6 +53,7 @@ class HighlightFieldViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      */
     public function fieldIsCorrectlyHighlighted()

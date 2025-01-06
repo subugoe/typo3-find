@@ -36,39 +36,37 @@ class RealUrl
     /**
      * Create automatic RealUrl Configuratoin.
      *
-     * @param $params
-     *
      * @return array
      */
     public function addRealUrlConfiguration($params, &$pObj)
     {
         return array_merge_recursive($params['config'], [
-                'postVarSets' => [
-                    '_DEFAULT' => [
-                        'id' => [
-                            [
-                                'GETvar' => 'tx_find_find[id]',
-                            ],
+            'postVarSets' => [
+                '_DEFAULT' => [
+                    'id' => [
+                        [
+                            'GETvar' => 'tx_find_find[id]',
                         ],
-                        'a' => [
-                            [
-                                'GETvar' => 'tx_find_find[action]',
-                                'valueMap' => [
-                                    'data' => 'data',
-                                    'suggest' => 'suggest',
-                                ],
-                                'noMatch' => 'bypass',
+                    ],
+                    'a' => [
+                        [
+                            'GETvar' => 'tx_find_find[action]',
+                            'valueMap' => [
+                                'data' => 'data',
+                                'suggest' => 'suggest',
                             ],
+                            'noMatch' => 'bypass',
                         ],
-                        'c' => [
-                            [
-                                'GETvar' => 'tx_find_find[controller]',
-                                'noMatch' => 'bypass',
-                            ],
+                    ],
+                    'c' => [
+                        [
+                            'GETvar' => 'tx_find_find[controller]',
+                            'noMatch' => 'bypass',
                         ],
                     ],
                 ],
-            ]
+            ],
+        ]
         );
     }
 }

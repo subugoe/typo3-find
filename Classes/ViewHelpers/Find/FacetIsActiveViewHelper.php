@@ -61,7 +61,7 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         foreach ($arguments['activeFacets'] as $facets) {
             foreach ($facets as $facetInfo) {

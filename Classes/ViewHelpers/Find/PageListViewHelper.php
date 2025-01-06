@@ -53,7 +53,7 @@ class PageListViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $currentPage = ($arguments['currentPage'] ? (int) $arguments['currentPage'] : 1);
         $numberOfPages = (int) ceil($arguments['resultCount'] / $arguments['perPage']);

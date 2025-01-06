@@ -53,7 +53,7 @@ class JoinViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $array = $arguments['array'];
         if (null === $array) {

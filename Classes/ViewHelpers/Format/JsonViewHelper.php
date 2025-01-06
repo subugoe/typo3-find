@@ -53,7 +53,7 @@ class JsonViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         @trigger_error('Please use f:format.json instead', E_USER_DEPRECATED);
 

@@ -46,7 +46,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
             ['behedeti', '/hed/', 'hrdr', false, 'behrdreti'],
             ['behedeti', '/beh/', 'hrdr', false, 'hrdredeti'],
             ['horus', '|ho|', 'sy', false, 'syrus'],
-            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', 'Cola', false, 'ColaCola'],
+            ['ClubMate667', '/[a-zA-Z]*\d*/', 'Cola', false, 'ColaCola'],
             ['ClubMate667', '/\w*/', 'Cola', false, 'ColaCola'],
 
             ['ClubMate667', '\w*', 'Cola', true, 'ColaCola'],
@@ -60,7 +60,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
             ['behedeti', '/hed/', null, false, 1],
             ['behedeti', '/beh/', null, false, 1],
             ['horus', '|ho|', null, false, 1],
-            ['ClubMate667', '/[a-zA-Z]*[0-9]*/', null, false, 1],
+            ['ClubMate667', '/[a-zA-Z]*\d*/', null, false, 1],
             ['ClubMate667', '/\w*/', null, false, 1],
         ];
     }
@@ -76,6 +76,7 @@ class RegexpViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider regexProvider
      */
     public function stringIsReplaced($string, $match, $replace, $useMBEreg, $expected): void

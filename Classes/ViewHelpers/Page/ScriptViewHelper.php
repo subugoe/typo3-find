@@ -65,7 +65,7 @@ class ScriptViewHelper extends AbstractViewHelper
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
+        RenderingContextInterface $renderingContext,
     ) {
         $name = $arguments['name'];
         $pageRenderer = self::getPageRenderer();

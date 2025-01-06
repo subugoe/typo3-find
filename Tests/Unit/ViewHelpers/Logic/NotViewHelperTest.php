@@ -69,6 +69,7 @@ class NotViewHelperTest extends ViewHelperBaseTestcase
 
     /**
      * @test
+     *
      * @dataProvider conditionProvider
      */
     public function conditionIsMet(bool $conditions, bool $expected): void

@@ -48,6 +48,7 @@ class SearchControllerTest extends UnitTestCase
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      */
     public function implementTests(): void
