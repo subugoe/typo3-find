@@ -27,6 +27,8 @@ namespace Subugoe\Find\Tests\Unit\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Controller\SearchController;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -47,11 +49,8 @@ class SearchControllerTest extends BaseTestCase
             ->getMock();
     }
 
-    /**
-     * @test
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function implementTests(): void
     {
         self::markTestIncomplete();

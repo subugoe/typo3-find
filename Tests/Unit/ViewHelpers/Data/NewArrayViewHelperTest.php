@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -48,9 +49,7 @@ class NewArrayViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aNewArrayFromArgumentsIsCorrectlyCreated(): void
     {
         $arguments = [
@@ -70,9 +69,7 @@ class NewArrayViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aNewArrayWithoutAnExistingOneIsCreated(): void
     {
         $arguments = [
@@ -90,9 +87,7 @@ class NewArrayViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aNewArrayWithMultipleEntriesIsCreated(): void
     {
         $arguments = [
@@ -111,9 +106,7 @@ class NewArrayViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues(): void
     {
         $arguments = [

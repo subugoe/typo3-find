@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -51,9 +52,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keyPicksTheRightValueFromTheArray()
     {
         $array = [
@@ -70,9 +69,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
         self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue()
     {
         $array = [
@@ -90,9 +87,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
         self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resultIsCorrectlyInterpretedAsTextFromASimpleValue()
     {
         $array = [
@@ -110,9 +105,7 @@ class ValueForKeyViewHelperTest extends BaseTestCase
         self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function providingANonexistingKeyReturnsNull()
     {
         $array = [

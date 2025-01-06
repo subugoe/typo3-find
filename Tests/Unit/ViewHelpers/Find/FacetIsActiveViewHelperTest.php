@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\TestingFramework\Core\BaseTestCase;
@@ -47,9 +48,7 @@ class FacetIsActiveViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function activeFacetIsCorrectlyRecognized()
     {
         $arguments = [
@@ -75,9 +74,7 @@ class FacetIsActiveViewHelperTest extends BaseTestCase
         self::assertTrue($this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notActiveFacetsReturnFalse()
     {
         $arguments = [

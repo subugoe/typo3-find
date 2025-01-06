@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -50,9 +51,7 @@ class FacetLinkArgumentsViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function filterIsCorrectlyRemovedOnTextQueries()
     {
         $this->fixture->setArguments([
@@ -66,9 +65,7 @@ class FacetLinkArgumentsViewHelperTest extends BaseTestCase
         self::assertEquals('tx_find_find[facet][title]', $result[0]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function filterIsCorrectlyAddedOnTextQueries()
     {
         $this->fixture->setArguments([

@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -51,9 +52,7 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pageNumberIsCorrectlyCalculated()
     {
         $resultNumber = 55;
@@ -68,9 +67,7 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pageNumerWhenResultIsZero()
     {
         $resultNumber = 0;
@@ -86,9 +83,7 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function divisionByZeroIsCaught()
     {
         $resultNumber = 0;
@@ -103,7 +98,8 @@ class PageNumberForResultNumberViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    public function pageNumberFallBackForZeroResultsPerPage()
+    #[Test]
+    public function pageNumberFallBackForZeroResultsPerPage(): void
     {
         $resultNumber = 55;
         $resultsPerPage = 0;

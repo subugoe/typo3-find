@@ -26,6 +26,7 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\TestingFramework\Core\BaseTestCase;
@@ -48,9 +49,7 @@ class SplitViewHelperTest extends BaseTestCase
         $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringIsExplodedCorrectlyWithoutPassedSeparator()
     {
         $string = 'hrdr, behedeti, horus';
@@ -64,9 +63,7 @@ class SplitViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringIsExplodedCorrectlyWithPassedSeparator()
     {
         $string = 'hrdr, behedeti, horus';
@@ -81,9 +78,7 @@ class SplitViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringIsExplodedCorrectlyWithNonDefaultSeparator()
     {
         $string = 'hrdrhorus behedetihorus horus';
@@ -97,9 +92,7 @@ class SplitViewHelperTest extends BaseTestCase
         self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function emptyArrayIsReturnedWhenPassingIt()
     {
         $string = '';

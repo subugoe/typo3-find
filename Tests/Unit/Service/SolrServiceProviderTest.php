@@ -27,6 +27,7 @@ namespace Subugoe\Find\Tests\Unit\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\Service\SolrServiceProvider;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
@@ -42,15 +43,10 @@ class SolrServiceProviderTest extends BaseTestCase
 
     protected function setUp(): void
     {
-        $this->fixture = $this->getMockBuilder(SolrServiceProvider::class)
-            ->addMethods(['dummy'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fixture = $this->getAccessibleMock(SolrServiceProvider::class, null, callOriginalConstructor: false);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setConfigurationAddsTheValueToConfigurationArray()
     {
         $key = 'foo';
@@ -60,9 +56,7 @@ class SolrServiceProviderTest extends BaseTestCase
         self::assertArrayHasKey($key, $this->fixture->getConfiguration());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setConfigurationAddsAKeyValuePairToAnExistingConfiguration()
     {
         $key = 'foo';
