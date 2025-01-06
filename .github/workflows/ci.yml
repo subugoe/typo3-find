@@ -40,7 +40,7 @@ jobs:
 
       - name: Check coding style
         run: composer lint
-        if: ${{ matrix.env.php == '8.1' }}
+        if: ${{ matrix.env.php == '8.3' }}
 
       - name: Run Unit Tests
         run: |
