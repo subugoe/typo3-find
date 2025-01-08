@@ -158,7 +158,7 @@ class SearchController extends ActionController
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
             'uid',
-            $this->configurationManager->getContentObject()->data['uid']
+            $this->request->getAttribute('currentContentObject')->data['uid']
         );
         $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
         $this->searchProvider->setConfigurationValue('pageTitle', $GLOBALS['TSFE']->page['title']);
