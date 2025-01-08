@@ -270,7 +270,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         foreach ($activeFacets as $facetID => $facets) {
             foreach ($facets as $facetTerm => $facetInfo) {
                 $facetQuery = $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
-                if ('and' === $facetInfo['config']['queryStyle']) {
+                if (array_key_exists('queryStyle', $facetInfo['config']) && 'and' === $facetInfo['config']['queryStyle']) {
                     // TODO: Do we really use this part of the condition? Can it be removed?
                     // Alternative query style: adding a conjunction to the main query.
                     // Can be useful when using {!join} to filter on the underlying
