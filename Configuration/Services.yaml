@@ -6,3 +6,6 @@ services:
 
   Subugoe\Find\:
     resource: '../Classes/*'
+
+  Subugoe\Find\PageTitle\FindPageTitleProvider:
+    public: true

@@ -26,13 +26,11 @@ namespace Subugoe\Find\ViewHelpers\Format;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View Helper for converting XML to formatted XML.
- *
- * Usage examples are available in Private/Partials/Test.html.
  */
 class XMLViewHelper extends AbstractViewHelper
 {
@@ -45,12 +43,9 @@ class XMLViewHelper extends AbstractViewHelper
         $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', false, false);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext,
-    ): string {
-        $input = $renderChildrenClosure();
+    public function render(string $string): string
+    {
+        $input = $string;
         $XML = new \DOMDocument();
         $XML->preserveWhiteSpace = false;
         $XML->formatOutput = true;
@@ -59,6 +54,6 @@ class XMLViewHelper extends AbstractViewHelper
 
         // TODO: Error handling?
 
-        return $arguments['htmloutput'] ? $XML->saveHTML() : $XML->saveXML();
+        return $this->arguments['htmloutput'] ? $XML->saveHTML() : $XML->saveXML();
     }
 }

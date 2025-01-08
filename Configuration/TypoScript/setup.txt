@@ -261,3 +261,11 @@ tx_find_page {
 }
 
 plugin.tx_find.features.requireCHashArgumentForActionArguments = 0
+
+  pageTitleProviders {
+    find {
+      provider = Subugoe\Find\PageTitle\FindPageTitleProvider
+      before = record
+      after = seo
+    }
+  }

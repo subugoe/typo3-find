@@ -26,7 +26,8 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+
+use Subugoe\Find\PageTitle\FindPageTitleProvider;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -36,23 +37,24 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TitleViewHelper extends AbstractViewHelper
 {
+    public function __construct(private readonly FindPageTitleProvider $pageTitleProvider)
+    {
+    }
+
     /**
      * Registers own arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('title', 'string', 'the title to set for the page', false, null);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext,
-    ) {
-        $title = $arguments['title'];
+    public function render(): void
+    {
+        $title = $this->arguments['title'];
         if (null === $title) {
-            $title = $renderChildrenClosure();
+            $title = $this->renderChildren();
         }
 
         /*
@@ -66,10 +68,11 @@ class TitleViewHelper extends AbstractViewHelper
          * appearing once inside the <title> tag. Otherwise the order of the components in the page title will be wrong.
          */
         if ($GLOBALS['TSFE']->content) {
-            $GLOBALS['TSFE']->content = preg_replace('/(<title>.*)'.$GLOBALS['TSFE']->page['title'].'(.*<\/title>)/',
+            $currentPageTitle = $this->pageTitleProvider->getTitle();
+            $GLOBALS['TSFE']->content = preg_replace('/(<title>.*)'.$currentPageTitle.'(.*<\/title>)/',
                 '$1'.$title.'$2', $GLOBALS['TSFE']->content);
         } else {
-            $GLOBALS['TSFE']->page['title'] = $title;
+            $this->pageTitleProvider->setTitle($title);
         }
     }
 }

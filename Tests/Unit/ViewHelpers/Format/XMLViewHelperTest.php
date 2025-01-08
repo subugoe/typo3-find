@@ -29,8 +29,8 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Util\Xml;
 use Subugoe\Find\ViewHelpers\Format\XMLViewHelper;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
@@ -64,20 +64,17 @@ class XMLViewHelperTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(XMLViewHelper::class, ['render']);
-        $this->fixture->setRenderingContext($this->getMockBuilder(RenderingContext::class)->disableOriginalConstructor()->getMock());
+        $this->fixture = new XMLViewHelper();
     }
 
     #[Test]
     #[DataProvider('stringProvider')]
-    public function xmlIsCorrectlyFormatted($string, $htmloutput, $expected): void
+    public function xmlIsCorrectlyFormatted($string, $useHtmlOutput, $expected): void
     {
-        $this->fixture->method('render')->willReturn($string);
-
         $this->fixture->setArguments([
-            'htmloutput' => $htmloutput,
+            'htmloutput' => $useHtmlOutput,
         ]);
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $this->fixture->render($string));
     }
 }

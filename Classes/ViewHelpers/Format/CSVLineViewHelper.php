@@ -39,7 +39,7 @@ class CSVLineViewHelper extends AbstractViewHelper
     /**
      * Registers own arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('data', 'array', 'The array to output as CSV line', false, null);
@@ -47,14 +47,11 @@ class CSVLineViewHelper extends AbstractViewHelper
         $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', false, '"');
     }
 
-    /**
-     * @return string
-     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext,
-    ) {
+    ): string {
         $data = $arguments['data'];
         if (null === $data) {
             $data = $renderChildrenClosure();
@@ -62,7 +59,7 @@ class CSVLineViewHelper extends AbstractViewHelper
 
         // Write CSV to pseudo-file as PHP cannot write it directly to a string.
         $fp = fopen('php://temp', 'r+');
-        fputcsv($fp, $data, $arguments['fieldDelimiter'], $arguments['fieldEnclosure']);
+        fputcsv($fp, $data, $arguments['fieldDelimiter'], $arguments['fieldEnclosure'], '\\');
         rewind($fp);
         $result = fgets($fp);
         fclose($fp);

@@ -23,9 +23,7 @@ namespace Subugoe\Find\ViewHelpers\Page;
  * THE SOFTWARE.
  ******************************************************************************/
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -37,20 +35,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ScriptViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return PageRenderer
-     */
-    protected static function getPageRenderer()
+    protected static function getPageRenderer(): PageRenderer
     {
         return GeneralUtility::makeInstance(PageRenderer::class);
-    }
-
-    /**
-     * @return TemplateService
-     */
-    protected static function getTypoScriptTemplateService()
-    {
-        return $GLOBALS['TSFE']->tmpl;
     }
 
     public function initializeArguments()
@@ -70,32 +57,15 @@ class ScriptViewHelper extends AbstractViewHelper
         $name = $arguments['name'];
         $pageRenderer = self::getPageRenderer();
 
-        $typo3VersionConstraint = version_compare(VersionNumberUtility::getNumericTypo3Version(), '9.5.0', '<');
-
-        if ($typo3VersionConstraint) {
-            $scriptPath = static::getTypoScriptTemplateService()->getFileName($arguments['file']);
-
-            if ($scriptPath) {
-                $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-
-                return '';
-            }
-
+        $fileNameFromArguments = $arguments['file'];
+        if ($fileNameFromArguments) {
+            $scriptPath = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
+            $pageRenderer->addJsFooterLibrary($name, $scriptPath);
+        } else {
             $content = $renderChildrenClosure();
             $pageRenderer->addJsFooterInlineCode($name, $content);
-
-            return '';
-        } else {
-            $fileNameFromArguments = $arguments['file'];
-            if ($fileNameFromArguments) {
-                $scriptPath = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileNameFromArguments);
-                $pageRenderer->addJsFooterLibrary($name, $scriptPath);
-            } else {
-                $content = $renderChildrenClosure();
-                $pageRenderer->addJsFooterInlineCode($name, $content);
-            }
-
-            return '';
         }
+
+        return '';
     }
 }
