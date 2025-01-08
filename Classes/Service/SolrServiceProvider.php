@@ -289,7 +289,7 @@ class SolrServiceProvider extends AbstractServiceProvider
                     // Do not add it otherwise as the additional {!tag …} prepended to the Solr query
                     // will break usage of {!join …} in the query.
                     $queryInfo = ['key' => 'facet-'.$facetID.'-'.$facetTerm];
-                    if ($facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
+                    if (array_key_exists('excludeOwnFilter', $facetInfo['config']) && $facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
                         $queryInfo['tag'] = $this->tagForFacet($facetID);
                     }
 
