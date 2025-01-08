@@ -295,7 +295,7 @@ class SolrServiceProvider extends AbstractServiceProvider
 
                     // If facet.missing is active and facet is selected
                     // set solr query to exclude all known facet values
-                    if ($facetTerm === $facetInfo['config']['labelMissing']) {
+                    if (array_key_exists('labelMissing', $facetInfo['config']) && $facetTerm === $facetInfo['config']['labelMissing']) {
                         $this->query->createFilterQuery($queryInfo)
                             ->setQuery('-'.str_replace('("%s")', '[* TO *]', $facetInfo['config']['query']));
                     } else {
