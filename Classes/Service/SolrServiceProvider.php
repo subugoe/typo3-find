@@ -277,7 +277,7 @@ class SolrServiceProvider extends AbstractServiceProvider
         foreach ($activeFacets as $facetID => $facets) {
             foreach ($facets as $facetTerm => $facetInfo) {
                 $facetQuery = $this->getFacetQuery($this->getFacetConfig($facetID), $facetTerm);
-                if ('and' === $facetInfo['config']['queryStyle']) {
+                if (array_key_exists('queryStyle', $facetInfo['config']) && 'and' === $facetInfo['config']['queryStyle']) {
                     // TODO: Do we really use this part of the condition? Can it be removed?
                     // Alternative query style: adding a conjunction to the main query.
                     // Can be useful when using {!join} to filter on the underlying
@@ -296,13 +296,13 @@ class SolrServiceProvider extends AbstractServiceProvider
                     // Do not add it otherwise as the additional {!tag …} prepended to the Solr query
                     // will break usage of {!join …} in the query.
                     $queryInfo = ['key' => 'facet-'.$facetID.'-'.$facetTerm];
-                    if ($facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
+                    if (array_key_exists('excludeOwnFilter', $facetInfo['config']) && $facetInfo['config']['excludeOwnFilter'] && $facetQuery) {
                         $queryInfo['tag'] = $this->tagForFacet($facetID);
                     }
 
                     // If facet.missing is active and facet is selected
                     // set solr query to exclude all known facet values
-                    if ($facetTerm === $facetInfo['config']['labelMissing']) {
+                    if (array_key_exists('labelMissing', $facetInfo['config']) && $facetTerm === $facetInfo['config']['labelMissing']) {
                         $this->query->createFilterQuery($queryInfo)
                             ->setQuery('-'.str_replace('("%s")', '[* TO *]', $facetInfo['config']['query']));
                     } else {
