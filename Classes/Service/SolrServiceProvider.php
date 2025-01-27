@@ -419,10 +419,8 @@ class SolrServiceProvider extends AbstractServiceProvider
                         if ($fieldID && $queryParameters[$fieldID]) {
                             $queryArguments = $queryParameters[$fieldID];
                             $queryTerms = null;
-                            if (is_array($queryArguments) && array_key_exists(
-                                'alternate',
-                                $queryArguments
-                            ) && array_key_exists('queryAlternate', $fieldInfo)
+                            if (is_array($queryArguments) && array_key_exists('alternate',
+                                $queryArguments) && array_key_exists('queryAlternate', $fieldInfo)
                             ) {
                                 if (array_key_exists('term', $queryArguments)) {
                                     $queryTerms = $queryArguments['term'];
