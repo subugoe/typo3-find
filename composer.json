@@ -44,14 +44,16 @@
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "*",
     "ssch/typo3-rector": "^3.0",
-    "typo3/coding-standards": "^0.8.0"
+    "typo3/coding-standards": "^0.8.0",
+    "a9f/typo3-fractor": "^0.5.6"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
     "bin-dir": ".Build/bin",
     "allow-plugins": {
       "typo3/class-alias-loader": true,
-      "typo3/cms-composer-installers": true
+      "typo3/cms-composer-installers": true,
+      "a9f/fractor-extension-installer": true
     }
   },
   "scripts": {

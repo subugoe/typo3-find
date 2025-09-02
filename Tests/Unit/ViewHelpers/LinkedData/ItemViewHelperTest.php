@@ -45,12 +45,12 @@ class ItemViewHelperTest extends UnitTestCase
     /**
      * @var ItemViewHelper
      */
-    protected ItemViewHelper|MockObject $fixture;
+    protected \PHPUnit\Framework\MockObject\MockObject $fixture;
 
     /**
      * @var StandardVariableProvider
      */
-    protected $templateVariableContainer;
+    protected \PHPUnit\Framework\MockObject\MockObject $templateVariableContainer;
 
     public static function linkedDataProvider(): array
     {

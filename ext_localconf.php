@@ -18,7 +18,8 @@ $autoexec = static function (): void {
         ],
         [
             SearchController::class => 'index, detail, suggest',
-        ]
+        ],
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     /*
      * Register icons
@@ -30,8 +31,6 @@ $autoexec = static function (): void {
         FontawesomeIconProvider::class,
         ['name' => 'search']
     );
-
-    ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:find/Configuration/TSconfig/ContentElementWizard.tsconfig">');
 };
 $autoexec();
 unset($autoexec);

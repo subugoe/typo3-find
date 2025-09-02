@@ -60,12 +60,12 @@ class TitleViewHelper extends AbstractViewHelper
          */
         if ($GLOBALS['TSFE']->content) {
             $GLOBALS['TSFE']->content = preg_replace(
-                '/(<title>.*)' . $GLOBALS['TSFE']->page['title'] . '(.*<\/title>)/',
+                '/(<title>.*)' . $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord()['title'] . '(.*<\/title>)/',
                 '$1' . $title . '$2',
                 (string)$GLOBALS['TSFE']->content
             );
         } else {
-            $GLOBALS['TSFE']->page['title'] = $title;
+            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord()['title'] = $title;
         }
     }
 }
