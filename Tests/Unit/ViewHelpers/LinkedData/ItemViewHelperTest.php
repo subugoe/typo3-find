@@ -62,13 +62,12 @@ class ItemViewHelperTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(ItemViewHelper::class);
-        $this->templateVariableContainer = $this->getAccessibleMock(StandardVariableProvider::class, ['add', 'get', 'remove', 'exists']);
+        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)->getMock();
+        $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)->getMock();
         $this->templateVariableContainer
             ->expects(self::any())
             ->method('add')
-            ->with('hrdr')
-            ->willReturn('hrdr');
+        ;
         $this->templateVariableContainer
             ->expects(self::any())
             ->method('get')
@@ -77,8 +76,7 @@ class ItemViewHelperTest extends UnitTestCase
         $this->templateVariableContainer
             ->expects(self::any())
             ->method('remove')
-            ->with('hrdr')
-            ->willReturn(null);
+            ->with('hrdr');
         $this->templateVariableContainer
             ->expects(self::any())
             ->method('exists')

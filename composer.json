@@ -35,8 +35,8 @@
     "ext-mbstring": "*",
     "ext-dom": "*",
     "solarium/solarium": ">=6.0 <7.0",
-    "typo3/cms-core": "^12.4",
-    "typo3/cms-felogin": "^12.4",
+    "typo3/cms-core": "^13.4",
+    "typo3/cms-felogin": "^13.4",
     "friendsoftypo3/fontawesome-provider": "^1.0"
   },
   "require-dev": {
