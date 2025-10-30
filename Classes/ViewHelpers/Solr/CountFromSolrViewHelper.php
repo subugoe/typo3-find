@@ -26,6 +26,7 @@ namespace Subugoe\Find\ViewHelpers\Solr;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
 use Subugoe\Find\Service\SolrServiceProvider;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -33,8 +34,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CountFromSolrViewHelper extends AbstractViewHelper
 {
-    public function __construct(private readonly SolrServiceProvider $solr)
+    public function __construct()
     {
+        $this->solr = GeneralUtility::makeInstance(SolrServiceProvider::class);
     }
 
     public function initialize(): void

@@ -26,6 +26,8 @@ namespace Subugoe\Find\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
+use Psr\Log\LoggerInterface;
 use Solarium\Client;
 use Solarium\Component\Highlighting\Field;
 use Solarium\Component\Result\Analytics\Facet;
@@ -38,6 +40,7 @@ use Subugoe\Find\Utility\FrontendUtility;
 use Subugoe\Find\Utility\LoggerUtility;
 use Subugoe\Find\Utility\SettingsUtility;
 use Subugoe\Find\Utility\UpgradeUtility;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -55,6 +58,14 @@ class SolrServiceProvider extends AbstractServiceProvider
     protected ?string $controllerExtensionKey = null;
 
     protected Query $query;
+
+    public function __construct(
+        string $connectionName,
+        array $settings,
+        LoggerInterface $logger)
+    {
+        parent::__construct($connectionName, $settings, $logger);
+    }
 
     public function connect(): void
     {

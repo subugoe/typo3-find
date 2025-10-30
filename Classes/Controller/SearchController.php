@@ -29,9 +29,12 @@ namespace Subugoe\Find\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use TYPO3\CMS\Backend\Search\LiveSearch\SearchProviderInterface;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
@@ -46,9 +49,12 @@ class SearchController extends ActionController
 
     protected ?object $searchProvider = null;
 
-    public function __construct(private readonly LogManagerInterface $logManager, private readonly AssetCollector $assetCollector)
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly AssetCollector  $assetCollector,
+    )
     {
-        $this->logManager->getLogger('find');
+
     }
 
     /**
@@ -167,9 +173,10 @@ class SearchController extends ActionController
     {
         $connectionConfiguration = $this->settings['connections'][$activeConnection];
 
+        $logger = $this->logger;
+
         /* @var ServiceProviderInterface $searchProvider */
-        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection,
-            $this->settings);
+        $this->searchProvider = GeneralUtility::makeInstance($connectionConfiguration['provider'], $activeConnection, $this->settings, $this->logger);
         $this->searchProvider->connect();
     }
 }
