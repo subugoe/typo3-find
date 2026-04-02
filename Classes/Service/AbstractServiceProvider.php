@@ -17,10 +17,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         return $this->requestArguments;
     }
 
-    /**
-     * @param array $requestArguments
-     */
-    public function setRequestArguments($requestArguments): void
+    public function setRequestArguments(array $requestArguments): void
     {
         $this->requestArguments = $requestArguments;
     }

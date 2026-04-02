@@ -30,9 +30,7 @@ namespace Subugoe\Find\Service;
 use Psr\Log\LoggerInterface;
 use Solarium\Client;
 use Solarium\Component\Highlighting\Field;
-use Solarium\Component\Result\Analytics\Facet;
 use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Core\Client\Adapter\Http;
 use Solarium\Exception\HttpException;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Select\Result\Result;
@@ -164,10 +162,8 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Returns whether extended search should be used or not.
-     *
-     * @return bool
      */
-    public function isExtendedSearch()
+    public function isExtendedSearch(): bool
     {
         $result = false;
 
@@ -204,45 +200,33 @@ class SolrServiceProvider extends AbstractServiceProvider
         // TODO: Implement search() method.
     }
 
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
+    public function setAction(string $actionName): void
     {
-        $this->action = $action;
+        $this->action = $actionName;
     }
 
-    /**
-     * @param array $configuration
-     */
-    public function setConfiguration($configuration)
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration = $configuration;
     }
 
-    public function setConfigurationValue($key, $value)
+    public function setConfigurationValue($key, $value): void
     {
         $this->configuration[$key] = $value;
     }
 
-    /**
-     * @param string $controllerExtensionKey
-     */
-    public function setControllerExtensionKey($controllerExtensionKey)
+    public function setControllerExtensionKey(string $key): void
     {
-        $this->controllerExtensionKey = $controllerExtensionKey;
+        $this->controllerExtensionKey = $key;
     }
 
-    public function setCounter()
+    public function setCounter(): void
     {
         $this->setConfigurationValue('counterStart', $this->counterStart());
         $this->setConfigurationValue('counterEnd', $this->counterEnd());
     }
 
-    /**
-     * @param array $settings
-     */
-    public function suggestQuery($settings): array
+    public function suggestQuery(array $settings): array
     {
         $query = $this->getConnection()->createSuggester();
         $results = [];
@@ -271,8 +255,6 @@ class SolrServiceProvider extends AbstractServiceProvider
 
     /**
      * Adds filter queries for active facets to $query.
-     *
-     * @param array $arguments request arguments
      */
     protected function addFacetFilters(array $arguments): array
     {
@@ -509,8 +491,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * that is suitable for use in the f:form.select View Helper’s options argument.
      * For the key »default« it contains the default number of results.
      * For the key »selected« it contains the the selected number of results.
-     *
-     * @param array $arguments request arguments
      */
     protected function addResultCountOptionsToTemplate(array $arguments): void
     {
@@ -542,8 +522,6 @@ class SolrServiceProvider extends AbstractServiceProvider
      * View Helper’s options argument.
      * For the key »default« it contains the default sort order string.
      * For the key »selected« it contains the selected sort order string.
-     *
-     * @param array $arguments request arguments
      */
     protected function addSortOrdersToTemplate(array $arguments): void
     {
@@ -590,7 +568,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * Checks that $sortString is well-formatted and adds the sort conidition
+     * Checks that $sortString is well-formatted and adds the sort condition
      * defined by it to $query.
      * Adds feedback about invalid sort string format to the page.
      */
@@ -798,8 +776,6 @@ class SolrServiceProvider extends AbstractServiceProvider
     /**
      * Returns query for the given facet $ID and $term based on the facet’s
      * configuration.
-     *
-     * @return string query string
      */
     protected function getFacetQuery(array $facetConfig, string $queryTerm): ?string
     {
@@ -1188,7 +1164,7 @@ class SolrServiceProvider extends AbstractServiceProvider
     /*
      * Set configured main query operator. Defaults to 'AND'.
      */
-    private function addDefaultQueryOperator()
+    private function addDefaultQueryOperator(): void
     {
         if (isset($this->settings['defaultQueryOperator'])) {
             $defaultQueryOperator = $this->settings['defaultQueryOperator'];

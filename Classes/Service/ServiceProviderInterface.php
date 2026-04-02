@@ -50,26 +50,17 @@ interface ServiceProviderInterface
 
     public function search($query);
 
-    /**
-     * @param string $actionName
-     */
-    public function setAction($actionName);
+    public function setAction(string $actionName);
 
     public function setConfigurationValue($key, $value);
 
-    /**
-     * @param string $key
-     */
-    public function setControllerExtensionKey($key);
+    public function setControllerExtensionKey(string $key);
 
     public function setCounter();
 
-    /**
-     * @param array $requestArguments
-     */
-    public function setRequestArguments($requestArguments);
+    public function setRequestArguments(array $requestArguments);
 
-    public function suggestQuery($settings);
+    public function suggestQuery(array $settings);
 
     public function getConnection();
 }
