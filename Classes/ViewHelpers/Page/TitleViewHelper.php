@@ -41,6 +41,7 @@ class TitleViewHelper extends AbstractViewHelper
         $this->registerArgument('title', 'string', 'the title to set for the page', false, null);
     }
 
+    #[\Override]
     public function render(): void
     {
         $title = $this->arguments['title'];

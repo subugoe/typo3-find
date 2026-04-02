@@ -21,6 +21,6 @@ return RectorConfig::configure()
         __DIR__ . '/*.php',
     ])
     ->withSets([
-        SetList::PHP_83,
+        SetList::PHP_84,
         Typo3LevelSetList::UP_TO_TYPO3_13,
     ]);

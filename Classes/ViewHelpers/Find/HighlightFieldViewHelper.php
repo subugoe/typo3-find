@@ -89,6 +89,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         $this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', false, false);
     }
 
+    #[\Override]
     public function render(): array|string
     {
         if ($this->arguments['document']) {

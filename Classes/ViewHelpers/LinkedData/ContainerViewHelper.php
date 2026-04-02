@@ -54,6 +54,7 @@ class ContainerViewHelper extends AbstractViewHelper
     /**
      * @throws \DOMException
      */
+    #[\Override]
     public function render(): string
     {
         $this->renderingContext->getVariableProvider()->add($this->arguments['name'], []);

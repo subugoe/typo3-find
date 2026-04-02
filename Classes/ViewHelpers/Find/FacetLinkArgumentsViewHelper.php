@@ -64,6 +64,7 @@ class FacetLinkArgumentsViewHelper extends AbstractViewHelper
      * passing it to f.link.action’s »arguments«
      * or »argumentsToBeExcludedFromQueryString«.
      */
+    #[\Override]
     public function render(): array
     {
         $result = [];

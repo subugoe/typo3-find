@@ -52,6 +52,7 @@ class ItemViewHelper extends AbstractViewHelper
         );
     }
 
+    #[\Override]
     public function render(): void
     {
         $container = $this->renderingContext->getVariableProvider()->get($this->arguments['name']);

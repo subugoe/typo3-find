@@ -42,6 +42,7 @@ class NotViewHelper extends AbstractViewHelper
         $this->registerArgument('condition', 'string|int|float|array', 'the condition to NOT', true);
     }
 
+    #[\Override]
     public function render(): bool
     {
         return $this->arguments['condition'] != true;

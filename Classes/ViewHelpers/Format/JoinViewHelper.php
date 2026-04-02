@@ -48,6 +48,7 @@ class JoinViewHelper extends AbstractViewHelper
         );
     }
 
+    #[\Override]
     public function render(): string
     {
         $array = $this->arguments['array'];

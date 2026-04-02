@@ -8,3 +8,4 @@ vendor/*
 /.php-cs-fixer.cache
 var
 node_modules
+config/

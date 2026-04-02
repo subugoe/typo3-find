@@ -62,6 +62,7 @@ class CountFromSolrViewHelper extends AbstractViewHelper
         $this->registerArgument('activeFacets', 'array', 'Array with active facets', false);
     }
 
+    #[\Override]
     public function render(): void
     {
         $findParameter = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['tx_find_find'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['tx_find_find'] ?? null;

@@ -41,6 +41,7 @@ class XMLViewHelper extends AbstractViewHelper
         $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', false, false);
     }
 
+    #[\Override]
     public function render(): false|string
     {
         $input = $this->renderChildren();

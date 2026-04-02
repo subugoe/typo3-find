@@ -43,6 +43,7 @@ class TransposeViewHelper extends AbstractViewHelper
         $this->registerArgument('name', 'string', 'Variable name to assign the new array to', true);
     }
 
+    #[\Override]
     public function render(): array
     {
         $arrays = [];

@@ -48,6 +48,7 @@ class SplitViewHelper extends AbstractViewHelper
         $this->registerArgument('separator', 'string', 'The string separating the components', false, self::DEFAULT_SEPARATOR);
     }
 
+    #[\Override]
     public function render(
     ): array {
         $string = $this->arguments['string'];

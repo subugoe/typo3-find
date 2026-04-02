@@ -42,6 +42,7 @@ class AndViewHelper extends AbstractViewHelper
         $this->registerArgument('conditions', 'array', 'the array of conditions to AND', true);
     }
 
+    #[\Override]
     public function render(
     ): bool {
         $result = true;

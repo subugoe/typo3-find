@@ -41,6 +41,7 @@ class OrViewHelper extends AbstractViewHelper
         $this->registerArgument('conditions', 'array', 'the array of conditions to OR', true);
     }
 
+    #[\Override]
     public function render(): bool
     {
         $result = false;

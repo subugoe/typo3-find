@@ -44,6 +44,7 @@ class IsArrayViewHelper extends AbstractViewHelper
         $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', false, null);
     }
 
+    #[\Override]
     public function render(): bool
     {
         $result = false;

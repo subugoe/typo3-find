@@ -43,6 +43,7 @@ class JsonViewHelper extends AbstractViewHelper
         $this->registerArgument('data', 'mixed', 'The data to output as JSON', false, null);
     }
 
+    #[\Override]
     public function render()
     {
         @trigger_error('Please use f:format.json instead', E_USER_DEPRECATED);

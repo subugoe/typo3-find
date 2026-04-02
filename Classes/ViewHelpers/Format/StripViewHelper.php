@@ -54,6 +54,7 @@ class StripViewHelper extends AbstractViewHelper
         );
     }
 
+    #[\Override]
     public function render(): string
     {
         $string = $this->arguments['string'];

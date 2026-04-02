@@ -63,6 +63,7 @@ class LocalizedFacetDataViewHelper extends AbstractViewHelper
         $this->registerArgument('settings', 'Array', 'find settings', true);
     }
 
+    #[\Override]
     public function render(
     ): array {
         $facetNames = [];

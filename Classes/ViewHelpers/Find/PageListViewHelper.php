@@ -43,6 +43,7 @@ class PageListViewHelper extends AbstractViewHelper
         $this->registerArgument('minimumGapSize', 'int', 'gaps of fewer items than this are filles', false, 2);
     }
 
+    #[\Override]
     public function render(
     ): array {
         $currentPage = ($this->arguments['currentPage'] ? (int)$this->arguments['currentPage'] : 1);

@@ -39,6 +39,7 @@ class FieldContentViewHelper extends AbstractViewHelper
         $this->registerArgument('string', 'string', 'String to be examined for display', false, null);
     }
 
+    #[\Override]
     public function render(): string
     {
         $string = $this->arguments['string'];

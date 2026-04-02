@@ -50,6 +50,7 @@ class PageNumberForResultNumberViewHelper extends AbstractViewHelper
         $this->registerArgument('resultsPerPage', 'int', 'number of results per page', false, self::DEFAULT_RESULTS_PER_PAGE);
     }
 
+    #[\Override]
     public function render(
     ): int {
         if ($this->arguments['resultsPerPage'] === 0) {

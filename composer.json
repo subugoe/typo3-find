@@ -29,7 +29,7 @@
     "typo3-ter/find": "self.version"
   },
   "require": {
-    "php": "> 8.2.0 < 8.4.0",
+    "php": "> 8.3.0 < 8.5.0",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
@@ -40,7 +40,7 @@
     "friendsoftypo3/fontawesome-provider": "^1.0"
   },
   "require-dev": {
-    "typo3/testing-framework": "^8.2",
+    "typo3/testing-framework": "^9.5.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpunit/phpunit": "*",
     "ssch/typo3-rector": "^3.0",
@@ -58,8 +58,8 @@
   },
   "scripts": {
     "post-autoload-dump": [
-      "mkdir -p .Build/public/typo3conf/ext/",
-      "[ -L .Build/public/typo3conf/ext/find ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/find"
+      "mkdir -p .Build/vendor/subugoe/",
+      "[ -L .Build/vendor/subugoe/find/ ] || ln -snvf ../../../../. .Build/vendor/subugoe/find"
     ],
     "rector-lint": "rector process --dry-run",
     "rector-fix": "rector process",

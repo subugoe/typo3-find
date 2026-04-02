@@ -64,6 +64,7 @@ class SelectOptionsForFacetViewHelper extends AbstractViewHelper
         $this->registerArgument('localisationPrefix', 'string', 'prefix for the localisation key', false, '');
     }
 
+    #[\Override]
     public function render(
     ): array {
         $result = [];

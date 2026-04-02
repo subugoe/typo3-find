@@ -51,6 +51,7 @@ class FacetIsActiveViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'string', 'Query type [string, range]', false, 'string');
     }
 
+    #[\Override]
     public function render(
     ): bool {
         foreach ($this->arguments['activeFacets'] as $facets) {

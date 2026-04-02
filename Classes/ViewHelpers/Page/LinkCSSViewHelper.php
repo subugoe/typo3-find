@@ -55,6 +55,7 @@ class LinkCSSViewHelper extends AbstractViewHelper
      * @throws InvalidFileNameException
      * @throws FileDoesNotExistException
      */
+    #[\Override]
     public function render(): string
     {
         $fileNameFromArguments = $this->arguments['file'];

@@ -43,6 +43,7 @@ class CSVLineViewHelper extends AbstractViewHelper
         $this->registerArgument('fieldEnclosure', 'string', 'The string to enclose the field content in', false, '"');
     }
 
+    #[\Override]
     public function render(
     ): false|string {
         $data = $this->arguments['data'];

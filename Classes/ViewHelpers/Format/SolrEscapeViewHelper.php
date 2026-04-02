@@ -43,6 +43,7 @@ class SolrEscapeViewHelper extends AbstractViewHelper
         $this->registerArgument('phrase', 'boolean', 'whether to use phrase escaping', false, false);
     }
 
+    #[\Override]
     public function render(): string
     {
         $string = $this->arguments['string'];

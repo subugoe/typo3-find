@@ -66,7 +66,7 @@ class OrViewHelperTest extends UnitTestCase
                     1 === 0,
                     'hrdr' === '3',
                     'behedeti' === 'hrdr',
-                    7 == 0,
+                    7 === 0,
                 ],
                 false,
             ],

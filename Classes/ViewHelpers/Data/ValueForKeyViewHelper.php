@@ -43,6 +43,7 @@ class ValueForKeyViewHelper extends AbstractViewHelper
         $this->registerArgument('key', 'string', 'The key to extract the value for', true);
     }
 
+    #[\Override]
     public function render()
     {
         $result = null;

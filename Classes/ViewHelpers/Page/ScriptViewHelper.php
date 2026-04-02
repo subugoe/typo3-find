@@ -51,6 +51,7 @@ class ScriptViewHelper extends AbstractViewHelper
      * @throws InvalidFileException
      * @throws FileDoesNotExistException
      */
+    #[\Override]
     public function render(): string
     {
         $name = $this->arguments['name'];

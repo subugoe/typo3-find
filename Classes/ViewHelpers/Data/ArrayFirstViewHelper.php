@@ -43,6 +43,7 @@ class ArrayFirstViewHelper extends AbstractViewHelper
         $this->registerArgument('array', 'array|string', 'the array to return the first value of', false, null);
     }
 
+    #[\Override]
     public function render()
     {
         $result = null;

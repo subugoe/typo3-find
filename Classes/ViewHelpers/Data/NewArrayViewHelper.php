@@ -57,6 +57,7 @@ class NewArrayViewHelper extends AbstractViewHelper
         $this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', false, false);
     }
 
+    #[\Override]
     public function render()
     {
         $result = $this->arguments['array'] ?? [];
