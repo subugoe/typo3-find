@@ -52,7 +52,7 @@ interface ServiceProviderInterface
 
     public function setAction(string $actionName);
 
-    public function setConfigurationValue($key, $value);
+    public function setConfigurationValue(string $key, mixed $value);
 
     public function setControllerExtensionKey(string $key);
 

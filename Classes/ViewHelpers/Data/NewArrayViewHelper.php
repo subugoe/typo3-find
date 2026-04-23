@@ -85,6 +85,7 @@ class NewArrayViewHelper extends AbstractViewHelper
             if (!is_array($values)) {
                 $values = [];
             }
+
             // Re-index both arrays numerically so we can safely zip them
             // regardless of the original key structure
             $keyList = array_values($keys);
@@ -96,6 +97,7 @@ class NewArrayViewHelper extends AbstractViewHelper
                 // This prevents silent data loss when counts don't match
                 $valueList = $valueCount < $keyCount ? array_pad($valueList, $keyCount, null) : array_slice($valueList, 0, $keyCount);
             }
+
             foreach ($keyList as $index => $key) {
                 if (!is_string($key) && !is_int($key)) {
                     continue;
