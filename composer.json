@@ -29,15 +29,14 @@
     "typo3-ter/find": "self.version"
   },
   "require": {
-    "php": "> 8.3.0 < 8.5.0",
+    "php": "> 8.3.0 < 8.6.0",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-dom": "*",
     "solarium/solarium": ">=6.0 <7.0",
     "typo3/cms-core": "^13.4",
-    "typo3/cms-felogin": "^13.4",
-    "friendsoftypo3/fontawesome-provider": "^1.0"
+    "typo3/cms-felogin": "^13.4"
   },
   "require-dev": {
     "typo3/testing-framework": "^9.5.0",

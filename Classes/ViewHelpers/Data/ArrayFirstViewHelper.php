@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -34,31 +36,57 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * knowing the key names.
  *
  * Usage examples are available in Private/Partials/Test.html.
+ *
+ * Examples:
+ *   <f:variable name="items" value="{foo: 'bar', baz: 'qux'}" />
+ *   {s:data.arrayFirst(array: items)} => "bar"
+ *
+ *   Inline with tag children:
+ *   <s:data.arrayFirst>{items}</s:data.arrayFirst>
  */
 class ArrayFirstViewHelper extends AbstractViewHelper
 {
+    /**
+     * Output is determined by the array content which may contain HTML.
+     * Escaping must be disabled so that HTML values pass through untouched.
+     */
+    protected $escapeOutput = false;
+
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('array', 'array|string', 'the array to return the first value of', false, null);
+        $this->registerArgument(
+            'array',
+            'mixed',
+            'The array (or Traversable) to return the first value of. Falls back to tag children if omitted.',
+            false,
+            null
+        );
     }
 
     #[\Override]
-    public function render()
+    public function render(): mixed
     {
-        $result = null;
+        $array = $this->arguments['array'] ?? $this->renderChildren();
 
-        $array = $this->arguments['array'];
         if ($array === null) {
-            $array = $this->renderChildren();
+            return null;
         }
 
-        if (is_array($array) && $array !== []) {
-            $arrayKeys = array_keys($array);
-            $firstKey = $arrayKeys[0];
-            $result = $array[$firstKey];
+        // Convert Traversable (e.g. SplFixedArray, QueryResult, ObjectStorage) to a plain array
+        if ($array instanceof \Traversable) {
+            $array = iterator_to_array($array, true);
         }
 
-        return $result;
+        // Handle comma-separated strings passed from Fluid inline notation
+        if (is_string($array)) {
+            $array = array_map(trim(...), explode(',', $array));
+        }
+
+        if (!is_array($array) || $array === []) {
+            return null;
+        }
+
+        return reset($array);
     }
 }

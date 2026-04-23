@@ -29,7 +29,6 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;

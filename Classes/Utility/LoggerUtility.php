@@ -35,7 +35,7 @@ class LoggerUtility
     /**
      * Returns an array that can be handled by devLog with the information from an exception.
      */
-    public static function exceptionToArray(\Throwable $exception, $includePrevious = false): array
+    public static function exceptionToArray(\Throwable $exception, bool $includePrevious = false): array
     {
         $array = [
             'message' => $exception->getMessage(),
@@ -45,7 +45,7 @@ class LoggerUtility
             'trace' => $exception->getTraceAsString(),
         ];
 
-        if ($includePrevious) {
+        if ($includePrevious && $exception->getPrevious() instanceof \Throwable) {
             $array['previous'] = self::exceptionToArray($exception->getPrevious(), true);
         }
 

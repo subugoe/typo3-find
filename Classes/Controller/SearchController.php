@@ -51,21 +51,32 @@ class SearchController extends ActionController
     {
         $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
+        $underlyingQueryScriptTagContent = '';
+
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+            if (!is_array($underlyingQueryInfo)) {
+                $underlyingQueryInfo = [];
+            }
+
             $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
-                $underlyingQueryInfo['q'],
+                $underlyingQueryInfo['q'] ?? [],
                 $this->settings,
-                (int)$underlyingQueryInfo['position'],
+                isset($underlyingQueryInfo['position']) ? (int)$underlyingQueryInfo['position'] : null,
                 $arguments
             );
 
-            $this->assetCollector->addInlineJavaScript('underlyingQueryVar', sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent), ['type' => 'text/javascript'], ['priority' => true]);
-
+            if ($underlyingQueryScriptTagContent !== '') {
+                $this->assetCollector->addInlineJavaScript(
+                    'underlyingQueryVar',
+                    sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent),
+                    ['type' => 'text/javascript'],
+                    ['priority' => true]
+                );
+            }
         }
 
         $this->addStandardAssignments();
-
         $this->view->assignMultiple($detail);
         $this->view->assignMultiple([
             'underlyingQuery' => $underlyingQueryScriptTagContent,
@@ -116,7 +127,9 @@ class SearchController extends ActionController
      */
     protected function initializeAction(): void
     {
-        ksort($this->settings['queryFields']);
+        if (!empty($this->settings['queryFields']) && is_array($this->settings['queryFields'])) {
+            ksort($this->settings['queryFields']);
+        }
 
         $this->initializeConnection($this->settings['activeConnection']);
 

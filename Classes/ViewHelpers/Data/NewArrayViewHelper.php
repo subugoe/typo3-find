@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -33,6 +35,18 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * View Helper to create a new array with the given keys and values.
  *
  * Usage examples are available in Private/Partials/Test.html.
+ *
+ * Examples:
+ *   Build associative array:
+ *     <s:data.newArray keys="{0: 'foo', 1: 'bar'}" values="{0: 'a', 1: 'b'}" name="myArray">
+ *       {myArray.foo} => "a"
+ *     </s:data.newArray>
+ *
+ *   Append to existing array:
+ *     <s:data.newArray array="{existing}" values="{0: 'extra'}" name="merged">…</s:data.newArray>
+ *
+ *   Global assignment:
+ *     <s:data.newArray keys="{0: 'x'}" values="{0: 1}" name="cfg" global="true" />
  */
 class NewArrayViewHelper extends AbstractViewHelper
 {
@@ -41,55 +55,91 @@ class NewArrayViewHelper extends AbstractViewHelper
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('name', 'string', 'name of template variable to assign the result to');
-        $this->registerArgument('array', 'array', 'existing array to add the new keys and values to', false, []);
-
-        $this->registerArgument('keys', 'array', 'array of keys');
-        $this->registerArgument('values', 'array', 'array of values', false, []);
-
+        $this->registerArgument('name', 'string', 'Name of template variable to assign the result to', false, null);
+        $this->registerArgument('array', 'array', 'Existing array to add the new keys and values to', false, []);
+        $this->registerArgument('keys', 'array', 'Array of keys', false, []);
+        $this->registerArgument('values', 'array', 'Array of values', false, []);
         $this->registerArgument(
             'global',
             'boolean',
-            'whether to make the variable available to all templates coming afterwards',
+            'Whether to make the variable available to all templates coming afterwards',
             false,
             false
         );
-        $this->registerArgument('omitEmptyFields', 'boolean', 'omits empty fields', false, false);
+        $this->registerArgument('omitEmptyFields', 'boolean', 'Omits empty fields', false, false);
     }
 
     #[\Override]
-    public function render()
+    public function render(): mixed
     {
-        $result = $this->arguments['array'] ?? [];
+        $result = $this->arguments['array'];
+        if (!is_array($result)) {
+            $result = [];
+        }
 
-        if ($this->arguments['keys']) {
-            if (count($this->arguments['keys']) === count($this->arguments['values'])) {
-                foreach ($this->arguments['keys'] as $index => $key) {
-                    $value = $this->arguments['values'][$index];
-                    if (!$this->arguments['omitEmptyFields'] || $value) {
-                        $result[$key] = $value;
-                    }
-                }
+        $keys = $this->arguments['keys'];
+        $values = $this->arguments['values'];
+        $omitEmpty = (bool)$this->arguments['omitEmptyFields'];
+
+        if (is_array($keys) && $keys !== []) {
+            if (!is_array($values)) {
+                $values = [];
             }
-        } else {
-            foreach ($this->arguments['values'] as $value) {
+            // Re-index both arrays numerically so we can safely zip them
+            // regardless of the original key structure
+            $keyList = array_values($keys);
+            $valueList = array_values($values);
+            $keyCount = count($keyList);
+            $valueCount = count($valueList);
+            if ($keyCount !== $valueCount) {
+                // Pad the shorter array: missing values become null, extra values are ignored
+                // This prevents silent data loss when counts don't match
+                $valueList = $valueCount < $keyCount ? array_pad($valueList, $keyCount, null) : array_slice($valueList, 0, $keyCount);
+            }
+            foreach ($keyList as $index => $key) {
+                if (!is_string($key) && !is_int($key)) {
+                    continue;
+                }
+
+                $value = $valueList[$index] ?? null;
+
+                if ($omitEmpty && empty($value)) {
+                    continue;
+                }
+
+                $result[$key] = $value;
+            }
+        } elseif (is_array($values)) {
+            // No keys provided: append values with numeric indices
+            foreach ($values as $value) {
+                if ($omitEmpty && empty($value)) {
+                    continue;
+                }
+
                 $result[] = $value;
             }
         }
 
         $variableName = $this->arguments['name'] ?? null;
-        if ($variableName !== null) {
-            if ($this->renderingContext->getVariableProvider()->exists($variableName)) {
-                $this->renderingContext->getVariableProvider()->remove($variableName);
-            }
 
-            $this->renderingContext->getVariableProvider()->add($variableName, $result);
-            $result = $this->renderChildren();
-            if ($this->arguments['global'] !== true) {
-                $this->renderingContext->getVariableProvider()->remove($variableName);
-            }
+        if ($variableName === null || $variableName === '') {
+            return $result;
         }
 
-        return $result;
+        $variableProvider = $this->renderingContext->getVariableProvider();
+
+        if ($variableProvider->exists($variableName)) {
+            $variableProvider->remove($variableName);
+        }
+
+        $variableProvider->add($variableName, $result);
+
+        $childContent = $this->renderChildren();
+
+        if ($this->arguments['global'] !== true) {
+            $variableProvider->remove($variableName);
+        }
+
+        return $childContent;
     }
 }

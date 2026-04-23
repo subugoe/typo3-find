@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\ViewHelpers\Data;
 
 /*******************************************************************************
@@ -26,38 +28,44 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  ******************************************************************************/
+
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * View Helper to return whether the variable is an array.
+ * View Helper to return whether the variable is an array or array-like.
  *
- * Usage examples are available in Private/Partials/Test.html.
+ * Returns true for plain arrays and Traversable objects (e.g. ObjectStorage,
+ * QueryResult, Solarium result sets).
+ *
+ * Usage examples:
+ *   <f:if condition="{s:data.isArray(subject: myVar)}">…</f:if>
+ *   <f:if condition="{s:data.isArray()}{myVar}</f:if>
  */
 class IsArrayViewHelper extends AbstractViewHelper
 {
     /**
-     * Register arguments.
+     * This ViewHelper returns a boolean, never HTML — escaping is irrelevant
+     * but disabling it avoids any unnecessary processing.
      */
+    protected $escapeOutput = false;
+
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('subject', 'array|string|int', 'The variable to inspect', false, null);
+        $this->registerArgument(
+            'subject',
+            'mixed',
+            'The variable to inspect. Falls back to tag children if omitted.',
+            false,
+            null
+        );
     }
 
     #[\Override]
     public function render(): bool
     {
-        $result = false;
+        $subject = $this->arguments['subject'] ?? $this->renderChildren();
 
-        $subject = $this->arguments['subject'];
-        if ($subject === null) {
-            $subject = $this->renderChildren();
-        }
-
-        if ($subject !== null) {
-            $result = is_array($subject);
-        }
-
-        return $result;
+        return is_iterable($subject);
     }
 }
