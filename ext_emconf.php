@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $EM_CONF['find'] = [
     'title' => 'Find',
     'description' => 'A frontend for Solr indexes',

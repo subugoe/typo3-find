@@ -29,11 +29,11 @@ namespace Subugoe\Find\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 use Psr\Http\Message\ResponseInterface;
+use Subugoe\Find\PageTitle\FindPageTitleProvider;
 use Subugoe\Find\Service\ServiceProviderInterface;
 use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Page\AssetCollector;
-use TYPO3\CMS\Core\PageTitle\PageTitleProviderInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -42,7 +42,7 @@ class SearchController extends ActionController
 {
     protected array $requestArguments = [];
 
-    public function __construct(private readonly AssetCollector $assetCollector, private readonly ServiceProviderInterface $searchProvider, private readonly PageTitleProviderInterface $pageTitleProvider) {}
+    public function __construct(private readonly AssetCollector $assetCollector, private readonly ServiceProviderInterface $searchProvider, private readonly FindPageTitleProvider $pageTitleProvider) {}
 
     /**
      * @throws \JsonException
