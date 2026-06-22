@@ -20,17 +20,22 @@ const container = qs('.tx_find');
 
 const URLParameterPrefix = 'tx_find_find';
 
-function addURLParameter(url: string, name: string, value: string): string {
+export function addURLParameter(url: string, name: string, value: string): string {
   const [base, hash = ''] = url.split('#');
-  const paramStr = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
-  return `${base}${base.includes('?') ? '&' : '?'}${paramStr}${hash ? '#' + hash : ''}`;
+  const [path, query = ''] = base.split('?');
+  const params = new URLSearchParams(query);
+  params.set(name, value);
+  const queryString = params.toString().replace(/\+/g, '%20');
+  return `${path}?${queryString}${hash ? '#' + hash : ''}`;
 }
 
-function removeURLParameter(url: string, name: string): string {
-  const param = encodeURIComponent(name);
-  return url
-    .replace(new RegExp('&?' + param + '=[^&]*'), '')
-    .replace(/\?$/, '');
+export function removeURLParameter(url: string, name: string): string {
+  const [base, hash = ''] = url.split('#');
+  const [path, query = ''] = base.split('?');
+  const params = new URLSearchParams(query);
+  params.delete(name);
+  const queryString = params.toString();
+  return `${path}${queryString ? '?' + queryString : ''}${hash ? '#' + hash : ''}`;
 }
 
 function changeURL(url: string): void {
@@ -238,7 +243,7 @@ export function showAllFacetsOfType(e: Event): void {
   e.preventDefault();
 }
 
-function inputWithNameAndValue(name: string, value: string): HTMLInputElement {
+export function inputWithNameAndValue(name: string, value: string): HTMLInputElement {
   const input = document.createElement('input');
   input.name = name;
   input.value = value;
@@ -246,7 +251,7 @@ function inputWithNameAndValue(name: string, value: string): HTMLInputElement {
   return input;
 }
 
-function inputsWithPrefixForObject(
+export function inputsWithPrefixForObject(
   prefix: string,
   obj: Record<string, unknown>
 ): HTMLInputElement[] {
