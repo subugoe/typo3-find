@@ -48,7 +48,7 @@ class FacetIsActiveViewHelperTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->renderingContext = (new TemplateView())->getRenderingContext();
         $this->invoker = new ViewHelperInvoker();
     }
 
