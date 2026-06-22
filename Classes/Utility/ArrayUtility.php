@@ -40,7 +40,7 @@ class ArrayUtility
     public static function cleanArgumentsArray(array $array): array
     {
         foreach ($array as $key => $value) {
-            if (str_starts_with((string)$key, '__') || $value === '') {
+            if (is_string($key) && str_starts_with($key, '__') || $value === '') {
                 unset($array[$key]);
             } elseif (is_array($value)) {
                 $cleaned = self::cleanArgumentsArray($value);

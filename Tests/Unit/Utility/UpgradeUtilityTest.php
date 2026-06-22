@@ -6,10 +6,10 @@ namespace Subugoe\Find\Tests\Unit\Utility;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 use Subugoe\Find\Utility\UpgradeUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class UpgradeUtilityTest extends TestCase
+class UpgradeUtilityTest extends UnitTestCase
 {
     public static function settingsProvider(): array
     {
@@ -67,6 +67,10 @@ class UpgradeUtilityTest extends TestCase
     #[DataProvider(methodName: 'settingsProvider')]
     public function configurationIsAutomaticallyUpgraded(array $settings, array $expected): void
     {
-        self::assertSame($expected, UpgradeUtility::handleSolariumUpgrade($settings));
+        set_error_handler(static fn(): true => true, E_USER_DEPRECATED);
+        $result = UpgradeUtility::handleSolariumUpgrade($settings);
+        restore_error_handler();
+
+        self::assertSame($expected, $result);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\Service;
 
 /* * *************************************************************
@@ -226,7 +228,10 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     public function search($query): void
     {
-        // TODO: Implement search() method.
+        throw new \BadMethodCallException(
+            sprintf('%s::search() is not implemented.', self::class),
+            1_700_000_003
+        );
     }
 
     public function setAction(string $actionName): void
@@ -257,28 +262,34 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     public function suggestQuery(array $settings): array
     {
-        $query   = $this->getConnection()->createSuggester();
         $results = [];
 
-        if (!empty($settings['q'])) {
-            $query->setQuery($settings['q']);
-            if (!empty($settings['dictionary'])) {
-                $query->setDictionary($settings['dictionary']);
-            }
+        if (empty($settings['q'])) {
+            return $results;
+        }
 
-            $this->addFacetFilters($settings);
+        // Initialize $this->query so addFacetFilters can use it
+        $this->createQuery();
 
-            try {
-                $solrResults = $this->getConnection()->execute($query)->getResults();
-                foreach ($solrResults as $suggestions) {
-                    $results = array_merge($results, $suggestions->getSuggestions());
-                }
-            } catch (HttpException $httpException) {
-                $this->logger->error(
-                    'Solr suggest query failed',
-                    ['exception' => LoggerUtility::exceptionToArray($httpException)]
-                );
+        $query = $this->getConnection()->createSuggester();
+        $query->setQuery($settings['q']);
+
+        if (!empty($settings['dictionary'])) {
+            $query->setDictionary($settings['dictionary']);
+        }
+
+        $this->addFacetFilters($settings);
+
+        try {
+            $solrResults = $this->getConnection()->execute($query)->getResults();
+            foreach ($solrResults as $suggestions) {
+                $results = array_merge($results, $suggestions->getSuggestions());
             }
+        } catch (HttpException $httpException) {
+            $this->logger->error(
+                'Solr suggest query failed',
+                ['exception' => LoggerUtility::exceptionToArray($httpException)]
+            );
         }
 
         return $results;
@@ -633,7 +644,7 @@ class SolrServiceProvider implements ServiceProviderInterface
         }
     }
 
-    protected function addTypoScriptFilters(): static
+    protected function addTypoScriptFilters(): void
     {
         if (!empty($this->settings['additionalFilters']) && is_array($this->settings['additionalFilters'])) {
             foreach ($this->settings['additionalFilters'] as $key => $filterQuery) {
@@ -641,8 +652,6 @@ class SolrServiceProvider implements ServiceProviderInterface
                     ->setQuery($filterQuery);
             }
         }
-
-        return $this;
     }
 
     protected function counterEnd(): int
@@ -745,14 +754,16 @@ class SolrServiceProvider implements ServiceProviderInterface
             $arguments = $this->getRequestArguments();
         }
 
-        $count = (int)($this->settings['paging']['perPage'] ?? 10);
+        $default  = (int)($this->settings['paging']['perPage'] ?? 10);
+        $maxCount = max(1, (int)($this->settings['paging']['maximumPerPage'] ?? 100));
+        $count    = $default;
 
         if (array_key_exists('count', $arguments)) {
             $count = (int)$arguments['count'];
         }
 
-        $maxCount = (int)($this->settings['paging']['maximumPerPage'] ?? 100);
-        $count    = min($count, max($maxCount, 1));
+        // Clamp: at least 1, at most maximumPerPage
+        $count = max(1, min($count, $maxCount));
 
         $this->setConfigurationValue('count', $count);
 
@@ -1058,9 +1069,7 @@ class SolrServiceProvider implements ServiceProviderInterface
             } elseif ($noEscape === 1) {
                 $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
             } else {
-                $queryPart = $magicFieldPrefix . $this->query->getHelper()->escapePhrase(
-                    vsprintf($queryFormat, $queryTerms)
-                );
+                $queryPart = $magicFieldPrefix . vsprintf($queryFormat, $queryTerms);
             }
 
             if ($queryPart !== '' && $queryPart !== '0') {
@@ -1176,7 +1185,11 @@ class SolrServiceProvider implements ServiceProviderInterface
             $this->logger->error('Solr connection test failed', [
                 'exception' => LoggerUtility::exceptionToArray($httpException),
             ]);
-            throw $httpException;
+            throw new \RuntimeException(
+                sprintf('Solr connection failed: %s', $httpException->getMessage()),
+                1_700_000_002,
+                $httpException
+            );
         }
     }
 }

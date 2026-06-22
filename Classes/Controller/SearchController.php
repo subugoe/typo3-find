@@ -46,7 +46,7 @@ class SearchController extends ActionController
     public function __construct(
         private readonly AssetCollector $assetCollector,
         private readonly ServiceProviderInterface $searchProvider,
-        private readonly FindPageTitleProvider $pageTitleProvider
+        private readonly FindPageTitleProvider $pageTitleProvider,
     ) {}
 
     /**
@@ -72,16 +72,11 @@ class SearchController extends ActionController
             );
 
             if ($underlyingQueryScriptTagContent !== '') {
-                $this->assetCollector->addInlineJavaScript(
-                    'underlyingQueryVar',
-                    sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent),
-                    [],
-                    ['priority' => true]
-                );
+                $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
             }
         }
 
-        $this->addStandardAssignments();
+        $this->assignStandardViewVariables();
         $this->view->assignMultiple($detail);
         $this->view->assignMultiple([
             'underlyingQuery' => $underlyingQueryScriptTagContent,
@@ -98,7 +93,12 @@ class SearchController extends ActionController
     public function indexAction(): ResponseInterface
     {
         if (array_key_exists('id', $this->requestArguments)) {
-            return $this->detailAction($this->requestArguments['id']);
+            return $this->redirect(
+                'detail',
+                null,
+                null,
+                ['id' => $this->requestArguments['id']]
+            );
         }
 
         $this->searchProvider->setCounter();
@@ -110,15 +110,8 @@ class SearchController extends ActionController
             $this->searchProvider->getRequestArguments()
         );
 
-        $this->assetCollector->addInlineJavaScript(
-            'underlyingQueryVar',
-            sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent),
-            [],
-            ['priority' => true]
-        );
-
-        $this->addStandardAssignments();
-        $defaultQuery = $this->searchProvider->getDefaultQuery();
+        $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
+        $this->assignStandardViewVariables();
 
         $viewValues = [
             'underlyingQuery' => $underlyingQueryScriptTagContent,
@@ -126,35 +119,12 @@ class SearchController extends ActionController
             'config' => $this->searchProvider->getConfiguration(),
         ];
 
-        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $defaultQuery);
+        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $this->searchProvider->getDefaultQuery());
         $this->view->assignMultiple($viewValues);
 
         return $this->htmlResponse();
     }
 
-    /**
-     * Initialisation and setup.
-     */
-    protected function initializeAction(): void
-    {
-        if (!empty($this->settings['queryFields']) && is_array($this->settings['queryFields'])) {
-            ksort($this->settings['queryFields']);
-        }
-
-        $this->initializeConnection($this->settings['activeConnection']);
-
-        $this->requestArguments = $this->request->getArguments();
-        $this->requestArguments = ArrayUtility::cleanArgumentsArray($this->requestArguments);
-
-        $this->searchProvider->setRequestArguments($this->requestArguments);
-        $this->searchProvider->setAction($this->request->getControllerActionName());
-
-        $this->searchProvider->setControllerExtensionKey(self::EXTENSION_KEY);
-    }
-
-    /**
-     * Suggest/Autocomplete action.
-     */
     public function suggestAction(): ResponseInterface
     {
         $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
@@ -163,10 +133,36 @@ class SearchController extends ActionController
         return $this->htmlResponse();
     }
 
+    protected function initializeAction(): void
+    {
+        if (!empty($this->settings['queryFields']) && is_array($this->settings['queryFields'])) {
+            ksort($this->settings['queryFields']);
+        }
+
+        // Set request arguments BEFORE connecting so the provider has them available
+        $this->requestArguments = ArrayUtility::cleanArgumentsArray(
+            $this->request->getArguments()
+        );
+
+        $this->searchProvider->setRequestArguments($this->requestArguments);
+        $this->searchProvider->setAction($this->request->getControllerActionName());
+        $this->searchProvider->setControllerExtensionKey(self::EXTENSION_KEY);
+
+        $this->initializeConnection($this->settings['activeConnection']);
+    }
+
+    protected function initializeConnection(string $activeConnection): void
+    {
+        $this->searchProvider->setConnectionName($activeConnection);
+        $this->searchProvider->setSettings($this->settings);
+        $this->searchProvider->connect();
+    }
+
     /**
-     * Assigns standard variables to the view.
+     * Assigns standard provider configuration and view variables.
+     * Named clearly to reflect that it both configures the provider AND assigns to the view.
      */
-    protected function addStandardAssignments(): void
+    protected function assignStandardViewVariables(): void
     {
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
         $this->searchProvider->setConfigurationValue(
@@ -177,10 +173,13 @@ class SearchController extends ActionController
         $this->searchProvider->setConfigurationValue('pageTitle', $this->pageTitleProvider->getTitle());
     }
 
-    protected function initializeConnection(string $activeConnection): void
+    private function addUnderlyingQueryJavaScript(string $content): void
     {
-        $this->searchProvider->setConnectionName($activeConnection);
-        $this->searchProvider->setSettings($this->settings);
-        $this->searchProvider->connect();
+        $this->assetCollector->addInlineJavaScript(
+            'underlyingQueryVar',
+            sprintf('const underlyingQuery = %s;', $content),
+            [],
+            ['priority' => true]
+        );
     }
 }
