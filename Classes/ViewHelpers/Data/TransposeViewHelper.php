@@ -29,8 +29,7 @@ namespace Subugoe\Find\ViewHelpers\Data;
  * THE SOFTWARE.
  ******************************************************************************/
 
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -46,11 +45,11 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  *   </s:data.transpose>
  *   => "Alice is 30" / "Bob is 25"
  */
-class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInterface
+class TransposeViewHelper extends AbstractViewHelper
 {
-    use LoggerAwareTrait;
-
     protected $escapeOutput = false;
+
+    public function __construct(private readonly LoggerInterface $logger) {}
 
     public function initializeArguments(): void
     {
@@ -73,7 +72,7 @@ class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInter
     #[\Override]
     public function render(): mixed
     {
-        $inputArrays = $this->arguments['arrays'];
+        $inputArrays  = $this->arguments['arrays'];
         $variableName = $this->arguments['name'];
 
         if (!is_array($inputArrays) || $inputArrays === []) {
@@ -81,8 +80,8 @@ class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInter
         }
 
         // Normalize: ensure every value is an array and re-index numerically
-        $normalized = [];
-        $rowCount = null;
+        $normalized     = [];
+        $rowCount       = null;
         $lengthMismatch = false;
 
         foreach ($inputArrays as $key => $column) {
@@ -90,11 +89,7 @@ class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInter
                 $column = iterator_to_array($column, false);
             }
 
-            if (!is_array($column)) {
-                $column = [];
-            }
-
-            $column = array_values($column);
+            $column       = is_array($column) ? array_values($column) : [];
             $currentCount = count($column);
 
             if ($rowCount === null) {
@@ -107,21 +102,21 @@ class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInter
         }
 
         if ($lengthMismatch) {
-            $info = [];
-            foreach ($normalized as $key => $column) {
-                $info[] = $key . ': ' . count($column);
-            }
-
-            $message = sprintf(
-                'TransposeViewHelper: The arrays passed in the »arrays« argument do not have identical lengths: (%s)',
-                implode(', ', $info)
+            $counts = array_map(count(...), $normalized);
+            $info   = array_map(
+                static fn(string|int $key, int $count): string => $key . ': ' . $count,
+                array_keys($counts),
+                $counts
             );
 
-            if ($this->logger instanceof \Psr\Log\LoggerInterface) {
-                $this->logger->warning($message, ['arrays' => array_map(count(...), $normalized)]);
-            }
+            $this->logger->warning(
+                sprintf(
+                    'TransposeViewHelper: The arrays passed in the »arrays« argument do not have identical lengths: (%s)',
+                    implode(', ', $info)
+                ),
+                ['arrays' => $counts]
+            );
 
-            // Return empty content rather than leaking internal details to frontend
             return $this->renderWithVariable($variableName, []);
         }
 
@@ -160,19 +155,5 @@ class TransposeViewHelper extends AbstractViewHelper implements LoggerAwareInter
         $variableProvider->remove($name);
 
         return $output;
-    }
-
-    /**
-     * Returns true if all arrays have the same count.
-     */
-    protected static function identicalLengths(array $arrays): bool
-    {
-        if ($arrays === []) {
-            return true;
-        }
-
-        $counts = array_map(count(...), $arrays);
-
-        return count(array_unique($counts)) === 1;
     }
 }

@@ -30,89 +30,69 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\CSVLineViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * CSV line viewhelper test.
- */
 class CSVLineViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var CSVLineViewHelper
-     */
-    protected $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
 
-        $this->fixture = new CSVLineViewHelper();
+    private function invoke(array $data, string $fieldDelimiter, string $fieldEnclosure): string
+    {
+        return (string)$this->invoker->invoke(
+            CSVLineViewHelper::class,
+            [
+                'data' => $data,
+                'fieldDelimiter' => $fieldDelimiter,
+                'fieldEnclosure' => $fieldEnclosure,
+            ],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function arrayIsRenderedAsCommaSeparatedValue(): void
     {
-        $data = ['hrdr', 'behedeti', 'chub'];
-        $fieldDelimiter = ',';
-        $fieldEnclosure = '"';
-
-        $this->fixture->setArguments([
-            'data' => $data,
-            'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure,
-        ]);
-
-        $expected = 'hrdr,behedeti,chub' . PHP_EOL;
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(
+            'hrdr,behedeti,chub' . PHP_EOL,
+            $this->invoke(['hrdr', 'behedeti', 'chub'], ',', '"')
+        );
     }
 
     #[Test]
     public function specifyingADelimiterWorks(): void
     {
-        $data = ['hrdr', 'behedeti', 'chub'];
-        $fieldDelimiter = ';';
-        $fieldEnclosure = '"';
-
-        $this->fixture->setArguments([
-            'data' => $data,
-            'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure,
-        ]);
-
-        $expected = 'hrdr;behedeti;chub' . PHP_EOL;
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(
+            'hrdr;behedeti;chub' . PHP_EOL,
+            $this->invoke(['hrdr', 'behedeti', 'chub'], ';', '"')
+        );
     }
 
     #[Test]
     public function valuesWithSpacesAreEnclosed(): void
     {
-        $data = ['hrdr horus', 'behedeti', 'chub budan'];
-        $fieldDelimiter = ';';
-        $fieldEnclosure = '"';
-
-        $this->fixture->setArguments([
-            'data' => $data,
-            'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure,
-        ]);
-
-        $expected = '"hrdr horus";behedeti;"chub budan"' . PHP_EOL;
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(
+            '"hrdr horus";behedeti;"chub budan"' . PHP_EOL,
+            $this->invoke(['hrdr horus', 'behedeti', 'chub budan'], ';', '"')
+        );
     }
 
     #[Test]
     public function specifyingAnEnclosureWrapsTheElements(): void
     {
-        $data = ['hrdr horus', 'behedeti', 'chub budan'];
-        $fieldDelimiter = ';';
-        $fieldEnclosure = '/';
-
-        $this->fixture->setArguments([
-            'data' => $data,
-            'fieldDelimiter' => $fieldDelimiter,
-            'fieldEnclosure' => $fieldEnclosure,
-        ]);
-
-        $expected = '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL;
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(
+            '/hrdr horus/;behedeti;/chub budan/' . PHP_EOL,
+            $this->invoke(['hrdr horus', 'behedeti', 'chub budan'], ';', '/')
+        );
     }
 }

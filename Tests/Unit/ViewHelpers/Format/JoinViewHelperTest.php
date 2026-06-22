@@ -30,96 +30,59 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Format;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\JoinViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Join viewhelper test.
- */
 class JoinViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var JoinViewHelper
-     */
-    protected $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
 
-        $this->fixture = new JoinViewHelper();
+    private function invoke(array $array, string $separator): string
+    {
+        return (string)$this->invoker->invoke(
+            JoinViewHelper::class,
+            ['array' => $array, 'separator' => $separator],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function arrayIsJoinedAsCommaSeparatedValue(): void
     {
-        $array = ['hrdr', 'behedeti', 'chub'];
-        $separator = ',';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'separator' => $separator,
-        ]);
-
-        $expected = 'hrdr,behedeti,chub';
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr,behedeti,chub', $this->invoke(['hrdr', 'behedeti', 'chub'], ','));
     }
 
     #[Test]
     public function arrayIsJoinedWithNonAsciiCharacter(): void
     {
-        $array = ['hrdr', 'behedeti', 'chub'];
-        $separator = '€';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'separator' => $separator,
-        ]);
-
-        $expected = 'hrdr€behedeti€chub';
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr€behedeti€chub', $this->invoke(['hrdr', 'behedeti', 'chub'], '€'));
     }
 
     #[Test]
     public function arrayIsJoinedWithMoreThanOneCharacter(): void
     {
-        $array = ['hrdr', 'behedeti', 'chub'];
-        $separator = '€$';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'separator' => $separator,
-        ]);
-
-        $expected = 'hrdr€$behedeti€$chub';
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr€$behedeti€$chub', $this->invoke(['hrdr', 'behedeti', 'chub'], '€$'));
     }
 
     #[Test]
     public function arrayWithOneElementIsNotPostfixedWithSeparator(): void
     {
-        $array = ['hrdr'];
-        $separator = '€$';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'separator' => $separator,
-        ]);
-
-        $expected = 'hrdr';
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr', $this->invoke(['hrdr'], '€$'));
     }
 
     #[Test]
     public function emptyArrayResultsInEmptyString(): void
     {
-        $array = [];
-        $separator = '€$';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'separator' => $separator,
-        ]);
-
-        $expected = '';
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('', $this->invoke([], '€$'));
     }
 }

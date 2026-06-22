@@ -31,14 +31,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\RegexpViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Regexp viewhelper test.
- */
 class RegexpViewHelperTest extends UnitTestCase
 {
-    protected RegexpViewHelper $fixture;
-
     public static function regexProvider(): array
     {
         return [
@@ -64,23 +61,27 @@ class RegexpViewHelperTest extends UnitTestCase
         ];
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fixture = new RegexpViewHelper();
-    }
-
     #[Test]
     #[DataProvider(methodName: 'regexProvider')]
     public function stringIsReplaced(string $string, string $match, ?string $replace, bool $useMBEreg, string|int $expected): void
     {
-        $this->fixture->setArguments([
-            'string' => $string,
-            'match' => $match,
-            'replace' => $replace,
-            'useMBEreg' => $useMBEreg,
-        ]);
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
+
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            RegexpViewHelper::class,
+            [
+                'string' => $string,
+                'match' => $match,
+                'replace' => $replace,
+                'useMBEreg' => $useMBEreg,
+            ],
+            $renderingContext,
+        );
+
+        self::assertSame($expected, $result);
+
     }
 }

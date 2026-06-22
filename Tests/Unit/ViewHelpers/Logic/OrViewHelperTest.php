@@ -29,14 +29,13 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\OrViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
 class OrViewHelperTest extends UnitTestCase
 {
-    protected OrViewHelper|MockObject $fixture;
-
     public static function conditionProvider(): array
     {
         return [
@@ -85,20 +84,20 @@ class OrViewHelperTest extends UnitTestCase
         ];
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fixture = $this->getAccessibleMock(OrViewHelper::class, ['renderChildren']);
-    }
-
     #[Test]
     #[DataProvider(methodName: 'conditionProvider')]
     public function orConditionIsMet(array $conditions, bool $expected): void
     {
-        $this->fixture->setArguments([
-            'conditions' => $conditions,
-        ]);
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            OrViewHelper::class,
+            ['conditions' => $conditions],
+            $renderingContext,
+        );
+
+        self::assertSame($expected, $result);
     }
 }

@@ -31,17 +31,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\XMLViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Tests for the XML formatting viewhelper.
- */
 class XMLViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var XMLViewHelper
-     */
-    protected $fixture;
-
     public static function stringProvider(): array
     {
         return [
@@ -60,22 +54,21 @@ class XMLViewHelperTest extends UnitTestCase
         ];
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fixture = $this->getAccessibleMock(XMLViewHelper::class, ['renderChildren']);
-    }
-
     #[Test]
     #[DataProvider(methodName: 'stringProvider')]
     public function xmlIsCorrectlyFormatted(string $string, bool $htmloutput, string $expected): void
     {
-        $this->fixture->method('renderChildren')->willReturn($string);
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
 
-        $this->fixture->setArguments([
-            'htmloutput' => $htmloutput,
-        ]);
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            XMLViewHelper::class,
+            ['htmloutput' => $htmloutput],
+            $renderingContext,
+            static fn(): string => $string,
+        );
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame($expected, $result);
     }
 }

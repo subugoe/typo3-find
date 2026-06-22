@@ -29,75 +29,72 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\SplitViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
 class SplitViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var SplitViewHelper
-     */
-    public $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->renderingContext = (new TemplateView())->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
 
-        $this->fixture = new SplitViewHelper();
+    private function invoke(string $string, string $separator = SplitViewHelper::DEFAULT_SEPARATOR): array
+    {
+        return (array)$this->invoker->invoke(
+            SplitViewHelper::class,
+            ['string' => $string, 'separator' => $separator],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
-    public function stringIsExplodedCorrectlyWithoutPassedSeparator(): void
+    public function stringIsExplodedCorrectlyWithDefaultSeparator(): void
     {
-        $string = 'hrdr, behedeti, horus';
-        $expected = ['hrdr', 'behedeti', 'horus'];
-        $this->fixture->setArguments(
-            [
-                'string' => $string,
-            ]
-        );
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(['hrdr', 'behedeti', 'horus'], $this->invoke('hrdr, behedeti, horus'));
     }
 
     #[Test]
     public function stringIsExplodedCorrectlyWithPassedSeparator(): void
     {
-        $string = 'hrdr, behedeti, horus';
-        $separator = ', ';
-        $expected = ['hrdr', 'behedeti', 'horus'];
-
-        $this->fixture->setArguments([
-            'string' => $string,
-            'separator' => $separator,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(['hrdr', 'behedeti', 'horus'], $this->invoke('hrdr, behedeti, horus', ', '));
     }
 
     #[Test]
     public function stringIsExplodedCorrectlyWithNonDefaultSeparator(): void
     {
-        $string = 'hrdrhorus behedetihorus horus';
-        $separator = 'horus ';
-        $expected = ['hrdr', 'behedeti', 'horus'];
-        $this->fixture->setArguments([
-            'string' => $string,
-            'separator' => $separator,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(['hrdr', 'behedeti', 'horus'], $this->invoke('hrdrhorus behedetihorus horus', 'horus '));
     }
 
     #[Test]
-    public function emptyArrayIsReturnedWhenPassingIt(): void
+    public function emptyStringReturnsArrayWithEmptyString(): void
     {
-        $string = '';
-        $expected = [''];
-        $this->fixture->setArguments([
-            'string' => $string,
-        ]);
+        self::assertSame([''], $this->invoke(''));
+    }
 
-        $actual = $this->fixture->initializeArgumentsAndRender();
+    #[Test]
+    public function stringWithNoSeparatorReturnsArrayWithSingleElement(): void
+    {
+        self::assertSame(['hrdr'], $this->invoke('hrdr'));
+    }
 
-        self::assertSame($expected, $actual);
+    #[Test]
+    public function renderChildrenIsUsedWhenStringIsNull(): void
+    {
+        $result = (array)$this->invoker->invoke(
+            SplitViewHelper::class,
+            ['separator' => ', '],
+            $this->renderingContext,
+            static fn(): string => 'hrdr, behedeti',
+        );
+
+        self::assertSame(['hrdr', 'behedeti'], $result);
     }
 }

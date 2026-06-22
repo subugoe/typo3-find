@@ -31,17 +31,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Logic\AndViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Tests for the AND viewhelper.
- */
 class AndViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var AndViewHelper
-     */
-    protected $fixture;
-
     public static function conditionProvider(): array
     {
         return [
@@ -94,20 +88,20 @@ class AndViewHelperTest extends UnitTestCase
         ];
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fixture = new AndViewHelper();
-    }
-
     #[Test]
     #[DataProvider(methodName: 'conditionProvider')]
     public function conditionIsTrue(array $conditions, bool $expected): void
     {
-        $this->fixture->setArguments([
-            'conditions' => $conditions,
-        ]);
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            AndViewHelper::class,
+            ['conditions' => $conditions],
+            $renderingContext,
+        );
+
+        self::assertSame($expected, $result);
     }
 }

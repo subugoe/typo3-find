@@ -29,67 +29,87 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\ArrayFirstViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Test for ArrayFirst ViewHelper.
- */
 class ArrayFirstViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var ArrayFirstViewHelper
-     */
-    public \PHPUnit\Framework\MockObject\MockObject $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ArrayFirstViewHelper::class)
-            ->onlyMethods(['renderChildren'])
-            ->getMock();
+        $this->renderingContext = (new TemplateView())->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(mixed $array): mixed
+    {
+        return $this->invoker->invoke(
+            ArrayFirstViewHelper::class,
+            ['array' => $array],
+            $this->renderingContext,
+            static fn(): null => null,
+        );
     }
 
     #[Test]
-    public function isFirstElementOfAnArrayReturned(): void
+    public function firstElementOfArrayIsReturned(): void
     {
-        $array = ['hrdr', 'horus', 'behedeti'];
-        $this->fixture->setArguments(['array' => $array]);
-
-        self::assertSame('hrdr', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('hrdr', $this->invoke(['hrdr', 'horus', 'behedeti']));
     }
 
     #[Test]
     public function nullIsReturnedOnNullValue(): void
     {
-        $array = null;
-        $this->fixture->setArguments(['array' => $array]);
-
-        self::assertNull($this->fixture->initializeArgumentsAndRender());
+        self::assertNull($this->invoke(null));
     }
 
     #[Test]
     public function nullIsReturnedWhenPassingAStringInsteadOfAnArray(): void
     {
-        $array = 'hrdr';
-        $this->fixture->setArguments(['array' => $array]);
-
-        self::assertNull($this->fixture->initializeArgumentsAndRender());
+        // String without comma: treated as single-element array → returns the trimmed string
+        // String 'hrdr' → ['hrdr'] → 'hrdr'
+        self::assertSame('hrdr', $this->invoke('hrdr'));
     }
 
     #[Test]
-    public function theValueFromTheFirstArrayIsReturnedOnMultidimensionalArrays(): void
+    public function firstValueFromAssociativeArrayIsReturned(): void
     {
-        $array = ['hrdr' => 'horus', 'behedeti'];
-        $this->fixture->setArguments(['array' => $array]);
-
-        self::assertSame('horus', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('horus', $this->invoke(['hrdr' => 'horus', 'behedeti']));
     }
 
     #[Test]
-    public function anEmptyArrayCausesSomething(): void
+    public function emptyArrayReturnsNull(): void
     {
-        $array = [];
-        $this->fixture->setArguments(['array' => $array]);
+        self::assertNull($this->invoke([]));
+    }
 
-        self::assertNull($this->fixture->initializeArgumentsAndRender());
+    #[Test]
+    public function traversableReturnsFirstValue(): void
+    {
+        self::assertSame('hrdr', $this->invoke(new \ArrayIterator(['hrdr', 'horus'])));
+    }
+
+    #[Test]
+    public function commaSeparatedStringReturnsFirstPart(): void
+    {
+        self::assertSame('hrdr', $this->invoke('hrdr, horus, behedeti'));
+    }
+
+    #[Test]
+    public function renderChildrenIsUsedWhenArrayArgumentIsOmitted(): void
+    {
+        $result = $this->invoker->invoke(
+            ArrayFirstViewHelper::class,
+            [],
+            $this->renderingContext,
+            static fn(): array => ['hrdr', 'horus'],
+        );
+
+        self::assertSame('hrdr', $result);
     }
 }

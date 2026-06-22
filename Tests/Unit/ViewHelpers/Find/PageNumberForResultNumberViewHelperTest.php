@@ -25,83 +25,59 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\PageNumberForResultNumberViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Test for PageNumberForResultNumber ViewHelper.
- */
 class PageNumberForResultNumberViewHelperTest extends UnitTestCase
 {
-    public PageNumberForResultNumberViewHelper $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
 
-        $this->fixture = new PageNumberForResultNumberViewHelper();
+    private function invoke(int $resultNumber, int $resultsPerPage): int
+    {
+        return (int)$this->invoker->invoke(
+            PageNumberForResultNumberViewHelper::class,
+            [
+                'resultNumber' => $resultNumber,
+                'resultsPerPage' => $resultsPerPage,
+            ],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function pageNumberIsCorrectlyCalculated(): void
     {
-        $resultNumber = 55;
-        $resultsPerPage = 20;
-
-        $expected = 3;
-        $this->fixture->setArguments([
-            'resultNumber' => $resultNumber,
-            'resultsPerPage' => $resultsPerPage,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(3, $this->invoke(55, 20));
     }
 
     #[Test]
-    public function pageNumerWhenResultIsZero(): void
+    public function pageNumberWhenResultIsZero(): void
     {
-        $resultNumber = 0;
-        $resultsPerPage = 20;
-
-        $expected = 0;
-
-        $this->fixture->setArguments([
-            'resultNumber' => $resultNumber,
-            'resultsPerPage' => $resultsPerPage,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(0, $this->invoke(0, 20));
     }
 
     #[Test]
     public function divisionByZeroIsCaught(): void
     {
-        $resultNumber = 0;
-        $resultsPerPage = 0;
-
-        $expected = 0;
-        $this->fixture->setArguments([
-            'resultNumber' => $resultNumber,
-            'resultsPerPage' => $resultsPerPage,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(0, $this->invoke(0, 0));
     }
 
     #[Test]
     public function pageNumberFallBackForZeroResultsPerPage(): void
     {
-        $resultNumber = 55;
-        $resultsPerPage = 0;
-
-        $expected = 3;
-        $this->fixture->setArguments([
-            'resultNumber' => $resultNumber,
-            'resultsPerPage' => $resultsPerPage,
-        ]);
-
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        self::assertSame(3, $this->invoke(55, 0));
     }
 }

@@ -35,14 +35,19 @@ use Subugoe\Find\Utility\ArrayUtility;
 use Subugoe\Find\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\ArrayUtility as CoreArrayUtility;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class SearchController extends ActionController
 {
+    private const string EXTENSION_KEY = 'find';
+
     protected array $requestArguments = [];
 
-    public function __construct(private readonly AssetCollector $assetCollector, private readonly ServiceProviderInterface $searchProvider, private readonly FindPageTitleProvider $pageTitleProvider) {}
+    public function __construct(
+        private readonly AssetCollector $assetCollector,
+        private readonly ServiceProviderInterface $searchProvider,
+        private readonly FindPageTitleProvider $pageTitleProvider
+    ) {}
 
     /**
      * @throws \JsonException
@@ -70,7 +75,7 @@ class SearchController extends ActionController
                 $this->assetCollector->addInlineJavaScript(
                     'underlyingQueryVar',
                     sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent),
-                    ['type' => 'text/javascript'],
+                    [],
                     ['priority' => true]
                 );
             }
@@ -93,7 +98,7 @@ class SearchController extends ActionController
     public function indexAction(): ResponseInterface
     {
         if (array_key_exists('id', $this->requestArguments)) {
-            return new ForwardResponse('detail');
+            return $this->detailAction($this->requestArguments['id']);
         }
 
         $this->searchProvider->setCounter();
@@ -105,7 +110,12 @@ class SearchController extends ActionController
             $this->searchProvider->getRequestArguments()
         );
 
-        $this->assetCollector->addInlineJavaScript('underlyingQueryVar', sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent), ['type' => 'text/javascript'], ['priority' => true]);
+        $this->assetCollector->addInlineJavaScript(
+            'underlyingQueryVar',
+            sprintf('const underlyingQuery = %s;', $underlyingQueryScriptTagContent),
+            [],
+            ['priority' => true]
+        );
 
         $this->addStandardAssignments();
         $defaultQuery = $this->searchProvider->getDefaultQuery();
@@ -138,7 +148,8 @@ class SearchController extends ActionController
 
         $this->searchProvider->setRequestArguments($this->requestArguments);
         $this->searchProvider->setAction($this->request->getControllerActionName());
-        $this->searchProvider->setControllerExtensionKey($this->request->getControllerExtensionKey());
+
+        $this->searchProvider->setControllerExtensionKey(self::EXTENSION_KEY);
     }
 
     /**
@@ -170,7 +181,6 @@ class SearchController extends ActionController
     {
         $this->searchProvider->setConnectionName($activeConnection);
         $this->searchProvider->setSettings($this->settings);
-
         $this->searchProvider->connect();
     }
 }

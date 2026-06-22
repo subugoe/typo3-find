@@ -29,58 +29,86 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\IsArrayViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Test for IsArray ViewHelper.
- */
 class IsArrayViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var IsArrayViewHelper
-     */
-    public \PHPUnit\Framework\MockObject\MockObject $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(IsArrayViewHelper::class)
-            ->onlyMethods(['renderChildren'])
-            ->getMock();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(mixed $subject): bool
+    {
+        return (bool)$this->invoker->invoke(
+            IsArrayViewHelper::class,
+            ['subject' => $subject],
+            $this->renderingContext,
+            static fn(): null => null,
+        );
     }
 
     #[Test]
     public function arrayIsInterpretedAsArray(): void
     {
-        $this->fixture->setArguments(['subject' => ['hrdr']]);
-        self::assertTrue($this->fixture->initializeArgumentsAndRender());
+        self::assertTrue($this->invoke(['hrdr']));
     }
 
     #[Test]
     public function intIsNotInterpretedAsArray(): void
     {
-        $this->fixture->setArguments(['subject' => 667]);
-        self::assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->invoke(667));
     }
 
     #[Test]
-    public function objectsAreNotInterpretedAsArray(): void
+    public function stringIsNotInterpretedAsArray(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->fixture->setArguments(['subject' => $this->fixture]);
-        self::assertFalse($this->fixture->initializeArgumentsAndRender());
-    }
-
-    #[Test]
-    public function stringsAreNotInterpretedAsArray(): void
-    {
-        $this->fixture->setArguments(['subject' => 'hrdr']);
-        self::assertFalse($this->fixture->initializeArgumentsAndRender());
+        self::assertFalse($this->invoke('hrdr'));
     }
 
     #[Test]
     public function nullIsNotInterpretedAsArray(): void
     {
-        $this->fixture->setArguments(['subject' => null]);
-        self::assertFalse($this->fixture->initializeArgumentsAndRender());
+        $result = (bool)$this->invoker->invoke(
+            IsArrayViewHelper::class,
+            ['subject' => null],
+            $this->renderingContext,
+            static fn(): null => null,
+        );
+
+        self::assertFalse($result);
+    }
+
+    #[Test]
+    public function traversableIsInterpretedAsArray(): void
+    {
+        self::assertTrue($this->invoke(new \ArrayIterator(['hrdr'])));
+    }
+
+    #[Test]
+    public function emptyArrayIsInterpretedAsArray(): void
+    {
+        self::assertTrue($this->invoke([]));
+    }
+
+    #[Test]
+    public function renderChildrenIsUsedWhenSubjectIsNull(): void
+    {
+        $result = (bool)$this->invoker->invoke(
+            IsArrayViewHelper::class,
+            [],
+            $this->renderingContext,
+            static fn(): array => ['hrdr'],
+        );
+
+        self::assertTrue($result);
     }
 }

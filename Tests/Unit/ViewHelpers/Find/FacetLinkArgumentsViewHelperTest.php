@@ -27,54 +27,101 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  * ************************************************************* */
 
 use PHPUnit\Framework\Attributes\Test;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Find\FacetLinkArgumentsViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Test for FacetLinkArguments ViewHelper.
- */
 class FacetLinkArgumentsViewHelperTest extends UnitTestCase
 {
-    use MockRenderingContextTrait;
+    private ViewHelperInvoker $invoker;
 
-    /**
-     * @var FacetLinkArgumentsViewHelper
-     */
-    public $fixture;
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = new FacetLinkArgumentsViewHelper();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(array $arguments): array
+    {
+        return (array)$this->invoker->invoke(
+            FacetLinkArgumentsViewHelper::class,
+            $arguments,
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function filterIsCorrectlyRemovedOnTextQueries(): void
     {
-        $this->fixture->setArguments([
+        $result = $this->invoke([
             'facetID' => 'title',
             'facetTerm' => 'hrdr',
-            'activeFacets' => ['title' => ['hrdr'], 'horus' => 'behedeti'],
+            'activeFacets' => ['title' => ['hrdr' => 1], 'horus' => 'behedeti'],
             'mode' => 'remove',
         ]);
 
-        $result = $this->fixture->initializeArgumentsAndRender();
-        self::assertEquals('tx_find_find[facet][title]', $result[0]);
+        self::assertSame('tx_find_find[facet][title][hrdr]', $result[0]);
+        self::assertSame('tx_find_find[page]', $result[1]);
     }
 
     #[Test]
     public function filterIsCorrectlyAddedOnTextQueries(): void
     {
-        $this->fixture->setArguments([
+        $result = $this->invoke([
             'facetID' => 'title',
             'facetTerm' => 'hrdr',
             'activeFacets' => [],
             'mode' => 'add',
         ]);
 
-        $result = $this->fixture->initializeArgumentsAndRender();
-        $resultValue = array_keys($result['facet']['title']);
-        self::assertEquals('hrdr', $resultValue[0]);
+        self::assertSame(['hrdr' => 1], $result['facet']['title']);
+    }
+
+    #[Test]
+    public function removeWithoutMatchingFacetIdReturnsOnlyPageReset(): void
+    {
+        $result = $this->invoke([
+            'facetID' => 'nonexistent',
+            'facetTerm' => 'hrdr',
+            'activeFacets' => ['title' => ['hrdr' => 1]],
+            'mode' => 'remove',
+        ]);
+
+        // facetID not in activeFacets - only page reset is added
+        self::assertSame(['tx_find_find[page]'], $result);
+    }
+
+    #[Test]
+    public function removeWithEmptyActiveFacetsReturnsEmptyArray(): void
+    {
+        $result = $this->invoke([
+            'facetID' => 'title',
+            'facetTerm' => 'hrdr',
+            'activeFacets' => [],
+            'mode' => 'remove',
+        ]);
+
+        // When activeFacets is empty, the remove block is skipped entirely
+        self::assertSame([], $result);
+    }
+
+    #[Test]
+    public function addModeReturnsCorrectStructure(): void
+    {
+        $result = $this->invoke([
+            'facetID' => 'author',
+            'facetTerm' => 'Porst',
+            'activeFacets' => [],
+            'mode' => 'add',
+        ]);
+
+        self::assertArrayHasKey('facet', $result);
+        self::assertArrayHasKey('author', $result['facet']);
+        self::assertSame(['Porst' => 1], $result['facet']['author']);
     }
 }

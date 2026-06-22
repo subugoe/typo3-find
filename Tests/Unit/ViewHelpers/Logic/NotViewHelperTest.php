@@ -29,20 +29,13 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Logic;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use Subugoe\Find\ViewHelpers\Logic\NotViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Tests for the NOT viewhelper.
- */
 class NotViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var NotViewHelper
-     */
-    protected NotViewHelper|MockObject $fixture;
-
     public static function conditionProvider(): array
     {
         return [
@@ -61,20 +54,21 @@ class NotViewHelperTest extends UnitTestCase
         ];
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fixture = new NotViewHelper();
-    }
-
     #[Test]
     #[DataProvider(methodName: 'conditionProvider')]
     public function conditionIsMet(bool $conditions, bool $expected): void
     {
-        $this->fixture->setArguments([
-            'condition' => $conditions,
-        ]);
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
+
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            NotViewHelper::class,
+            ['condition' => $conditions],
+            $renderingContext,
+        );
+
+        self::assertSame($expected, $result);
     }
 }

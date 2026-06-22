@@ -55,12 +55,14 @@ class ItemViewHelper extends AbstractViewHelper
     #[\Override]
     public function render(): void
     {
-        $container = $this->renderingContext->getVariableProvider()->get($this->arguments['name']);
-        if (!$container[$this->arguments['subject']]) {
+        // Initialize container as empty array if it doesn't exist yet
+        $container = $this->renderingContext->getVariableProvider()->get($this->arguments['name']) ?? [];
+
+        if (!isset($container[$this->arguments['subject']])) {
             $container[$this->arguments['subject']] = [];
         }
 
-        if (!$container[$this->arguments['subject']][$this->arguments['predicate']]) {
+        if (!isset($container[$this->arguments['subject']][$this->arguments['predicate']])) {
             $container[$this->arguments['subject']][$this->arguments['predicate']] = [];
         }
 
@@ -68,7 +70,7 @@ class ItemViewHelper extends AbstractViewHelper
             $container[$this->arguments['subject']][$this->arguments['predicate']][$this->arguments['object']] = null;
         } else {
             $container[$this->arguments['subject']][$this->arguments['predicate']][$this->renderChildren()] = [
-                'type' => $this->arguments['objectType'],
+                'type'     => $this->arguments['objectType'],
                 'language' => $this->arguments['language'],
             ];
         }

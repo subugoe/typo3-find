@@ -27,94 +27,60 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  * ************************************************************* */
 
 use PHPUnit\Framework\Attributes\Test;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\Data\ValueForKeyViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
 class ValueForKeyViewHelperTest extends UnitTestCase
 {
-    use MockRenderingContextTrait;
+    private ViewHelperInvoker $invoker;
 
-    /**
-     * @var ValueForKeyViewHelper
-     */
-    public $fixture;
+    private RenderingContextInterface $renderingContext;
+
+    private array $defaultArray = [
+        'a' => 'b',
+        'b' => 'c',
+    ];
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
 
-        $this->fixture = $this->getAccessibleMock(ValueForKeyViewHelper::class, ['renderChildren']);
-        $this->createRenderingContextMock();
+    private function invoke(array $array, string $key): mixed
+    {
+        return $this->invoker->invoke(
+            ValueForKeyViewHelper::class,
+            ['array' => $array, 'key' => $key],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function keyPicksTheRightValueFromTheArray(): void
     {
-        $array = [
-            'a' => 'b',
-            'b' => 'c',
-        ];
-        $key = 'a';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'key' => $key,
-        ]);
-
-        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('b', $this->invoke($this->defaultArray, 'a'));
     }
 
     #[Test]
-    public function resultIsCorrectlyInterpretedAsJsonFromASimpleValue(): void
+    public function secondKeyPicksTheRightValueFromTheArray(): void
     {
-        $array = [
-            'a' => 'b',
-            'b' => 'c',
-        ];
-        $key = 'a';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'key' => $key,
-            'format' => 'json',
-        ]);
-
-        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
-    }
-
-    #[Test]
-    public function resultIsCorrectlyInterpretedAsTextFromASimpleValue(): void
-    {
-        $array = [
-            'a' => 'b',
-            'b' => 'c',
-        ];
-        $key = 'a';
-
-        $this->fixture->setArguments([
-            'array' => $array,
-            'key' => $key,
-            'format' => 'json',
-        ]);
-
-        self::assertSame('b', $this->fixture->initializeArgumentsAndRender());
+        self::assertSame('c', $this->invoke($this->defaultArray, 'b'));
     }
 
     #[Test]
     public function providingANonexistingKeyReturnsNull(): void
     {
-        $array = [
-            'a' => 'b',
-            'b' => 'c',
-        ];
-        $key = 'c';
+        self::assertNull($this->invoke($this->defaultArray, 'c'));
+    }
 
-        $this->fixture->setArguments([
-            'array' => $array,
-            'key' => $key,
-        ]);
-
-        self::assertNull($this->fixture->initializeArgumentsAndRender());
+    #[Test]
+    public function emptyArrayReturnsNull(): void
+    {
+        self::assertNull($this->invoke([], 'a'));
     }
 }

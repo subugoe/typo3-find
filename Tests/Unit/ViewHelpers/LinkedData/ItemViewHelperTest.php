@@ -26,76 +26,145 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\LinkedData;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use Subugoe\Find\Tests\Unit\ViewHelpers\MockRenderingContextTrait;
 use Subugoe\Find\ViewHelpers\LinkedData\ItemViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Tests for the item viewhelper.
- */
 class ItemViewHelperTest extends UnitTestCase
 {
-    use MockRenderingContextTrait;
+    private ViewHelperInvoker $invoker;
 
-    /**
-     * @var ItemViewHelper
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $fixture;
-
-    /**
-     * @var StandardVariableProvider
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $templateVariableContainer;
-
-    public static function linkedDataProvider(): array
-    {
-        return [
-            ['hrdr', 'is', 'thirsty', null, null, null, 'hrdr'],
-        ];
-    }
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getMockBuilder(ItemViewHelper::class)->getMock();
-        $this->templateVariableContainer = $this->getMockBuilder(StandardVariableProvider::class)->getMock();
-        $this->templateVariableContainer
-            ->expects(self::any())
-            ->method('add')
-        ;
-        $this->templateVariableContainer
-            ->expects(self::any())
-            ->method('get')
-            ->with('hrdr')
-            ->willReturn('hrdr');
-        $this->templateVariableContainer
-            ->expects(self::any())
-            ->method('remove')
-            ->with('hrdr');
-        $this->templateVariableContainer
-            ->expects(self::any())
-            ->method('exists')
-            ->with('hrdr')
-            ->willReturn(true);
+        $view = new TemplateView();
+        $this->renderingContext = $view->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(array $arguments): void
+    {
+        $this->invoker->invoke(
+            ItemViewHelper::class,
+            $arguments,
+            $this->renderingContext,
+        );
+    }
+
+    private function getContainer(string $name = 'linkedDataContainer'): mixed
+    {
+        return $this->renderingContext->getVariableProvider()->get($name);
     }
 
     #[Test]
-    #[DataProvider(methodName: 'linkedDataProvider')]
-    public function itemsAreAddedToContainer(string $subject, string $predicate, string $object, $objectType, $language, $name, string $expected): void
+    public function itemWithObjectIsAddedToDefaultContainer(): void
     {
-        $this->fixture->setArguments([
-            'subject' => $subject,
-            'predicate' => $predicate,
-            'object' => $object,
-            'objectType' => $objectType,
-            'language' => $language,
-            'name' => $name,
+        $this->invoke([
+            'subject' => 'hrdr',
+            'predicate' => 'is',
+            'object' => 'thirsty',
         ]);
-        $this->fixture->render();
-        self::assertSame($this->templateVariableContainer->get('hrdr'), $subject);
+
+        $container = $this->getContainer();
+
+        self::assertIsArray($container);
+        self::assertArrayHasKey('hrdr', $container);
+        self::assertArrayHasKey('is', $container['hrdr']);
+        self::assertArrayHasKey('thirsty', $container['hrdr']['is']);
+        self::assertNull($container['hrdr']['is']['thirsty']);
+    }
+
+    #[Test]
+    public function multipleItemsWithSameSubjectAreAccumulated(): void
+    {
+        $this->invoke([
+            'subject' => 'hrdr',
+            'predicate' => 'is',
+            'object' => 'thirsty',
+        ]);
+
+        $this->invoke([
+            'subject' => 'hrdr',
+            'predicate' => 'is',
+            'object' => 'hungry',
+        ]);
+
+        $container = $this->getContainer();
+
+        self::assertArrayHasKey('thirsty', $container['hrdr']['is']);
+        self::assertArrayHasKey('hungry', $container['hrdr']['is']);
+    }
+
+    #[Test]
+    public function multipleItemsWithDifferentSubjectsAreStoredSeparately(): void
+    {
+        $this->invoke([
+            'subject' => 'hrdr',
+            'predicate' => 'is',
+            'object' => 'thirsty',
+        ]);
+
+        $this->invoke([
+            'subject' => 'behedeti',
+            'predicate' => 'has',
+            'object' => 'wings',
+        ]);
+
+        $container = $this->getContainer();
+
+        self::assertArrayHasKey('hrdr', $container);
+        self::assertArrayHasKey('behedeti', $container);
+        self::assertArrayHasKey('thirsty', $container['hrdr']['is']);
+        self::assertArrayHasKey('wings', $container['behedeti']['has']);
+    }
+
+    #[Test]
+    public function itemWithCustomNameIsStoredInCustomContainer(): void
+    {
+        $this->invoke([
+            'subject' => 'hrdr',
+            'predicate' => 'is',
+            'object' => 'thirsty',
+            'name' => 'myContainer',
+        ]);
+
+        // Default container should be untouched
+        self::assertNull($this->getContainer('linkedDataContainer'));
+
+        // Custom container should have the data
+        $container = $this->getContainer('myContainer');
+        self::assertArrayHasKey('hrdr', $container);
+    }
+
+    #[Test]
+    public function itemWithoutObjectUsesRenderChildrenWithObjectTypeAndLanguage(): void
+    {
+        $this->invoker->invoke(
+            ItemViewHelper::class,
+            [
+                'subject' => 'hrdr',
+                'predicate' => 'speaks',
+                'object' => null,
+                'objectType' => 'xsd:string',
+                'language' => 'en',
+            ],
+            $this->renderingContext,
+            // Provide renderChildren closure - returns the child content used as object key
+            static fn(): string => 'childContent',
+        );
+
+        $container = $this->getContainer();
+        self::assertArrayHasKey('hrdr', $container);
+        self::assertArrayHasKey('speaks', $container['hrdr']);
+        self::assertArrayHasKey('childContent', $container['hrdr']['speaks']);
+
+        $entry = $container['hrdr']['speaks']['childContent'];
+        self::assertSame('xsd:string', $entry['type']);
+        self::assertSame('en', $entry['language']);
     }
 }

@@ -25,75 +25,79 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Find;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Find\FacetIsActiveViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-/**
- * Test for FacetIsActive ViewHelper.
- */
 class FacetIsActiveViewHelperTest extends UnitTestCase
 {
-    /**
-     * @var FacetIsActiveViewHelper
-     */
-    public $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
+
+    private array $activeFacets = [
+        [
+            ['id' => 'horus', 'term' => 'behedeti'],
+            ['id' => 'hrdr', 'term' => 'horus'],
+        ],
+    ];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = $this->getAccessibleMock(FacetIsActiveViewHelper::class, ['renderChildren']);
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(string $facetID, ?string $facetTerm, array $activeFacets): bool
+    {
+        return (bool)$this->invoker->invoke(
+            FacetIsActiveViewHelper::class,
+            [
+                'facetID' => $facetID,
+                'facetTerm' => $facetTerm,
+                'activeFacets' => $activeFacets,
+            ],
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function activeFacetIsCorrectlyRecognized(): void
     {
-        $arguments = [
-            'facetID' => 'horus',
-            'facetTerm' => 'behedeti',
-            'activeFacets' => [
-                [
-                    [
-                        'id' => 'horus',
-                        'term' => 'behedeti',
-                    ],
-                    [
-                        'id' => 'hrdr',
-                        'term' => 'horus',
-                    ],
-                ],
-            ],
-            'type' => 'string',
-        ];
-
-        $this->fixture->setArguments($arguments);
-
-        self::assertTrue($this->fixture->initializeArgumentsAndRender());
+        self::assertTrue($this->invoke('horus', 'behedeti', $this->activeFacets));
     }
 
     #[Test]
-    public function notActiveFacetsReturnFalse(): void
+    public function notActiveFacetReturnsFalse(): void
     {
-        $arguments = [
-            'facetID' => 'behedeti',
-            'facetTerm' => 'behedeti',
-            'activeFacets' => [
-                [
-                    [
-                        'id' => 'horus',
-                        'term' => 'behedeti',
-                    ],
-                    [
-                        'id' => 'hrdr',
-                        'term' => 'horus',
-                    ],
-                ],
-            ],
-            'type' => 'string',
-        ];
-        $this->fixture->setArguments($arguments);
+        self::assertFalse($this->invoke('behedeti', 'behedeti', $this->activeFacets));
+    }
 
-        self::assertFalse($this->fixture->initializeArgumentsAndRender());
+    #[Test]
+    public function nullFacetTermMatchesAnyTermForGivenId(): void
+    {
+        self::assertTrue($this->invoke('horus', null, $this->activeFacets));
+    }
+
+    #[Test]
+    public function nullFacetTermReturnsFalseWhenIdNotFound(): void
+    {
+        self::assertFalse($this->invoke('nonexistent', null, $this->activeFacets));
+    }
+
+    #[Test]
+    public function emptyActiveFacetsReturnsFalse(): void
+    {
+        self::assertFalse($this->invoke('horus', 'behedeti', []));
+    }
+
+    #[Test]
+    public function secondFacetInListIsCorrectlyRecognized(): void
+    {
+        self::assertTrue($this->invoke('hrdr', 'horus', $this->activeFacets));
     }
 }

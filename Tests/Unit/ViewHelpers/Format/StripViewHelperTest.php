@@ -31,13 +31,15 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Format\StripViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StripViewHelperTest extends UnitTestCase
 {
     /**
      * @var StripViewHelper
      */
-    protected $fixture;
+    protected StripViewHelper $fixture;
 
     public static function stringProvider(): array
     {
@@ -59,11 +61,20 @@ class StripViewHelperTest extends UnitTestCase
     #[DataProvider(methodName: 'stringProvider')]
     public function whitespaceIsCorrectlyRemovedFromString(string $string, bool|string|null $strip, string $expected): void
     {
-        $this->fixture->setArguments([
-            'string' => $string,
-            'strip' => $strip,
-        ]);
+        $view = new TemplateView();
+        $renderingContext = $view->getRenderingContext();
 
-        self::assertSame($expected, $this->fixture->initializeArgumentsAndRender());
+        $invoker = new ViewHelperInvoker();
+        $result = $invoker->invoke(
+            StripViewHelper::class,
+            [
+                'string' => $string,
+                'strip' => $strip,
+            ],
+            $renderingContext,
+        );
+
+        self::assertSame($expected, $result);
+
     }
 }

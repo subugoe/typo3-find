@@ -25,96 +25,156 @@ namespace Subugoe\Find\Tests\Unit\ViewHelpers\Data;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use PHPUnit\Framework\Attributes\Test;
 use Subugoe\Find\ViewHelpers\Data\NewArrayViewHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInvoker;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
 class NewArrayViewHelperTest extends UnitTestCase
 {
-    public NewArrayViewHelper $fixture;
+    private ViewHelperInvoker $invoker;
+
+    private RenderingContextInterface $renderingContext;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fixture = new NewArrayViewHelper();
+        $this->renderingContext = new TemplateView()->getRenderingContext();
+        $this->invoker = new ViewHelperInvoker();
+    }
+
+    private function invoke(array $arguments): mixed
+    {
+        return $this->invoker->invoke(
+            NewArrayViewHelper::class,
+            $arguments,
+            $this->renderingContext,
+        );
     }
 
     #[Test]
     public function aNewArrayFromArgumentsIsCorrectlyCreated(): void
     {
-        $arguments = [
+        $result = $this->invoke([
             'array' => ['array'],
             'keys' => ['hrdr'],
             'values' => ['behedeti'],
             'global' => false,
             'omitEmptyFields' => false,
-        ];
+        ]);
 
-        $expected = [
-            0 => 'array',
-            'hrdr' => 'behedeti',
-        ];
-
-        $this->fixture->setArguments($arguments);
-        self::assertSame($expected, $this->fixture->render());
+        self::assertSame([0 => 'array', 'hrdr' => 'behedeti'], $result);
     }
 
     #[Test]
     public function aNewArrayWithoutAnExistingOneIsCreated(): void
     {
-        $arguments = [
+        $result = $this->invoke([
             'keys' => ['hrdr'],
             'values' => ['behedeti'],
             'global' => false,
             'omitEmptyFields' => false,
-        ];
+        ]);
 
-        $expected = [
-            'hrdr' => 'behedeti',
-        ];
-
-        $this->fixture->setArguments($arguments);
-
-        self::assertSame($expected, $this->fixture->render());
+        self::assertSame(['hrdr' => 'behedeti'], $result);
     }
 
     #[Test]
     public function aNewArrayWithMultipleEntriesIsCreated(): void
     {
-        $arguments = [
+        $result = $this->invoke([
             'keys' => ['hrdr', 'horus'],
             'values' => ['behedeti', 'edfu'],
             'global' => false,
             'omitEmptyFields' => false,
-        ];
+        ]);
 
-        $expected = [
-            'hrdr' => 'behedeti',
-            'horus' => 'edfu',
-        ];
-
-        $this->fixture->setArguments($arguments);
-        self::assertSame($expected, $this->fixture->render());
+        self::assertSame(['hrdr' => 'behedeti', 'horus' => 'edfu'], $result);
     }
 
     #[Test]
     public function emptyStringsAsArrayKeysAreConsideredAsKeysAndValues(): void
     {
-        $arguments = [
+        $result = $this->invoke([
             'keys' => ['hrdr', 'horus', ''],
             'values' => ['behedeti', 'edfu', ''],
             'global' => false,
             'omitEmptyFields' => false,
-        ];
+        ]);
 
-        $expected = [
-            'hrdr' => 'behedeti',
-            'horus' => 'edfu',
-            '' => '',
-        ];
+        self::assertSame(['hrdr' => 'behedeti', 'horus' => 'edfu', '' => ''], $result);
+    }
 
-        $this->fixture->setArguments($arguments);
-        self::assertSame($expected, $this->fixture->render());
+    #[Test]
+    public function omitEmptyFieldsSkipsEmptyValues(): void
+    {
+        $result = $this->invoke([
+            'keys' => ['hrdr', 'horus', 'empty'],
+            'values' => ['behedeti', 'edfu', ''],
+            'global' => false,
+            'omitEmptyFields' => true,
+        ]);
+
+        self::assertSame(['hrdr' => 'behedeti', 'horus' => 'edfu'], $result);
+    }
+
+    #[Test]
+    public function noKeysAppendsValuesNumerically(): void
+    {
+        $result = $this->invoke([
+            'values' => ['behedeti', 'edfu'],
+            'global' => false,
+            'omitEmptyFields' => false,
+        ]);
+
+        self::assertSame([0 => 'behedeti', 1 => 'edfu'], $result);
+    }
+
+    #[Test]
+    public function nameAssignsResultToVariableProviderAndReturnsChildContent(): void
+    {
+        $captured = [];
+
+        $this->invoker->invoke(
+            NewArrayViewHelper::class,
+            [
+                'name' => 'myArray',
+                'keys' => ['hrdr'],
+                'values' => ['behedeti'],
+            ],
+            $this->renderingContext,
+            function () use (&$captured): string {
+                $captured = $this->renderingContext->getVariableProvider()->get('myArray') ?? [];
+                return '';
+            },
+        );
+
+        self::assertSame(['hrdr' => 'behedeti'], $captured);
+        // Variable is removed after renderChildren (global=false)
+        self::assertFalse($this->renderingContext->getVariableProvider()->exists('myArray'));
+    }
+
+    #[Test]
+    public function globalTrueKeepsVariableAfterRendering(): void
+    {
+        $this->invoker->invoke(
+            NewArrayViewHelper::class,
+            [
+                'name' => 'myArray',
+                'keys' => ['hrdr'],
+                'values' => ['behedeti'],
+                'global' => true,
+            ],
+            $this->renderingContext,
+            static fn(): string => '',
+        );
+
+        self::assertTrue($this->renderingContext->getVariableProvider()->exists('myArray'));
+        self::assertSame(
+            ['hrdr' => 'behedeti'],
+            $this->renderingContext->getVariableProvider()->get('myArray')
+        );
     }
 }
