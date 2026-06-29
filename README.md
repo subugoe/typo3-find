@@ -187,7 +187,7 @@ When using the eDisMax feature solr offers, add
 
 In case the Solr version is lower than 8, the setting
 `plugin.tx_find.settings.luceneMatchVersion` has to be set to the major version
-that is used (for instance 6 or 7). By default this is set to 8 and affects
+that is used (for instance 6 or 7). By default, this is set to 8 and affects
 a magic query prefix (see https://lucene.apache.org/solr/guide/6_6/the-extended-dismax-query-parser.html#TheExtendedDisMaxQueryParser-Usingthe_magicfields__val_and_query_).
 
 ### The search form
@@ -487,7 +487,7 @@ needed.
 -   `sortPrefixSeparator`: this string is used to split the facet’s name
     into two parts and only display the second part; this way you can
     sort by the first part (e.g. with zero-padded numbers) and still
-    have good looking facet names
+    have good-looking facet names
 
 Examples:
 
@@ -561,8 +561,8 @@ plugin.tx_find.settings.facets {
 #### Histogram
 
 This facet is made for numeric fields. It will draw a histogram to
-visualise the number of results per number in the index. It is a nice
-way to visualise a »year« facet.
+visualize the number of results per number in the index. It is a nice
+way to visualize a »year« facet.
 
 You typically want a high `fetchMaximum` setting for the histogram
 facet. Setting `excludeOwnFilter = 1` will not remove the filtered
@@ -678,7 +678,7 @@ don’t need paging between the detail pages.
 
 #### URL Parameters
 
-You can also set the the number of results and the initial document in a
+You can also set the number of results and the initial document in a
 server reply using the `count` and `position` arguments. The `count`
 will be limited by the `maximumPerPage` setting.
 
@@ -698,8 +698,8 @@ plugin.tx_find.settings.additionalFilters {
 
 ### Choosing the fields to fetch
 
-By default the complete Solr document is loaded and all its fields can
-be used. If your documents are very large or you want to avoid
+By default, the complete Solr document is loaded and all its fields can
+be used. If your documents are very large, or you want to avoid
 unnecessary highlighting, it can be useful to explicitly state which
 fields are to be fetched. The `dataFields` setting lets you do this. It
 has four sections `default`, `index`, `detail`, `data`. The extension
@@ -707,7 +707,7 @@ will start with the fields configured in `default` and add the fields
 given in the array for the action that is used.
 
 Each of these sections is an array with keys `default` (again), `allow`
-and `disallow`. Typically you will only need the `default` array but the
+and `disallow`. Typically, you will only need the `default` array but the
 other keys can be used to force-add fields or explicitly prohibit the
 output of fields. (Please note that this will not be a failsafe
 guarantee that users cannot see those field due to the various actions
@@ -746,7 +746,7 @@ setting. Similar to the `dataFields` setting, it contains arrays
 following fields:
 
 -   `fields` \[{f1 = \*}\]: an array of field names; its keys should
-    begin with a letter for technical reasons (i.e `f1` instead of `1`
+    begin with a letter for technical reasons (i.e. `f1` instead of `1`
 -   `fragsize` \[100\]: the maximum length of the highlighted fragment
 -   `query`: a custom sprintf-style query template to use for
     highlighting, e.g. in the simplest case \[%s]
@@ -765,7 +765,7 @@ to make these more versatile in complicated situations.
 Example highlighting just a few fields by default and a wider range of
 fields for the `detail` action. As it is used with `{!join}` queries,
 the terms from queries and facets are explicitly added again for
-highligh queries:
+highlight queries:
 
 ```
 plugin.tx_find.settings.highlight {
@@ -825,8 +825,8 @@ plugin.tx_find.settings {
 
 ### Jumping to the content
 
-By default the extension creates links that jump to the extension’s
-content (`#tx_find`) on the target page to maximise the visible space
+By default, the extension creates links that jump to the extension’s
+content (`#tx_find`) on the target page to maximize the visible space
 for search results and information that may otherwise be wasted for the
 page’s head. You can remove the anchor to jump to or pick another one on
 your page (e.g. to leave site navigation visible) with the `jumpToID`
@@ -863,9 +863,9 @@ page.includeJSFooterlibs.jqueryUi.integrity = sha256-T0Vest3yCU7pafRw9r+settMBX6
 ### Localisation
 
 You can set the `languageRootPath` pointing to your own `Localisations`
-folder. The partials included with the extension will honour that path
-when accessing their localisation files. As with the partials and
-templates it can be handy to symlink some of the default localisation
+folder. The partials included with the extension will honor that path
+when accessing their localization files. As with the partials and
+templates it can be handy to symlink some of the default localization
 files and just override or add the additional terminology you need:
 
 `plugin.tx_find.settings.languageRootPath = EXT:find/Projects/test/Language/`
@@ -879,7 +879,7 @@ Localisation files used by the included partials are:
 - locallang-fields.xml: field labels
 
 Please refer to the initial comments in those files for the conventions
-used to create the localisation keys based on the `id` s of the
+used to create the localization keys based on the `id` s of the
 respective query fields, facets or fields.
 
 ## Templating
@@ -1003,7 +1003,7 @@ To run the unit tests, clone this repository, and run
 
 ## Contributing
 
-Open a pull request on Github.
+Open a pull request on GitHub.
 
 Make sure to run `composer lint` before to see, if the coding style is met.
 If not, this can be automatically fixed with `composer fix`.
