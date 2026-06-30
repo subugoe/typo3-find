@@ -460,8 +460,8 @@ class SolrServiceProvider implements ServiceProviderInterface
                 $queryForFacet = $facetSet->createFacetField($facetID);
                 $queryForFacet
                     ->setField($facet['field'] ?: $facetID)
-                    ->setMinCount($facet['fetchMinimum'] ?? 1)
-                    ->setLimit($facet['fetchMaximum'] ?? 100)
+                    ->setMinCount($facet['fetchMinimum'] ? (int) $facet['fetchMinimum'] : 1)
+                    ->setLimit($facet['fetchMaximum'] ? (int) $facet['fetchMaximum'] : 100)
                     ->setSort($facet['sortOrder'] ?? 'count');
             }
 
