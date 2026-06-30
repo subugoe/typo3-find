@@ -98,14 +98,8 @@ class SearchController extends ActionController
     {
         $requestArguments = $this->searchProvider->getRequestArguments();
 
-        // A direct ID lookup from the index action redirects to the detail page.
         if (array_key_exists('id', $requestArguments)) {
-            return $this->redirect(
-                'detail',
-                null,
-                null,
-                ['id' => $requestArguments['id']]
-            );
+            return $this->redirect('detail', null, null, ['id' => $requestArguments['id']]);
         }
 
         $this->searchProvider->setCounter();
@@ -117,21 +111,21 @@ class SearchController extends ActionController
             $requestArguments
         );
 
-        // Only inject the JS variable when there is actually content to inject.
-        // An empty string would produce invalid JS: `const underlyingQuery = ;`
         if ($underlyingQueryScriptTagContent !== '') {
             $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
         }
 
         $this->assignStandardViewVariables();
 
+        // Run the query FIRST so createQueryForArguments() populates configuration
+        $queryResult = $this->searchProvider->getDefaultQuery();
+
         $viewValues = [
-            'underlyingQuery' => $underlyingQueryScriptTagContent,
-            'arguments'       => $requestArguments,
-            'config'          => $this->searchProvider->getConfiguration(),
+            'arguments' => $requestArguments,
+            'config'    => $this->searchProvider->getConfiguration(), // ← AFTER getDefaultQuery()
         ];
 
-        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $this->searchProvider->getDefaultQuery());
+        CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $queryResult);
         $this->view->assignMultiple($viewValues);
 
         return $this->htmlResponse();
