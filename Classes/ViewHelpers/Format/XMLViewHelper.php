@@ -35,24 +35,33 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class XMLViewHelper extends AbstractViewHelper
 {
+    protected $escapeOutput = false;
+
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('htmloutput', 'Boolean', 'Whether to output as HTML', false, false);
+        $this->registerArgument('htmloutput', 'bool', 'Whether to output as HTML', false, false);
     }
 
     #[\Override]
-    public function render(): false|string
+    public function render(): string
     {
         $input = $this->renderChildren();
-        $XML = new \DOMDocument();
-        $XML->preserveWhiteSpace = false;
-        $XML->formatOutput = true;
-        $XML->encoding = 'UTF-8';
-        $XML->loadXML($input);
+        $xml = new \DOMDocument();
+        $xml->preserveWhiteSpace = false;
+        $xml->formatOutput = true;
+        $xml->encoding = 'UTF-8';
 
-        // TODO: Error handling?
+        libxml_use_internal_errors(true);
+        $loaded = $xml->loadXML($input);
+        libxml_clear_errors();
 
-        return $this->arguments['htmloutput'] ? $XML->saveHTML() : $XML->saveXML();
+        if (!$loaded) {
+            return htmlspecialchars($input ?? '', ENT_XML1 | ENT_QUOTES, 'UTF-8');
+        }
+
+        $output = $this->arguments['htmloutput'] ? $xml->saveHTML() : $xml->saveXML();
+
+        return $output !== false ? $output : htmlspecialchars($input ?? '', ENT_XML1 | ENT_QUOTES, 'UTF-8');
     }
 }

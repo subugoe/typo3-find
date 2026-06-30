@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\Utility;
 
 /* * *************************************************************
@@ -28,36 +30,79 @@ namespace Subugoe\Find\Utility;
  * ************************************************************* */
 
 /**
- * Configurations and settings.
+ * Utility for merging action-specific TypoScript settings with their defaults.
+ *
+ * All methods are static. This class must not be instantiated.
  */
-class SettingsUtility
+final class SettingsUtility
 {
     /**
-     * Returns the merged settings for the given name.
-     * Uses settings.$settingName.default and adds
-     * settings.$settingsName.$actionName to it.
-     *
-     * Settings array keys need to be non-numeric if they are supposed to be overriden.
-     *
-     * @param string $settingName the key of the subarray of $this->settings to work on
-     *
-     * @return array highlight configuration
+     * Not instantiable — pure static utility class.
      */
-    public static function getMergedSettings(string $settingName, array $settings, string $actionName = 'index'): array
-    {
-        $config = [];
+    private function __construct() {}
 
-        if (array_key_exists($settingName, $settings)) {
-            $setting = $settings[$settingName];
+    /**
+     * Returns the merged configuration for a named settings block.
+     *
+     * Given a settings structure such as:
+     *
+     *   plugin.tx_find.settings.highlight.default { … }
+     *   plugin.tx_find.settings.highlight.detail  { … }
+     *
+     * calling getMergedSettings('highlight', $settings, 'detail') will return
+     * the `default` array with the `detail` array merged on top of it via
+     * array_replace_recursive(), so that action-specific keys override defaults
+     * while unset keys fall back to the default value.
+     *
+     * Non-numeric array keys are required for overriding to work correctly,
+     * because array_replace_recursive() matches keys by name — numeric keys
+     * from TypoScript (10, 20, …) will be appended rather than replaced.
+     *
+     * If $actionName has no matching sub-key under $settingName, only the
+     * default configuration is returned without error — this is intentional
+     * so that actions without specific overrides still receive the defaults.
+     *
+     * If $settingName is absent from $settings, or if neither $settingName
+     * nor its 'default' sub-key hold an array, an empty array is returned.
+     *
+     * @param string $settingName The top-level key in $settings to read from
+     *                            (e.g. 'highlight', 'dataFields').
+     * @param array  $settings    The full plugin settings array, typically
+     *                            $this->settings from an Extbase controller.
+     * @param string $actionName  The current controller action name used to
+     *                            look up action-specific overrides.
+     *                            Defaults to 'index'.
+     *
+     * @return array The merged configuration, or an empty array if the setting
+     *               block is absent or misconfigured.
+     */
+    public static function getMergedSettings(
+        string $settingName,
+        array $settings,
+        string $actionName = 'index',
+    ): array {
+        if (!array_key_exists($settingName, $settings)) {
+            return [];
+        }
 
-            if (array_key_exists('default', $setting)) {
-                $config = $setting['default'];
+        $setting = $settings[$settingName];
 
-                if (array_key_exists($actionName, $setting)) {
-                    $actionConfig = $setting[$actionName];
-                    $config = array_replace_recursive($config, $actionConfig);
-                }
-            }
+        // Guard against misconfigured TypoScript where the setting block is a
+        // scalar rather than an array.
+        if (!is_array($setting)) {
+            return [];
+        }
+
+        $config = $setting['default'] ?? null;
+
+        // Guard against a non-array 'default' value.
+        if (!is_array($config)) {
+            return [];
+        }
+
+        // Merge action-specific overrides on top of the defaults when present.
+        if (array_key_exists($actionName, $setting) && is_array($setting[$actionName])) {
+            $config = array_replace_recursive($config, $setting[$actionName]);
         }
 
         return $config;

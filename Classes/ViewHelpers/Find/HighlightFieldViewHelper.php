@@ -98,9 +98,9 @@ class HighlightFieldViewHelper extends AbstractViewHelper
             if ($this->arguments['index'] !== null) {
                 if (is_array($fieldContent) && count($fieldContent) > $this->arguments['index']) {
                     $fieldContent = $fieldContent[$this->arguments['index']];
+                } elseif (is_array($fieldContent)) {
+                    $fieldContent = '';
                 }
-
-                // TODO: error message
             }
 
             return $this->highlightField($fieldContent, $this->arguments);

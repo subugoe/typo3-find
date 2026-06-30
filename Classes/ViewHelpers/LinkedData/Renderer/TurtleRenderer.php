@@ -62,9 +62,9 @@ class TurtleRenderer extends AbstractRenderer implements RendererInterface
                             $objectString = '"""' . $object . '"""';
                         } elseif (!str_contains((string)$object, "'''")) {
                             $objectString = "'''" . $object . "'''";
+                        } else {
+                            $objectString = '"' . str_replace(['"', "\n", "\r"], ['\"', '\\n', '\\r'], (string)$object) . '"';
                         }
-
-                        // TODO: Error Handling for could not escape.
 
                         if ($properties['language']) {
                             $objectString .= '@' . $properties['language'];

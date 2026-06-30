@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Subugoe\Find\Controller;
 
 /* * *************************************************************
@@ -28,6 +30,7 @@ namespace Subugoe\Find\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
 use Psr\Http\Message\ResponseInterface;
 use Subugoe\Find\PageTitle\FindPageTitleProvider;
 use Subugoe\Find\Service\ServiceProviderInterface;
@@ -41,8 +44,6 @@ class SearchController extends ActionController
 {
     private const string EXTENSION_KEY = 'find';
 
-    protected array $requestArguments = [];
-
     public function __construct(
         private readonly AssetCollector $assetCollector,
         private readonly ServiceProviderInterface $searchProvider,
@@ -54,17 +55,20 @@ class SearchController extends ActionController
      */
     public function detailAction(string $id): ResponseInterface
     {
-        $arguments = $this->searchProvider->getRequestArguments();
         $detail = $this->searchProvider->getDocumentById($id);
-        $underlyingQueryScriptTagContent = '';
+
+        // Capture arguments and configuration AFTER the document fetch,
+        // since getDocumentById() may update provider state.
+        $arguments = $this->searchProvider->getRequestArguments();
 
         if ($this->request->hasArgument('underlyingQuery')) {
             $underlyingQueryInfo = $this->request->getArgument('underlyingQuery');
+
             if (!is_array($underlyingQueryInfo)) {
                 $underlyingQueryInfo = [];
             }
 
-            $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
+            $underlyingQueryScriptTagContent = FrontendUtility::buildUnderlyingQueryJson(
                 $underlyingQueryInfo['q'] ?? [],
                 $this->settings,
                 isset($underlyingQueryInfo['position']) ? (int)$underlyingQueryInfo['position'] : null,
@@ -72,16 +76,16 @@ class SearchController extends ActionController
             );
 
             if ($underlyingQueryScriptTagContent !== '') {
-                $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
+                $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent, $id);
             }
         }
 
         $this->assignStandardViewVariables();
         $this->view->assignMultiple($detail);
         $this->view->assignMultiple([
-            'underlyingQuery' => $underlyingQueryScriptTagContent,
-            'arguments' => $arguments,
-            'config' => $this->searchProvider->getConfiguration(),
+            'underlyingQuery' => $underlyingQueryScriptTagContent ?? '',
+            'arguments'       => $arguments,
+            'config'          => $this->searchProvider->getConfiguration(),
         ]);
 
         return $this->htmlResponse();
@@ -92,31 +96,39 @@ class SearchController extends ActionController
      */
     public function indexAction(): ResponseInterface
     {
-        if (array_key_exists('id', $this->requestArguments)) {
+        $requestArguments = $this->searchProvider->getRequestArguments();
+
+        // A direct ID lookup from the index action redirects to the detail page.
+        if (array_key_exists('id', $requestArguments)) {
             return $this->redirect(
                 'detail',
                 null,
                 null,
-                ['id' => $this->requestArguments['id']]
+                ['id' => $requestArguments['id']]
             );
         }
 
         $this->searchProvider->setCounter();
 
-        $underlyingQueryScriptTagContent = FrontendUtility::addQueryInformationAsJavaScript(
-            $this->searchProvider->getRequestArguments()['q'] ?? [],
+        $underlyingQueryScriptTagContent = FrontendUtility::buildUnderlyingQueryJson(
+            $requestArguments['q'] ?? [],
             $this->settings,
             null,
-            $this->searchProvider->getRequestArguments()
+            $requestArguments
         );
 
-        $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
+        // Only inject the JS variable when there is actually content to inject.
+        // An empty string would produce invalid JS: `const underlyingQuery = ;`
+        if ($underlyingQueryScriptTagContent !== '') {
+            $this->addUnderlyingQueryJavaScript($underlyingQueryScriptTagContent);
+        }
+
         $this->assignStandardViewVariables();
 
         $viewValues = [
             'underlyingQuery' => $underlyingQueryScriptTagContent,
-            'arguments' => $this->searchProvider->getRequestArguments(),
-            'config' => $this->searchProvider->getConfiguration(),
+            'arguments'       => $requestArguments,
+            'config'          => $this->searchProvider->getConfiguration(),
         ];
 
         CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $this->searchProvider->getDefaultQuery());
@@ -127,7 +139,13 @@ class SearchController extends ActionController
 
     public function suggestAction(): ResponseInterface
     {
-        $results = $this->searchProvider->suggestQuery($this->searchProvider->getRequestArguments());
+        $requestArguments = $this->searchProvider->getRequestArguments();
+
+        $results = $this->searchProvider->suggestQuery([
+            'q'          => $requestArguments['q'] ?? '',
+            'dictionary' => $requestArguments['dictionary'] ?? '',
+        ]);
+
         $this->view->assign('suggestions', $results);
 
         return $this->htmlResponse();
@@ -139,16 +157,24 @@ class SearchController extends ActionController
             ksort($this->settings['queryFields']);
         }
 
-        // Set request arguments BEFORE connecting so the provider has them available
-        $this->requestArguments = ArrayUtility::cleanArgumentsArray(
+        $requestArguments = ArrayUtility::cleanArgumentsArray(
             $this->request->getArguments()
         );
 
-        $this->searchProvider->setRequestArguments($this->requestArguments);
+        $this->searchProvider->setRequestArguments($requestArguments);
         $this->searchProvider->setAction($this->request->getControllerActionName());
         $this->searchProvider->setControllerExtensionKey(self::EXTENSION_KEY);
 
-        $this->initializeConnection($this->settings['activeConnection']);
+        $activeConnection = $this->settings['activeConnection'] ?? '';
+
+        if ($activeConnection === '') {
+            throw new \RuntimeException(
+                'TypoScript setting "activeConnection" is not configured for the find extension.',
+                1_700_000_010
+            );
+        }
+
+        $this->initializeConnection($activeConnection);
     }
 
     protected function initializeConnection(string $activeConnection): void
@@ -159,25 +185,36 @@ class SearchController extends ActionController
     }
 
     /**
-     * Assigns standard provider configuration and view variables.
-     * Named clearly to reflect that it both configures the provider AND assigns to the view.
+     * Writes standard runtime values into the provider configuration so that
+     * they are available to templates via the »config« variable.
      */
     protected function assignStandardViewVariables(): void
     {
+        $contentObject = $this->request->getAttribute('currentContentObject');
+        $contentUid    = $contentObject !== null ? (int)($contentObject->data['uid'] ?? 0) : 0;
+
         $this->searchProvider->setConfigurationValue('extendedSearch', $this->searchProvider->isExtendedSearch());
-        $this->searchProvider->setConfigurationValue(
-            'uid',
-            $this->request->getAttribute('currentContentObject')->data['uid']
-        );
+        $this->searchProvider->setConfigurationValue('uid', $contentUid);
         $this->searchProvider->setConfigurationValue('prefixID', 'tx_find_find');
         $this->searchProvider->setConfigurationValue('pageTitle', $this->pageTitleProvider->getTitle());
     }
 
-    private function addUnderlyingQueryJavaScript(string $content): void
+    /**
+     * Adds the underlying-query data as an inline JS variable.
+     *
+     * The asset key is made unique per content element (and optionally per
+     * record ID) so that multiple find plugins on the same page do not
+     * overwrite each other, and so that `const` is not re-declared.
+     */
+    private function addUnderlyingQueryJavaScript(string $content, string $suffix = ''): void
     {
+        $contentObject = $this->request->getAttribute('currentContentObject');
+        $uid           = $contentObject !== null ? (int)($contentObject->data['uid'] ?? 0) : 0;
+        $key           = 'underlyingQuery_' . $uid . ($suffix !== '' ? '_' . $suffix : '');
+
         $this->assetCollector->addInlineJavaScript(
-            'underlyingQueryVar',
-            sprintf('const underlyingQuery = %s;', $content),
+            $key,
+            sprintf('const underlyingQuery_%s = %s;', $uid, $content),
             [],
             ['priority' => true]
         );

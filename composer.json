@@ -35,7 +35,9 @@
     "solarium/solarium": "^6.0",
     "typo3/cms-core": "^13.4",
     "typo3/cms-extbase": "^13.4",
-    "typo3/cms-fluid": "^13.4"
+    "typo3/cms-fluid": "^13.4",
+    "ext-libxml": "*",
+    "cuyz/valinor": "^2.5"
   },
   "require-dev": {
     "typo3/testing-framework": "^9.5.0",
