@@ -49,6 +49,9 @@ class TitleViewHelper extends AbstractViewHelper
             $title = $this->renderChildren();
         }
 
+        // Sanitize title to prevent XSS
+        $title = htmlspecialchars((string)$title, ENT_QUOTES, 'UTF-8');
+
         /*
          * Hack-ish approach to deal with TYPO3 Caching problems.
          * 1. Apparently our changes to $GLOBALS['TSFE']->page['title'] only work for cached plugins
@@ -60,13 +63,18 @@ class TitleViewHelper extends AbstractViewHelper
          * appearing once inside the <title> tag. Otherwise the order of the components in the page title will be wrong.
          */
         if ($GLOBALS['TSFE']->content) {
+            $pageTitle = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord()['title'] ?? '';
+            $sanitizedPageTitle = preg_quote($pageTitle, '/');
             $GLOBALS['TSFE']->content = preg_replace(
-                '/(<title>.*)' . $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord()['title'] . '(.*<\/title>)/',
+                '/(<title>.*)' . $sanitizedPageTitle . '(.*<\/title>)/',
                 '$1' . $title . '$2',
                 (string)$GLOBALS['TSFE']->content
             );
         } else {
-            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord()['title'] = $title;
+            $pageRecord = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord();
+            if (is_array($pageRecord)) {
+                $pageRecord['title'] = $title;
+            }
         }
     }
 }

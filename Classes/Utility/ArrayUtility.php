@@ -45,9 +45,15 @@ class ArrayUtility
      *
      * Call this on $request->getArguments() or equivalent before passing
      * arguments to the search provider.
+     *
+     * @throws \RuntimeException If array depth exceeds 20 to prevent stack overflow
      */
-    public static function cleanArgumentsArray(array $array): array
+    public static function cleanArgumentsArray(array $array, int $depth = 0): array
     {
+        if ($depth > 20) {
+            throw new \RuntimeException('Array depth exceeds maximum allowed depth of 20', 1700000006);
+        }
+
         foreach ($array as $key => $value) {
             // Check the __ prefix condition and the empty-string condition
             // in explicit, separately parenthesised groups so that operator
@@ -59,7 +65,7 @@ class ArrayUtility
             if ($isInternalKey || $isEmptyString) {
                 unset($array[$key]);
             } elseif (is_array($value)) {
-                $cleaned = self::cleanArgumentsArray($value);
+                $cleaned = self::cleanArgumentsArray($value, $depth + 1);
 
                 // Remove the key entirely if cleaning left an empty array,
                 // so that callers do not have to guard against empty sub-arrays.

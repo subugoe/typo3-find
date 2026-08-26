@@ -14,13 +14,14 @@ class LoggerUtilityTest extends UnitTestCase
     public function exceptionIsConvertedToArray(): void
     {
         $exception = new \RuntimeException('Test message', 42);
-        $result = LoggerUtility::exceptionToArray($exception);
+        $result = LoggerUtility::exceptionToArray($exception, false);
 
         self::assertSame('Test message', $result['message']);
         self::assertSame(42, $result['code']);
         self::assertSame($exception->getFile(), $result['file']);
         self::assertSame($exception->getLine(), $result['line']);
-        self::assertIsString($result['trace']);
+        self::assertIsArray($result['trace']);
+        self::assertIsString($result['traceAsString']);
         self::assertArrayNotHasKey('previous', $result);
     }
 
@@ -30,9 +31,9 @@ class LoggerUtilityTest extends UnitTestCase
         $previous  = new \InvalidArgumentException('Previous', 1);
         $exception = new \RuntimeException('Main', 2, $previous);
 
-        $result = LoggerUtility::exceptionToArray($exception);
+        $result = LoggerUtility::exceptionToArray($exception, false, 10);
 
-        self::assertArrayNotHasKey('previous', $result);
+        self::assertNull($result['previous']);
     }
 
     #[Test]
@@ -41,7 +42,7 @@ class LoggerUtilityTest extends UnitTestCase
         $previous  = new \InvalidArgumentException('Previous message', 1);
         $exception = new \RuntimeException('Main message', 2, $previous);
 
-        $result = LoggerUtility::exceptionToArray($exception, true);
+        $result = LoggerUtility::exceptionToArray($exception, true, 10);
 
         self::assertArrayHasKey('previous', $result);
         self::assertSame('Previous message', $result['previous']['message']);
@@ -55,7 +56,7 @@ class LoggerUtilityTest extends UnitTestCase
         $middle    = new \InvalidArgumentException('Middle', 2, $root);
         $exception = new \RuntimeException('Top', 3, $middle);
 
-        $result = LoggerUtility::exceptionToArray($exception, true);
+        $result = LoggerUtility::exceptionToArray($exception, true, 10);
 
         self::assertSame('Top', $result['message']);
         self::assertSame('Middle', $result['previous']['message']);
@@ -67,9 +68,9 @@ class LoggerUtilityTest extends UnitTestCase
     {
         $exception = new \RuntimeException('No previous', 99);
 
-        $result = LoggerUtility::exceptionToArray($exception, true);
+        $result = LoggerUtility::exceptionToArray($exception, true, 10);
 
-        self::assertArrayNotHasKey('previous', $result);
+        self::assertNull($result['previous']);
     }
 
     #[Test]
@@ -87,7 +88,7 @@ class LoggerUtilityTest extends UnitTestCase
         $exception = new \RuntimeException('Trace test');
         $result    = LoggerUtility::exceptionToArray($exception);
 
-        self::assertNotSame('', $result['trace']);
-        self::assertStringContainsString('#0', $result['trace']);
+        self::assertNotSame('', $result['traceAsString']);
+        self::assertStringContainsString('#0', $result['traceAsString']);
     }
 }

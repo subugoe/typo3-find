@@ -65,7 +65,16 @@ class CountFromSolrViewHelper extends AbstractViewHelper
     #[\Override]
     public function render(): void
     {
-        $findParameter = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['tx_find_find'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['tx_find_find'] ?? null;
+        $parsedBody = $GLOBALS['TYPO3_REQUEST']->getParsedBody();
+        $queryParams = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
+
+        $findParameter = [];
+
+        if (isset($parsedBody['tx_find_find']) && is_array($parsedBody['tx_find_find'])) {
+            $findParameter = $parsedBody['tx_find_find'];
+        } elseif (isset($queryParams['tx_find_find']) && is_array($queryParams['tx_find_find'])) {
+            $findParameter = $queryParams['tx_find_find'];
+        }
 
         $activeFacets = $this->arguments['activeFacets'];
         $queryConcat = $this->arguments['queryConcat'];

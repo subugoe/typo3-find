@@ -14,8 +14,8 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function returnsEmptyStringWhenDetailPagePagingIsDisabled(): void
     {
-        self::assertSame('', FrontendUtility::addQueryInformationAsJavaScript(
-            ['q' => 'test'],
+        self::assertSame('', FrontendUtility::buildUnderlyingQueryJson(
+            'test',
             ['paging' => ['detailPagePaging' => 0]]
         ));
     }
@@ -23,8 +23,8 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function returnsEmptyStringWhenDetailPagePagingIsMissing(): void
     {
-        self::assertSame('', FrontendUtility::addQueryInformationAsJavaScript(
-            ['q' => 'test'],
+        self::assertSame('', FrontendUtility::buildUnderlyingQueryJson(
+            'test',
             []
         ));
     }
@@ -32,7 +32,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function encodesQueryAsJson(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             ['field' => 'value'],
             ['paging' => ['detailPagePaging' => 1, 'perPage' => 10]]
         );
@@ -44,7 +44,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function includesPositionWhenProvided(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             5
@@ -57,7 +57,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function omitsPositionWhenNull(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             null
@@ -70,7 +70,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function includesFacetsFromArguments(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             null,
@@ -84,7 +84,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function includesCountFromArguments(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             null,
@@ -98,7 +98,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function fallsBackToPerPageSettingForCount(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1, 'perPage' => 25]],
         );
@@ -110,7 +110,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function includesSortWhenProvided(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             null,
@@ -124,7 +124,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function omitsSortWhenEmpty(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             [],
             ['paging' => ['detailPagePaging' => 1]],
             null,
@@ -138,11 +138,11 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function unwrapsNestedUnderlyingQueryArguments(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             ['field' => 'value'],
             ['paging' => ['detailPagePaging' => 1]],
             null,
-            ['underlyingQuery' => ['count' => 15, 'sort' => 'title asc']]
+            ['count' => 15, 'sort' => 'title asc']
         );
 
         $decoded = json_decode($result, true);
@@ -153,7 +153,7 @@ class FrontendUtilityTest extends UnitTestCase
     #[Test]
     public function outputIsValidJson(): void
     {
-        $result = FrontendUtility::addQueryInformationAsJavaScript(
+        $result = FrontendUtility::buildUnderlyingQueryJson(
             ['field' => '<script>alert("xss")</script>'],
             ['paging' => ['detailPagePaging' => 1]]
         );

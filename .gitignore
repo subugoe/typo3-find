@@ -9,3 +9,4 @@ vendor/*
 var
 node_modules
 config/
+/Tests/.phpunit.result.cache

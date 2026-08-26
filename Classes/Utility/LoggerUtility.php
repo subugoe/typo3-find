@@ -94,7 +94,9 @@ final class LoggerUtility
         $previous = $exception->getPrevious();
 
         if ($includePrevious && $maxDepth > 0 && $previous instanceof \Throwable) {
-            $array['previous'] = self::exceptionToArray($previous, true, $maxDepth - 1);
+            $array['previous'] = self::exceptionToArray($previous, $includePrevious, $maxDepth - 1);
+        } else {
+            unset($array['previous']);
         }
 
         return $array;

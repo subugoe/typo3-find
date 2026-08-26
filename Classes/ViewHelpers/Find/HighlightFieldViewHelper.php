@@ -86,7 +86,6 @@ class HighlightFieldViewHelper extends AbstractViewHelper
             false,
             '</em>'
         );
-        $this->registerArgument('raw', 'boolean', 'whether to not HTML escape the output', false, false);
     }
 
     #[\Override]
@@ -170,11 +169,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
         foreach ($highlightInfo as $highlightItem) {
             $highlightItemStripped = str_replace(['\ueeee', '\ueeef'], ['', ''], $highlightItem);
             if (strpos($fieldString, (string)$highlightItemStripped) !== null) {
-                // HTML escape the text here if not explicitly configured to not do so.
-                // Use f:format.raw in the template to avoid double escaping the HTML tags.
-                if (!$arguments['raw']) {
-                    $highlightItem = htmlspecialchars((string)$highlightItem);
-                }
+                $highlightItem = htmlspecialchars((string)$highlightItem);
 
                 $highlightItemMarkedUp = str_replace(
                     ['\ueeee', '\ueeef'],
@@ -188,7 +183,7 @@ class HighlightFieldViewHelper extends AbstractViewHelper
 
         // If no highlighted string is present, use the original one.
         if ($result === null) {
-            $result = $arguments['raw'] ? $fieldString : htmlspecialchars($fieldString);
+            $result = htmlspecialchars($fieldString);
         }
 
         return $result;

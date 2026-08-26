@@ -35,7 +35,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class XMLViewHelper extends AbstractViewHelper
 {
-    protected $escapeOutput = false;
+    protected $escapeOutput = true;
 
     public function initializeArguments(): void
     {

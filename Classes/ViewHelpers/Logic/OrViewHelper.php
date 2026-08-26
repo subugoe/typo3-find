@@ -48,7 +48,7 @@ class OrViewHelper extends AbstractViewHelper
     {
         $result = false;
         foreach ($this->arguments['conditions'] as $condition) {
-            $result |= ($condition == true);
+            $result |= ($condition === true);
         }
 
         return (bool)$result;

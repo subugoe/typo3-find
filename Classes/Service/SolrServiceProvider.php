@@ -72,6 +72,10 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     private int $cacheHits = 0;
 
+    private const int QUERY_CACHE_MAX_SIZE = 50;
+
+    private const int QUERY_CACHE_TRIM_SIZE = 25;
+
     /**
      * Whether the Solr connection has been verified as reachable.
      * Avoids redundant ping calls within the same request.
@@ -204,8 +208,8 @@ class SolrServiceProvider implements ServiceProviderInterface
         $this->queryCache[$cacheKey] = $result;
 
         // Prevent unbounded memory growth within a single request.
-        if (count($this->queryCache) > 100) {
-            $this->queryCache = array_slice($this->queryCache, -50, null, true);
+        if (count($this->queryCache) > self::QUERY_CACHE_MAX_SIZE) {
+            $this->queryCache = array_slice($this->queryCache, -self::QUERY_CACHE_TRIM_SIZE, null, true);
         }
 
         return $result;
@@ -1136,10 +1140,8 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     private function escapeQueryTerms(array $fieldInfo, array $queryTerms): array
     {
-        if ((int)($fieldInfo['noescape'] ?? 0) !== 0) {
-            return $queryTerms;
-        }
-
+        // Security: Always escape query terms to prevent Solr injection
+        // The 'noescape' parameter has been removed for security reasons
         foreach (array_keys($queryTerms) as $key) {
             $queryTerms[$key] = empty($fieldInfo['phrase'])
                 ? $this->query->getHelper()->escapeTerm($queryTerms[$key])
@@ -1194,18 +1196,8 @@ class SolrServiceProvider implements ServiceProviderInterface
 
     private function applyCustomEscaping(array $fieldInfo, array $queryTerms): array
     {
-        if ((int)($fieldInfo['noescape'] ?? 0) === 2) {
-            $chars = explode(',', (string)($fieldInfo['escapechar'] ?? ''));
-
-            foreach (array_keys($queryTerms) as $key) {
-                foreach ($chars as $char) {
-                    if ($char !== '') {
-                        $queryTerms[$key] = str_replace($char, '\\' . $char, (string)$queryTerms[$key]);
-                    }
-                }
-            }
-        }
-
+        // Security: Custom escaping has been disabled for security reasons
+        // Only standard Solr escaping is now allowed
         ksort($queryTerms);
         return $queryTerms;
     }
