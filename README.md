@@ -3,13 +3,21 @@
 [![image](https://travis-ci.org/subugoe/typo3-find.svg?branch=travis)](https://travis-ci.org/subugoe/typo3-find)
 
 This TYPO3 extension aims to enable the query and display of arbitrary
-Solr indexes.
+search indexes including **Solr**, **OpenSearch/Elasticsearch**, and **Pagefind**.
 
 It provides the ability to configure many aspects of the query – e.g.
 query fields, facets, filtering through TypoScript – and set up the
 display through Fluid templates. Partials for standard display features
 as well as a number of View Helpers that help creating those templates
 are included in the extension.
+
+## Supported Search Engines
+
+The extension comes with multiple service provider adapters that connect to different search backends:
+
+- **Solr** (via Solarium) - The default and most mature adapter
+- **OpenSearch/Elasticsearch** - Full support for Elasticsearch/OpenSearch clusters
+- **Pagefind** - Static site search using JSON index files
 
 ## Installation
 
@@ -144,13 +152,15 @@ subset of the folders / files existing)
 All settings discussed in this section are inside the
 `plugin.tx_find.settings` array of the TypoScript configuration.
 
-### Connection to the Solr index
+### Connection to Search Index
 
-You can have multiple Solr connections. Every connection needs to use a
+You can have multiple search connections. Every connection needs to use a
 provider and an options array.
 
 The `plugin.tx_find.settings.activeConnection` determines the currently
 used connection. The default value is `default`.
+
+#### Solr Connection
 
 The `options` settings array in a connection definition is used to
 configure access to the Solr index. It contains:
@@ -161,23 +171,80 @@ configure access to the Solr index. It contains:
 -   `timeout` \[5\]: number of seconds before a Solr request times out
 -   `scheme` \[http\]: URI scheme of the connection
 
-1.  Example:
-    ```
-    plugin.tx_find.settings {
-        connections {
-            default {
-                provider = Subugoe\Find\Service\SolrServiceProvider
-                options {
-                    host = 127.0.0.1
-                    port = 8080
-                    path = /solr/
-                    timeout = 5
-                    scheme = http
-                }
+Example:
+```
+plugin.tx_find.settings {
+    connections {
+        default {
+            provider = Subugoe\Find\Service\SolrServiceProvider
+            options {
+                host = 127.0.0.1
+                port = 8983
+                path = /solr/
+                timeout = 5
+                scheme = http
+                core = myIndex
             }
         }
     }
-    ```
+}
+```
+
+#### OpenSearch/Elasticsearch Connection
+
+For OpenSearch or Elasticsearch, configure the connection with:
+
+-   `host` \[localhost\]: hostname of the OpenSearch/Elasticsearch server
+-   `port` \[9200\]: port of the OpenSearch/Elasticsearch service
+-   `scheme` \[http\]: URI scheme (http or https)
+-   `index` \[default\]: name of the Elasticsearch/OpenSearch index
+-   `username` \[null\]: optional username for authentication
+-   `password` \[null\]: optional password for authentication
+-   `api_key` \[null\]: optional API key for authentication
+-   `timeout` \[5\]: number of seconds before a request times out
+-   `suggest_field` \[suggest\]: optional field name for suggest queries
+
+Example:
+```
+plugin.tx_find.settings {
+    connections {
+        elasticsearch {
+            provider = Subugoe\Find\Service\OpenSearchServiceProvider
+            options {
+                host = localhost
+                port = 9200
+                scheme = http
+                index = mySite
+                username = elastic
+                password = secret
+                timeout = 5
+            }
+        }
+    }
+    activeConnection = elasticsearch
+}
+```
+
+#### Pagefind Connection
+
+Pagefind is designed for static sites and reads index files from the filesystem:
+
+-   `indexPath` \[required\]: path to the Pagefind index directory containing `pagefind_index.json`
+
+Example:
+```
+plugin.tx_find.settings {
+    connections {
+        pagefind {
+            provider = Subugoe\Find\Service\PagefindServiceProvider
+            options {
+                indexPath = /var/www/html/pagefind
+            }
+        }
+    }
+    activeConnection = pagefind
+}
+```
 
 ### Solr Components
 
@@ -992,8 +1059,11 @@ depending on the `id` s used for fields and facets.
 
 ## Prerequisites
 
-- TYPO3 12.4
-- PHP 8.2 or higher
+- TYPO3 13.4
+- PHP 8.3 or higher
+- For Solr: Solr 8+ server
+- For OpenSearch/Elasticsearch: Elasticsearch 8.x or OpenSearch 2.x
+- For Pagefind: Generated Pagefind index files
 
 ## Testing
 

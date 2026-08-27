@@ -37,7 +37,8 @@
     "typo3/cms-extbase": "^13.4",
     "typo3/cms-fluid": "^13.4",
     "ext-libxml": "*",
-    "cuyz/valinor": "^2.5"
+    "cuyz/valinor": "^2.5",
+    "elasticsearch/elasticsearch": "^8.0"
   },
   "require-dev": {
     "typo3/testing-framework": "^9.5.0",
