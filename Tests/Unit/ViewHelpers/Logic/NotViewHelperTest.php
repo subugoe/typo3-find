@@ -51,12 +51,36 @@ class NotViewHelperTest extends UnitTestCase
                 1 === 2,
                 true,
             ],
+            [
+                '0',
+                true,
+            ],
+            [
+                '',
+                true,
+            ],
+            [
+                [],
+                true,
+            ],
+            [
+                '1',
+                false,
+            ],
+            [
+                'hrdr',
+                false,
+            ],
+            [
+                ['foo'],
+                false,
+            ],
         ];
     }
 
     #[Test]
     #[DataProvider(methodName: 'conditionProvider')]
-    public function conditionIsMet(bool $conditions, bool $expected): void
+    public function conditionIsMet(mixed $conditions, bool $expected): void
     {
 
         $view = new TemplateView();

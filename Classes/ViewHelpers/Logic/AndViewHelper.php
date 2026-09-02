@@ -49,7 +49,7 @@ class AndViewHelper extends AbstractViewHelper
     ): bool {
         $result = true;
         foreach ($this->arguments['conditions'] as $condition) {
-            $result &= ($condition === true);
+            $result &= (bool)$condition;
         }
 
         return (bool)$result;

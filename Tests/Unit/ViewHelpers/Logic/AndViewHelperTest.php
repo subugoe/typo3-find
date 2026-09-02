@@ -85,6 +85,19 @@ class AndViewHelperTest extends UnitTestCase
                 ],
                 false,
             ],
+            [
+                [
+                    'hrdr',
+                ],
+                true,
+            ],
+            [
+                [
+                    '1',
+                    '0',
+                ],
+                false,
+            ],
         ];
     }
 

@@ -47,6 +47,6 @@ class NotViewHelper extends AbstractViewHelper
     #[\Override]
     public function render(): bool
     {
-        return $this->arguments['condition'] !== true;
+        return !(bool)$this->arguments['condition'];
     }
 }

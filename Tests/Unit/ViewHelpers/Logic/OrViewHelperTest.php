@@ -81,6 +81,44 @@ class OrViewHelperTest extends UnitTestCase
                 ],
                 true,
             ],
+            [
+                [
+                    'hrdr',
+                ],
+                true,
+            ],
+            [
+                [
+                    '1',
+                ],
+                true,
+            ],
+            [
+                [
+                    '0',
+                ],
+                false,
+            ],
+            [
+                [
+                    '0',
+                    '1',
+                ],
+                true,
+            ],
+            [
+                [
+                    [],
+                    '',
+                ],
+                false,
+            ],
+            [
+                [
+                    ['foo'],
+                ],
+                true,
+            ],
         ];
     }
 
