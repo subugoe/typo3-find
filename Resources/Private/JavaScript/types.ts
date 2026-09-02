@@ -10,7 +10,7 @@ export interface UnderlyingQuery {
 
 declare global {
   interface Window {
-    underlyingQuery: UnderlyingQuery;
+    underlyingQuery?: UnderlyingQuery;
   }
 }
 

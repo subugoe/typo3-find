@@ -1,9 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   addURLParameter,
   removeURLParameter,
   inputWithNameAndValue,
   inputsWithPrefixForObject,
+  getUnderlyingQuery,
+  detailViewWithPaging,
 } from '../../../Resources/Private/JavaScript/find';
 
 describe('addURLParameter', () => {
@@ -72,5 +74,133 @@ describe('inputsWithPrefixForObject', () => {
   it('handles null values as string', () => {
     const inputs = inputsWithPrefixForObject('p', { x: null });
     expect(inputs[0].value).toBe('null');
+  });
+});
+
+describe('getUnderlyingQuery', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    delete (window as unknown as { underlyingQuery?: unknown }).underlyingQuery;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('parses the data-underlying-query attribute', () => {
+    document.body.innerHTML = '<div class="results" data-underlying-query=\'{"q":{"default":"goethe"},"count":10}\'></div>';
+
+    const query = getUnderlyingQuery();
+    expect(query).toEqual({ q: { default: 'goethe' }, count: 10 });
+  });
+
+  it('returns undefined when the attribute is absent', () => {
+    document.body.innerHTML = '<div class="results"></div>';
+
+    expect(getUnderlyingQuery()).toBeUndefined();
+  });
+
+  it('returns undefined when the attribute is empty', () => {
+    document.body.innerHTML = '<div class="results" data-underlying-query=""></div>';
+
+    expect(getUnderlyingQuery()).toBeUndefined();
+  });
+
+  it('returns undefined and warns on malformed JSON', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    document.body.innerHTML = '<div class="results" data-underlying-query="{invalid}"></div>';
+
+    expect(getUnderlyingQuery()).toBeUndefined();
+    expect(warn).toHaveBeenCalled();
+  });
+
+  it('falls back to window.underlyingQuery when no attribute is present', () => {
+    (window as unknown as { underlyingQuery?: unknown }).underlyingQuery = { q: { default: 'legacy' } };
+
+    expect(getUnderlyingQuery()).toEqual({ q: { default: 'legacy' } });
+  });
+
+  it('prefers the attribute over the global', () => {
+    (window as unknown as { underlyingQuery?: unknown }).underlyingQuery = { q: { default: 'legacy' } };
+    document.body.innerHTML = '<div class="results" data-underlying-query=\'{"q":{"default":"attribute"}}\'></div>';
+
+    expect(getUnderlyingQuery()).toEqual({ q: { default: 'attribute' } });
+  });
+
+  it('parses a fresh object on every call', () => {
+    document.body.innerHTML = '<div class="results" data-underlying-query=\'{"q":{"default":"goethe"}}\'></div>';
+
+    const first = getUnderlyingQuery();
+    const second = getUnderlyingQuery();
+    expect(first).not.toBe(second);
+    if (first) first.position = 5;
+    expect(second?.position).toBeUndefined();
+  });
+});
+
+describe('detailViewWithPaging', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    delete (window as unknown as { underlyingQuery?: unknown }).underlyingQuery;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('submits the underlying query from the data attribute and returns false', () => {
+    document.body.innerHTML = `
+      <div class="results" data-underlying-query='{"q":{"default":"goethe"},"count":10,"sort":"year asc"}'></div>
+      <ol start="3"><li><a id="detail-link" href="/detail?id=1">Result</a></li></ol>
+    `;
+    const submit = vi.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
+
+    const link = document.querySelector<HTMLAnchorElement>('#detail-link')!;
+    const result = detailViewWithPaging(link);
+
+    expect(result).toBe(false);
+    expect(submit).toHaveBeenCalledTimes(1);
+
+    const form = document.body.querySelector('form')!;
+    expect(form.action).toContain('/detail?id=1');
+    const names = [...form.querySelectorAll('input')].map((input) => input.name);
+    expect(names).toContain('tx_find_find[underlyingQuery][q][default]');
+    expect(names).toContain('tx_find_find[underlyingQuery][position]');
+    expect(names).toContain('tx_find_find[underlyingQuery][count]');
+    expect(names).toContain('tx_find_find[underlyingQuery][sort]');
+    const position = form.querySelector<HTMLInputElement>('input[name="tx_find_find[underlyingQuery][position]"]')!;
+    expect(position.value).toBe('3');
+  });
+
+  it('uses the explicit position when given', () => {
+    document.body.innerHTML = `
+      <div class="results" data-underlying-query='{"q":{"default":"goethe"},"position":4}'></div>
+      <ol start="3"><li><a id="detail-link" href="/detail?id=1">Result</a></li></ol>
+    `;
+    vi.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
+
+    const link = document.querySelector<HTMLAnchorElement>('#detail-link')!;
+    detailViewWithPaging(link, 7);
+
+    const form = document.body.querySelector('form')!;
+    const position = form.querySelector<HTMLInputElement>('input[name="tx_find_find[underlyingQuery][position]"]')!;
+    expect(position.value).toBe('7');
+  });
+
+  it('returns true without any underlying query data', () => {
+    document.body.innerHTML = '<ol start="3"><li><a id="detail-link" href="/detail?id=1">Result</a></li></ol>';
+
+    const link = document.querySelector<HTMLAnchorElement>('#detail-link')!;
+    expect(detailViewWithPaging(link)).toBe(true);
+  });
+
+  it('returns true when the link has no href', () => {
+    document.body.innerHTML = `
+      <div class="results" data-underlying-query='{"q":{"default":"goethe"}}'></div>
+      <ol start="3"><li><a id="detail-link">Result</a></li></ol>
+    `;
+
+    const link = document.querySelector<HTMLAnchorElement>('#detail-link')!;
+    expect(detailViewWithPaging(link)).toBe(true);
   });
 });

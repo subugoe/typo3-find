@@ -121,8 +121,9 @@ class SearchController extends ActionController
         $queryResult = $this->searchProvider->getDefaultQuery();
 
         $viewValues = [
-            'arguments' => $requestArguments,
-            'config'    => $this->searchProvider->getConfiguration(), // ← AFTER getDefaultQuery()
+            'arguments'       => $requestArguments,
+            'config'          => $this->searchProvider->getConfiguration(), // ← AFTER getDefaultQuery()
+            'underlyingQuery' => $underlyingQueryScriptTagContent ?? '',
         ];
 
         CoreArrayUtility::mergeRecursiveWithOverrule($viewValues, $queryResult);
@@ -194,11 +195,17 @@ class SearchController extends ActionController
     }
 
     /**
-     * Adds the underlying-query data as an inline JS variable.
+     * Adds the underlying-query data as an inline JS assignment.
      *
-     * The asset key is made unique per content element (and optionally per
-     * record ID) so that multiple find plugins on the same page do not
-     * overwrite each other, and so that `const` is not re-declared.
+     * Assigns `window.underlyingQuery` (instead of declaring a per-uid
+     * `const`), because that is the exact global the shipped find.js reads.
+     * Assignments do not throw on redeclaration when multiple find plugins
+     * render on the same page. The asset key stays unique per content
+     * element (and optionally per record ID) so the collector keeps both
+     * snippets if that happens — the last one wins, same as before.
+     *
+     * The templates additionally render the same data as the
+     * `data-underlying-query` attribute, which the JS prefers when present.
      */
     private function addUnderlyingQueryJavaScript(string $content, string $suffix = ''): void
     {
@@ -208,7 +215,7 @@ class SearchController extends ActionController
 
         $this->assetCollector->addInlineJavaScript(
             $key,
-            sprintf('const underlyingQuery_%s = %s;', $uid, $content),
+            sprintf('window.underlyingQuery = %s;', $content),
             [],
             ['priority' => true]
         );

@@ -262,11 +262,29 @@ export function inputsWithPrefixForObject(
   );
 }
 
+export function getUnderlyingQuery(): UnderlyingQuery | undefined {
+  const container = document.querySelector<HTMLElement>('[data-underlying-query]');
+  const raw = container?.dataset.underlyingQuery;
+
+  if (raw) {
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+        return parsed as UnderlyingQuery;
+      }
+    } catch {
+      console.warn('find: could not parse the data-underlying-query attribute');
+    }
+  }
+
+  return window.underlyingQuery;
+}
+
 export function detailViewWithPaging(
   element: HTMLAnchorElement,
   position?: number
 ): boolean {
-  const underlyingQuery: UnderlyingQuery | undefined = window.underlyingQuery;
+  const underlyingQuery: UnderlyingQuery | undefined = getUnderlyingQuery();
 
   if (underlyingQuery) {
     const li = element.closest('li');
