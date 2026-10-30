@@ -19,7 +19,7 @@
 	</s:page.title>
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 
-	<div class="results" data-underlying-query="{underlyingQuery -> f:format.raw()}">
+	<div class="results" data-underlying-query="{underlyingQuery}">
 		<div class="navigation top">
 			<f:render partial="Components/ResultCount" arguments="{_all}"/>
 			<f:render partial="Pager/ListPager" arguments="{_all}"/>

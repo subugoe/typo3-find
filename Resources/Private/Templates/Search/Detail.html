@@ -16,7 +16,7 @@
 	<f:render partial="Page/Standard" arguments="{_all}"/>
 	<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
 
-	<article class="detail" data-underlying-query="{underlyingQuery -> f:format.raw()}">
+	<article class="detail" data-underlying-query="{underlyingQuery}">
 		<h1>
 			<f:render partial="Display/Field/Inline" arguments="{results:results, document:document, field:settings.standardFields.title, separator:', '}"/>
 		</h1>

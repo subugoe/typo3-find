@@ -226,6 +226,9 @@ class SolrServiceProvider implements ServiceProviderInterface
             $underlyingQueryInfo = $arguments['underlyingQuery'];
             $index               = FrontendUtility::getIndexes($underlyingQueryInfo);
             $mergedArguments     = $this->mergeUnderlyingQuery($arguments, $underlyingQueryInfo);
+            // Persist the effective search context so the controller renders it
+            // into the data-underlying-query attribute (facet/sort survive paging).
+            $this->setRequestArguments($mergedArguments);
             $this->createQueryForArguments($mergedArguments);
             $this->query->setStart($index['previousIndex']);
             $this->query->setRows($index['nextIndex'] - $index['previousIndex'] + 1);
